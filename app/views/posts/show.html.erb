@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Reason:</strong>
+  <%= @post.reason_id %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @post.title %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @post.body %>
+</p>
+
+<p>
+  <strong>Link:</strong>
+  <%= @post.link %>
+</p>
+
+<p>
+  <strong>Catch date:</strong>
+  <%= @post.catch_date %>
+</p>
+
+<p>
+  <strong>Result:</strong>
+  <%= @post.result %>
+</p>
+
+<p>
+  <strong>Message link:</strong>
+  <%= @post.message_link %>
+</p>
+
+<p>
+  <strong>Message user:</strong>
+  <%= @post.message_user %>
+</p>
+
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to 'Back', posts_path %>

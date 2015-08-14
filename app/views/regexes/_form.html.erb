@@ -1,0 +1,21 @@
+<%= form_for(@regex) do |f| %>
+  <% if @regex.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@regex.errors.count, "error") %> prohibited this regex from being saved:</h2>
+
+      <ul>
+      <% @regex.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :reason %><br>
+    <%= f.text_field :reason %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
