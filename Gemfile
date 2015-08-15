@@ -50,4 +50,7 @@ group :development, :test do
 
   gem 'capistrano'
   gem 'capistrano-secrets-yml'
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm'
+  gem 'capistrano-bundler'
 end
