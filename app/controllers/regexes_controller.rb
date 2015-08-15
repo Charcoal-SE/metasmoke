@@ -1,4 +1,7 @@
 class RegexesController < ApplicationController
+
+  before_filter :authenticate_user!
+
   before_action :set_regex, only: [:show, :edit, :update, :destroy]
 
   # GET /regexes
