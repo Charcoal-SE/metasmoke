@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
-  resources :posts
-  resources :regexes
+  #constraints (ip: /0.0.0.0/) do
+  #  post 'posts#create'
+  #end
+
+  constraints (ip: /0.0.0.0/) do
+    get 'regexes#index'
+  end
 
   root 'regexes#index'
 
