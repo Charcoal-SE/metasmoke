@@ -53,4 +53,6 @@ group :development, :test do
   gem 'capistrano-rails'
   gem 'capistrano-rvm'
   gem 'capistrano-bundler'
+  gem 'capistrano-passenger'
+  gem 'capistrano-faster-assets'
 end
