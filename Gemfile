@@ -6,6 +6,7 @@ gem 'awesome_print'
 # REALLY SUPER IMPORTANT gems
 gem 'devise'
 gem "twitter-bootstrap-rails"
+gem "mysql2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.3'
