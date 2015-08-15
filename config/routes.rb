@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   #  post 'posts#create'
   #end
 
-  constraints (ip: /0.0.0.0/) do
+  constraints (:ip => /0.0.0.0/) do
     get 'regexes#index'
   end
 
