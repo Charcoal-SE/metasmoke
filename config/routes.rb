@@ -1,11 +1,7 @@
 Rails.application.routes.draw do
-  #constraints (ip: /0.0.0.0/) do
-  #  post 'posts#create'
-  #end
 
-  constraints(:ip => /127.0.0.1/) do
-    get 'regexes', to: 'regexes#index'
-  end
+  get 'regexes', to: 'regexes#index'
+
 
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.

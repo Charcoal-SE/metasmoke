@@ -56,4 +56,5 @@ group :development, :test do
   gem 'capistrano-bundler'
   gem 'capistrano-passenger'
   gem 'capistrano-faster-assets'
+  gem 'capistrano-upload-config'
 end
