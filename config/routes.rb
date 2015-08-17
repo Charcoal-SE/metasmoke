@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :posts
   get 'regexes', to: 'regexes#index'
 
 

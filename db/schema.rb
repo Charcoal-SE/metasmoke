@@ -11,7 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150814220101) do
+ActiveRecord::Schema.define(version: 20150817000523) do
+
+  create_table "posts", force: :cascade do |t|
+    t.string   "title"
+    t.text     "body"
+    t.string   "link"
+    t.datetime "post_creation_date"
+  end
+
+  create_table "posts_reasons", id: false, force: :cascade do |t|
+    t.integer "reason_id"
+    t.integer "post_id"
+  end
+
+  add_index "posts_reasons", ["post_id"], name: "index_posts_reasons_on_post_id"
+  add_index "posts_reasons", ["reason_id"], name: "index_posts_reasons_on_reason_id"
+
+  create_table "reasons", force: :cascade do |t|
+    t.string "reason_name"
+  end
 
   create_table "regexes", force: :cascade do |t|
     t.string   "reason"
