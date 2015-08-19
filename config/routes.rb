@@ -2,8 +2,8 @@ Rails.application.routes.draw do
 
   resources :feedbacks
   resources :posts
-  get 'regexes', to: 'regexes#index'
 
+  get "dashboard", to: "dashboard#index"
 
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
