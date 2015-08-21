@@ -1,8 +1,8 @@
 <p>
   <strong><%= @reasons.count %></strong>
-  filters have caught
+  <%= "filter".pluralize(@reasons.count) %> have caught
   <strong><%= @posts.count %></strong>
-  posts
+  <%= "post".pluralize(@posts.count) %>
 </p>
 
 <table class="table" style="margin-top:50px">
