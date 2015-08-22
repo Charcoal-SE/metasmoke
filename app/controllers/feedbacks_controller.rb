@@ -10,20 +10,25 @@ class FeedbacksController < ApplicationController
     @feedbacks = Feedback.all
   end
 
-  # GET /feedbacks/1
-  # GET /feedbacks/1.json
-  def show
-  end
-
   # POST /feedbacks
   # POST /feedbacks.json
   def create
     @feedback = Feedback.new(feedback_params)
 
+    post_link = feedback_params[:post_link]
+
+    post = Post.find_by_link(post_link)
+
+    if post == nil
+      render :text => "Error: No post found for link" and return
+    end
+
+    @feedback.post = post
+
     respond_to do |format|
       if @feedback.save
         format.html { redirect_to @feedback, notice: 'Feedback was successfully created.' }
-        format.json { render :show, status: :created, text: "OK" }
+        format.json { render :show, status: :created, :text => "OK" }
       else
         format.html { render :new }
         format.json { render json: @feedback.errors, status: :unprocessable_entity }
@@ -39,6 +44,6 @@ class FeedbacksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def feedback_params
-      params[:feedback]
+      params.require(:feedback).permit(:message_link, :user_name, :user_link, :feedback_type, :post_link)
     end
 end
