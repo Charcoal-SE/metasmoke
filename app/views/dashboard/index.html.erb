@@ -11,6 +11,7 @@
       <th>Reason</th>
       <th>Number caught</th>
       <th>Last caught</th>
+      <th>Accuracy</th>
     </tr>
   </thead>
 
@@ -20,6 +21,13 @@
         <td><%= reason.reason_name %></td>
         <td><%= reason.posts.count %></td>
         <td><%= reason.posts.last.title.html_safe %></td>
+        <td>
+          <div class="progress" style="height:15px; margin-bottom:0px">
+            <div class="progress-bar progress-bar-success" style="width:<%= reason.tp_percentage * 100 %>%"></div>
+            <div class="progress-bar progress-bar-info" style="width:<%= 100 - ((reason.tp_percentage * 100) + (reason.fp_percentage * 100)) %>%; background-color: rgba(0,0,0,0)"></div>
+            <div class="progress-bar progress-bar-danger" style="width:<%= reason.fp_percentage * 100 %>%"></div>
+          </div>
+        </td>
       </tr>
     <% end %>
  </tbody>
