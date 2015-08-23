@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  constraints(:ip => /127.0.0.1/) do
+  constraints(:ip => /127.0.0.1|::1/) do
     post 'feedbacks.json', to: "feedbacks#create"
     post 'posts.json', to: "posts#create"
   end
