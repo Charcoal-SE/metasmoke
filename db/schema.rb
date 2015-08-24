@@ -11,45 +11,52 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150822171506) do
+ActiveRecord::Schema.define(version: 20150824184327) do
 
   create_table "feedbacks", force: :cascade do |t|
-    t.string  "message_link"
-    t.string  "user_name"
-    t.string  "user_link"
-    t.string  "feedback_type"
-    t.integer "post_id"
-    t.string  "post_link"
+    t.string  "message_link",  limit: 255
+    t.string  "user_name",     limit: 255
+    t.string  "user_link",     limit: 255
+    t.string  "feedback_type", limit: 255
+    t.integer "post_id",       limit: 4
+    t.string  "post_link",     limit: 255
   end
 
-  add_index "feedbacks", ["post_id"], name: "index_feedbacks_on_post_id"
+  add_index "feedbacks", ["post_id"], name: "index_feedbacks_on_post_id", using: :btree
 
   create_table "posts", force: :cascade do |t|
-    t.string   "title"
-    t.text     "body"
-    t.string   "link"
+    t.string   "title",              limit: 255
+    t.text     "body",               limit: 65535
+    t.string   "link",               limit: 255
     t.datetime "post_creation_date"
   end
 
   create_table "posts_reasons", id: false, force: :cascade do |t|
-    t.integer "reason_id"
-    t.integer "post_id"
+    t.integer "reason_id", limit: 4
+    t.integer "post_id",   limit: 4
   end
 
-  add_index "posts_reasons", ["post_id"], name: "index_posts_reasons_on_post_id"
-  add_index "posts_reasons", ["reason_id"], name: "index_posts_reasons_on_reason_id"
+  add_index "posts_reasons", ["post_id"], name: "index_posts_reasons_on_post_id", using: :btree
+  add_index "posts_reasons", ["reason_id"], name: "index_posts_reasons_on_reason_id", using: :btree
 
   create_table "reasons", force: :cascade do |t|
-    t.string "reason_name"
+    t.string "reason_name", limit: 255
   end
 
-  create_table "regexes", force: :cascade do |t|
-    t.string   "reason"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "users", force: :cascade do |t|
+    t.string   "email",               limit: 255, default: "", null: false
+    t.string   "encrypted_password",  limit: 255, default: "", null: false
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",       limit: 4,   default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip",  limit: 255
+    t.string   "last_sign_in_ip",     limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "is_approved"
   end
 
-# Could not dump table "users" because of following NoMethodError
-#   undefined method `[]' for nil:NilClass
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
 end

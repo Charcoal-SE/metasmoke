@@ -16,7 +16,7 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
 
     params["post"]["reasons"].each do |r|
-      reason = Reason.find_or_create_by(reason_name: r)
+      reason = Reason.find_or_create_by(reason_name: r.humanize)
 
       @post.reasons << reason
     end
