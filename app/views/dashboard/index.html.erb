@@ -21,6 +21,7 @@
         <td><%= reason.reason_name %></td>
         <td><%= reason.posts.count %></td>
         <td><%= reason.posts.last.title.html_safe %></td>
+	<% cache(reason) do %>
         <td>
           <div class="progress" style="height:15px; margin-bottom:0px">
             <div class="progress-bar progress-bar-success" style="width:<%= reason.tp_percentage * 100 %>%"></div>
@@ -28,6 +29,7 @@
             <div class="progress-bar progress-bar-danger" style="width:<%= reason.fp_percentage * 100 %>%"></div>
           </div>
         </td>
+	<% end %>
       </tr>
     <% end %>
  </tbody>
