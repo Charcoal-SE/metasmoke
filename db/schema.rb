@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150824184327) do
+ActiveRecord::Schema.define(version: 20150828203152) do
 
   create_table "feedbacks", force: :cascade do |t|
     t.string  "message_link",  limit: 255
