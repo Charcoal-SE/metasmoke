@@ -18,7 +18,7 @@
   <tbody>
     <% @reasons.sort { |a, b| b.posts.count <=> a.posts.count }.each do |reason| %>
       <tr>
-        <td><%= reason.reason_name %></td>
+        <td><%= link_to reason.reason_name, "/reason/#{reason.id}" %></td>
         <td><%= reason.posts.count %></td>
         <td><%= truncate(reason.posts.last.title, :length => 40, :seperator => ' ').html_safe %></td>
 	<% cache(reason, skip_digest: true) do %>
