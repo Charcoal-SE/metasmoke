@@ -23,6 +23,10 @@ class FeedbacksController < ApplicationController
       render :text => "Error: No post found for link" and return
     end
 
+    post.reasons.each do |reason|
+      expire_fragment(reason)
+    end
+
     @feedback.post = post
 
     respond_to do |format|
