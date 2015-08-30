@@ -1,0 +1,16 @@
+<h3><%= @reason.reason_name %></h3>
+
+<p>Last 10:</p>
+
+<table class="table">
+  <thead>
+    <th>Title</th>
+  </thead>
+  <tbody>
+    <% @posts.each do |post| %>
+      <tr>
+        <td><%= post.title %></td>
+     </tr>
+    <% end %>
+  </tbody>
+</table>

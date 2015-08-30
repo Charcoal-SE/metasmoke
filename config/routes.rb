@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   get "dashboard", to: "dashboard#index"
 
+  get "reason/:id", to: "reasons#show"
+
   root to: "dashboard#index"
 
   devise_for :users
