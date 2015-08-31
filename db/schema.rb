@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150828203152) do
+ActiveRecord::Schema.define(version: 20150831001308) do
 
   create_table "feedbacks", force: :cascade do |t|
     t.string  "message_link",  limit: 255
@@ -29,6 +29,8 @@ ActiveRecord::Schema.define(version: 20150828203152) do
     t.text     "body",               limit: 65535
     t.string   "link",               limit: 255
     t.datetime "post_creation_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "posts_reasons", id: false, force: :cascade do |t|
