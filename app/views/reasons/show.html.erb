@@ -9,7 +9,8 @@
   <tbody>
     <% @posts.each do |post| %>
       <tr>
-        <td><%= post.title %></td>
+        <td><%= link_to_unless post.link.nil?, post.title, post.link %></td>
+        <% puts post.id %>
      </tr>
     <% end %>
   </tbody>
