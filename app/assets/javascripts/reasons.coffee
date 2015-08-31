@@ -2,8 +2,8 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-$ -> 
-  $(".show-post-body").on 'click', (event) ->
+$ ->
+  $(document).on 'click', '.show-post-body', (event) ->
     $(this).parent().children(".post-body").toggle()
 
     if $(this).text() == "►"
