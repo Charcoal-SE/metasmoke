@@ -2,14 +2,26 @@
 
 <p>Last 10:</p>
 
-<table class="table">
+<table class="table table-striped">
   <thead>
     <th>Title</th>
   </thead>
   <tbody>
     <% @posts.sort { |a,b| b.id <=> a.id }.each do |post| %>
       <tr>
-        <td><%= link_to_unless post.link.nil?, post.title, post.link %></td>
+        <td>
+          <% if not post.body.nil? %>
+            <span class="text-muted show-post-body">►</span>
+          <% end %>
+
+          <%= link_to_unless post.link.nil?, post.title, post.link %>
+
+          <% if not post.body.nil? %>
+            <div class="post-body" style="display: none;">
+              <%= post.body.html_safe %>
+            </div>
+        <% end %>
+        </td>
         <% puts post.id %>
      </tr>
     <% end %>
