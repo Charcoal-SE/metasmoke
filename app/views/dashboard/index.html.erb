@@ -19,8 +19,8 @@
     <% @reasons.sort { |a, b| b.posts.count <=> a.posts.count }.each do |reason| %>
       <tr>
         <td><%= link_to reason.reason_name, "/reason/#{reason.id}" %></td>
-        <td><%= reason.posts.count %></td>
-        <td><%= truncate(reason.posts.last.title, :length => 40, :seperator => ' ').html_safe %></td>
+        <td><%= reason.post_count %></td>
+        <td><%= truncate(reason.posts.last.title, :length => 40, :seperator => ' ') %><td>
 	<% cache(reason, skip_digest: true) do %>
         <td width="30%">
           <div class="progress" style="height:15px; margin-bottom:0px">
