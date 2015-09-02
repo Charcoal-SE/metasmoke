@@ -10,3 +10,11 @@ $ ->
       $(this).text("▼")
     else if $(this).text() == "▼"
       $(this).text("►") 
+  $(document).on 'keyup', '#search', (event) ->
+    val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+    console.log val
+
+    $("tr").not('tr:first').show().filter( () -> 
+      text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+      return !~text.indexOf(val);
+    ).hide();

@@ -28,6 +28,13 @@
           <li class='<%= controller.class == DashboardController ? "active" : "" %>'><a href="/dashboard">dashboard</a></li>
           <li class='<%= controller.class == GraphsController ? "active" : "" %>'><a href="/graphs">graphs</a></li>
         </ul>
+        <% if controller.class == DashboardController %>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" id="search" class="form-control" placeholder="Search">
+            </div>
+          </form>
+        <% end %>
         <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
             <li class="dropdown">
@@ -37,7 +44,7 @@
               </ul>
 
             </li>
-          <% end %>
+          <% end %> 
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
