@@ -16,7 +16,7 @@
   </thead>
 
   <tbody>
-    <% @reasons.sort { |a, b| b.posts.count <=> a.posts.count }.each do |reason| %>
+    <% @reasons.sort { |a, b| b.post_count <=> a.post_count }.each do |reason| %>
       <tr>
         <td><%= link_to reason.reason_name, "/reason/#{reason.id}" %></td>
         <td><%= reason.post_count %></td>
