@@ -7,6 +7,11 @@ gem 'awesome_print'
 gem 'devise'
 gem "twitter-bootstrap-rails"
 gem "mysql2"
+gem "puma"
+
+gem 'rack-mini-profiler'
+gem 'flamegraph'
+
 gem "chartkick"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
