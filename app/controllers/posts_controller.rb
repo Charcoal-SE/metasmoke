@@ -18,6 +18,9 @@ class PostsController < ApplicationController
     params["post"]["reasons"].each do |r|
       reason = Reason.find_or_create_by(reason_name: r.humanize)
 
+      reason.last_post_title = @post.title
+      reason.save!
+
       @post.reasons << reason
     end
 

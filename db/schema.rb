@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150831001308) do
+ActiveRecord::Schema.define(version: 20150902182415) do
 
   create_table "feedbacks", force: :cascade do |t|
     t.string  "message_link",  limit: 255
@@ -42,7 +42,8 @@ ActiveRecord::Schema.define(version: 20150831001308) do
   add_index "posts_reasons", ["reason_id"], name: "index_posts_reasons_on_reason_id", using: :btree
 
   create_table "reasons", force: :cascade do |t|
-    t.string "reason_name", limit: 255
+    t.string "reason_name",     limit: 255
+    t.string "last_post_title", limit: 255
   end
 
   create_table "users", force: :cascade do |t|
