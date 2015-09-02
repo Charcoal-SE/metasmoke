@@ -1,3 +1,3 @@
-<h1>Graphs#index</h1>
+<h3>Reports by hour</h3>
 
-<%= line_chart Post.where("created_at IS NOT NULL").group("date_format(created_at, '%Y%m%d %H')").count %>
+<%= line_chart Post.where("created_at IS NOT NULL").group_by_hour(:created_at).count %>
