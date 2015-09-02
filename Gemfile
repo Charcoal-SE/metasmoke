@@ -7,6 +7,7 @@ gem 'awesome_print'
 gem 'devise'
 gem "twitter-bootstrap-rails"
 gem "mysql2"
+gem "chartkick"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.3'
