@@ -15,6 +15,7 @@
           <% end %>
 
           <%= link_to_unless post.link.nil?, post.title, post.link %>
+          <span class="text-muted" style="float:right"><%= time_ago_in_words(post.created_at).sub("about ", "") + " ago" if not post.created_at.nil? %></span>
 
           <% if not post.body.nil? %>
             <div class="post-body" style="display: none;">
