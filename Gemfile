@@ -8,6 +8,7 @@ gem 'devise'
 gem "twitter-bootstrap-rails"
 gem "mysql2"
 gem "puma"
+gem 'will_paginate', '~> 3.0.5'
 
 gem 'rack-mini-profiler'
 gem 'flamegraph'
