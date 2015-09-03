@@ -20,7 +20,7 @@
             <div class="post-body" style="display: none;">
               <%= post.body.html_safe %>
               <p>
-                <span style="background-color: lightyellow; padding: 5px;">
+                <span class="report-reasons">
                   <%= post.reasons.map(&:reason_name).join(", ") %>
                 </span>
               </p>
