@@ -1,6 +1,6 @@
 set :rvm_ruby_version, '2.2.2'
 
-set :puma_bind, %w(http://127.0.0.1:9292)
+set :puma_bind, %w(tcp://127.0.0.1:9292)
 
 # server-based syntax
 # ======================

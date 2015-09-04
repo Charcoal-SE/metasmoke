@@ -16,6 +16,7 @@ gem 'flamegraph'
 gem "chartkick"
 gem 'groupdate'
 
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.3'
 # Use sqlite3 as the database for Active Record
@@ -62,7 +63,7 @@ group :development, :test do
   gem 'capistrano-rails'
   gem 'capistrano-rvm'
   gem 'capistrano-bundler'
-  gem 'capistrano-passenger'
   gem 'capistrano-faster-assets'
+  gem 'capistrano3-puma'
   gem 'capistrano-upload-config'
 end
