@@ -1,5 +1,7 @@
 set :rvm_ruby_version, '2.2.2'
 
+set :puma_bind, %w(http://127.0.0.1:9292)
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
