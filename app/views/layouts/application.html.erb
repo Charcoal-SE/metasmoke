@@ -27,6 +27,7 @@
         <ul class="nav navbar-nav">
           <li class='<%= controller.class == DashboardController ? "active" : "" %>'><%= link_to "dashboard", dashboard_path %></li>
           <li class='<%= controller.class == GraphsController ? "active" : "" %>'><%= link_to "graphs", graphs_path %></li>
+          <li class='<%= controller.class == PostsController ? "active" : "" %>'><%= link_to "posts", posts_path %></li>
         </ul>
         <% if controller.class == DashboardController %>
           <form class="navbar-form navbar-right" role="search">

@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   get "graphs", to: "graphs#index"
+  get "posts", to: "posts#index"
 
   constraints(:ip => /127.0.0.1|::1/) do
     post 'feedbacks.json', to: "feedbacks#create"

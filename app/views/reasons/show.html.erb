@@ -6,38 +6,7 @@
   </thead>
   <tbody>
     <% @posts.sort { |a,b| b.id <=> a.id }.each do |post| %>
-      <tr>
-        <td>
-          <% if not post.body.nil? %>
-            <span class="text-muted show-post-body">►</span>
-          <% end %>
-
-          <%= link_to_unless post.link.nil?, post.title, post.link %>
-
-          <% if not post.feedbacks.empty? %>
-            <strong>
-              <% post.feedbacks.each do |feedback| %>
-                <% next if (feedback.is_positive? and feedback.is_negative?) or (not feedback.is_positive? and not feedback.is_negative?) %>
-                <span class="<%= feedback.is_positive? ? "text-success" : "text-danger" %>"><%= feedback.is_positive? ? "&#x2713;".html_safe : "&#x2717;".html_safe %></span>
-              <% end %>
-            </strong>
-          <% end %>
-
-          <span class="text-muted" style="float:right"><%= time_ago_in_words(post.created_at).sub("about ", "") + " ago" if not post.created_at.nil? %></span>
-
-          <% if not post.body.nil? %>
-            <div class="post-body" style="display: none;">
-              <%= post.body.html_safe %>
-              <p>
-                <span class="report-reasons">
-                  <%= post.reasons.map(&:reason_name).join(", ") %>
-                </span>
-              </p>
-            </div>
-        <% end %>
-        </td>
-        <% puts post.id %>
-     </tr>
+      <%= render "posts/post", :post => post %>
     <% end %>
   </tbody>
 </table>

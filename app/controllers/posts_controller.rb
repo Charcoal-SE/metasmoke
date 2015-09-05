@@ -1,13 +1,11 @@
 class PostsController < ApplicationController
 
-  before_filter :authenticate_user!, :except => [:create]
-
   protect_from_forgery :except => [:create]
 
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all
+    @posts = Post.all.includes(:reasons).includes(:feedbacks).paginate(:page => params[:page], :per_page => 10).order('created_at DESC')
   end
 
   # POST /posts
