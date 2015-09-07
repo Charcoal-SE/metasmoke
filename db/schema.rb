@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150902182415) do
+ActiveRecord::Schema.define(version: 20150907021739) do
 
   create_table "feedbacks", force: :cascade do |t|
     t.string  "message_link",  limit: 255
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20150902182415) do
     t.datetime "post_creation_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "site_id",            limit: 4
   end
 
   create_table "posts_reasons", id: false, force: :cascade do |t|
@@ -44,6 +45,15 @@ ActiveRecord::Schema.define(version: 20150902182415) do
   create_table "reasons", force: :cascade do |t|
     t.string "reason_name",     limit: 255
     t.string "last_post_title", limit: 255
+  end
+
+  create_table "sites", force: :cascade do |t|
+    t.string   "site_name",   limit: 255
+    t.string   "site_url",    limit: 255
+    t.string   "site_logo",   limit: 255
+    t.string   "site_domain", limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "users", force: :cascade do |t|
