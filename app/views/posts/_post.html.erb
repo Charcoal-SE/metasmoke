@@ -16,10 +16,11 @@
     <% end %>
 
     <span class="text-muted" style="float:right">
-      <% unless post.link.nil? %>
-        <code><%= URI.parse(post.link).host %></code>
+      <%= time_ago_in_words(post.created_at).sub("about ", "") + " ago " if not post.created_at.nil? %>
+
+      <% unless post.site_id.nil? %>
+        <%= image_tag @sites[@sites.index { |x| x.id == post.site_id }].site_logo, size: "20x20" %>
       <% end %>
-      <%= time_ago_in_words(post.created_at).sub("about ", "") + " ago" if not post.created_at.nil? %>
     </span>
 
     <% if not post.body.nil? %>
