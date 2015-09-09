@@ -2,6 +2,10 @@ class PostsController < ApplicationController
 
   protect_from_forgery :except => [:create]
 
+  def show
+    @post = Post.find(params[:id])
+  end
+
   # GET /posts
   # GET /posts.json
   def index

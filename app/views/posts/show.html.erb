@@ -1,0 +1,32 @@
+<h4>
+  <% unless @post.body.nil? %>
+    <span class="text-muted show-post-body" data-postid="<%= @post.id %>">►</span>
+  <% end %>
+  <%= @post.title %>
+</h4>
+
+<% unless @post.body.nil? %>
+  <div data-postid="<%= @post.id.to_s %>" class="post-body" style="display:none">
+    <hr>
+    <%= @post.body.html_safe %>
+  </div>
+<% end %>
+
+<hr>
+
+<% unless @post.link.nil? %>
+  <%= image_tag @post.site.site_logo, size: "20x20" %>
+  <%= link_to "View on site", @post.link %>
+<% end %>
+
+<span class="text-muted" style="float:right"><%= "posted " + time_ago_in_words(@post.created_at).sub("about ", "") + " ago " if not @post.created_at.nil? %></span>
+
+<hr>
+
+<p>Caught by:</p>
+
+<ul>
+  <% @post.reasons.each do |reason| %>
+    <li><%= link_to reason.reason_name, "/reason/" + reason.id.to_s %></li>
+  <% end %>
+</ul>

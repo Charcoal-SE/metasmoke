@@ -1,10 +1,10 @@
 <tr>
   <td>
     <% if not post.body.nil? %>
-      <span class="text-muted show-post-body">►</span>
+      <span class="text-muted show-post-body" data-postid="<%= post.id %>">►</span>
     <% end %>
 
-    <%= link_to_unless post.link.nil?, post.title, post.link %>
+    <%= link_to post.title, "/post/" + post.id.to_s %>
 
     <% if not post.feedbacks.empty? %>
       <strong>
@@ -24,7 +24,7 @@
     </span>
 
     <% if not post.body.nil? %>
-      <div class="post-body" style="display: none;">
+      <div data-postid="<%= post.id %>" class="post-body" style="display: none;">
         <%= post.body.html_safe %>
         <p>
           <span class="report-reasons">

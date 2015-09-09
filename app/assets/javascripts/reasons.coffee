@@ -4,7 +4,7 @@
 
 $ ->
   $(document).on 'click', '.show-post-body', (event) ->
-    $(this).parent().children(".post-body").toggle()
+    $(".post-body[data-postid='" + $(this).attr("data-postid") + "']").toggle()
 
     if $(this).text() == "►"
       $(this).text("▼")
