@@ -26,7 +26,9 @@
 
     <% if not post.body.nil? %>
       <div data-postid="<%= post.id %>" class="post-body" style="display: none;">
-        <%= post.body.html_safe %>
+        <pre class="post-body-pre-block">
+          <%= post.body %>
+        </pre>
         <p>
           <span class="report-reasons">
             <%= post.reasons.map(&:reason_name).join(", ") %>
