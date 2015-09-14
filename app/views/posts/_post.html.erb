@@ -1,3 +1,4 @@
+<% cache(post.link, skip_digest: true) do %>
 <tr>
   <td>
     <% if not post.body.nil? %>
@@ -35,3 +36,4 @@
     <% end %>
   </td>
 </tr>
+<% end %>

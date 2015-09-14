@@ -26,6 +26,8 @@ class FeedbacksController < ApplicationController
     post.reasons.each do |reason|
       expire_fragment(reason)
     end
+    
+    expire_fragment(post.link)
 
     @feedback.post = post
 
