@@ -9,12 +9,14 @@ gem "twitter-bootstrap-rails"
 gem "mysql2"
 gem "puma"
 gem 'will_paginate', '~> 3.0.5'
+gem 'loofah'
 
 gem 'rack-mini-profiler'
 gem 'flamegraph'
 
 gem "chartkick"
 gem 'groupdate'
+
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

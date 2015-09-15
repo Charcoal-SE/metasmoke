@@ -223,6 +223,7 @@ DEPENDENCIES
   groupdate
   jbuilder (~> 2.0)
   jquery-rails
+  loofah
   mysql2
   puma
   rack-mini-profiler
