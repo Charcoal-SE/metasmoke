@@ -8,7 +8,7 @@
 <% unless @post.body.nil? %>
   <div data-postid="<%= @post.id.to_s %>" class="post-body" style="display:none">
     <hr>
-    <%= @post.body.html_safe %>
+    <pre class="post-body-pre-block"><%= @post.body %></pre>
   </div>
 <% end %>
 
