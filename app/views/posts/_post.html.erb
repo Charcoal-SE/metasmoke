@@ -17,7 +17,9 @@
     <% end %>
 
     <span class="text-muted" style="float:right">
-      <span data-livestamp="<%= post.created_at.to_i %>"></span>
+      <% unless post.created_at.nil? %>
+        <span data-livestamp="<%= post.created_at.to_i %>"></span>
+      <% end %>
 
       <% unless post.site_id.nil? %>
         <%= image_tag @sites[@sites.index { |x| x.id == post.site_id }].site_logo, size: "20x20" %>
