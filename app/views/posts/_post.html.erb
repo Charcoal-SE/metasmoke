@@ -1,4 +1,4 @@
-<% cache(post.link, skip_digest: true) do %>
+<% cache("post" + post.id.to_s, skip_digest: true) do %>
 <tr>
   <td>
     <% if not post.body.nil? %>
