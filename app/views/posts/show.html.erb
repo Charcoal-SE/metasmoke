@@ -19,8 +19,14 @@
   <%= link_to "View on site", @post.link %>
 <% end %>
 
-<span class="text-muted" style="float:right"><%= "posted " + time_ago_in_words(@post.created_at).sub("about ", "") + " ago " if not @post.created_at.nil? %></span>
-
+<% unless @post.created_at.nil? %>
+  <span class="text-muted" style="float:right">
+    <%= "posted " + time_ago_in_words(@post.created_at).sub("about ", "") + " ago " %>
+    <% unless @post.user_link.nil? %>
+      by <%= link_to @post.username, @post.user_link %>
+    <% end %>
+  </span>
+<% end %>
 <hr>
 
 <p>Caught by:</p>
