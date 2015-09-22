@@ -1,12 +1,9 @@
 <h4>
-  <% unless @post.body.nil? %>
-    <span class="text-muted show-post-body" data-postid="<%= @post.id %>">►</span>
-  <% end %>
   <%= @post.title %>
 </h4>
 
 <% unless @post.body.nil? %>
-  <div data-postid="<%= @post.id.to_s %>" class="post-body" style="display:none">
+  <div data-postid="<%= @post.id.to_s %>" class="post-body">
     <hr>
     <pre class="post-body-pre-block"><%= @post.body %></pre>
   </div>
