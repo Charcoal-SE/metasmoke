@@ -1,5 +1,7 @@
 <h3><%= @reason.reason_name %></h3>
 
+<%= pie_chart @reason.posts.group(:site).count.map{ |k,v| {(k.nil? ? "Unknown" : k.site_name)=>v} }.reduce(:merge).select{|k,v| k != "Unknown"} %>
+
 <table class="table table-striped">
   <thead>
     <th>Title</th>
