@@ -27,7 +27,7 @@ class FeedbacksController < ApplicationController
       expire_fragment(reason)
     end
     
-    expire_fragment(post.link)
+    expire_fragment("post" + post.id.to_s)
 
     @feedback.post = post
 
