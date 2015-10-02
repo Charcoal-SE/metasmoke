@@ -13,4 +13,4 @@
   </ul>
 </div>
 
-<%= line_chart Post.where("created_at IS NOT NULL").group_by_hour(:created_at).count %>
+<%= line_chart Post.where("created_at >= :date", :date => 1.week.ago).group_by_hour(:created_at).count %>
