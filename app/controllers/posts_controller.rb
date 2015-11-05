@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
 
   protect_from_forgery :except => [:create]
+  before_filter :check_if_smokedetector, :only => :create
 
   def show
     @post = Post.find(params[:id])

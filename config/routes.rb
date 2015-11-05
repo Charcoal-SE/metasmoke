@@ -5,10 +5,9 @@ Rails.application.routes.draw do
 
   get "post/:id", to: "posts#show"
 
-  constraints(:ip => /127.0.0.1|::1/) do
-    post 'feedbacks.json', to: "feedbacks#create"
-    post 'posts.json', to: "posts#create"
-  end
+
+  post 'feedbacks.json', to: "feedbacks#create"
+  post 'posts.json', to: "posts#create"
 
   get "dashboard", to: "dashboard#index"
 

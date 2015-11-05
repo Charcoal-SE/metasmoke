@@ -16,3 +16,4 @@
 !/log/.keep
 /tmp
 config/secrets.html
+config/config.yml

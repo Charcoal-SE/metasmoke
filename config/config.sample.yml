@@ -1,0 +1,12 @@
+common: &common
+  smoke_detector:
+    key: 'gibberish_here'
+
+development:
+  <<: *common
+
+test:
+  <<: *common
+
+production:
+  <<: *common
