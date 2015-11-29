@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'search', to: 'search#search'
+  post 'search', to: 'search#search_results'
+
+  get 'users', to: 'users/on_tp_posts'
 
   get "graphs", to: "graphs#index"
   get "posts", to: "posts#index"

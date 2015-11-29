@@ -1,0 +1,32 @@
+<%= form_tag search_path do |f| %>
+  <div class="form-group">
+    <%= label_tag :title %>
+    <%= text_field_tag :title, params[:title], placeholder: "*", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= label_tag :username %>
+    <%= text_field_tag :username, params[:username], placeholder: "*", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= label_tag :site %>
+    <%= select_tag :site, options_for_select(Site.all.map(&:site_name), params[:site]), class: "form-control", include_blank: "All" %>
+  </div>
+  <%= submit_tag "Submit", class: "btn btn-primary" %>
+<% end %>
+
+<% if @results.present? %>
+  <table class="table"> 
+    <thead>
+      <tr>
+        <th>Results</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @results.each do |post| %>
+        <%= render "posts/post", :post => post %>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @results %>
+<% end %>
