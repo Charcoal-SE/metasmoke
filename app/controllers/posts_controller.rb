@@ -22,7 +22,7 @@ class PostsController < ApplicationController
     @post.site = Site.find_by_site_domain(URI.parse(@post.link).host)
 
     params["post"]["reasons"].each do |r|
-      reason = Reason.find_or_create_by(reason_name: r.humanize)
+      reason = Reason.find_or_create_by(reason_name: r.split("(").first.strip.humanize)
 
       reason.last_post_title = @post.title
       reason.save!
