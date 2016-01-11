@@ -4,6 +4,10 @@
     <%= text_field_tag :title, params[:title], placeholder: "*", class: "form-control" %>
   </div>
   <div class="form-group">
+    <%= label_tag :body %>
+    <%= text_field_tag :body, params[:body], placeholder: "*", class: "form-control" %>
+  </div>
+  <div class="form-group">
     <%= label_tag :username %>
     <%= text_field_tag :username, params[:username], placeholder: "*", class: "form-control" %>
   </div>

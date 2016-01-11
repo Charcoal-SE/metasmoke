@@ -4,7 +4,7 @@ class SearchController < ApplicationController
     @sites = Site.where(:id => @results.map(&:site_id))
   end
   def search_results
-    @results = Post.where("username LIKE :username AND title LIKE :title", username: "%" + params[:username] + "%", title: "%" + params[:title] + "%").paginate(:page => params[:page], :per_page => 100).order("created_at DESC")
+    @results = Post.where("username LIKE :username AND title LIKE :title AND body LIKE :body", username: "%" + params[:username] + "%", title: "%" + params[:title] + "%", body: "%" + params[:body] + "%").paginate(:page => params[:page], :per_page => 100).order("created_at DESC")
 
     if params[:site].present?
       site_id = Site.find_by_site_name(params[:site])
