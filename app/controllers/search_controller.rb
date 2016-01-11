@@ -1,6 +1,6 @@
 class SearchController < ApplicationController
   def search
-    @results = Post.all.paginate(:page => params[:page], :per_page => 100)
+    @results = Post.all.order("created_at DESC").paginate(:page => params[:page], :per_page => 100)
     @sites = Site.where(:id => @results.map(&:site_id))
   end
   def search_results
