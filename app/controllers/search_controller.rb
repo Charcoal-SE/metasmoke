@@ -1,8 +1,8 @@
 class SearchController < ApplicationController
   def search_results
-    username = params[:username].presence || '*'
-    title = params[:title].presence || '*'
-    body = params[:body].presence || '*'
+    username = params[:username] || ""
+    title = params[:title] || ""
+    body = params[:body] || ""
     @results = Post.where("username LIKE :username AND title LIKE :title AND body LIKE :body", username: "%" + username + "%", title: "%" + title + "%", body: "%" + body + "%").paginate(:page => params[:page], :per_page => 100).order("created_at DESC")
 
     if params[:site].present?
