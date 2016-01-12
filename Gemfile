@@ -10,6 +10,7 @@ gem "mysql2"
 gem "puma"
 gem 'will_paginate', '~> 3.0.5'
 gem 'loofah'
+gem 'rack-cors', :require => 'rack/cors'
 
 gem 'rack-mini-profiler'
 gem 'flamegraph'

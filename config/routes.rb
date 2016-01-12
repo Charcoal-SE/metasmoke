@@ -17,6 +17,8 @@ Rails.application.routes.draw do
 
   get "reason/:id", to: "reasons#show"
 
+  get "posts/recent.json", to: "posts#recentpostsapi"
+
   root to: "dashboard#index"
 
   devise_for :users

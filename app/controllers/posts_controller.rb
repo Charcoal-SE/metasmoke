@@ -7,6 +7,12 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
   end
 
+  def recentpostsapi
+    posts = Post.joins(:site).select("posts.title, posts.link, sites.site_logo").order(:created_at).last([params[:size].to_i, 100].min)
+
+    render json: posts, status: 200
+  end
+
   # GET /posts
   # GET /posts.json
   def index
