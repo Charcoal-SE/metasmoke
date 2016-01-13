@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   get 'search', to: 'search#search_results'
-  post 'search', to: 'search#search_results'
 
   get 'users', to: 'users/on_tp_posts'
 
