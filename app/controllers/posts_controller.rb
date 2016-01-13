@@ -8,7 +8,11 @@ class PostsController < ApplicationController
   end
 
   def recentpostsapi
-    posts = Post.joins(:site).select("posts.title, posts.link, sites.site_logo").order(:created_at).last([params[:size].to_i, 100].min).reverse
+    posts = Rails.cache.fetch("last-posts", :expires_in => 30.seconds) do
+      Post.joins(:site).select("posts.title, posts.link, sites.site_logo").order(:created_at).last(100)
+    end
+
+    posts = posts.last([params[:size].to_i, 100].min).reverse
 
     render json: posts, status: 200
   end
