@@ -21,7 +21,6 @@
         <td><%= link_to reason.reason_name, "/reason/#{reason.id}" %></td>
         <td><%= reason.post_count %></td>
         <td><%= truncate((reason.last_post_title.nil? ? reason.posts.last.title : reason.last_post_title), :length => 40, :seperator => ' ') %></td>
-        <% cache(reason, skip_digest: true) do %>
         <td width="30%">
           <div class="progress" style="height:15px; margin-bottom:0px">
           <% cache(reason, skip_digest: true) do %>
