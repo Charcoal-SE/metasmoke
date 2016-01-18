@@ -1,6 +1,6 @@
 <h4>
   <%= @post.title %>
-  <% feedbacks = @post.feedbacks %>
+  <% feedbacks = @post.feedbacks.load %>
   <% if not feedbacks.empty?  %>
     <strong>
        <% feedbacks.each do |feedback| %>
