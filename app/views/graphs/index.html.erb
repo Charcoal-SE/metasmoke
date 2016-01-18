@@ -5,3 +5,7 @@
 <h3>Reports by site</h3>
 
 <%= pie_chart Post.all.group(:site).count.map{ |k,v| {(k.nil? ? "Unknown" : CGI.unescape(k.site_name))=>v} }.reduce(:merge).select{|k,v| k != "Unknown"}.sort_by {|k,v| v}.reverse %>
+
+<h3>Reports by hour of day</h3>
+
+<%= line_chart Post.all.group_by_hour_of_day(:created_at).count %>
