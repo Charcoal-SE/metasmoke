@@ -12,6 +12,10 @@
     <%= text_field_tag :username, params[:username], placeholder: "*", class: "form-control" %>
   </div>
   <div class="form-group">
+    <%= label_tag :why %>
+    <%= text_field_tag :why, params[:why], placeholder: "*", class: "form-control" %>
+  </div>
+  <div class="form-group">
     <%= label_tag :site %>
     <%= select_tag :site, options_for_select(Site.all.map(&:site_name), params[:site]), class: "form-control", include_blank: "All" %>
   </div>
