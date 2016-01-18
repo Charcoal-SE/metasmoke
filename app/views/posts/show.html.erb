@@ -41,3 +41,7 @@
     <li><%= link_to reason.reason_name, "/reason/" + reason.id.to_s %></li>
   <% end %>
 </ul>
+
+<% if @post.why.present? %>
+  <pre><%= @post.why %></pre>
+<% end %>

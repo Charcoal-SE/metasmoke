@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150921203637) do
+ActiveRecord::Schema.define(version: 20160118051952) do
 
   create_table "feedbacks", force: :cascade do |t|
     t.string  "message_link",  limit: 255
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20150921203637) do
     t.integer  "site_id",            limit: 4
     t.string   "user_link",          limit: 255
     t.string   "username",           limit: 255
+    t.text     "why",                limit: 65535
   end
 
   create_table "posts_reasons", id: false, force: :cascade do |t|
