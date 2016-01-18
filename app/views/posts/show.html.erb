@@ -1,8 +1,9 @@
 <h4>
   <%= @post.title %>
-  <% if not @post.feedbacks.empty? %>
+  <% feedbacks = @post.feedbacks %>
+  <% if not feedbacks.empty?  %>
     <strong>
-       <% @post.feedbacks.each do |feedback| %>
+       <% feedbacks.each do |feedback| %>
          <% next if (feedback.is_positive? and feedback.is_negative?) or (not feedback.is_positive? and not feedback.is_negative?) %>
            <span class="<%= feedback.is_positive? ? "text-success" : "text-danger" %>"><%= feedback.is_positive? ? "&#x2713;".html_safe : "&#x2717;".html_safe %></span>
        <% end %>
