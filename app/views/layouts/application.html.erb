@@ -47,9 +47,8 @@
 
             </li>
           <% end %> 
-          <% if File.readable?("REVISION") %>
-            <% current_commit = File.read("REVISION") %>
-            <li><a href="https://github.com/Charcoal-SE/metasmoke/commit/<%= current_commit %>"><code><%= current_commit %></code></a></li>
+          <% if CurrentCommit.present? %>
+            <li><a href="https://github.com/Charcoal-SE/metasmoke/commit/<%= CurrentCommit %>"><code><%= CurrentCommit %></code></a></li>
           <% end %>
         </ul>
       </div><!-- /.navbar-collapse -->
