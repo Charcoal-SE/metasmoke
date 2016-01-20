@@ -21,7 +21,7 @@
 <hr>
 
 <% unless @post.link.nil? %>
-  <%= image_tag @post.site.site_logo, size: "20x20" %>
+  <%= image_tag @post.site_logo, size: "20x20" %>
   <%= link_to "View on site", @post.link %>
 <% end %>
 

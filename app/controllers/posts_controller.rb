@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   before_filter :check_if_smokedetector, :only => :create
 
   def show
-    @post = Post.find(params[:id])
+    @post = Post.joins(:site).select("posts.*, sites.site_logo").find(params[:id])
   end
 
   def recentpostsapi
