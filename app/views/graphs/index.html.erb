@@ -8,4 +8,4 @@
 
 <h3>Reports by hour of day</h3>
 
-<%= line_chart Post.all.group_by_hour_of_day(:created_at).count %>
+<%= line_chart Post.all.group_by_hour_of_day(:created_at).count, discrete: true %>
