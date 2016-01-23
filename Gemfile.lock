@@ -92,7 +92,6 @@ GEM
       rake-compiler
     flamegraph (0.1.0)
       fast_stack
-    get_process_mem (0.2.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     groupdate (2.4.0)
@@ -122,9 +121,6 @@ GEM
       mini_portile (~> 0.6.0)
     orm_adapter (0.5.0)
     puma (2.13.4)
-    puma_worker_killer (0.0.4)
-      get_process_mem (~> 0.2)
-      puma (~> 2.7)
     rack (1.6.4)
     rack-cors (0.4.0)
     rack-mini-profiler (0.9.7)
@@ -231,7 +227,6 @@ DEPENDENCIES
   loofah
   mysql2
   puma
-  puma_worker_killer
   rack-cors
   rack-mini-profiler
   rails (= 4.2.3)

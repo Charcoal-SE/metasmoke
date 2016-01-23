@@ -14,7 +14,7 @@ module SitesHelper
           s=Site.new
           s.site_url = site["site_url"]
           s.site_domain = URI.parse(s.site_url).host
-          s.site_logo = site["favicon_url"]
+          s.site_logo = site["favicon_url"].gsub(/http:/, "")
           s.site_name = site["name"]
           s.save!
         end
