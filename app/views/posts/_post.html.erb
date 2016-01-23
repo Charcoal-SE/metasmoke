@@ -21,7 +21,7 @@
       <% end %>
 
       <% unless post.site_id.nil? %>
-        <%= image_tag @sites[@sites.index { |x| x.id == post.site_id }].site_logo, size: "20x20" %>
+        <%= link_to (image_tag @sites[@sites.index { |x| x.id == post.site_id }].site_logo, size: "20x20"), post.link %>
       <% end %>
     </span>
 
