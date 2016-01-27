@@ -25,6 +25,19 @@
     <%= select_tag :feedback, options_for_select(["true positive", "false positive"], params[:feedback]), class: "form-control", include_blank: "All" %>
   </div>
 
+  <div class="form-group">
+    <%= label_tag :user_reputation %>
+    <div class="form-group row">
+      <div class="col-md-1">
+        <%= select_tag :user_rep_direction, options_for_select(["==", "<=", ">="], params[:user_rep_direction] || ">="), class: "form-control" %>
+      </div>
+
+      <div class="col-md-1">
+        <%= text_field_tag :user_reputation, params[:user_reputation] || "0", class: "form-control" %>
+      </div>
+    </div>
+  </div>
+
   <%= submit_tag "Submit", class: "btn btn-primary" %>
 <% end %>
 

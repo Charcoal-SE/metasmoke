@@ -4,6 +4,7 @@ class SearchController < ApplicationController
     title = params[:title] || ""
     body = params[:body] || ""
     why = params[:why] || ""
+    user_reputation = params[:user_reputation].to_i || 0
 
     case params[:feedback]
       when /true/
@@ -20,6 +21,17 @@ class SearchController < ApplicationController
 
     if feedback.present?
       @results = @results.joins(:feedbacks).where("feedbacks.feedback_type LIKE :feedback", feedback: "%" + feedback + "%")
+    end
+
+    @results = case params[:user_rep_direction]
+      when ">="
+        @results.where("ifnull(user_reputation, 0) >= :rep", rep: user_reputation)
+      when "=="
+        @results.where("ifnull(user_reputation, 0) = :rep", rep: user_reputation)
+      when "<="
+        @results.where("ifnull(user_reputation, 0) <= :rep", rep: user_reputation)
+      else
+        @results
     end
 
     if params[:site].present?
