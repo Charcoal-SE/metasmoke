@@ -11,6 +11,11 @@ class PostsController < ApplicationController
     posts = Rails.cache.fetch("last-posts", :expires_in => 30.seconds) do
       Post.joins(:site).select("posts.id, posts.title, posts.link, sites.site_logo").order(:created_at).last(100)
     end
+    
+    posts.each do |p|
+      p.title.gsub! '<', '&lt;'
+      p.title.gsub! '>', '&gt;'
+    end
 
     posts = posts.last([params[:size].to_i, 100].min).reverse
 
