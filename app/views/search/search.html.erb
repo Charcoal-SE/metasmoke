@@ -19,6 +19,12 @@
     <%= label_tag :site %>
     <%= select_tag :site, options_for_select(Site.all.map(&:site_name), params[:site]), class: "form-control", include_blank: "All" %>
   </div>
+
+  <div class="form-group">
+    <%= label_tag :feedback %>
+    <%= select_tag :feedback, options_for_select(["true positive", "false positive"], params[:feedback]), class: "form-control", include_blank: "All" %>
+  </div>
+
   <%= submit_tag "Submit", class: "btn btn-primary" %>
 <% end %>
 
