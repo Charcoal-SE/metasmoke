@@ -9,7 +9,7 @@ class PostsController < ApplicationController
 
   def recentpostsapi
     posts = Rails.cache.fetch("last-posts", :expires_in => 30.seconds) do
-      Post.joins(:site).select("posts.id, posts.title, posts.link, sites.site_logo").order(:created_at).last(100)
+      Post.joins(:site).select("posts.id, posts.title, posts.link, posts.created_at, sites.site_logo").order(:created_at).last(100)
     end
     
     posts.each do |p|
