@@ -11,6 +11,15 @@ class PostsController < ApplicationController
     redirect_to "/post/" + Post.select("id").last.id.to_s
   end
 
+  def by_url
+    puts params[:url]
+    post = Post.select("id").where(:link => params[:url]).last
+
+    raise ActionController::RoutingError.new('Not Found') if post.nil?
+
+    redirect_to "/post/" + post.id.to_s
+  end
+
   def recentpostsapi
     posts = Rails.cache.fetch("last-posts", :expires_in => 30.seconds) do
       Post.joins(:site).select("posts.id, posts.title, posts.link, posts.created_at, sites.site_logo").order(:created_at).last(100)

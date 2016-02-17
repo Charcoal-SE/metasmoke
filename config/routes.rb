@@ -4,8 +4,10 @@ Rails.application.routes.draw do
   get 'users', to: 'users/on_tp_posts'
 
   get "graphs", to: "graphs#index"
+
   get "posts", to: "posts#index"
   get "posts/latest", to: "posts#latest"
+  get "posts/by-url", to: "posts#by_url"
 
   get "post/:id", to: "posts#show"
 
