@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   get "graphs", to: "graphs#index"
   get "posts", to: "posts#index"
+  get "posts/latest", to: "posts#latest"
 
   get "post/:id", to: "posts#show"
 

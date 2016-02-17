@@ -7,6 +7,10 @@ class PostsController < ApplicationController
     @post = Post.joins(:site).select("posts.*, sites.site_logo").find(params[:id])
   end
 
+  def latest
+    redirect_to "/post/" + Post.select("id").last.id.to_s
+  end
+
   def recentpostsapi
     posts = Rails.cache.fetch("last-posts", :expires_in => 30.seconds) do
       Post.joins(:site).select("posts.id, posts.title, posts.link, sites.site_logo").order(:created_at).last(100)
