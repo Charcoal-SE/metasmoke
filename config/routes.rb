@@ -5,6 +5,9 @@ Rails.application.routes.draw do
 
   get "graphs", to: "graphs#index"
 
+  get "status", to: "status#index"
+
+
   get "posts", to: "posts#index"
   get "posts/latest", to: "posts#latest"
   get "posts/by-url", to: "posts#by_url"
@@ -14,6 +17,7 @@ Rails.application.routes.draw do
 
   post 'feedbacks.json', to: "feedbacks#create"
   post 'posts.json', to: "posts#create"
+  post "status-update.json", to: "status#status_update"
 
   get "dashboard", to: "dashboard#index"
 
