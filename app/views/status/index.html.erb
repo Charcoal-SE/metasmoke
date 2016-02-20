@@ -1,0 +1,17 @@
+<h3>Status</h3>
+
+<br />
+
+<table class='table'>
+  <tr>
+    <th>Name</th>
+    <th>Last Ping</th>
+  </tr>
+
+  <% SmokeDetector.all.each do |sd| %>
+    <tr>
+      <td><%= sd.location %></td>
+      <td><%= sd.last_ping %></td>
+    </tr>
+  <% end %>
+</table>
