@@ -8,10 +8,10 @@
     <th>Last Ping</th>
   </tr>
 
-  <% SmokeDetector.all.each do |sd| %>
+  <% SmokeDetector.order("last_ping DESC").each do |sd| %>
     <tr>
       <td><%= sd.location %></td>
-      <td><%= sd.last_ping %></td>
+      <td class="status-<%= sd.status_color %>"><%= sd.last_ping %> (<%= time_ago_in_words(sd.last_ping)%> ago)</td>
     </tr>
   <% end %>
 </table>

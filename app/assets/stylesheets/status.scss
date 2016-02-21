@@ -1,0 +1,25 @@
+// Place all the styles related to the status controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.status-good {
+  color: green !important;
+
+  a {
+    color: green !important;
+  }
+}
+.status-warning {
+  color: orange !important;
+
+  a {
+    color: orange !important;
+  }
+}
+.status-critical {
+  color: red !important;
+
+  a {
+    color: red !important;
+  }
+}
