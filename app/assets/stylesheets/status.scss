@@ -6,20 +6,23 @@
   color: green !important;
 
   a {
-    color: green !important;
+    color: white !important;
+    background-color: green !important;
   }
 }
 .status-warning {
   color: orange !important;
 
   a {
-    color: orange !important;
+    color: black !important;
+    background-color: orange !important;
   }
 }
 .status-critical {
   color: red !important;
 
   a {
-    color: red !important;
+    color: white !important;
+    background-color: red !important;
   }
 }
