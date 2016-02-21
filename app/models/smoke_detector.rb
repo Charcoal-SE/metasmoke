@@ -12,4 +12,15 @@ class SmokeDetector < ActiveRecord::Base
       return "critical"
     end
   end
+
+  def self.check_smokey_status
+    smoke_detector = SmokeDetector.order("last_ping DESC").first
+
+    if smoke_detector.last_ping < 3.minutes.ago and (smoke_detector.email_date || 1.week.ago) < smoke_detector.last_ping
+      HairOnFireMailer.smokey_down_email(smoke_detector).deliver_now
+
+      smoke_detector.email_date = DateTime.now
+      smoke_detector.save!
+    end
+  end
 end

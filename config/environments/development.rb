@@ -16,6 +16,17 @@ Rails.application.configure do
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
+  AppConfig = YAML.load_file("#{Rails.root}/config/config.yml")[Rails.env]
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+      :address => "email-smtp.us-east-1.amazonaws.com",
+      :port => 587, # Port 25 is throttled on AWS
+      :user_name => AppConfig["ses_smtp_credentials"]["username"],
+      :password => AppConfig["ses_smtp_credentials"]["password"],
+      :authentication => :login
+  }
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 

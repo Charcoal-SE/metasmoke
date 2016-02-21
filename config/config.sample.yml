@@ -1,6 +1,9 @@
 common: &common
   smoke_detector:
     key: 'gibberish_here'
+  ses_smtp_credentials:
+    username: 'username'
+    password: 'password'
 
 development:
   <<: *common

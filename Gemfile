@@ -11,6 +11,7 @@ gem "puma"
 gem 'will_paginate', '~> 3.0.5'
 gem 'loofah'
 gem 'rack-cors', :require => 'rack/cors'
+gem 'whenever', :require => false
 
 gem 'rack-mini-profiler'
 gem 'flamegraph'
