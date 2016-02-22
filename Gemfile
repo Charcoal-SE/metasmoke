@@ -11,6 +11,7 @@ gem "puma"
 gem 'will_paginate', '~> 3.0.5'
 gem 'loofah'
 gem 'rack-cors', :require => 'rack/cors'
+gem 'htmlentities', '~> 4.3', '>= 4.3.4'
 gem 'whenever', :require => false
 
 gem 'rack-mini-profiler'

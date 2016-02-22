@@ -97,6 +97,7 @@ GEM
       activesupport (>= 4.1.0)
     groupdate (2.4.0)
       activesupport (>= 3)
+    htmlentities (4.3.4)
     i18n (0.7.0)
     jbuilder (2.3.1)
       activesupport (>= 3.0.0, < 5)
@@ -225,6 +226,7 @@ DEPENDENCIES
   devise
   flamegraph
   groupdate
+  htmlentities (~> 4.3, >= 4.3.4)
   jbuilder (~> 2.0)
   jquery-rails
   loofah
