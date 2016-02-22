@@ -1,11 +1,15 @@
 <h3>Reports by hour</h3>
+<br />
 
 <%= line_chart Post.where("created_at >= :date", :date => 1.week.ago).group_by_hour(:created_at).count %>
 
 <h3>Reports by site</h3>
+<br />
 
 <%= pie_chart Post.all.group(:site).count.map{ |k,v| {(k.nil? ? "Unknown" : CGI.unescape(k.site_name))=>v} }.reduce(:merge).select{|k,v| k != "Unknown"}.sort_by {|k,v| v}.reverse %>
 
 <h3>Reports by hour of day</h3>
+<br />
 
-<%= line_chart Post.all.group_by_hour_of_day(:created_at).count, discrete: true %>
+<% t = Time.now %>
+<%= line_chart Post.all.group_by_hour_of_day(:created_at).count, discrete: true, library: {"xAxis": { "plotLines" => [{"width" => '2', :value => "#{t.hour + t.min.to_f / 60.to_f}", :color => 'grey'}] } } %>
