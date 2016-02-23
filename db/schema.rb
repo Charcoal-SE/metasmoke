@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160123011023) do
+ActiveRecord::Schema.define(version: 20160223153955) do
 
   create_table "feedbacks", force: :cascade do |t|
     t.string  "message_link",  limit: 255
@@ -25,20 +25,21 @@ ActiveRecord::Schema.define(version: 20160123011023) do
   add_index "feedbacks", ["post_id"], name: "index_feedbacks_on_post_id", using: :btree
 
   create_table "posts", force: :cascade do |t|
-    t.string   "title",              limit: 255
-    t.text     "body",               limit: 65535
-    t.string   "link",               limit: 255
+    t.string   "title",                  limit: 255
+    t.text     "body",                   limit: 65535
+    t.string   "link",                   limit: 255
     t.datetime "post_creation_date"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "site_id",            limit: 4
-    t.string   "user_link",          limit: 255
-    t.string   "username",           limit: 255
-    t.text     "why",                limit: 65535
-    t.integer  "user_reputation",    limit: 4
-    t.integer  "score",              limit: 4
-    t.integer  "upvote_count",       limit: 4
-    t.integer  "downvote_count",     limit: 4
+    t.integer  "site_id",                limit: 4
+    t.string   "user_link",              limit: 255
+    t.string   "username",               limit: 255
+    t.text     "why",                    limit: 65535
+    t.integer  "user_reputation",        limit: 4
+    t.integer  "score",                  limit: 4
+    t.integer  "upvote_count",           limit: 4
+    t.integer  "downvote_count",         limit: 4
+    t.integer  "stack_exchange_user_id", limit: 4
   end
 
   create_table "posts_reasons", id: false, force: :cascade do |t|
@@ -61,6 +62,29 @@ ActiveRecord::Schema.define(version: 20160123011023) do
     t.string   "site_domain", limit: 255
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+  end
+
+  create_table "smoke_detectors", force: :cascade do |t|
+    t.datetime "last_ping"
+    t.string   "name",         limit: 255
+    t.string   "location",     limit: 255
+    t.string   "access_token", limit: 255
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.datetime "email_date"
+  end
+
+  create_table "stack_exchange_users", force: :cascade do |t|
+    t.integer  "user_id",         limit: 4
+    t.string   "username",        limit: 255
+    t.datetime "last_api_update"
+    t.boolean  "still_alive",                 default: true
+    t.integer  "answer_count",    limit: 4
+    t.integer  "question_count",  limit: 4
+    t.integer  "reputation",      limit: 4
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.integer  "site_id",         limit: 4
   end
 
   create_table "users", force: :cascade do |t|

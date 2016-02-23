@@ -58,6 +58,22 @@ class PostsController < ApplicationController
       @post.reasons << reason
     end
 
+    
+    begin
+      user_id = @post.user_link.scan(/\/users\/(\d*)\//).first.first
+
+      hash = {:site_id => @post.site_id, :user_id => user_id}
+      se_user = StackExchangeUser.find_or_create_by(hash)
+      se_user.reputation = post.user_reputation
+      se_user.username = post.username
+
+      se_user.save!
+
+      @post.stack_exchange_user = se_user
+    rescue
+      puts "Something went wrong when create StackExchangeUser"
+    end
+
     respond_to do |format|
       if @post.save
         format.json { render status: :created, :text => "OK" }
