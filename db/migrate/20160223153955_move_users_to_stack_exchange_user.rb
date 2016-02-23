@@ -1,6 +1,6 @@
 class MoveUsersToStackExchangeUser < ActiveRecord::Migration
   def change
-    Post.all.each do |post|
+    Post.where("stack_exchange_user_id IS NULL").each do |post|
       next if post.user_link.nil?
       
       begin
