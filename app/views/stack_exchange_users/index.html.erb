@@ -1,0 +1,19 @@
+<h3>Users</h3>
+<p class="text-muted">Users with tp posts on SO</p>
+
+<br />
+
+<table class="table">
+  <tr>
+    <th>User</th>
+    <th>Last tp post</th>
+  </tr>
+
+  <% @users.each do |user| %>
+    <tr>
+      <td><%= link_to user.username, "//#{user.site.site_domain}/users/#{user.user_id}" %></td>
+      <td><%= link_to user.posts.first.title, "/post/#{user.posts.first.id}" %></td>
+    </tr>
+  <% end %>
+</table>
+

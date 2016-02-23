@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  get 'search', to: 'search#search_results'
+  get 'stack_exchange_users/index'
 
-  get 'users', to: 'users/on_tp_posts'
+  get 'search', to: 'search#search_results'
 
   get "graphs", to: "graphs#index"
 
@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   get "post/:id", to: "posts#show"
 
+  get "/users", to: "stack_exchange_users#index"
 
   post 'feedbacks.json', to: "feedbacks#create"
   post 'posts.json', to: "posts#create"
