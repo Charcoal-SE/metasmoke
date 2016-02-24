@@ -13,4 +13,6 @@
 <br />
 
 <% t = Time.now %>
-<%= line_chart Post.all.group_by_hour_of_day(:created_at).count, discrete: true, library: {"xAxis": { "plotLines" => [{"width" => '2', :value => "#{t.hour + t.min.to_f / 60.to_f}", :color => 'grey'}] } } %>
+<% number_of_days = (DateTime.now - Post.minimum(:created_at).to_date).to_i %>
+
+<%= line_chart Post.all.group_by_hour_of_day(:created_at).count.map{ |k,v| [k, v.to_f / 100.0] }.to_h, discrete: true, library: {"xAxis": { "plotLines" => [{"width" => '2', :value => "#{t.hour + t.min.to_f / 60.to_f}", :color => 'grey'}] } } %>
