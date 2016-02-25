@@ -11,7 +11,7 @@
   <% SmokeDetector.order("last_ping DESC").each do |sd| %>
     <tr>
       <td><%= sd.location %></td>
-      <td class="status-<%= sd.status_color %>"><%= sd.last_ping %> (<%= time_ago_in_words(sd.last_ping)%> ago)</td>
+      <td class="status-<%= sd.status_color %>"><%= sd.last_ping %> (<%= time_ago_in_words(sd.last_ping, include_seconds: true)%> ago)</td>
     </tr>
   <% end %>
 </table>
