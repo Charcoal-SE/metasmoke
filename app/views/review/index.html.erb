@@ -4,21 +4,25 @@
 
 <style>
   .review-actions td {
+    border-bottom: none !important;
+  }
+  .post-cell td {
     border-top: none !important;
   }
 </style>
 
-<table class="table table-borderless">
+<table class="table">
   <% @posts.each do |post| %>
-    <%= render 'posts/post', :post => post %>
     <tr class="review-actions">
       <td>
-        <div style="float:right">
+        <div style="float:left">
           <%= link_to "True Positive", review_feedback_path(post_id: post.id, feedback_type: "tp"), :class => "feedback-button btn btn-sm btn-success", remote: true, method: :post, data: {:post_id => post.id} %>
           <%= link_to "False Positive", review_feedback_path(post_id: post.id, feedback_type: "fp"), :class => "feedback-button btn btn-sm btn-danger", remote: true, method: :post, data: {:post_id => post.id}%>
         </div>
       </td>
     </tr>
+
+    <%= render 'posts/post', :post => post, :expand_post => true %>
   <% end %>
 </table>
 

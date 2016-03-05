@@ -1,7 +1,9 @@
+<% expand_post = false if expand_post.nil? %>
+
 <tr class="post-cell post-cell-<%= post.id %>">
   <td>
     <% if not post.body.nil? %>
-      <span class="text-muted show-post-body" data-postid="<%= post.id %>">►</span>
+      <span class="text-muted show-post-body" data-postid="<%= post.id %>"><%= (expand_post.present? and expand_post) ? "▼" : "►" %></span>
     <% end %>
 
     <%= link_to post.title, "/post/" + post.id.to_s %>
@@ -26,7 +28,7 @@
     </span>
 
     <% if not post.body.nil? %>
-      <div data-postid="<%= post.id %>" class="post-body" style="display: none;">
+      <div data-postid="<%= post.id %>" class="post-body" style="<%= "display: none;" unless expand_post.present? and expand_post %>">
         <pre class="post-body-pre-block"><%= post.body %></pre>
         <p>
           <span class="report-reasons">
