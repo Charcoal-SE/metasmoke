@@ -13,6 +13,7 @@ gem 'loofah'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'htmlentities', '~> 4.3', '>= 4.3.4'
 gem 'whenever', :require => false
+gem 'will_paginate-bootstrap'
 
 gem 'rack-mini-profiler'
 gem 'flamegraph'
