@@ -33,7 +33,12 @@
           <li class='<%= controller.class == PostsController ? "active" : "" %>'><%= link_to "posts", posts_path %></li>
           <li class='<%= controller.class == SearchController ? "active" : "" %>'><%= link_to "search", search_path %></li>
           <% if user_signed_in? %>
-            <li class='<%= controller.class == ReviewController ? "active" : "" %>'><%= link_to "review", review_path %></li>
+            <li class='<%= controller.class == ReviewController ? "active" : "" %>'>
+              <%= link_to review_path do %>
+                review
+                <span class="badge"><%= Post.includes(:feedbacks).where( :feedbacks => { :post_id => nil }).where("body IS NOT NULL").count %></span>
+              <% end %>
+            </li>
           <% end %>
           <li class='<%= controller.class == StatusController ? "active" : "" %> status-<%= SmokeDetector.status_color %>'><%= link_to "status", status_path %></li>
         </ul>
