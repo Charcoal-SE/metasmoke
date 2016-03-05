@@ -18,4 +18,8 @@ class ApplicationController < ActionController::Base
       render :text => "Go away" and return
     end
   end
+
+  def not_found
+    raise ActionController::RoutingError.new('Not Found')
+  end
 end

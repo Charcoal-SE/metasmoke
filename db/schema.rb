@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160229151218) do
+ActiveRecord::Schema.define(version: 20160304034338) do
 
   create_table "feedbacks", force: :cascade do |t|
     t.string  "message_link",  limit: 255
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20160229151218) do
     t.string  "feedback_type", limit: 255
     t.integer "post_id",       limit: 4
     t.string  "post_link",     limit: 255
+    t.integer "user_id",       limit: 4
   end
 
   add_index "feedbacks", ["post_id"], name: "index_feedbacks_on_post_id", using: :btree

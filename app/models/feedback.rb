@@ -1,5 +1,6 @@
 class Feedback < ActiveRecord::Base
   belongs_to :post
+  belongs_to :user
   before_save :update_post_feedback_cache
 
   def is_positive?

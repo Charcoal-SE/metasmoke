@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'review', to: "review#index"
+  post 'review/feedback', to: "review#add_feedback"
+
   get 'stack_exchange_users/index'
 
   get 'search', to: 'search#search_results'

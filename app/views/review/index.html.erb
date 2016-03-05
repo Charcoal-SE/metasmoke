@@ -1,0 +1,25 @@
+<h2>Review</h2>
+
+<br />
+
+<style>
+  .review-actions td {
+    border-top: none !important;
+  }
+</style>
+
+<table class="table table-borderless">
+  <% @posts.each do |post| %>
+    <%= render 'posts/post', :post => post %>
+    <tr class="review-actions">
+      <td>
+        <div style="float:right">
+          <%= link_to "True Positive", review_feedback_path(post_id: post.id, feedback_type: "tp"), :class => "feedback-button btn btn-sm btn-success", remote: true, method: :post, data: {:post_id => post.id} %>
+          <%= link_to "False Positive", review_feedback_path(post_id: post.id, feedback_type: "fp"), :class => "feedback-button btn btn-sm btn-danger", remote: true, method: :post, data: {:post_id => post.id}%>
+        </div>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate @posts %>
