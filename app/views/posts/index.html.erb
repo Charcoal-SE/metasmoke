@@ -16,4 +16,6 @@
   </tbody>
 </table>
 
-<%= will_paginate @posts %>
+<div class="text-center">
+  <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
+</div>
