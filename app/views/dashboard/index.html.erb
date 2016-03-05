@@ -19,14 +19,14 @@
     <% @reasons.each do |reason| %>
       <tr>
         <td><%= link_to reason.reason_name, "/reason/#{reason.id}" %></td>
-        <td><%= reason.post_count %></td>
+        <td><span class="inlinebar"><!-- 1,3,4,5,3,5 --!></span> <%= reason.post_count %></td>
         <td><%= truncate((reason.last_post_title.nil? ? reason.posts.last.title : reason.last_post_title), :length => 40, :seperator => ' ') %></td>
         <td width="30%">
           <div class="progress" style="height:15px; margin-bottom:0px">
           <% cache(reason, skip_digest: true) do %>
-            <div class="progress-bar progress-bar-success" style="width:<%= reason.tp_percentage * 100 %>%"></div>
-            <div class="progress-bar progress-bar-info" style="width:<%= 100 - ((reason.tp_percentage * 100) + (reason.fp_percentage * 100)) %>%; background-color: rgba(0,0,0,0)"></div>
-            <div class="progress-bar progress-bar-danger" style="width:<%= reason.fp_percentage * 100 %>%"></div>
+            <div class="progress-bar progress-bar-success" style="width:<%= (reason.tp_percentage * 100).floor %>%"></div>
+            <div class="progress-bar progress-bar-info" style="width:<%= 100 - ((reason.tp_percentage * 100).floor + (reason.fp_percentage * 100).floor) %>%; background-color: rgba(0,0,0,0)"></div>
+            <div class="progress-bar progress-bar-danger" style="width:<%= (reason.fp_percentage * 100).floor %>%"></div>
           <% end %>
           </div>
         </td>
