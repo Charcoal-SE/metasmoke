@@ -7,7 +7,7 @@ class ReviewController < ApplicationController
   end
 
   def add_feedback
-    not_found unless ["tp", "fp"].include? params[:feedback_type]
+    not_found unless ["tp", "fp", "naa"].include? params[:feedback_type]
 
     post = Post.find(params[:post_id])
     not_found if post.nil? or post.feedbacks.present?
