@@ -1,7 +1,3 @@
-<h2>Review</h2>
-
-<br />
-
 <style>
   .review-actions td {
     border-bottom: none !important;
@@ -10,6 +6,17 @@
     border-top: none !important;
   }
 </style>
+
+<h2>Review</h2>
+
+<div style="float:right">
+  <%= form_tag review_path, method: "get" do |f| %>
+    <%= select_tag "reason", options_from_collection_for_select(Reason.all, "id", "reason_name", params[:reason]), include_blank: "All" %>
+    <%= submit_tag "Filter", class: "btn btn-primary btn-xs" %>
+  <% end %>
+</div>
+
+<br />
 
 <table class="table">
   <% @posts.each do |post| %>
