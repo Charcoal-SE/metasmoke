@@ -24,9 +24,10 @@
         <td width="30%">
           <div class="progress" style="height:15px; margin-bottom:0px">
           <% cache(reason, skip_digest: true) do %>
-            <div class="progress-bar progress-bar-success" style="width:<%= (reason.tp_percentage * 100).ceil %>%"></div>
-            <div class="progress-bar progress-bar-info" style="width:<%= 100 - ((reason.tp_percentage * 100).ceil + (reason.fp_percentage * 100).floor) %>%; background-color: rgba(0,0,0,0)"></div>
-            <div class="progress-bar progress-bar-danger" style="width:<%= (reason.fp_percentage * 100).floor %>%"></div>
+            <div class="progress-bar progress-bar-success" style="width:<%= (reason.tp_percentage * 100) %>%"></div>
+            <div class="progress-bar progress-bar-info" style="width:<%= 100 - ((reason.tp_percentage * 100) + (reason.fp_percentage * 100) + (reason.both_percentage * 100)) %>%; background-color: rgba(0,0,0,0)"></div>
+            <div class="progress-bar progress-bar-warning" style="width:<%= (reason.both_percentage * 100) %>%"></div>
+            <div class="progress-bar progress-bar-danger" style="width:<%= (reason.fp_percentage * 100) %>%"></div>
           <% end %>
           </div>
         </td>

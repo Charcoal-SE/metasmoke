@@ -5,13 +5,19 @@ class Reason < ActiveRecord::Base
   def tp_percentage
     # I don't like the .count.count, but it does get the job done
 
-    count = self.posts.where(:is_tp => true).count
+    count = self.posts.where(:is_tp => true, :is_fp => false).count
 
     return (count.to_f / self.posts.count.to_f).to_f
   end
 
   def fp_percentage
-    count = self.posts.where(:is_fp => true).count
+    count = self.posts.where(:is_fp => true, :is_tp => false).count
+
+    return (count.to_f / self.posts.count.to_f).to_f
+  end
+
+  def both_percentage
+    count = self.posts.where(:is_fp => true, :is_tp => true).count
 
     return (count.to_f / self.posts.count.to_f).to_f
   end
