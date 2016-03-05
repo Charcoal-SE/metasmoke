@@ -2,7 +2,7 @@ class ReviewController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @posts = Post.includes(:feedbacks).where( :feedbacks => { :post_id => nil }).order('created_at DESC').paginate(:page => params[:page], :per_page => 100)
+    @posts = Post.includes(:feedbacks).where( :feedbacks => { :post_id => nil }).where("body IS NOT NULL").order('created_at DESC').paginate(:page => params[:page], :per_page => 100)
     @sites = Site.where(:id => @posts.map(&:site_id))
   end
 
