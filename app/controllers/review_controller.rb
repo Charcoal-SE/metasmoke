@@ -24,6 +24,10 @@ class ReviewController < ApplicationController
     f.feedback_type = params[:feedback_type]
     f.save!
 
+    post.reasons.each do |reason|
+      expire_fragment(reason)
+    end 
+
     render :nothing => true, :status => 200
   end
 end
