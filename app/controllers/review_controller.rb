@@ -8,7 +8,7 @@ class ReviewController < ApplicationController
       @posts = Post.all
     end
 
-    @posts = @posts.includes(:reasons).includes(:feedbacks).where(:is_tp => false).where(:is_fp => false).order('created_at DESC').paginate(:page => params[:page], :per_page => 100)
+    @posts = @posts.includes(:reasons).includes(:feedbacks).where( :feedbacks => { :post_id => nil }).order('created_at DESC').paginate(:page => params[:page], :per_page => 100)
     @sites = Site.where(:id => @posts.map(&:site_id))
   end
 
