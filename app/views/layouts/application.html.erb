@@ -36,7 +36,7 @@
             <li class='<%= controller.class == ReviewController ? "active" : "" %>'>
               <%= link_to review_path do %>
                 review
-                <span class="badge"><%= Post.includes(:feedbacks).where( :feedbacks => { :post_id => nil }).where("body IS NOT NULL").count %></span>
+                <span class="badge"><%= Post.includes(:feedbacks).where( :feedbacks => { :post_id => nil }).count %></span>
               <% end %>
             </li>
           <% end %>
