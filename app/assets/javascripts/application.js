@@ -16,7 +16,3 @@
 //= require turbolinks
 //= require moment.min.js
 //= require_tree .
-
-$(document).ready(function() {
-  $(".tooltipify").tooltip();
-});
