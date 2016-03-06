@@ -23,16 +23,16 @@
         <td><%= truncate((reason.last_post_title.nil? ? reason.posts.last.title : reason.last_post_title), :length => 40, :seperator => ' ') %></td>
         <td width="30%">
           <% cache(reason, skip_digest: true) do %>
-          <% tp = reason.tp_percentage * 100 %>
-          <% naa = reason.both_percentage * 100 %>
-          <% fp = reason.fp_percentage * 100 %>
-          <% empty = 100 - (tp + fp + naa) %>
-          <div class="progress" style="height:15px; margin-bottom:0px" title="TP: <%= tp %>\nNAA/Both: <%= naa %>\nFP: <%= fp %>\nNone: <%= empty %>">
-            <div class="progress-bar progress-bar-success" style="width:<%= tp %>%"></div>
-            <div class="progress-bar progress-bar-info" style="width:<%= empty %>%; background-color: rgba(0,0,0,0)"></div>
-            <div class="progress-bar progress-bar-warning" style="width:<%= naa %>%"></div>
-            <div class="progress-bar progress-bar-danger" style="width:<%= fp %>%"></div>
-          </div>
+            <% tp = reason.tp_percentage * 100 %>
+            <% naa = reason.both_percentage * 100 %>
+            <% fp = reason.fp_percentage * 100 %>
+            <% empty = 100 - (tp + fp + naa) %>
+            <div class="progress" style="height:15px; margin-bottom:0px" title="TP: <%= tp %>\nNAA/Both: <%= naa %>\nFP: <%= fp %>\nNone: <%= empty %>">
+              <div class="progress-bar progress-bar-success" style="width:<%= tp %>%"></div>
+              <div class="progress-bar progress-bar-info" style="width:<%= empty %>%; background-color: rgba(0,0,0,0)"></div>
+              <div class="progress-bar progress-bar-warning" style="width:<%= naa %>%"></div>
+              <div class="progress-bar progress-bar-danger" style="width:<%= fp %>%"></div>
+            </div>
           <% end %>
         </td>
       </tr>
