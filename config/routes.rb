@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   get "reason/:id", to: "reasons#show"
 
   get "posts/recent.json", to: "posts#recentpostsapi"
+  post "posts/add_feedback", to: "review#add_feedback"
 
   root to: "dashboard#index"
 
