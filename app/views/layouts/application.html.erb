@@ -36,7 +36,10 @@
             <li class='<%= controller.class == ReviewController ? "active" : "" %>'>
               <%= link_to review_path do %>
                 review
-                <span class="badge"><%= Post.includes(:feedbacks).where( :feedbacks => { :post_id => nil }).count %></span>
+                <% review_items = Post.includes(:feedbacks).where( :feedbacks => { :post_id => nil }).count %>
+                <% if review_items > 0 %>
+                  <span class="badge"><%= review_items %></span>
+                <% end %>
               <% end %>
             </li>
           <% end %>
@@ -58,7 +61,7 @@
               </ul>
 
             </li>
-          <% end %> 
+          <% end %>
           <% if CurrentCommit.present? %>
             <li><a href="https://github.com/Charcoal-SE/metasmoke/commit/<%= CurrentCommit %>"><code><%= CurrentCommit %></code></a></li>
           <% end %>
