@@ -16,7 +16,10 @@ class ReviewController < ApplicationController
     not_found unless ["tp", "fp", "naa"].include? params[:feedback_type]
 
     post = Post.find(params[:post_id])
-    not_found if post.nil? or post.feedbacks.present?
+    if post.nil? or post.feedbacks.present?
+      render :text => "Post doesn't exist or already has feedback", :status => :conflict
+      return
+    end
 
     f = Feedback.new
     f.user = current_user
