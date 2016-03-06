@@ -28,6 +28,7 @@ module Metasmoke
         origins '*' #'http://stackoverflow.com', 'http://superuser.com', 'http://serverfault.com', /^http:\/\/.*.stackexchange.com$/, 'https://stackoverflow.com', 'https://superuser.com', 'https://serverfault.com', /^https:\/\/.*.stackexchange.com$/
 
         resource '/posts/recent.json', :headers => :any, :methods => [:get]
+        resource '/posts/add_feedback', :headers => :any, :methods => [:post]
       end
     end
   end
