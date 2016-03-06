@@ -1,5 +1,6 @@
 class ReviewController < ApplicationController
   before_action :authenticate_user!
+  skip_before_filter :verify_authenticity_token, :only => [:add_feedback]
 
   def index
     if params[:reason].present? and reason = Reason.find(params[:reason])
