@@ -5,7 +5,7 @@
     <strong>
        <% feedbacks.each do |feedback| %>
          <% next if (feedback.is_positive? and feedback.is_negative?) or (not feedback.is_positive? and not feedback.is_negative?) %>
-           <span class="<%= feedback.is_positive? ? "text-success" : "text-danger" %>"><%= feedback.is_positive? ? "&#x2713;".html_safe : "&#x2717;".html_safe %></span>
+           <span  data-toggle="tooltip" title="<%= feedback.user.present? ? "(From Review)" : feedback.user_name %>" class="<%= feedback.is_positive? ? "text-success" : "text-danger" %> tooltipify"><%= feedback.is_positive? ? "&#x2713;".html_safe : "&#x2717;".html_safe %></span>
        <% end %>
     </strong>
   <% end %>
