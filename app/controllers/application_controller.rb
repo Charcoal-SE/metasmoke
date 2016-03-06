@@ -3,9 +3,9 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  # before_action do
-  #   Rack::MiniProfiler.authorize_request
-  # end
+  before_action do
+    Rack::MiniProfiler.authorize_request if user_signed_in?
+  end
 
   def check_if_smokedetector
     provided_key = params[:key]
