@@ -27,7 +27,7 @@
             <% naa = reason.both_percentage * 100 %>
             <% fp = reason.fp_percentage * 100 %>
             <% empty = 100 - (tp + fp + naa) %>
-            <div class="progress" style="height:15px; margin-bottom:0px" title="TP: <%= tp %>\nNAA/Both: <%= naa %>\nFP: <%= fp %>\nNone: <%= empty %>">
+            <div class="progress" style="height:15px; margin-bottom:0px" title="TP: <%= tp.round(2) %>&#013;NAA/Both: <%= naa.round(2) %>&#013;FP: <%= fp.round(2) %>&#013;None: <%= empty.round(2) %>">
               <div class="progress-bar progress-bar-success" style="width:<%= tp %>%"></div>
               <div class="progress-bar progress-bar-info" style="width:<%= empty %>%; background-color: rgba(0,0,0,0)"></div>
               <div class="progress-bar progress-bar-warning" style="width:<%= naa %>%"></div>
