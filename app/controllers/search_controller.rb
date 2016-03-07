@@ -13,7 +13,13 @@ class SearchController < ApplicationController
         feedback = "f"
     end
 
-    @results = Post.where("IFNULL(username, '') LIKE :username AND IFNULL(title, '') LIKE :title AND IFNULL(body, '') LIKE :body AND IFNULL(why, '') LIKE :why", username: "%" + username + "%", title: "%" + title + "%", body: "%" + body + "%", why: "%" + why + "%")
+    if params[:reason].present?
+      @results = Reason.find(params[:reason]).posts
+    else
+      @results = Post.all
+    end
+
+    @results = @results.where("IFNULL(username, '') LIKE :username AND IFNULL(title, '') LIKE :title AND IFNULL(body, '') LIKE :body AND IFNULL(why, '') LIKE :why", username: "%" + username + "%", title: "%" + title + "%", body: "%" + body + "%", why: "%" + why + "%")
                    .paginate(:page => params[:page], :per_page => 100)
                    .order("created_at DESC")
                    .includes(:reasons)
