@@ -27,6 +27,8 @@ Rails.application.configure do
       :authentication => :login
   }
 
+  config.action_mailer.default_url_options = { :host => 'localhost' }
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
