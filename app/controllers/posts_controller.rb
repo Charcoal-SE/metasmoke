@@ -22,9 +22,10 @@ class PostsController < ApplicationController
 
   def recentpostsapi
     posts = Rails.cache.fetch("last-posts", :expires_in => 30.seconds) do
-      Post.joins(:site).select("posts.id, posts.title, posts.link, posts.created_at, sites.site_logo").order(:created_at).last(100)
+      Post.joins(:site).joins(:feedbacks).where('feedbacks.post_id' => 'posts.id').where('feedbacks.user_id' => current_user.id)
+        .select("posts.id, posts.title, posts.link, posts.created_at, sites.site_logo, feedbacks.feedback_type").order(:created_at).last(100)
     end
-    
+
     posts.each do |p|
       p.title.gsub! '<', '&lt;'
       p.title.gsub! '>', '&gt;'
@@ -58,7 +59,7 @@ class PostsController < ApplicationController
       @post.reasons << reason
     end
 
-    
+
     begin
       user_id = @post.user_link.scan(/\/u[sers]?\/(\d*)/).first.first
 
