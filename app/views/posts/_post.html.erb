@@ -19,7 +19,7 @@
 
     <span class="text-muted" style="float:right">
       <% unless post.created_at.nil? %>
-        <span data-livestamp="<%= post.created_at.to_i %>"></span>
+        <span data-livestamp="<%= post.created_at.to_i %>" title="<%= post.created_at %>"></span>
       <% end %>
 
       <% unless post.site_id.nil? %>
