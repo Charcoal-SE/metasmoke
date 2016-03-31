@@ -1,0 +1,35 @@
+<h3>Clear Feedback</h3>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Post</th>
+    </tr>
+  </thead>
+
+  <tbody>
+      <%= render "posts/post", :post => @post %>
+  </tbody>
+</table>
+
+<br />
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Feedback</th>
+      <th>User</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @post.feedbacks.each do |feedback| %>
+      <tr>
+        <td><%= feedback.feedback_type %></td>
+        <td><%= feedback.user_name || feedback.user.email %></td>
+        <td><%= link_to "delete", delete_feedback_path(feedback), method: :delete %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

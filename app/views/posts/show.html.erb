@@ -8,6 +8,11 @@
            <span style="<%= "font-weight:normal" if feedback.is_naa? %>" data-toggle="tooltip" data-placement="top" title="<%= feedback.user.present? ? "(From Review)" : feedback.user_name %>" class="<%= feedback.element_class %>"><%= feedback.element_symbol.html_safe %></span>
        <% end %>
     </strong>
+    <% if current_user.present? and current_user.is_admin %>
+      <small>
+        <%= link_to "(clear)", clear_post_feedback_path(@post) %>
+      </small>
+    <% end %>
   <% end %>
 </h4>
 

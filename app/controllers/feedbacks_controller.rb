@@ -11,6 +11,24 @@ class FeedbacksController < ApplicationController
     @feedbacks = Feedback.all
   end
 
+  def clear
+    raise ActionController::RoutingError.new('Not Found') if current_user.nil? or not current_user.is_admin?
+
+    @post = Post.find params[:id]
+    @sites = [@post.site]
+
+    raise ActionController::RoutingError.new('Not Found') if @post.nil?
+  end
+
+  def delete
+    raise ActionController::RoutingError.new('Not Found') if current_user.nil? or not current_user.is_admin?
+
+    f = Feedback.find params[:id]
+    f.delete
+
+    redirect_to clear_post_feedback_path(f.post_id)
+  end
+
   # POST /feedbacks
   # POST /feedbacks.json
   def create
