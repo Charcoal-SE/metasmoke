@@ -11,8 +11,8 @@
     <% if not post.feedbacks.empty? %>
       <strong>
          <% post.feedbacks.each do |feedback| %>
-           <% next if (feedback.is_positive? and feedback.is_negative?) or (not feedback.is_positive? and not feedback.is_negative?) %>
-             <span data-toggle="tooltip" data-placement="top" title="<%= feedback.user.present? ? "(From Review)" : feedback.user_name %>" class="<%= feedback.is_positive? ? "text-success" : "text-danger" %>"><%= feedback.is_positive? ? "&#x2713;".html_safe : "&#x2717;".html_safe %></span>
+           <% next if (feedback.is_positive? and feedback.is_negative?) or (not feedback.is_positive? and not feedback.is_negative? and not feedback.is_naa?) %>
+             <span style="<%= "font-weight:normal" if feedback.is_naa? %>" data-toggle="tooltip" data-placement="top" title="<%= feedback.user.present? ? "(From Review)" : feedback.user_name %>" class="<%= feedback.element_class %>"><%= feedback.element_symbol.html_safe %></span>
          <% end %>
       </strong>
     <% end %>
