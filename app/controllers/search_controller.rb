@@ -11,6 +11,8 @@ class SearchController < ApplicationController
         feedback = "t"
       when /false/
         feedback = "f"
+      when /NAA/
+        feedback = "naa"
     end
 
     if params[:reason].present?

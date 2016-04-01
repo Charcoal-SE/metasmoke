@@ -22,7 +22,7 @@
 
   <div class="form-group">
     <%= label_tag :feedback %>
-    <%= select_tag :feedback, options_for_select(["true positive", "false positive"], params[:feedback]), class: "form-control", include_blank: "All" %>
+    <%= select_tag :feedback, options_for_select(["true positive", "false positive", "NAA"], params[:feedback]), class: "form-control", include_blank: "All" %>
   </div>
 
   <div class="form-group">
