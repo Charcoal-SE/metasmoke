@@ -29,6 +29,8 @@ class SearchController < ApplicationController
 
     if feedback.present?
       @results = @results.joins(:feedbacks).where("feedbacks.feedback_type LIKE :feedback", feedback: "%" + feedback + "%")
+    elsif params[:feedback] == "conflicted"
+      @results = @results.where(:is_tp => true, :is_fp => true)
     end
 
     @results = case params[:user_rep_direction]
