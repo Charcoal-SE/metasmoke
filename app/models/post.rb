@@ -3,4 +3,16 @@ class Post < ActiveRecord::Base
   has_many :feedbacks
   belongs_to :site
   belongs_to :stack_exchange_user
+
+  def update_feedback_cache
+    self.is_tp = false
+    self.is_fp = false
+
+    feedbacks = self.feedbacks
+
+    self.is_tp = true if feedbacks.index { |f| f.is_positive? }
+    self.is_fp = true if feedbacks.index { |f| f.is_negative? }
+
+    save!
+  end
 end

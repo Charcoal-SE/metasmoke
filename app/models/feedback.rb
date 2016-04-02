@@ -2,6 +2,11 @@ class Feedback < ActiveRecord::Base
   belongs_to :post
   belongs_to :user
   before_save :update_post_feedback_cache
+  after_destroy :clear_and_update_feedback_cache
+
+  def clear_and_update_feedback_cache
+    self.post.update_feedback_cache
+  end
 
   def is_positive?
     self.feedback_type.include? "t"
