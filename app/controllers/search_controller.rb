@@ -49,8 +49,14 @@ class SearchController < ApplicationController
       @results = @results.where(:site_id => site_id)
     end
 
-    @sites = Site.where(:id => @results.map(&:site_id))
-
-    render :search
+  respond_to do |format|
+      format.html {
+        @sites = Site.where(:id => @results.map(&:site_id))
+        render :search
+      }
+      format.json {
+        render json: @results
+      }
+    end
   end
 end

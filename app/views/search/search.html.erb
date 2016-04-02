@@ -62,5 +62,8 @@
   </table>
   <div class="text-center">
     <%= will_paginate @results, renderer: BootstrapPagination::Rails %>
+    <p class="text-muted">
+      <%= link_to "test", search_path(params: request.query_parameters, :format => :json) %>
+    </p>
   </div>
 <% end %>
