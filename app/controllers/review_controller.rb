@@ -10,7 +10,7 @@ class ReviewController < ApplicationController
     end
 
     @posts = @posts.includes(:reasons).includes(:feedbacks).where( :feedbacks => { :post_id => nil }).order('created_at DESC').paginate(:page => params[:page], :per_page => 100)
-    @sites = Site.where(:id => @posts.map(&:site_id))
+    @sites = Site.where(:id => @posts.map(&:site_id)).to_a
   end
 
   def add_feedback

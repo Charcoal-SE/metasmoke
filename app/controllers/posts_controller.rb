@@ -39,7 +39,7 @@ class PostsController < ApplicationController
   # GET /posts.json
   def index
     @posts = Post.all.includes(:reasons).includes(:feedbacks).paginate(:page => params[:page], :per_page => 100).order('created_at DESC')
-    @sites = Site.where(:id => @posts.map(&:site_id))
+    @sites = Site.where(:id => @posts.map(&:site_id)).to_a
   end
 
   # POST /posts

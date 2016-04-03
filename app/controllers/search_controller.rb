@@ -51,7 +51,7 @@ class SearchController < ApplicationController
 
   respond_to do |format|
       format.html {
-        @sites = Site.where(:id => @results.map(&:site_id))
+        @sites = Site.where(:id => @results.map(&:site_id)).to_a
         render :search
       }
       format.json {

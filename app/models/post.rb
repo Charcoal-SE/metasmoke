@@ -8,7 +8,7 @@ class Post < ActiveRecord::Base
     self.is_tp = false
     self.is_fp = false
 
-    feedbacks = self.feedbacks
+    feedbacks = self.feedbacks.to_a
 
     self.is_tp = true if feedbacks.index { |f| f.is_positive? }
     self.is_fp = true if feedbacks.index { |f| f.is_negative? }
