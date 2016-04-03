@@ -36,7 +36,6 @@
           <li class='<%= (controller.class == DashboardController or controller.class == ReasonsController) ? "active" : "" %>'><%= link_to "reasons", dashboard_path %></li>
           <li class='<%= controller.class == GraphsController ? "active" : "" %>'><%= link_to "graphs", graphs_path %></li>
           <li class='<%= controller.class == PostsController ? "active" : "" %>'><%= link_to "posts", posts_path %></li>
-          <li class='<%= controller.class == StackExchangeUsersController ? "active" : "" %>'><%= link_to "users", users_path %></li>
           <li class='<%= controller.class == SearchController ? "active" : "" %>'><%= link_to "search", search_path %></li>
           <% if user_signed_in? %>
             <li class='<%= controller.class == ReviewController ? "active" : "" %>'>
@@ -69,9 +68,8 @@
             </li>
           <% end %>
           <% if CurrentCommit.present? %>
-            <li><a href="https://github.com/Charcoal-SE/metasmoke/commit/<%= CurrentCommit %>"><code><%= CurrentCommit %></code></a></li>
+            <li><a href="https://github.com/Charcoal-SE/metasmoke/commit/<%= CurrentCommit %>" title="<%= Rails::VERSION::STRING %>"><code><%= CurrentCommit %></code></a></li>
           <% end %>
-          <li><a href="#"><code><%= Rails::VERSION::STRING %></code></a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
