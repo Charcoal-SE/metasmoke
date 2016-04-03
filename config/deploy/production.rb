@@ -1,4 +1,4 @@
-set :rvm_ruby_version, '2.2.2'
+set :rvm_ruby_version, '2.3.0'
 
 set :puma_bind, %w(tcp://127.0.0.1:9292)
 
