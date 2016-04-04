@@ -32,6 +32,8 @@ Rails.application.routes.draw do
   get "posts/recent.json", to: "posts#recentpostsapi"
   post "posts/add_feedback", to: "review#add_feedback"
 
+  post 'github/hook'
+
   root to: "dashboard#index"
 
   devise_for :users
