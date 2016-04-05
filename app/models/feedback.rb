@@ -1,4 +1,6 @@
 class Feedback < ActiveRecord::Base
+  default_scope { where(is_invalidated: false) }
+
   belongs_to :post
   belongs_to :user
   before_save :update_post_feedback_cache
