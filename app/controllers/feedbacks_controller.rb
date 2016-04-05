@@ -24,6 +24,11 @@ class FeedbacksController < ApplicationController
     raise ActionController::RoutingError.new('Not Found') if current_user.nil? or not current_user.is_admin?
 
     f = Feedback.find params[:id]
+    
+    f.post.reasons.each do |reason|
+      expire_fragment(reason)
+    end
+    
     f.destroy
 
     redirect_to clear_post_feedback_path(f.post_id)
