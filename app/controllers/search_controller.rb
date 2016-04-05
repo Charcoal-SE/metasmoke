@@ -25,10 +25,10 @@ class SearchController < ApplicationController
                    .paginate(:page => params[:page], :per_page => 100)
                    .order("created_at DESC")
                    .includes(:reasons)
-                   .includes(:feedbacks)
+                   .includes(:feedbacks).where('feedbacks.is_invalidated' => false)
 
     if feedback.present?
-      @results = @results.joins(:feedbacks).where("feedbacks.feedback_type LIKE :feedback", feedback: "%" + feedback + "%")
+      @results = @results.joins(:feedbacks).where("feedbacks.feedback_type LIKE :feedback", feedback: "%" + feedback + "%", 'feedbacks.is_invalidated' => false)
     elsif params[:feedback] == "conflicted"
       @results = @results.where(:is_tp => true, :is_fp => true)
     end
