@@ -75,7 +75,6 @@ class PostsController < ApplicationController
 
       @post.stack_exchange_user = se_user
     rescue
-      puts "Something went wrong when create StackExchangeUser"
     end
 
     respond_to do |format|
