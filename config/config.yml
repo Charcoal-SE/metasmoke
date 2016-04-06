@@ -1,0 +1,17 @@
+common: &common
+  smoke_detector:
+    key: 'key'
+  ses_smtp_credentials: 
+    username: 'AAAA'
+    password: 'password'
+  github:
+    secret_token: 'gh_sekret_token'
+
+development:
+  <<: *common
+
+test:
+  <<: *common
+
+production:
+  <<: *common
