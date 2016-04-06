@@ -21,4 +21,25 @@ class FeedbacksControllerTest < ActionController::TestCase
       assert_response :not_found
     end
   end
+
+  test "should mark cleared feedback invalidated" do
+    sign_in users(:admin_user)
+    delete :delete, params: { :id => Feedback.last.id }
+    assert Feedback.unscoped.last.is_invalidated?
+  end
+
+  test "should not delete cleared feedback" do
+    assert_no_difference 'Feedback.unscoped.count' do
+      sign_in(:admin_user)
+      delete :delete, params: { :id => Feedback.last.id }
+    end
+  end
+
+  test "should redirect to clear page after deleting" do
+    sign_in users(:admin_user)
+    id = Feedback.last.id
+    post_id = Feedback.last.post.id
+    delete :delete, params: { :id => id }
+    assert_redirected_to clear_post_feedback_url(post_id)
+  end
 end
