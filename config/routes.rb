@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   get "status", to: "status#index"
 
+  get 'admin', to: 'admin#index'
+
 
   get "posts", to: "posts#index"
   get "posts/latest", to: "posts#latest"
