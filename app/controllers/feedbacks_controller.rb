@@ -31,6 +31,7 @@ class FeedbacksController < ApplicationController
     end
 
     f.is_invalidated = true
+    f.invalidated_by = current_user.id
     f.save
 
     redirect_to clear_post_feedback_path(f.post_id)

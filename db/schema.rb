@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160405174733) do
+ActiveRecord::Schema.define(version: 20160406212409) do
 
   create_table "feedbacks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string  "message_link"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20160405174733) do
     t.string  "post_link"
     t.integer "user_id"
     t.boolean "is_invalidated", default: false
+    t.integer "invalidated_by"
   end
 
   add_index "feedbacks", ["post_id"], name: "index_feedbacks_on_post_id", using: :btree

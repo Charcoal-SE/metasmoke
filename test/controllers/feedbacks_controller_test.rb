@@ -42,4 +42,14 @@ class FeedbacksControllerTest < ActionController::TestCase
     delete :delete, params: { :id => id }
     assert_redirected_to clear_post_feedback_url(post_id)
   end
+
+  test "should attribute invalidations" do
+    user = users(:admin_user)
+    f_id = Feedback.last.id
+    sign_in user
+
+    delete :delete, params: { :id => f_id }
+
+    assert_equal Feedback.unscoped.find(f_id).invalidated_by, user.id
+  end
 end
