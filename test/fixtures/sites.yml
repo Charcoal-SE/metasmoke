@@ -1,0 +1,5253 @@
+
+site_1:
+  id: 1
+  site_name: Stack Overflow
+  site_url: http://stackoverflow.com
+  site_logo: "//cdn.sstatic.net/Sites/stackoverflow/img/favicon.ico"
+  site_domain: stackoverflow.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:26.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_2:
+  id: 2
+  site_name: Server Fault
+  site_url: http://serverfault.com
+  site_logo: "//cdn.sstatic.net/Sites/serverfault/img/favicon.ico"
+  site_domain: serverfault.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:26.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_3:
+  id: 3
+  site_name: Super User
+  site_url: http://superuser.com
+  site_logo: "//cdn.sstatic.net/Sites/superuser/img/favicon.ico"
+  site_domain: superuser.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:26.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_4:
+  id: 4
+  site_name: Meta Stack Exchange
+  site_url: http://meta.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/stackexchangemeta/img/favicon.ico"
+  site_domain: meta.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:26.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_5:
+  id: 5
+  site_name: Web Applications
+  site_url: http://webapps.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/webapps/img/favicon.ico"
+  site_domain: webapps.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_6:
+  id: 6
+  site_name: Web Applications Meta
+  site_url: http://meta.webapps.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/webappsmeta/img/favicon.ico"
+  site_domain: meta.webapps.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_7:
+  id: 7
+  site_name: Arqade
+  site_url: http://gaming.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/gaming/img/favicon.ico"
+  site_domain: gaming.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_8:
+  id: 8
+  site_name: Arqade Meta
+  site_url: http://meta.gaming.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/gamingmeta/img/favicon.ico"
+  site_domain: meta.gaming.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_9:
+  id: 9
+  site_name: Webmasters
+  site_url: http://webmasters.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/webmasters/img/favicon.ico"
+  site_domain: webmasters.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_10:
+  id: 10
+  site_name: Webmasters Meta
+  site_url: http://meta.webmasters.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/webmastersmeta/img/favicon.ico"
+  site_domain: meta.webmasters.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_11:
+  id: 11
+  site_name: Seasoned Advice
+  site_url: http://cooking.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/cooking/img/favicon.ico"
+  site_domain: cooking.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_12:
+  id: 12
+  site_name: Seasoned Advice Meta
+  site_url: http://meta.cooking.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/cookingmeta/img/favicon.ico"
+  site_domain: meta.cooking.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_13:
+  id: 13
+  site_name: Game Development
+  site_url: http://gamedev.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/gamedev/img/favicon.ico"
+  site_domain: gamedev.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_14:
+  id: 14
+  site_name: Game Development Meta
+  site_url: http://meta.gamedev.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/gamedevmeta/img/favicon.ico"
+  site_domain: meta.gamedev.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_15:
+  id: 15
+  site_name: Photography
+  site_url: http://photo.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/photo/img/favicon.ico"
+  site_domain: photo.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_16:
+  id: 16
+  site_name: Photography Meta
+  site_url: http://meta.photo.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/photometa/img/favicon.ico"
+  site_domain: meta.photo.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_17:
+  id: 17
+  site_name: Cross Validated
+  site_url: http://stats.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/stats/img/favicon.ico"
+  site_domain: stats.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_18:
+  id: 18
+  site_name: Cross Validated Meta
+  site_url: http://meta.stats.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/statsmeta/img/favicon.ico"
+  site_domain: meta.stats.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_19:
+  id: 19
+  site_name: Mathematics
+  site_url: http://math.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/math/img/favicon.ico"
+  site_domain: math.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_20:
+  id: 20
+  site_name: Mathematics Meta
+  site_url: http://meta.math.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/mathmeta/img/favicon.ico"
+  site_domain: meta.math.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_21:
+  id: 21
+  site_name: Home Improvement
+  site_url: http://diy.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/diy/img/favicon.ico"
+  site_domain: diy.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_22:
+  id: 22
+  site_name: Home Improvement Meta
+  site_url: http://meta.diy.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/diymeta/img/favicon.ico"
+  site_domain: meta.diy.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_23:
+  id: 23
+  site_name: Meta Super User
+  site_url: http://meta.superuser.com
+  site_logo: "//cdn.sstatic.net/Sites/superusermeta/img/favicon.ico"
+  site_domain: meta.superuser.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_24:
+  id: 24
+  site_name: Meta Server Fault
+  site_url: http://meta.serverfault.com
+  site_logo: "//cdn.sstatic.net/Sites/serverfaultmeta/img/favicon.ico"
+  site_domain: meta.serverfault.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_25:
+  id: 25
+  site_name: Geographic Information Systems
+  site_url: http://gis.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/gis/img/favicon.ico"
+  site_domain: gis.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_26:
+  id: 26
+  site_name: Geographic Information Systems Meta
+  site_url: http://meta.gis.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/gismeta/img/favicon.ico"
+  site_domain: meta.gis.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_27:
+  id: 27
+  site_name: TeX - LaTeX
+  site_url: http://tex.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/tex/img/favicon.ico"
+  site_domain: tex.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_28:
+  id: 28
+  site_name: TeX - LaTeX Meta
+  site_url: http://meta.tex.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/texmeta/img/favicon.ico"
+  site_domain: meta.tex.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_29:
+  id: 29
+  site_name: Ask Ubuntu
+  site_url: http://askubuntu.com
+  site_logo: "//cdn.sstatic.net/Sites/askubuntu/img/favicon.ico"
+  site_domain: askubuntu.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_30:
+  id: 30
+  site_name: Ask Ubuntu Meta
+  site_url: http://meta.askubuntu.com
+  site_logo: "//cdn.sstatic.net/Sites/askubuntumeta/img/favicon.ico"
+  site_domain: meta.askubuntu.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_31:
+  id: 31
+  site_name: Personal Finance &amp; Money
+  site_url: http://money.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/money/img/favicon.ico"
+  site_domain: money.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_32:
+  id: 32
+  site_name: Personal Finance &amp; Money Meta
+  site_url: http://meta.money.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/moneymeta/img/favicon.ico"
+  site_domain: meta.money.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_33:
+  id: 33
+  site_name: English Language &amp; Usage
+  site_url: http://english.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/english/img/favicon.ico"
+  site_domain: english.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_34:
+  id: 34
+  site_name: English Language &amp; Usage Meta
+  site_url: http://meta.english.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/englishmeta/img/favicon.ico"
+  site_domain: meta.english.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_35:
+  id: 35
+  site_name: Stack Apps
+  site_url: http://stackapps.com
+  site_logo: "//cdn.sstatic.net/Sites/stackapps/img/favicon.ico"
+  site_domain: stackapps.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_36:
+  id: 36
+  site_name: User Experience
+  site_url: http://ux.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/ux/img/favicon.ico"
+  site_domain: ux.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_37:
+  id: 37
+  site_name: User Experience Meta
+  site_url: http://meta.ux.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/uxmeta/img/favicon.ico"
+  site_domain: meta.ux.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_38:
+  id: 38
+  site_name: Unix &amp; Linux
+  site_url: http://unix.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/unix/img/favicon.ico"
+  site_domain: unix.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_39:
+  id: 39
+  site_name: Unix &amp; Linux Meta
+  site_url: http://meta.unix.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/unixmeta/img/favicon.ico"
+  site_domain: meta.unix.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_40:
+  id: 40
+  site_name: WordPress Development
+  site_url: http://wordpress.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/wordpress/img/favicon.ico"
+  site_domain: wordpress.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_41:
+  id: 41
+  site_name: WordPress Development Meta
+  site_url: http://meta.wordpress.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/wordpressmeta/img/favicon.ico"
+  site_domain: meta.wordpress.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_42:
+  id: 42
+  site_name: Theoretical Computer Science
+  site_url: http://cstheory.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/cstheory/img/favicon.ico"
+  site_domain: cstheory.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_43:
+  id: 43
+  site_name: Theoretical Computer Science Meta
+  site_url: http://meta.cstheory.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/cstheorymeta/img/favicon.ico"
+  site_domain: meta.cstheory.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_44:
+  id: 44
+  site_name: Ask Different
+  site_url: http://apple.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/apple/img/favicon.ico"
+  site_domain: apple.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_45:
+  id: 45
+  site_name: Ask Different Meta
+  site_url: http://meta.apple.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/applemeta/img/favicon.ico"
+  site_domain: meta.apple.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_46:
+  id: 46
+  site_name: Role-playing Games
+  site_url: http://rpg.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/rpg/img/favicon.ico"
+  site_domain: rpg.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_47:
+  id: 47
+  site_name: Role-playing Games Meta
+  site_url: http://meta.rpg.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/rpgmeta/img/favicon.ico"
+  site_domain: meta.rpg.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_48:
+  id: 48
+  site_name: Bicycles
+  site_url: http://bicycles.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/bicycles/img/favicon.ico"
+  site_domain: bicycles.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_49:
+  id: 49
+  site_name: Bicycles Meta
+  site_url: http://meta.bicycles.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/bicyclesmeta/img/favicon.ico"
+  site_domain: meta.bicycles.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_50:
+  id: 50
+  site_name: Programmers
+  site_url: http://programmers.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/programmers/img/favicon.ico"
+  site_domain: programmers.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_51:
+  id: 51
+  site_name: Programmers Meta
+  site_url: http://meta.programmers.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/programmersmeta/img/favicon.ico"
+  site_domain: meta.programmers.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_52:
+  id: 52
+  site_name: Electrical Engineering
+  site_url: http://electronics.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/electronics/img/favicon.ico"
+  site_domain: electronics.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_53:
+  id: 53
+  site_name: Electrical Engineering Meta
+  site_url: http://meta.electronics.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/electronicsmeta/img/favicon.ico"
+  site_domain: meta.electronics.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_54:
+  id: 54
+  site_name: Android Enthusiasts
+  site_url: http://android.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/android/img/favicon.ico"
+  site_domain: android.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_55:
+  id: 55
+  site_name: Android Enthusiasts Meta
+  site_url: http://meta.android.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/androidmeta/img/favicon.ico"
+  site_domain: meta.android.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_56:
+  id: 56
+  site_name: Board &amp; Card Games
+  site_url: http://boardgames.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/boardgames/img/favicon.ico"
+  site_domain: boardgames.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_57:
+  id: 57
+  site_name: Board &amp; Card Games Meta
+  site_url: http://meta.boardgames.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/boardgamesmeta/img/favicon.ico"
+  site_domain: meta.boardgames.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_58:
+  id: 58
+  site_name: Physics
+  site_url: http://physics.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/physics/img/favicon.ico"
+  site_domain: physics.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_59:
+  id: 59
+  site_name: Physics Meta
+  site_url: http://meta.physics.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/physicsmeta/img/favicon.ico"
+  site_domain: meta.physics.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_60:
+  id: 60
+  site_name: Homebrewing
+  site_url: http://homebrew.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/homebrew/img/favicon.ico"
+  site_domain: homebrew.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_61:
+  id: 61
+  site_name: Homebrewing Meta
+  site_url: http://meta.homebrew.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/homebrewmeta/img/favicon.ico"
+  site_domain: meta.homebrew.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_62:
+  id: 62
+  site_name: Information Security
+  site_url: http://security.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/security/img/favicon.ico"
+  site_domain: security.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_63:
+  id: 63
+  site_name: Information Security Meta
+  site_url: http://meta.security.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/securitymeta/img/favicon.ico"
+  site_domain: meta.security.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_64:
+  id: 64
+  site_name: Writers
+  site_url: http://writers.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/writers/img/favicon.ico"
+  site_domain: writers.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_65:
+  id: 65
+  site_name: Writers Meta
+  site_url: http://meta.writers.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/writersmeta/img/favicon.ico"
+  site_domain: meta.writers.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_66:
+  id: 66
+  site_name: Video Production
+  site_url: http://video.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/avp/img/favicon.ico"
+  site_domain: video.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_67:
+  id: 67
+  site_name: Video Production Meta
+  site_url: http://meta.video.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/avpmeta/img/favicon.ico"
+  site_domain: meta.video.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_68:
+  id: 68
+  site_name: Graphic Design
+  site_url: http://graphicdesign.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/graphicdesign/img/favicon.ico"
+  site_domain: graphicdesign.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_69:
+  id: 69
+  site_name: Graphic Design Meta
+  site_url: http://meta.graphicdesign.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/graphicdesignmeta/img/favicon.ico"
+  site_domain: meta.graphicdesign.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_70:
+  id: 70
+  site_name: Database Administrators
+  site_url: http://dba.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/dba/img/favicon.ico"
+  site_domain: dba.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_71:
+  id: 71
+  site_name: Database Administrators Meta
+  site_url: http://meta.dba.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/dbameta/img/favicon.ico"
+  site_domain: meta.dba.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_72:
+  id: 72
+  site_name: Science Fiction &amp; Fantasy
+  site_url: http://scifi.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/scifi/img/favicon.ico"
+  site_domain: scifi.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_73:
+  id: 73
+  site_name: Science Fiction &amp; Fantasy Meta
+  site_url: http://meta.scifi.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/scifimeta/img/favicon.ico"
+  site_domain: meta.scifi.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_74:
+  id: 74
+  site_name: Code Review
+  site_url: http://codereview.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/codereview/img/favicon.ico"
+  site_domain: codereview.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_75:
+  id: 75
+  site_name: Code Review Meta
+  site_url: http://meta.codereview.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/codereviewmeta/img/favicon.ico"
+  site_domain: meta.codereview.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_76:
+  id: 76
+  site_name: Programming Puzzles &amp; Code Golf
+  site_url: http://codegolf.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/codegolf/img/favicon.ico"
+  site_domain: codegolf.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_77:
+  id: 77
+  site_name: Programming Puzzles &amp; Code Golf Meta
+  site_url: http://meta.codegolf.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/codegolfmeta/img/favicon.ico"
+  site_domain: meta.codegolf.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_78:
+  id: 78
+  site_name: Quantitative Finance
+  site_url: http://quant.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/quant/img/favicon.ico"
+  site_domain: quant.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_79:
+  id: 79
+  site_name: Quantitative Finance Meta
+  site_url: http://meta.quant.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/quantmeta/img/favicon.ico"
+  site_domain: meta.quant.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_80:
+  id: 80
+  site_name: Project Management
+  site_url: http://pm.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/pm/img/favicon.ico"
+  site_domain: pm.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_81:
+  id: 81
+  site_name: Project Management Meta
+  site_url: http://meta.pm.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/pmmeta/img/favicon.ico"
+  site_domain: meta.pm.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_82:
+  id: 82
+  site_name: Skeptics
+  site_url: http://skeptics.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/skeptics/img/favicon.ico"
+  site_domain: skeptics.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_83:
+  id: 83
+  site_name: Skeptics Meta
+  site_url: http://meta.skeptics.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/skepticsmeta/img/favicon.ico"
+  site_domain: meta.skeptics.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_84:
+  id: 84
+  site_name: Physical Fitness
+  site_url: http://fitness.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/fitness/img/favicon.ico"
+  site_domain: fitness.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_85:
+  id: 85
+  site_name: Physical Fitness Meta
+  site_url: http://meta.fitness.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/fitnessmeta/img/favicon.ico"
+  site_domain: meta.fitness.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_86:
+  id: 86
+  site_name: Drupal Answers
+  site_url: http://drupal.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/drupal/img/favicon.ico"
+  site_domain: drupal.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_87:
+  id: 87
+  site_name: Drupal Answers Meta
+  site_url: http://meta.drupal.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/drupalmeta/img/favicon.ico"
+  site_domain: meta.drupal.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_88:
+  id: 88
+  site_name: Motor Vehicle Maintenance &amp; Repair
+  site_url: http://mechanics.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/mechanics/img/favicon.ico"
+  site_domain: mechanics.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_89:
+  id: 89
+  site_name: Motor Vehicle Maintenance &amp; Repair Meta
+  site_url: http://meta.mechanics.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/mechanicsmeta/img/favicon.ico"
+  site_domain: meta.mechanics.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_90:
+  id: 90
+  site_name: Parenting
+  site_url: http://parenting.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/parenting/img/favicon.ico"
+  site_domain: parenting.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_91:
+  id: 91
+  site_name: Parenting Meta
+  site_url: http://meta.parenting.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/parentingmeta/img/favicon.ico"
+  site_domain: meta.parenting.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_92:
+  id: 92
+  site_name: SharePoint
+  site_url: http://sharepoint.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/sharepoint/img/favicon.ico"
+  site_domain: sharepoint.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_93:
+  id: 93
+  site_name: SharePoint Meta
+  site_url: http://meta.sharepoint.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/sharepointmeta/img/favicon.ico"
+  site_domain: meta.sharepoint.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_94:
+  id: 94
+  site_name: 'Music: Practice &amp; Theory'
+  site_url: http://music.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/music/img/favicon.ico"
+  site_domain: music.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_95:
+  id: 95
+  site_name: 'Music: Practice &amp; Theory Meta'
+  site_url: http://meta.music.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/musicmeta/img/favicon.ico"
+  site_domain: meta.music.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_96:
+  id: 96
+  site_name: Software Quality Assurance &amp; Testing
+  site_url: http://sqa.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/sqa/img/favicon.ico"
+  site_domain: sqa.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_97:
+  id: 97
+  site_name: Software Quality Assurance &amp; Testing Meta
+  site_url: http://meta.sqa.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/sqameta/img/favicon.ico"
+  site_domain: meta.sqa.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_98:
+  id: 98
+  site_name: Mi Yodeya
+  site_url: http://judaism.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/judaism/img/favicon.ico"
+  site_domain: judaism.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_99:
+  id: 99
+  site_name: Mi Yodeya Meta
+  site_url: http://meta.judaism.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/judaismmeta/img/favicon.ico"
+  site_domain: meta.judaism.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_100:
+  id: 100
+  site_name: German Language
+  site_url: http://german.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/german/img/favicon.ico"
+  site_domain: german.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_101:
+  id: 101
+  site_name: German Language Meta
+  site_url: http://meta.german.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/germanmeta/img/favicon.ico"
+  site_domain: meta.german.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_102:
+  id: 102
+  site_name: Japanese Language
+  site_url: http://japanese.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/japanese/img/favicon.ico"
+  site_domain: japanese.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_103:
+  id: 103
+  site_name: Japanese Language Meta
+  site_url: http://meta.japanese.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/japanesemeta/img/favicon.ico"
+  site_domain: meta.japanese.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_104:
+  id: 104
+  site_name: Philosophy
+  site_url: http://philosophy.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/philosophy/img/favicon.ico"
+  site_domain: philosophy.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_105:
+  id: 105
+  site_name: Philosophy Meta
+  site_url: http://meta.philosophy.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/philosophymeta/img/favicon.ico"
+  site_domain: meta.philosophy.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_106:
+  id: 106
+  site_name: Gardening &amp; Landscaping
+  site_url: http://gardening.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/gardening/img/favicon.ico"
+  site_domain: gardening.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_107:
+  id: 107
+  site_name: Gardening &amp; Landscaping Meta
+  site_url: http://meta.gardening.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/gardeningmeta/img/favicon.ico"
+  site_domain: meta.gardening.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_108:
+  id: 108
+  site_name: Travel
+  site_url: http://travel.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/travel/img/favicon.ico"
+  site_domain: travel.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_109:
+  id: 109
+  site_name: Travel Meta
+  site_url: http://meta.travel.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/travelmeta/img/favicon.ico"
+  site_domain: meta.travel.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_110:
+  id: 110
+  site_name: Personal Productivity
+  site_url: http://productivity.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/productivity/img/favicon.ico"
+  site_domain: productivity.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_111:
+  id: 111
+  site_name: Personal Productivity Meta
+  site_url: http://meta.productivity.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/productivitymeta/img/favicon.ico"
+  site_domain: meta.productivity.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_112:
+  id: 112
+  site_name: Cryptography
+  site_url: http://crypto.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/crypto/img/favicon.ico"
+  site_domain: crypto.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_113:
+  id: 113
+  site_name: Cryptography Meta
+  site_url: http://meta.crypto.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/cryptometa/img/favicon.ico"
+  site_domain: meta.crypto.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_114:
+  id: 114
+  site_name: Signal Processing
+  site_url: http://dsp.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/dsp/img/favicon.ico"
+  site_domain: dsp.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_115:
+  id: 115
+  site_name: Signal Processing Meta
+  site_url: http://meta.dsp.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/dspmeta/img/favicon.ico"
+  site_domain: meta.dsp.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_116:
+  id: 116
+  site_name: French Language
+  site_url: http://french.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/french/img/favicon.ico"
+  site_domain: french.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_117:
+  id: 117
+  site_name: French Language Meta
+  site_url: http://meta.french.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/frenchmeta/img/favicon.ico"
+  site_domain: meta.french.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_118:
+  id: 118
+  site_name: Christianity
+  site_url: http://christianity.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/christianity/img/favicon.ico"
+  site_domain: christianity.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_119:
+  id: 119
+  site_name: Christianity Meta
+  site_url: http://meta.christianity.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/christianitymeta/img/favicon.ico"
+  site_domain: meta.christianity.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_120:
+  id: 120
+  site_name: Bitcoin
+  site_url: http://bitcoin.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/bitcoin/img/favicon.ico"
+  site_domain: bitcoin.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_121:
+  id: 121
+  site_name: Bitcoin Meta
+  site_url: http://meta.bitcoin.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/bitcoinmeta/img/favicon.ico"
+  site_domain: meta.bitcoin.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_122:
+  id: 122
+  site_name: Linguistics
+  site_url: http://linguistics.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/linguistics/img/favicon.ico"
+  site_domain: linguistics.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_123:
+  id: 123
+  site_name: Linguistics Meta
+  site_url: http://meta.linguistics.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/linguisticsmeta/img/favicon.ico"
+  site_domain: meta.linguistics.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_124:
+  id: 124
+  site_name: Biblical Hermeneutics
+  site_url: http://hermeneutics.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/hermeneutics/img/favicon.ico"
+  site_domain: hermeneutics.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_125:
+  id: 125
+  site_name: Biblical Hermeneutics Meta
+  site_url: http://meta.hermeneutics.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/hermeneuticsmeta/img/favicon.ico"
+  site_domain: meta.hermeneutics.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_126:
+  id: 126
+  site_name: History
+  site_url: http://history.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/history/img/favicon.ico"
+  site_domain: history.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_127:
+  id: 127
+  site_name: History Meta
+  site_url: http://meta.history.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/historymeta/img/favicon.ico"
+  site_domain: meta.history.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_128:
+  id: 128
+  site_name: LEGO&#174; Answers
+  site_url: http://bricks.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/bricks/img/favicon.ico"
+  site_domain: bricks.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_129:
+  id: 129
+  site_name: LEGO&#174; Answers Meta
+  site_url: http://meta.bricks.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/bricksmeta/img/favicon.ico"
+  site_domain: meta.bricks.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_130:
+  id: 130
+  site_name: Spanish Language
+  site_url: http://spanish.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/spanish/img/favicon.ico"
+  site_domain: spanish.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_131:
+  id: 131
+  site_name: Spanish Language Meta
+  site_url: http://meta.spanish.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/spanishmeta/img/favicon.ico"
+  site_domain: meta.spanish.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_132:
+  id: 132
+  site_name: Computational Science
+  site_url: http://scicomp.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/scicomp/img/favicon.ico"
+  site_domain: scicomp.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_133:
+  id: 133
+  site_name: Computational Science Meta
+  site_url: http://meta.scicomp.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/scicompmeta/img/favicon.ico"
+  site_domain: meta.scicomp.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:11.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_134:
+  id: 134
+  site_name: Movies &amp; TV
+  site_url: http://movies.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/movies/img/favicon.ico"
+  site_domain: movies.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_135:
+  id: 135
+  site_name: Movies &amp; TV Meta
+  site_url: http://meta.movies.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/moviesmeta/img/favicon.ico"
+  site_domain: meta.movies.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_136:
+  id: 136
+  site_name: Chinese Language
+  site_url: http://chinese.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/chinese/img/favicon.ico"
+  site_domain: chinese.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_137:
+  id: 137
+  site_name: Chinese Language Meta
+  site_url: http://meta.chinese.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/chinesemeta/img/favicon.ico"
+  site_domain: meta.chinese.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_138:
+  id: 138
+  site_name: Biology
+  site_url: http://biology.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/biology/img/favicon.ico"
+  site_domain: biology.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_139:
+  id: 139
+  site_name: Biology Meta
+  site_url: http://meta.biology.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/biologymeta/img/favicon.ico"
+  site_domain: meta.biology.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_140:
+  id: 140
+  site_name: Poker
+  site_url: http://poker.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/poker/img/favicon.ico"
+  site_domain: poker.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_141:
+  id: 141
+  site_name: Poker Meta
+  site_url: http://meta.poker.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/pokermeta/img/favicon.ico"
+  site_domain: meta.poker.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_142:
+  id: 142
+  site_name: Mathematica
+  site_url: http://mathematica.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/mathematica/img/favicon.ico"
+  site_domain: mathematica.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_143:
+  id: 143
+  site_name: Mathematica Meta
+  site_url: http://meta.mathematica.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/mathematicameta/img/favicon.ico"
+  site_domain: meta.mathematica.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_144:
+  id: 144
+  site_name: Cognitive Sciences
+  site_url: http://cogsci.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/cogsci/img/favicon.ico"
+  site_domain: cogsci.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_145:
+  id: 145
+  site_name: Cognitive Sciences Meta
+  site_url: http://meta.cogsci.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/cogscimeta/img/favicon.ico"
+  site_domain: meta.cogsci.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_146:
+  id: 146
+  site_name: The Great Outdoors
+  site_url: http://outdoors.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/outdoors/img/favicon.ico"
+  site_domain: outdoors.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_147:
+  id: 147
+  site_name: The Great Outdoors Meta
+  site_url: http://meta.outdoors.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/outdoorsmeta/img/favicon.ico"
+  site_domain: meta.outdoors.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_148:
+  id: 148
+  site_name: Martial Arts
+  site_url: http://martialarts.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/martialarts/img/favicon.ico"
+  site_domain: martialarts.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_149:
+  id: 149
+  site_name: Martial Arts Meta
+  site_url: http://meta.martialarts.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/martialartsmeta/img/favicon.ico"
+  site_domain: meta.martialarts.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_150:
+  id: 150
+  site_name: Sports
+  site_url: http://sports.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/sports/img/favicon.ico"
+  site_domain: sports.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_151:
+  id: 151
+  site_name: Sports Meta
+  site_url: http://meta.sports.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/sportsmeta/img/favicon.ico"
+  site_domain: meta.sports.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_152:
+  id: 152
+  site_name: Academia
+  site_url: http://academia.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/academia/img/favicon.ico"
+  site_domain: academia.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_153:
+  id: 153
+  site_name: Academia Meta
+  site_url: http://meta.academia.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/academiameta/img/favicon.ico"
+  site_domain: meta.academia.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_154:
+  id: 154
+  site_name: Computer Science
+  site_url: http://cs.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/cs/img/favicon.ico"
+  site_domain: cs.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_155:
+  id: 155
+  site_name: Computer Science Meta
+  site_url: http://meta.cs.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/csmeta/img/favicon.ico"
+  site_domain: meta.cs.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_156:
+  id: 156
+  site_name: The Workplace
+  site_url: http://workplace.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/workplace/img/favicon.ico"
+  site_domain: workplace.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_157:
+  id: 157
+  site_name: The Workplace Meta
+  site_url: http://meta.workplace.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/workplacemeta/img/favicon.ico"
+  site_domain: meta.workplace.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_158:
+  id: 158
+  site_name: Windows Phone
+  site_url: http://windowsphone.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/windowsphone/img/favicon.ico"
+  site_domain: windowsphone.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_159:
+  id: 159
+  site_name: Windows Phone Meta
+  site_url: http://meta.windowsphone.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/windowsphonemeta/img/favicon.ico"
+  site_domain: meta.windowsphone.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_160:
+  id: 160
+  site_name: Chemistry
+  site_url: http://chemistry.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/chemistry/img/favicon.ico"
+  site_domain: chemistry.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_161:
+  id: 161
+  site_name: Chemistry Meta
+  site_url: http://meta.chemistry.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/chemistrymeta/img/favicon.ico"
+  site_domain: meta.chemistry.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_162:
+  id: 162
+  site_name: Chess
+  site_url: http://chess.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/chess/img/favicon.ico"
+  site_domain: chess.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_163:
+  id: 163
+  site_name: Chess Meta
+  site_url: http://meta.chess.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/chessmeta/img/favicon.ico"
+  site_domain: meta.chess.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_164:
+  id: 164
+  site_name: Raspberry Pi
+  site_url: http://raspberrypi.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/raspberrypi/img/favicon.ico"
+  site_domain: raspberrypi.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_165:
+  id: 165
+  site_name: Raspberry Pi Meta
+  site_url: http://meta.raspberrypi.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/raspberrypimeta/img/favicon.ico"
+  site_domain: meta.raspberrypi.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_166:
+  id: 166
+  site_name: Russian Language
+  site_url: http://russian.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/russian/img/favicon.ico"
+  site_domain: russian.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_167:
+  id: 167
+  site_name: Russian Language Meta
+  site_url: http://meta.russian.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/russianmeta/img/favicon.ico"
+  site_domain: meta.russian.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_168:
+  id: 168
+  site_name: Islam
+  site_url: http://islam.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/islam/img/favicon.ico"
+  site_domain: islam.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_169:
+  id: 169
+  site_name: Islam Meta
+  site_url: http://meta.islam.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/islammeta/img/favicon.ico"
+  site_domain: meta.islam.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_170:
+  id: 170
+  site_name: Salesforce
+  site_url: http://salesforce.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/salesforce/img/favicon.ico"
+  site_domain: salesforce.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_171:
+  id: 171
+  site_name: Salesforce Meta
+  site_url: http://meta.salesforce.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/salesforcemeta/img/favicon.ico"
+  site_domain: meta.salesforce.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_172:
+  id: 172
+  site_name: Ask Patents
+  site_url: http://patents.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/patents/img/favicon.ico"
+  site_domain: patents.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_173:
+  id: 173
+  site_name: Ask Patents Meta
+  site_url: http://meta.patents.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/patentsmeta/img/favicon.ico"
+  site_domain: meta.patents.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_174:
+  id: 174
+  site_name: Genealogy &amp; Family History
+  site_url: http://genealogy.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/genealogy/img/favicon.ico"
+  site_domain: genealogy.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_175:
+  id: 175
+  site_name: Genealogy &amp; Family History Meta
+  site_url: http://meta.genealogy.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/genealogymeta/img/favicon.ico"
+  site_domain: meta.genealogy.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_176:
+  id: 176
+  site_name: Robotics
+  site_url: http://robotics.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/robotics/img/favicon.ico"
+  site_domain: robotics.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_177:
+  id: 177
+  site_name: Robotics Meta
+  site_url: http://meta.robotics.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/roboticsmeta/img/favicon.ico"
+  site_domain: meta.robotics.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_178:
+  id: 178
+  site_name: ExpressionEngine&#174; Answers
+  site_url: http://expressionengine.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/expressionengine/img/favicon.ico"
+  site_domain: expressionengine.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_179:
+  id: 179
+  site_name: ExpressionEngine&#174; Answers Meta
+  site_url: http://meta.expressionengine.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/expressionenginemeta/img/favicon.ico"
+  site_domain: meta.expressionengine.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_180:
+  id: 180
+  site_name: Politics
+  site_url: http://politics.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/politics/img/favicon.ico"
+  site_domain: politics.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_181:
+  id: 181
+  site_name: Politics Meta
+  site_url: http://meta.politics.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/politicsmeta/img/favicon.ico"
+  site_domain: meta.politics.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_182:
+  id: 182
+  site_name: Anime &amp; Manga
+  site_url: http://anime.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/anime/img/favicon.ico"
+  site_domain: anime.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_183:
+  id: 183
+  site_name: Anime &amp; Manga Meta
+  site_url: http://meta.anime.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/animemeta/img/favicon.ico"
+  site_domain: meta.anime.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_184:
+  id: 184
+  site_name: Magento
+  site_url: http://magento.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/magento/img/favicon.ico"
+  site_domain: magento.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_185:
+  id: 185
+  site_name: Magento Meta
+  site_url: http://meta.magento.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/magentometa/img/favicon.ico"
+  site_domain: meta.magento.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_186:
+  id: 186
+  site_name: English Language Learners
+  site_url: http://ell.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/ell/img/favicon.ico"
+  site_domain: ell.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_187:
+  id: 187
+  site_name: English Language Learners Meta
+  site_url: http://meta.ell.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/ellmeta/img/favicon.ico"
+  site_domain: meta.ell.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_188:
+  id: 188
+  site_name: Sustainable Living
+  site_url: http://sustainability.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/sustainability/img/favicon.ico"
+  site_domain: sustainability.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_189:
+  id: 189
+  site_name: Sustainable Living Meta
+  site_url: http://meta.sustainability.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/sustainabilitymeta/img/favicon.ico"
+  site_domain: meta.sustainability.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_190:
+  id: 190
+  site_name: Tridion
+  site_url: http://tridion.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/tridion/img/favicon.ico"
+  site_domain: tridion.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_191:
+  id: 191
+  site_name: Tridion Meta
+  site_url: http://meta.tridion.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/tridionmeta/img/favicon.ico"
+  site_domain: meta.tridion.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_192:
+  id: 192
+  site_name: Reverse Engineering
+  site_url: http://reverseengineering.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/reverseengineering/img/favicon.ico"
+  site_domain: reverseengineering.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_193:
+  id: 193
+  site_name: Reverse Engineering Meta
+  site_url: http://meta.reverseengineering.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/reverseengineeringmeta/img/favicon.ico"
+  site_domain: meta.reverseengineering.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_194:
+  id: 194
+  site_name: Network Engineering
+  site_url: http://networkengineering.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/networkengineering/img/favicon.ico"
+  site_domain: networkengineering.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_195:
+  id: 195
+  site_name: Network Engineering Meta
+  site_url: http://meta.networkengineering.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/networkengineeringmeta/img/favicon.ico"
+  site_domain: meta.networkengineering.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_196:
+  id: 196
+  site_name: Open Data
+  site_url: http://opendata.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/opendata/img/favicon.ico"
+  site_domain: opendata.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_197:
+  id: 197
+  site_name: Open Data Meta
+  site_url: http://meta.opendata.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/opendatameta/img/favicon.ico"
+  site_domain: meta.opendata.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_198:
+  id: 198
+  site_name: Freelancing
+  site_url: http://freelancing.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/freelancing/img/favicon.ico"
+  site_domain: freelancing.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_199:
+  id: 199
+  site_name: Freelancing Meta
+  site_url: http://meta.freelancing.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/freelancingmeta/img/favicon.ico"
+  site_domain: meta.freelancing.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_200:
+  id: 200
+  site_name: Blender
+  site_url: http://blender.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/blender/img/favicon.ico"
+  site_domain: blender.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_201:
+  id: 201
+  site_name: Blender Meta
+  site_url: http://meta.blender.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/blendermeta/img/favicon.ico"
+  site_domain: meta.blender.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_202:
+  id: 202
+  site_name: MathOverflow
+  site_url: http://mathoverflow.net
+  site_logo: "//cdn.sstatic.net/Sites/mathoverflow/img/favicon.ico"
+  site_domain: mathoverflow.net
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_203:
+  id: 203
+  site_name: MathOverflow Meta
+  site_url: http://meta.mathoverflow.net
+  site_logo: "//cdn.sstatic.net/Sites/mathoverflowmeta/img/favicon.ico"
+  site_domain: meta.mathoverflow.net
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_204:
+  id: 204
+  site_name: Space Exploration
+  site_url: http://space.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/space/img/favicon.ico"
+  site_domain: space.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_205:
+  id: 205
+  site_name: Space Exploration Meta
+  site_url: http://meta.space.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/spacemeta/img/favicon.ico"
+  site_domain: meta.space.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_206:
+  id: 206
+  site_name: Sound Design
+  site_url: http://sound.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/sound/img/favicon.ico"
+  site_domain: sound.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_207:
+  id: 207
+  site_name: Sound Design Meta
+  site_url: http://meta.sound.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/soundmeta/img/favicon.ico"
+  site_domain: meta.sound.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_208:
+  id: 208
+  site_name: Astronomy
+  site_url: http://astronomy.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/astronomy/img/favicon.ico"
+  site_domain: astronomy.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_209:
+  id: 209
+  site_name: Astronomy Meta
+  site_url: http://meta.astronomy.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/astronomymeta/img/favicon.ico"
+  site_domain: meta.astronomy.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_210:
+  id: 210
+  site_name: Tor
+  site_url: http://tor.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/tor/img/favicon.ico"
+  site_domain: tor.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_211:
+  id: 211
+  site_name: Tor Meta
+  site_url: http://meta.tor.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/tormeta/img/favicon.ico"
+  site_domain: meta.tor.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_212:
+  id: 212
+  site_name: Pets
+  site_url: http://pets.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/pets/img/favicon.ico"
+  site_domain: pets.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_213:
+  id: 213
+  site_name: Pets Meta
+  site_url: http://meta.pets.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/petsmeta/img/favicon.ico"
+  site_domain: meta.pets.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_214:
+  id: 214
+  site_name: Amateur Radio
+  site_url: http://ham.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/ham/img/favicon.ico"
+  site_domain: ham.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_215:
+  id: 215
+  site_name: Amateur Radio Meta
+  site_url: http://meta.ham.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/hammeta/img/favicon.ico"
+  site_domain: meta.ham.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_216:
+  id: 216
+  site_name: Italian Language
+  site_url: http://italian.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/italian/img/favicon.ico"
+  site_domain: italian.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_217:
+  id: 217
+  site_name: Italian Language Meta
+  site_url: http://meta.italian.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/italianmeta/img/favicon.ico"
+  site_domain: meta.italian.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_218:
+  id: 218
+  site_name: Stack Overflow em Portugu&#234;s
+  site_url: http://pt.stackoverflow.com
+  site_logo: "//cdn.sstatic.net/Sites/br/img/favicon.ico"
+  site_domain: pt.stackoverflow.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_219:
+  id: 219
+  site_name: Stack Overflow em Portugu&#234;s Meta
+  site_url: http://meta.pt.stackoverflow.com
+  site_logo: "//cdn.sstatic.net/Sites/brmeta/img/favicon.ico"
+  site_domain: meta.pt.stackoverflow.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_220:
+  id: 220
+  site_name: Aviation
+  site_url: http://aviation.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/aviation/img/favicon.ico"
+  site_domain: aviation.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_221:
+  id: 221
+  site_name: Aviation Meta
+  site_url: http://meta.aviation.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/aviationmeta/img/favicon.ico"
+  site_domain: meta.aviation.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_222:
+  id: 222
+  site_name: Ebooks
+  site_url: http://ebooks.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/ebooks/img/favicon.ico"
+  site_domain: ebooks.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_223:
+  id: 223
+  site_name: Ebooks Meta
+  site_url: http://meta.ebooks.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/ebooksmeta/img/favicon.ico"
+  site_domain: meta.ebooks.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_224:
+  id: 224
+  site_name: Beer
+  site_url: http://beer.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/beer/img/favicon.ico"
+  site_domain: beer.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_225:
+  id: 225
+  site_name: Beer Meta
+  site_url: http://meta.beer.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/beermeta/img/favicon.ico"
+  site_domain: meta.beer.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_226:
+  id: 226
+  site_name: Software Recommendations
+  site_url: http://softwarerecs.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/softwarerecs/img/favicon.ico"
+  site_domain: softwarerecs.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_227:
+  id: 227
+  site_name: Software Recommendations Meta
+  site_url: http://meta.softwarerecs.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/softwarerecsmeta/img/favicon.ico"
+  site_domain: meta.softwarerecs.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_228:
+  id: 228
+  site_name: Arduino
+  site_url: http://arduino.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/arduino/img/favicon.ico"
+  site_domain: arduino.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_229:
+  id: 229
+  site_name: Arduino Meta
+  site_url: http://meta.arduino.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/arduinometa/img/favicon.ico"
+  site_domain: meta.arduino.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_230:
+  id: 230
+  site_name: CS50
+  site_url: http://cs50.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/cs50/img/favicon.ico"
+  site_domain: cs50.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_231:
+  id: 231
+  site_name: CS50 Meta
+  site_url: http://meta.cs50.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/cs50meta/img/favicon.ico"
+  site_domain: meta.cs50.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_232:
+  id: 232
+  site_name: Expatriates
+  site_url: http://expatriates.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/expatriates/img/favicon.ico"
+  site_domain: expatriates.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_233:
+  id: 233
+  site_name: Expatriates Meta
+  site_url: http://meta.expatriates.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/expatriatesmeta/img/favicon.ico"
+  site_domain: meta.expatriates.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_234:
+  id: 234
+  site_name: Mathematics Educators
+  site_url: http://matheducators.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/matheducators/img/favicon.ico"
+  site_domain: matheducators.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_235:
+  id: 235
+  site_name: Mathematics Educators Meta
+  site_url: http://meta.matheducators.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/matheducatorsmeta/img/favicon.ico"
+  site_domain: meta.matheducators.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_236:
+  id: 236
+  site_name: Meta Stack Overflow
+  site_url: http://meta.stackoverflow.com
+  site_logo: "//cdn.sstatic.net/Sites/stackoverflowmeta/img/favicon.ico"
+  site_domain: meta.stackoverflow.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_237:
+  id: 237
+  site_name: Earth Science
+  site_url: http://earthscience.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/earthscience/img/favicon.ico"
+  site_domain: earthscience.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_238:
+  id: 238
+  site_name: Earth Science Meta
+  site_url: http://meta.earthscience.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/earthsciencemeta/img/favicon.ico"
+  site_domain: meta.earthscience.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_239:
+  id: 239
+  site_name: Joomla
+  site_url: http://joomla.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/joomla/img/favicon.ico"
+  site_domain: joomla.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_240:
+  id: 240
+  site_name: Joomla Meta
+  site_url: http://meta.joomla.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/joomlameta/img/favicon.ico"
+  site_domain: meta.joomla.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_241:
+  id: 241
+  site_name: Data Science
+  site_url: http://datascience.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/datascience/img/favicon.ico"
+  site_domain: datascience.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_242:
+  id: 242
+  site_name: Data Science Meta
+  site_url: http://meta.datascience.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/datasciencemeta/img/favicon.ico"
+  site_domain: meta.datascience.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_243:
+  id: 243
+  site_name: Puzzling
+  site_url: http://puzzling.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/puzzling/img/favicon.ico"
+  site_domain: puzzling.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_244:
+  id: 244
+  site_name: Puzzling Meta
+  site_url: http://meta.puzzling.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/puzzlingmeta/img/favicon.ico"
+  site_domain: meta.puzzling.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_245:
+  id: 245
+  site_name: Craft CMS
+  site_url: http://craftcms.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/craftcms/img/favicon.ico"
+  site_domain: craftcms.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_246:
+  id: 246
+  site_name: Craft CMS Meta
+  site_url: http://meta.craftcms.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/craftcmsmeta/img/favicon.ico"
+  site_domain: meta.craftcms.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_247:
+  id: 247
+  site_name: Buddhism
+  site_url: http://buddhism.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/buddhism/img/favicon.ico"
+  site_domain: buddhism.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_248:
+  id: 248
+  site_name: Buddhism Meta
+  site_url: http://meta.buddhism.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/buddhismmeta/img/favicon.ico"
+  site_domain: meta.buddhism.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_249:
+  id: 249
+  site_name: Hinduism
+  site_url: http://hinduism.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/hinduism/img/favicon.ico"
+  site_domain: hinduism.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_250:
+  id: 250
+  site_name: Hinduism Meta
+  site_url: http://meta.hinduism.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/hinduismmeta/img/favicon.ico"
+  site_domain: meta.hinduism.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_251:
+  id: 251
+  site_name: Community Building
+  site_url: http://communitybuilding.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/communitybuilding/img/favicon.ico"
+  site_domain: communitybuilding.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_252:
+  id: 252
+  site_name: Community Building Meta
+  site_url: http://meta.communitybuilding.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/communitybuildingmeta/img/favicon.ico"
+  site_domain: meta.communitybuilding.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_253:
+  id: 253
+  site_name: Startups
+  site_url: http://startups.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/startups/img/favicon.ico"
+  site_domain: startups.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_254:
+  id: 254
+  site_name: Startups Meta
+  site_url: http://meta.startups.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/startupsmeta/img/favicon.ico"
+  site_domain: meta.startups.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_255:
+  id: 255
+  site_name: Worldbuilding
+  site_url: http://worldbuilding.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/worldbuilding/img/favicon.ico"
+  site_domain: worldbuilding.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_256:
+  id: 256
+  site_name: Worldbuilding Meta
+  site_url: http://meta.worldbuilding.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/worldbuildingmeta/img/favicon.ico"
+  site_domain: meta.worldbuilding.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_257:
+  id: 257
+  site_name: "スタック・オーバーフロー"
+  site_url: http://ja.stackoverflow.com
+  site_logo: "//cdn.sstatic.net/Sites/ja/img/favicon.ico"
+  site_domain: ja.stackoverflow.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_258:
+  id: 258
+  site_name: "スタック・オーバーフローMeta"
+  site_url: http://meta.ja.stackoverflow.com
+  site_logo: "//cdn.sstatic.net/Sites/jameta/img/favicon.ico"
+  site_domain: meta.ja.stackoverflow.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_259:
+  id: 259
+  site_name: Emacs
+  site_url: http://emacs.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/emacs/img/favicon.ico"
+  site_domain: emacs.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_260:
+  id: 260
+  site_name: Emacs Meta
+  site_url: http://meta.emacs.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/emacsmeta/img/favicon.ico"
+  site_domain: meta.emacs.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_261:
+  id: 261
+  site_name: History of Science and Mathematics
+  site_url: http://hsm.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/hsm/img/favicon.ico"
+  site_domain: hsm.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_262:
+  id: 262
+  site_name: History of Science and Mathematics Meta
+  site_url: http://meta.hsm.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/hsmmeta/img/favicon.ico"
+  site_domain: meta.hsm.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_263:
+  id: 263
+  site_name: Economics
+  site_url: http://economics.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/economics/img/favicon.ico"
+  site_domain: economics.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_264:
+  id: 264
+  site_name: Economics Meta
+  site_url: http://meta.economics.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/economicsmeta/img/favicon.ico"
+  site_domain: meta.economics.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_265:
+  id: 265
+  site_name: Lifehacks
+  site_url: http://lifehacks.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/lifehacks/img/favicon.ico"
+  site_domain: lifehacks.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_266:
+  id: 266
+  site_name: Lifehacks Meta
+  site_url: http://meta.lifehacks.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/lifehacksmeta/img/favicon.ico"
+  site_domain: meta.lifehacks.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_267:
+  id: 267
+  site_name: Engineering
+  site_url: http://engineering.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/engineering/img/favicon.ico"
+  site_domain: engineering.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_268:
+  id: 268
+  site_name: Engineering Meta
+  site_url: http://meta.engineering.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/engineeringmeta/img/favicon.ico"
+  site_domain: meta.engineering.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_269:
+  id: 269
+  site_name: Coffee
+  site_url: http://coffee.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/coffee/img/favicon.ico"
+  site_domain: coffee.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_270:
+  id: 270
+  site_name: Coffee Meta
+  site_url: http://meta.coffee.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/coffeemeta/img/favicon.ico"
+  site_domain: meta.coffee.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_271:
+  id: 271
+  site_name: Vi and Vim
+  site_url: http://vi.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/vi/img/favicon.ico"
+  site_domain: vi.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_272:
+  id: 272
+  site_name: Vi and Vim Meta
+  site_url: http://meta.vi.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/vimeta/img/favicon.ico"
+  site_domain: meta.vi.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_273:
+  id: 273
+  site_name: Music Fans
+  site_url: http://musicfans.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/musicfans/img/favicon.ico"
+  site_domain: musicfans.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_274:
+  id: 274
+  site_name: Music Fans Meta
+  site_url: http://meta.musicfans.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/musicfansmeta/img/favicon.ico"
+  site_domain: meta.musicfans.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_275:
+  id: 275
+  site_name: Woodworking
+  site_url: http://woodworking.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/woodworking/img/favicon.ico"
+  site_domain: woodworking.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_276:
+  id: 276
+  site_name: Woodworking Meta
+  site_url: http://meta.woodworking.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/woodworkingmeta/img/favicon.ico"
+  site_domain: meta.woodworking.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_277:
+  id: 277
+  site_name: CiviCRM
+  site_url: http://civicrm.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/civicrm/img/favicon.ico"
+  site_domain: civicrm.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_278:
+  id: 278
+  site_name: CiviCRM Meta
+  site_url: http://meta.civicrm.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/civicrmmeta/img/favicon.ico"
+  site_domain: meta.civicrm.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_279:
+  id: 279
+  site_name: Health
+  site_url: http://health.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/health/img/favicon.ico"
+  site_domain: health.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_280:
+  id: 280
+  site_name: Health Meta
+  site_url: http://meta.health.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/healthmeta/img/favicon.ico"
+  site_domain: meta.health.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_281:
+  id: 281
+  site_name: Stack Overflow на русском
+  site_url: http://ru.stackoverflow.com
+  site_logo: "//cdn.sstatic.net/Sites/ru/img/favicon.ico"
+  site_domain: ru.stackoverflow.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_282:
+  id: 282
+  site_name: Stack Overflow на русском Meta
+  site_url: http://meta.ru.stackoverflow.com
+  site_logo: "//cdn.sstatic.net/Sites/rumeta/img/favicon.ico"
+  site_domain: meta.ru.stackoverflow.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_283:
+  id: 283
+  site_name: "Русский язык"
+  site_url: http://rus.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/rus/img/favicon.ico"
+  site_domain: rus.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_284:
+  id: 284
+  site_name: "Русский язык Meta"
+  site_url: http://meta.rus.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/rusmeta/img/favicon.ico"
+  site_domain: meta.rus.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_285:
+  id: 285
+  site_name: Mythology
+  site_url: http://mythology.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/mythology/img/favicon.ico"
+  site_domain: mythology.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_286:
+  id: 286
+  site_name: Mythology Meta
+  site_url: http://meta.mythology.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/mythologymeta/img/favicon.ico"
+  site_domain: meta.mythology.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_287:
+  id: 287
+  site_name: Law
+  site_url: http://law.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/law/img/favicon.ico"
+  site_domain: law.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_288:
+  id: 288
+  site_name: Law Meta
+  site_url: http://meta.law.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/lawmeta/img/favicon.ico"
+  site_domain: meta.law.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_289:
+  id: 289
+  site_name: Open Source
+  site_url: http://opensource.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/opensource/img/favicon.ico"
+  site_domain: opensource.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_290:
+  id: 290
+  site_name: Open Source Meta
+  site_url: http://meta.opensource.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/opensourcemeta/img/favicon.ico"
+  site_domain: meta.opensource.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_291:
+  id: 291
+  site_name: elementary OS
+  site_url: http://elementaryos.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/elementaryos/img/favicon.ico"
+  site_domain: elementaryos.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_292:
+  id: 292
+  site_name: elementary OS Meta
+  site_url: http://meta.elementaryos.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/elementaryosmeta/img/favicon.ico"
+  site_domain: meta.elementaryos.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_293:
+  id: 293
+  site_name: Arabic Language
+  site_url: http://arabic.stackexchange.com
+  site_logo: "//cdn.sstatic.net/arabic/img/favicon.ico"
+  site_domain: arabic.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-01-23 01:13:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_294:
+  id: 294
+  site_name: Arabic Language Meta
+  site_url: http://meta.arabic.stackexchange.com
+  site_logo: "//cdn.sstatic.net/arabicmeta/img/favicon.ico"
+  site_domain: meta.arabic.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-01-23 01:13:27.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_295:
+  id: 295
+  site_name: Portuguese Language
+  site_url: http://portuguese.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/portuguese/img/favicon.ico"
+  site_domain: portuguese.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_296:
+  id: 296
+  site_name: Portuguese Language Meta
+  site_url: http://meta.portuguese.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/portuguesemeta/img/favicon.ico"
+  site_domain: meta.portuguese.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_297:
+  id: 297
+  site_name: Computer Graphics
+  site_url: http://computergraphics.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/computergraphics/img/favicon.ico"
+  site_domain: computergraphics.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_298:
+  id: 298
+  site_name: Computer Graphics Meta
+  site_url: http://meta.computergraphics.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/computergraphicsmeta/img/favicon.ico"
+  site_domain: meta.computergraphics.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2015-09-07 02:25:12.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_299:
+  id: 299
+  site_name: Hardware Recommendations
+  site_url: http://hardwarerecs.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/hardwarerecs/img/favicon.ico"
+  site_domain: hardwarerecs.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-02-02 22:49:13.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_300:
+  id: 300
+  site_name: Hardware Recommendations Meta
+  site_url: http://meta.hardwarerecs.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/hardwarerecsmeta/img/favicon.ico"
+  site_domain: meta.hardwarerecs.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-02-02 22:49:13.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_301:
+  id: 301
+  site_name: Stack Overflow en espa&#241;ol
+  site_url: http://es.stackoverflow.com
+  site_logo: "//cdn.sstatic.net/Sites/es/img/favicon.ico"
+  site_domain: es.stackoverflow.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-02-02 22:49:13.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_302:
+  id: 302
+  site_name: Stack Overflow Meta en espa&#241;ol
+  site_url: http://meta.es.stackoverflow.com
+  site_logo: "//cdn.sstatic.net/Sites/esmeta/img/favicon.ico"
+  site_domain: meta.es.stackoverflow.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-02-02 22:49:13.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_303:
+  id: 303
+  site_name: Documentation Beta
+  site_url: http://docs-beta.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/docs-beta/img/favicon.ico"
+  site_domain: docs-beta.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-02-02 22:49:13.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_304:
+  id: 304
+  site_name: 3D Printing
+  site_url: http://3dprinting.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/3dprinting/img/favicon.ico"
+  site_domain: 3dprinting.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-02-02 22:49:13.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_305:
+  id: 305
+  site_name: 3D Printing Meta
+  site_url: http://meta.3dprinting.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/3dprintingmeta/img/favicon.ico"
+  site_domain: meta.3dprinting.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-02-02 22:49:13.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_306:
+  id: 306
+  site_name: Ethereum
+  site_url: http://ethereum.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/ethereum/img/favicon.ico"
+  site_domain: ethereum.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-02-02 22:49:13.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_307:
+  id: 307
+  site_name: Ethereum Meta
+  site_url: http://meta.ethereum.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/ethereummeta/img/favicon.ico"
+  site_domain: meta.ethereum.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-02-02 22:49:13.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_308:
+  id: 308
+  site_name: Latin Language
+  site_url: http://latin.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/latin/img/favicon.ico"
+  site_domain: latin.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-03-05 19:15:13.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+
+site_309:
+  id: 309
+  site_name: Latin Language Meta
+  site_url: http://meta.latin.stackexchange.com
+  site_logo: "//cdn.sstatic.net/Sites/latinmeta/img/favicon.ico"
+  site_domain: meta.latin.stackexchange.com
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-03-05 19:15:13.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-31 14:47:28.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2

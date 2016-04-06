@@ -4,8 +4,40 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+
+user_1:
+  id: 1
+  email: parker@erwaysoftware.com
+  encrypted_password: "abcdefghjklmnopqrstuvwxyz"
+  remember_created_at: 
+  sign_in_count: 13
+  current_sign_in_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-03-18 16:25:50.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  last_sign_in_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-10 14:06:43.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+  current_sign_in_ip: 1.2.3.4
+  last_sign_in_ip: 1.2.3.4
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &3 2015-08-23 23:29:39.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *3
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &4 2016-03-31 15:09:34.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *4
+  is_approved: true
+  reset_password_token: abcdefghijklmnopqrstuvwxyz
+  reset_password_sent_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &5 2016-03-16 19:42:53.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *5
+  is_admin: true
