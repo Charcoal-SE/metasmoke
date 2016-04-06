@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
 
   protect_from_forgery :except => [:create]
-  before_filter :check_if_smokedetector, :only => :create
+  before_action :check_if_smokedetector, :only => :create
 
   def show
     @post = Post.joins(:site).select("posts.*, sites.site_logo").find(params[:id])
