@@ -1,4 +1,4 @@
-class Post < ActiveRecord::Base
+class Post < ApplicationRecord
   has_and_belongs_to_many :reasons
   has_many :feedbacks
   belongs_to :site

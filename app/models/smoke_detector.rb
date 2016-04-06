@@ -1,4 +1,4 @@
-class SmokeDetector < ActiveRecord::Base
+class SmokeDetector < ApplicationRecord
   def self.status_color
     SmokeDetector.select("last_ping").order("last_ping DESC").first.status_color
   end
