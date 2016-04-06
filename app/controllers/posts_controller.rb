@@ -4,7 +4,11 @@ class PostsController < ApplicationController
   before_action :check_if_smokedetector, :only => :create
 
   def show
-    @post = Post.joins(:site).select("posts.*, sites.site_logo").find(params[:id])
+    begin
+      @post = Post.joins(:site).select("posts.*, sites.site_logo").find(params[:id])
+    rescue
+      @post = Post.find params[:id]
+    end
   end
 
   def latest
