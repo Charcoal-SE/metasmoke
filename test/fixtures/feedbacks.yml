@@ -4,3 +4,223 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
+
+feedback_19114:
+  id: 19114
+  message_link: 
+  user_name: 
+  user_link: 
+  feedback_type: fp
+  post_id: 1
+  post_link: 
+  user_id: 7
+  is_invalidated: false
+
+feedback_23950:
+  id: 23950
+  message_link: 
+  user_name: 
+  user_link: 
+  feedback_type: fp
+  post_id: 2
+  post_link: 
+  user_id: 7
+  is_invalidated: false
+
+feedback_21549:
+  id: 21549
+  message_link: 
+  user_name: 
+  user_link: 
+  feedback_type: tp
+  post_id: 3
+  post_link: 
+  user_id: 3
+  is_invalidated: false
+
+feedback_22636:
+  id: 22636
+  message_link: 
+  user_name: 
+  user_link: 
+  feedback_type: tp
+  post_id: 4
+  post_link: 
+  user_id: 3
+  is_invalidated: false
+
+feedback_21550:
+  id: 21550
+  message_link: 
+  user_name: 
+  user_link: 
+  feedback_type: tp
+  post_id: 5
+  post_link: 
+  user_id: 3
+  is_invalidated: false
+
+feedback_25039:
+  id: 25039
+  message_link: 
+  user_name: System (Undo)
+  user_link: 
+  feedback_type: Ambiguous
+  post_id: 6
+  post_link: 
+  user_id: 
+  is_invalidated: false
+
+feedback_19052:
+  id: 19052
+  message_link: 
+  user_name: 
+  user_link: 
+  feedback_type: tp
+  post_id: 7
+  post_link: 
+  user_id: 1
+  is_invalidated: false
+
+feedback_22637:
+  id: 22637
+  message_link: 
+  user_name: 
+  user_link: 
+  feedback_type: tp
+  post_id: 8
+  post_link: 
+  user_id: 3
+  is_invalidated: false
+
+feedback_19053:
+  id: 19053
+  message_link: 
+  user_name: 
+  user_link: 
+  feedback_type: tp
+  post_id: 9
+  post_link: 
+  user_id: 1
+  is_invalidated: false
+
+feedback_19054:
+  id: 19054
+  message_link: 
+  user_name: 
+  user_link: 
+  feedback_type: tp
+  post_id: 10
+  post_link: 
+  user_id: 1
+  is_invalidated: false
+
+feedback_29653:
+  id: 29653
+  message_link: 
+  user_name: Ferrybig
+  user_link: 
+  feedback_type: tpu-
+  post_id: 23653
+  post_link: "//askubuntu.com/questions/752989"
+  user_id: 
+  is_invalidated: false
+
+feedback_29652:
+  id: 29652
+  message_link: 
+  user_name: Ferrybig
+  user_link: 
+  feedback_type: tpu-
+  post_id: 23654
+  post_link: "//meta.stackexchange.com/questions/277856"
+  user_id: 
+  is_invalidated: false
+
+feedback_29651:
+  id: 29651
+  message_link: 
+  user_name: Ferrybig
+  user_link: 
+  feedback_type: tpu-
+  post_id: 23655
+  post_link: "//stackoverflow.com/questions/36372314"
+  user_id: 
+  is_invalidated: false
+
+feedback_29655:
+  id: 29655
+  message_link: 
+  user_name: Ferrybig
+  user_link: 
+  feedback_type: tpu-
+  post_id: 23656
+  post_link: "//stackoverflow.com/questions/36372575"
+  user_id: 
+  is_invalidated: false
+
+feedback_29656:
+  id: 29656
+  message_link: 
+  user_name: Ferrybig
+  user_link: 
+  feedback_type: tpu-
+  post_id: 23657
+  post_link: "//stackoverflow.com/a/36372816"
+  user_id: 
+  is_invalidated: false
+
+feedback_29657:
+  id: 29657
+  message_link: 
+  user_name: Ferrybig
+  user_link: 
+  feedback_type: tpu-
+  post_id: 23658
+  post_link: "//stackoverflow.com/a/36372990"
+  user_id: 
+  is_invalidated: false
+
+feedback_29658:
+  id: 29658
+  message_link: 
+  user_name: Ferrybig
+  user_link: 
+  feedback_type: fp-
+  post_id: 23659
+  post_link: "//diy.stackexchange.com/a/87919"
+  user_id: 
+  is_invalidated: false
+
+feedback_29660:
+  id: 29660
+  message_link: 
+  user_name: Ferrybig
+  user_link: 
+  feedback_type: tpu-
+  post_id: 23660
+  post_link: "//webapps.stackexchange.com/a/91488"
+  user_id: 
+  is_invalidated: false
+
+feedback_29661:
+  id: 29661
+  message_link: 
+  user_name: Ferrybig
+  user_link: 
+  feedback_type: tpu-
+  post_id: 23661
+  post_link: "//money.stackexchange.com/questions/62365"
+  user_id: 
+  is_invalidated: false
+
+feedback_29663:
+  id: 29663
+  message_link: 
+  user_name: Unikitty Blends People
+  user_link: 
+  feedback_type: tpu-
+  post_id: 23661
+  post_link: "//money.stackexchange.com/questions/62365"
+  user_id: 
+  is_invalidated: false
