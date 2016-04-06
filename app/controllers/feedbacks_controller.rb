@@ -14,7 +14,8 @@ class FeedbacksController < ApplicationController
   def clear
     raise ActionController::RoutingError.new('Not Found') if current_user.nil? or not current_user.is_admin?
 
-    @post = Post.includes(:feedbacks).find(params[:id])
+    @post = Post.find(params[:id])
+    @feedbacks = Feedback.unscoped.where(:post_id => params[:id])
     @sites = [@post.site]
 
     raise ActionController::RoutingError.new('Not Found') if @post.nil?

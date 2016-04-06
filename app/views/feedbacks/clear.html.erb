@@ -24,11 +24,11 @@
   </thead>
 
   <tbody>
-    <% @post.feedbacks.each do |feedback| %>
-      <tr>
+    <% @feedbacks.each do |feedback| %>
+      <tr class="<%= feedback.is_invalidated? ? "danger" : "" %>">
         <td class="<%= feedback.element_class %>"><%= feedback.feedback_type %></td>
         <td><%= feedback.user_name || feedback.user.try(:email) %></td>
-        <td><%= link_to "delete", delete_feedback_path(feedback), method: :delete %></td>
+        <td><%= link_to("delete", delete_feedback_path(feedback), method: :delete) if !feedback.is_invalidated? %></td>
       </tr>
     <% end %>
   </tbody>
