@@ -80,7 +80,7 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
-        format.json { render status: :created, :text => "OK" }
+        format.json { render status: :created, :plain => "OK" }
       else
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
