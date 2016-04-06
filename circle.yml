@@ -1,7 +1,7 @@
 machine:
   ruby:
     version: ruby-2.3.0
-dependencies:
+database:
   post:
     - bundle exec rake test:prepare
     - bundle exec rake db:migrate
