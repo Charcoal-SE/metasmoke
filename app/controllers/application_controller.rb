@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
     if @smoke_detector.present?
       return # Authorized
     else
-      render :text => "Go away" and return
+      render :text => "Go away", :status => 403 and return
     end
   end
 

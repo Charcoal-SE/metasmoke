@@ -21,4 +21,12 @@ class PostsControllerTest < ActionController::TestCase
       assert_not_nil assigns(:post)
     end
   end
+
+  test "should require smokedetector key to create post" do
+    post :create, params: { :post => {} }
+    assert_response :forbidden
+
+    post :create, params: { :post => {}, :key => "wrongkey" }
+    assert_response :forbidden
+  end
 end
