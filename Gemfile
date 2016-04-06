@@ -14,6 +14,7 @@ gem 'will_paginate-bootstrap'
 
 gem 'rack-mini-profiler'
 gem 'flamegraph'
+gem 'stackprof'
 
 gem "chartkick"
 gem 'groupdate'
