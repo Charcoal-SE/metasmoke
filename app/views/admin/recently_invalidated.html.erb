@@ -12,7 +12,7 @@
   <tbody>
     <% @feedbacks.each do |f| %>
       <tr>
-        <td><a href="/post/<%= f.post_id %>"><%= f.post.title %></a></td>
+        <td><a href="/post/<%= f.post_id %>"><%= f.title %></a></td>
         <td><%= f.feedback_type %></td>
         <td><%= f.user_name %></td>
         <td><%= f.updated_at %></td>
