@@ -1,0 +1,20 @@
+<h3>User Feedback</h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Post</th>
+      <th>Feedback Type</th>
+      <th>Invalidated</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @feedbacks.each do |f| %>
+      <tr>
+        <td><a href="/post/<%= f.post_id %>"><%= f.title %></a></td>
+        <td><%= f.feedback_type %></td>
+        <td><%= f.invalidated_at.nil? ? "No" : "Yes" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
