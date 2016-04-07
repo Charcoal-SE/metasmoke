@@ -5,7 +5,7 @@ class AdminController < ApplicationController
   end
 
   def recently_invalidated
-    @feedbacks = Feedback.unscoped.joins(:posts).where(:is_invalidated => true)
+    @feedbacks = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(:is_invalidated => true).select('posts.title, feedbacks.*')
   end
 
   private
