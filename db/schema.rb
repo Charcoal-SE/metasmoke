@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160407135246) do
+ActiveRecord::Schema.define(version: 20160407231720) do
 
   create_table "feedbacks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "message_link"
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20160407135246) do
     t.integer  "post_id"
     t.string   "post_link"
     t.integer  "user_id"
-    t.boolean  "is_invalidated"
+    t.boolean  "is_invalidated", default: false
     t.integer  "invalidated_by"
     t.datetime "invalidated_at"
   end
