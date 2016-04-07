@@ -14,7 +14,7 @@
       <tr>
         <td><a href="/post/<%= f.post_id %>"><%= f.title %></a></td>
         <td><%= f.feedback_type %></td>
-        <td><%= f.user_name || feedback.user.try(:email) %></td>
+        <td><%= f.user_name || f.user.try(:email) %></td>
         <td><%= f.invalidated_at %></td>
       </tr>
     <% end %>
