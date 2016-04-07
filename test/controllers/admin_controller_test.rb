@@ -34,5 +34,7 @@ class AdminControllerTest < ActionController::TestCase
     get :user_feedback, params: { :user_name => Feedback.where("user_name IS NOT NULL").first.user_name }
     assert_response :success
     assert assigns(:feedbacks)
+    assert assigns(:feedback_count)
+    assert assigns(:invalid_count)
   end
 end
