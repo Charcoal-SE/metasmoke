@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   get 'admin', to: 'admin#index'
   get 'admin/invalidated', to: 'admin#recently_invalidated'
+  get 'admin/user_feedback', to: 'admin#user_feedback'
 
   get "posts", to: "posts#index"
   get "posts/latest", to: "posts#latest"
