@@ -1,4 +1,5 @@
 class FeedbacksController < ApplicationController
+  before_filter :verify_admin, only: [:clear, :delete]
   before_action :authenticate_user!, except: [:create]
   before_action :set_feedback, only: [:show, :edit, :update, :destroy]
   before_action :check_if_smokedetector, :only => :create
@@ -12,8 +13,6 @@ class FeedbacksController < ApplicationController
   end
 
   def clear
-    raise ActionController::RoutingError.new('Not Found') if current_user.nil? or not current_user.is_admin?
-
     @post = Post.find(params[:id])
     @feedbacks = Feedback.unscoped.where(:post_id => params[:id])
     @sites = [@post.site]
@@ -22,8 +21,6 @@ class FeedbacksController < ApplicationController
   end
 
   def delete
-    raise ActionController::RoutingError.new('Not Found') if current_user.nil? or not current_user.is_admin?
-
     f = Feedback.find params[:id]
 
     f.post.reasons.each do |reason|
@@ -32,6 +29,7 @@ class FeedbacksController < ApplicationController
 
     f.is_invalidated = true
     f.invalidated_by = current_user.id
+    f.invalidated_at = DateTime.now
     f.save
 
     redirect_to clear_post_feedback_path(f.post_id)

@@ -1,0 +1,24 @@
+<h3>Recently Invalidated Feedback</h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Post</th>
+      <th>Feedback Type</th>
+      <th>Feedback Creator</th>
+      <th>Invalidated At</th>
+      <th>Invalidated By</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @feedbacks.each do |f| %>
+      <tr>
+        <td><a href="/post/<%= f.post_id %>"><%= f.title %></a></td>
+        <td><%= f.feedback_type %></td>
+        <td><%= f.user_name || f.user.try(:email) %></td>
+        <td><%= f.invalidated_at %></td>
+        <th><%= f.invalidated_by %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
