@@ -1,4 +1,4 @@
-class Feedback < ActiveRecord::Base
+class Feedback < ApplicationRecord
   default_scope { where(is_invalidated: false) }
 
   belongs_to :post

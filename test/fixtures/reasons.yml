@@ -4,8 +4,340 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+
+reason_1:
+  id: 1
+  reason_name: Manually reported question
+  last_post_title: That is my own advice
+
+reason_2:
+  id: 2
+  reason_name: All-caps title
+  last_post_title: PYTHON 3.5 HW HELP NEEDED
+
+reason_3:
+  id: 3
+  reason_name: Bad keyword in body
+  last_post_title: What Are the causes of right product?
+
+reason_7:
+  id: 7
+  reason_name: Email in answer
+  last_post_title: How to get birth and death cerificate from Istanbul, Turkey in
+    1902-1905?
+
+reason_9:
+  id: 9
+  reason_name: Korean character in title
+  last_post_title: ">대구안마 신암동안마 감삼동안마 010 5933 0437 내당동안마방 숙천동마사지"
+
+reason_10:
+  id: 10
+  reason_name: Bad keyword in title
+  last_post_title: Watch Atletico Madrid vs Real Betis Live Stream
+
+reason_11:
+  id: 11
+  reason_name: Pattern-matching website in answer
+  last_post_title: What headset/radio products exist for bike-to-bike communication?
+
+reason_15:
+  id: 15
+  reason_name: Link at end of body
+  last_post_title: TestoRip X what an alpha male is and you can actually have
+
+reason_16:
+  id: 16
+  reason_name: Manually reported answer
+  last_post_title: Get original URL referer with PHP?
+
+reason_18:
+  id: 18
+  reason_name: Offensive title detected
+  last_post_title: Why StackOverFlow has such a fucking code editor while asking q
+    u e s t i o n?
+
+reason_20:
+  id: 20
+  reason_name: Repeating characters in body
+  last_post_title: AAAAAAAAAAAAAAAA
+
+reason_21:
+  id: 21
+  reason_name: Pattern-matching website in title
+  last_post_title: http://naturalsmaleenhancement.com/niagen/
+
+reason_22:
+  id: 22
+  reason_name: Blacklisted website in body
+  last_post_title: how do it work revitaline reviews
+
+reason_23:
+  id: 23
+  reason_name: Few unique characters in answer
+  last_post_title: Why use AutoCAD Electrical?
+
+reason_25:
+  id: 25
+  reason_name: Bad keyword in answer
+  last_post_title: Multilingual E-Commerce website
+
+reason_27:
+  id: 27
+  reason_name: Email in body
+  last_post_title: 'Alarm: CB 2 Fabric Chip 1 Not Online'
+
+reason_28:
+  id: 28
+  reason_name: Repeating words in answer
+  last_post_title: Radial Gradient, Occupying the whole body?
+
+reason_29:
+  id: 29
+  reason_name: Code block
+  last_post_title: Greetings Sibling. Verily
+
+reason_30:
+  id: 30
+  reason_name: URL in title
+  last_post_title: http://naturalsmaleenhancement.com/niagen/
+
+reason_31:
+  id: 31
+  reason_name: Offensive body detected
+  last_post_title: How to create a censor "translator" via function in python
+
+reason_32:
+  id: 32
+  reason_name: Repeating words in body
+  last_post_title: Code for Alex Hong
+
+reason_33:
+  id: 33
+  reason_name: Offensive answer detected
+  last_post_title: How can I see the number of times a file I hosted on Mega and shared
+    the URL got downloaded?
+
+reason_35:
+  id: 35
+  reason_name: Pattern-matching website in body
+  last_post_title: TestoRip X what an alpha male is and you can actually have
+
+reason_44:
+  id: 44
+  reason_name: Blacklisted website in answer
+  last_post_title: How can I add "posted by 'author'" to each post?
+
+reason_46:
+  id: 46
+  reason_name: Bad keyword in username
+  last_post_title: http://naturalsmaleenhancement.com/niagen/
+
+reason_47:
+  id: 47
+  reason_name: Phone number detected in title
+  last_post_title: "真实学历认证QQ/微信★243020730★办理英国斯旺西大学毕业证成绩单教育部认证Swansea University"
+
+reason_48:
+  id: 48
+  reason_name: Blacklisted user
+  last_post_title: Online SAP BW BI Training
+
+reason_49:
+  id: 49
+  reason_name: Few unique characters in body
+  last_post_title: AAAAAAAAAAAAAAAA
+
+reason_51:
+  id: 51
+  reason_name: Url-only title
+  last_post_title: https://www.pinterest.com/pin/556687203921004595/
+
+reason_52:
+  id: 52
+  reason_name: Repeating characters in answer
+  last_post_title: Why use AutoCAD Electrical?
+
+reason_57:
+  id: 57
+  reason_name: Repeating characters in title
+  last_post_title: AAAAAAAAAAAAAAAA
+
+reason_58:
+  id: 58
+  reason_name: Email in title
+  last_post_title: THANKS TO DR AJAGUNA FOR BRINGING BACK MY HUSBAND TO ME lovespellcasters@yahoo.co.za
+
+reason_59:
+  id: 59
+  reason_name: Chinese character in title
+  last_post_title: "真实学历认证QQ/微信★243020730★办理英国哈德斯菲尔德大学毕业证成绩单教育部认证University of Huddersfield"
+
+reason_60:
+  id: 60
+  reason_name: Title has only one unique char
+  last_post_title: AAAAAAAAAAAAAAAA
+
+reason_61:
+  id: 61
+  reason_name: Blacklisted website in title
+  last_post_title: SELLCVV.CO – SELL CVV CC DUMPS PIN TRACK 12 , track 101 track 201
+    with pin Bin-Ssn+Dob-Vbv-Fullz USA UK CANADA
+
+reason_62:
+  id: 62
+  reason_name: Numbers-only title
+  last_post_title: '11111111111111111111111'
+
+reason_63:
+  id: 63
+  reason_name: Duplicate links in body
+  last_post_title: Hover board patent way too vague
+
+reason_64:
+  id: 64
+  reason_name: Repeating words in title
+  last_post_title: Test Test Test Test Test Test
+
+reason_65:
+  id: 65
+  reason_name: All-caps body
+  last_post_title: AAAAAAAAAAAAAAAA
+
+reason_66:
+  id: 66
+  reason_name: Hindi character in title
+  last_post_title: 979-114-2816 | Direct admission in S-R-M University इंजीनियरिंग
+    without donation
+
+reason_67:
+  id: 67
+  reason_name: Black magic in title
+  last_post_title: "【SOLUTION】【＋９１━９４１３５２０２０９】▇ WITCHCRAFT-BLACK MAGIC SPECIALIST
+    IN MALAYSIA,AUSTRALIA,CANADA,UK,UAE,DUBAI,OMAN,MUSCAT,QATAR,SWITZERLAND,SYDNEY"
+
+reason_68:
+  id: 68
+  reason_name: Non-latin link in body
+  last_post_title: submit an html form created from database using for loop
+
+reason_69:
+  id: 69
+  reason_name: Black magic in body
+  last_post_title: Fusion 8 audio and 3d
+
+reason_70:
+  id: 70
+  reason_name: Non-latin link in answer
+  last_post_title: Hiding HTML code from users?
+
+reason_71:
+  id: 71
+  reason_name: Black magic in username
+  last_post_title: Xcode targets with GIT
+
+reason_72:
+  id: 72
+  reason_name: Shortened url in answer
+  last_post_title: Why can't I use the Delete key to delete in Photoshop CS6?
+
+reason_73:
+  id: 73
+  reason_name: Link at end of answer
+  last_post_title: What is an affordable 2D drafting software for amateurs?
+
+reason_74:
+  id: 74
+  reason_name: All-caps answer
+  last_post_title: How can I hard reset my Windows 8 phone (which keys do I press?)
+
+reason_75:
+  id: 75
+  reason_name: Non-english link in answer
+  last_post_title: Hiding HTML code from users?
+
+reason_76:
+  id: 76
+  reason_name: Black magic in answer
+  last_post_title: Why acoustic-guitar often use direct output instead of amp miking
+    while on-stage?
+
+reason_77:
+  id: 77
+  reason_name: Link following arrow in body
+  last_post_title: Are you wanting to have affordable face mask?
+
+reason_78:
+  id: 78
+  reason_name: Link following arrow in answer
+  last_post_title: ".gitolite.rc what does this files do?"
+
+reason_79:
+  id: 79
+  reason_name: Link following arrow in title
+  last_post_title: Vita Luminance >>>> http://www.piratetoyshop.com/vita-luminance/
+
+reason_80:
+  id: 80
+  reason_name: Bad keyword with email in answer
+  last_post_title: how to query inside SQLAlchemy model
+
+reason_81:
+  id: 81
+  reason_name: Bad keyword with email in body
+  last_post_title: Online SAP BW BI Training
+
+reason_82:
+  id: 82
+  reason_name: Bad keyword with email in title
+  last_post_title: THANKS TO DR AJAGUNA FOR BRINGING BACK MY HUSBAND TO ME lovespellcasters@yahoo.co.za
+
+reason_83:
+  id: 83
+  reason_name: Phone number detected in answer
+  last_post_title: Test/Run chrome packaged application in Android Phone
+
+reason_84:
+  id: 84
+  reason_name: English text in answer on a localized site
+  last_post_title: "配列を使った少し複雑なグルーピング方法について"
+
+reason_85:
+  id: 85
+  reason_name: Phone number detected in body
+  last_post_title: "((((((1855–639–4698)))))windows 10 support number"
+
+reason_86:
+  id: 86
+  reason_name: English text in body on a localized site
+  last_post_title: Error during creation Uber API service object
+
+reason_87:
+  id: 87
+  reason_name: English text in title on a localized site
+  last_post_title: Monaca build for Windows mobile
+
+reason_88:
+  id: 88
+  reason_name: Mostly non-latin answer
+  last_post_title: How can I add "posted by 'author'" to each post?
+
+reason_89:
+  id: 89
+  reason_name: Blacklisted username
+  last_post_title: archive functionality for magento aw\_blog extension
+
+reason_90:
+  id: 90
+  reason_name: Mostly non-latin title
+  last_post_title: "真实学历认证QQ/微信★243020730★办理英国哈德斯菲尔德大学毕业证成绩单教育部认证University of Huddersfield"
+
+reason_91:
+  id: 91
+  reason_name: Mostly non-latin body
+  last_post_title: "真实学历认证QQ/微信★243020730★办理英国哈德斯菲尔德大学毕业证成绩单教育部认证University of Huddersfield"
+
+reason_92:
+  id: 92
+  reason_name: Bad character in title
+  last_post_title: "ⓢⓔⓧⓨ인천출장안마 ［ Ø1O↔59Ø6↔5334 ］ 운서동출장마사지MO℡ㆁㅔ서₂⁴時^ 부평출장안마ㅥ 연수동출장안마\\_"

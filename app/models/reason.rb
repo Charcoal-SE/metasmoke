@@ -1,4 +1,4 @@
-class Reason < ActiveRecord::Base
+class Reason < ApplicationRecord
   has_and_belongs_to_many :posts
   has_many :feedbacks, :through => :posts
 

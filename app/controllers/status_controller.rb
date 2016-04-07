@@ -1,6 +1,6 @@
 class StatusController < ApplicationController
   protect_from_forgery :except => [:status_update]
-  before_filter :check_if_smokedetector, :only => [:status_update]
+  before_action :check_if_smokedetector, :only => [:status_update]
 
   def index
   end

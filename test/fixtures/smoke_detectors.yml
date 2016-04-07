@@ -1,0 +1,26 @@
+
+smoke_detector_1:
+  id: 1
+  last_ping: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-04-02 12:59:44.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  name: 
+  location: Raspberry Pi
+  access_token: NFr1c7hRVkyocO6vearZ9plq2CllpNz1Z0kj2Q3G
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-02-20 23:25:32.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &3 2016-04-02 12:59:44.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *3
+  email_date: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &4 2016-03-28 18:52:13.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *4

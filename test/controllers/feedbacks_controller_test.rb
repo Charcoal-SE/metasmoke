@@ -1,49 +1,55 @@
 require 'test_helper'
 
 class FeedbacksControllerTest < ActionController::TestCase
-  setup do
-    @feedback = feedbacks(:one)
-  end
+  include Devise::TestHelpers
 
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:feedbacks)
-  end
+  test "should allow admin to clear feedback" do
+    sign_in users(:admin_user)
 
-  test "should get new" do
-    get :new
+    get :clear, params: { :id => Post.last.id }
     assert_response :success
   end
 
-  test "should create feedback" do
-    assert_difference('Feedback.count') do
-      post :create, feedback: {  }
+  test "should not allow non-admins to clear feedback" do
+    sign_out :user
+    get :clear, params: { :id => Post.last.id }
+    assert_redirected_to new_user_session_url
+
+    assert_raises ActionController::RoutingError do
+      sign_in users(:approved_user)
+      get :clear, params: { :id => Post.last.id }
+      assert_response :not_found
     end
-
-    assert_redirected_to feedback_path(assigns(:feedback))
   end
 
-  test "should show feedback" do
-    get :show, id: @feedback
-    assert_response :success
+  test "should mark cleared feedback invalidated" do
+    sign_in users(:admin_user)
+    delete :delete, params: { :id => Feedback.last.id }
+    assert Feedback.unscoped.last.is_invalidated?
   end
 
-  test "should get edit" do
-    get :edit, id: @feedback
-    assert_response :success
-  end
-
-  test "should update feedback" do
-    patch :update, id: @feedback, feedback: {  }
-    assert_redirected_to feedback_path(assigns(:feedback))
-  end
-
-  test "should destroy feedback" do
-    assert_difference('Feedback.count', -1) do
-      delete :destroy, id: @feedback
+  test "should not delete cleared feedback" do
+    assert_no_difference 'Feedback.unscoped.count' do
+      sign_in(:admin_user)
+      delete :delete, params: { :id => Feedback.last.id }
     end
+  end
 
-    assert_redirected_to feedbacks_path
+  test "should redirect to clear page after deleting" do
+    sign_in users(:admin_user)
+    id = Feedback.last.id
+    post_id = Feedback.last.post.id
+    delete :delete, params: { :id => id }
+    assert_redirected_to clear_post_feedback_url(post_id)
+  end
+
+  test "should attribute invalidations" do
+    user = users(:admin_user)
+    f_id = Feedback.last.id
+    sign_in user
+
+    delete :delete, params: { :id => f_id }
+
+    assert_equal Feedback.unscoped.find(f_id).invalidated_by, user.id
   end
 end

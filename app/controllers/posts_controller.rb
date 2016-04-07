@@ -1,10 +1,14 @@
 class PostsController < ApplicationController
 
   protect_from_forgery :except => [:create]
-  before_filter :check_if_smokedetector, :only => :create
+  before_action :check_if_smokedetector, :only => :create
 
   def show
-    @post = Post.joins(:site).select("posts.*, sites.site_logo").find(params[:id])
+    begin
+      @post = Post.joins(:site).select("posts.*, sites.site_logo").find(params[:id])
+    rescue
+      @post = Post.find params[:id]
+    end
   end
 
   def latest
@@ -71,12 +75,11 @@ class PostsController < ApplicationController
 
       @post.stack_exchange_user = se_user
     rescue
-      puts "Something went wrong when create StackExchangeUser"
     end
 
     respond_to do |format|
       if @post.save
-        format.json { render status: :created, :text => "OK" }
+        format.json { render status: :created, :plain => "OK" }
       else
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
