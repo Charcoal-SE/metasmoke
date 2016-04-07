@@ -1,10 +1,11 @@
 <h3>User Feedback</h3>
 
 <p>
-  <strong><%= @feedbacks.count %></strong>
+  <strong><%= @feedback_count %></strong>
   feedbacks,
-  <strong><%= @feedbacks.where(:is_invalidated => true).count %></strong>
+  <strong><%= @invalid_count %></strong>
   invalidated
+  (<strong><%= ((@invalid_count / @feedback_count) * 100).round(2) %>%</strong> invalid)
 </p>
 
 <table class="table table-striped">
