@@ -10,10 +10,10 @@
   </thead>
   <tbody>
     <% @feedbacks.each do |f| %>
-      <tr>
+      <tr class="<%= "danger" if f.invalidated_at %>">
         <td><a href="/post/<%= f.post_id %>"><%= f.title %></a></td>
         <td><%= f.feedback_type %></td>
-        <td><%= f.invalidated_at.nil? ? "No" : "Yes" %></td>
+        <td><%= f.invalidated_at ? "Yes" : "No" %></td>
       </tr>
     <% end %>
   </tbody>
