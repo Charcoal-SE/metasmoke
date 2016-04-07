@@ -27,4 +27,12 @@ class AdminControllerTest < ActionController::TestCase
     get :recently_invalidated
     assert_response :success
   end
+
+  test "should get user feedback page" do
+    sign_in users(:admin_user)
+
+    get :user_feedback, params: { :user_name => Feedback.where("user_name IS NOT NULL").first.user_name }
+    assert_response :success
+    assert assigns(:feedbacks)
+  end
 end

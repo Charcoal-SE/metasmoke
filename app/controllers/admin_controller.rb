@@ -9,10 +9,14 @@ class AdminController < ApplicationController
   end
 
   def user_feedback
+    @feedbacks = nil
     begin
       @user = User.find_by_email params[:user_name]
       @feedbacks = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(:user_id => @user.id).select('posts.title, feedbacks.*').order('feedbacks.id DESC')
-    rescue ActiveRecord::RecordNotFound
+    rescue
+    end
+
+    if @feedbacks.nil?
       @feedbacks = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(:user_name => params[:user_name]).select('posts.title, feedbacks.*').order('feedbacks.id DESC')
     end
   end
