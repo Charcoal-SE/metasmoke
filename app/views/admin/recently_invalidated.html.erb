@@ -15,7 +15,7 @@
       <tr>
         <td><a href="/post/<%= f.post_id %>"><%= f.title %></a></td>
         <td><%= f.feedback_type %></td>
-        <td><%= f.user_name || f.user.try(:email) %></td>
+        <td><a href="/admin/user_feedback?user_name=<%= f.user_name || f.user.try(:email) %>"><%= f.user_name || f.user.try(:email) %></a></td>
         <td><%= f.invalidated_at %></td>
         <th><%= f.invalidated_by %></td>
       </tr>
