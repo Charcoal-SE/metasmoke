@@ -3,12 +3,7 @@ class Feedback < ApplicationRecord
 
   belongs_to :post
   belongs_to :user
-  before_save :update_post_feedback_cache
-  after_destroy :clear_and_update_feedback_cache
-
-  def clear_and_update_feedback_cache
-    self.post.update_feedback_cache
-  end
+  after_save :update_post_feedback_cache
 
   def is_positive?
     self.feedback_type.include? "t"
@@ -22,16 +17,8 @@ class Feedback < ApplicationRecord
 
 
   def update_post_feedback_cache
-    return unless self.changed?
-
-    if self.is_negative?
-      post = self.post
-      post.is_fp = true
-      post.save! if post.changed?
-    elsif self.is_positive?
-      post = self.post
-      post.is_tp = true
-      post.save! if post.changed?
+    if self.changed?
+      self.post.reload.update_feedback_cache
     end
   end
 
