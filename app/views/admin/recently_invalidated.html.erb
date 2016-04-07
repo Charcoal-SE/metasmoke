@@ -15,12 +15,9 @@
         <td><a href="/post/<%= f.post_id %>"><%= f.title %></a></td>
         <td><%= f.feedback_type %></td>
         <td><%= f.user_name %></td>
-        <td><%= f.updated_at %></td>
+        <td><%= f.invalidated_at %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<div class="text-center">
-  <%= will_paginate @feedbacks, renderer: BootstrapPagination::Rails %>
-</div>
