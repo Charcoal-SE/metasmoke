@@ -5,7 +5,7 @@
   feedbacks,
   <strong><%= @invalid_count %></strong>
   invalidated
-  (<strong><%= ((@invalid_count / @feedback_count) * 100).round(2) %>%</strong> invalid)
+  (<strong><%= ((@invalid_count.to_f / @feedback_count.to_f) * 100).round(2) %>%</strong> invalid)
 </p>
 
 <table class="table table-striped">
