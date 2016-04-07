@@ -1,5 +1,12 @@
 <h3>User Feedback</h3>
 
+<p>
+  <strong><%= @feedbacks.count %></strong>
+  feedbacks,
+  <strong><%= @feedbacks.where(:is_invalidated => true).count %></strong>
+  invalidated
+</p>
+
 <table class="table table-striped">
   <thead>
     <tr>
