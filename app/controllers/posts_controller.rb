@@ -91,9 +91,9 @@ class PostsController < ApplicationController
     @post.needs_admin = true
     @post.admin_reason = params[:reason]
     if @post.save
-      render :show, :id => @post.id, flash: { :success => true }
+      render :text => "OK"
     else
-      render :show, :id => @post.id, flash: { :success => false }
+      render :text => "Failed"
     end
   end
 
