@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
     if current_user.username.nil?
       users_username_path
     else
-      current_user_path
+      request.env['omniauth.origin'] || stored_location_for(resource) || root_path
     end
   end
 
