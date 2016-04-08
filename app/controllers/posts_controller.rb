@@ -2,6 +2,7 @@ class PostsController < ApplicationController
 
   protect_from_forgery :except => [:create]
   before_action :check_if_smokedetector, :only => :create
+  before_filter :set_post, :only => [:needs_admin]
 
   def show
     begin
@@ -83,6 +84,16 @@ class PostsController < ApplicationController
       else
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def needs_admin
+    @post.needs_admin = true
+    @post.admin_reason = params[:reason]
+    if @post.save
+      render :text => "OK"
+    else
+      render :text => "Failed to save new status", :status => :internal_server_error
     end
   end
 

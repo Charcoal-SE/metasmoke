@@ -16,10 +16,13 @@ Rails.application.routes.draw do
   get 'admin', to: 'admin#index'
   get 'admin/invalidated', to: 'admin#recently_invalidated'
   get 'admin/user_feedback', to: 'admin#user_feedback'
+  get 'admin/reports', to: 'admin#needs_admin'
+  post 'admin/needs_admin_done', to: 'admin#clear_needs_admin'
 
   get "posts", to: "posts#index"
   get "posts/latest", to: "posts#latest"
   get "posts/by-url", to: "posts#by_url"
+  post 'posts/needs_admin', to: 'posts#needs_admin'
   get "post/:id/feedback/clear", to: "feedbacks#clear", as: :clear_post_feedback
   delete "feedback/:id/delete", to: "feedbacks#delete", as: :delete_feedback
 
