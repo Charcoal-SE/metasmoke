@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   get "posts", to: "posts#index"
   get "posts/latest", to: "posts#latest"
   get "posts/by-url", to: "posts#by_url"
-  get 'posts/needs_admin', to: 'posts#needs_admin'
+  post 'posts/needs_admin', to: 'posts#needs_admin'
   get "post/:id/feedback/clear", to: "feedbacks#clear", as: :clear_post_feedback
   delete "feedback/:id/delete", to: "feedbacks#delete", as: :delete_feedback
 
