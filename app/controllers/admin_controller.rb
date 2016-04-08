@@ -7,7 +7,7 @@ class AdminController < ApplicationController
   def recently_invalidated
     @feedbacks = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(:is_invalidated => true).select('posts.title, feedbacks.*').order('feedbacks.invalidated_at DESC')
 
-    @users = User.where(:id => @feedbacks.pluck(:invalidated_by)).pluck(:id, :email).to_a.to_h
+    @users = User.where(:id => @feedbacks.pluck(:invalidated_by)).map { |u| [u.id, u] }.to_h
   end
 
   def user_feedback
