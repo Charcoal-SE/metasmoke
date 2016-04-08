@@ -15,3 +15,23 @@
 //= require turbolinks
 //= require moment.min.js
 //= require_tree .
+
+$(".admin-report").click(function() {
+  var reason = prompt("Why does this post need admin attention?");
+  $.ajax({
+    'type': 'POST',
+    'url': '/posts/needs_admin',
+    'data': {
+      'id': $(this).data('post-id'),
+      'reason': reason
+    }
+  })
+  .done(function(data) {
+    if(data == "OK") {
+      alert("Post successfully reported for admin attention.");
+    }
+  })
+  .fail(function(jqXHR, textStatus, errorThrown) {
+    alert("Post was not reported: " + jqXHR.responseText);
+  });
+});

@@ -93,7 +93,7 @@ class PostsController < ApplicationController
     if @post.save
       render :text => "OK"
     else
-      render :text => "Failed"
+      render :text => "Failed to save new status", :status => :internal_server_error
     end
   end
 
