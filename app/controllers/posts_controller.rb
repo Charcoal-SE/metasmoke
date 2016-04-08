@@ -91,9 +91,9 @@ class PostsController < ApplicationController
     @post.needs_admin = true
     @post.admin_reason = params[:reason]
     if @post.save
-      redirect_to posts_path, flash: { :success => true }
+      render :show, :id => @post.id, flash: { :success => true }
     else
-      redirect_to posts_path, flash: { :success => false }
+      render :show, :id => @post.id, flash: { :success => false }
     end
   end
 
