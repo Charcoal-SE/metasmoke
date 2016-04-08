@@ -26,4 +26,19 @@ class AdminController < ApplicationController
       @invalid_count = Feedback.unscoped.where(:user_name => params[:user_name], :is_invalidated => true).count
     end
   end
+
+  def needs_admin
+    @posts = Post.where(:needs_admin => true)
+  end
+
+  def clear_needs_admin
+    @post = Post.find params[:id]
+    @post.needs_admin = false
+    @post.admin_reason = nil
+    if @post.save
+      render :text => "OK"
+    else
+      render :text => "Failed to save new status", :status => :internal_server_error
+    end
+  end
 end
