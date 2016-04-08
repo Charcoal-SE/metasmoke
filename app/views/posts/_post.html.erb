@@ -27,8 +27,6 @@
       <% end %>
     </span>
 
-    <p><a data-post-id="<%= post.id %>" href="#">Flag for Admin Attention</a></p>
-
     <% if not post.body.nil? %>
       <div data-postid="<%= post.id %>" class="post-body" style="<%= "display: none;" unless expand_post.present? and expand_post %>">
         <pre class="post-body-pre-block"><%= post.body %></pre>
