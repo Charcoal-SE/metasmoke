@@ -21,6 +21,7 @@ $(document).on('ready page:load', function() {
   $(".admin-report").click(function(ev) {
     ev.preventDefault();
     var reason = prompt("Why does this post need admin attention?");
+    if(reason === null) return;
     $.ajax({
       'type': 'POST',
       'url': '/posts/needs_admin',
