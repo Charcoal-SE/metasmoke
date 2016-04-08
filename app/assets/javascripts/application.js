@@ -16,7 +16,8 @@
 //= require moment.min.js
 //= require_tree .
 
-$(".admin-report").click(function() {
+$(".admin-report").click(function(ev) {
+  ev.preventDefault();
   var reason = prompt("Why does this post need admin attention?");
   $.ajax({
     'type': 'POST',
