@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'users/username'
+  post 'users/username', to: "users#set_username"
+
   get 'review', to: "review#index"
   post 'review/feedback', to: "review#add_feedback"
 

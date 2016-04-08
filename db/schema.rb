@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160407231720) do
+ActiveRecord::Schema.define(version: 20160407234810) do
 
   create_table "feedbacks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "message_link"
@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(version: 20160407231720) do
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.boolean  "is_admin",               default: false, null: false
+    t.string   "username"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
