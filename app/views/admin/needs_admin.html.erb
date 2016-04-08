@@ -7,7 +7,7 @@
     <%= render 'posts/post', :post => post %>
     <tr>
       <td>
-        <p>Reason: <%= post.admin_reason %></p>
+        <p><strong>Reason:</strong> <%= post.admin_reason %></p>
         <a href="#" class="admin-report-done btn btn-sm btn-success" data-post-id="<%= post.id %>">Done</a>
       </td>
     </tr>
