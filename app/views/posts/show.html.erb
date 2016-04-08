@@ -13,7 +13,7 @@
         <%= link_to "(clear)", clear_post_feedback_path(@post) %>
       </small>
     <% end %>
-    <a data-post-id="<%= post.id %>" href="#" class="admin-report">Flag for Admin Attention</a>
+    <a data-post-id="<%= @post.id %>" href="#" class="admin-report">Flag for Admin Attention</a>
   <% end %>
 </h4>
 
