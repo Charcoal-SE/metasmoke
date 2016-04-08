@@ -28,7 +28,8 @@ class AdminController < ApplicationController
   end
 
   def needs_admin
-    @posts = Post.joins(:sites).joins(:feedbacks).where(:needs_admin => true)
+    @posts = Post.includes(:feedbacks).where(:needs_admin => true)
+    @sites = Site.where(:id => @posts.map(&:site_id)).to_a
   end
 
   def clear_needs_admin
