@@ -1,0 +1,16 @@
+<h3>Reported Posts</h3>
+<p>A list of posts that have been reported for admin attention by users. They should have reasons with them that the
+  user submitted when reporting; do the needful then mark it done.</p>
+
+<table class="table">
+  <% @posts.each do |post| %>
+    <tr>
+      <td>
+        <%= render 'posts/post', :post => post %>
+        <br/>
+        <p>Reason: <%= post.admin_reason %></p>
+        <a href="#" class="admin-report-done btn btn-sm btn-success" data-post-id="<%= post.id %>">Done</a>
+      </td>
+    </tr>
+  <% end %>
+</table>

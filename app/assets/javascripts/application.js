@@ -39,4 +39,23 @@ $(document).on('ready page:load', function() {
     });
   });
 
+  $(".admin-report-done").click(function(ev) {
+    ev.preventDefault();
+    $.ajax({
+      'type': 'POST',
+      'url': '/admin/needs_admin_done',
+      'data': {
+        'id': $(this).data("post-id")
+      }
+    })
+    .done(function(data) {
+      if(data == "OK") {
+        alert("Marked done.");
+      }
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+      alert("Failed to mark done: " + jqXHR.textStatus);
+    });
+  })
+
 });

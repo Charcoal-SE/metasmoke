@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get 'admin', to: 'admin#index'
   get 'admin/invalidated', to: 'admin#recently_invalidated'
   get 'admin/user_feedback', to: 'admin#user_feedback'
+  post 'admin/needs_admin_done', to: 'admin#clear_needs_admin'
 
   get "posts", to: "posts#index"
   get "posts/latest", to: "posts#latest"
