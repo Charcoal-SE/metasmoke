@@ -28,10 +28,10 @@ class AdminController < ApplicationController
   end
 
   def needs_admin
-
+    @flags = Flag.where(:is_completed => false)
   end
 
   def clear_needs_admin
-    
+
   end
 end
