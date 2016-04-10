@@ -93,15 +93,12 @@ class PostsController < ApplicationController
     unless current_user.nil?
       flag.user_id = current_user.id
     end
-    f_saved = flag.save!
+    flag.post = @post
 
-    @post.flags << flag
-    p_saved = @post.save
-
-    if f_saved && p_saved
+    if flag.save
       render :plain => "OK"
     else
-      render :plain => "Save failed with { :post => #{p_saved}, :flag => #{f_saved} }", :status => :internal_server_error
+      render :plain => "Save failed.", :status => :internal_server_error
     end
   end
 
