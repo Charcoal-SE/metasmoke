@@ -4,7 +4,7 @@
 
 <table class="table">
   <% @flags.each do |flag| %>
-    <%= user = @users[flag.user_id] if flag.user_id %>
+    <%= user = @users.where(:id => flag.user_id) if flag.user_id %>
     <%= render 'posts/post', :post => flag.post %>
     <tr>
       <td>
