@@ -48,13 +48,14 @@ $(document).on('ready page:load', function() {
       'url': '/admin/clear_flag',
       'data': {
         'id': $(this).data("post-id")
-      }
+      },
+      'target': $(this)
     })
     .done(function(data) {
       if(data == "OK") {
         alert("Marked done.");
-        $(".post-cell-" +  $(this).data("post-id")).remove();
-        $(this).parents("tr").remove();
+        $(".post-cell-" +  $(this).target.data("post-id")).remove();
+        $(this).target.parents("tr").remove();
       }
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
