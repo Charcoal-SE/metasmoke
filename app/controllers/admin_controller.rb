@@ -30,7 +30,7 @@ class AdminController < ApplicationController
   def flagged
     @flags = Flag.where(:is_completed => false)
     @sites = Site.all.to_a
-    @users = User.where(:id => @flags.pluck(:user_id)).to_h
+    @users = User.where(:id => @flags.pluck(:user_id))
   end
 
   def clear_flag
