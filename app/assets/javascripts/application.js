@@ -45,7 +45,7 @@ $(document).on('ready page:load', function() {
     ev.preventDefault();
     $.ajax({
       'type': 'POST',
-      'url': '/admin/needs_admin_done',
+      'url': '/admin/clear_flag',
       'data': {
         'id': $(this).data("post-id")
       }
