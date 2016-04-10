@@ -11,7 +11,7 @@
         <p>
           <strong>Reason:</strong> <%= flag.reason %>
           <% if user %>
-            &mdash; <strong><%= user.username %></strong>
+            &mdash; <strong><%= user.username unless user.username.nil? %></strong>
           <% end %>
         </p>
         <a href="#" class="admin-report-done btn btn-sm btn-success" data-post-id="<%= flag.post.id %>">Dismiss</a>
