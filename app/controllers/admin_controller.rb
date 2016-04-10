@@ -29,7 +29,7 @@ class AdminController < ApplicationController
 
   def flagged
     @flags = Flag.where(:is_completed => false)
-    @sites = Site.all
+    @sites = Site.all.to_a
   end
 
   def clear_flag
