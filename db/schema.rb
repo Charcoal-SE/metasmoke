@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20160410110334) do
 
-  create_table "feedbacks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "feedbacks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "message_link"
     t.string   "user_name"
     t.string   "user_link"
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 20160410110334) do
 
   add_index "feedbacks", ["post_id"], name: "index_feedbacks_on_post_id", using: :btree
 
-  create_table "flags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "flags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "reason"
     t.string   "user_id"
     t.datetime "created_at",   null: false
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20160410110334) do
     t.boolean  "is_completed"
   end
 
-  create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "title"
     t.text     "body",                   limit: 65535
     t.string   "link"
@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 20160410110334) do
     t.string   "admin_reason"
   end
 
-  create_table "posts_reasons", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "posts_reasons", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.integer "reason_id"
     t.integer "post_id"
   end
@@ -66,12 +66,12 @@ ActiveRecord::Schema.define(version: 20160410110334) do
   add_index "posts_reasons", ["post_id"], name: "index_posts_reasons_on_post_id", using: :btree
   add_index "posts_reasons", ["reason_id"], name: "index_posts_reasons_on_reason_id", using: :btree
 
-  create_table "reasons", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "reasons", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string "reason_name"
     t.string "last_post_title"
   end
 
-  create_table "sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "site_name"
     t.string   "site_url"
     t.string   "site_logo"
@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 20160410110334) do
     t.datetime "updated_at",  null: false
   end
 
-  create_table "smoke_detectors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "smoke_detectors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.datetime "last_ping"
     t.string   "name"
     t.string   "location"
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 20160410110334) do
     t.datetime "email_date"
   end
 
-  create_table "stack_exchange_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "stack_exchange_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
     t.string   "username"
     t.datetime "last_api_update"
@@ -103,7 +103,7 @@ ActiveRecord::Schema.define(version: 20160410110334) do
     t.integer  "site_id"
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
     t.datetime "remember_created_at"
