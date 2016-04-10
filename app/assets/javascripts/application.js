@@ -36,7 +36,8 @@ $(document).on('ready page:load', function() {
       }
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
-      alert("Post was not reported: " + jqXHR.responseText);
+      alert("Post was not reported: status " + jqXHR.status);
+      console.error(jqXHR.responseText);
     });
   });
 
@@ -55,7 +56,8 @@ $(document).on('ready page:load', function() {
       }
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
-      alert("Failed to mark done: " + jqXHR.textStatus);
+      alert("Failed to mark done: status " + jqXHR.status);
+      console.error(jqXHR.responseText);
     });
   })
 
