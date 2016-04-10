@@ -47,7 +47,7 @@ $(document).on('ready page:load', function() {
       'type': 'POST',
       'url': '/admin/clear_flag',
       'data': {
-        'id': $(this).data("post-id")
+        'id': $(this).data("flag-id")
       },
       'target': $(this)
     })
