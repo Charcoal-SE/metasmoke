@@ -36,7 +36,8 @@ $(document).on('ready page:load', function() {
       }
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
-      alert("Post was not reported: " + jqXHR.responseText);
+      alert("Post was not reported: status " + jqXHR.status);
+      console.error(jqXHR.responseText);
     });
   });
 
@@ -44,18 +45,22 @@ $(document).on('ready page:load', function() {
     ev.preventDefault();
     $.ajax({
       'type': 'POST',
-      'url': '/admin/needs_admin_done',
+      'url': '/admin/clear_flag',
       'data': {
-        'id': $(this).data("post-id")
-      }
+        'id': $(this).data("flag-id")
+      },
+      'target': $(this)
     })
     .done(function(data) {
       if(data == "OK") {
         alert("Marked done.");
+        $(".post-cell-" +  $(this.target).data("post-id")).remove();
+        $(this.target).parents("tr").remove();
       }
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
-      alert("Failed to mark done: " + jqXHR.textStatus);
+      alert("Failed to mark done: status " + jqXHR.status);
+      console.error(jqXHR.responseText);
     });
   })
 

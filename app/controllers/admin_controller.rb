@@ -27,19 +27,20 @@ class AdminController < ApplicationController
     end
   end
 
-  def needs_admin
-    @posts = Post.includes(:feedbacks).where(:needs_admin => true)
-    @sites = Site.where(:id => @posts.map(&:site_id)).to_a
+  def flagged
+    @flags = Flag.where(:is_completed => false)
+    @sites = Site.all.to_a
+    @users = User.where(:id => @flags.pluck(:user_id))
   end
 
-  def clear_needs_admin
-    @post = Post.find params[:id]
-    @post.needs_admin = false
-    @post.admin_reason = nil
-    if @post.save
-      render :text => "OK"
+  def clear_flag
+    f = Flag.find params[:id]
+    f.is_completed = true
+
+    if f.save
+      render :plain => "OK"
     else
-      render :text => "Failed to save new status", :status => :internal_server_error
+      render :plain => "Save failed.", :status => :internal_server_error
     end
   end
 end
