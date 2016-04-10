@@ -28,9 +28,8 @@ class AdminController < ApplicationController
   end
 
   def flagged
-    @flags = Flag.joins(:post).joins('inner join sites on posts.site_id = sites.id')
-             .joins('left outer join users on users.id = flags.user_id').where(:is_completed => false)
-             .order('flags.created_at ASC').select('flags.*, posts.*, sites.*, users.username')
+    @flags = Flag.where(:is_completed => false)
+    @sites = Site.all
   end
 
   def clear_flag
