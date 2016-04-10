@@ -5,7 +5,7 @@
 <table class="table">
   <% @flags.each do |flag| %>
     <% user = @users.find flag.user_id if flag.user_id %>
-    <div>
+    <div class="flag-cell">
       <%= render 'posts/post', :post => flag.post %>
       <tr>
         <td>
