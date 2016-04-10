@@ -88,7 +88,21 @@ class PostsController < ApplicationController
   end
 
   def needs_admin
-    
+    flag = Flag.new
+    flag.reason = params[:reason]
+    unless current_user.nil?
+      flag.user_id = current_user.id
+    end
+    f_saved = flag.save!
+
+    @post.flags << flag
+    p_saved = @post.save
+
+    if f_saved && p_saved
+      render :plain => "OK"
+    else
+      render :plain => "Save failed with { :post => #{p_saved}, :flag => #{f_saved} }", :status => :internal_server_error
+    end
   end
 
   private
