@@ -9,9 +9,6 @@
       <td>
         <p>
           <strong>Reason:</strong> <%= flag.reason %>
-          <%= unless flag.username.nil? %>
-            &mdash; <%= flag.username %>
-          <% end %>
         </p>
         <a href="#" class="admin-report-done btn btn-sm btn-success" data-post-id="<%= flag.post.id %>">Dismiss</a>
       </td>
