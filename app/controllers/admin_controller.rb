@@ -27,11 +27,11 @@ class AdminController < ApplicationController
     end
   end
 
-  def needs_admin
+  def flagged
     @flags = Flag.joins(:post).where(:is_completed => false).order('flags.created_at ASC')
   end
 
-  def clear_needs_admin
+  def clear_flag
     f = Flag.find params[:id]
     f.is_completed = true
 
