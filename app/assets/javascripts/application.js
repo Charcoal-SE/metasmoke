@@ -53,7 +53,8 @@ $(document).on('ready page:load', function() {
     .done(function(data) {
       if(data == "OK") {
         alert("Marked done.");
-        $(this).closest("div.flag-cell").remove();
+        $(".post-cell-" +  $(this).data("post-id")).remove();
+        $(this).parents("tr").remove();
       }
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
