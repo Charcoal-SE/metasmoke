@@ -1,14 +1,19 @@
 <h3>Reported Posts</h3>
 <p>A list of posts that have been flagged for admin attention by users. They should have reasons with them that the
-  user submitted when reporting; do the needful then mark it done.</p>
+  user submitted when reporting; do the needful then dismiss it.</p>
 
 <table class="table">
-  <% @posts.each do |post| %>
-    <%= render 'posts/post', :post => post %>
+  <% @flags.each do |flag| %>
+    <%= render 'posts/post', :post => flag.post %>
     <tr>
       <td>
-        <p><strong>Reason:</strong> <%= post.admin_reason %></p>
-        <a href="#" class="admin-report-done btn btn-sm btn-success" data-post-id="<%= post.id %>">Done</a>
+        <p>
+          <strong>Reason:</strong> <%= flag.reason %>
+          <%= unless flag.username.nil? %>
+            &mdash; <%= flag.username %>
+          <% end %>
+        </p>
+        <a href="#" class="admin-report-done btn btn-sm btn-success" data-post-id="<%= flag.post.id %>">Dismiss</a>
       </td>
     </tr>
   <% end %>
