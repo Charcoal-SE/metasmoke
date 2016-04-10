@@ -4,11 +4,15 @@
 
 <table class="table">
   <% @flags.each do |flag| %>
+    <%= user = @users[flag.user_id] if flag.user_id %>
     <%= render 'posts/post', :post => flag.post %>
     <tr>
       <td>
         <p>
           <strong>Reason:</strong> <%= flag.reason %>
+          <% if user %>
+            &mdash; <strong><%= user.username %></strong>
+          <% end %>
         </p>
         <a href="#" class="admin-report-done btn btn-sm btn-success" data-post-id="<%= flag.post.id %>">Dismiss</a>
       </td>
