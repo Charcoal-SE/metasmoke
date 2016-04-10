@@ -53,6 +53,7 @@ $(document).on('ready page:load', function() {
     .done(function(data) {
       if(data == "OK") {
         alert("Marked done.");
+        $(this).closest("div").remove();
       }
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
