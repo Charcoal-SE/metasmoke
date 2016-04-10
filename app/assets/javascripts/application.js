@@ -54,8 +54,8 @@ $(document).on('ready page:load', function() {
     .done(function(data) {
       if(data == "OK") {
         alert("Marked done.");
-        $(".post-cell-" +  $(this).target.data("post-id")).remove();
-        $(this).target.parents("tr").remove();
+        $(".post-cell-" +  $(this.target).data("post-id")).remove();
+        $(this.target).parents("tr").remove();
       }
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
