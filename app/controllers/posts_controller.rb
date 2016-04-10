@@ -88,13 +88,7 @@ class PostsController < ApplicationController
   end
 
   def needs_admin
-    @post.needs_admin = true
-    @post.admin_reason = params[:reason]
-    if @post.save
-      render :text => "OK"
-    else
-      render :text => "Failed to save new status", :status => :internal_server_error
-    end
+    
   end
 
   private
