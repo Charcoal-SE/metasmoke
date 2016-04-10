@@ -94,6 +94,7 @@ class PostsController < ApplicationController
       flag.user_id = current_user.id
     end
     flag.post = @post
+    flag.is_completed = false
 
     if flag.save
       render :plain => "OK"

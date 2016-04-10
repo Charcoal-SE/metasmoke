@@ -28,10 +28,17 @@ class AdminController < ApplicationController
   end
 
   def needs_admin
-    @flags = Flag.where(:is_completed => false)
+    @flags = Flag.joins(:post).where(:is_completed => false).order('flags.created_at ASC')
   end
 
   def clear_needs_admin
+    f = Flag.find params[:id]
+    f.is_completed = true
 
+    if f.save
+      render :plain => "OK"
+    else
+      render :plain => "Save failed.", :status => :internal_server_error
+    end
   end
 end
