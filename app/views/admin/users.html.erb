@@ -1,0 +1,28 @@
+<h3>Users</h3>
+<p>A list of all user accounts on the site, with useful links about them and their content. No PII, though - if you
+  <em>really</em> need access to that, ping Undo.</p>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Last IP</th>
+      <th>Review-approved?</th>
+      <th>Admin?</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= user.username %></td>
+        <td><%= user.current_sign_in_ip %></td>
+        <td><%= user.is_approved ? "Yes" : "No" %></td>
+        <td><%= user.is_admin ? "Yes" : "No" %></td>
+        <td><a href="/admin/user_feedback?user_name=<%= user.username %>">Feedback</a></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
