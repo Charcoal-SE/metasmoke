@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get 'admin/user_feedback', to: 'admin#user_feedback'
   get 'admin/flagged', to: 'admin#flagged'
   post 'admin/clear_flag', to: 'admin#clear_flag'
+  get 'admin/users', to: 'admin#users'
 
   get "posts", to: "posts#index"
   get "posts/latest", to: "posts#latest"
