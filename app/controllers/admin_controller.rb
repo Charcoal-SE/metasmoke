@@ -43,4 +43,8 @@ class AdminController < ApplicationController
       render :plain => "Save failed.", :status => :internal_server_error
     end
   end
+
+  def users
+    @users = User.all
+  end
 end
