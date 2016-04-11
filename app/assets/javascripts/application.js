@@ -54,7 +54,7 @@ $(document).on('ready page:load', function() {
     .done(function(data) {
       if(data == "OK") {
         alert("Marked done.");
-        $$(this.target).parent().parent().siblings().addBack().siblings("#no").first().prev().remove();
+        $(this.target).parent().parent().siblings().addBack().siblings(".flag-" + $(this.target).data("flag-id")).first().prev().remove();
         $(this.target).parents("tr").remove();
       }
     })

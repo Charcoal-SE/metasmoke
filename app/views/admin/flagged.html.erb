@@ -6,7 +6,7 @@
   <% @flags.each do |flag| %>
     <% user = @users.find flag.user_id if flag.user_id %>
     <%= render 'posts/post', :post => flag.post %>
-    <tr>
+    <tr class="flag-<%= flag.id %>">
       <td>
         <p>
           <strong>Reason:</strong> <%= flag.reason %>
