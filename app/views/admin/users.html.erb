@@ -7,7 +7,6 @@
     <tr>
       <th>ID</th>
       <th>Username</th>
-      <th>Last IP</th>
       <th>Review-approved?</th>
       <th>Admin?</th>
       <th></th>
@@ -18,7 +17,6 @@
       <tr>
         <td><%= user.id %></td>
         <td><%= user.username %></td>
-        <td><%= user.current_sign_in_ip %></td>
         <td><%= user.is_approved ? "Yes" : "No" %></td>
         <td><%= user.is_admin ? "Yes" : "No" %></td>
         <td><a href="/admin/user_feedback?user_name=<%= user.username %>">Feedback</a></td>
