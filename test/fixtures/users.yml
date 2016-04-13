@@ -20,8 +20,6 @@ approved_user:
     zone: !ruby/object:ActiveSupport::TimeZone
       name: Etc/UTC
     time: *2
-  current_sign_in_ip: 1.2.3.4
-  last_sign_in_ip: 1.2.3.4
   created_at: !ruby/object:ActiveSupport::TimeWithZone
     utc: &3 2015-08-23 23:29:39.000000000 Z
     zone: !ruby/object:ActiveSupport::TimeZone
@@ -56,8 +54,6 @@ unapproved_user:
     zone: !ruby/object:ActiveSupport::TimeZone
       name: Etc/UTC
     time: *2
-  current_sign_in_ip: 1.2.3.4
-  last_sign_in_ip: 1.2.3.4
   created_at: !ruby/object:ActiveSupport::TimeWithZone
     utc: &3 2015-08-23 23:29:39.000000000 Z
     zone: !ruby/object:ActiveSupport::TimeZone
@@ -92,8 +88,6 @@ admin_user:
     zone: !ruby/object:ActiveSupport::TimeZone
       name: Etc/UTC
     time: *2
-  current_sign_in_ip: 1.2.3.4
-  last_sign_in_ip: 1.2.3.4
   created_at: !ruby/object:ActiveSupport::TimeWithZone
     utc: &3 2015-08-23 23:29:39.000000000 Z
     zone: !ruby/object:ActiveSupport::TimeZone
