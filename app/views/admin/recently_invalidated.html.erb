@@ -15,7 +15,7 @@
       <tr>
         <td><a href="/post/<%= f.post_id %>"><%= f.title %></a></td>
         <td><%= f.feedback_type %></td>
-        <td><a href="/admin/user_feedback?user_name=<%= f.user_name || f.user.try(:email) %>"><%= f.user_name || f.user.try(:email) %></a></td>
+        <td><a href="/admin/user_feedback?user_name=<%= f.user_name || ("(From Review)" if f.user.try(:email)) %>"><%= f.user_name || f.user.try(:email) %></a></td>
         <td><%= time_ago_in_words(f.invalidated_at) + " ago" if f.invalidated_at %></td>
         <% user = @users[f.invalidated_by] if f.invalidated_by %></td>
         <td><%= user.username || user.email if user %></td>
