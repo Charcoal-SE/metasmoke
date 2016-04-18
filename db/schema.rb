@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160413184801) do
+ActiveRecord::Schema.define(version: 20160418225719) do
+
+  create_table "deletion_logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "post_id"
+    t.boolean  "is_deleted"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "feedbacks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "message_link"
@@ -21,20 +28,23 @@ ActiveRecord::Schema.define(version: 20160413184801) do
     t.integer  "post_id"
     t.string   "post_link"
     t.integer  "user_id"
-    t.boolean  "is_invalidated"
+    t.boolean  "is_invalidated", default: false
     t.integer  "invalidated_by"
     t.datetime "invalidated_at"
   end
 
   add_index "feedbacks", ["post_id"], name: "index_feedbacks_on_post_id", using: :btree
 
-  create_table "flags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "flags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "reason"
     t.string   "user_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.boolean  "is_completed"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.boolean  "is_completed", default: false
+    t.integer  "post_id"
   end
+
+  add_index "flags", ["post_id"], name: "index_flags_on_post_id", using: :btree
 
   create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "title"
@@ -54,8 +64,6 @@ ActiveRecord::Schema.define(version: 20160413184801) do
     t.integer  "stack_exchange_user_id"
     t.boolean  "is_tp",                                default: false
     t.boolean  "is_fp",                                default: false
-    t.boolean  "needs_admin",                          default: false
-    t.string   "admin_reason"
   end
 
   create_table "posts_reasons", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
@@ -80,7 +88,7 @@ ActiveRecord::Schema.define(version: 20160413184801) do
     t.datetime "updated_at",  null: false
   end
 
-  create_table "smoke_detectors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "smoke_detectors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.datetime "last_ping"
     t.string   "name"
     t.string   "location"
@@ -122,4 +130,5 @@ ActiveRecord::Schema.define(version: 20160413184801) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
+  add_foreign_key "flags", "posts"
 end

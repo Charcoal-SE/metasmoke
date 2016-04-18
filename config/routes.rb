@@ -33,6 +33,7 @@ Rails.application.routes.draw do
 
   post 'feedbacks.json', to: "feedbacks#create"
   post 'posts.json', to: "posts#create"
+  post 'deletion_logs.json', to: "deletion_logs#create"
   post "status-update.json", to: "status#status_update"
 
   get "dashboard", to: "dashboard#index"
