@@ -16,7 +16,7 @@ class DeletionLogsController < ApplicationController
 
     @deletion_log = post.deletion_logs.new
 
-    @deletion_log.is_deleted = params[:is_deleted]
+    @deletion_log.is_deleted = params[:deletion_log][:is_deleted]
 
     respond_to do |format|
       if @deletion_log.save
