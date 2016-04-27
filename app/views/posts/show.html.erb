@@ -43,7 +43,9 @@
 
 <% unless @post.created_at.nil? %>
   <span class="text-muted" style="float:right">
-    <%= "posted " + time_ago_in_words(@post.created_at).sub("about ", "") + " ago " %>
+    <span title="<%= @post.created_at %>">
+      <%= "posted " + time_ago_in_words(@post.created_at).sub("about ", "") + " ago " %>
+    </span>
     <% unless @post.user_link.nil? %>
       by <%= link_to @post.username, @post.user_link %>
       <% unless @post.user_reputation.nil? %>
