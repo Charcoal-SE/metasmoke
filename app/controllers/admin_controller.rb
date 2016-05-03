@@ -1,5 +1,6 @@
 class AdminController < ApplicationController
   before_action :verify_admin
+  before_action :set_ignored_user, :only => [:ignore, :unignore, :destroy_ignored]
 
   def index
   end
@@ -51,4 +52,26 @@ class AdminController < ApplicationController
   def ignored_users
     @ignored_users = IgnoredUser.all
   end
+
+  def ignore
+    @ignored.is_ignored = true
+    @ignored.save
+    redirect_to :ignored_users
+  end
+
+  def unignore
+    @ignored.is_ignored = false
+    @ignored.save
+    redirect_to :ignored_users
+  end
+
+  def destroy_ignored
+    @ignored.destroy
+    redirect_to :ignored_users
+  end
+
+  private
+    def set_ignored_user
+      @ignored = IgnoredUser.find params[:id]
+    end
 end
