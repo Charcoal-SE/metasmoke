@@ -1,7 +1,7 @@
 <p>
   <strong><%= @reasons.count %></strong>
   <%= "filter".pluralize(@reasons.count) %> have caught
-  <strong><%= @posts.count %></strong>
+  <strong><%= number_with_delimiter(@posts.count) %></strong>
   <%= "post".pluralize(@posts.count) %>
 </p>
 
