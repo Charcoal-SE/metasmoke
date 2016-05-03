@@ -32,6 +32,26 @@ class FeedbacksController < ApplicationController
     f.invalidated_at = DateTime.now
     f.save
 
+    if f.user
+      total_count = Feedback.unscoped.where(:user => f.user).count
+      invalid_count = Feedback.unscoped.where(:user => f.user, :is_invalidated => true).count
+      mode = 'user'
+    else
+      total_count = Feedback.unscoped.where(:user_name => f.user_name).count
+      invalid_count = Feedback.unscoped.where(:user_name => f.user_name, :is_invalidated => true).count
+      mode = 'user_name'
+    end
+    if invalid_count > (0.04 * total_count) + 4
+      ignored = IgnoredUser.new
+      if mode == 'user'
+        ignored.user == f.user
+      elsif mode == 'user_name'
+        ignored.user_name == f.user_name
+      end
+      ignored.is_ignored = true
+      ignored.save
+    end
+
     redirect_to clear_post_feedback_path(f.post_id)
   end
 
@@ -41,8 +61,17 @@ class FeedbacksController < ApplicationController
     @feedback = Feedback.new(feedback_params)
 
     @ignored = IgnoredUser.find_by_user_name(@feedback.user_name)
-    if @ignored && @ignored.is_ignored == true
-      return
+    total_count = Feedback.unscoped.where(:user_name => @feedback.user_name).count
+    invalid_count = Feedback.unscoped.where(:user_name => @feedback.user_name, :is_invalidated => true).count
+    if invalid_count > (0.04 * total_count) + 4
+      if @ignored && @ignored.is_ignored == true
+        return
+      end
+    else
+      if @ignored
+        @ignored.is_ignored = false
+        @ignored.save
+      end
     end
 
     post_link = feedback_params[:post_link]
