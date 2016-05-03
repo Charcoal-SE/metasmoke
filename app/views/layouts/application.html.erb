@@ -71,7 +71,7 @@
             </li>
           <% end %>
           <% if CurrentCommit.present? %>
-            <li><a href="https://github.com/Charcoal-SE/metasmoke/commit/<%= CurrentCommit %>" title="<%= Rails::VERSION::STRING %>"><code><%= CurrentCommit %></code></a></li>
+            <li><a href="https://github.com/Charcoal-SE/metasmoke/commit/<%= CurrentCommit %>" title="<%= Rails::VERSION::STRING %>"><code><%= CurrentCommit.first(7) %></code></a></li>
           <% end %>
         </ul>
       </div><!-- /.navbar-collapse -->
