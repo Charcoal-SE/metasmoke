@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get 'admin/flagged', to: 'admin#flagged'
   post 'admin/clear_flag', to: 'admin#clear_flag'
   get 'admin/users', to: 'admin#users'
+  get 'admin/ignored_users', to: 'admin#ignored_users'
 
   get "posts", to: "posts#index"
   get "posts/latest", to: "posts#latest"

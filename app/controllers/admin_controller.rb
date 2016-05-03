@@ -47,4 +47,8 @@ class AdminController < ApplicationController
   def users
     @users = User.all
   end
+
+  def ignored_users
+    @ignored_users = IgnoredUser.all
+  end
 end
