@@ -40,6 +40,11 @@ class FeedbacksController < ApplicationController
   def create
     @feedback = Feedback.new(feedback_params)
 
+    @ignored = IgnoredUser.find_by_user_name(@feedback.user_name)
+    if @ignored && @ignored.is_ignored == true
+      return
+    end
+
     post_link = feedback_params[:post_link]
 
     post = Post.find_by_link(post_link)
