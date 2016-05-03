@@ -20,6 +20,9 @@ Rails.application.routes.draw do
   post 'admin/clear_flag', to: 'admin#clear_flag'
   get 'admin/users', to: 'admin#users'
   get 'admin/ignored_users', to: 'admin#ignored_users'
+  patch 'admin/ignore/:id', to: 'admin#ignore'
+  patch 'admin/unignore/:id', to: 'admin#unignore'
+  delete 'admin/destroy_ignored/:id', to: 'admin#destroy_ignored'
 
   get "posts", to: "posts#index"
   get "posts/latest", to: "posts#latest"
