@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   before_action do
-    Rack::MiniProfiler.authorize_request if user_signed_in?
+    Rack::MiniProfiler.authorize_request
   end
 
   def check_if_smokedetector
