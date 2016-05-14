@@ -17,7 +17,7 @@
 
   <tbody>
     <% @reasons.each do |reason| %>
-      <tr>
+      <tr class="<%= "active text-muted inactive-reason" if reason.inactive %>">
         <td><%= link_to reason.reason_name, "/reason/#{reason.id}" %></td>
         <td data-sort-value="<%= reason.post_count %>"><%= reason.post_count %></td>
         <td><%= truncate((reason.last_post_title.nil? ? reason.posts.last.title : reason.last_post_title), :length => 40, :seperator => ' ') %></td>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160418225719) do
+ActiveRecord::Schema.define(version: 20160514182344) do
 
   create_table "deletion_logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "post_id"
@@ -75,8 +75,9 @@ ActiveRecord::Schema.define(version: 20160418225719) do
   add_index "posts_reasons", ["reason_id"], name: "index_posts_reasons_on_reason_id", using: :btree
 
   create_table "reasons", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.string "reason_name"
-    t.string "last_post_title"
+    t.string  "reason_name"
+    t.string  "last_post_title"
+    t.boolean "inactive",        default: false
   end
 
   create_table "sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|

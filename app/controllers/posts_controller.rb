@@ -57,6 +57,7 @@ class PostsController < ApplicationController
       reason = Reason.find_or_create_by(reason_name: r.split("(").first.strip.humanize)
 
       reason.last_post_title = @post.title
+      reason.inactive = false
       reason.save!
 
       @post.reasons << reason
