@@ -10,7 +10,7 @@
     <tr>
       <th>Reason</th>
       <th>Number caught</th>
-      <th>Last caught</th>
+      <th class='no-sort'>Last caught</th>
       <th>Accuracy</th>
     </tr>
   </thead>
@@ -19,13 +19,11 @@
     <% @reasons.each do |reason| %>
       <tr>
         <td><%= link_to reason.reason_name, "/reason/#{reason.id}" %></td>
-        <td><%= reason.post_count %></td>
+        <td data-sort-value="<%= reason.post_count %>"><%= reason.post_count %></td>
         <td><%= truncate((reason.last_post_title.nil? ? reason.posts.last.title : reason.last_post_title), :length => 40, :seperator => ' ') %></td>
-        <td width="30%">
-          <% cache(reason, skip_digest: true) do %>
-            <%= render 'reason_accuracy', reason: reason %>
-          <% end %>
-        </td>
+        <% cache(reason, skip_digest: true) do %>
+          <%= render 'reason_accuracy', reason: reason %>
+        <% end %>
       </tr>
     <% end %>
  </tbody>

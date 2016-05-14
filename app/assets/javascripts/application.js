@@ -18,6 +18,8 @@
 
 $(document).on('ready page:load', function() {
 
+  $('table').tablesort();
+
   $(".admin-report").click(function(ev) {
     ev.preventDefault();
     var reason = prompt("Why does this post need admin attention?");
