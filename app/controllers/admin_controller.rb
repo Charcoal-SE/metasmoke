@@ -62,12 +62,12 @@ class AdminController < ApplicationController
   def unignore
     @ignored.is_ignored = false
     @ignored.save
-    redirect_to :ignored_users
+    redirect_to url_for(:controller => :admin, :action => :ignored_users)
   end
 
   def destroy_ignored
     @ignored.destroy
-    redirect_to :ignored_users
+    redirect_to url_for(:controller => :admin, :action => :ignored_users)
   end
 
   private
