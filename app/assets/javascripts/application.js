@@ -18,7 +18,7 @@
 
 $(document).on('ready page:load', function() {
 
-  $('table').tablesort();
+  $('.dashboard-table').tablesort();
 
   $(".admin-report").click(function(ev) {
     ev.preventDefault();
