@@ -16,7 +16,7 @@ class GithubController < ApplicationController
     status.commit_sha = params[:sha]
     status.status = params[:state]
     status.commit_message = params[:commit][:commit][:message]
-    status.save!
+    status.save! if status.status != 'pending'
 
     render text: "OK", status: 200
   end
