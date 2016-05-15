@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20160514182344) do
 
-  create_table "deletion_logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "deletion_logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.integer  "post_id"
     t.boolean  "is_deleted"
     t.datetime "created_at", null: false
@@ -31,20 +31,28 @@ ActiveRecord::Schema.define(version: 20160514182344) do
     t.boolean  "is_invalidated", default: false
     t.integer  "invalidated_by"
     t.datetime "invalidated_at"
+    t.integer  "chat_user_id"
+    t.index ["post_id"], name: "index_feedbacks_on_post_id", using: :btree
   end
 
-  add_index "feedbacks", ["post_id"], name: "index_feedbacks_on_post_id", using: :btree
-
-  create_table "flags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "flags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "reason"
     t.string   "user_id"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.boolean  "is_completed", default: false
     t.integer  "post_id"
+    t.index ["post_id"], name: "index_flags_on_post_id", using: :btree
   end
 
-  add_index "flags", ["post_id"], name: "index_flags_on_post_id", using: :btree
+  create_table "ignored_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.string   "user_name"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean  "is_ignored"
+    t.index ["user_id"], name: "index_ignored_users_on_user_id", using: :btree
+  end
 
   create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "title"
@@ -69,10 +77,9 @@ ActiveRecord::Schema.define(version: 20160514182344) do
   create_table "posts_reasons", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.integer "reason_id"
     t.integer "post_id"
+    t.index ["post_id"], name: "index_posts_reasons_on_post_id", using: :btree
+    t.index ["reason_id"], name: "index_posts_reasons_on_reason_id", using: :btree
   end
-
-  add_index "posts_reasons", ["post_id"], name: "index_posts_reasons_on_post_id", using: :btree
-  add_index "posts_reasons", ["reason_id"], name: "index_posts_reasons_on_reason_id", using: :btree
 
   create_table "reasons", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string  "reason_name"
@@ -126,10 +133,10 @@ ActiveRecord::Schema.define(version: 20160514182344) do
     t.datetime "reset_password_sent_at"
     t.boolean  "is_admin",               default: false, null: false
     t.string   "username"
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
-
   add_foreign_key "flags", "posts"
+  add_foreign_key "ignored_users", "users"
 end
