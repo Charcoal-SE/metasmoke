@@ -45,8 +45,7 @@ class SearchController < ApplicationController
     end
 
     if params[:site].present?
-      site_id = Site.find_by_site_name(params[:site])
-      @results = @results.where(:site_id => site_id)
+      @results = @results.where(:site_id => params[:site])
     end
 
   respond_to do |format|
