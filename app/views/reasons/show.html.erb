@@ -5,7 +5,7 @@
   <%= pie_chart @reason.posts.group(:site).count.map{ |k,v| {(k.nil? ? "Unknown" : h.decode(k.site_name))=>v} }.reduce(:merge).select{|k,v| k != "Unknown"}.sort_by {|k,v| v}.reverse %>
 </div>
 <div class="col-md-6">
-  <%= line_chart [{name: "True positives", data: @reason.posts.where(:is_tp => true).group_by_day(:created_at, range: 1.month.ago..Time.now).count}, {name: "False positives", data: @reason.posts.where(:is_fp => true).group_by_day(:created_at, range: 1.month.ago..Time.now).count}], colors: ["green", "red"], library: {"tooltip" => {'shared' => 'true'} } %>
+  <%= line_chart [{name: "True positives", data: @reason.posts.where(:is_tp => true).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count}, {name: "False positives", data: @reason.posts.where(:is_fp => true).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count}], colors: ["green", "red"], library: {"tooltip" => {'shared' => 'true'} } %>
 </div>
 
 <table class="table table-striped">

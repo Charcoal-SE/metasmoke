@@ -1,7 +1,7 @@
 <h3>Reports by hour</h3>
 <br />
 
-<%= line_chart [{name: "All", data: Post.group_by_hour(:created_at, range: 1.week.ago..Time.now).count}, {name: "True positives", data: Post.where(:is_tp => true).group_by_hour(:created_at, range: 1.week.ago..Time.now).count}, {name: "False positives", data: Post.where(:is_fp => true).group_by_hour(:created_at, range: 1.week.ago..Time.now).count}], colors: ["#999", "green", "red"], library: {"tooltip" => {'shared' => 'true'} } %>
+<%= line_chart [{name: "All", data: Post.group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count}, {name: "True positives", data: Post.where(:is_tp => true).group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count}, {name: "False positives", data: Post.where(:is_fp => true).group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count}], colors: ["#999", "green", "red"], library: {"tooltip" => {'shared' => 'true'} } %>
 
 <h3>Reports by site</h3>
         (<%= link_to "Last month", graphs_path, style: params[:timeframe].nil? ? "font-weight:bold" : "" %>
