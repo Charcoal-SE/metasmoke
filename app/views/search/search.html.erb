@@ -72,6 +72,6 @@
     <% h = HTMLEntities.new %>
     <%= pie_chart @results.group(:site).count.map{ |k,v| {(k.nil? ? "Unknown" : h.decode(k.site_name))=>v} }.reduce(:merge).select{|k,v| k != "Unknown"}.sort_by {|k,v| v}.reverse %>
 
-    <%= line_chart [{name: "True positives", data: @results.where("created_at >= :date", :date => 1.month.ago).where(:is_tp => true).group_by_day(:created_at).count}, {name: "False positives", data: @results.where("created_at >= :date", :date => 1.month.ago).where(:is_fp => true).group_by_day(:created_at).count}], colors: ["green", "red"], library: {"tooltip" => {'shared' => 'true'} } %>
+    <%= line_chart [{name: "True positives", data: @results.where(:is_tp => true).group_by_day(:created_at, range: 1.month.ago..Time.now).count}, {name: "False positives", data: @results.where(:is_fp => true).group_by_day(:created_at, range: 1.month.ago..Time.now).count}], colors: ["green", "red"], library: {"tooltip" => {'shared' => 'true'} } %>
   <% end %>
 <% end %>
