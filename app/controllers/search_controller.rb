@@ -24,8 +24,10 @@ class SearchController < ApplicationController
     @results = @results.where("IFNULL(username, '') LIKE :username AND IFNULL(title, '') LIKE :title AND IFNULL(body, '') LIKE :body AND IFNULL(why, '') LIKE :why", username: "%" + username + "%", title: "%" + title + "%", body: "%" + body + "%", why: "%" + why + "%")
                    .paginate(:page => params[:page], :per_page => 100)
                    .order("created_at DESC")
-                   .includes(:reasons)
-                   .includes(:feedbacks)
+
+    if params[:option].nil?
+      @results = @results.includes(:reasons).includes(:feedbacks)
+    end
 
     if feedback.present?
       @results = @results.joins(:feedbacks).where("feedbacks.feedback_type LIKE :feedback", feedback: "%" + feedback + "%")
@@ -50,7 +52,7 @@ class SearchController < ApplicationController
 
   respond_to do |format|
       format.html {
-        @sites = Site.where(:id => @results.map(&:site_id)).to_a
+        @sites = Site.where(:id => @results.map(&:site_id)).to_a unless params[:option] == "graphs"
         render :search
       }
       format.json {
