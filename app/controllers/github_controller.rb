@@ -26,6 +26,7 @@ class GithubController < ApplicationController
     status.commit_sha = params[:sha]
     status.status = params[:state]
     status.commit_message = params[:commit][:commit][:message]
+    status.ci_url = params[:target_url]
     status.save!
 
     render text: "OK", status: 200

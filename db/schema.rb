@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160515194321) do
+ActiveRecord::Schema.define(version: 20160517200938) do
 
   create_table "commit_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "commit_sha"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20160515194321) do
     t.string   "commit_message"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.string   "ci_url"
   end
 
   create_table "deletion_logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
