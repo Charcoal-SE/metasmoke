@@ -52,4 +52,18 @@ class FeedbacksControllerTest < ActionController::TestCase
 
     assert_equal Feedback.unscoped.find(f_id).invalidated_by, user.id
   end
+
+  test "should require smokedetector key to create feedback" do
+    post :create, params: { :feedback => {} }
+    assert_response :forbidden
+
+    post :create, params: { :feedback => {}, :key => "wrongkey" }
+    assert_response :forbidden
+  end
+
+  test "should create feedback" do
+    assert_difference ['Post.last.feedbacks.count', 'Feedback.count'] do
+      post :create, params: { :feedback => { :message_link => "foo", :user_name => "Undo", :user_link => "http://foo.bar/undo", :feedback_type => "tpu-", :post_link => Post.last.link, :chat_user => 12345 }, :key => SmokeDetector.last.access_token }
+    end
+  end
 end
