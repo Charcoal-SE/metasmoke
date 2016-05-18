@@ -1,4 +1,4 @@
-<h3>User Feedback</h3>
+<h3>User Feedback<%= " for #{params[:user_name]}" if params[:user_name] %></h3>
 
 <p>
   <strong><%= @feedback_count %></strong>
