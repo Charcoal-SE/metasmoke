@@ -25,8 +25,20 @@ class SearchControllerTest < ActionController::TestCase
     assert_equal assigns(:results), assigns(:results).select { |p| p.user_reputation >= 10 }
   end
 
+  test "should search by reputation with graph" do
+    get :search_results, params: { :user_rep_direction => ">=", :user_reputation => 10, :option => 'graph' }
+    assert_response :success
+    assert_not_nil assigns(:results)
+    assert_equal assigns(:results), assigns(:results).select { |p| p.user_reputation >= 10 }
+  end
+
   test "should search by false positive" do
     get :search_results, params: { :feedback => "false positive" }
+    assert_response :success
+  end
+
+  test "should search by false positive with graph" do
+    get :search_results, params: { :feedback => "false positive", :option => 'graph' }
     assert_response :success
   end
 end
