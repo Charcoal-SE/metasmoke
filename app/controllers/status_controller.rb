@@ -19,7 +19,7 @@ class StatusController < ApplicationController
         if commit_update.present?
           render status: 201, :json => commit_update
         else
-          render status: 200, :text => "OK"
+          render status: 200, :body => "OK"
         end
       end
     end
