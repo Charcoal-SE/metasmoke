@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160517200938) do
+ActiveRecord::Schema.define(version: 20160518143738) do
 
   create_table "commit_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "commit_sha"
@@ -41,6 +41,8 @@ ActiveRecord::Schema.define(version: 20160517200938) do
     t.integer  "invalidated_by"
     t.datetime "invalidated_at"
     t.integer  "chat_user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["post_id"], name: "index_feedbacks_on_post_id", using: :btree
   end
 
