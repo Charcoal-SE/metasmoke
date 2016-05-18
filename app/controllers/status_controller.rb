@@ -8,6 +8,8 @@ class StatusController < ApplicationController
   def status_update
 
     commit_update = CommitStatus.where('created_at >= ?', @smoke_detector.last_ping).last
+    invalidated = Feedback.unscoped.where(:is_invalidated => true).where('created_at >= ?', @smoke_detector.last_ping)
+                    .select(:post_link, :feedback_type, :user_name)
 
     @smoke_detector.last_ping = DateTime.now
     @smoke_detector.location = params[:location]
@@ -16,11 +18,7 @@ class StatusController < ApplicationController
 
     respond_to do |format|
       format.json do
-        if commit_update.present?
-          render status: 201, :json => commit_update
-        else
-          render status: 200, :body => "OK"
-        end
+        render :status => 200, :json => { :commit_update => commit_update, :invalidated => invalidated }
       end
     end
   end
