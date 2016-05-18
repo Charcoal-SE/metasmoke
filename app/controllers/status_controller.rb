@@ -8,8 +8,8 @@ class StatusController < ApplicationController
   def status_update
 
     commit_update = CommitStatus.where('created_at >= ?', @smoke_detector.last_ping).last
-    invalidated = Feedback.unscoped.where(:is_invalidated => true).where('created_at >= ?', @smoke_detector.last_ping)
-                    .select(:post_link, :feedback_type, :user_name)
+    invalidated = Feedback.unscoped.where(:is_invalidated => true).where('updated_at >= ?', @smoke_detector.last_ping)
+                    .select(:post_link, :feedback_type, :user_name, :chat_user_id)
 
     @smoke_detector.last_ping = DateTime.now
     @smoke_detector.location = params[:location]
