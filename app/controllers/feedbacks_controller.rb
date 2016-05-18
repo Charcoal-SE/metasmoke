@@ -76,7 +76,7 @@ class FeedbacksController < ApplicationController
 
     post_link = feedback_params[:post_link]
 
-    post = Post.find_by_link(post_link)
+    post = Post.where(:link => post_link).order(:created_at).last
 
     if post == nil
       render :text => "Error: No post found for link" and return
