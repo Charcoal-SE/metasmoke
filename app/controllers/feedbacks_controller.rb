@@ -92,7 +92,7 @@ class FeedbacksController < ApplicationController
 
     respond_to do |format|
       if @feedback.save
-        format.json { render :show, status: :created, :text => "OK" }
+        format.json { render :show, status: :created, :body => "OK" }
       else
         format.json { render json: @feedback.errors, status: :unprocessable_entity }
       end
