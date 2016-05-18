@@ -28,6 +28,5 @@ class SearchControllerTest < ActionController::TestCase
   test "should search by false positive" do
     get :search_results, params: { :feedback => "false positive" }
     assert_response :success
-    assert_equal assigns(:results), assigns(:results).select { |p| p.is_fp }
   end
 end

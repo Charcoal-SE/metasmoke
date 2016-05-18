@@ -23,7 +23,7 @@ class SearchController < ApplicationController
 
     @results = @results.where("IFNULL(username, '') LIKE :username AND IFNULL(title, '') LIKE :title AND IFNULL(body, '') LIKE :body AND IFNULL(why, '') LIKE :why", username: "%" + username + "%", title: "%" + title + "%", body: "%" + body + "%", why: "%" + why + "%")
                    .paginate(:page => params[:page], :per_page => 100)
-                   .order("created_at DESC")
+                   .order("`posts`.`created_at` DESC")
 
     if params[:option].nil?
       @results = @results.includes(:reasons).includes(:feedbacks)
