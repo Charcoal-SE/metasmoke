@@ -18,7 +18,7 @@ class StatusController < ApplicationController
 
     respond_to do |format|
       format.json do
-        render :status => 200, :json => { :commit_update => commit_update, :invalidated => invalidated }
+        render :status => commit_update.present? ? 201 : 200, :json => { :commit_update => commit_update, :invalidated => invalidated }
       end
     end
   end
