@@ -14,6 +14,7 @@
       <th>Post</th>
       <th>Feedback Type</th>
       <th>Invalidated</th>
+      <th>Created</th>
     </tr>
   </thead>
   <tbody>
@@ -22,6 +23,7 @@
         <td><a href="/post/<%= f.post_id %>"><%= f.title %></a></td>
         <td><%= f.feedback_type %></td>
         <td><%= f.invalidated_at ? "Yes" : "No" %></td>
+        <td><%= time_ago_in_words(f.created_at) if f.created_at.present? %></td>
       </tr>
     <% end %>
   </tbody>
