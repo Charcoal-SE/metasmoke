@@ -1,5 +1,5 @@
 <h4>
-  <%= @post.title %>
+  <%= title @post.title %>
   <% feedbacks = @post.feedbacks.to_a %>
   <% if not feedbacks.empty? %>
     <strong>
