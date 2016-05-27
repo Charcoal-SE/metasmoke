@@ -2,6 +2,12 @@ class SearchController < ApplicationController
   def search_results
     username = params[:username] || ""
     title = params[:title] || ""
+    if user_signed_in? and params[:title_is_regex]
+      title_operation = "REGEXP"
+    else
+      title_operation = "LIKE"
+      title = "%" + title + "%"
+    end
     body = params[:body] || ""
     why = params[:why] || ""
     user_reputation = params[:user_reputation].to_i || 0
@@ -21,7 +27,7 @@ class SearchController < ApplicationController
       @results = Post.all
     end
 
-    @results = @results.where("IFNULL(username, '') LIKE :username AND IFNULL(title, '') LIKE :title AND IFNULL(body, '') LIKE :body AND IFNULL(why, '') LIKE :why", username: "%" + username + "%", title: "%" + title + "%", body: "%" + body + "%", why: "%" + why + "%")
+    @results = @results.where("IFNULL(username, '') LIKE :username AND IFNULL(title, '') " + title_operation + " :title AND IFNULL(body, '') LIKE :body AND IFNULL(why, '') LIKE :why", username: "%" + username + "%", title: title, body: "%" + body + "%", why: "%" + why + "%")
                    .paginate(:page => params[:page], :per_page => 100)
                    .order("`posts`.`created_at` DESC")
 

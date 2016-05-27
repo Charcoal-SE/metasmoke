@@ -3,6 +3,9 @@
 <%= form_tag (params[:option] == 'graphs' ? search_path(anchor: "graphs") : search_path), method: "get" do |f| %>
   <div class="form-group">
     <%= label_tag :title %>
+    <% if user_signed_in? %>
+      <%= check_box_tag :title_is_regex, 1, params[:title_is_regex] %> <span class="text-muted">regex</span>
+    <% end %>
     <%= text_field_tag :title, params[:title], placeholder: "*", class: "form-control" %>
   </div>
   <div class="form-group">
