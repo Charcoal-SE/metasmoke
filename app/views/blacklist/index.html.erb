@@ -5,6 +5,7 @@
       <th>Host</th>
       <th>Active?</th>
       <th>Created</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -13,6 +14,7 @@
         <td><%= website.host %></td>
         <td><%= website.is_active ? "Yes" : "No" %></td>
         <td><%= website.created_at %></td>
+        <td><%= link_to "Deactivate", url_for(:controller => :blacklist, :action => :deactivate_website, :id => website.id), :method => :delete %></td>
       </tr>
     <% end %>
   </tbody>
