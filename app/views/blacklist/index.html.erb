@@ -19,7 +19,7 @@
 </table>
 
 <% if user_signed_in? && current_user.is_code_admin %>
-  <a class="btn btn-primary">Add Website</a>
+  <a href="<%= url_for(:controller => :blacklist, :action => :index) %>" class="btn btn-primary">Add Website</a>
 <% end %>
 
 <div class="text-center">
