@@ -21,7 +21,7 @@
     <% @feedbacks.each do |f| %>
       <tr class="<%= "danger" if f.invalidated_at %>">
         <td><a href="/post/<%= f.post_id %>"><%= f.title %></a></td>
-        <td><%= f.feedback_type %></td>
+        <td class="<%= f.element_class %>"><%= f.feedback_type %></td>
         <td><%= f.invalidated_at ? "Yes" : "No" %></td>
         <td><%= time_ago_in_words(f.created_at) + " ago" if f.created_at.present? %></td>
       </tr>
