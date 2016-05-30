@@ -1,0 +1,2 @@
+class BlacklistedWebsite < ApplicationRecord
+end
