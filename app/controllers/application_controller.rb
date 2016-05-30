@@ -39,6 +39,12 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def verify_code_admin
+      if !user_signed_in? || !current_user.is_code_admin
+        raise ActionController::RoutingError.new('Not Found') and return
+      end
+    end
+
     def configure_permitted_parameters
       devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:email, :password, :password_confirmation, :username) }
     end
