@@ -8,7 +8,7 @@ class BlacklistController < ApplicationController
         @websites = @websites.paginate(:per_page => 100, :page => params[:page])
       }
       format.json {
-        render :json => @websites
+        render :json => @websites.where(:is_active => true)
       }
     end
   end
