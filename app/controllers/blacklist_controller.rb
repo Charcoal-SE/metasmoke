@@ -29,4 +29,9 @@ class BlacklistController < ApplicationController
     @website.save
     redirect_to url_for(:controller => :blacklist, :action => :index)
   end
+
+  private
+    def website_params
+      params.require(:blacklisted_website).permit(:host)
+    end
 end
