@@ -70,6 +70,9 @@
                 <% if current_user.is_admin %>
                   <li><%= link_to 'Admin', url_for(:controller => :admin, :action => :index) %></li>
                 <% end %>
+                <% if current_user.is_code_admin %>
+                  <li><%= link_to 'Blacklist', url_for(:controller => :blacklist, :action => :index) %></li>
+                <% end %>
               </ul>
 
             </li>
