@@ -2,7 +2,15 @@ class BlacklistController < ApplicationController
   before_action :verify_code_admin, :except => [:index]
 
   def index
-    @websites = BlacklistedWebsite.all.paginate(:per_page => 100, :page => params[:page])
+    @websites = BlacklistedWebsite.all
+    respond_to do |format|
+      format.html {
+        @websites = @websites.paginate(:per_page => 100, :page => params[:page])
+      }
+      format.json {
+        render :json => @websites
+      }
+    end
   end
 
   def add_website
