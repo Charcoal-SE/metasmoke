@@ -47,6 +47,11 @@ Rails.application.routes.draw do
   get "posts/recent.json", to: "posts#recentpostsapi"
   post "posts/add_feedback", to: "review#add_feedback"
 
+  get 'blacklist', to: 'blacklist#index'
+  get 'blacklist/add_website', to: 'blacklist#add_website'
+  post 'blacklist/add_website', to: 'blacklist#create_website'
+  delete 'blacklist/website/:id', to: 'blacklist#deactivate_website'
+
   post 'github/hook'
 
   root to: "dashboard#index"
