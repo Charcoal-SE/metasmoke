@@ -1,0 +1,23 @@
+<h3>Blacklisted Websites</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Host</th>
+      <th>Active?</th>
+      <th>Created</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @websites.each do |website| %>
+      <tr>
+        <td><%= website.host %></td>
+        <td><%= website.is_active ? "Yes" : "No" %></td>
+        <td><%= website.created_at %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= will_paginate @websites, renderer: BootstrapPagination::Rails %>
+</div>

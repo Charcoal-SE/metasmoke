@@ -1,0 +1,10 @@
+<h3>Blacklist Website</h3>
+<%= form_for @website, :url => { :controller => :blacklist, :action => :create_website } do |f| %>
+  <div class="field">
+    <%= f.label :host %><br/>
+    <%= f.text :host, nil, placeholder: "url without a scheme", class: "form-control", autofocus: true %>
+  </div>
+  <div class="field">
+    <%= f.submit "Blacklist", :class => "btn btn-danger" %>
+  </div>
+<% end %>
