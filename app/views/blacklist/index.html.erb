@@ -18,6 +18,10 @@
   </tbody>
 </table>
 
+<% if user_signed_in? && current_user.is_code_admin %>
+  <a class="btn btn-primary">Add Website</a>
+<% end %>
+
 <div class="text-center">
   <%= will_paginate @websites, renderer: BootstrapPagination::Rails %>
 </div>
