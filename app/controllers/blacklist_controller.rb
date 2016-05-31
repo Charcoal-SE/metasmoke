@@ -19,14 +19,14 @@ class BlacklistController < ApplicationController
 
   def create_website
     @website = BlacklistedWebsite.new(website_params)
-    @website.save
+    @website.save!
     redirect_to url_for(:controller => :blacklist, :action => :index)
   end
 
   def deactivate_website
     @website = BlacklistedWebsite.find params[:id]
     @website.is_active = false
-    @website.save
+    @website.save!
     redirect_to url_for(:controller => :blacklist, :action => :index)
   end
 
