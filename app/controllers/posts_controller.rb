@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   protect_from_forgery :except => [:create]
   before_action :check_if_smokedetector, :only => :create
-  before_action :set_post, :only => [:needs_admin]
+  before_action :set_post, :only => [:needs_admin, :feedbacksapi]
 
   def show
     begin
@@ -37,6 +37,14 @@ class PostsController < ApplicationController
     posts = posts.last([params[:size].to_i, 100].min).reverse
 
     render json: posts, status: 200
+  end
+
+  def feedbacksapi
+    if user_signed_in?
+      render :json => @post.feedbacks.select(:id, :chat_user_id, :user_id, :feedback_type)
+    else
+      render :json => { :error => "You must be signed in to use the feedbacks API." }
+    end
   end
 
   # GET /posts
