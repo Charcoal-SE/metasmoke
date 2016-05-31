@@ -27,8 +27,10 @@ class SearchController < ApplicationController
       @results = Post.all
     end
 
+    per_page = (user_signed_in? and params[:per_page].present?) ? [params[:per_page], 10000].min : 100
+
     @results = @results.where("IFNULL(username, '') LIKE :username AND IFNULL(title, '') " + title_operation + " :title AND IFNULL(body, '') LIKE :body AND IFNULL(why, '') LIKE :why", username: "%" + username + "%", title: title, body: "%" + body + "%", why: "%" + why + "%")
-                   .paginate(:page => params[:page], :per_page => 100)
+                   .paginate(:page => params[:page], :per_page => per_page)
                    .order("`posts`.`created_at` DESC")
 
     if params[:option].nil?
