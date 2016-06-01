@@ -4,7 +4,7 @@
 <%= form_for @key, url: { :controller => :admin, :action => :create_api_key } do |f| %>
   <div class="field">
     <%= f.label :key %><br/>
-    <%= f.text_field :key, :value => @key.key, :disabled => "disabled", :class => "form-control" %>
+    <%= f.text_field :key, :value => @key.key, :class => "form-control" %>
   </div><br/>
   <div class="field">
     <%= f.submit "Register", :class => "btn btn-primary" %>
