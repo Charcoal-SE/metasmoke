@@ -26,6 +26,9 @@ Rails.application.routes.draw do
   patch 'admin/unignore/:id', to: 'admin#unignore'
   delete 'admin/destroy_ignored/:id', to: 'admin#destroy_ignored'
 
+  get 'admin/new_key', to: 'admin#new_api_key'
+  post 'admin/new_key', to: 'admin#create_api_key'
+
   get "posts", to: "posts#index"
   get "posts/latest", to: "posts#latest"
   get "posts/by-url", to: "posts#by_url"

@@ -70,8 +70,23 @@ class AdminController < ApplicationController
     redirect_to url_for(:controller => :admin, :action => :ignored_users)
   end
 
+  def new_api_key
+    @key = ApiKey.new
+    @key.key = Digest::SHA256.hexdigest("#{rand(0..9e9)}#{Time.now}")
+  end
+
+  def create_api_key
+    @key = ApiKey.new(key_params)
+    @key.save!
+    redirect_to url_for(:controller => :admin, :action => :new_api_key)
+  end
+
   private
     def set_ignored_user
       @ignored = IgnoredUser.find params[:id]
+    end
+
+    def key_params
+      params.require(:api_key).permit(:key)
     end
 end

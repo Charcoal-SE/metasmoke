@@ -1,0 +1,12 @@
+<h3>New API key</h3>
+<p>From this page, you can register a new API key. The key is pre-set for you for security; copy it, then click Register.</p>
+
+<%= form_for @key, url: { :controller => :admin, :action => :create_api_key } do |f| %>
+  <div class="field">
+    <%= f.label :key %><br/>
+    <%= f.text_field :key, :value => @key.key, :disabled => "disabled", :class => "form-control" %>
+  </div><br/>
+  <div class="field">
+    <%= f.submit "Register", :class => "btn btn-primary" %>
+  </div>
+<% end %>
