@@ -14,6 +14,25 @@ class ApiController < ApplicationController
     render :json => @post.feedbacks.select_without_nil
   end
 
+  def post_reasons
+    @post = Post.find params[:id]
+    render :json => @post.reasons
+  end
+
+  def reasons
+    @reasons = Reason.where(:id => params[:ids].split(";"))
+    results = @reasons.paginate(:page => params[:page], :per_page => @pagesize)
+    has_more = (results.count > @pagesize)
+    render :json => { :items => results, :has_more => has_more }
+  end
+
+  def reason_posts
+    @reason = Reason.find params[:id]
+    results = @reason.posts.paginate(:page => params[:page], :per_page => @pagesize)
+    has_more = (results.count > @pagesize)
+    render :json => { :items => results, :has_more => has_more }
+  end
+
   private
     def verify_key
       unless params[:key].present? && ApiKey.where(:key => params[:key]).count == 1
