@@ -78,6 +78,7 @@ class AdminController < ApplicationController
   def create_api_key
     @key = ApiKey.new(key_params)
     @key.save!
+    flash[:success] = "Successfully registered API key #{@key.key}"
     redirect_to url_for(:controller => :admin, :action => :new_api_key)
   end
 
