@@ -1,12 +1,13 @@
-<h3>Admin Tools</h3>
-<p>Here's a collection of administrative tools that someone thought might be useful at some point. Be aware that for
-  most if not all of these, the data is administrator-only and probably shouldn't be shared without consultation with
-  other admins.</p>
+<h3>Stuff</h3>
+<p>Someone thought these were useful, at some point. I take no responsibility for whether they actually are or not.</p>
 <p>
   <ul>
     <li><a href="/admin/invalidated">Invalidated Feedback</a></li>
-    <li><a href="/admin/flagged">Posts with Admin Reports</a></li>
-    <li><a href="/admin/users">User Data</a></li>
-    <li><%= link_to "Ignored Users", admin_ignored_users_path %></li>
+    <li><a href="/users">User Data</a></li>
+    <li><a href="/blacklist">Blacklist</a></li>
+    <% if current_user.is_admin %>
+      <li><a href="/admin/flagged">Posts with Admin Reports</a></li>
+      <li><%= link_to "Ignored Users", admin_ignored_users_path %></li>
+    <% end %>
   </ul>
 </p>
