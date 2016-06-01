@@ -41,6 +41,6 @@ class ApiController < ApplicationController
     end
 
     def set_pagesize
-      @pagesize = [params[:per_page], 100].min
+      @pagesize = [params[:per_page] || 10, 100].min
     end
 end
