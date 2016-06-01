@@ -11,7 +11,7 @@ class ApiController < ApplicationController
 
   def post_feedback
     @post = Post.find params[:id]
-    render :json => @post.feedbacks.select_without_nil
+    render :json => @post.feedbacks
   end
 
   def post_reasons
