@@ -88,6 +88,6 @@ class AdminController < ApplicationController
     end
 
     def key_params
-      params.require(:api_key).permit(:key)
+      params.require(:api_key).permit(:key, :app_name)
     end
 end
