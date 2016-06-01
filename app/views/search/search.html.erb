@@ -5,6 +5,7 @@
     <%= label_tag :title %>
     <% if user_signed_in? %>
       <%= check_box_tag :title_is_regex, 1, params[:title_is_regex] %> <span class="text-muted">regex</span>
+      <%= check_box_tag :title_is_inverse_regex, 1, params[:title_is_inverse_regex] %> <span class="text-muted">invert</span>
     <% end %>
     <%= text_field_tag :title, params[:title], placeholder: "*", class: "form-control" %>
   </div>

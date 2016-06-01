@@ -3,7 +3,7 @@ class SearchController < ApplicationController
     username = params[:username] || ""
     title = params[:title] || ""
     if user_signed_in? and params[:title_is_regex]
-      title_operation = "REGEXP"
+      title_operation = params[:title_is_inverse_regex] ? "NOT REGEXP" : "REGEXP"
     else
       title_operation = "LIKE"
       title = "%" + title + "%"
