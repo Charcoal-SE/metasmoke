@@ -12,14 +12,14 @@ class AdminControllerTest < ActionController::TestCase
   test "should require admin privileges to view page" do
     sign_out :user
 
-    [:index, :users, :ignored_users, :flagged].each do |path|
+    [:index, :ignored_users, :flagged].each do |path|
       assert_raises ActionController::RoutingError do
         get path
       end
     end
 
     sign_in users(:approved_user)
-    [:index, :users, :ignored_users, :flagged].each do |path|
+    [:index, :ignored_users, :flagged].each do |path|
       assert_raises ActionController::RoutingError do
         get path
       end
