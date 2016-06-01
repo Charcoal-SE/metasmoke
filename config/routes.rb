@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
   get "status", to: "status#index"
 
+  get "users", to: 'admin#users'
+
   get 'admin', to: 'admin#index'
   get 'admin/invalidated', to: 'admin#recently_invalidated'
   get 'admin/user_feedback', to: 'admin#user_feedback'

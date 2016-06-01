@@ -1,5 +1,5 @@
 class AdminController < ApplicationController
-  before_action :verify_admin, :except => :user_feedback
+  before_action :verify_admin, :except => [:user_feedback, :users]
   before_action :set_ignored_user, :only => [:ignore, :unignore, :destroy_ignored]
 
   def index
