@@ -48,4 +48,8 @@ class Feedback < ApplicationRecord
         ""
     end
   end
+
+  def select_without_nil
+    select(Feedback.attribute_names - ['message_link'])
+  end
 end
