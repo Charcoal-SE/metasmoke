@@ -42,11 +42,11 @@ class FeedbacksController < ApplicationController
       mode = 'user_name'
     end
     if invalid_count > (0.04 * total_count) + 4
-      ignored = IgnoredUser.new
+      ignored = nil
       if mode == 'user'
-        ignored.user == f.user
+        ignored = IgnoredUser.find_or_create_by(:user_id => f.user.id)
       elsif mode == 'user_name'
-        ignored.user_name == f.user_name
+        ignored = IgnoredUser.find_or_create_by(:user_name => f.user_name)
       end
       ignored.is_ignored = true
       ignored.save
