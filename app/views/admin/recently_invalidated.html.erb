@@ -29,3 +29,7 @@
     <% end %>
   </tbody>
 </table>
+
+<div class="text-center">
+  <%= will_paginate @feedbacks, renderer: BootstrapPagination::Rails %>
+</div>
