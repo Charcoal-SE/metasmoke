@@ -58,7 +58,7 @@
 
 <% if @results.present? %>
   <ul class="nav nav-tabs">
-    <li role="presentation" class="<%= "active" if params[:option].nil? %>"><%= link_to "Results", search_path(request.query_parameters.merge({:option => nil})) %></li>
+    <li role="presentation" class="<%= "active" if params[:option].nil? %>"><%= link_to "Results (#{@results.count})", search_path(request.query_parameters.merge({:option => nil})) %></li>
     <li role="presentation" class="<%= "active" if params[:option] == "graphs" %>"><%= link_to "Graphs", search_path(request.query_parameters.to_h.merge({option: "graphs", anchor: "graphs"})) %></li>
   </ul>
 

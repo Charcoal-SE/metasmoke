@@ -28,6 +28,7 @@ Rails.application.routes.draw do
 
   get 'admin/new_key', to: 'admin#new_api_key'
   post 'admin/new_key', to: 'admin#create_api_key'
+  get 'admin/keys', to: 'admin#key_list'
 
   get "posts", to: "posts#index"
   get "posts/latest", to: "posts#latest"

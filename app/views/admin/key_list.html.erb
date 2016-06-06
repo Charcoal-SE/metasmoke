@@ -1,0 +1,20 @@
+<h3>Registered API Keys</h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Key String</th>
+      <th>Name</th>
+      <th>Created</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @keys.each do |key| %>
+      <tr>
+        <td><%= key.key %></td>
+        <td><%= key.app_name %></td>
+        <td><%= time_ago_in_words(key.created_at) %> ago</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

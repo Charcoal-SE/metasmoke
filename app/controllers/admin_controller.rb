@@ -82,6 +82,10 @@ class AdminController < ApplicationController
     redirect_to url_for(:controller => :admin, :action => :new_api_key)
   end
 
+  def key_list
+    @keys = ApiKey.all
+  end
+
   private
     def set_ignored_user
       @ignored = IgnoredUser.find params[:id]
