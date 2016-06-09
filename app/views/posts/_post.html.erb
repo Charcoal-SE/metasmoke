@@ -1,4 +1,5 @@
 <% expand_post = false if expand_post.nil? %>
+<% @sites = [post.site] if @sites.nil? %>
 
 <tr class="post-cell post-cell-<%= post.id %>">
   <td>

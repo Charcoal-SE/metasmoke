@@ -5,6 +5,10 @@ class Post < ApplicationRecord
   belongs_to :site
   belongs_to :stack_exchange_user
 
+  after_create do
+    ActionCable.server.broadcast "posts_realtime", { row: PostsController.render(locals: {post: Post.last}, partial: 'post').html_safe }
+  end
+
   def update_feedback_cache
     self.is_tp = false
     self.is_fp = false

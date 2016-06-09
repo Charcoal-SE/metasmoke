@@ -1,9 +1,8 @@
-App.posts = App.cable.subscriptions.create "PostsChannel",
-  connected: ->
-    # Called when the subscription is ready for use on the server
-
-  disconnected: ->
-    # Called when the subscription has been terminated by the server
-
-  received: (data) ->
-    console.log(data)
+$(document).on 'page:change', ->
+  if location.pathname == '/posts'
+    App.posts = App.cable.subscriptions.create "PostsChannel",
+      received: (data) ->
+        $('table tbody').prepend(data['row'])
+  else if App.posts
+    App.posts.unsubscribe()
+    App.posts = null
