@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  mount ActionCable.server => '/cable'
-
   get 'users/username'
   post 'users/username', to: "users#set_username"
 
