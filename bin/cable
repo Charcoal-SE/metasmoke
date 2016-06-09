@@ -1,2 +1,0 @@
-#!/bin/sh
-exec bundle exec passenger start -p 4040 -R cable/config.ru --force-max-concurrent-requests-per-process 0
