@@ -26,6 +26,8 @@ module Metasmoke
 
         resource '/posts/recent.json', :headers => :any, :methods => [:get]
         resource '/posts/add_feedback', :headers => :any, :methods => [:post], :credentials => true
+
+        resource '/api/*', :headers => :any, :methods => [:get]
       end
     end
   end
