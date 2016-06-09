@@ -8,6 +8,11 @@ class ApiController < ApplicationController
     has_more = (results.count > @pagesize)
     render :json => { :items => results, :has_more => has_more }
   end
+  
+  def posts_by_url
+    @post = Post.where(:link => params[:url])
+    render :json => @post
+  end
 
   def post_feedback
     @post = Post.find params[:id]
