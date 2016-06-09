@@ -21,7 +21,7 @@ class PostsController < ApplicationController
 
     raise ActionController::RoutingError.new('Not Found') if post.nil?
 
-    redirect_to "/post/" + post.id.to_s
+    redirect_to url_for(:controller => :posts, :action => :show, :id => post.id)
   end
 
   def recentpostsapi
