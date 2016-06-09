@@ -91,5 +91,5 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
   config.action_cable.url = "ws://ws.metasmoke.erwaysoftware.com"
-  config.session_store :cookie_store, :domain => :all
+  config.session_store :cookie_store, :domain => "metasmoke.erwaysoftware.com"
 end
