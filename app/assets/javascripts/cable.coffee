@@ -2,4 +2,4 @@
 #= require action_cable
 
 @App = {}
-App.cable = ActionCable.createConsumer("/cable")
+App.cable = ActionCable.createConsumer("ws://ws.metasmoke.erwaysoftware.com")
