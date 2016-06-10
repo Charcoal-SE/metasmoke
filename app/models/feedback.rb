@@ -5,6 +5,10 @@ class Feedback < ApplicationRecord
   belongs_to :user
   after_save :update_post_feedback_cache
 
+  after_create do
+    ActionCable.server.broadcast "posts_#{self.post_id}", { feedback: FeedbacksController.render(locals: {feedback: self}, partial: 'feedback').html_safe }
+  end
+
   def is_positive?
     self.feedback_type.include? "t"
   end
