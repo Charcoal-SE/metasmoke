@@ -90,6 +90,10 @@ class FeedbacksController < ApplicationController
 
     @feedback.post = post
 
+    if Feedback.where(:chat_user_id => @feedback.chat_user_id).count == 0
+      ActionCable.server.broadcast "smokedetector_messages", { message: "@#{@feedback.user_name}: It seems this is your first time feeding back to SmokeDetector. Make sure you've read the guidance on [your privileges](https://github.com/Charcoal-SE/SmokeDetector/wiki/Privileges), the [available commands](https://github.com/Charcoal-SE/SmokeDetector/wiki/Commands), and [how to feed back](https://github.com/Charcoal-SE/SmokeDetector/wiki/Feedback-Guidance)." }
+    end
+
     respond_to do |format|
       if @feedback.save
         format.json { render :show, status: :created, :body => "OK" }
