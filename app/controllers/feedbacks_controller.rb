@@ -65,7 +65,7 @@ class FeedbacksController < ApplicationController
     invalid_count = Feedback.unscoped.where(:user_name => @feedback.user_name, :is_invalidated => true).count
     if invalid_count > (0.04 * total_count) + 4
       if @ignored && @ignored.is_ignored == true
-        return
+        @feedback.is_ignored = true
       end
     else
       if @ignored
