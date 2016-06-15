@@ -6,7 +6,7 @@ class Feedback < ApplicationRecord
   end
 
   def self.invalid
-    self.unscoped.where(:is_invalid => true)
+    self.unscoped.where(:is_invalidated => true)
   end
 
   belongs_to :post
