@@ -62,7 +62,7 @@ class FeedbacksController < ApplicationController
 
     @ignored = IgnoredUser.find_by_user_name(@feedback.user_name)
     total_count = Feedback.unscoped.where(:user_name => @feedback.user_name).count
-    invalid_count = Feedback.unscoped.where(:user_name => @feedback.user_name, :is_invalidated => true).count
+    invalid_count = Feedback.invalid.where(:user_name => @feedback.user_name).count
     if invalid_count > (0.04 * total_count) + 4
       if @ignored && @ignored.is_ignored == true
         @feedback.is_ignored = true
@@ -89,6 +89,11 @@ class FeedbacksController < ApplicationController
     expire_fragment("post" + post.id.to_s)
 
     @feedback.post = post
+
+    unless @feedback.is_ignored
+      previous_identical = Feedback.ignored.where(:post => @feedback.post, :feedback_type => @feedback.feedback_type)
+      previous_identical.update_all(:is_ignored => false)
+    end
 
     if Feedback.where(:chat_user_id => @feedback.chat_user_id).count == 0
       ActionCable.server.broadcast "smokedetector_messages", { message: "@#{@feedback.user_name.gsub(" ", "")}: It seems this is your first time feeding back to SmokeDetector. Make sure you've read the guidance on [your privileges](https://git.io/voC8N), the [available commands](https://git.io/voC4m), and [what feedback to use in different situations](https://git.io/voC4s)." }
