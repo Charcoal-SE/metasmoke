@@ -1,7 +1,13 @@
 class Feedback < ApplicationRecord
   default_scope { where(is_invalidated: false, is_ignored: false) }
-  scope :ignored, where(:is_ignored => true)
-  scope :invalid, where(:is_invalidated => true)
+
+  def self.ignored
+    self.unscoped.where(:is_ignored => true)
+  end
+
+  def self.invalid
+    self.unscoped.where(:is_invalid => true)
+  end
 
   belongs_to :post
   belongs_to :user
