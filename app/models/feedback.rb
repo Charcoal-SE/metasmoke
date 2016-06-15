@@ -1,5 +1,5 @@
 class Feedback < ApplicationRecord
-  default_scope { where(is_invalidated: false) }
+  default_scope { where(is_invalidated: false, is_ignored: false) }
 
   belongs_to :post
   belongs_to :user
