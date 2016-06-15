@@ -22,6 +22,7 @@ $(window).on 'blur', ->
   is_page_visible = false
 
 $(window).on 'focus', ->
-  is_page_visible = true
-  num_unseen_posts = 0
-  document.title = "Recent posts - metasmoke"
+  if location.pathname == '/posts'
+    is_page_visible = true
+    num_unseen_posts = 0
+    document.title = "Recent posts - metasmoke"
