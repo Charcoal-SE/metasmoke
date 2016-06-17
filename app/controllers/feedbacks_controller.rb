@@ -96,7 +96,7 @@ class FeedbacksController < ApplicationController
     end
 
     if Feedback.where(:chat_user_id => @feedback.chat_user_id).count == 0
-      ActionCable.server.broadcast "smokedetector_messages", { message: "@#{@feedback.user_name.gsub(" ", "")}: It seems this is your first time feeding back to SmokeDetector. Make sure you've read the guidance on [your privileges](https://git.io/voC8N), the [available commands](https://git.io/voC4m), and [what feedback to use in different situations](https://git.io/voC4s)." }
+      ActionCable.server.broadcast "smokedetector_messages", { message: "@#{@feedback.user_name.gsub(" ", "")}: It seems this is your first time sending feedback to SmokeDetector. Make sure you've read the guidance on [your privileges](https://git.io/voC8N), the [available commands](https://git.io/voC4m), and [what feedback to use in different situations](https://git.io/voC4s)." }
     end
 
     respond_to do |format|
