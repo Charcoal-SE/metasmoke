@@ -96,7 +96,7 @@ class FeedbacksController < ApplicationController
 
       opposite_type = @feedback.feedback_type == 'tpu-' ? 'fp-' : 'tpu-'
       previous_opposite = Feedback.ignored.where(:post => @feedback.post, :feedback_type => opposite_type)
-      previous_opposite.update_all(:is_invalidated => true, :is_ignored => false)
+      previous_opposite.update_all(:is_invalidated => true, :is_ignored => false, :invalidated_at => Time.now, :invalidated_by => -1)
     end
 
     if Feedback.where(:chat_user_id => @feedback.chat_user_id).count == 0
