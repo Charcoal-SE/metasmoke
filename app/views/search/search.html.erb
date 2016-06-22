@@ -22,8 +22,9 @@
     <%= text_field_tag :why, params[:why], placeholder: "*", class: "form-control" %>
   </div>
   <div class="form-group">
+    <% h = HTMLEntities.new %>
     <%= label_tag :site %>
-    <%= select_tag :site, options_for_select(Site.select(:site_name, :id).all.order(:site_name).map {|s| [s.site_name, s.id] }, params[:site]), class: "form-control", include_blank: "All" %>
+    <%= select_tag :site, options_for_select(Site.select(:site_name, :id).all.order(:site_name).map {|s| [h.decode(s.site_name), s.id] }, params[:site]), class: "form-control", include_blank: "All" %>
   </div>
 
   <div class="form-group">
