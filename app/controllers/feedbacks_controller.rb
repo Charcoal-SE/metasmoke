@@ -58,6 +58,20 @@ class FeedbacksController < ApplicationController
   # POST /feedbacks
   # POST /feedbacks.json
   def create
+    # puts Feedback.where(:post_id => params[:feedback][:post_id], :user_name => params[:feedback][:user_name]).present?
+    post_link = feedback_params[:post_link]
+
+    post = Post.where(:link => post_link).order(:created_at).last
+
+    if post == nil
+      render :text => "Error: No post found for link" and return
+    end
+
+    # Ignore identical feedback from the same user
+    if Feedback.where(:post_id => post.id, :user_name => feedback_params[:user_name]).present?
+      render :text => "Identical feedback from user already exists on post" and return
+    end
+
     @feedback = Feedback.new(feedback_params)
 
     @ignored = IgnoredUser.find_by_user_name(@feedback.user_name)
@@ -72,14 +86,6 @@ class FeedbacksController < ApplicationController
         @ignored.is_ignored = false
         @ignored.save
       end
-    end
-
-    post_link = feedback_params[:post_link]
-
-    post = Post.where(:link => post_link).order(:created_at).last
-
-    if post == nil
-      render :text => "Error: No post found for link" and return
     end
 
     post.reasons.each do |reason|

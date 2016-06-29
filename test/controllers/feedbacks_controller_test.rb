@@ -66,4 +66,27 @@ class FeedbacksControllerTest < ActionController::TestCase
       post :create, params: { :feedback => { :message_link => "foo", :user_name => "Undo", :user_link => "http://foo.bar/undo", :feedback_type => "tpu-", :post_link => Post.last.link, :chat_user => 12345 }, :key => SmokeDetector.last.access_token }
     end
   end
+
+  test "should ignore identical feedback from the same user" do
+    # assert_difference looks for a delta of 1; a delta of 2 would error out
+    assert_difference ['Post.last.feedbacks.count', 'Feedback.count'] do
+      3.times do
+        post :create, params: { :feedback => { :message_link => "foo", :user_name => "Undo", :user_link => "http://foo.bar/undo", :feedback_type => "tpu-", :post_link => Post.last.link, :chat_user => 12345 }, :key => SmokeDetector.last.access_token }
+      end
+    end
+  end
+
+  test "should cache feedback" do
+    p = Post.where(:is_tp => false).last
+
+    post :create, params: { :feedback => { :message_link => "foo", :user_name => "Undo", :user_link => "http://foo.bar/undo", :feedback_type => "tpu-", :post_link => p.link, :chat_user => 12345 }, :key => SmokeDetector.last.access_token }
+
+    assert Post.find(p.id).is_tp
+
+    p = Post.where(:is_fp => false).last
+
+    post :create, params: { :feedback => { :message_link => "foo", :user_name => "Undo", :user_link => "http://foo.bar/undo", :feedback_type => "fpu-", :post_link => p.link, :chat_user => 12345 }, :key => SmokeDetector.last.access_token }
+
+    assert Post.find(p.id).is_fp
+  end
 end
