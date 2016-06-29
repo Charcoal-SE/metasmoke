@@ -76,6 +76,16 @@ class FeedbacksControllerTest < ActionController::TestCase
     end
   end
 
+  test "should not ignore unidentical feedback from the same user" do
+    Post.last.feedbacks.destroy_all
+
+    assert_difference ['Post.last.feedbacks.count', 'Feedback.count'], 2 do
+      ["tpu-", "fpu-"].each do |feedback_type|
+        post :create, params: { :feedback => { :message_link => "foo", :user_name => "Undo", :user_link => "http://foo.bar/undo", :feedback_type => feedback_type, :post_link => Post.last.link, :chat_user => 12345 }, :key => SmokeDetector.last.access_token }
+      end
+    end
+  end
+
   test "should cache feedback" do
     p = Post.where(:is_tp => false).last
 
