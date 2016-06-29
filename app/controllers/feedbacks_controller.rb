@@ -68,7 +68,7 @@ class FeedbacksController < ApplicationController
     end
 
     # Ignore identical feedback from the same user
-    if Feedback.where(:post_id => post.id, :user_name => feedback_params[:user_name]).present?
+    if Feedback.where(:post => post, :user_name => feedback_params[:user_name], :feedback_type => feedback_params[:feedback_type]).present?
       render :text => "Identical feedback from user already exists on post" and return
     end
 
