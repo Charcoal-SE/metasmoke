@@ -3,26 +3,20 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .status-good {
-  color: green !important;
-
   a {
-    color: white !important;
-    background-color: green !important;
+    border-bottom: 3px solid green;
+    padding-bottom: 13px !important;
   }
 }
 .status-warning {
-  color: orange !important;
-
   a {
-    color: black !important;
-    background-color: orange !important;
+    border-bottom: 3px solid orange;
+    padding-bottom: 13px !important;
   }
 }
 .status-critical {
-  color: red !important;
-
   a {
-    color: white !important;
-    background-color: red !important;
+    border-bottom: 3px solid red;
+    padding-bottom: 13px !important;
   }
 }
