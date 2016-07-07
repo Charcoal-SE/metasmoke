@@ -3,18 +3,21 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .status-good {
+  color: green !important;
   a {
     border-bottom: 3px solid green;
     padding-bottom: 13px !important;
   }
 }
 .status-warning {
+  color: orange !important;
   a {
     border-bottom: 3px solid orange;
     padding-bottom: 13px !important;
   }
 }
 .status-critical {
+  color: red !important;
   a {
     border-bottom: 3px solid red;
     padding-bottom: 13px !important;
