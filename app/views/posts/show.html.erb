@@ -27,7 +27,7 @@
 <hr>
 
 <% unless @post.link.nil? %>
-  <%= image_tag @post.site_logo, size: "20x20" %>
+  <%= image_tag @post.site_logo, size: "20" %>
   <%= link_to "View on site", @post.link %>
   <% deletion_log = @post.deletion_logs.where(:is_deleted => true).first %>
   <% if deletion_log %>
@@ -49,7 +49,7 @@
     <% unless @post.user_link.nil? %>
       | posted by
       <%= link_to @post.user_link do %>
-        <%= image_tag @post.site_logo, size: "20x20" %>
+        <%= image_tag @post.site_logo, size: "20" %>
       <% end %>
       <%= link_to @post.username, stack_exchange_user_path(@post.stack_exchange_user_id) %>
       <% unless @post.user_reputation.nil? %>
