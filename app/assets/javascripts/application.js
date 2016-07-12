@@ -16,7 +16,7 @@
 //= require moment.min.js
 //= require_tree .
 
-$(document).on('ready page:load', function() {
+$(document).on('turbolinks:load', function() {
 
   $('.dashboard-table').tablesort();
 
