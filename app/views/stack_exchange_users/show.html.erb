@@ -1,0 +1,16 @@
+<%= link_to @user.stack_link do %>
+  <%= image_tag @user.flair_link, alt: @user.username, class: "stack_exchange_user_flair", data: { username: @user.username, reputation: @user.reputation || '-', site_logo: @user.site_logo } %>
+<% end %>
+
+<br />
+<br />
+
+<table class="table">
+  <tr>
+    <th>Posts</th>
+  </tr>
+
+  <% @posts.each do |post| %>
+    <%= render 'posts/post', post: post %>
+  <% end %>
+</table>
