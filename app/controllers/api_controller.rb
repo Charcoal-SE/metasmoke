@@ -5,17 +5,15 @@ class ApiController < ApplicationController
   def posts
     @posts = Post.where(:id => params[:ids].split(";"))
     results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
-    has_more = (results.count > @pagesize)
-    render :json => { :items => results, :has_more => has_more }
+    render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
   def posts_by_feedback
     @posts = Post.all.joins(:feedbacks).where(:feedbacks => { :feedback_type => params[:type] })
     results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
-    has_more = (results.count > @pagesize)
-    render :json => { :items => results, :has_more => has_more }
+    render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
-  
+
   def posts_by_url
     @post = Post.where(:link => params[:url])
     render :json => @post
@@ -34,15 +32,13 @@ class ApiController < ApplicationController
   def reasons
     @reasons = Reason.where(:id => params[:ids].split(";"))
     results = @reasons.paginate(:page => params[:page], :per_page => @pagesize)
-    has_more = (results.count > @pagesize)
-    render :json => { :items => results, :has_more => has_more }
+    render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
   def reason_posts
     @reason = Reason.find params[:id]
     results = @reason.posts.paginate(:page => params[:page], :per_page => @pagesize)
-    has_more = (results.count > @pagesize)
-    render :json => { :items => results, :has_more => has_more }
+    render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
   private
@@ -54,5 +50,9 @@ class ApiController < ApplicationController
 
     def set_pagesize
       @pagesize = [params[:per_page] || 10, 100].min
+    end
+
+    def has_more?(page, result_count)
+      page * @pagesize < result_count
     end
 end
