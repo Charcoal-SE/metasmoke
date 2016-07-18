@@ -53,6 +53,6 @@ class ApiController < ApplicationController
     end
 
     def has_more?(page, result_count)
-      page * @pagesize < result_count
+      (page || 1) * @pagesize < result_count
     end
 end
