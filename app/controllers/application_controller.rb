@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
 
   private
     def setup_miniprofiler
-      blacklisted_modes = ['env', 'gc-profile']
+      blacklisted_modes = ['env', 'profile-gc', 'profile-memory', 'analyze-memory']
       unless blacklisted_modes.include? params[:pp]
         Rack::MiniProfiler.authorize_request
       end
