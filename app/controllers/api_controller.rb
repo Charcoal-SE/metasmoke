@@ -47,7 +47,7 @@ class ApiController < ApplicationController
     @feedback = Feedback.new(:user => current_user, :post => @post)
     @feedback.feedback_type = params[:type]
     if @feedback.save
-      render :action => :post_feedback, :id => @post.id, :status => 201
+      render :json => @post.feedbacks, :status => 201
     else
       render :status => 500, :json => { :error_name => "failed", :error_code => 500, :error_message => "Feedback object failed to save." }
     end
