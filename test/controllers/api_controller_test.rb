@@ -5,7 +5,7 @@ class ApiControllerTest < ActionController::TestCase
 
   test "shouldn't allow unauthenticated users to write" do
     sign_out(:users)
-    put :create_feedback, :id => 23653, :type => 'tpu-'
+    put :create_feedback, :id => 23653, :type => 'tpu-', :key => api_keys(:one).key
     json = JSON.parse(@response.body)
     assert_response(401)
     assert_equal 401, json['error_code']
@@ -14,7 +14,7 @@ class ApiControllerTest < ActionController::TestCase
 
   test "should return created and post feedback" do
     sign_in users(:admin_user)
-    put :create_feedback, :id => 23653, :type => 'tpu-'
+    put :create_feedback, :id => 23653, :type => 'tpu-', :key => api_keys(:one).key
     assert_nothing_raised JSON::ParserError do
       JSON.parse(@response.body)
     end
