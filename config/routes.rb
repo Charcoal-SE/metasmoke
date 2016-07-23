@@ -74,6 +74,8 @@ Rails.application.routes.draw do
   get 'api/reasons/:ids', :to => 'api#reasons'
   get 'api/reasons/:id/posts', :to => 'api#reason_posts'
 
+  put 'api/w/post/:id/feedback', :to => 'api#create_feedback'
+
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -1,6 +1,7 @@
 class ApiController < ApplicationController
   before_action :verify_key
   before_action :set_pagesize
+  before_action :verify_auth, :only => [:create_feedback]
 
   def posts
     @posts = Post.where(:id => params[:ids].split(";"))
@@ -41,10 +42,27 @@ class ApiController < ApplicationController
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
+  def create_feedback
+    @post = Post.find params[:id]
+    @feedback = Feedback.new(:user => current_user, :post => @post)
+    @feedback.feedback_type = params[:type]
+    if @feedback.save
+      render :action => :post_feedback, :id => @post.id, :status => 201
+    else
+      render :status => 500, :json => { :error_name => "failed", :error_code => 500, :error_message => "Feedback object failed to save." }
+    end
+  end
+
   private
     def verify_key
       unless params[:key].present? && ApiKey.where(:key => params[:key]).exists?
         render :status => 403, :json => { :error_name => "unauthenticated", :error_code => 403, :error_message => "No key was passed or the passed key is invalid." }
+      end
+    end
+
+    def verify_auth
+      unless user_signed_in?
+        render :status => 401, :json => { :error_name => "unauthorized", :error_code => 401, :error_message => "There must be a metasmoke user logged in to use this route." }
       end
     end
 
