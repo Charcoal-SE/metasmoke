@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ApiControllerTest < ActionDispatch::IntegrationTest
+class ApiControllerTest < ActionController::TestCase
   include Devise::TestHelpers
 
   test "shouldn't allow unauthenticated users to write" do
