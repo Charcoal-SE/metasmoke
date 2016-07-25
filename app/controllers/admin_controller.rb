@@ -56,7 +56,7 @@ class AdminController < ApplicationController
   def ignore
     @ignored.is_ignored = true
     @ignored.save
-    redirect_to :ignored_users
+    redirect_to url_for(:controller => :admin, :action => :ignored_users)
   end
 
   def unignore
