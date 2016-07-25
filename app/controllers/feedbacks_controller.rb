@@ -83,8 +83,7 @@ class FeedbacksController < ApplicationController
       end
     else
       if @ignored
-        @ignored.is_ignored = false
-        @ignored.save
+        @ignored.destroy!
       end
     end
 
