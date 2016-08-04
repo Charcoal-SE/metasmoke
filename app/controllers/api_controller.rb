@@ -47,6 +47,7 @@ class ApiController < ApplicationController
     @feedback = Feedback.new(:user => current_user, :post => @post)
     @feedback.feedback_type = params[:type]
     if @feedback.save
+      ActionCable.server.broadcast "smokedetector_messages", { :message => "Received feedback from #{@feedback.try(:user_name)} on #{@post.id} via API application #{@key.app_name}." }
       render :json => @post.feedbacks, :status => 201
     else
       render :status => 500, :json => { :error_name => "failed", :error_code => 500, :error_message => "Feedback object failed to save." }
@@ -55,9 +56,11 @@ class ApiController < ApplicationController
 
   private
     def verify_key
-      unless params[:key].present? && ApiKey.where(:key => params[:key]).exists?
+      key_record = ApiKey.where(:key => params[:key])
+      unless params[:key].present? && key_record.exists?
         render :status => 403, :json => { :error_name => "unauthenticated", :error_code => 403, :error_message => "No key was passed or the passed key is invalid." }
       end
+      @key = key_record
     end
 
     def verify_auth
