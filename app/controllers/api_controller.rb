@@ -56,16 +56,15 @@ class ApiController < ApplicationController
 
   private
     def verify_key
-      key_record = ApiKey.where(:key => params[:key])
-      unless params[:key].present? && key_record.exists?
-        render :status => 403, :json => { :error_name => "unauthenticated", :error_code => 403, :error_message => "No key was passed or the passed key is invalid." }
+      @key = ApiKey.find_by_key(params[:key])
+      unless params[:key].present? && @key.present?
+        render :status => 403, :json => { :error_name => "unauthenticated", :error_code => 403, :error_message => "No key was passed or the passed key is invalid." } and return
       end
-      @key = key_record
     end
 
     def verify_auth
       unless user_signed_in?
-        render :status => 401, :json => { :error_name => "unauthorized", :error_code => 401, :error_message => "There must be a metasmoke user logged in to use this route." }
+        render :status => 401, :json => { :error_name => "unauthorized", :error_code => 401, :error_message => "There must be a metasmoke user logged in to use this route." } and return
       end
     end
 
