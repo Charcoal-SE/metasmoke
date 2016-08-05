@@ -48,7 +48,7 @@ class ApiController < ApplicationController
     @feedback = Feedback.new(:user => current_user, :post => @post)
     @feedback.feedback_type = params[:type]
     if @feedback.save
-      ActionCable.server.broadcast "smokedetector_messages", { :message => "Received feedback from #{@feedback.try(:user_name)} on #{@post.id} via API application #{@key.app_name}." }
+      ActionCable.server.broadcast "smokedetector_messages", { :message => "Received feedback (#{params[:type]}) from #{current_user.username} on #{@post.id} via API application #{@key.app_name}." }
       render :json => @post.feedbacks, :status => 201
     else
       render :status => 500, :json => { :error_name => "failed", :error_code => 500, :error_message => "Feedback object failed to save." }
