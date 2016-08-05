@@ -2,6 +2,7 @@ class ApiController < ApplicationController
   before_action :verify_key
   before_action :set_pagesize
   before_action :verify_auth, :only => [:create_feedback]
+  skip_before_action :verify_authenticity_token, :only => [:create_feedback]
 
   def posts
     @posts = Post.where(:id => params[:ids].split(";"))
