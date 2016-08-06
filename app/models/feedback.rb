@@ -35,6 +35,10 @@ class Feedback < ApplicationRecord
   def self.invalid
     self.unscoped.where(:is_invalidated => true)
   end
+  
+  def self.via_api
+    self.unscoped.where.not(:api_key => nil)
+  end
 
 
   def update_post_feedback_cache
