@@ -85,6 +85,10 @@ class AdminController < ApplicationController
   def key_list
     @keys = ApiKey.all
   end
+  
+  def api_feedback
+    @feedback = Feedback.via_api.order(:created_at => :desc).paginate(:page => params[:page], :per_page => 100)
+  end
 
   private
     def set_ignored_user
