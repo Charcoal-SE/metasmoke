@@ -3,4 +3,6 @@ class ApiKey < ApplicationRecord
   validates_uniqueness_of :key
 
   validates :app_name, length: { minimum: 1 }
+
+  has_many :feedbacks
 end

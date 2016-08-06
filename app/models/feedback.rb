@@ -1,6 +1,33 @@
 class Feedback < ApplicationRecord
   default_scope { where(is_invalidated: false, is_ignored: false) }
 
+  belongs_to :post
+  belongs_to :user
+  belongs_to :api_key
+
+  after_save do
+    if self.update_post_feedback_cache # if post feedback cache was changed
+      if self.api_key.present?
+        # ActionCable.server.broadcast "smokedetector_messages", { :message => "Received feedback (#{self.feedback_type}) from #{self.user.username} on #{self.post_id} via API application #{self.api_key.app_name}." }
+      end
+    end
+  end
+  after_create do
+    ActionCable.server.broadcast "posts_#{self.post_id}", { feedback: FeedbacksController.render(locals: {feedback: self}, partial: 'feedback').html_safe }
+  end
+
+  def is_positive?
+    self.feedback_type.include? "t"
+  end
+
+  def is_negative?
+    self.feedback_type.include? "f"
+  end
+
+  def is_naa?
+    self.feedback_type.include? "naa"
+  end
+
   def self.ignored
     self.unscoped.where(:is_ignored => true)
   end
@@ -9,29 +36,12 @@ class Feedback < ApplicationRecord
     self.unscoped.where(:is_invalidated => true)
   end
 
-  belongs_to :post
-  belongs_to :user
-  after_save :update_post_feedback_cache
-
-  after_create do
-    ActionCable.server.broadcast "posts_#{self.post_id}", { feedback: FeedbacksController.render(locals: {feedback: self}, partial: 'feedback').html_safe }
-  end
-
-  def is_positive?
-    self.feedback_type.include? "t"
-  end
-  def is_negative?
-    self.feedback_type.include? "f"
-  end
-  def is_naa?
-    self.feedback_type.include? "naa"
-  end
-
 
   def update_post_feedback_cache
     if self.changed?
-      self.post.reload.update_feedback_cache
+      return self.post.reload.update_feedback_cache # Returns whether the post feedback cache has been changed
     end
+    return false
   end
 
   # This is a really ugly way to do this, but it's fast and slightly

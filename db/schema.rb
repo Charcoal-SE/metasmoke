@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20160518143738) do
     t.integer  "chat_user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "api_key_id"
     t.index ["post_id"], name: "index_feedbacks_on_post_id", using: :btree
   end
 
