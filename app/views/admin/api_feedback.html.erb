@@ -1,0 +1,32 @@
+<h3>Feedback via API</h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Owner</th>
+      <th>Type</th>
+      <th>Application</th>
+      <th>Created</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @feedback.each do |f| %>
+      <tr>
+        <td>
+          <% if f.user.present? %>
+            <%= f.user.username %>
+          <% else %>
+            <em>Nobody. Um.</em>
+          <% end %>
+        </td>
+        <td><%= f.feedback_type %></td>
+        <td><%= f.api_key.app_name %></td>
+        <td><%= time_ago_in_words(f.created_at) %> ago</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= will_paginate @feedback, renderer: BootstrapPagination::Rails %>
+</div>
