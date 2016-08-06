@@ -13,7 +13,7 @@
       <strong>
          <% post.feedbacks.each do |feedback| %>
            <% next if (feedback.is_positive? and feedback.is_negative?) or (not feedback.is_positive? and not feedback.is_negative? and not feedback.is_naa?) %>
-             <span style="<%= "font-weight:normal" if feedback.is_naa? %>" data-toggle="tooltip" data-placement="top" title="<%= feedback.user.present? ? "#{feedback.user.try(:username)} (From Review)" : feedback.user_name %>: <%= feedback.feedback_type %>" class="<%= feedback.element_class %>"><%= feedback.element_symbol.html_safe %></span>
+           <span style="<%= "font-weight:normal" if feedback.is_naa? %>" data-toggle="tooltip" data-placement="top" title="<%= feedback.user.present? or feedback.api_key_id.present? ? "#{feedback.user.try(:username)} (From #{feedback.api_key.try(:app_name) || "Review"})" : feedback.user_name %>: <%= feedback.feedback_type %>" class="<%= feedback.element_class %>"><%= feedback.element_symbol.html_safe %></span>
          <% end %>
       </strong>
     <% end %>
