@@ -25,7 +25,7 @@ class ApiControllerTest < ActionController::TestCase
     sign_in users(:admin_user)
 
     assert_difference ApiKey.find(api_keys(:one).id).feedbacks do
-      put :create_feedback, :id => 23653, :type => 'tpu-', :key => api_keys(:one).key
+      post :create_feedback, :id => 23653, :type => 'tpu-', :key => api_keys(:one).key
       assert_nothing_raised JSON::ParserError do
         JSON.parse(@response.body)
       end
