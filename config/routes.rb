@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   get 'admin', to: 'admin#index'
   get 'admin/invalidated', to: 'admin#recently_invalidated'
   get 'admin/user_feedback', to: 'admin#user_feedback'
+  get 'admin/api_feedback', to: 'admin#api_feedback'
   get 'admin/flagged', to: 'admin#flagged'
   post 'admin/clear_flag', to: 'admin#clear_flag'
   get 'admin/users', to: 'admin#users'
