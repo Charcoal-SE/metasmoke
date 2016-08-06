@@ -20,4 +20,16 @@ class ApiControllerTest < ActionController::TestCase
     end
     assert_response(201)
   end
+
+  test "should associate feedback with API key" do
+    sign_in users(:admin_user)
+
+    assert_difference ApiKey.find(api_keys(:one).id).feedbacks do
+      put :create_feedback, :id => 23653, :type => 'tpu-', :key => api_keys(:one).key
+      assert_nothing_raised JSON::ParserError do
+        JSON.parse(@response.body)
+      end
+      assert_response(201)
+    end
+  end
 end

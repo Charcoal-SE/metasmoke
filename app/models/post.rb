@@ -18,10 +18,14 @@ class Post < ApplicationRecord
     self.is_tp = true if feedbacks.index { |f| f.is_positive? }
     self.is_fp = true if feedbacks.index { |f| f.is_negative? }
 
+    is_feedback_changed = self.is_tp_changed? || self.is_fp_changed?
+
     save!
 
     if self.is_tp and self.is_fp
       ActionCable.server.broadcast "smokedetector_messages", { message: "Conflicting feedback on [#{self.title}](//metasmoke.erwaysoftware.com/post/#{self.id})." }
     end
+
+    return is_feedback_changed
   end
 end
