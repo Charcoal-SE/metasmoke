@@ -11,9 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160518143738) do
+ActiveRecord::Schema.define(version: 20160806141541) do
 
-  create_table "commit_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "key"
+    t.string   "app_name"
+  end
+
+  create_table "blacklisted_websites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.string   "host"
+    t.boolean  "is_active",  default: true
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  create_table "commit_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "commit_sha"
     t.string   "status"
     t.string   "commit_message"
@@ -43,6 +57,7 @@ ActiveRecord::Schema.define(version: 20160518143738) do
     t.integer  "chat_user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "is_ignored",     default: false
     t.integer  "api_key_id"
     t.index ["post_id"], name: "index_feedbacks_on_post_id", using: :btree
   end
@@ -145,6 +160,7 @@ ActiveRecord::Schema.define(version: 20160518143738) do
     t.datetime "reset_password_sent_at"
     t.boolean  "is_admin",               default: false, null: false
     t.string   "username"
+    t.boolean  "is_code_admin",          default: false
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
