@@ -3,6 +3,7 @@ class StatusController < ApplicationController
   before_action :check_if_smokedetector, :only => [:status_update]
 
   def index
+    @statuses = SmokeDetector.order(:created_at).all
   end
 
   def status_update
