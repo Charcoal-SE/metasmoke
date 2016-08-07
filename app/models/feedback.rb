@@ -4,6 +4,8 @@ class Feedback < ApplicationRecord
   belongs_to :post
   belongs_to :user
   belongs_to :api_key
+  
+  before_save :check_for_dupe_feedback
 
   after_save do
     if self.update_post_feedback_cache # if post feedback cache was changed
@@ -78,4 +80,13 @@ class Feedback < ApplicationRecord
   def select_without_nil
     select(Feedback.attribute_names - ['message_link'])
   end
+  
+  private
+    def check_for_dupe_feedback
+      dupe = Feedback.where(:user_name => self.user_name, :post_id => self.post_id, :feedback_type => self.feedback_type)
+      review_dupe = Feedback.where(:user_id => self.user_id, :post_id => self.post_id, :feedback_type => self.feedback_type)
+      if dupe.or(review_dupe).count > 0
+        return false  # Prevents saving
+      end
+    end
 end
