@@ -1,7 +1,7 @@
 class Post < ApplicationRecord
   has_and_belongs_to_many :reasons
-  has_many :feedbacks
-  has_many :deletion_logs
+  has_many :feedbacks, :dependent => :destroy
+  has_many :deletion_logs, :dependent => :destroy
   belongs_to :site
   belongs_to :stack_exchange_user
 
