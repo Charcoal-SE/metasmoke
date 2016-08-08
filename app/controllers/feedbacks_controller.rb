@@ -64,12 +64,12 @@ class FeedbacksController < ApplicationController
     post = Post.where(:link => post_link).order(:created_at).last
 
     if post == nil
-      render :text => "Error: No post found for link" and return
+      render plain: "Error: No post found for link" and return
     end
 
     # Ignore identical feedback from the same user
     if Feedback.where(:post => post, :user_name => feedback_params[:user_name], :feedback_type => feedback_params[:feedback_type]).present?
-      render :text => "Identical feedback from user already exists on post" and return
+      render plain: "Identical feedback from user already exists on post" and return
     end
 
     @feedback = Feedback.new(feedback_params)
