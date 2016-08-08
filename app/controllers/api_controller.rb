@@ -48,6 +48,9 @@ class ApiController < ApplicationController
     @feedback = Feedback.new(:user => current_user, :post => @post, :api_key => @key)
     @feedback.feedback_type = params[:type]
     if @feedback.save
+      if @feedback.is_positive?
+        ActionCable.server.broadcast "smokedetector_messages", { blacklist: { uid: @post.stack_exchange_user.user_id, site: @post.stack_exchange_user.site.site_url, post: @post.link } }
+      end
       render :json => @post.feedbacks, :status => 201
     else
       render :status => 500, :json => { :error_name => "failed", :error_code => 500, :error_message => "Feedback object failed to save." }
