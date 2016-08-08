@@ -32,4 +32,14 @@ class ApiControllerTest < ActionController::TestCase
       assert_response(201)
     end
   end
+
+  test "should prevent duplicate feedback from api" do
+    sign_in users(:admin_user)
+
+    assert_difference 'Feedback.count' do # delta of one
+      2.times do
+        post :create_feedback, :id => 23653, :type => "tpu-", :key => api_keys(:one).key
+      end
+    end
+  end
 end
