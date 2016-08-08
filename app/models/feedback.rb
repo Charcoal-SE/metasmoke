@@ -5,7 +5,7 @@ class Feedback < ApplicationRecord
   belongs_to :user
   belongs_to :api_key
   
-  before_save :check_for_dupe_feedback
+  before_create :check_for_dupe_feedback
 
   after_save do
     if self.update_post_feedback_cache # if post feedback cache was changed
@@ -83,10 +83,14 @@ class Feedback < ApplicationRecord
   
   private
     def check_for_dupe_feedback
-      dupe = Feedback.where(:user_name => self.user_name, :post_id => self.post_id, :feedback_type => self.feedback_type)
-      review_dupe = Feedback.where(:user_id => self.user_id, :post_id => self.post_id, :feedback_type => self.feedback_type)
-      if dupe.or(review_dupe).count > 0
-        return false  # Prevents saving
+      duplicate = if self.user_id.present?
+        Feedback.where(:user_id => self.user_id, :post_id => self.post_id, :feedback_type => self.feedback_type)
+      else
+        Feedback.where(:user_name => self.user_name, :post_id => self.post_id, :feedback_type => self.feedback_type)
+      end
+
+      if duplicate.exists?
+        throw :abort
       end
     end
 end
