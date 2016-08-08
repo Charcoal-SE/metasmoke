@@ -1,8 +1,6 @@
 require 'test_helper'
 
 class FeedbacksControllerTest < ActionController::TestCase
-  include Devise::TestHelpers
-
   test "should allow admin to clear feedback" do
     sign_in users(:admin_user)
 

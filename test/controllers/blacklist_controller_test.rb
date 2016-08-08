@@ -1,8 +1,6 @@
 require 'test_helper'
 
 class BlacklistControllerTest < ActionController::TestCase
-  include Devise::TestHelpers
-
   test "shouldn't allow blank websites" do
     sign_in users(:code_admin_user)
 

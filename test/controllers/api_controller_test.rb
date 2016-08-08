@@ -1,8 +1,6 @@
 require 'test_helper'
 
 class ApiControllerTest < ActionController::TestCase
-  include Devise::TestHelpers
-
   test "shouldn't allow unauthenticated users to write" do
     sign_out(:users)
     put :create_feedback, params: { id: 23653, type: 'tpu-', key: api_keys(:one).key }
