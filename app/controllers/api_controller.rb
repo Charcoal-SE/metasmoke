@@ -49,7 +49,7 @@ class ApiController < ApplicationController
     @feedback.feedback_type = params[:type]
     if @feedback.save
       if @feedback.is_positive?
-        ActionCable.server.broadcast "smokedetector_messages", { blacklist: { uid: @post.stack_exchange_user.user_id, site: @post.stack_exchange_user.site.site_url, post: @post.link } }
+        ActionCable.server.broadcast "smokedetector_messages", { blacklist: { uid: @post.stack_exchange_user.try(:user_id), site: @post.stack_exchange_user.try(:site).try(:site_url), post: @post.link } }
       end
       render :json => @post.feedbacks, :status => 201
     else
