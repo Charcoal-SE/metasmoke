@@ -8,9 +8,7 @@
   (<strong><%= ((@invalid_count.to_f / @feedback_count.to_f) * 100).round(2) %>%</strong> invalid)
 </p>
 
-<% if @ms_only %>
-  <p class="text-muted">Only showing feedback from metasmoke because this user has not authenticated with Stack Exchange.</p>
-<% end %>
+<p class="text-muted">This data includes feedback from <%= @sources.join ', ' %></p>
 
 <table class="table table-striped">
   <thead>
