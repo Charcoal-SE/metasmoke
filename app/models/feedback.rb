@@ -6,6 +6,7 @@ class Feedback < ApplicationRecord
   belongs_to :api_key
   
   before_save :check_for_dupe_feedback
+  before_save :check_for_user_assoc
 
   after_save do
     if self.update_post_feedback_cache # if post feedback cache was changed
@@ -92,5 +93,24 @@ class Feedback < ApplicationRecord
       if duplicate.exists?
         throw :abort
       end
+    end
+
+    def check_for_user_assoc
+      return if chat_host.nil? or chat_user_id.nil?
+
+      chat_id_field = case chat_host
+      when "stackexchange.com"
+        :stackexchange_chat_id
+      when "stackoverflow.com"
+        :stackoverflow_chat_id
+      when "meta.stackexchange.com"
+        :meta_stackexchange_chat_id
+      else
+        nil
+      end
+
+      return unless chat_id_field
+
+      self.user = User.where(chat_id_field => chat_user_id).try(:first)
     end
 end
