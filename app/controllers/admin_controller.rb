@@ -12,7 +12,7 @@ class AdminController < ApplicationController
   end
 
   def user_feedback
-    user = User.all.where(:id => params[:user_id])
+    @user = User.all.where(:id => params[:user_id])
     ms_feedback = Feedback.unscoped.joins(:posts).where(:user_id => user.id)
 
     if user.stackoverflow_chat_id.present? && user.stackexchange_chat_id.present? && user.meta_stackexchange_chat_id.present?
@@ -24,6 +24,9 @@ class AdminController < ApplicationController
       @ms_only = true
       @feedback = ms_feedback.order(:feedbacks => { :id => :desc }).paginate(:page => params[:page], :per_page => 100)
     end
+
+    @feedback_count = @feedback.count
+    @invalid_count = @feedback.where(:is_invalidated => true).count
   end
 
   def flagged

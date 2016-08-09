@@ -21,7 +21,7 @@
         <td><%= user.is_approved ? "Yes" : "No" %></td>
         <td><%= user.is_admin ? "Yes" : "No" %></td>
         <td><%= user.is_code_admin ? "Yes" : "No" %></td>
-        <td><a href="/admin/user_feedback?user_name=<%= user.username %>">Feedback</a></td>
+        <td><a href="/admin/user_feedback?user_id=<%= user.id %>">Feedback</a></td>
       </tr>
     <% end %>
   </tbody>

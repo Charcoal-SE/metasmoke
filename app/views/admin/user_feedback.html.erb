@@ -1,4 +1,4 @@
-<h3>User Feedback<%= " for #{params[:user_name]}" if params[:user_name] %></h3>
+<h3>User Feedback for <%= @user.username %></h3>
 
 <p>
   <strong><%= @feedback_count %></strong>
@@ -7,6 +7,10 @@
   invalidated
   (<strong><%= ((@invalid_count.to_f / @feedback_count.to_f) * 100).round(2) %>%</strong> invalid)
 </p>
+
+<% if @ms_only %>
+  <p class="text-muted">Only showing feedback from metasmoke because this user has not authenticated with Stack Exchange.</p>
+<% end %>
 
 <table class="table table-striped">
   <thead>
