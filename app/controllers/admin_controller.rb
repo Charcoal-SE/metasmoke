@@ -13,12 +13,12 @@ class AdminController < ApplicationController
 
   def user_feedback
     @user = User.all.where(:id => params[:user_id])
-    ms_feedback = Feedback.unscoped.joins(:posts).where(:user_id => user.id)
+    ms_feedback = Feedback.unscoped.joins(:posts).where(:user_id => @user.id)
 
-    if user.stackoverflow_chat_id.present? && user.stackexchange_chat_id.present? && user.meta_stackexchange_chat_id.present?
-      so_feedback = Feedback.unscoped.joins(:posts).where(:chat_host => "stackoverflow.com", :chat_user_id => user.stackoverflow_chat_id)
-      se_feedback = Feedback.unscoped.joins(:posts).where(:chat_host => "stackexchange.com", :chat_user_id => user.stackexchange_chat_id)
-      mse_feedback = Feedback.unscoped.joins(:posts).where(:chat_host => "meta.stackexchange.com", :chat_user_id => user.meta_stackexchange_chat_id)
+    if @user.stackoverflow_chat_id.present? && @user.stackexchange_chat_id.present? && @user.meta_stackexchange_chat_id.present?
+      so_feedback = Feedback.unscoped.joins(:posts).where(:chat_host => "stackoverflow.com", :chat_user_id => @user.stackoverflow_chat_id)
+      se_feedback = Feedback.unscoped.joins(:posts).where(:chat_host => "stackexchange.com", :chat_user_id => @user.stackexchange_chat_id)
+      mse_feedback = Feedback.unscoped.joins(:posts).where(:chat_host => "meta.stackexchange.com", :chat_user_id => @user.meta_stackexchange_chat_id)
       @feedback = ms_feedback.or(so_feedback).or(se_feedback).or(mse_feedback).order(:feedbacks => { :id => :desc }).paginate(:page => params[:page], :per_page => 100)
     else
       @ms_only = true
