@@ -13,23 +13,23 @@ class AdminController < ApplicationController
 
   def user_feedback
     @user = User.all.where(:id => params[:user_id]).first
-    @feedback = Feedback.unscoped.joins(:posts).where(:user_id => @user.id)
+    @feedback = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(:user_id => @user.id)
     @sources = ['metasmoke']
 
     if @user.stackoverflow_chat_id.present? && @user.stackexchange_chat_id.present? && @user.meta_stackexchange_chat_id.present?
-      so_feedback = Feedback.unscoped.joins(:posts).where(:chat_host => "stackoverflow.com", :chat_user_id => @user.stackoverflow_chat_id)
+      so_feedback = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(:chat_host => "stackoverflow.com", :chat_user_id => @user.stackoverflow_chat_id)
       @feedback = @feedback.or(so_feedback)
       @sources << 'Stack Overflow chat'
     end
 
     if @user.stackexchange_chat_id.present?
-      se_feedback = Feedback.unscoped.joins(:posts).where(:chat_host => "stackexchange.com", :chat_user_id => @user.stackexchange_chat_id)
+      se_feedback = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(:chat_host => "stackexchange.com", :chat_user_id => @user.stackexchange_chat_id)
       @feedback = @feedback.or(se_feedback)
       @sources << 'Stack Exchange chat'
     end
 
     if @user.meta_stackexchange_chat_id.present?
-      mse_feedback = Feedback.unscoped.joins(:posts).where(:chat_host => "meta.stackexchange.com", :chat_user_id => @user.meta_stackexchange_chat_id)
+      mse_feedback = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(:chat_host => "meta.stackexchange.com", :chat_user_id => @user.meta_stackexchange_chat_id)
       @feedback = @feedback.or(mse_feedback)
       @sources << 'Meta Stack Exchange chat'
     end
