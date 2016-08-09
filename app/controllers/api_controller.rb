@@ -51,7 +51,7 @@ class ApiController < ApplicationController
       if @feedback.is_positive?
         ActionCable.server.broadcast "smokedetector_messages", { blacklist: { uid: @post.stack_exchange_user.try(:user_id), site: @post.stack_exchange_user.try(:site).try(:site_url), post: @post.link } }
       end
-      ActionCable.server.broadcast "smokedetector_messages", { message: "#{@feedback.feedback_type} by #{current_user.username} on [#{@post.title}](#{@post.link})" }
+      ActionCable.server.broadcast "smokedetector_messages", { message: "#{@feedback.feedback_type} by #{current_user.username}" + (@post.id == Post.last.id ? "" : " on [#{@post.title}](#{@post.link})") }
       render :json => @post.feedbacks, :status => 201
     else
       render :status => 500, :json => { :error_name => "failed", :error_code => 500, :error_message => "Feedback object failed to save." }
