@@ -16,7 +16,7 @@ class AdminController < ApplicationController
     @feedback = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(:user_id => @user.id)
     @sources = ['metasmoke']
 
-    if @user.stackoverflow_chat_id.present? && @user.stackexchange_chat_id.present? && @user.meta_stackexchange_chat_id.present?
+    if @user.stackoverflow_chat_id.present?
       so_feedback = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(:chat_host => "stackoverflow.com", :chat_user_id => @user.stackoverflow_chat_id)
       @feedback = @feedback.or(so_feedback)
       @sources << 'Stack Overflow chat'
