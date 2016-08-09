@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'authentication/status'
+
+  get 'authentication/redirect_target'
+
   mount ActionCable.server => '/cable'
 
   get 'users/username'
