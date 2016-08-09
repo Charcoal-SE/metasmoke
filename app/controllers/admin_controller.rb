@@ -13,7 +13,7 @@ class AdminController < ApplicationController
 
   def user_feedback
     @user = User.all.where(:id => params[:user_id]).first
-    @feedback = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(:user_id => @user.id)
+    @feedback = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(:user_id => @user.id).select('posts.title, feedbacks.*')
     @sources = ['metasmoke']
 
     if @user.stackoverflow_chat_id.present?
