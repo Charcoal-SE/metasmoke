@@ -34,7 +34,7 @@ class AdminController < ApplicationController
       @sources << 'Meta Stack Exchange chat'
     end
 
-    @feedback = @feedback.order(:feedbacks => { :id => :desc }).paginate(:page => params[:page], :per_page => 100)
+    @feedback = @feedback.order('feedbacks.id DESC').paginate(:page => params[:page], :per_page => 100)
     @feedback_count = @feedback.count
     @invalid_count = @feedback.where(:is_invalidated => true).count
   end
