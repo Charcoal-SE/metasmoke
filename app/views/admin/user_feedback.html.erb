@@ -20,7 +20,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @feedbacks.each do |f| %>
+    <% @feedback.each do |f| %>
       <tr class="<%= "danger" if f.invalidated_at %>">
         <td><a href="/post/<%= f.post_id %>"><%= f.title %></a></td>
         <td class="<%= f.element_class %>"><%= f.feedback_type %></td>
@@ -32,5 +32,5 @@
 </table>
 
 <div class="text-center">
-  <%= will_paginate @feedbacks, renderer: BootstrapPagination::Rails %>
+  <%= will_paginate @feedback, renderer: BootstrapPagination::Rails %>
 </div>
