@@ -36,7 +36,7 @@ class AdminControllerTest < ActionController::TestCase
 
     get :user_feedback, params: { :user_id => users(:approved_user).id }
     assert_response :success
-    assert assigns(:feedbacks)
+    assert assigns(:feedback)
     assert assigns(:feedback_count)
     assert assigns(:invalid_count)
   end
