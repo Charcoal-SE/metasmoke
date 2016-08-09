@@ -12,20 +12,31 @@ class AdminController < ApplicationController
   end
 
   def user_feedback
-    @feedbacks = nil
-    begin
-      @user = User.find_by_email params[:user_name]
-      @feedbacks = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(:user_id => @user.id).select('posts.title, feedbacks.*').order('feedbacks.id DESC').paginate(:page => params[:page], :per_page => 100)
-      @feedback_count = Feedback.unscoped.where(:user_id => @user.id).count
-      @invalid_count = Feedback.unscoped.where(:user_id => @user.id, :is_invalidated => true).count
-    rescue
+    @user = User.all.where(:id => params[:user_id]).first
+    @feedback = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(:user_id => @user.id)
+    @sources = ['metasmoke']
+
+    if @user.stackoverflow_chat_id.present?
+      so_feedback = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(:chat_host => "stackoverflow.com", :chat_user_id => @user.stackoverflow_chat_id)
+      @feedback = @feedback.or(so_feedback)
+      @sources << 'Stack Overflow chat'
     end
 
-    if @feedbacks.nil?
-      @feedbacks = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(:user_name => params[:user_name]).select('posts.title, feedbacks.*').order('feedbacks.id DESC').paginate(:page => params[:page], :per_page => 100)
-      @feedback_count = Feedback.unscoped.where(:user_name => params[:user_name]).count
-      @invalid_count = Feedback.unscoped.where(:user_name => params[:user_name], :is_invalidated => true).count
+    if @user.stackexchange_chat_id.present?
+      se_feedback = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(:chat_host => "stackexchange.com", :chat_user_id => @user.stackexchange_chat_id)
+      @feedback = @feedback.or(se_feedback)
+      @sources << 'Stack Exchange chat'
     end
+
+    if @user.meta_stackexchange_chat_id.present?
+      mse_feedback = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(:chat_host => "meta.stackexchange.com", :chat_user_id => @user.meta_stackexchange_chat_id)
+      @feedback = @feedback.or(mse_feedback)
+      @sources << 'Meta Stack Exchange chat'
+    end
+
+    @feedback = @feedback.order('feedbacks.id DESC').paginate(:page => params[:page], :per_page => 100)
+    @feedback_count = @feedback.count
+    @invalid_count = @feedback.where(:is_invalidated => true).count
   end
 
   def flagged
@@ -85,7 +96,7 @@ class AdminController < ApplicationController
   def key_list
     @keys = ApiKey.all
   end
-  
+
   def api_feedback
     @feedback = Feedback.via_api.order(:created_at => :desc).paginate(:page => params[:page], :per_page => 100)
   end
