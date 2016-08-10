@@ -24,6 +24,8 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource_or_scope)
     if current_user.username.nil?
       users_username_path
+    elsif current_user.stack_exchange_account_id.nil?
+      authentication_status_path
     else
       request.env['omniauth.origin'] || stored_location_for(resource) || root_path
     end
