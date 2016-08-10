@@ -12,10 +12,10 @@ class GithubController < ApplicationController
     # If the signature is good, create a
     # new CommitStatus
 
-    if CommitStatus.find_by_commit_sha_and_status(params[:sha], "success")
-      render text: "Already recorded success for commit", status: 200
-      return
-    end
+#    if CommitStatus.find_by_commit_sha_and_status(params[:sha], "success")
+#      render text: "Already recorded success for commit", status: 200
+#      return
+#    end
 
     if params[:state] == "pending"
       render text: "We don't record pending statuses", status: 200
