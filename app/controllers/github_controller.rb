@@ -22,12 +22,13 @@ class GithubController < ApplicationController
       return
     end
 
-    status = CommitStatus.new
-    status.commit_sha = params[:sha]
-    status.status = params[:state]
-    status.commit_message = params[:commit][:commit][:message]
-    status.ci_url = params[:target_url]
-    status.save!
+    commit_sha = params[:sha]
+    status = params[:state]
+    commit_message = params[:commit][:commit][:message]
+    ci_url = params[:target_url]
+
+
+    ActionCable.server.broadcast "smokedetector_messages", { commit_status: { status: status, ci_url: ci_url, commit_sha: commit_sha, commit_message: commit_message } }
 
     render text: "OK", status: 200
   end
