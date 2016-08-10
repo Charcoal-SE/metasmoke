@@ -1,6 +1,5 @@
 class FeedbacksController < ApplicationController
   before_action :authenticate_user!, except: [:create]
-  before_action :verify_admin, only: [:clear, :delete]
   before_action :set_feedback, only: [:show, :edit, :update, :destroy]
   before_action :check_if_smokedetector, :only => :create
 
@@ -15,6 +14,9 @@ class FeedbacksController < ApplicationController
   def clear
     @post = Post.find(params[:id])
     @feedbacks = Feedback.unscoped.where(:post_id => params[:id])
+
+    raise ActionController::RoutingError.new('Not Found') unless verify_access(@feedbacks)
+
     @sites = [@post.site]
 
     raise ActionController::RoutingError.new('Not Found') if @post.nil?
@@ -22,6 +24,8 @@ class FeedbacksController < ApplicationController
 
   def delete
     f = Feedback.find params[:id]
+
+    raise ActionController::RoutingError.new('Not Found') unless verify_access(f)
 
     f.post.reasons.each do |reason|
       expire_fragment(reason)
@@ -126,5 +130,19 @@ class FeedbacksController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def feedback_params
       params.require(:feedback).permit(:message_link, :user_name, :user_link, :feedback_type, :post_link, :chat_user_id, :chat_host)
+    end
+
+    def verify_access(feedbacks)
+      return true if current_user.is_admin
+      if feedbacks.respond_to? :where
+        unless feedbacks.where(:user_id => current_user.id).exists?
+          return false
+        end
+      else
+        unless feedbacks.user_id == current_user.id
+          return false
+        end
+      end
+      return true
     end
 end
