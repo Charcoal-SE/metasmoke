@@ -90,7 +90,7 @@ class Feedback < ApplicationRecord
         Feedback.where(:user_name => self.user_name, :post_id => self.post_id, :feedback_type => self.feedback_type).where.not(:id => self.id)
       end
 
-      if duplicate.exists?
+      if duplicate.exists? and !self.is_invalidated
         throw :abort
       end
     end
