@@ -49,7 +49,7 @@ class ApiController < ApplicationController
     @feedback.feedback_type = params[:type]
     if @feedback.save
       if @feedback.is_positive?
-        ActionCable.server.broadcast "smokedetector_messages", { blacklist: { uid: @post.stack_exchange_user.try(:user_id).to_s, site: @post.stack_exchange_user.try(:site).try(:site_url), post: @post.link } }
+        ActionCable.server.broadcast "smokedetector_messages", { blacklist: { uid: @post.stack_exchange_user.try(:user_id).to_s, site: URI.parse(@post.stack_exchange_user.try(:site).try(:site_url)).host, post: @post.link } }
       end
       unless Feedback.where(:post_id => @post.id, :feedback_type => @feedback.feedback_type).where.not(:id => @feedback.id).exists?
         ActionCable.server.broadcast "smokedetector_messages", { message: "#{@feedback.feedback_type} by #{current_user.username}" + (@post.id == Post.last.id ? "" : " on [#{@post.title}](#{@post.link})") }
