@@ -16,10 +16,12 @@
         <td><a href="/post/<%= f.post_id %>"><%= f.title %></a></td>
         <td><%= f.feedback_type %></td>
         <td>
-          <% if f.user_name %>
-            <a href="/admin/user_feedback?user_name=<%= f.user_name %>"><%= f.user_name %></a>
+          <% if f.user_id %>
+            <a href="/admin/user_feedback?user_name=<%= f.user_name %>"><%= f.user_id %></a>
           <% elsif f.user.try(:email) %>
             (From Review)
+          <% elsif f.chat_user_id %>
+            (Chat: <%= f.chat_host %>/<%= f.chat_user_id %>)
           <% end %>
         </td>
         <td><%= time_ago_in_words(f.invalidated_at) + " ago" if f.invalidated_at %></td>
