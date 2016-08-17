@@ -17,7 +17,7 @@
         <td><%= f.feedback_type %></td>
         <td>
           <% if f.user_id %>
-            <a href="/admin/user_feedback?user_name=<%= f.user_name %>"><%= f.user_id %></a>
+            <a href="/admin/user_feedback?user_id=<%= f.user_id %>"><%= f.user.username %></a>
           <% elsif f.user.try(:email) %>
             (From Review)
           <% elsif f.chat_user_id %>
