@@ -58,6 +58,8 @@ class SearchController < ApplicationController
       @results = @results.where(:site_id => params[:site])
     end
 
+  @results = @results.includes(:feedbacks => [:user])
+
   respond_to do |format|
       format.html {
         @sites = Site.where(:id => @results.map(&:site_id)).to_a unless params[:option] == "graphs"
