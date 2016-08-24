@@ -1,0 +1,2 @@
+class MicroAuthController < ApplicationController
+end
