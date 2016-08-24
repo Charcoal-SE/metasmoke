@@ -1,7 +1,7 @@
 class ApiController < ApplicationController
   before_action :verify_key
   before_action :set_pagesize
-  before_action :verify_auth, :only => [:create_feedback]
+  before_action :verify_write_token, :only => [:create_feedback]
   skip_before_action :verify_authenticity_token, :only => [:create_feedback]
 
   def posts
@@ -71,11 +71,12 @@ class ApiController < ApplicationController
       end
     end
 
-    def verify_auth
-      unless user_signed_in?
-        render :status => 401, :json => { :error_name => "unauthorized", :error_code => 401, :error_message => "There must be a metasmoke user logged in to use this route." } and return
-      end
-    end
+    # This was the original write-authorization method, but it relied on a user being logged in. Works, but less optimal. Revert to this if everything goes terribly wrong with MicrOAuth.
+    #def verify_auth
+    #  unless user_signed_in?
+    #    render :status => 401, :json => { :error_name => "unauthorized", :error_code => 401, :error_message => "There must be a metasmoke user logged in to use this route." } and return
+    #  end
+    #end
 
     def set_pagesize
       @pagesize = [params[:per_page] || 10, 100].min
@@ -83,5 +84,16 @@ class ApiController < ApplicationController
 
     def has_more?(page, result_count)
       (page || 1) * @pagesize < result_count
+    end
+
+    def verify_write_token
+      # This method deliberately doesn't check expiry: tokens are valid for authorization forever, but can only be fetched using the code in the first 10 minutes.
+      @token = ApiToken.where(:token => params[:token], :api_key => @key)
+      if @token.any?
+        @token = @token.first
+        @user = @token.user
+      else
+        render :json => { :error_name => 'unauthorized', :error_code => 401, :error_message => "The token provided does not supply authorization to perform this action." } and return
+      end
     end
 end
