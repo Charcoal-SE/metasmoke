@@ -2,6 +2,7 @@ class ApiController < ApplicationController
   before_action :verify_key
   before_action :set_pagesize
   before_action :verify_auth, :only => [:create_feedback]
+  skip_before_action :verify_authenticity_token, :only => [:create_feedback]
 
   def posts
     @posts = Post.where(:id => params[:ids].split(";"))
@@ -44,9 +45,18 @@ class ApiController < ApplicationController
 
   def create_feedback
     @post = Post.find params[:id]
-    @feedback = Feedback.new(:user => current_user, :post => @post)
+    @feedback = Feedback.new(:user => current_user, :post => @post, :api_key => @key)
     @feedback.feedback_type = params[:type]
     if @feedback.save
+      if @feedback.is_positive?
+        begin
+          ActionCable.server.broadcast "smokedetector_messages", { blacklist: { uid: @post.stack_exchange_user.user_id.to_s, site: URI.parse(@post.stack_exchange_user.site.site_url).host, post: @post.link } }
+        rescue
+        end
+      end
+      unless Feedback.where(:post_id => @post.id, :feedback_type => @feedback.feedback_type).where.not(:id => @feedback.id).exists?
+        ActionCable.server.broadcast "smokedetector_messages", { message: "#{@feedback.feedback_type} by #{current_user.username}" + (@post.id == Post.last.id ? "" : " on [#{@post.title}](#{@post.link})") }
+      end
       render :json => @post.feedbacks, :status => 201
     else
       render :status => 500, :json => { :error_name => "failed", :error_code => 500, :error_message => "Feedback object failed to save." }
@@ -55,14 +65,15 @@ class ApiController < ApplicationController
 
   private
     def verify_key
-      unless params[:key].present? && ApiKey.where(:key => params[:key]).exists?
-        render :status => 403, :json => { :error_name => "unauthenticated", :error_code => 403, :error_message => "No key was passed or the passed key is invalid." }
+      @key = ApiKey.find_by_key(params[:key])
+      unless params[:key].present? && @key.present?
+        render :status => 403, :json => { :error_name => "unauthenticated", :error_code => 403, :error_message => "No key was passed or the passed key is invalid." } and return
       end
     end
 
     def verify_auth
       unless user_signed_in?
-        render :status => 401, :json => { :error_name => "unauthorized", :error_code => 401, :error_message => "There must be a metasmoke user logged in to use this route." }
+        render :status => 401, :json => { :error_name => "unauthorized", :error_code => 401, :error_message => "There must be a metasmoke user logged in to use this route." } and return
       end
     end
 

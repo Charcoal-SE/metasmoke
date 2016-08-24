@@ -8,10 +8,18 @@
     <th>Last Ping</th>
   </tr>
 
-  <% SmokeDetector.order("last_ping DESC").each do |sd| %>
-    <tr>
+  <% @statuses.each_with_index do |sd, index| %>
+    <% if index == 0 or sd.last_ping > 1.hour.ago %>
+      <tr class="status-row">
+    <% else %>
+      <tr class="status-row hidden-row" style="<%= 'display:none' %>">
+    <% end %>
       <td><%= sd.location %></td>
       <td class="status-<%= sd.status_color %>"><%= sd.last_ping %> (<%= time_ago_in_words(sd.last_ping, include_seconds: true)%> ago)</td>
     </tr>
   <% end %>
 </table>
+
+<% if @statuses.to_a.index { |s| s.last_ping < 1.hour.ago } %>
+  <a href="#" class="expand-status-table">Toggle hidden</a>
+<% end %>

@@ -11,7 +11,7 @@ class DeletionLogsController < ApplicationController
     post = Post.find_by_link(post_link)
 
     if post == nil
-      render :text => "Error: No post found for link" and return
+      render plain: "Error: No post found for link" and return
     end
 
     @deletion_log = post.deletion_logs.new

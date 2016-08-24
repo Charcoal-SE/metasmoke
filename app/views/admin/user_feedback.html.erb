@@ -1,4 +1,4 @@
-<h3>User Feedback<%= " for #{params[:user_name]}" if params[:user_name] %></h3>
+<h3>User Feedback for <%= @user.username %></h3>
 
 <p>
   <strong><%= @feedback_count %></strong>
@@ -7,6 +7,8 @@
   invalidated
   (<strong><%= ((@invalid_count.to_f / @feedback_count.to_f) * 100).round(2) %>%</strong> invalid)
 </p>
+
+<p class="text-muted">This data includes feedback from <%= @sources.join ', ' %></p>
 
 <table class="table table-striped">
   <thead>
@@ -18,7 +20,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @feedbacks.each do |f| %>
+    <% @feedback.each do |f| %>
       <tr class="<%= "danger" if f.invalidated_at %>">
         <td><a href="/post/<%= f.post_id %>"><%= f.title %></a></td>
         <td class="<%= f.element_class %>"><%= f.feedback_type %></td>
@@ -30,5 +32,5 @@
 </table>
 
 <div class="text-center">
-  <%= will_paginate @feedbacks, renderer: BootstrapPagination::Rails %>
+  <%= will_paginate @feedback, renderer: BootstrapPagination::Rails %>
 </div>

@@ -18,7 +18,7 @@ class ReviewController < ApplicationController
 
     post = Post.find(params[:post_id])
     if post.nil?
-      render :text => "Post doesn't exist or already has feedback", :status => :conflict
+      render plain: "Post doesn't exist or already has feedback", :status => :conflict
       return
     end
 

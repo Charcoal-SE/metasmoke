@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'authentication/status'
+
+  get 'authentication/redirect_target'
+
   mount ActionCable.server => '/cable'
 
   get 'users/username'
@@ -21,6 +25,7 @@ Rails.application.routes.draw do
   get 'admin', to: 'admin#index'
   get 'admin/invalidated', to: 'admin#recently_invalidated'
   get 'admin/user_feedback', to: 'admin#user_feedback'
+  get 'admin/api_feedback', to: 'admin#api_feedback'
   get 'admin/flagged', to: 'admin#flagged'
   post 'admin/clear_flag', to: 'admin#clear_flag'
   get 'admin/users', to: 'admin#users'
@@ -74,7 +79,7 @@ Rails.application.routes.draw do
   get 'api/reasons/:ids', :to => 'api#reasons'
   get 'api/reasons/:id/posts', :to => 'api#reason_posts'
 
-  put 'api/w/post/:id/feedback', :to => 'api#create_feedback'
+  post 'api/w/post/:id/feedback', :to => 'api#create_feedback'
 
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.

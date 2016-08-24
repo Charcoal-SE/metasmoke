@@ -1,8 +1,6 @@
 require 'test_helper'
 
 class SearchControllerTest < ActionController::TestCase
-  include Devise::TestHelpers
-
   test "should get index" do
     get :search_results
     assert_response :success
