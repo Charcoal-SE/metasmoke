@@ -37,7 +37,7 @@ class MicroAuthController < ApplicationController
 
     def verify_key
       @api_key = ApiKey.find_by_key(params[:key])
-      unless params[:key].present? && @key.present?
+      unless params[:key].present? && @api_key.present?
         render :invalid_key, :status => 400 and return
       end
     end
