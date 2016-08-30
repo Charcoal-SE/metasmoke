@@ -2,7 +2,7 @@ class GithubController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def hook
-    # We're not interesting in PR statuses or branches other than master
+    # We're not interested in PR statuses or branches other than master
 
     unless params[:branches].index { |b| b[:name] == "master" }
       render text: "Not a commit on master. Uninterested." and return
