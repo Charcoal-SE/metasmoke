@@ -9,6 +9,7 @@ class MicroAuthController < ApplicationController
     @token = ApiToken.new(:user => current_user, :api_key => @api_key, :code => generate_code(7), :token => generate_code(64), :expiry => 10.minutes.from_now)
     if !@token.save
       flash[:alert] = "Can't create a write token right now - ask an admin to look at the server logs."
+      redirect_to url_for(:controller => :micro_auth, :action => :request) and return
     end
   end
 

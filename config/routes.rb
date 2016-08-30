@@ -81,6 +81,12 @@ Rails.application.routes.draw do
 
   post 'api/w/post/:id/feedback', :to => 'api#create_feedback'
 
+  get 'oauth/request', :to => 'micro_auth#request'
+  get 'oauth/authorize', :to => 'micro_auth#authorize'
+  get 'oauth/reject', :to => 'micro_auth#reject'
+  get 'oauth/token', :to => 'micro_auth#token'
+  get 'oauth/invalid_key', :to => 'micro_auth#invalid_key'
+
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
