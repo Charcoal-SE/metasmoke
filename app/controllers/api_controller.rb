@@ -45,7 +45,7 @@ class ApiController < ApplicationController
 
   def create_feedback
     @post = Post.find params[:id]
-    @feedback = Feedback.new(:user => current_user, :post => @post, :api_key => @key)
+    @feedback = Feedback.new(:user => @user, :post => @post, :api_key => @key)
     @feedback.feedback_type = params[:type]
     if @feedback.save
       if @feedback.is_positive?
