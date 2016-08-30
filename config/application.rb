@@ -29,6 +29,8 @@ module Metasmoke
 
         resource '/api/*', :headers => :any, :methods => [:get]
         resource '/api/w/*', :headers => :any, :methods => [:post], :credentials => true
+
+        resource '/oauth/token', :headers => :any, :methods => [:get]
       end
     end
   end
