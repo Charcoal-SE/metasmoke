@@ -81,7 +81,7 @@ Rails.application.routes.draw do
 
   post 'api/w/post/:id/feedback', :to => 'api#create_feedback'
 
-  get 'oauth/request', :to => 'micro_auth#request'
+  get 'oauth/request', :to => 'micro_auth#token_request'
   get 'oauth/authorize', :to => 'micro_auth#authorize'
   get 'oauth/reject', :to => 'micro_auth#reject'
   get 'oauth/token', :to => 'micro_auth#token'

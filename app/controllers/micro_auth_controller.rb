@@ -2,7 +2,7 @@ class MicroAuthController < ApplicationController
   before_action :authenticate_user!, :except => [:token]
   before_action :verify_key, :except => [:reject]
 
-  def request
+  def token_request
   end
 
   def authorize
