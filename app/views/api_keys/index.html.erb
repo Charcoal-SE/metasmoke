@@ -15,7 +15,7 @@
         <td><%= key.key %></td>
         <td><%= key.app_name %></td>
         <td><%= time_ago_in_words(key.created_at) %> ago</td>
-        <td><%= link_to "Revoke write tokens", url_for(:controller => :api_keys, :action => :revoke_write_tokens, :key_id => key.id), :method => :delete, :class => "text text-danger" %></td>
+        <td><%= link_to "Revoke write tokens", url_for(:controller => :api_keys, :action => :revoke_write_tokens, :key_id => key.id), :method => :delete, :class => "text text-danger", data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
