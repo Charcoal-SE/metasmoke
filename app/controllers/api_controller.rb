@@ -45,7 +45,7 @@ class ApiController < ApplicationController
 
   def create_feedback
     @post = Post.find params[:id]
-    @feedback = Feedback.new(:user => current_user, :post => @post, :api_key => @key)
+    @feedback = Feedback.new(:user => @user, :post => @post, :api_key => @key)
     @feedback.feedback_type = params[:type]
     if @feedback.save
       if @feedback.is_positive?
@@ -55,7 +55,7 @@ class ApiController < ApplicationController
         end
       end
       unless Feedback.where(:post_id => @post.id, :feedback_type => @feedback.feedback_type).where.not(:id => @feedback.id).exists?
-        ActionCable.server.broadcast "smokedetector_messages", { message: "#{@feedback.feedback_type} by #{current_user.username}" + (@post.id == Post.last.id ? "" : " on [#{@post.title}](#{@post.link})") }
+        ActionCable.server.broadcast "smokedetector_messages", { message: "#{@feedback.feedback_type} by #{@user.username}" + (@post.id == Post.last.id ? "" : " on [#{@post.title}](#{@post.link})") }
       end
       render :json => @post.feedbacks, :status => 201
     else
@@ -70,13 +70,6 @@ class ApiController < ApplicationController
         render :status => 403, :json => { :error_name => "unauthenticated", :error_code => 403, :error_message => "No key was passed or the passed key is invalid." } and return
       end
     end
-
-    # This was the original write-authorization method, but it relied on a user being logged in. Works, but less optimal. Revert to this if everything goes terribly wrong with MicrOAuth.
-    #def verify_auth
-    #  unless user_signed_in?
-    #    render :status => 401, :json => { :error_name => "unauthorized", :error_code => 401, :error_message => "There must be a metasmoke user logged in to use this route." } and return
-    #  end
-    #end
 
     def set_pagesize
       @pagesize = [params[:per_page] || 10, 100].min
@@ -93,7 +86,7 @@ class ApiController < ApplicationController
         @token = @token.first
         @user = @token.user
       else
-        render :json => { :error_name => 'unauthorized', :error_code => 401, :error_message => "The token provided does not supply authorization to perform this action." } and return
+        render :status => 401, :json => { :error_name => 'unauthorized', :error_code => 401, :error_message => "The token provided does not supply authorization to perform this action." } and return
       end
     end
 end

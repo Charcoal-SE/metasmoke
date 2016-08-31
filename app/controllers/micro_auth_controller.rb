@@ -1,15 +1,22 @@
 class MicroAuthController < ApplicationController
   before_action :authenticate_user!, :except => [:token]
-  before_action :verify_key, :except => [:reject]
+  before_action :verify_key, :except => [:reject, :authorized]
 
-  def request
+  def token_request
   end
 
   def authorize
     @token = ApiToken.new(:user => current_user, :api_key => @api_key, :code => generate_code(7), :token => generate_code(64), :expiry => 10.minutes.from_now)
-    if !@token.save
+    if @token.save
+      redirect_to url_for(:controller => :micro_auth, :action => :authorized, :code => @token.code, :token_id => @token.id)
+    else
       flash[:alert] = "Can't create a write token right now - ask an admin to look at the server logs."
+      redirect_to url_for(:controller => :micro_auth, :action => :token_request) and return
     end
+  end
+
+  def authorized
+    @token = ApiToken.find params[:token_id]
   end
 
   def reject
@@ -36,7 +43,7 @@ class MicroAuthController < ApplicationController
 
     def verify_key
       @api_key = ApiKey.find_by_key(params[:key])
-      unless params[:key].present? && @key.present?
+      unless params[:key].present? && @api_key.present?
         render :invalid_key, :status => 400 and return
       end
     end

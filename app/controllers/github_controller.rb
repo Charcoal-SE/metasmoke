@@ -2,6 +2,12 @@ class GithubController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def hook
+    # We're not interested in PR statuses or branches other than master
+
+    unless params[:branches].index { |b| b[:name] == "master" }
+      render text: "Not a commit on master. Uninterested." and return
+    end
+
     # Check signature from GitHub
 
     signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)

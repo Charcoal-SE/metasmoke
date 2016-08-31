@@ -12,7 +12,7 @@ class ApiControllerTest < ActionController::TestCase
 
   test "should return created and post feedback" do
     sign_in users(:admin_user)
-    put :create_feedback, params: { id: 23653, type: 'tpu-', key: api_keys(:one).key }
+    put :create_feedback, params: { id: 23653, type: 'tpu-', key: api_keys(:one).key, token: api_tokens(:one).code }
     assert_nothing_raised do
       JSON.parse(@response.body)
     end
@@ -23,7 +23,7 @@ class ApiControllerTest < ActionController::TestCase
     sign_in users(:admin_user)
 
     assert_difference ApiKey.find(api_keys(:one).id).feedbacks do
-      post :create_feedback, params: { id: 23653, type: 'tpu-', key: api_keys(:one).key }
+      post :create_feedback, params: { id: 23653, type: 'tpu-', key: api_keys(:one).key, token: api_tokens(:one).code }
       assert_nothing_raised do
         JSON.parse(@response.body)
       end
@@ -31,12 +31,14 @@ class ApiControllerTest < ActionController::TestCase
     end
   end
 
+  # This also happens to test that feedback is actually
+  # *created*, since expects delta=1
   test "should prevent duplicate feedback from api" do
     sign_in users(:admin_user)
 
     assert_difference 'Feedback.count' do # delta of one
       2.times do
-        post :create_feedback, params: { id: 23653, type: "tpu-", key: api_keys(:one).key }
+        post :create_feedback, params: { id: 23653, type: "tpu-", key: api_keys(:one).key, token: api_tokens(:one).code }
       end
     end
   end
