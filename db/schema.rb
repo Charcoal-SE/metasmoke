@@ -10,13 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160809003651) do
+ActiveRecord::Schema.define(version: 20160824134321) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "key"
     t.string   "app_name"
+  end
+
+  create_table "api_tokens", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "code"
+    t.integer  "api_key_id"
+    t.integer  "user_id"
+    t.string   "token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "expiry"
+    t.index ["api_key_id"], name: "index_api_tokens_on_api_key_id", using: :btree
+    t.index ["user_id"], name: "index_api_tokens_on_user_id", using: :btree
   end
 
   create_table "blacklisted_websites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
@@ -147,10 +159,10 @@ ActiveRecord::Schema.define(version: 20160809003651) do
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.string   "email",                  default: "",    null: false
-    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "email",                      default: "",    null: false
+    t.string   "encrypted_password",         default: "",    null: false
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,     null: false
+    t.integer  "sign_in_count",              default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.datetime "created_at"
@@ -169,6 +181,8 @@ ActiveRecord::Schema.define(version: 20160809003651) do
     t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
+  add_foreign_key "api_tokens", "api_keys"
+  add_foreign_key "api_tokens", "users"
   add_foreign_key "flags", "posts"
   add_foreign_key "ignored_users", "users"
 end
