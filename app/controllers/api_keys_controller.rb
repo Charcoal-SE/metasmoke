@@ -1,4 +1,6 @@
 class ApiKeysController < ApplicationController
+  before_action :verify_admin
+
   def new
     @key = ApiKey.new
     @key.key = Digest::SHA256.hexdigest("#{rand(0..9e9)}#{Time.now}")
