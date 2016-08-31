@@ -19,7 +19,7 @@ class ApiKeysController < ApplicationController
 
   def revoke_write_tokens
     @key = ApiKey.find params[:key_id]
-    if ApiToken.where(:api_key => @key).destroy_all
+    unless ApiToken.where(:api_key => @key).destroy_all
       flash[:danger] = "Failed to revoke all API write tokens - tokens need to be removed manually."
     else
       flash[:success] = "Successfully removed all write tokens belonging to #{@key.app_name}."
