@@ -75,22 +75,6 @@ class AdminController < ApplicationController
     redirect_to url_for(:controller => :admin, :action => :ignored_users)
   end
 
-  def new_api_key
-    @key = ApiKey.new
-    @key.key = Digest::SHA256.hexdigest("#{rand(0..9e9)}#{Time.now}")
-  end
-
-  def create_api_key
-    @key = ApiKey.new(key_params)
-    @key.save!
-    flash[:success] = "Successfully registered API key #{@key.key}"
-    redirect_to url_for(:controller => :admin, :action => :new_api_key)
-  end
-
-  def key_list
-    @keys = ApiKey.all
-  end
-
   def api_feedback
     @feedback = Feedback.via_api.order(:created_at => :desc).paginate(:page => params[:page], :per_page => 100)
   end
@@ -98,9 +82,5 @@ class AdminController < ApplicationController
   private
     def set_ignored_user
       @ignored = IgnoredUser.find params[:id]
-    end
-
-    def key_params
-      params.require(:api_key).permit(:key, :app_name)
     end
 end
