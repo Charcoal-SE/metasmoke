@@ -68,6 +68,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.username || current_user.email %> <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><%= link_to 'Logout', destroy_user_session_path, :method => :delete %></li>
+                  <li><%= link_to 'Apps', url_for(:controller => :users, :action => :apps) %></li>
                   <li><a href="/admin">Tools</a></li>
                   <% if current_user.is_code_admin %>
                     <li><%= link_to 'Blacklist', url_for(:controller => :blacklist, :action => :index) %></li>
