@@ -1,6 +1,6 @@
 class MicroAuthController < ApplicationController
   before_action :authenticate_user!, :except => [:token]
-  before_action :verify_key, :except => [:reject, :authorized]
+  before_action :verify_key, :except => [:authorized]
 
   def token_request
   end
@@ -10,7 +10,7 @@ class MicroAuthController < ApplicationController
     if @token.save
       redirect_to url_for(:controller => :micro_auth, :action => :authorized, :code => @token.code, :token_id => @token.id)
     else
-      flash[:alert] = "Can't create a write token right now - ask an admin to look at the server logs."
+      flash[:danger] = "Can't create a write token right now - ask an admin to look at the server logs."
       redirect_to url_for(:controller => :micro_auth, :action => :token_request) and return
     end
   end
