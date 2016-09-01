@@ -15,15 +15,19 @@ class ApiKeysControllerTest < ActionController::TestCase
 
   test "should create new key" do
     sign_in users(:admin_user)
-    post :create, :api_key => { :key => "71ab6e12d4287e6d1cd6549f039e46646ae379a709bd359e9231a385e5ff970f", :app_name => "tests" }
+    post :create, :params => { :api_key => { :key => "71ab6e12d4287e6d1cd6549f039e46646ae379a709bd359e9231a385e5ff970f", :app_name => "new_tests" } }
     assert_response(302)
   end
 
   test "should revoke write tokens" do
     sign_in users(:admin_user)
-    assert_difference 'ApiTokens.count' do
-      delete :revoke_write_tokens, :key_id => api_keys(:one).id
-      assert_response(302)
-    end
+    before_test_count = ApiToken.count
+
+    delete :revoke_write_tokens, :params => { :key_id => api_keys(:one).id }
+    assert_response(302)
+
+    # Assert that the count before the test is more than the count
+    # after the test; i.e. some tokens disappeared
+    assert_operator before_test_count, :>, ApiToken.count
   end
 end

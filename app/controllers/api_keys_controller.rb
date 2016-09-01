@@ -10,7 +10,7 @@ class ApiKeysController < ApplicationController
     @key = ApiKey.new(key_params)
     @key.save!
     flash[:success] = "Successfully registered API key #{@key.key}"
-    redirect_to url_for(:controller => :admin, :action => :new_api_key)
+    redirect_to :admin_new_key
   end
 
   def index
