@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   get 'users/username'
   post 'users/username', to: "users#set_username"
+  get 'users/apps', to: 'users#apps'
+  delete 'users/revoke_app', to: 'users#revoke_app'
 
   get 'review', to: "review#index"
   post 'review/feedback', to: "review#add_feedback"
