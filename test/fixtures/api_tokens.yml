@@ -5,3 +5,4 @@ one:
   api_key: one
   user: approved_user
   token: ad522fb97c4e8ce6891edf74e5242f53dbc169a05779315da8952cb269874dac
+  expiry: <%= 1.month.from_now.strftime("%Y-%m-%d") %>

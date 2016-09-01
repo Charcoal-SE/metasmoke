@@ -1,6 +1,6 @@
 class MicroAuthController < ApplicationController
   before_action :authenticate_user!, :except => [:token]
-  before_action :verify_key, :except => [:authorized]
+  before_action :verify_key, :except => [:invalid_key, :authorized]
 
   def token_request
   end
