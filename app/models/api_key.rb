@@ -6,4 +6,7 @@ class ApiKey < ApplicationRecord
 
   has_many :feedbacks
   has_many :api_tokens
+
+  # ApiKey.user is the *owner* of the API application that the key belongs to.
+  belongs_to :user
 end

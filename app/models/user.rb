@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   has_many :feedbacks
   has_many :api_tokens
+  has_many :api_keys
 
   before_save do
     # Retroactively update
