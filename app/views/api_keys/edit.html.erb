@@ -10,9 +10,13 @@
     <%= f.text_field :app_name, :class => "form-control" %>
   </div><br/>
   <div class="field">
-    <%= f.label :user_id, "User" %><br/>
+    <%= f.label :user_id, "Owner" %><br/>
     <%= f.select :user_id, options_for_select(User.all.map{|u| [u.username, u.id]}, [@key.user.username, @key.user.id]),
         { :include_blank => true }, { :class => "form-control" } %>
+  </div><br/>
+  <div class="field">
+    <%= f.label :github_link, "GitHub repository link" %><br/>
+    <%= f.text_field :github_link, :class => "form-control" %>
   </div><br/>
   <div class="field">
     <%= f.submit "Register", :class => "btn btn-primary" %>

@@ -5,6 +5,7 @@
     <tr>
       <th>Key String</th>
       <th>App Name</th>
+      <th>GitHub</th>
       <th>Owner</th>
       <th>Created</th>
       <th colspan="2"></th>
@@ -15,6 +16,7 @@
       <tr>
         <td><%= key.key %></td>
         <td><%= key.app_name %></td>
+        <td><%= link_to "Repo", key.github_link %></td>
         <td><%= key.user.username %></td>
         <td><%= time_ago_in_words(key.created_at) %> ago</td>
         <td><%= link_to "Edit", url_for(:controller => :api_keys, :action => :edit, :id => key.id) %></td>

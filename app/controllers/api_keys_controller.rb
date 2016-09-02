@@ -1,6 +1,8 @@
 class ApiKeysController < ApplicationController
-  before_action :verify_admin
+  before_action :authenticate_user!
   before_action :set_key, :except => [:index, :new, :create]
+  before_action :verify_admin, :except => [:owner_edit, :owner_update]
+  before_action :verify_ownership, :only => [:owner_edit, :owner_update]
 
   def new
     @key = ApiKey.new
@@ -27,6 +29,13 @@ class ApiKeysController < ApplicationController
     end
   end
 
+  def owner_edit
+  end
+
+  def owner_update
+
+  end
+
   def index
     @keys = ApiKey.all
   end
@@ -42,10 +51,18 @@ class ApiKeysController < ApplicationController
 
   private
     def key_params
-      params.require(:api_key).permit(:key, :app_name, :user_id)
+      params.require(:api_key).permit(:key, :app_name, :user_id, :github_link)
     end
 
     def set_key
       @key = ApiKey.find params[:id]
+    end
+
+    def verify_ownership
+      raise ActionController::RoutingError.new('Not Found') unless current_user == @key.user || current_user.is_admin
+    end
+
+    def owner_edit_params
+      params.require(:api_key).permit(:app_name, :github_link)
     end
 end
