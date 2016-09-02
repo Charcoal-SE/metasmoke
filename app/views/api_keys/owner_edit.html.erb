@@ -1,6 +1,6 @@
 <h3>Edit API key</h3>
 
-<%= form_for @key, :url => url_for(:controller => :api_keys, :action => :update) do |f| %>
+<%= form_for @key, :url => url_for(:controller => :api_keys, :action => :owner_update) do |f| %>
   <div class="field">
     <%= f.label :app_name %><br/>
     <%= f.text_field :app_name, :class => "form-control" %>
