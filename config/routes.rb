@@ -39,6 +39,8 @@ Rails.application.routes.draw do
   get 'admin/new_key', to: 'api_keys#new'
   post 'admin/new_key', to: 'api_keys#create'
   get 'admin/keys', to: 'api_keys#index'
+  get 'admin/edit_key/:id', to: 'api_keys#edit'
+  patch 'admin/edit_key/:id', to: 'api_keys#update'
   delete 'admin/revoke_write', to: 'api_keys#revoke_write_tokens'
 
   get "posts", to: "posts#index"
