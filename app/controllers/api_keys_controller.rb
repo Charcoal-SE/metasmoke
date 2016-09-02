@@ -1,5 +1,6 @@
 class ApiKeysController < ApplicationController
   before_action :verify_admin
+  before_action :set_key, :except => [:index, :new, :create]
 
   def new
     @key = ApiKey.new
@@ -13,12 +14,24 @@ class ApiKeysController < ApplicationController
     redirect_to :admin_new_key
   end
 
+  def edit
+  end
+
+  def update
+    if @key.update key_params
+      flash[:success] = "Successfully updated."
+      redirect_to url_for(:controller => :api_keys, :action => :index)
+    else
+      flash[:danger] = "Failed to update."
+      render :edit
+    end
+  end
+
   def index
     @keys = ApiKey.all
   end
 
   def revoke_write_tokens
-    @key = ApiKey.find params[:key_id]
     unless ApiToken.where(:api_key => @key).destroy_all
       flash[:danger] = "Failed to revoke all API write tokens - tokens need to be removed manually."
     else
@@ -29,6 +42,10 @@ class ApiKeysController < ApplicationController
 
   private
     def key_params
-      params.require(:api_key).permit(:key, :app_name)
+      params.require(:api_key).permit(:key, :app_name, :user_id)
+    end
+
+    def set_key
+      @key = ApiKey.find params[:id]
     end
 end
