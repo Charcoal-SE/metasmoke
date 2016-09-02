@@ -2,17 +2,8 @@
 
 <%= form_for @key, :url => url_for(:controller => :api_keys, :action => :update) do |f| %>
   <div class="field">
-    <%= f.label :key %><br/>
-    <%= f.text_field :key, :value => @key.key, :class => "form-control" %>
-  </div><br/>
-  <div class="field">
     <%= f.label :app_name %><br/>
     <%= f.text_field :app_name, :class => "form-control" %>
-  </div><br/>
-  <div class="field">
-    <%= f.label :user_id, "Owner" %><br/>
-    <%= f.select :user_id, options_for_select(User.all.map{|u| [u.username, u.id]}, [@key.user.username, @key.user.id]),
-        { :include_blank => true }, { :class => "form-control" } %>
   </div><br/>
   <div class="field">
     <%= f.label :github_link, "GitHub repository link" %><br/>

@@ -1,8 +1,21 @@
 class ApiKeysController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_key, :except => [:index, :new, :create]
-  before_action :verify_admin, :except => [:owner_edit, :owner_update]
-  before_action :verify_ownership, :only => [:owner_edit, :owner_update]
+  before_action :set_key, :except => [:index, :new, :create, :mine]
+  before_action :verify_admin, :except => [:owner_edit, :owner_update, :owner_revoke]
+  before_action :verify_ownership, :only => [:owner_edit, :owner_update, :owner_revoke]
+
+  def index
+    @keys = ApiKey.all
+  end
+
+  def revoke_write_tokens
+    unless ApiToken.where(:api_key => @key).destroy_all
+      flash[:danger] = "Failed to revoke all API write tokens - tokens need to be removed manually."
+    else
+      flash[:success] = "Successfully removed all write tokens belonging to #{@key.app_name}."
+    end
+    redirect_to url_for(:controller => :api_keys, :action => :index)
+  end
 
   def new
     @key = ApiKey.new
@@ -29,24 +42,30 @@ class ApiKeysController < ApplicationController
     end
   end
 
+  def mine
+    @keys = ApiKey.where(:user => current_user)
+  end
+
   def owner_edit
   end
 
   def owner_update
-
-  end
-
-  def index
-    @keys = ApiKey.all
-  end
-
-  def revoke_write_tokens
-    unless ApiToken.where(:api_key => @key).destroy_all
-      flash[:danger] = "Failed to revoke all API write tokens - tokens need to be removed manually."
+    if @key.update owner_edit_params
+      flash[:success] = "Successfully updated your API key."
+      redirect_to url_for(:controller => :api_keys, :action => :mine)
     else
-      flash[:success] = "Successfully removed all write tokens belonging to #{@key.app_name}."
+      flash[:danger] = "Can't save your API key - contact an admin."
+      render :edit
     end
-    redirect_to url_for(:controller => :api_keys, :action => :index)
+  end
+
+  def owner_revoke
+    if ApiToken.where(:api_key => @key).destroy_all
+      flash[:success] = "Removed all active write tokens for your app #{@key.app_name}."
+    else
+      flash[:danger] = "Failed to remove active write tokens. Contact an admin."
+    end
+    redirect_to url_for(:controller => :api_keys, :action => :mine)
   end
 
   private

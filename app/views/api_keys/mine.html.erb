@@ -1,0 +1,31 @@
+<h3>Your API Keys</h3>
+<p>This is a list of all the API keys which you are registered as the owner of. If you wish, you can edit your keys
+  to change or include the app's name or a link to GitHub. You can also revoke all write tokens for your app in case
+  of a security breach - this deactivates all active write tokens, so users of your app will need to re-authenticate
+  to use it again. Use this sparingly and only when necessary.</p>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Key String</th>
+      <th>App Name</th>
+      <th>GitHub</th>
+      <th>Owner</th>
+      <th>Created</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @keys.each do |key| %>
+      <tr>
+        <td><%= key.key %></td>
+        <td><%= key.app_name %></td>
+        <td><%= link_to "Repo", key.github_link %></td>
+        <td><%= key.user.username %></td>
+        <td><%= time_ago_in_words(key.created_at) %> ago</td>
+        <td><%= link_to "Edit", url_for(:controller => :api_keys, :action => :owner_edit, :id => key.id) %></td>
+        <td><%= link_to "Revoke write tokens", url_for(:controller => :api_keys, :action => :owner_revoke, :id => key.id), :method => :delete, :class => "text text-danger", data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
