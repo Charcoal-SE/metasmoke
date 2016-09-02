@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   get 'users/username'
   post 'users/username', to: "users#set_username"
+  get 'users/apps', to: 'users#apps'
+  delete 'users/revoke_app', to: 'users#revoke_app'
 
   get 'review', to: "review#index"
   post 'review/feedback', to: "review#add_feedback"
@@ -34,9 +36,10 @@ Rails.application.routes.draw do
   patch 'admin/unignore/:id', to: 'admin#unignore'
   delete 'admin/destroy_ignored/:id', to: 'admin#destroy_ignored'
 
-  get 'admin/new_key', to: 'admin#new_api_key'
-  post 'admin/new_key', to: 'admin#create_api_key'
-  get 'admin/keys', to: 'admin#key_list'
+  get 'admin/new_key', to: 'api_keys#new'
+  post 'admin/new_key', to: 'api_keys#create'
+  get 'admin/keys', to: 'api_keys#index'
+  delete 'admin/revoke_write', to: 'api_keys#revoke_write_tokens'
 
   get "posts", to: "posts#index"
   get "posts/latest", to: "posts#latest"

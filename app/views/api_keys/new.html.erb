@@ -2,7 +2,7 @@
 <p>From this page, you can register a new API key. The key is pre-set for you for security; copy it and add a name for
   the app (or user) that will use it, then click Register.</p>
 
-<%= form_for @key, url: { :controller => :admin, :action => :create_api_key } do |f| %>
+<%= form_for @key, :url => :admin_new_key do |f| %>
   <div class="field">
     <%= f.label :key %><br/>
     <%= f.text_field :key, :value => @key.key, :class => "form-control" %>

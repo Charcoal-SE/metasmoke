@@ -20,76 +20,77 @@
   <%= csrf_meta_tags %>
   <%= action_cable_meta_tag %>
 </head>
-<body>
+  <body>
 
-  <nav class="navbar navbar-default navbar-static-top <%= "navbar-inverse" unless Rails.env.production? %>">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/">metasmoke</a>
-      </div>
+    <nav class="navbar navbar-default navbar-static-top <%= "navbar-inverse" unless Rails.env.production? %>">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">metasmoke</a>
+        </div>
 
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li class='<%= (controller.class == DashboardController or controller.class == ReasonsController) ? "active" : "" %>'><%= link_to "reasons", dashboard_path %></li>
-          <li class='<%= controller.class == GraphsController ? "active" : "" %>'><%= link_to "graphs", graphs_path %></li>
-          <li class='<%= controller.class == PostsController ? "active" : "" %>'><%= link_to "posts", posts_path %></li>
-          <li class='<%= controller.class == SearchController ? "active" : "" %>'><%= link_to "search", search_path %></li>
-          <% if user_signed_in? %>
-            <li class='<%= controller.class == ReviewController ? "active" : "" %>'>
-              <%= link_to review_path do %>
-                review
-                <% review_items = -1 %>
-                <% if review_items > 0 %>
-                  <span class="badge"><%= review_items %></span>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class='<%= (controller.class == DashboardController or controller.class == ReasonsController) ? "active" : "" %>'><%= link_to "reasons", dashboard_path %></li>
+            <li class='<%= controller.class == GraphsController ? "active" : "" %>'><%= link_to "graphs", graphs_path %></li>
+            <li class='<%= controller.class == PostsController ? "active" : "" %>'><%= link_to "posts", posts_path %></li>
+            <li class='<%= controller.class == SearchController ? "active" : "" %>'><%= link_to "search", search_path %></li>
+            <% if user_signed_in? %>
+              <li class='<%= controller.class == ReviewController ? "active" : "" %>'>
+                <%= link_to review_path do %>
+                  review
+                  <% review_items = -1 %>
+                  <% if review_items > 0 %>
+                    <span class="badge"><%= review_items %></span>
+                  <% end %>
                 <% end %>
-              <% end %>
-            </li>
+              </li>
+            <% end %>
+            <li class='<%= controller.class == StatusController ? "active" : "" %> status-<%= SmokeDetector.status_color %>'><%= link_to "status", status_path %></li>
+          </ul>
+          <% if controller.class == DashboardController %>
+            <form class="navbar-form navbar-right" role="search">
+              <div class="form-group">
+                <input type="text" id="search" class="form-control" placeholder="Search reasons">
+              </div>
+            </form>
           <% end %>
-          <li class='<%= controller.class == StatusController ? "active" : "" %> status-<%= SmokeDetector.status_color %>'><%= link_to "status", status_path %></li>
-        </ul>
-        <% if controller.class == DashboardController %>
-          <form class="navbar-form navbar-right" role="search">
-            <div class="form-group">
-              <input type="text" id="search" class="form-control" placeholder="Search reasons">
-            </div>
-          </form>
-        <% end %>
-        <ul class="nav navbar-nav navbar-right">
-          <% if user_signed_in? %>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.username || current_user.email %> <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><%= link_to 'Logout', destroy_user_session_path, :method => :delete %></li>
-                <li><a href="/admin">Tools</a></li>
-                <% if current_user.is_code_admin %>
-                  <li><%= link_to 'Blacklist', url_for(:controller => :blacklist, :action => :index) %></li>
-                <% end %>
-              </ul>
-            </li>
-          <% end %>
-          <% if CurrentCommit.present? %>
-            <li><a href="https://github.com/Charcoal-SE/metasmoke/commit/<%= CurrentCommit %>" title="<%= Rails::VERSION::STRING %>"><code><%= CurrentCommit.first(7) %></code></a></li>
-          <% end %>
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
+          <ul class="nav navbar-nav navbar-right">
+            <% if user_signed_in? %>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.username || current_user.email %> <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to 'Logout', destroy_user_session_path, :method => :delete %></li>
+                  <li><%= link_to 'Apps', url_for(:controller => :users, :action => :apps) %></li>
+                  <li><a href="/admin">Tools</a></li>
+                  <% if current_user.is_code_admin %>
+                    <li><%= link_to 'Blacklist', url_for(:controller => :blacklist, :action => :index) %></li>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
+            <% if CurrentCommit.present? %>
+              <li><a href="https://github.com/Charcoal-SE/metasmoke/commit/<%= CurrentCommit %>" title="<%= Rails::VERSION::STRING %>"><code><%= CurrentCommit.first(7) %></code></a></li>
+            <% end %>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
 
-  <div class="col-md-offset-1 col-md-10">
-    <% flash.each do |key, value| %>
-      <div class="alert alert-<%= key %>"><%= value %></div>
-    <% end %>
+    <div class="col-md-offset-1 col-md-10">
+      <% flash.each do |key, value| %>
+        <div class="alert alert-<%= key %>"><%= value %></div>
+      <% end %>
 
-    <%= yield %>
-  </div>
+      <%= yield %>
+    </div>
 
-</body>
+  </body>
 </html>

@@ -4,4 +4,4 @@
   confirmation to do this.</p>
 <p><strong>Do you trust this app?</strong></p>
 <%= link_to "Yes, grant permission", url_for(:controller => :micro_auth, :action => :authorize, :key => @api_key.key), :method => :post, :class => "btn btn-success" %>
-<%= link_to "No, deny permission", url_for(:controller => :micro_auth, :action => :reject), :class => "btn btn-danger" %>
+<%= link_to "No, deny permission", url_for(:controller => :micro_auth, :action => :reject, :key => @api_key.key), :class => "btn btn-danger" %>

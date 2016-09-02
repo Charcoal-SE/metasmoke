@@ -1,13 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  code: MyString
+  code: deadbee
   api_key: one
-  user: one
-  token: MyString
-
-two:
-  code: MyString
-  api_key: two
-  user: two
-  token: MyString
+  user: approved_user
+  token: ad522fb97c4e8ce6891edf74e5242f53dbc169a05779315da8952cb269874dac
+  expiry: <%= 1.month.from_now.strftime("%Y-%m-%d") %>

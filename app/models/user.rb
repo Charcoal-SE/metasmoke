@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :feedbacks
+  has_many :api_tokens
 
   before_save do
     # Retroactively update
