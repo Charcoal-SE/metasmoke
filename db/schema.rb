@@ -10,13 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160824134321) do
+ActiveRecord::Schema.define(version: 20160902184420) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.string   "key"
     t.string   "app_name"
+    t.integer  "user_id"
+    t.string   "github_link"
+    t.index ["user_id"], name: "index_api_keys_on_user_id", using: :btree
   end
 
   create_table "api_tokens", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -181,6 +184,7 @@ ActiveRecord::Schema.define(version: 20160824134321) do
     t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
+  add_foreign_key "api_keys", "users"
   add_foreign_key "api_tokens", "api_keys"
   add_foreign_key "api_tokens", "users"
   add_foreign_key "flags", "posts"
