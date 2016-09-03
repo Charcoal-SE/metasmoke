@@ -38,7 +38,13 @@
     <% ApiKey.all.each do |key| %>
       <tr>
         <td><%= key.app_name %></td>
-        <td><%= key.user.username %></td>
+        <td>
+          <% if key.user %>
+            <%= key.user.username %>
+          <% else %>
+            <em>(None recorded)</em>
+          <% end %>
+        </td>
         <td><%= link_to "Repo", key.github_link %></td>
       </tr>
     <% end %>
