@@ -23,4 +23,26 @@
   </tbody>
 </table>
 
+<h3>Available Apps</h3>
+<p>This is a list of all apps that use the metasmoke API. Their authors may have provided a GitHub link for you to find
+  out more about the app and decide if you want to use it.</p>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Author</th>
+      <th>GitHub link</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% ApiKey.all.each do |key| %>
+      <tr>
+        <td><%= key.app_name %></td>
+        <td><%= key.user.username %></td>
+        <td><%= link_to "Repo", key.github_link %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
 <%= link_to "Apps you own/develop", url_for(:controller => :api_keys, :action => :mine) %>
