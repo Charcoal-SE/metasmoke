@@ -23,7 +23,7 @@ class ApiKeysControllerTest < ActionController::TestCase
     sign_in users(:admin_user)
     before_test_count = ApiToken.count
 
-    delete :revoke_write_tokens, :params => { :key_id => api_keys(:one).id }
+    delete :revoke_write_tokens, :params => { :id => api_keys(:one).id }
     assert_response(302)
 
     # Assert that the count before the test is more than the count
