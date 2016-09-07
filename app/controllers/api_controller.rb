@@ -72,7 +72,7 @@ class ApiController < ApplicationController
     end
 
     def set_pagesize
-      @pagesize = [params[:per_page] || 10, 100].min
+      @pagesize = [params[:per_page].to_i || 10, 100].min
     end
 
     def has_more?(page, result_count)
