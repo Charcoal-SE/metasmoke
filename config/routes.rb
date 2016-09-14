@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   delete "feedback/:id/delete", to: "feedbacks#delete", as: :delete_feedback
 
   get "post/:id", to: "posts#show"
+  get "post/:id/body", to: "posts#body"
   get "post/:id/feedbacks.json", to: 'posts#feedbacksapi'
 
   get "/users", to: "stack_exchange_users#index"

@@ -2,14 +2,22 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+# This really is the wrong file for all of this
+
 $ ->
   $(document).on 'click', '.show-post-body', (event) ->
-    $(".post-body[data-postid='" + $(this).attr("data-postid") + "']").toggle()
+    span = $(this)
+    unless $(this).data('postloaded')
+      # If we need to lazy-load the post body from the server
+      # This is criminally ugly
+      $($(this).parent().children('div.post-body')[0]).load "/post/#{$(this).data('postid')}/body", ->
+         console.log("yay")
+         togglePostBodyVisible(span)
+         span.data('postloaded', true)
 
-    if $(this).text() == "►"
-      $(this).text("▼")
-    else if $(this).text() == "▼"
-      $(this).text("►") 
+    else
+      togglePostBodyVisible(this)
+
   $(document).on 'keyup', '#search', (event) ->
     val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
     console.log val
@@ -18,3 +26,11 @@ $ ->
       text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
       return !~text.indexOf(val);
     ).hide();
+
+togglePostBodyVisible = (row) ->
+  $(".post-body[data-postid='" + $(row).data("postid") + "']").toggle()
+
+  if $(row).text() == "►"
+    $(row).text("▼")
+  else if $(row).text() == "▼"
+    $(row).text("►")
