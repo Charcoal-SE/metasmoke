@@ -1,5 +1,5 @@
 <% expand_post = false if expand_post.nil? %>
-<% preload_post_body = false if preload_post_body.nil? %>
+<% preload_post_body = expand_post || (false if preload_post_body.nil?) %>
 <% @sites = [post.site] if @sites.nil? %>
 
 <tr class="post-cell post-cell-<%= post.id %>">
