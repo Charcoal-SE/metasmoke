@@ -1,10 +1,11 @@
 <% expand_post = false if expand_post.nil? %>
+<% preload_post_body = expand_post || (false if preload_post_body.nil?) %>
 <% @sites = [post.site] if @sites.nil? %>
 
 <tr class="post-cell post-cell-<%= post.id %>">
   <td>
     <% if not post.body.nil? %>
-      <span class="text-muted show-post-body" data-postid="<%= post.id %>"><%= (expand_post.present? and expand_post) ? "▼" : "►" %></span>
+      <span class="text-muted show-post-body" data-postloaded="<%= preload_post_body.to_s %>" data-postid="<%= post.id %>"><%= (expand_post.present? and expand_post) ? "▼" : "►" %></span>
     <% end %>
 
     <%= link_to post.title, "/post/" + post.id.to_s %>
@@ -30,12 +31,14 @@
 
     <% if not post.body.nil? %>
       <div data-postid="<%= post.id %>" class="post-body" style="<%= "display: none;" unless expand_post.present? and expand_post %>">
-        <pre class="post-body-pre-block"><%= post.body %></pre>
-        <p>
-          <span class="report-reasons">
-            <%= post.reasons.map(&:reason_name).join(", ") %>
-          </span>
-        </p>
+        <% if preload_post_body %>
+          <pre class="post-body-pre-block"><%= post.body %></pre>
+          <p>
+            <span class="report-reasons">
+              <%= post.reasons.map(&:reason_name).join(", ") %>
+            </span>
+          </p>
+        <% end %>
       </div>
     <% end %>
   </td>

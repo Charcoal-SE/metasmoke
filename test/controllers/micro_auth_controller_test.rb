@@ -37,4 +37,17 @@ class MicroAuthControllerTest < ActionController::TestCase
     get :token, :params => { :code => api_tokens(:one).code, :key => api_keys(:one).key }
     assert_equal api_tokens(:one).token, JSON.parse(@response.body)['token']
   end
+
+  test "should run whole auth cycle" do
+    sign_in users(:approved_user)
+    get :token_request, :params => { :key => api_keys(:one).key }
+    post :authorize, :params => { :key => api_keys(:one).key }
+
+    token = assigns(:token)
+
+    sign_out :user
+    get :token, :params => { :code => token.code, :key => api_keys(:one).key }
+
+    assert_equal token.token, JSON.parse(@response.body)['token']
+  end
 end

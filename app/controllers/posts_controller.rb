@@ -11,6 +11,12 @@ class PostsController < ApplicationController
     end
   end
 
+  # Render bodies on-demand for fancy expanding rows
+  def body
+    @post = Post.where(:id => params[:id]).select(:body, :id).includes(:reasons).first
+    render :layout => false
+  end
+
   def latest
     redirect_to "/post/" + Post.select("id").last.id.to_s
   end
