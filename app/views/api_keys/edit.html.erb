@@ -15,7 +15,7 @@
       <%= f.select :user_id, options_for_select(User.all.map{|u| [u.username, u.id]}, [@key.user.username, @key.user.id]),
           { :include_blank => true }, { :class => "form-control" } %>
     <% else %>
-      <%= f.select :user_id, options_for_select(User.all.map{|u| [u.username, u.id]}), :include_blank => true }, { :class => "form-control" } %>
+      <%= f.select :user_id, options_for_select(User.all.map{|u| [u.username, u.id]}), { :include_blank => true }, { :class => "form-control" } %>
     <% end %>
   </div><br/>
   <div class="field">
