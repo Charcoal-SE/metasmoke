@@ -18,7 +18,7 @@ class PostsController < ApplicationController
   end
 
   def latest
-    redirect_to "/post/" + Post.select("id").last.id.to_s
+    redirect_to url_for(:controller => :posts, :action => :show, :id => Post.select("id").last.id.to_s)
   end
 
   def by_url
