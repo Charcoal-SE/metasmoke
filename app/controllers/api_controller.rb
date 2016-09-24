@@ -53,7 +53,7 @@ class ApiController < ApplicationController
           ActionCable.server.broadcast "smokedetector_messages", { blacklist: { uid: @post.stack_exchange_user.user_id.to_s, site: URI.parse(@post.stack_exchange_user.site.site_url).host, post: @post.link } }
         rescue
         end
-      else if @feedback.is_naa?
+      elsif @feedback.is_naa?
         begin
           ActionCable.server.broadcast "smokedetector_messages", { naa: { post_link: @post.link } }
         rescue
