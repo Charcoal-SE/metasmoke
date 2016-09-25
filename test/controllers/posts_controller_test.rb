@@ -39,4 +39,10 @@ class PostsControllerTest < ActionController::TestCase
       post :create, params: { :post => { :title => "Test Post Title", :body => "Awesome Post Body", :link => "//stackoverflow.com/q/1", :username => "Undo", :user_reputation => 101, :user_link => "//stackoverflow.com/users/1849664/undo", :reasons => ["Brand new reason"] }, :key => SmokeDetector.first.access_token }
     end
   end
+
+  test "should lazy-load post body" do
+    get :body, params: { :id => Post.last.id }
+    assert_response 200
+    assert assigns(:post)
+  end
 end
