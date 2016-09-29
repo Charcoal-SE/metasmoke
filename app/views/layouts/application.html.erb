@@ -83,14 +83,15 @@
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
-
-    <div class="col-md-offset-1 col-md-10">
+    <div class="container">
       <% flash.each do |key, value| %>
         <div class="alert alert-<%= key %>"><%= value %></div>
       <% end %>
 
       <%= yield %>
     </div>
-
+    <div class="footer">
+      <p class="text-muted">We are <a href="//chat.stackexchange.com/rooms/11540/charcoal-hq">Charcoal</a>. We make <a href="//github.com/Charcoal-SE">nice things</a>.</p>
+    </div>
   </body>
 </html>
