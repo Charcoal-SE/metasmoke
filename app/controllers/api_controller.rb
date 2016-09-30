@@ -43,6 +43,12 @@ class ApiController < ApplicationController
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
+  def undeleted_posts
+    @posts = Post.includes(:deletion_logs).where(:is_tp => true, :deletion_logs => { :is_deleted => true })
+    results = @posts.order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
+    render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
+  end
+
   def create_feedback
     @post = Post.find params[:id]
     @feedback = Feedback.new(:user => @user, :post => @post, :api_key => @key)
