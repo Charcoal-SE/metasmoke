@@ -72,7 +72,10 @@ class ApiController < ApplicationController
     def verify_key
       @key = ApiKey.find_by_key(params[:key])
       unless params[:key].present? && @key.present?
-        render :status => 403, :json => { :error_name => "unauthenticated", :error_code => 403, :error_message => "No key was passed or the passed key is invalid." } and return
+        smokey = SmokeDetector.find_by_access_token(params[:key])
+        unless smokey.present?
+          render :status => 403, :json => { :error_name => "unauthenticated", :error_code => 403, :error_message => "No key was passed or the passed key is invalid." } and return
+        end
       end
     end
 
