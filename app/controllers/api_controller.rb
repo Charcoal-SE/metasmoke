@@ -44,7 +44,7 @@ class ApiController < ApplicationController
   end
 
   def undeleted_posts
-    @posts = Post.includes(:deletion_logs).where(:deletion_logs => { :post_id => nil })
+    @posts = Post.left_outer_joins(:deletion_logs).where(:deletion_logs => { :id => nil })
     results = @posts.order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page].to_i, results.count) }
   end
