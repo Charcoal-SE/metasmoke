@@ -88,7 +88,7 @@ Rails.application.routes.draw do
   get 'api/post/:id/reasons', :to => 'api#post_reasons'
   get 'api/reasons/:ids', :to => 'api#reasons'
   get 'api/reason/:id/posts', :to => 'api#reason_posts'
-  get 'api/undeleted', :to => 'api#undeleted'
+  get 'api/undeleted', :to => 'api#undeleted_posts'
 
   post 'api/w/post/:id/feedback', :to => 'api#create_feedback'
 
