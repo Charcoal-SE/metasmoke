@@ -14,14 +14,20 @@
         <td><%= website.host %></td>
         <td><%= website.is_active ? "Yes" : "No" %></td>
         <td><%= website.created_at %></td>
-        <td><%= link_to "Deactivate", url_for(:controller => :blacklist, :action => :deactivate_website, :id => website.id), :method => :delete %></td>
+        <td>
+          <% if website.is_active %>
+            <%= link_to "Deactivate", url_for(:controller => :blacklist, :action => :deactivate_website, :id => website.id), :method => :delete %>
+          <% else %>
+            <span class="text-muted">Deactivate</span>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <% if user_signed_in? && current_user.is_code_admin %>
-  <a href="<%= url_for(:controller => :blacklist, :action => :add_website) %>" class="btn btn-primary">Add Website</a>
+  <a href="<%= url_for(:controller => :blacklist, :action => :add_website) %>" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add Website</a>
 <% end %>
 
 <div class="text-center">
