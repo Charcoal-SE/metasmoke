@@ -4,6 +4,8 @@ class ApiController < ApplicationController
   before_action :verify_write_token, :only => [:create_feedback]
   skip_before_action :verify_authenticity_token, :only => [:create_feedback]
 
+  # Read routes: Posts
+
   def posts
     @posts = Post.where(:id => params[:ids].split(";")).order(:id => :desc)
     results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
@@ -21,6 +23,12 @@ class ApiController < ApplicationController
     render :json => @post
   end
 
+  def undeleted_posts
+    @posts = Post.left_outer_joins(:deletion_logs).where(:deletion_logs => { :id => nil })
+    results = @posts.order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
+    render :json => { :items => results, :has_more => has_more?(params[:page].to_i, results.count) }
+  end
+
   def post_feedback
     @post = Post.find params[:id]
     render :json => @post.feedbacks
@@ -30,6 +38,8 @@ class ApiController < ApplicationController
     @post = Post.find params[:id]
     render :json => @post.reasons
   end
+
+  # Read routes: Reasons
 
   def reasons
     @reasons = Reason.where(:id => params[:ids].split(";")).order(:id => :desc)
@@ -43,11 +53,15 @@ class ApiController < ApplicationController
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
-  def undeleted_posts
-    @posts = Post.left_outer_joins(:deletion_logs).where(:deletion_logs => { :id => nil })
-    results = @posts.order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
-    render :json => { :items => results, :has_more => has_more?(params[:page].to_i, results.count) }
+  # Read routes: BlacklistedWebsites
+
+  def blacklisted_websites
+    @websites = BlacklistedWebsite.active
+    results = @websites.order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
+    render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
+
+  # Write routes
 
   def create_feedback
     @post = Post.find params[:id]

@@ -89,6 +89,7 @@ Rails.application.routes.draw do
   get 'api/reasons/:ids', :to => 'api#reasons'
   get 'api/reason/:id/posts', :to => 'api#reason_posts'
   get 'api/undeleted', :to => 'api#undeleted_posts'
+  get 'api/blacklist', :to => 'api#blacklisted_websites'
 
   post 'api/w/post/:id/feedback', :to => 'api#create_feedback'
 
