@@ -26,7 +26,7 @@ class ApiController < ApplicationController
   def undeleted_posts
     @posts = Post.left_outer_joins(:deletion_logs).where(:deletion_logs => { :id => nil })
     results = @posts.order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
-    render :json => { :items => results, :has_more => has_more?(params[:page].to_i, results.count) }
+    render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
   def post_feedback
@@ -100,7 +100,7 @@ class ApiController < ApplicationController
     end
 
     def set_pagesize
-      @pagesize = [params[:per_page].to_i || 10, 100].min
+      @pagesize = [params[:per_page] || 10, 100].min
     end
 
     def has_more?(page, result_count)
