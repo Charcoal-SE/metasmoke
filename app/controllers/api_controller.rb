@@ -61,6 +61,19 @@ class ApiController < ApplicationController
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
+  # Read routes: Users
+
+  def users_with_code_privs
+    chat_ids = User.code_admins.pluck(:stackexchange_chat_id, :stackoverflow_chat_id, :meta_stackexchange_chat_id)
+
+    items = {}
+    ["stackexchange_chat_ids", "stackoverflow_chat_ids", "meta_stackexchange_chat_ids"].each_with_index do |name, index|
+      items[name] = chat_ids.map { |a| a[index] }.select { |n| n.present? }
+    end
+
+    render :json => { :items => items }
+  end
+
   # Write routes
 
   def create_feedback

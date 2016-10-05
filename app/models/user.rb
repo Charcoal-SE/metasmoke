@@ -36,4 +36,8 @@ class User < ApplicationRecord
 
     self.meta_stackexchange_chat_id = Net::HTTP.get_response(URI.parse("http://chat.meta.stackexchange.com/accounts/#{stack_exchange_account_id}"))["location"].scan(/\/users\/(\d*)\//)[0][0]
   end
+
+  def self.code_admins
+    self.where(:is_code_admin => true)
+  end
 end
