@@ -18,7 +18,7 @@
 
 $(document).on('turbolinks:load', function() {
 
-  $('.dashboard-table').tablesort();
+  $('.sortable-table').tablesort();
 
   $(".admin-report").click(function(ev) {
     ev.preventDefault();
