@@ -25,9 +25,9 @@
         <% if user_signed_in? && current_user.is_admin %>
           <td>
             <% unless user.is_code_admin %>
-              <%= link_to "Grant code access", url_for(:controller => :admin, :action => :promote_code_admin, :id => user.id), :method => :post, :class => "text-danger" %>
+              <%= link_to "Grant code access", url_for(:controller => :admin, :action => :promote_code_admin, :id => user.id), :method => :post, :class => "text-danger", :data => { :confirm => "Grant code access to #{user.username}?" } %>
             <% else %>
-              <%= link_to "Revoke code access", url_for(:controller => :admin, :action => :demote_code_admin, :id => user.id), :method => :post, :class => "text-danger" %>
+              <%= link_to "Revoke code access", url_for(:controller => :admin, :action => :demote_code_admin, :id => user.id), :method => :post, :class => "text-danger", :data => { :confirm => "Revoke code access from #{user.username}?" } %>
             <% end %>
           </td>
         <% end %>
