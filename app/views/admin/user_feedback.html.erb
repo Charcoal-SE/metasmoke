@@ -8,7 +8,7 @@
   (<strong><%= ((@invalid_count.to_f / @feedback_count.to_f) * 100).round(2) %>%</strong> invalid)
 </p>
 
-<p class="text-muted">This data includes feedback from <%= @sources.join ', ' %></p>
+<p class="text-muted">This data includes feedback from <%= @sources.to_sentence %></p>
 
 <table class="table table-striped sortable-table">
   <thead>
