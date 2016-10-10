@@ -46,7 +46,7 @@
           <% end %>
         </td>
         <td>
-          <% if key.github_link.strip.length > 0 %>
+          <% if key.github_link.try(:strip).try(:length) || 0 > 0 %>
             <%= link_to "Repo", key.github_link %>
           <% end %>
         </td>
