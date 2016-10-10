@@ -45,7 +45,11 @@
             <em>(None recorded)</em>
           <% end %>
         </td>
-        <td><%= link_to "Repo", key.github_link %></td>
+        <td>
+          <% if key.github_link.strip.length > 0 %>
+            <%= link_to "Repo", key.github_link %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
