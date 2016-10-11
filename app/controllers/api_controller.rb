@@ -51,6 +51,11 @@ class ApiController < ApplicationController
     render :json => @post.reasons
   end
 
+  def post_valid_feedback
+    @post = Post.find params[:id]
+    render :formats => :json
+  end
+
   # Read routes: Reasons
 
   def reasons

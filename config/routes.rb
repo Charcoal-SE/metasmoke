@@ -91,6 +91,7 @@ Rails.application.routes.draw do
   get 'api/posts/:ids', :to => 'api#posts'
   get 'api/post/:id/feedback', :to => 'api#post_feedback'
   get 'api/post/:id/reasons', :to => 'api#post_reasons'
+  get 'api/post/:id/valid_feedback', :to => 'api#post_valid_feedback'
   get 'api/reasons/:ids', :to => 'api#reasons'
   get 'api/reason/:id/posts', :to => 'api#reason_posts'
   get 'api/blacklist', :to => 'api#blacklisted_websites'

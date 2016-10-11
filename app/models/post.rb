@@ -28,4 +28,12 @@ class Post < ApplicationRecord
 
     return is_feedback_changed
   end
+
+  def is_question?
+    return self.post_link.include? "/questions/"
+  end
+
+  def is_answer?
+    return self.post_link.include? "/a/"
+  end
 end

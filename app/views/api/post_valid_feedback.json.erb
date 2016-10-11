@@ -1,0 +1,62 @@
+[
+  {
+    "type": "tp",
+    "description": "True positive"
+  },
+  {
+    "type": "tp-",
+    "description": "True positive (silent)"
+  },
+  {
+    "type": "tpu",
+    "description": "True positive, blacklist user"
+  },
+  {
+    "type": "tpu-",
+    "description": "True positive, blacklist user (silent)",
+    "aliases": ["k"]
+  },
+  {
+    "type": "k",
+    "description": "True positive, blacklist user (silent)",
+    "alias_for": "tpu-"
+  },
+  {
+    "type": "fp",
+    "description": "False positive"
+  },
+  {
+    "type": "fp-",
+    "description": "False positive (silent)",
+    "aliases": ["f"]
+  },
+  {
+    "type": "fpu",
+    "description": "False positive, whitelist user"
+  },
+  {
+    "type": "fpu-",
+    "description": "False positive, whitelist user (silent)"
+  },
+  {
+    "type": "f",
+    "description": "False positive (silent)",
+    "alias_for": "fp-"
+  }
+  <% if @post.is_answer? %>
+  {
+    "type": "naa",
+    "description": "Not an answer"
+  },
+  {
+    "type": "naa-",
+    "description": "Not an answer (silent)",
+    "aliases": ["n"]
+  },
+  {
+    "type": "n",
+    "description": "Not an answer (silent)",
+    "alias_for": "naa-"
+  }
+  <% end %>
+]
