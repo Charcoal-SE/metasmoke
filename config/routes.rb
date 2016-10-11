@@ -88,6 +88,7 @@ Rails.application.routes.draw do
   get 'api/posts/undeleted', :to => 'api#undeleted_posts'
   get 'api/posts/site', :to => 'api#posts_by_site'
   get 'api/posts/between', :to => 'api#posts_by_daterange'
+  get 'api/posts/search', :to => 'api#search_posts'
   get 'api/posts/:ids', :to => 'api#posts'
   get 'api/post/:id/feedback', :to => 'api#post_feedback'
   get 'api/post/:id/reasons', :to => 'api#post_reasons'

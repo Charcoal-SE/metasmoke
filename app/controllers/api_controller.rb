@@ -24,7 +24,7 @@ class ApiController < ApplicationController
   end
 
   def posts_by_site
-    @posts = Post.includes(:sites).where(:sites => { :site_domain => params[:site] })
+    @posts = Post.joins('inner join sites on posts.site_id = sites.id').where(:sites => { :site_domain => params[:site] })
     results = @posts.order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
@@ -54,6 +54,24 @@ class ApiController < ApplicationController
   def post_valid_feedback
     @post = Post.find params[:id]
     render :formats => :json
+  end
+
+  def search_posts
+    @posts = Post.all
+    if params[:feedback_type].present?
+      @posts = @posts.includes(:feedbacks).where(:feedbacks => { :feedback_type => params[:feedback_type] })
+    end
+    if params[:site].present?
+      @posts = @posts.joins('inner join sites on posts.site_id = sites.id').where(:sites => { :site_domain => params[:site] })
+    end
+    if params[:from_date].present?
+      @posts = @posts.where('created_at > ?', DateTime.strptime(params[:from_date], '%s'))
+    end
+    if params[:to_date].present?
+      @posts = @posts.where('created_at < ?', DateTime.strptime(params[:to_date], '%s'))
+    end
+    results = @posts.order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
+    render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
   # Read routes: Reasons
@@ -130,11 +148,11 @@ class ApiController < ApplicationController
     end
 
     def set_pagesize
-      @pagesize = [params[:per_page].to_i || 10, 100].min
+      @pagesize = [(params[:per_page] || 10).to_i, 100].min
     end
 
     def has_more?(page, result_count)
-      (page.to_i || 1) * @pagesize < result_count
+      (page || 1).to_i * @pagesize < result_count
     end
 
     def verify_write_token
