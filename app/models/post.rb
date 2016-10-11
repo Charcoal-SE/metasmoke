@@ -30,10 +30,10 @@ class Post < ApplicationRecord
   end
 
   def is_question?
-    return self.post_link.include? "/questions/"
+    return self.link.include? "/questions/"
   end
 
   def is_answer?
-    return self.post_link.include? "/a/"
+    return self.link.include? "/a/"
   end
 end
