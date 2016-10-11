@@ -23,6 +23,12 @@ class ApiController < ApplicationController
     render :json => @post
   end
 
+  def posts_by_site
+    @posts = Post.includes(:sites).where(:sites => { :site_domain => params[:site] })
+    results = @posts.order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
+    render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
+  end
+
   def undeleted_posts
     @posts = Post.left_outer_joins(:deletion_logs).where(:deletion_logs => { :id => nil })
     results = @posts.order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
