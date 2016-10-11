@@ -29,6 +29,12 @@ class ApiController < ApplicationController
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
+  def posts_by_daterange
+    @posts = Post.where(:created_at => DateTime.strptime(params[:from_date], '%s')..DateTime.strptime(params[:to_date], '%s'))
+    results = @posts.order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
+    render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
+  end
+
   def undeleted_posts
     @posts = Post.left_outer_joins(:deletion_logs).where(:deletion_logs => { :id => nil })
     results = @posts.order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
