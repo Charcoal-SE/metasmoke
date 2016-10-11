@@ -126,6 +126,11 @@ class ApiController < ApplicationController
           ActionCable.server.broadcast "smokedetector_messages", { naa: { post_link: @post.link } }
         rescue
         end
+      elsif @feedback.is_negative?
+        begin
+          ActionCable.server.broadcast "smokedetector_messages", { fp: { post_link: @post.link } }
+        rescue
+        end
       end
       unless Feedback.where(:post_id => @post.id, :feedback_type => @feedback.feedback_type).where.not(:id => @feedback.id).exists?
         ActionCable.server.broadcast "smokedetector_messages", { message: "#{@feedback.feedback_type} by #{@user.username}" + (@post.id == Post.last.id ? "" : " on [#{@post.title}](#{@post.link})") }
