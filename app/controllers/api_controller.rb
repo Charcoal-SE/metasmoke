@@ -24,7 +24,7 @@ class ApiController < ApplicationController
   end
 
   def posts_by_site
-    @posts = Post.joins('inner join sites on posts.site_id = sites.id').where(:sites => { :site_domain => params[:site] })
+    @posts = Post.joins(:site).where(:sites => { :site_domain => params[:site] })
     results = @posts.order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
@@ -62,7 +62,7 @@ class ApiController < ApplicationController
       @posts = @posts.includes(:feedbacks).where(:feedbacks => { :feedback_type => params[:feedback_type] })
     end
     if params[:site].present?
-      @posts = @posts.joins('inner join sites on posts.site_id = sites.id').where(:sites => { :site_domain => params[:site] })
+      @posts = @posts.joins(:site).where(:sites => { :site_domain => params[:site] })
     end
     if params[:from_date].present?
       @posts = @posts.where('created_at > ?', DateTime.strptime(params[:from_date], '%s'))
