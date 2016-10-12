@@ -76,7 +76,7 @@ class AdminController < ApplicationController
   end
 
   def api_feedback
-    @feedback = Feedback.via_api.order(:created_at => :desc).paginate(:page => params[:page], :per_page => 100)
+    @feedback = Feedback.via_api.includes(:user, :post).order(:created_at => :desc).paginate(:page => params[:page], :per_page => 100)
   end
 
   def permissions
