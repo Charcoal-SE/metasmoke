@@ -8,4 +8,10 @@ class BlacklistControllerTest < ActionController::TestCase
       post :create_website, params: {:blacklisted_website => {:host => ""}}
     end
   end
+
+  test "should load index" do
+    sign_in users(:code_admin_user)
+    get :index
+    assert_response :success
+  end
 end

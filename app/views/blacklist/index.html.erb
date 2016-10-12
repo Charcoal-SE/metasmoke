@@ -26,7 +26,7 @@
   </tbody>
 </table>
 
-<% if user_signed_in? && current_user.is_code_admin %>
+<% if user_signed_in? && current_user.has_role?(:code_admin) %>
   <a href="<%= url_for(:controller => :blacklist, :action => :add_website) %>" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add Website</a>
 <% end %>
 

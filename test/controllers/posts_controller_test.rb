@@ -20,6 +20,15 @@ class PostsControllerTest < ActionController::TestCase
     end
   end
 
+  test "should show posts to signed-in users" do
+    sign_in users(:admin_user)
+    @posts.each do |post|
+      get :show, params: { :id => post.id }
+      assert_response :success
+      assert_not_nil assigns(:post)
+    end
+  end
+
   test "should require smokedetector key to create post" do
     post :create, params: { :post => {} }
     assert_response :forbidden

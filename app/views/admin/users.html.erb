@@ -7,10 +7,6 @@
     <tr>
       <th>ID</th>
       <th>Username</th>
-      <th>Review-approved?</th>
-      <th>Admin?</th>
-      <th>Code Admin?</th>
-      <th colspan="2"></th>
     </tr>
   </thead>
   <tbody>
@@ -18,19 +14,7 @@
       <tr>
         <td><%= user.id %></td>
         <td><%= user.username %></td>
-        <td><%= user.is_approved ? "Yes" : "No" %></td>
-        <td><%= user.is_admin ? "Yes" : "No" %></td>
-        <td><%= user.is_code_admin ? "Yes" : "No" %></td>
         <td><%= link_to "Feedback", admin_user_feedback_path(:user_id => user.id) %></td>
-        <% if user_signed_in? && current_user.is_admin %>
-          <td>
-            <% unless user.is_code_admin %>
-              <%= link_to "Grant code access", url_for(:controller => :admin, :action => :promote_code_admin, :id => user.id), :method => :post, :class => "text-danger", :data => { :confirm => "Grant code access to #{user.username}?" } %>
-            <% else %>
-              <%= link_to "Revoke code access", url_for(:controller => :admin, :action => :demote_code_admin, :id => user.id), :method => :post, :class => "text-danger", :data => { :confirm => "Revoke code access from #{user.username}?" } %>
-            <% end %>
-          </td>
-        <% end %>
       </tr>
     <% end %>
   </tbody>

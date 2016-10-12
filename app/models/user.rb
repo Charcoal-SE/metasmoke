@@ -17,11 +17,11 @@ class User < ApplicationRecord
   end
 
   def active_for_authentication?
-    super && is_approved?
+    super && roles.present?
   end
 
   def inactive_message
-    if !is_approved?
+    if !has_role?(:reviewer)
       :not_approved
     else
       super # Use whatever other message

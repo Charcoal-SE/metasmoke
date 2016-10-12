@@ -94,26 +94,6 @@ class AdminController < ApplicationController
     render :nothing => true, :status => :accepted
   end
 
-  def promote_code_admin
-    @user = User.find params[:id]
-    if @user.update(:is_code_admin => true)
-      flash[:success] = "Promoted #{@user.username} to code admin."
-    else
-      flash[:danger] = "Failed to promote #{@user.username} - go talk to Undo about that."
-    end
-    redirect_to url_for(:controller => :admin, :action => :users)
-  end
-
-  def demote_code_admin
-    @user = User.find params[:id]
-    if @user.update(:is_code_admin => false)
-      flash[:success] = "Demoted #{@user.username} from code admin."
-    else
-      flash[:danger] = "Failed to demote #{@user.username} - go talk to Undo about that."
-    end
-    redirect_to url_for(:controller => :admin, :action => :users)
-  end
-
   private
     def set_ignored_user
       @ignored = IgnoredUser.find params[:id]

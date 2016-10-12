@@ -36,6 +36,7 @@ approved_user:
     zone: !ruby/object:ActiveSupport::TimeZone
       name: Etc/UTC
     time: *5
+  roles: reviewer
 
 unapproved_user:
   email: unapproved@user.com
@@ -100,6 +101,7 @@ admin_user:
     zone: !ruby/object:ActiveSupport::TimeZone
       name: Etc/UTC
     time: *5
+  roles: reviewer, admin
 
 code_admin_user:
   email: code_admin@user.com
@@ -132,3 +134,4 @@ code_admin_user:
     zone: !ruby/object:ActiveSupport::TimeZone
       name: Etc/UTC
     time: *5
+  roles: reviewer, code_admin

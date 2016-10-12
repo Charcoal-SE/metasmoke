@@ -6,7 +6,7 @@
     <li><a href="/admin/api_feedback">Feedback via API</a></li>
     <li><a href="/users">User Data</a></li>
     <li><a href="/blacklist">Blacklist</a></li>
-    <% if current_user.try(:is_admin) %>
+    <% if current_user.try(:has_role?, :admin) %>
       <li><a href="/admin/flagged">Posts with Admin Reports</a></li>
       <li><%= link_to "Ignored Users", admin_ignored_users_path %></li>
       <li><a href="/admin/keys">API Keys</a></li>

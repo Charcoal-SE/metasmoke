@@ -38,4 +38,10 @@ class AdminControllerTest < ActionController::TestCase
     assert assigns(:feedback_count)
     assert assigns(:invalid_count)
   end
+
+  test "should get users page" do
+    sign_in users(:admin_user)
+    get :users
+    assert_response :success
+  end
 end

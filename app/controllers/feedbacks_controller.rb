@@ -133,7 +133,7 @@ class FeedbacksController < ApplicationController
     end
 
     def verify_access(feedbacks)
-      return true if current_user.is_admin
+      return true if current_user.has_role? :admin
       if feedbacks.respond_to? :where
         unless feedbacks.where(:user_id => current_user.id).exists?
           return false
