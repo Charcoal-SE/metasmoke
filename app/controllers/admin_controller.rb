@@ -85,7 +85,7 @@ class AdminController < ApplicationController
   end
 
   def update_permissions
-    if params["permitted"]
+    if params["permitted"] == 'true'
       User.find(params["user_id"]).add_role params["role"]
     else
       User.find(params["user_id"]).remove_role params["role"]
