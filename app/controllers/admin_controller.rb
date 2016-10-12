@@ -1,5 +1,5 @@
 class AdminController < ApplicationController
-  before_action :verify_admin, :except => [:user_feedback, :api_feedback, :users, :recently_invalidated, :index]
+  before_action :verify_admin, :except => [:user_feedback, :api_feedback, :users, :recently_invalidated, :index, :permissions, :update_permissions]
   before_action :set_ignored_user, :only => [:ignore, :unignore, :destroy_ignored]
 
   def index
@@ -77,6 +77,21 @@ class AdminController < ApplicationController
 
   def api_feedback
     @feedback = Feedback.via_api.order(:created_at => :desc).paginate(:page => params[:page], :per_page => 100)
+  end
+
+  def permissions
+    @roles = Role.names
+    @users = User.all.preload(:roles)
+  end
+
+  def update_permissions
+    if params["permitted"]
+      User.find(params["user_id"]).add_role params["role"]
+    else
+      User.find(params["user_id"]).remove_role params["role"]
+    end
+
+    render :nothing => true, :status => :accepted
   end
 
   def promote_code_admin

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160902184420) do
+ActiveRecord::Schema.define(version: 20161012180740) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.datetime "created_at",  null: false
@@ -129,6 +129,16 @@ ActiveRecord::Schema.define(version: 20160902184420) do
     t.boolean "inactive",        default: false
   end
 
+  create_table "roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.string   "resource_type"
+    t.integer  "resource_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
+    t.index ["name"], name: "index_roles_on_name", using: :btree
+  end
+
   create_table "sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "site_name"
     t.string   "site_url"
@@ -161,27 +171,38 @@ ActiveRecord::Schema.define(version: 20160902184420) do
     t.integer  "site_id"
   end
 
+  create_table "statistics", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "smokedetector_id"
+    t.integer  "post_count"
+    t.integer  "api_req_count"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.string   "email",                      default: "",    null: false
-    t.string   "encrypted_password",         default: "",    null: false
+    t.string   "email",                      default: "", null: false
+    t.string   "encrypted_password",         default: "", null: false
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",              default: 0,     null: false
+    t.integer  "sign_in_count",              default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_approved"
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
-    t.boolean  "is_admin",                   default: false, null: false
     t.string   "username"
-    t.boolean  "is_code_admin",              default: false
     t.integer  "stackexchange_chat_id"
     t.integer  "meta_stackexchange_chat_id"
     t.integer  "stackoverflow_chat_id"
     t.integer  "stack_exchange_account_id"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
+  end
+
+  create_table "users_roles", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "user_id"
+    t.integer "role_id"
+    t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
   end
 
   add_foreign_key "api_keys", "users"
