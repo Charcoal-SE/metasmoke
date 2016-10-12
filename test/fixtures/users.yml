@@ -30,14 +30,12 @@ approved_user:
     zone: !ruby/object:ActiveSupport::TimeZone
       name: Etc/UTC
     time: *4
-  is_approved: true
   reset_password_token: abcdefghijklmnopqrstuvwxyz
   reset_password_sent_at: !ruby/object:ActiveSupport::TimeWithZone
     utc: &5 2016-03-16 19:42:53.000000000 Z
     zone: !ruby/object:ActiveSupport::TimeZone
       name: Etc/UTC
     time: *5
-  is_admin: false
 
 unapproved_user:
   email: unapproved@user.com
@@ -64,14 +62,12 @@ unapproved_user:
     zone: !ruby/object:ActiveSupport::TimeZone
       name: Etc/UTC
     time: *4
-  is_approved: false
   reset_password_token: abcdefghijklmnopqrstuvwxyz1
   reset_password_sent_at: !ruby/object:ActiveSupport::TimeWithZone
     utc: &5 2016-03-16 19:42:53.000000000 Z
     zone: !ruby/object:ActiveSupport::TimeZone
       name: Etc/UTC
     time: *5
-  is_admin: false
 
 admin_user:
   email: admin@user.com
@@ -98,14 +94,12 @@ admin_user:
     zone: !ruby/object:ActiveSupport::TimeZone
       name: Etc/UTC
     time: *4
-  is_approved: true
   reset_password_token: abcdefghijklmnopqrstuvwxyz3
   reset_password_sent_at: !ruby/object:ActiveSupport::TimeWithZone
     utc: &5 2016-03-16 19:42:53.000000000 Z
     zone: !ruby/object:ActiveSupport::TimeZone
       name: Etc/UTC
     time: *5
-  is_admin: true
 
 code_admin_user:
   email: code_admin@user.com
@@ -132,12 +126,9 @@ code_admin_user:
     zone: !ruby/object:ActiveSupport::TimeZone
       name: Etc/UTC
     time: *4
-  is_approved: true
   reset_password_token: abcdefghijklmnopqrstuvwxyz3
   reset_password_sent_at: !ruby/object:ActiveSupport::TimeWithZone
     utc: &5 2016-03-16 19:42:53.000000000 Z
     zone: !ruby/object:ActiveSupport::TimeZone
       name: Etc/UTC
     time: *5
-  is_admin: true
-  is_code_admin: true
