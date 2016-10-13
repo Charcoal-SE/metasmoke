@@ -39,6 +39,6 @@ class User < ApplicationRecord
   end
 
   def self.code_admins
-    self.where(:is_code_admin => true)
+    Role.where(:name => :code_admin).first.users
   end
 end
