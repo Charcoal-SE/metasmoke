@@ -12,5 +12,8 @@
       <li><a href="/admin/keys">API Keys</a></li>
       <li><%= link_to "User Permissions", admin_permissions_path %></li>
     <% end %>
+    <% if current_user.has_role?(:developer) %>
+      <li><%= link_to "Production log", url_for(:controller => :developer, :action => :production_log), :class => "text-danger" %></li>
+    <% end %>
   </ul>
 </p>

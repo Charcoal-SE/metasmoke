@@ -8,6 +8,10 @@ class DeveloperController < ApplicationController
     redirect_back(:fallback_location => url_for(:controller => :dashboard, :action => :index))
   end
 
+  def production_log
+    @log = `tail -n 1000 log/production.log`
+  end
+
   private
     def verify_developer
       unless current_user.has_role?(:developer)
