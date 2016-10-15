@@ -22,7 +22,7 @@ class Post < ApplicationRecord
 
     save!
 
-    if self.is_tp and self.is_fp
+    if self.is_tp && self.is_fp
       ActionCable.server.broadcast "smokedetector_messages", { message: "Conflicting feedback on [#{self.title}](//metasmoke.erwaysoftware.com/post/#{self.id})." }
     end
 
