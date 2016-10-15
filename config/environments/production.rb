@@ -24,7 +24,10 @@ Rails.application.configure do
   # Apache or NGINX already handles this.
   config.public_file_server.enabled = true
 
-  config.public_file_server.headers = { 'Cache-Control' => 'public, max-age=3600' }
+  config.public_file_server.headers = {
+    'Cache-Control' => 'public, max-age=3600',
+    'Expires' => "#{1.week.from_now.to_formatted_s(:rfc822)}"
+  }
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
