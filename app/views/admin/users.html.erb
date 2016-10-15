@@ -7,6 +7,8 @@
     <tr>
       <th>ID</th>
       <th>Username</th>
+      <th>Roles</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -14,6 +16,7 @@
       <tr>
         <td><%= user.id %></td>
         <td><%= user.username %></td>
+        <td><%= user.roles.pluck(:name).map{|n| n.humanize.downcase}.to_sentence.capitalize %></td>
         <td><%= link_to "Feedback", admin_user_feedback_path(:user_id => user.id) %></td>
       </tr>
     <% end %>
