@@ -4,7 +4,7 @@ class DeveloperController < ApplicationController
 
   def update_sites
     SitesHelper.updateSites
-    flash[:info] = "The sites cache is being updated. Completion estimated at ~30s."
+    flash[:info] = "Site cache updated, refer to MiniProfiler for execution details."
     redirect_back(:fallback_location => url_for(:controller => :dashboard, :action => :index))
   end
 
