@@ -12,6 +12,7 @@ class DeveloperController < ApplicationController
     @log = `tail -n 1000 log/production.log`
     @log.gsub!(/\e\[([;\d]+)?m/, '')
     @log.gsub!(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/, '')
+    @log.gsub!(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i, '')
   end
 
   private
