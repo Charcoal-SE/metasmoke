@@ -11,6 +11,7 @@ class DeveloperController < ApplicationController
   def production_log
     @log = `tail -n 1000 log/production.log`
     @log.gsub!(/\e\[([;\d]+)?m/, '')
+    @log.gsub!(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/, '')
   end
 
   private
