@@ -12,6 +12,6 @@ class Role < ApplicationRecord
   scopify
 
   def self.names
-    [:reviewer, :admin, :code_admin]
+    [:reviewer, :admin, :code_admin, :developer]
   end
 end

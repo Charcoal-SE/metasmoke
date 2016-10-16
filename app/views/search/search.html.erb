@@ -84,3 +84,17 @@
     </div>
   <% end %>
 <% end %>
+
+<% if user_signed_in? && current_user.has_role?(:developer) %>
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+      <h4 class="panel-title">Developer</h4>
+    </div>
+    <div class="panel-body">
+      <ul>
+        <li><%= link_to "Update site cache", url_for(:controller => :developer, :action => :update_sites), :method => :post,
+                :data => { :confirm => "You're a developer, so I should be assuming you know what you're doing, but: are you sure?" } %></li>
+      </ul>
+    </div>
+  </div>
+<% end %>
