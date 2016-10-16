@@ -99,6 +99,7 @@ Rails.application.routes.draw do
   get 'api/users/code_privileged', :to => 'api#users_with_code_privs'
 
   post 'api/w/post/:id/feedback', :to => 'api#create_feedback'
+  post 'api/w/post/report', :to => 'api#report_post'
 
   get 'oauth/request', :to => 'micro_auth#token_request'
   post 'oauth/authorize', :to => 'micro_auth#authorize'
