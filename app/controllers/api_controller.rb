@@ -1,8 +1,8 @@
 class ApiController < ApplicationController
   before_action :verify_key
   before_action :set_pagesize
-  before_action :verify_write_token, :only => [:create_feedback]
-  skip_before_action :verify_authenticity_token, :only => [:create_feedback]
+  before_action :verify_write_token, :only => [:create_feedback, :report_post]
+  skip_before_action :verify_authenticity_token, :only => [:create_feedback, :report_post]
 
   # Read routes: Posts
 
@@ -139,6 +139,13 @@ class ApiController < ApplicationController
     else
       render :status => 500, :json => { :error_name => "failed", :error_code => 500, :error_message => "Feedback object failed to save." }
     end
+  end
+
+  def report_post
+    # We don't create any posts here, just send them on to Smokey to do all the processing
+    ActionCable.server.broadcast "smokedetector_messages", { report: { :user => @user.username, :post_link => params[:post_link] } }
+
+    render :plain => "OK", :status => 201
   end
 
   private
