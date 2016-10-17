@@ -3,4 +3,43 @@
 <% @sites = [post.site] if @sites.nil? %>
 
 <tr class="post-cell post-cell-<%= post.id %>">
+  <td>
+    <% if post.try(:body).present? or post.try(:body_exists) == 1 %>
+      <span class="text-muted show-post-body" data-postloaded="<%= preload_post_body.to_s %>" data-postid="<%= post.id %>"><%= (expand_post.present? and expand_post) ? "▼" : "►" %></span>
+    <% end %>
+
+    <%= link_to post.title, "/post/" + post.id.to_s %>
+
+    <% if not post.feedbacks.empty? %>
+      <strong>
+         <% post.feedbacks.each do |feedback| %>
+           <% next if (feedback.is_positive? and feedback.is_negative?) or (not feedback.is_positive? and not feedback.is_negative? and not feedback.is_naa?) %>
+           <span style="<%= "font-weight:normal" if feedback.is_naa? %>" data-toggle="tooltip" data-placement="top" title="<%= (feedback.user.present? or feedback.api_key_id.present?) ? "#{feedback.user.try(:username)} (From #{feedback.api_key.try(:app_name) || "Review"})" : feedback.user_name %>: <%= feedback.feedback_type %>" class="<%= feedback.element_class %>"><%= feedback.element_symbol.html_safe %></span>
+         <% end %>
+      </strong>
+    <% end %>
+
+    <span class="text-muted" style="float:right">
+      <% unless post.created_at.nil? %>
+        <span data-livestamp="<%= post.created_at.to_i %>" title="<%= post.created_at %>"></span>
+      <% end %>
+
+      <% unless post.site_id.nil? %>
+        <%= link_to (image_tag @sites[@sites.index { |x| x.id == post.site_id }].site_logo, size: "20"), post.link %>
+      <% end %>
+    </span>
+
+    <% if post.try(:body).present? or post.try(:body_exists) == 1 %>
+      <div data-postid="<%= post.id %>" class="post-body" style="<%= "display: none;" unless expand_post.present? and expand_post %>">
+        <% if preload_post_body %>
+          <pre class="post-body-pre-block"><%= post.body %></pre>
+          <p>
+            <span class="report-reasons">
+              <%= post.reasons.map(&:reason_name).join(", ") %>
+            </span>
+          </p>
+        <% end %>
+      </div>
+    <% end %>
+  </td>
 </tr>
