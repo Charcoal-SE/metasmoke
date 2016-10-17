@@ -4,7 +4,7 @@
 
 <tr class="post-cell post-cell-<%= post.id %>">
   <td>
-    <% if not post.body.nil? %>
+    <% if post.try(:body).present? or post.try(:body_exists) == 1 %>
       <span class="text-muted show-post-body" data-postloaded="<%= preload_post_body.to_s %>" data-postid="<%= post.id %>"><%= (expand_post.present? and expand_post) ? "▼" : "►" %></span>
     <% end %>
 
@@ -29,7 +29,7 @@
       <% end %>
     </span>
 
-    <% if not post.body.nil? %>
+    <% if post.try(:body).present? or post.try(:body_exists) == 1 %>
       <div data-postid="<%= post.id %>" class="post-body" style="<%= "display: none;" unless expand_post.present? and expand_post %>">
         <% if preload_post_body %>
           <pre class="post-body-pre-block"><%= post.body %></pre>
