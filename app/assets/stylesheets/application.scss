@@ -25,3 +25,19 @@
     padding: 20px;
   }
 }
+
+.col-centered {
+  float: none !important;
+  margin: 0 auto;
+}
+
+.login-box {
+  margin-bottom: 10px;
+
+  .btn-primary {
+    width: 100%
+  }
+}
+#devise-links a {
+  color: grey !important
+}
