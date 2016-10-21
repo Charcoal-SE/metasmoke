@@ -109,6 +109,12 @@ class ApiController < ApplicationController
     render :json => { :items => items }
   end
 
+  # Read routes: Status
+
+  def current_status
+    render :json => { :last_ping => SmokeDetector.where.not(:location => params[:except]).maximum(:last_ping) }
+  end
+
   # Write routes
 
   def create_feedback
