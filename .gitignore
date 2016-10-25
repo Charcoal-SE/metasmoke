@@ -23,3 +23,6 @@ Gemfile.lock    # we need the Gemfile, but not the .lock
 
 db_import.sql
 db_import_*.sql
+
+# IDE-specific config files
+.idea/*
