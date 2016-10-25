@@ -77,8 +77,8 @@
                 </ul>
               </li>
             <% else %>
-              <li><%= link_to "Sign in", new_user_session_path %></li>
-              <li><%= link_to "Sign up", new_user_registration_path %></li>
+              <li><%= link_to "sign in", new_user_session_path %></li>
+              <li><%= link_to "sign up", new_user_registration_path %></li>
             <% end %>
             <% if CurrentCommit.present? %>
               <li><a href="https://github.com/Charcoal-SE/metasmoke/commit/<%= CurrentCommit %>" title="<%= Rails::VERSION::STRING %>"><code><%= CurrentCommit.first(7) %></code></a></li>

@@ -41,4 +41,8 @@ class User < ApplicationRecord
   def self.code_admins
     Role.where(:name => :code_admin).first.users
   end
+
+  def remember_me
+    true
+  end
 end
