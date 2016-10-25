@@ -17,8 +17,9 @@ class Post < ApplicationRecord
 
     self.is_tp = true if feedbacks.index { |f| f.is_positive? }
     self.is_fp = true if feedbacks.index { |f| f.is_negative? }
+    self.is_naa = true if feedbacks.index { |f| f.is_naa? }
 
-    is_feedback_changed = self.is_tp_changed? || self.is_fp_changed?
+    is_feedback_changed = self.is_tp_changed? || self.is_fp_changed? || self.is_naa_changed?
 
     save!
 
