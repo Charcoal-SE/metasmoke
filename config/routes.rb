@@ -85,6 +85,7 @@ Rails.application.routes.draw do
 
   root to: "dashboard#index"
 
+. get 'api', :to => 'dashboard#api_docs'
   get 'api/smoke_detectors/status', :to => 'api#current_status'
   get 'api/posts/url', :to => 'api#posts_by_url'
   get 'api/posts/feedback', :to => 'api#posts_by_feedback'
