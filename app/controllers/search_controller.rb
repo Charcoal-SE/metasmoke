@@ -2,14 +2,34 @@ class SearchController < ApplicationController
   def search_results
     username = params[:username] || ""
     title = params[:title] || ""
-    if user_signed_in? and params[:title_is_regex]
-      title_operation = params[:title_is_inverse_regex] ? "NOT REGEXP" : "REGEXP"
-    else
-      title_operation = "LIKE"
-      title = "%" + title + "%"
-    end
     body = params[:body] || ""
     why = params[:why] || ""
+    if user_signed_in?
+      if params[:title_is_regex]
+        title_operation = params[:title_is_inverse_regex] ? "NOT REGEXP" : "REGEXP"
+      else
+        title_operation = "LIKE"
+        title = "%" + title + "%"
+      end
+      if params[:body_is_regex]
+        body_operation = params[:body_is_inverse_regex] ? "NOT REGEXP" : "REGEXP"
+      else
+        body_operation = "LIKE"
+        body = "%" + body + "%"
+      end
+      if params[:username_is_regex]
+        username_operation = params[:username_is_inverse_regex] ? "NOT REGEXP" : "REGEXP"
+      else
+        username_operation = "LIKE"
+        username = "%" + username + "%"
+      end
+      if params[:why_is_regex]
+        why_operation = params[:why_is_inverse_regex] ? "NOT REGEXP" : "REGEXP"
+      else
+        why_operation = "LIKE"
+        why = "%" + why + "%"
+      end
+    end
     user_reputation = params[:user_reputation].to_i || 0
 
     case params[:feedback]
@@ -29,7 +49,7 @@ class SearchController < ApplicationController
 
     per_page = (user_signed_in? and params[:per_page].present?) ? [params[:per_page].to_i, 10000].min : 100
 
-    @results = @results.where("IFNULL(posts.username, '') LIKE :username AND IFNULL(title, '') " + title_operation + " :title AND IFNULL(body, '') LIKE :body AND IFNULL(why, '') LIKE :why", username: "%" + username + "%", title: title, body: "%" + body + "%", why: "%" + why + "%")
+    @results = @results.where("IFNULL(posts.username, '') " + username_operation + " :username AND IFNULL(title, '') " + title_operation + " :title AND IFNULL(body, '') " + body_operation + " :body AND IFNULL(why, '') " + why_operation + " :why", username: username, title: title, body: body, why: why)
                    .paginate(:page => params[:page], :per_page => per_page)
                    .order("`posts`.`created_at` DESC")
 
