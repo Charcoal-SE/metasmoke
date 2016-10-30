@@ -4,31 +4,29 @@ class SearchController < ApplicationController
     title = params[:title] || ""
     body = params[:body] || ""
     why = params[:why] || ""
-    if user_signed_in?
-      if params[:title_is_regex]
-        title_operation = params[:title_is_inverse_regex] ? "NOT REGEXP" : "REGEXP"
-      else
-        title_operation = "LIKE"
-        title = "%" + title + "%"
-      end
-      if params[:body_is_regex]
-        body_operation = params[:body_is_inverse_regex] ? "NOT REGEXP" : "REGEXP"
-      else
-        body_operation = "LIKE"
-        body = "%" + body + "%"
-      end
-      if params[:username_is_regex]
-        username_operation = params[:username_is_inverse_regex] ? "NOT REGEXP" : "REGEXP"
-      else
-        username_operation = "LIKE"
-        username = "%" + username + "%"
-      end
-      if params[:why_is_regex]
-        why_operation = params[:why_is_inverse_regex] ? "NOT REGEXP" : "REGEXP"
-      else
-        why_operation = "LIKE"
-        why = "%" + why + "%"
-      end
+    if user_signed_in? and params[:title_is_regex]
+      title_operation = params[:title_is_inverse_regex] ? "NOT REGEXP" : "REGEXP"
+    else
+      title_operation = "LIKE"
+      title = "%" + title + "%"
+    end
+    if user_signed_in? and params[:body_is_regex]
+      body_operation = params[:body_is_inverse_regex] ? "NOT REGEXP" : "REGEXP"
+    else
+      body_operation = "LIKE"
+      body = "%" + body + "%"
+    end
+    if user_signed_in? and params[:username_is_regex]
+      username_operation = params[:username_is_inverse_regex] ? "NOT REGEXP" : "REGEXP"
+    else
+      username_operation = "LIKE"
+      username = "%" + username + "%"
+    end
+    if user_signed_in? and params[:why_is_regex]
+      why_operation = params[:why_is_inverse_regex] ? "NOT REGEXP" : "REGEXP"
+    else
+      why_operation = "LIKE"
+      why = "%" + why + "%"
     end
     user_reputation = params[:user_reputation].to_i || 0
 
