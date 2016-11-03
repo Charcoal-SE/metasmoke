@@ -1,33 +1,16 @@
 class SearchController < ApplicationController
   def search_results
-    username = params[:username] || ""
-    title = params[:title] || ""
-    body = params[:body] || ""
-    why = params[:why] || ""
-    if user_signed_in? and params[:title_is_regex]
-      title_operation = params[:title_is_inverse_regex] ? "NOT REGEXP" : "REGEXP"
-    else
-      title_operation = "LIKE"
-      title = "%" + title + "%"
-    end
-    if user_signed_in? and params[:body_is_regex]
-      body_operation = params[:body_is_inverse_regex] ? "NOT REGEXP" : "REGEXP"
-    else
-      body_operation = "LIKE"
-      body = "%" + body + "%"
-    end
-    if user_signed_in? and params[:username_is_regex]
-      username_operation = params[:username_is_inverse_regex] ? "NOT REGEXP" : "REGEXP"
-    else
-      username_operation = "LIKE"
-      username = "%" + username + "%"
-    end
-    if user_signed_in? and params[:why_is_regex]
-      why_operation = params[:why_is_inverse_regex] ? "NOT REGEXP" : "REGEXP"
-    else
-      why_operation = "LIKE"
-      why = "%" + why + "%"
-    end
+    # This might be ugly, but it's better than the alternative.
+    #
+    # And it's kinda clever.
+
+    title, title_operation,
+      body, body_operation,
+      why, why_operation,
+      username, username_operation = [:title, :body, :why, :username].map do |s|
+        SearchHelper.parse_search_params(params, s, user_signed_in?)
+      end.flatten
+
     user_reputation = params[:user_reputation].to_i || 0
 
     case params[:feedback]
