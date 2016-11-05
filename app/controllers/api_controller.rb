@@ -65,10 +65,10 @@ class ApiController < ApplicationController
       @posts = @posts.joins(:site).where(:sites => { :site_domain => params[:site] })
     end
     if params[:from_date].present?
-      @posts = @posts.where('created_at > ?', DateTime.strptime(params[:from_date], '%s'))
+      @posts = @posts.where('`posts`.`created_at` > ?', DateTime.strptime(params[:from_date], '%s'))
     end
     if params[:to_date].present?
-      @posts = @posts.where('created_at < ?', DateTime.strptime(params[:to_date], '%s'))
+      @posts = @posts.where('`posts`.`created_at` < ?', DateTime.strptime(params[:to_date], '%s'))
     end
     results = @posts.order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
