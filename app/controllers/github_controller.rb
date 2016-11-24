@@ -1,7 +1,7 @@
 class GithubController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-  def hook
+  def status_hook
     # We're not interested in PR statuses or branches other than master
 
     unless params[:branches].index { |b| b[:name] == "master" }
@@ -37,5 +37,9 @@ class GithubController < ApplicationController
     CommitStatus.create(:commit_sha => commit_sha, :status => status)
 
     render text: "OK", status: 200
+  end
+
+  def pull_request_hook
+    render text: "blah", status: 444
   end
 end
