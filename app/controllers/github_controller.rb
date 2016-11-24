@@ -40,6 +40,38 @@ class GithubController < ApplicationController
   end
 
   def pull_request_hook
-    render text: "blah", status: 444
+    # Check signature from GitHub
+
+    signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)
+    puts "calculated signature: #{signature} | #{request.env['HTTP_X_HUB_SIGNATURE']}"
+
+    render text: "You're not GitHub!", status: 403 and return unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
+
+    unless params[:action] == "opened"
+      render text: "Not a newly-opened PR. Uninterested." and return
+    end
+
+    pull_request = params[:pull_request]
+
+    unless pull_request[:user][:login] == "SmokeDetector"
+      render text: "Not from SmokeDetector. Uninterested." and return
+    end
+
+    text = pull_request[:body]
+
+    domains = text.scan(/<!-- METASMOKE-BLACKLIST (.*?) -->/)[0][0].split("|")
+
+    response_text = ""
+
+    domains.each do |domain|
+      # Run a search on each, find stats...
+
+      num_tps = Post.where("body LIKE '%#{domain}%'").where(:is_tp => true).count
+      num_fps = Post.where("body LIKE '%#{domain}%'").where(:is_fp => true).count
+
+      response_text += "#{domain} has been seen in #{num_tps} true #{'positives'.pluralize(num_tps)} and #{num_fps} false #{'positives'.pluralize(num_fps)}.\n\n"
+    end
+
+    render text: response_text, status: 444
   end
 end
