@@ -13,6 +13,7 @@ gem 'whenever', :require => false
 gem 'will_paginate-bootstrap'
 gem 'redis'
 gem "rolify"
+gem "octokit", "~> 4.0"
 
 gem 'rack-mini-profiler'
 gem 'flamegraph'
