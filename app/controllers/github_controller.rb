@@ -47,7 +47,7 @@ class GithubController < ApplicationController
 
     render text: "You're not GitHub!", status: 403 and return unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
 
-    unless params[:action] == "opened"
+    unless request.request_parameters[:action] == "opened"
       render text: "Not a newly-opened PR. Uninterested." and return
     end
 
