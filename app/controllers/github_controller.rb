@@ -72,6 +72,8 @@ class GithubController < ApplicationController
       response_text += "#{domain} has been seen in #{num_tps} true #{'positives'.pluralize(num_tps)} and #{num_fps} false #{'positives'.pluralize(num_fps)}.\n\n"
     end
 
-    render text: response_text, status: 444
+    Octokit.add_comment "Charcoal-SE/SmokeDetector", pull_request[:number], response_text
+
+    render text: response_text, status: 200
   end
 end
