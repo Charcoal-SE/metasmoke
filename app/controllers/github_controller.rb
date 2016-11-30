@@ -69,7 +69,7 @@ class GithubController < ApplicationController
       num_tps = Post.where("body LIKE '%#{domain}%'").where(:is_tp => true).count
       num_fps = Post.where("body LIKE '%#{domain}%'").where(:is_fp => true).count
 
-      response_text += "#{domain} has been seen in #{num_tps} true #{'positives'.pluralize(num_tps)}, #{num_fps} false #{'positives'.pluralize(num_fps)}, and #{num_naa} #{'NAA'.pluralize(num_naa)}.\n\n"
+      response_text += "#{domain} has been seen in #{num_tps} true #{'positive'.pluralize(num_tps)}, #{num_fps} false #{'positive'.pluralize(num_fps)}, and #{num_naa} #{'NAA'.pluralize(num_naa)}.\n\n"
     end
 
     Octokit.add_comment "Charcoal-SE/SmokeDetector", pull_request[:number], response_text
