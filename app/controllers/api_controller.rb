@@ -139,7 +139,7 @@ class ApiController < ApplicationController
         end
       end
       unless Feedback.where(:post_id => @post.id, :feedback_type => @feedback.feedback_type).where.not(:id => @feedback.id).exists?
-        ActionCable.server.broadcast "smokedetector_messages", { message: "#{@feedback.feedback_type} by #{@user.username}" + (@post.id == Post.last.id ? "" : " on [#{@post.title}](#{@post.link}) [[MS](#{url_for(:controller => :posts, :action => :show, :id => @post.id)})]") }
+        ActionCable.server.broadcast "smokedetector_messages", { message: "#{@feedback.feedback_type} by #{@user.username}" + (@post.id == Post.last.id ? "" : " on [#{@post.title}](#{@post.link}) \[[MS](#{url_for(:controller => :posts, :action => :show, :id => @post.id)})]") }
       end
       render :json => @post.feedbacks, :status => 201
     else
