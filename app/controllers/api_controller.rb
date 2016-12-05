@@ -8,8 +8,9 @@ class ApiController < ApplicationController
 
   def posts
     @posts = Post.where(:id => params[:ids].split(";")).order(:id => :desc)
-    results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
-    render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
+    @results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
+    @more = has_more?(params[:page], @results.count)
+    render :formats => :json
   end
 
   def posts_by_feedback
