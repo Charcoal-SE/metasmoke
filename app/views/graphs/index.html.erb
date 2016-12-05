@@ -29,11 +29,11 @@
 <% tp_posts = @posts.where(:is_tp => true).group_by_hour_of_day(:created_at).count.map{ |k,v| [k, (v.to_f / number_of_days).round(2)] }.to_h %>
 <% fp_posts = @posts.where(:is_fp => true).group_by_hour_of_day(:created_at).count.map{ |k,v| [k, (v.to_f / number_of_days).round(2)] }.to_h %>
 
-<%= line_chart [{name: "All", data: @posts.group_by_hour_of_day(:created_at).count.map{ |k,v| [k, (v.to_f / number_of_days).round(2)] }.to_h}, {name: "True positives", data: tp_posts}, {name: "False positives", data: fp_posts} ], discrete: true, library: {"xAxis": { "plotLines" => [{"width" => '2', :value => "#{t.hour + t.min.to_f / 60.to_f}", :color => 'grey'}] } }, colors: ["#999", "green", "red"], library: {"tooltip" => {'shared' => 'true'} } %>
+<%= line_chart [{name: "All", data: @posts.group_by_hour_of_day(:created_at).count.map{ |k,v| [k, (v.to_f / number_of_days).round(2)] }.to_h}, {name: "True positives", data: tp_posts}, {name: "False positives", data: fp_posts} ], discrete: true, library: {"tooltip" => {'shared' => 'true'}, "xAxis": { "plotLines" => [{"width" => '2', :value => "#{t.hour + t.min.to_f / 60.to_f}", :color => 'blue', :dashStyle => "dot" }] } }, colors: ["#999", "green", "red"] %>
 
 <br />
 <br />
 
 <h3>Time to deletion</h3>
 <p class="text-muted">tp posts only, same scale as above</p>
-<%= line_chart Post.group_by_hour_of_day('`posts`.`created_at`').select("AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion").joins(:deletion_logs).where(:is_tp => true).where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600").relation.each_with_index.map {|a,i| [i, a.time_to_deletion.round(0)] }, library: { "xAxis": { "labels": { "enabled": false } } } %>
+<%= line_chart Post.group_by_hour_of_day('`posts`.`created_at`').select("AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion").joins(:deletion_logs).where(:is_tp => true).where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600").relation.each_with_index.map {|a,i| [i, a.time_to_deletion.round(0)] }, library: { "xAxis": { "labels": { "enabled": false }, "plotLines" => [{"width" => '2', :value => "#{t.hour + t.min.to_f / 60.to_f}", :color => 'blue', :dashStyle => "dot" }] } } %>

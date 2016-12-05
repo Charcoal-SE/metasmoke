@@ -81,10 +81,12 @@ Rails.application.routes.draw do
   post 'blacklist/add_website', to: 'blacklist#create_website'
   delete 'blacklist/website/:id', to: 'blacklist#deactivate_website'
 
-  post 'github/hook'
+  post 'github/status_hook'
+  post 'github/pull_request_hook'
 
   root to: "dashboard#index"
 
+  get 'api', :to => 'dashboard#api_docs'
   get 'api/smoke_detectors/status', :to => 'api#current_status'
   get 'api/posts/url', :to => 'api#posts_by_url'
   get 'api/posts/feedback', :to => 'api#posts_by_feedback'

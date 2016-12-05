@@ -1,9 +1,18 @@
 common: &common
   smoke_detector:
-    key: 'gibberish_here'
+    key: 'smokey_key'
   ses_smtp_credentials:
+    username: 'xxx'
+    password: 'yyy'
+  github:
+    secret_token: 'xxyyzz'
     username: 'username'
-    password: 'password'
+    password: 'p455w0rd'
+  stack_exchange:
+    client_secret: 'sekrit'
+    client_id: '1234'
+    key: 'key'
+    redirect_uri: 'https://domain.com/authentication/redirect_target'
 
 development:
   <<: *common
@@ -13,3 +22,4 @@ test:
 
 production:
   <<: *common
+

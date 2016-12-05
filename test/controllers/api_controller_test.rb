@@ -42,4 +42,67 @@ class ApiControllerTest < ActionController::TestCase
       end
     end
   end
+
+  test "should get posts by feedback" do
+    get :posts_by_feedback, params: { type: Feedback.first.feedback_type, key: api_keys(:one).key }
+
+    assert_response :success
+    assert assigns(:posts).count > 0
+    assert assigns(:posts).select { |p| p.feedbacks.where(:feedback_type => Feedback.first.feedback_type).exists? }.count == assigns(:posts).count
+  end
+
+  test "should get post by URL" do
+    get :posts_by_url, params: { url: Post.last.link, key: api_keys(:one).key }
+
+    assert_response :success
+    assert assigns(:post).exists?
+    assert assigns(:post).select { |p| p.link == Post.last.link }.count == assigns(:post).count
+  end
+
+  test "should get posts by site" do
+    get :posts_by_site, params: { site: Post.last.site.site_domain, key: api_keys(:one).key }
+
+    assert_response :success
+    assert assigns(:posts).count > 0
+    assert assigns(:posts).select { |p| p.site.site_domain == Post.last.site.site_domain }.count == assigns(:posts).count
+  end
+
+  # Search tests
+
+  test "should search for everything" do
+    get :search_posts, params: { key: api_keys(:one).key }
+
+    assert_response :success
+    assert assigns(@posts).count > 0
+  end
+
+  test "should search by feedback type" do
+    get :search_posts, params: { feedback_type: Feedback.first.feedback_type, key: api_keys(:one).key }
+
+    assert_response :success
+    assert assigns(:posts).count > 0
+    assert assigns(:posts).select { |p| p.feedbacks.where(:feedback_type => Feedback.first.feedback_type).exists? }.count == assigns(:posts).count
+  end
+
+  test "should search within site" do
+    get :search_posts, params: { site: Post.last.site.site_domain, key: api_keys(:one).key }
+
+    assert_response :success
+    assert assigns(:posts).count > 0
+    assert assigns(:posts).select { |p| p.site.site_domain == Post.last.site.site_domain }.count == assigns(:posts).count
+  end
+
+  test "should search by date" do
+    get :search_posts, params: { from_date: (Post.last.created_at - 1.second).to_i, key: api_keys(:one).key }
+
+    assert_response :success
+    assert assigns(:posts).count > 0
+    assert assigns(:posts).select { |p| p.created_at >= Post.last.created_at - 1.second }.count == assigns(:posts).count
+
+    get :search_posts, params: { to_date: (Post.last(2).first.created_at + 1.second).to_i, key: api_keys(:one).key }
+
+    assert_response :success
+    assert assigns(:posts).count > 0
+    assert assigns(:posts).select { |p| p.created_at <= Post.last(2).first.created_at + 1.second }.count == assigns(:posts).count
+  end
 end

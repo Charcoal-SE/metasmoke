@@ -1,7 +1,7 @@
 class GithubController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-  def hook
+  def status_hook
     # We're not interested in PR statuses or branches other than master
 
     unless params[:branches].index { |b| b[:name] == "master" }
@@ -37,5 +37,44 @@ class GithubController < ApplicationController
     CommitStatus.create(:commit_sha => commit_sha, :status => status)
 
     render text: "OK", status: 200
+  end
+
+  def pull_request_hook
+    # Check signature from GitHub
+
+    signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)
+    puts "calculated signature: #{signature} | #{request.env['HTTP_X_HUB_SIGNATURE']}"
+
+    render text: "You're not GitHub!", status: 403 and return unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
+
+    unless request.request_parameters[:action] == "opened"
+      render text: "Not a newly-opened PR. Uninterested." and return
+    end
+
+    pull_request = params[:pull_request]
+
+    unless pull_request[:user][:login] == "SmokeDetector"
+      render text: "Not from SmokeDetector. Uninterested." and return
+    end
+
+    text = pull_request[:body]
+
+    domains = text.scan(/<!-- METASMOKE-BLACKLIST (.*?) -->/)[0][0].split("|")
+
+    response_text = ""
+
+    domains.each do |domain|
+      # Run a search on each, find stats...
+
+      num_tps = Post.where("body LIKE '%#{domain}%'").where(:is_tp => true).count
+      num_fps = Post.where("body LIKE '%#{domain}%'").where(:is_fp => true).count
+      num_naa = Post.where("body LIKE '%#{domain}%'").where(:is_naa => true).count
+
+      response_text += "#{domain} has been seen in #{num_tps} true #{'positive'.pluralize(num_tps)}, #{num_fps} false #{'positive'.pluralize(num_fps)}, and #{num_naa} #{'NAA'.pluralize(num_naa)}.\n\n"
+    end
+
+    Octokit.add_comment "Charcoal-SE/SmokeDetector", pull_request[:number], response_text
+
+    render text: response_text, status: 200
   end
 end

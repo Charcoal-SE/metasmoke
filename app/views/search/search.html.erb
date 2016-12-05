@@ -11,14 +11,26 @@
   </div>
   <div class="form-group">
     <%= label_tag :body %>
+    <% if user_signed_in? %>
+      <%= check_box_tag :body_is_regex, 1, params[:body_is_regex] %> <span class="text-muted">regex</span>
+      <%= check_box_tag :body_is_inverse_regex, 1, params[:body_is_inverse_regex] %> <span class="text-muted">invert</span>
+    <% end %>
     <%= text_field_tag :body, params[:body], placeholder: "*", class: "form-control" %>
   </div>
   <div class="form-group">
     <%= label_tag :username %>
+    <% if user_signed_in? %>
+      <%= check_box_tag :username_is_regex, 1, params[:username_is_regex] %> <span class="text-muted">regex</span>
+      <%= check_box_tag :username_is_inverse_regex, 1, params[:username_is_inverse_regex] %> <span class="text-muted">invert</span>
+    <% end %>
     <%= text_field_tag :username, params[:username], placeholder: "*", class: "form-control" %>
   </div>
   <div class="form-group">
     <%= label_tag :why %>
+    <% if user_signed_in? %>
+      <%= check_box_tag :why_is_regex, 1, params[:why_is_regex] %> <span class="text-muted">regex</span>
+      <%= check_box_tag :why_is_inverse_regex, 1, params[:why_is_inverse_regex] %> <span class="text-muted">invert</span>
+    <% end %>
     <%= text_field_tag :why, params[:why], placeholder: "*", class: "form-control" %>
   </div>
   <div class="form-group">

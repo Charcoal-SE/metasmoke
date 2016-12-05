@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161017222402) do
+ActiveRecord::Schema.define(version: 20161025175958) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.datetime "created_at",  null: false
@@ -115,6 +115,7 @@ ActiveRecord::Schema.define(version: 20161017222402) do
     t.integer  "stack_exchange_user_id"
     t.boolean  "is_tp",                                default: false
     t.boolean  "is_fp",                                default: false
+    t.boolean  "is_naa",                               default: false
   end
 
   create_table "posts_reasons", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
