@@ -20,8 +20,9 @@ class ApiController < ApplicationController
   end
 
   def posts_by_url
-    @post = Post.where(:link => params[:url]).order(:id => :desc)
-    render :json => @post
+    @posts = Post.where(:link => params[:urls].split(";")).order(:id => :desc)
+    results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
+    render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
   def posts_by_site
