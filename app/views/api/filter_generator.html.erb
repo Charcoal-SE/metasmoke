@@ -1,0 +1,303 @@
+<h3>API Filter Generator</h3>
+<p>API filters are based on some fairly convoluted logic. If you understand it <em>fully</em>, it's possible to generate
+  your own filters on the fly; however, I'd advise using this page instead.</p>
+<p>Select <em>only</em> the fields you need; if you select a field from a totally unrelated table and it breaks when you
+  use it, you have only yourself to blame. If in doubt about which tables are available for particular routes, ask.</p>
+
+<br/>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong><code>api_keys</code></strong>
+      </div>
+      <div class="panel-body">
+        <input type="checkbox" data-index="0" id="ak_id" /> <code>api_keys.id</code><br/>
+        <input type="checkbox" data-index="1" id="ak_created_at" /> <code>api_keys.created_at</code><br/>
+        <input type="checkbox" data-index="2" id="ak_updated_at" /> <code>api_keys.updated_at</code><br/>
+        <input type="checkbox" data-index="3" id="ak_key" /> <code>api_keys.key</code><br/>
+        <input type="checkbox" data-index="4" id="ak_app_name" /> <code>api_keys.app_name</code><br/>
+        <input type="checkbox" data-index="5" id="ak_user_id" /> <code>api_keys.user_id</code><br/>
+        <input type="checkbox" data-index="6" id="ak_github_link" /> <code>api_keys.github_link</code>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong><code>api_tokens</code></strong>
+      </div>
+      <div class="panel-body">
+        <input type="checkbox" data-index="7" id="at_id" /> <code>api_tokens.id</code><br/>
+        <input type="checkbox" data-index="8" id="at_code" /> <code>api_tokens.code</code><br/>
+        <input type="checkbox" data-index="9" id="at_api_key_id" /> <code>api_tokens.api_key_id</code><br/>
+        <input type="checkbox" data-index="10" id="at_user_id" /> <code>api_tokens.user_id</code><br/>
+        <input type="checkbox" data-index="11" id="at_token" /> <code>api_tokens.token</code><br/>
+        <input type="checkbox" data-index="12" id="at_created_at" /> <code>api_tokens.created_at</code><br/>
+        <input type="checkbox" data-index="13" id="at_updated_at" /> <code>api_tokens.updated_at</code><br/>
+        <input type="checkbox" data-index="14" id="at_expiry" /> <code>api_tokens.expiry</code>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong><code>blacklisted_websites</code></strong>
+      </div>
+      <div class="panel-body">
+        <input type="checkbox" data-index="15" id="bw_id" /> <code>blacklisted_websites.id</code><br/>
+        <input type="checkbox" data-index="16" id="bw_host" /> <code>blacklisted_websites.host</code><br/>
+        <input type="checkbox" data-index="17" id="bw_is_active" /> <code>blacklisted_websites.is_active</code><br/>
+        <input type="checkbox" data-index="18" id="bw_created_at" /> <code>blacklisted_websites.created_at</code><br/>
+        <input type="checkbox" data-index="19" id="bw_updated_at" /> <code>blacklisted_websites.updated_at</code>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong><code>commit_statuses</code></strong>
+      </div>
+      <div class="panel-body">
+        <input type="checkbox" data-index="20" id="cs_id" /> <code>commit_statuses.id</code><br/>
+        <input type="checkbox" data-index="21" id="cs_commit_sha" /> <code>commit_statuses.commit_sha</code><br/>
+        <input type="checkbox" data-index="22" id="cs_status" /> <code>commit_statuses.status</code><br/>
+        <input type="checkbox" data-index="23" id="cs_commit_message" /> <code>commit_statuses.commit_message</code><br/>
+        <input type="checkbox" data-index="24" id="cs_created_at" /> <code>commit_statuses.created_at</code><br/>
+        <input type="checkbox" data-index="25" id="cs_updated_at" /> <code>commit_statuses.updated_at</code><br/>
+        <input type="checkbox" data-index="26" id="cs_ci_url" /> <code>commit_statuses.ci_url</code>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong><code>deletion_logs</code></strong>
+      </div>
+      <div class="panel-body">
+        <input type="checkbox" data-index="27" id="dl_id" /> <code>deletion_logs.id</code><br/>
+        <input type="checkbox" data-index="28" id="dl_post_id" /> <code>deletion_logs.post_id</code><br/>
+        <input type="checkbox" data-index="29" id="dl_is_deleted" /> <code>deletion_logs.is_deleted</code><br/>
+        <input type="checkbox" data-index="30" id="dl_created_at" /> <code>deletion_logs.created_at</code><br/>
+        <input type="checkbox" data-index="31" id="dl_updated_at" /> <code>deletion_logs.updated_at</code>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong><code>feedbacks</code></strong>
+      </div>
+      <div class="panel-body">
+        <input type="checkbox" data-index="32" id="f_id" /> <code>feedbacks.id</code><br/>
+        <input type="checkbox" data-index="33" id="f_message_link" /> <code>feedbacks.message_link</code><br/>
+        <input type="checkbox" data-index="34" id="f_user_name" /> <code>feedbacks.user_name</code><br/>
+        <input type="checkbox" data-index="35" id="f_user_link" /> <code>feedbacks.user_link</code><br/>
+        <input type="checkbox" data-index="36" id="f_feedback_type" /> <code>feedbacks.feedback_type</code><br/>
+        <input type="checkbox" data-index="37" id="f_post_id" /> <code>feedbacks.post_id</code><br/>
+        <input type="checkbox" data-index="38" id="f_post_link" /> <code>feedbacks.post_link</code><br/>
+        <input type="checkbox" data-index="39" id="f_user_id" /> <code>feedbacks.user_id</code><br/>
+        <input type="checkbox" data-index="40" id="f_is_invalidated" /> <code>feedbacks.is_invalidated</code><br/>
+        <input type="checkbox" data-index="41" id="f_invalidated_by" /> <code>feedbacks.invalidated_by</code><br/>
+        <input type="checkbox" data-index="42" id="f_invalidated_at" /> <code>feedbacks.invalidated_at</code><br/>
+        <input type="checkbox" data-index="43" id="f_chat_user_id" /> <code>feedbacks.chat_user_id</code><br/>
+        <input type="checkbox" data-index="44" id="f_created_at" /> <code>feedbacks.created_at</code><br/>
+        <input type="checkbox" data-index="45" id="f_updated_at" /> <code>feedbacks.updated_at</code><br/>
+        <input type="checkbox" data-index="46" id="f_is_ignored" /> <code>feedbacks.is_ignored</code><br/>
+        <input type="checkbox" data-index="47" id="f_api_key_id" /> <code>feedbacks.api_key_id</code><br/>
+        <input type="checkbox" data-index="48" id="f_chat_host" /> <code>feedbacks.chat_host</code>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong><code>flags</code></strong>
+      </div>
+      <div class="panel-body">
+        <input type="checkbox" data-index="49" id="fl_id" /> <code>flags.id</code><br/>
+        <input type="checkbox" data-index="50" id="fl_reason" /> <code>flags.reason</code><br/>
+        <input type="checkbox" data-index="51" id="fl_user_id" /> <code>flags.user_id</code><br/>
+        <input type="checkbox" data-index="52" id="fl_created_at" /> <code>flags.created_at</code><br/>
+        <input type="checkbox" data-index="53" id="fl_updated_at" /> <code>flags.updated_at</code><br/>
+        <input type="checkbox" data-index="54" id="fl_is_completed" /> <code>flags.is_completed</code><br/>
+        <input type="checkbox" data-index="55" id="fl_post_id" /> <code>flags.post_id</code>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong><code>ignored_users</code></strong>
+      </div>
+      <div class="panel-body">
+        <input type="checkbox" data-index="56" id="iu_id" /> <code>ignored_users.id</code><br/>
+        <input type="checkbox" data-index="57" id="iu_user_name" /> <code>ignored_users.user_name</code><br/>
+        <input type="checkbox" data-index="58" id="iu_user_id" /> <code>ignored_users.user_id</code><br/>
+        <input type="checkbox" data-index="59" id="iu_created_at" /> <code>ignored_users.created_at</code><br/>
+        <input type="checkbox" data-index="60" id="iu_updated_at" /> <code>ignored_users.updated_at</code><br/>
+        <input type="checkbox" data-index="61" id="iu_is_ignored" /> <code>ignored_users.is_ignored</code>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong><code>posts</code></strong>
+      </div>
+      <div class="panel-body">
+        <input type="checkbox" data-index="62" id="p_id" /> <code>posts.id</code><br/>
+        <input type="checkbox" data-index="63" id="p_title" /> <code>posts.title</code><br/>
+        <input type="checkbox" data-index="64" id="p_body" /> <code>posts.body</code><br/>
+        <input type="checkbox" data-index="65" id="p_link" /> <code>posts.link</code><br/>
+        <input type="checkbox" data-index="66" id="p_post_creation_date" /> <code>posts.post_creation_date</code><br/>
+        <input type="checkbox" data-index="67" id="p_created_at" /> <code>posts.created_at</code><br/>
+        <input type="checkbox" data-index="68" id="p_updated_at" /> <code>posts.updated_at</code><br/>
+        <input type="checkbox" data-index="69" id="p_site_id" /> <code>posts.site_id</code><br/>
+        <input type="checkbox" data-index="70" id="p_user_link" /> <code>posts.user_link</code><br/>
+        <input type="checkbox" data-index="71" id="p_username" /> <code>posts.username</code><br/>
+        <input type="checkbox" data-index="72" id="p_why" /> <code>posts.why</code><br/>
+        <input type="checkbox" data-index="73" id="p_user_reputation" /> <code>posts.user_reputation</code><br/>
+        <input type="checkbox" data-index="74" id="p_score" /> <code>posts.score</code><br/>
+        <input type="checkbox" data-index="75" id="p_upvote_count" /> <code>posts.upvote_count</code><br/>
+        <input type="checkbox" data-index="76" id="p_downvote_count" /> <code>posts.downvote_count</code><br/>
+        <input type="checkbox" data-index="77" id="p_stack_exchange_user_id" /> <code>posts.stack_exchange_user_id</code><br/>
+        <input type="checkbox" data-index="78" id="p_is_tp" /> <code>posts.is_tp</code><br/>
+        <input type="checkbox" data-index="79" id="p_is_fp" /> <code>posts.is_fp</code><br/>
+        <input type="checkbox" data-index="80" id="p_is_naa" /> <code>posts.is_naa</code>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong><code>posts_reasons</code></strong>
+      </div>
+      <div class="panel-body">
+        <input type="checkbox" data-index="81" id="pr_reason_id" /> <code>posts_reasons.reason_id</code><br/>
+        <input type="checkbox" data-index="82" id="pr_post_id" /> <code>posts_reasons.post_id</code>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong><code>reasons</code></strong>
+      </div>
+      <div class="panel-body">
+        <input type="checkbox" data-index="83" id="r_id" /> <code>reasons.id</code><br/>
+        <input type="checkbox" data-index="84" id="r_reason_name" /> <code>reasons.reason_name</code><br/>
+        <input type="checkbox" data-index="85" id="r_last_post_title" /> <code>reasons.last_post_title</code><br/>
+        <input type="checkbox" data-index="86" id="r_inactive" /> <code>reasons.inactive</code>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong><code>roles</code></strong>
+      </div>
+      <div class="panel-body">
+        <input type="checkbox" data-index="87" id="ro_id" /> <code>roles.id</code><br/>
+        <input type="checkbox" data-index="88" id="ro_name" /> <code>roles.name</code><br/>
+        <input type="checkbox" data-index="89" id="ro_resource_type" /> <code>roles.resource_type</code><br/>
+        <input type="checkbox" data-index="90" id="ro_resource_id" /> <code>roles.resource_id</code><br/>
+        <input type="checkbox" data-index="91" id="ro_created_at" /> <code>roles.created_at</code><br/>
+        <input type="checkbox" data-index="92" id="ro_updated_at" /> <code>roles.updated_at</code>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong><code>sites</code></strong>
+      </div>
+      <div class="panel-body">
+        <input type="checkbox" data-index="93" id="s_id" /> <code>sites.id</code><br/>
+        <input type="checkbox" data-index="94" id="s_site_name" /> <code>sites.site_name</code><br/>
+        <input type="checkbox" data-index="95" id="s_site_url" /> <code>sites.site_url</code><br/>
+        <input type="checkbox" data-index="96" id="s_site_logo" /> <code>sites.site_logo</code><br/>
+        <input type="checkbox" data-index="97" id="s_site_domain" /> <code>sites.site_domain</code><br/>
+        <input type="checkbox" data-index="98" id="s_created_at" /> <code>sites.created_at</code><br/>
+        <input type="checkbox" data-index="99" id="s_updated_at" /> <code>sites.updated_at</code>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong><code>smoke_detectors</code></strong>
+      </div>
+      <div class="panel-body">
+        <input type="checkbox" data-index="100" id="sd_id" /> <code>smoke_detectors.id</code><br/>
+        <input type="checkbox" data-index="101" id="sd_last_ping" /> <code>smoke_detectors.last_ping</code><br/>
+        <input type="checkbox" data-index="102" id="sd_name" /> <code>smoke_detectors.name</code><br/>
+        <input type="checkbox" data-index="103" id="sd_location" /> <code>smoke_detectors.location</code><br/>
+        <input type="checkbox" data-index="104" id="sd_access_token" /> <code>smoke_detectors.access_token</code><br/>
+        <input type="checkbox" data-index="105" id="sd_created_at" /> <code>smoke_detectors.created_at</code><br/>
+        <input type="checkbox" data-index="106" id="sd_updated_at" /> <code>smoke_detectors.updated_at</code><br/>
+        <input type="checkbox" data-index="107" id="sd_email_date" /> <code>smoke_detectors.email_date</code>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong><code>stack_exchange_users</code></strong>
+      </div>
+      <div class="panel-body">
+        <input type="checkbox" data-index="108" id="seu_id" /> <code>stack_exchange_users.id</code><br/>
+        <input type="checkbox" data-index="109" id="seu_user_id" /> <code>stack_exchange_users.user_id</code><br/>
+        <input type="checkbox" data-index="110" id="seu_username" /> <code>stack_exchange_users.username</code><br/>
+        <input type="checkbox" data-index="111" id="seu_last_api_update" /> <code>stack_exchange_users.last_api_update</code><br/>
+        <input type="checkbox" data-index="112" id="seu_still_alive" /> <code>stack_exchange_users.still_alive</code><br/>
+        <input type="checkbox" data-index="113" id="seu_answer_count" /> <code>stack_exchange_users.answer_count</code><br/>
+        <input type="checkbox" data-index="114" id="seu_question_count" /> <code>stack_exchange_users.question_count</code><br/>
+        <input type="checkbox" data-index="115" id="seu_reputation" /> <code>stack_exchange_users.reputation</code><br/>
+        <input type="checkbox" data-index="116" id="seu_created_at" /> <code>stack_exchange_users.created_at</code><br/>
+        <input type="checkbox" data-index="117" id="seu_updated_at" /> <code>stack_exchange_users.updated_at</code><br/>
+        <input type="checkbox" data-index="118" id="seu_site_id" /> <code>stack_exchange_users.site_id</code>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong><code>users</code></strong>
+      </div>
+      <div class="panel-body">
+        <input type="checkbox" data-index="119" id="u_id" /> <code>users.id</code><br/>
+        <input type="checkbox" data-index="120" id="u_username" /> <code>users.username</code><br/>
+        <input type="checkbox" data-index="121" id="u_stackexchange_chat_id" /> <code>users.stackexchange_chat_id</code><br/>
+        <input type="checkbox" data-index="122" id="u_meta_stackexchange_chat_id" /> <code>users.meta_stackexchange_chat_id</code><br/>
+        <input type="checkbox" data-index="123" id="u_stackoverflow_chat_id" /> <code>users.stackoverflow_chat_id</code><br/>
+        <input type="checkbox" data-index="124" id="u_stack_exchange_account_id" /> <code>users.stack_exchange_account_id</code>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <strong><code>users_roles</code></strong>
+      </div>
+      <div class="panel-body">
+        <input type="checkbox" data-index="125" id="ur_user_id" /> <code>users_roles.user_id</code><br/>
+        <input type="checkbox" data-index="126" id="ur_role_id" /> <code>users_roles.role_id</code>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="pull-right">
+  <button type="button" class="btn btn-primary" id="create_filter">Create Filter</button>
+</div>
