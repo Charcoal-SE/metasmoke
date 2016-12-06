@@ -4,6 +4,9 @@ class ApiController < ApplicationController
   before_action :verify_write_token, :only => [:create_feedback, :report_post]
   skip_before_action :verify_authenticity_token, :only => [:create_feedback, :report_post]
 
+  # Yes, this looks bad, but it actually works as a cache - we only have to calculate the bitstring for each filter once.
+  @@filters = Hash.new { |h, k| h[k] = k.chars.map { |c| c.ord.to_s(2).rjust(8, '0') }.join('') }
+
   # Read routes: Posts
 
   def posts
@@ -184,5 +187,12 @@ class ApiController < ApplicationController
       else
         render :status => 401, :json => { :error_name => 'unauthorized', :error_code => 401, :error_message => "The token provided does not supply authorization to perform this action." } and return
       end
+    end
+
+    def select_fields(default="")
+      filter = params[:filter] || default
+      bitstring = @@filters[filter]
+      bits = bitstring.chars.map { |c| c.to_i }
+      AppConfig['api_field_mappings'].zip(bits).map { |k, v| k if v == 1 }.compact
     end
 end
