@@ -60,11 +60,11 @@ class ApiControllerTest < ActionController::TestCase
   end
 
   test "should get posts by site" do
-    get :posts_by_site, params: { site: Post.last.site.site_domain, key: api_keys(:one).key }
+    get :posts_by_site, params: { site: Post.last.site.site_url, key: api_keys(:one).key }
 
     assert_response :success
     assert assigns(:posts).to_a.count > 0
-    assert assigns(:posts).select { |p| p.site.site_domain == Post.last.site.site_domain }.count == assigns(:posts).to_a.count
+    assert assigns(:posts).select { |p| p.site.site_url == Post.last.site.site_url }.count == assigns(:posts).to_a.count
   end
 
   # Search tests
