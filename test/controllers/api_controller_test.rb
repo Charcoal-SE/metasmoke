@@ -52,11 +52,11 @@ class ApiControllerTest < ActionController::TestCase
   end
 
   test "should get post by URL" do
-    get :posts_by_url, params: { url: Post.last.link, key: api_keys(:one).key }
+    get :posts_by_url, params: { urls: Post.last.link, key: api_keys(:one).key }
 
     assert_response :success
-    assert assigns(:post).exists?
-    assert assigns(:post).select { |p| p.link == Post.last.link }.count == assigns(:post).count
+    assert assigns(:posts).to_a.count > 0
+    assert assigns(:posts).select { |p| p.link == Post.last.link }.count == assigns(:post).to_a.count
   end
 
   test "should get posts by site" do
