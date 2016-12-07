@@ -26,3 +26,5 @@ db_import_*.sql
 
 # IDE-specific config files
 .idea/*
+
+.byebug_history
