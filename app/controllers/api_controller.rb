@@ -15,7 +15,7 @@ class ApiController < ApplicationController
   # Read routes: Posts
 
   def posts
-    filter = '\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00'
+    filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
     @posts = Post.where(:id => params[:ids].split(";")).select(select_fields(filter)).order(:id => :desc)
     @results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
     @more = has_more?(params[:page], @results.count)
@@ -23,49 +23,49 @@ class ApiController < ApplicationController
   end
 
   def posts_by_feedback
-    filter = '\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00'
+    filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
     @posts = Post.all.joins(:feedbacks).where(:feedbacks => { :feedback_type => params[:type] }).select(select_fields(filter)).order(:id => :desc)
     results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
   def posts_by_url
-    filter = '\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00'
+    filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
     @posts = Post.where(:link => params[:urls].split(";")).select(select_fields(filter)).order(:id => :desc)
     results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
   def posts_by_site
-    filter = '\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00'
+    filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
     @posts = Post.joins(:site).where(:sites => { :site_url => params[:site] }).select(select_fields(filter)).order(:id => :desc)
     results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
   def posts_by_daterange
-    filter = '\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00'
+    filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
     @posts = Post.where(:created_at => DateTime.strptime(params[:from_date], '%s')..DateTime.strptime(params[:to_date], '%s'))
     results = @posts.select(select_fields(filter)).order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
   def undeleted_posts
-    filter = '\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00'
+    filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
     @posts = Post.left_outer_joins(:deletion_logs).where(:deletion_logs => { :id => nil }).select(select_fields(filter))
     results = @posts.order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
   def post_feedback
-    filter = '\x00\x00\x00\x00\xc2\xbd\x19\xc2\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+    filter = "\x00\x00\x00\x00\xc2\xbd\x19\xc2\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00"
     @feedbacks = Feedback.where(:post_id => params[:id]).select(select_fields(filter)).order(:id => :desc)
     results = @feedbacks.paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
   def post_reasons
-    filter = '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x18\x00\x00\x00\x00\x00'
+    filter = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x18\x00\x00\x00\x00\x00"
     @reasons = Reason.joins(:posts_reasons).where(:posts_reasons => { :post_id => params[:id] }).select(select_fields(filter)).order(:id => :desc)
     results = @reasons.paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
@@ -77,7 +77,7 @@ class ApiController < ApplicationController
   end
 
   def search_posts
-    filter = '\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00'
+    filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
     @posts = Post.all
     if params[:feedback_type].present?
       @posts = @posts.includes(:feedbacks).where(:feedbacks => { :feedback_type => params[:feedback_type] })
@@ -98,14 +98,14 @@ class ApiController < ApplicationController
   # Read routes: Reasons
 
   def reasons
-    filter = '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x18\x00\x00\x00\x00\x00'
+    filter = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x18\x00\x00\x00\x00\x00"
     @reasons = Reason.where(:id => params[:ids].split(";")).select(select_fields(filter)).order(:id => :desc)
     results = @reasons.paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
   def reason_posts
-    filter = '\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00'
+    filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
     @posts = Post.joins(:posts_reasons).where(:posts_reasons => { :reason_id => params[:id] }).select(select_fields(filter)).order(:id => :desc)
     results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
