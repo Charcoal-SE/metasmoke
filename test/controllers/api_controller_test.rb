@@ -56,7 +56,7 @@ class ApiControllerTest < ActionController::TestCase
 
     assert_response :success
     assert assigns(:posts).to_a.count > 0
-    assert assigns(:posts).select { |p| p.link == Post.last.link }.count == assigns(:post).to_a.count
+    assert assigns(:posts).select { |p| p.link == Post.last.link }.count == assigns(:posts).to_a.count
   end
 
   test "should get posts by site" do
