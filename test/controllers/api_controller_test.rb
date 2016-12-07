@@ -60,7 +60,7 @@ class ApiControllerTest < ActionController::TestCase
   end
 
   test "should get posts by site" do
-    get :posts_by_site, params: { site: Post.last.site.site_url, key: api_keys(:one).key }
+    get :posts_by_site, params: { site: Post.last.site.site_url, key: api_keys(:one).key, filter: "\x00\x00\x00\x00\x00\x00\x00\x03\xC3\xBF\xC3\xBF\xC2\x80\x00\x00\x00\x00\x00" }
 
     assert_response :success
     assert assigns(:posts).to_a.count > 0
