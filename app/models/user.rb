@@ -1,3 +1,5 @@
+require 'open-uri'
+
 class User < ApplicationRecord
   rolify
   # Include default devise modules. Others available are:
@@ -44,5 +46,29 @@ class User < ApplicationRecord
 
   def remember_me
     true
+  end
+
+  # Flagging
+
+  def spam_flag(post)
+    if api_token.nil?
+      raise "Not authenticated"
+    end
+
+    auth_dict = { "key" => AppConfig["stack_exchange"]["key"], "access_token" => api_token }
+    auth_string = "key=#{AppConfig["stack_exchange"]["key"]}&access_token=#{api_token}"
+
+    path = post.is_answer? ? 'answers' : 'questions'
+    site = post.site
+
+    # Try to get flag options
+    flag_options = JSON.parse(Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/options?site=#{site.site_domain}&#{auth_string}")).body)["items"]
+    spam_flag_option = flag_options.select { |fo| fo["title"] == "spam" }.first
+
+    raise "No option to flag as spam" unless spam_flag_option.present?
+
+    request_params = { "option_id" => spam_flag_option["option_id"], "site" => site.site_domain }.merge auth_dict
+    flag_response = JSON.parse(Net::HTTP.post_form(URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/add"), request_params).body)
+    raise "Didn't successfully flag" if flag_response.include? "error_id" or flag_response.include? "error_message"
   end
 end

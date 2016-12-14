@@ -37,4 +37,8 @@ class Post < ApplicationRecord
   def is_answer?
     return self.link.include? "/a/"
   end
+
+  def stack_id
+    return self.link.scan(/(\d*)$/).first.first.to_i
+  end
 end
