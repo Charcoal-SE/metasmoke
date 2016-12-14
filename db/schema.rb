@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161214210438) do
+ActiveRecord::Schema.define(version: 20161214232756) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.datetime "created_at",  null: false
@@ -113,9 +113,10 @@ ActiveRecord::Schema.define(version: 20161214210438) do
     t.integer  "upvote_count"
     t.integer  "downvote_count"
     t.integer  "stack_exchange_user_id"
-    t.boolean  "is_tp",                                default: false
-    t.boolean  "is_fp",                                default: false
-    t.boolean  "is_naa",                               default: false
+    t.boolean  "is_tp",                                   default: false
+    t.boolean  "is_fp",                                   default: false
+    t.boolean  "is_naa",                                  default: false
+    t.index ["created_at"], name: "index_posts_on_created_at", using: :btree
     t.index ["link"], name: "index_posts_on_link", using: :btree
   end
 
