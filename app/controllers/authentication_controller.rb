@@ -19,7 +19,7 @@ class AuthenticationController < ApplicationController
     token = nil
 
     begin
-      token = resp.body.scan(/access_token=(.*)&/).first.first
+      token = resp.body.scan(/access_token=(.*)&?/).first.first
     rescue
         
     end
@@ -29,6 +29,11 @@ class AuthenticationController < ApplicationController
     puts current_user.stack_exchange_account_id = access_token_info["account_id"]
 
     current_user.update_chat_ids
+
+    begin
+      current_user.api_token = token if access_token_info["scope"].include? "write_access"
+    rescue
+    end
 
     current_user.save!
 

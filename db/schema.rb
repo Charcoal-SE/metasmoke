@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161206132458) do
+ActiveRecord::Schema.define(version: 20161214210438) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.datetime "created_at",  null: false
@@ -190,6 +190,7 @@ ActiveRecord::Schema.define(version: 20161206132458) do
     t.integer  "meta_stackexchange_chat_id"
     t.integer  "stackoverflow_chat_id"
     t.integer  "stack_exchange_account_id"
+    t.string   "api_token"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end

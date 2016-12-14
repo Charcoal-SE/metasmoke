@@ -5,4 +5,7 @@
   <%= link_to "Authenticate", "https://stackexchange.com/oauth?client_id=#{@config["client_id"]}&scope=&redirect_uri=#{@config["redirect_uri"]}", class: "btn btn-success" %>
 <% else %>
   <p class="text-muted">(you have already authenticated)</p>
+  <% if current_user.has_role? :admin %>
+    <%= link_to "Authenticate w/ Write Access", "https://stackexchange.com/oauth?client_id=#{@config["client_id"]}&scope=write_access;no_expiry&redirect_uri=#{@config["redirect_uri"]}", class: "btn btn-danger" %>
+  <% end %>
 <% end %>
