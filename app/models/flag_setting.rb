@@ -1,0 +1,2 @@
+class FlagSetting < ApplicationRecord
+end

@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h3>Flag Settings</h3>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Value</th>
+      <% if current_user and current_user.has_role? :admin %>
+        <th>Edit</th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @flag_settings.each do |flag_setting| %>
+      <tr>
+        <td><%= flag_setting.name.humanize %> (<code><%= flag_setting.name %></code>)</td>
+        <td><%= flag_setting.value %></td>
+        <% if current_user and current_user.has_role? :admin %>
+          <td><%= link_to 'Edit', edit_flag_setting_path(flag_setting) %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<% if current_user and current_user.has_role? :admin %>
+  <%= link_to 'New Flag Setting', new_flag_setting_path %>
+<% end %>

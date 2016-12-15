@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161215012117) do
+ActiveRecord::Schema.define(version: 20161215012518) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at",  null: false
@@ -76,6 +76,13 @@ ActiveRecord::Schema.define(version: 20161215012117) do
     t.integer  "api_key_id"
     t.string   "chat_host",                      collation: "utf8_unicode_ci"
     t.index ["post_id"], name: "index_feedbacks_on_post_id", using: :btree
+  end
+
+  create_table "flag_settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.string   "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "flags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

@@ -119,6 +119,9 @@ Rails.application.routes.draw do
   post 'dev/update_sites', :to => 'developer#update_sites'
   get 'dev/prod_log', :to => 'developer#production_log'
 
+  # flagging
+  resources :flag_settings
+
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
