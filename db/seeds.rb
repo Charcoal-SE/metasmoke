@@ -49,3 +49,7 @@ FlagSetting.create(
   :name => "flagging_enabled",
   :value => "0"
 )
+FlagSetting.create(
+  :name => "registration_enabled",
+  :value => "0"
+)

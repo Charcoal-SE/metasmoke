@@ -1,9 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  value: MyString
+  name: test
+  value: test
 
-two:
-  name: MyString
-  value: MyString
+registration:
+  name: registration_enabled
+  value: 0

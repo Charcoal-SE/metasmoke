@@ -40,7 +40,7 @@ class FlagConditionsController < ApplicationController
       flash[:success] = "Updated your flagging condition."
       redirect_to url_for(:controller => :flag_conditions, :action => :index)
     else
-      render :edit
+      render :edit, :status => 422
     end
   end
 

@@ -46,7 +46,7 @@ class FlagConditionsControllerTest < ActionController::TestCase
 
   test "should update flag condition" do
     sign_in users(:approved_user)
-    patch :update, :params => { :flag_condition => { :min_weight => 301 }, :id => FlagCondition.last.id, :sites => [sites(:site_1).id] }
+    patch :update, :params => { :flag_condition => { :min_weight => 301, :max_poster_rep => 11, :min_reason_count => 5 }, :id => FlagCondition.last.id, :sites => [sites(:site_1).id] }
 
     assert_not_nil assigns(:condition)
     assert_response 302
