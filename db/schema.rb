@@ -12,21 +12,21 @@
 
 ActiveRecord::Schema.define(version: 20161215012117) do
 
-  create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.string   "key"
-    t.string   "app_name"
+    t.string   "key",                      collation: "utf8_unicode_ci"
+    t.string   "app_name",                 collation: "utf8_unicode_ci"
     t.integer  "user_id"
-    t.string   "github_link"
+    t.string   "github_link",              collation: "utf8_unicode_ci"
     t.index ["user_id"], name: "index_api_keys_on_user_id", using: :btree
   end
 
   create_table "api_tokens", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "code"
+    t.string   "code",                    collation: "utf8_unicode_ci"
     t.integer  "api_key_id"
     t.integer  "user_id"
-    t.string   "token"
+    t.string   "token",                   collation: "utf8_unicode_ci"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "expiry"
@@ -34,23 +34,23 @@ ActiveRecord::Schema.define(version: 20161215012117) do
     t.index ["user_id"], name: "index_api_tokens_on_user_id", using: :btree
   end
 
-  create_table "blacklisted_websites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.string   "host"
+  create_table "blacklisted_websites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "host",                                   collation: "utf8_unicode_ci"
     t.boolean  "is_active",  default: true
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end
 
-  create_table "commit_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.string   "commit_sha"
-    t.string   "status"
-    t.string   "commit_message"
+  create_table "commit_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "commit_sha",                  collation: "utf8_unicode_ci"
+    t.string   "status",                      collation: "utf8_unicode_ci"
+    t.string   "commit_message",              collation: "utf8_unicode_ci"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
-    t.string   "ci_url"
+    t.string   "ci_url",                      collation: "utf8_unicode_ci"
   end
 
-  create_table "deletion_logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "deletion_logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "post_id"
     t.boolean  "is_deleted"
     t.datetime "created_at", null: false
@@ -58,13 +58,13 @@ ActiveRecord::Schema.define(version: 20161215012117) do
     t.index ["post_id"], name: "post_id_ix", using: :btree
   end
 
-  create_table "feedbacks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.string   "message_link"
-    t.string   "user_name"
-    t.string   "user_link"
-    t.string   "feedback_type"
+  create_table "feedbacks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "message_link",                   collation: "utf8_unicode_ci"
+    t.string   "user_name",                      collation: "utf8_unicode_ci"
+    t.string   "user_link",                      collation: "utf8_unicode_ci"
+    t.string   "feedback_type",                  collation: "utf8_unicode_ci"
     t.integer  "post_id"
-    t.string   "post_link"
+    t.string   "post_link",                      collation: "utf8_unicode_ci"
     t.integer  "user_id"
     t.boolean  "is_invalidated", default: false
     t.integer  "invalidated_by"
@@ -74,13 +74,13 @@ ActiveRecord::Schema.define(version: 20161215012117) do
     t.datetime "updated_at"
     t.boolean  "is_ignored",     default: false
     t.integer  "api_key_id"
-    t.string   "chat_host"
+    t.string   "chat_host",                      collation: "utf8_unicode_ci"
     t.index ["post_id"], name: "index_feedbacks_on_post_id", using: :btree
   end
 
-  create_table "flags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.string   "reason"
-    t.string   "user_id"
+  create_table "flags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "reason",                                    collation: "utf8_unicode_ci"
+    t.string   "user_id",                                   collation: "utf8_unicode_ci"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.boolean  "is_completed", default: false
@@ -88,8 +88,8 @@ ActiveRecord::Schema.define(version: 20161215012117) do
     t.index ["post_id"], name: "index_flags_on_post_id", using: :btree
   end
 
-  create_table "ignored_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.string   "user_name"
+  create_table "ignored_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "user_name",               collation: "utf8_unicode_ci"
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -97,9 +97,9 @@ ActiveRecord::Schema.define(version: 20161215012117) do
     t.index ["user_id"], name: "index_ignored_users_on_user_id", using: :btree
   end
 
-  create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
     t.string   "title"
-    t.text     "body",                   limit: 65535
+    t.text     "body",                   limit: 16777215
     t.string   "link"
     t.datetime "post_creation_date"
     t.datetime "created_at"
@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(version: 20161215012117) do
     t.integer  "site_id"
     t.string   "user_link"
     t.string   "username"
-    t.text     "why",                    limit: 65535
+    t.text     "why",                    limit: 16777215
     t.integer  "user_reputation"
     t.integer  "score"
     t.integer  "upvote_count"
@@ -120,51 +120,51 @@ ActiveRecord::Schema.define(version: 20161215012117) do
     t.index ["link"], name: "index_posts_on_link", using: :btree
   end
 
-  create_table "posts_reasons", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "posts_reasons", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "reason_id"
     t.integer "post_id"
     t.index ["post_id"], name: "index_posts_reasons_on_post_id", using: :btree
     t.index ["reason_id"], name: "index_posts_reasons_on_reason_id", using: :btree
   end
 
-  create_table "reasons", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.string  "reason_name"
-    t.string  "last_post_title"
+  create_table "reasons", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string  "reason_name",                     collation: "utf8_unicode_ci"
+    t.string  "last_post_title",                 collation: "utf8_unicode_ci"
     t.boolean "inactive",        default: false
   end
 
   create_table "roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name"
-    t.string   "resource_type"
+    t.string   "name",          collation: "utf8mb4_unicode_ci"
+    t.string   "resource_type", collation: "utf8mb4_unicode_ci"
     t.integer  "resource_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
-    t.index ["name"], name: "index_roles_on_name", using: :btree
+    t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", length: {"name"=>191, "resource_type"=>191, "resource_id"=>nil}, using: :btree
+    t.index ["name"], name: "index_roles_on_name", length: {"name"=>191}, using: :btree
   end
 
-  create_table "sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.string   "site_name"
-    t.string   "site_url"
-    t.string   "site_logo"
-    t.string   "site_domain"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+  create_table "sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "site_name",                                       collation: "utf8_unicode_ci"
+    t.string   "site_url",                                        collation: "utf8_unicode_ci"
+    t.string   "site_logo",                                       collation: "utf8_unicode_ci"
+    t.string   "site_domain",                                     collation: "utf8_unicode_ci"
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.boolean  "flags_enabled",      default: false
     t.integer  "max_flags_per_post", default: 1
   end
 
-  create_table "smoke_detectors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "smoke_detectors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "last_ping"
-    t.string   "name"
-    t.string   "location"
-    t.string   "access_token"
+    t.string   "name",                      collation: "utf8mb4_unicode_ci"
+    t.string   "location",                  collation: "utf8mb4_unicode_ci"
+    t.string   "access_token",              collation: "utf8mb4_unicode_ci"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.datetime "email_date"
   end
 
-  create_table "stack_exchange_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "stack_exchange_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.integer  "user_id"
     t.string   "username"
     t.datetime "last_api_update"
@@ -177,18 +177,18 @@ ActiveRecord::Schema.define(version: 20161215012117) do
     t.integer  "site_id"
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.string   "email",                      default: "", null: false
-    t.string   "encrypted_password",         default: "", null: false
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "email",                      default: "",    null: false, collation: "utf8_unicode_ci"
+    t.string   "encrypted_password",         default: "",    null: false, collation: "utf8_unicode_ci"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",              default: 0,  null: false
+    t.integer  "sign_in_count",              default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "reset_password_token"
+    t.string   "reset_password_token",                                    collation: "utf8_unicode_ci"
     t.datetime "reset_password_sent_at"
-    t.string   "username"
+    t.string   "username",                                                collation: "utf8_unicode_ci"
     t.integer  "stackexchange_chat_id"
     t.integer  "meta_stackexchange_chat_id"
     t.integer  "stackoverflow_chat_id"
