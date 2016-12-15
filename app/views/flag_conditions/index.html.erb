@@ -1,0 +1,39 @@
+<h3>Your Flagging Conditions</h3>
+<p>These conditions are used to determine whether or not we can use your account to cast an automatic flag. This gives
+  you control over what you're comfortable flagging; if you want 99.9999% accuracy, you can ensure that here.</p>
+
+<% if @conditions.count > 0 %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th class="text-muted">ID</th>
+        <th>Minimum Weight</th>
+        <th>Maximum Poster Rep</th>
+        <th>Minimum Reason Count</th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @conditions.each do |condition| %>
+        <tr>
+          <td class="text-muted"><%= condition.id %></td>
+          <td><%= condition.min_weight %></td>
+          <td><%= condition.max_poster_rep %></td>
+          <td><%= condition.min_reason_count %></td>
+          <td><%= link_to "Edit", url_for(:controller => :flag_conditions, :action => :edit, :id => condition.id) %></td>
+          <td><%= link_to "Delete", url_for(:controller => :flag_conditions, :action => :destroy, :id => condition.id),
+                          :method => :delete, :data => { :confirm => "Are you sure?" }, :class => "text-danger" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>You don't have any flagging conditions at the moment. To get started with autoflagging, create a new condition
+    using the link below.</p>
+<% end %>
+
+<% if FlagSetting['registration_enabled'] == '1' %>
+  <%= link_to "New condition", url_for(:controller => :flag_conditions, :action => :new) %>
+<% else %>
+  <p class="text-muted"><em>Registration for autoflagging is currently closed.</em></p>
+<% end %>

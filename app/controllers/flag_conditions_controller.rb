@@ -3,6 +3,7 @@ class FlagConditionsController < ApplicationController
   before_action :verify_admin, :only => [:full_list]
   before_action :set_condition, :only => [:edit, :update, :destroy]
   before_action :verify_authorized, :only => [:edit, :update, :destroy]
+  before_action :check_registration_status, :only => [:new]
 
   def index
     @conditions = current_user.flag_conditions
@@ -63,5 +64,9 @@ class FlagConditionsController < ApplicationController
 
   def verify_authorized
     current_user.has_role?(:admin) || @condition.user == current_user
+  end
+
+  def check_registration_status
+    raise ActionController::RoutingError.new('Not Found') if FlagSetting['registration_enabled'] == '0'
   end
 end

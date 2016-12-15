@@ -1,0 +1,33 @@
+<h3>New Flagging Condition</h3>
+
+<% if @condition.errors.any? %>
+  <div class="text-danger">
+    <p>The following <%= pluralize(@condition.errors.count, "error") %> prevented this condition from being saved:</p>
+    <ul>
+      <% @condition.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_for @condition, url: url_for(:controller => :flag_conditions, :action => :create) do |f| %>
+  <div class="field">
+    <%= f.label :min_weight, "Minimum Weight" %><br/>
+    <%= f.number_field :min_weight, :class => "form-control" %>
+  </div><br/>
+
+  <div class="field">
+    <%= f.label :max_poster_rep, "Maximum Poster Reputation" %><br/>
+    <%= f.number_field :max_poster_rep, :class => "form-control" %>
+  </div><br/>
+
+  <div class="field">
+    <%= f.label :min_reason_count, "Miniumum Reason Count" %><br/>
+    <%= f.number_field :min_reason_count, :class => "form-control" %>
+  </div><br/>
+
+  <div class="actions">
+    <%= f.submit "Save", :class => "btn btn-success" %>
+  </div>
+<% end %>
