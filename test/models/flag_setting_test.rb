@@ -1,7 +1,8 @@
 require 'test_helper'
 
 class FlagSettingTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "index notation should work" do
+    key = FlagSetting.first.name
+    assert FlagSetting[key] == FlagSetting.first.value
+  end
 end
