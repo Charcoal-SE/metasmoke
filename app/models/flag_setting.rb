@@ -2,6 +2,6 @@ class FlagSetting < ApplicationRecord
   validates :name, :uniqueness => true
 
   def self.[](key)
-    find_by_name(key).value
+    find_by_name(key).try(:value)
   end
 end
