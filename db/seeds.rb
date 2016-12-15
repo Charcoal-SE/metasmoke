@@ -44,3 +44,8 @@ Post.create(
   :score => 2,
   :stack_exchange_user_id => 1
 )
+
+FlagSetting.create(
+  :name => "flagging_enabled",
+  :value => "0"
+)

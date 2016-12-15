@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161215012518) do
+ActiveRecord::Schema.define(version: 20161215124421) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.datetime "created_at",  null: false
@@ -76,6 +76,30 @@ ActiveRecord::Schema.define(version: 20161215012518) do
     t.integer  "api_key_id"
     t.string   "chat_host"
     t.index ["post_id"], name: "index_feedbacks_on_post_id", using: :btree
+  end
+
+  create_table "flag_conditions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.boolean  "flags_enabled"
+    t.integer  "min_weight"
+    t.integer  "max_poster_rep"
+    t.integer  "min_reason_count"
+    t.integer  "user_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["user_id"], name: "index_flag_conditions_on_user_id", using: :btree
+  end
+
+  create_table "flag_logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.boolean  "success"
+    t.string   "error_message"
+    t.integer  "flag_condition_id"
+    t.integer  "user_id"
+    t.integer  "post_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["flag_condition_id"], name: "index_flag_logs_on_flag_condition_id", using: :btree
+    t.index ["post_id"], name: "index_flag_logs_on_post_id", using: :btree
+    t.index ["user_id"], name: "index_flag_logs_on_user_id", using: :btree
   end
 
   create_table "flag_settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -184,6 +208,17 @@ ActiveRecord::Schema.define(version: 20161215012518) do
     t.integer  "site_id"
   end
 
+  create_table "user_site_settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "max_flags"
+    t.integer  "flags_used"
+    t.integer  "user_id"
+    t.integer  "site_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["site_id"], name: "index_user_site_settings_on_site_id", using: :btree
+    t.index ["user_id"], name: "index_user_site_settings_on_user_id", using: :btree
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "email",                      default: "",    null: false
     t.string   "encrypted_password",         default: "",    null: false
@@ -215,6 +250,12 @@ ActiveRecord::Schema.define(version: 20161215012518) do
   add_foreign_key "api_keys", "users"
   add_foreign_key "api_tokens", "api_keys"
   add_foreign_key "api_tokens", "users"
+  add_foreign_key "flag_conditions", "users"
+  add_foreign_key "flag_logs", "flag_conditions"
+  add_foreign_key "flag_logs", "posts"
+  add_foreign_key "flag_logs", "users"
   add_foreign_key "flags", "posts"
   add_foreign_key "ignored_users", "users"
+  add_foreign_key "user_site_settings", "sites"
+  add_foreign_key "user_site_settings", "users"
 end
