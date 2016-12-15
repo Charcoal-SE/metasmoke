@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  flags_enabled: false
+  min_weight: 1
+  max_poster_rep: 1
+  min_reason_count: 1
+  user: one
+
+two:
+  flags_enabled: false
+  min_weight: 1
+  max_poster_rep: 1
+  min_reason_count: 1
+  user: two

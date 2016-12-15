@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  success: false
+  error_message: MyString
+  flag_condition: one
+  user: one
+  post: one
+
+two:
+  success: false
+  error_message: MyString
+  flag_condition: two
+  user: two
+  post: two

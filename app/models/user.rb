@@ -10,6 +10,10 @@ class User < ApplicationRecord
   has_many :feedbacks
   has_many :api_tokens
   has_many :api_keys
+  has_and_belongs_to_many :sites
+  has_many :user_site_settings
+  has_many :flag_conditions
+  has_many :flag_logs
 
   before_save do
     # Retroactively update

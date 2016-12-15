@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  max_flags: 1
+  flags_used: 1
+  user: one
+  site: one
+
+two:
+  max_flags: 1
+  flags_used: 1
+  user: two
+  site: two

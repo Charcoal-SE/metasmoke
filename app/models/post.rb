@@ -4,6 +4,7 @@ class Post < ApplicationRecord
   has_many :deletion_logs, :dependent => :destroy
   belongs_to :site
   belongs_to :stack_exchange_user
+  has_many :flag_logs
 
   after_create do
     ActionCable.server.broadcast "posts_realtime", { row: PostsController.render(locals: {post: Post.last}, partial: 'post').html_safe }
