@@ -120,8 +120,16 @@ Rails.application.routes.draw do
   get 'dev/prod_log', :to => 'developer#production_log'
 
   # flagging
-  scope "/admin" do
+  scope "/flagging" do
     resources :flag_settings
+
+    get 'conditions', :to => 'flag_conditions#index'
+    get 'conditions/all', :to => 'flag_conditions#full_list'
+    get 'conditions/new', :to => 'flag_conditions#new'
+    post 'conditions/new', :to => 'flag_conditions#create'
+    get 'conditions/:id/edit', :to => 'flag_conditions#edit'
+    patch 'conditions/:id/edit', :to => 'flag_conditions#update'
+    delete 'conditions/:id', :to => 'flag_conditions#destroy'
   end
 
   devise_for :users
