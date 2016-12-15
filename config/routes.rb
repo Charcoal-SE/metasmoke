@@ -121,6 +121,7 @@ Rails.application.routes.draw do
 
   # flagging
   scope "/flagging" do
+    get 'conditions/preview', :to => 'flag_conditions#preview'
     resources :flag_settings, :path => "/settings"
     resources :flag_conditions, :path => "/conditions"
     get 'conditions/all', :to => 'flag_conditions#full_list'

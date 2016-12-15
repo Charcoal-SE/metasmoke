@@ -15,6 +15,13 @@
   </div><br/>
 
   <div class="actions">
+    <%= f.submit "Preview", :type => 'button', :class => "btn btn-primary", :id => "preview-flag-conditions-button", :name => "preview" %>
     <%= f.submit "Save", :class => "btn btn-success" %>
   </div>
 <% end %>
+
+<br />
+
+<div class="flag-condition-preview">
+  <%= render "preview" %>
+</div>

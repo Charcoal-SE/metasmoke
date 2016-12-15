@@ -4,6 +4,7 @@ class FlagConditionsController < ApplicationController
   before_action :set_condition, :only => [:edit, :update, :destroy]
   before_action :verify_authorized, :only => [:edit, :update, :destroy]
   before_action :check_registration_status, :only => [:new]
+  before_action :set_preview_data, :only => [:new, :edit, :preview]
 
   def index
     @conditions = current_user.flag_conditions
@@ -53,6 +54,15 @@ class FlagConditionsController < ApplicationController
     redirect_to url_for(:controller => :flag_conditions, :action => :index)
   end
 
+  def preview
+    @condition = FlagCondition.new(condition_params)
+    set_preview_data
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
   def set_condition
     @condition = FlagCondition.find params[:id]
@@ -68,5 +78,19 @@ class FlagConditionsController < ApplicationController
 
   def check_registration_status
     raise ActionController::RoutingError.new('Not Found') if FlagSetting['registration_enabled'] == '0'
+  end
+
+  def set_preview_data
+    if @condition
+      posts = Post.joins(:reasons).group('posts.id').where('posts.user_reputation <= ?', @condition.max_poster_rep).having('count(reasons.id) >= ?', @condition.min_reason_count)
+
+      post_feedback_results = posts.pluck(:is_tp)
+
+      @false_positive_count = post_feedback_results.count(false)
+      @true_positive_count = post_feedback_results.count(true)
+
+      @posts = posts.includes(:feedbacks => [:user]).order('posts.id DESC').paginate(:page => params[:page], :per_page => 100)
+      @sites = Site.where(:id => @posts.map(&:site_id)).to_a
+    end
   end
 end

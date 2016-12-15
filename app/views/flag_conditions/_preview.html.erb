@@ -1,0 +1,29 @@
+<% if @true_positive_count.present? and @false_positive_count.present? %>
+  <h3><%= number_to_percentage(@true_positive_count.to_f * 100.0 / (@true_positive_count + @false_positive_count).to_f, precision: 2) %></h3>
+  <table class="table">
+    <tr>
+      <th>True positives</th>
+      <th>False positives</th>
+    </tr>
+    <tr>
+      <td class="text-success success"><%= @true_positive_count %></td>
+      <td class="text-danger danger"><%= @false_positive_count %></td>
+    </tr>
+  </table>
+  <br />
+
+  <h4>Last 100 posts included</h4>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Post</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @posts.each do |post| %>
+        <%= render "posts/post", :post => post %>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
