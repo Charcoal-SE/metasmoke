@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161214232756) do
+ActiveRecord::Schema.define(version: 20161215012117) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.datetime "created_at",  null: false
@@ -150,6 +150,8 @@ ActiveRecord::Schema.define(version: 20161214232756) do
     t.string   "site_domain"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.boolean  "flags_enabled",      default: false
+    t.integer  "max_flags_per_post", default: 1
   end
 
   create_table "smoke_detectors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -192,6 +194,7 @@ ActiveRecord::Schema.define(version: 20161214232756) do
     t.integer  "stackoverflow_chat_id"
     t.integer  "stack_exchange_account_id"
     t.string   "api_token"
+    t.boolean  "flags_enabled",              default: false
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
