@@ -120,7 +120,9 @@ Rails.application.routes.draw do
   get 'dev/prod_log', :to => 'developer#production_log'
 
   # flagging
-  resources :flag_settings
+  scope "/admin" do
+    resources :flag_settings
+  end
 
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
