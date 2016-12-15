@@ -32,11 +32,11 @@ class FlagSettingsControllerTest < ActionDispatch::IntegrationTest
 
     sign_in users(:admin_user)
 
-    assert_difference('FlagSetting.count') do
-      post flag_settings_url, params: { flag_setting: { name: @flag_setting.name, value: @flag_setting.value } }
+    assert_difference("FlagSetting.count") do
+      post flag_settings_url, params: { flag_setting: { name: "such valid", value: "very setting" } }
     end
 
-    assert_redirected_to flag_setting_url(FlagSetting.last)
+    assert_redirected_to flag_settings_path
   end
 
   test "should get edit" do
@@ -60,7 +60,7 @@ class FlagSettingsControllerTest < ActionDispatch::IntegrationTest
 
     sign_in users(:admin_user)
 
-    patch flag_setting_url(@flag_setting), params: { flag_setting: { name: @flag_setting.name, value: @flag_setting.value } }
-    assert_redirected_to flag_setting_url(@flag_setting)
+    patch flag_setting_url(@flag_setting), params: { flag_setting: { name: "valid", value: "also valid" } }
+    assert_redirected_to flag_settings_path
   end
 end

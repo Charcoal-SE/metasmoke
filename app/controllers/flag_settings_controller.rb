@@ -24,10 +24,10 @@ class FlagSettingsController < ApplicationController
 
     respond_to do |format|
       if @flag_setting.save
-        format.html { redirect_to @flag_setting, notice: 'Flag setting was successfully created.' }
+        format.html { redirect_to flag_settings_path, notice: 'Flag setting was successfully created.' }
         format.json { render :show, status: :created, location: @flag_setting }
       else
-        format.html { render :new }
+        format.html { render :new, :status => 422 }
         format.json { render json: @flag_setting.errors, status: :unprocessable_entity }
       end
     end
@@ -38,10 +38,10 @@ class FlagSettingsController < ApplicationController
   def update
     respond_to do |format|
       if @flag_setting.update(flag_setting_params)
-        format.html { redirect_to @flag_setting, notice: 'Flag setting was successfully updated.' }
+        format.html { redirect_to flag_settings_path, notice: 'Flag setting was successfully updated.' }
         format.json { render :show, status: :ok, location: @flag_setting }
       else
-        format.html { render :edit }
+        format.html { render :edit, :status => 422 }
         format.json { render json: @flag_setting.errors, status: :unprocessable_entity }
       end
     end
