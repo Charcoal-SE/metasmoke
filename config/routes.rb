@@ -121,15 +121,9 @@ Rails.application.routes.draw do
 
   # flagging
   scope "/flagging" do
-    resources :flag_settings
-
-    get 'conditions', :to => 'flag_conditions#index'
+    resources :flag_settings, :path => "/settings"
+    resources :flag_conditions, :path => "/conditions"
     get 'conditions/all', :to => 'flag_conditions#full_list'
-    get 'conditions/new', :to => 'flag_conditions#new'
-    post 'conditions/new', :to => 'flag_conditions#create'
-    get 'conditions/:id/edit', :to => 'flag_conditions#edit'
-    patch 'conditions/:id/edit', :to => 'flag_conditions#update'
-    delete 'conditions/:id', :to => 'flag_conditions#destroy'
   end
 
   devise_for :users
