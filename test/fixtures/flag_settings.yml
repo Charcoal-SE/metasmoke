@@ -6,4 +6,4 @@ one:
 
 registration:
   name: registration_enabled
-  value: 0
+  value: 1
