@@ -82,7 +82,7 @@ class FlagConditionsController < ApplicationController
 
   def set_preview_data
     if @condition
-      posts = Post.joins(:reasons).group('posts.id').where('posts.user_reputation <= ?', @condition.max_poster_rep).having('count(reasons.id) >= ?', @condition.min_reason_count)
+      posts = Post.joins(:reasons).group('posts.id').where('posts.user_reputation <= ?', @condition.max_poster_rep).having('count(reasons.id) >= ?', @condition.min_reason_count).having('sum(reasons.weight) >= ?', @condition.min_weight)
 
       post_feedback_results = posts.pluck(:is_tp)
 
