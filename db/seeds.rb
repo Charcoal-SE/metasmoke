@@ -49,7 +49,18 @@ FlagSetting.create(
   :name => "flagging_enabled",
   :value => "0"
 )
+
 FlagSetting.create(
   :name => "registration_enabled",
   :value => "0"
+)
+
+FlagSetting.create(
+  :name => "min_accuracy",
+  :value => "99"
+)
+
+FlagSetting.create(
+  :name => "min_post_count",
+  :value => "1000"
 )

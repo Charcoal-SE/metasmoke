@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161216180957) do
+ActiveRecord::Schema.define(version: 20161216184036) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.datetime "created_at",  null: false
@@ -167,6 +167,7 @@ ActiveRecord::Schema.define(version: 20161216180957) do
     t.string  "reason_name"
     t.string  "last_post_title"
     t.boolean "inactive",        default: false
+    t.integer "weight",          default: 0
   end
 
   create_table "roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

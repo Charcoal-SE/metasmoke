@@ -68,6 +68,10 @@
   <% end %>
 </ul>
 
+<% if @post.reason_weight.present? %>
+  <p class="text-muted">Reason weight: <%= @post.reason_weight %></p>
+<% end %>
+
 <% if @post.why.present? %>
   <pre><%= @post.why %></pre>
 <% end %>
