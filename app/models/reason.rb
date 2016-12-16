@@ -24,6 +24,6 @@ class Reason < ApplicationRecord
 
   # Attempt to use cached post_count if it's available (included in the dashboard/index query)
   def fast_post_count
-    self.post_count || self.posts.count
+    self.try(:post_count) || self.posts.count
   end
 end

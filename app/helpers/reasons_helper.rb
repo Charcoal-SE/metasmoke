@@ -7,4 +7,10 @@ module ReasonsHelper
       end
     end
   end
+
+  def self.calculate_weights_for_flagging
+    Reason.all.each do |reason|
+      reason.update(:weight => reason.tp_percentage * 100)
+    end
+  end
 end
