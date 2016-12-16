@@ -6,7 +6,7 @@
     <li><a href="/admin/api_feedback">Feedback via API</a></li>
     <li><a href="/users">User Data</a></li>
     <li><a href="/blacklist">Blacklist</a></li>
-    <li><%= link_to "Autoflagging", url_for(:controller => :flag_conditions, :action => :index) %></li>
+    <li><%= link_to "Autoflagging", url_for(:controller => :user_site_settings, :action => :index) %></li>
     <% if current_user.try(:has_role?, :admin) %>
       <li><a href="/admin/flagged">Posts with Admin Reports</a></li>
       <li><%= link_to "Ignored Users", admin_ignored_users_path %></li>

@@ -9,7 +9,16 @@ class UserSiteSettingsController < ApplicationController
   end
 
   def for_user
-    @preferences = UserSiteSetting.where(:user_id => params[:user])
+    @user = User.find params[:user]
+    @preferences = UserSiteSetting.where(:user => @user)
+  end
+
+  def enable_flagging
+    if current_user.update(:flags_enabled => params[:enable])
+      render :json => { :status => "ok" }
+    else
+      render :json => { :status => "nope" }, :status => 500
+    end
   end
 
   def new
@@ -18,6 +27,7 @@ class UserSiteSettingsController < ApplicationController
 
   def create
     @preference = UserSiteSetting.new preference_params
+    @preference.user = current_user
     @preference.sites = params[:user_site_setting][:sites].map{ |i| Site.find i.to_i if i.present? }.compact
 
     if @preference.save

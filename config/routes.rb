@@ -121,10 +121,15 @@ Rails.application.routes.draw do
 
   # flagging
   scope "/flagging" do
-    get 'conditions/preview', :to => 'flag_conditions#preview'
-    resources :flag_settings, :path => "/settings"
-    resources :flag_conditions, :path => "/conditions"
+    resources :flag_settings, :path => "/settings", :except => [:show]
+
     get 'conditions/all', :to => 'flag_conditions#full_list'
+    get 'conditions/preview', :to => 'flag_conditions#preview'
+    resources :flag_conditions, :path => "/conditions", :except => [:show]
+
+    get 'preferences/user/:user', :to => 'user_site_settings#for_user'
+    post 'preferences/enable', :to => 'user_site_settings#enable_flagging'
+    resources :user_site_settings, :path => "/preferences", :except => [:show]
   end
 
   devise_for :users

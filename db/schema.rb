@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161216172153) do
+ActiveRecord::Schema.define(version: 20161216180957) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.datetime "created_at",  null: false
@@ -220,11 +220,11 @@ ActiveRecord::Schema.define(version: 20161216172153) do
 
   create_table "user_site_settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "max_flags"
-    t.integer  "flags_used"
+    t.integer  "flags_used", default: 0
     t.integer  "user_id"
     t.integer  "site_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
     t.index ["site_id"], name: "index_user_site_settings_on_site_id", using: :btree
     t.index ["user_id"], name: "index_user_site_settings_on_user_id", using: :btree
   end

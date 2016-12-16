@@ -1,0 +1,56 @@
+<h3>Autoflagging Preferences</h3>
+<p>These are the preferences you've set for autoflagging. You can choose only certain sites to flag on by associating
+  your preferences with only those sites.</p>
+
+<div class="panel panel-danger">
+  <div class="panel-heading">
+    <h3 class="panel-title">Clifford the Big Red Button</h3>
+  </div>
+  <div class="panel-body">
+    <p>
+      <strong class="text-danger">Warning:</strong> for all the joking about, this is serious. By ticking this box, you are explicitly consenting to
+      your Stack Exchange account being used to cast flags automatically based on data collected by SmokeDetector. While we believe this has a high
+      rate of accuracy and have designed the system to reflect this, flags cast using your account are your responsibility, and many invalid flags
+      can in some cases result in your SE account being suspended. Only tick the box if you are happy with this responsibility.
+    </p>
+    <hr/>
+    <input id="red-button" name="red-button" type="checkbox" <%= "checked" if current_user.flags_enabled %> />
+    <label for="red-button">Use my account to cast flags automatically</label>
+    <hr/>
+    If you're trying to get started with autoflags for the first time, you'll also need to set up your preferences (which govern how many of your
+    flags we can use per-site) and conditions (which govern how certain you want us to be of a post before using your account to flag it). Links to
+    these are at the bottom of this page.
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="text-muted">ID</th>
+      <th>Site Count</th>
+      <th>Max Flags</th>
+      <th>Flags Used Today</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @preferences.each do |pref| %>
+      <tr>
+        <td class="text-muted"><%= pref.id %></td>
+        <td><%= pref.sites.count %></td>
+        <td><%= pref.max_flags %></td>
+        <td><%= pref.flags_used %></td>
+        <td><%= link_to "Edit", url_for(:controller => :user_site_settings, :action => :edit, :id => pref.id) %></td>
+        <td><%= link_to "Delete", url_for(:controller => :user_site_settings, :action => :destroy, :id => pref.id),
+                        :method => :delete, :data => { :confirm => "Are you sure?" }, :class => "text-danger" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% if FlagSetting['registration_enabled'] == '1' %>
+  <%= link_to "Set up preferences", url_for(:controller => :user_site_settings, :action => :new) %><br/>
+  <%= link_to "Set up conditions", url_for(:controller => :flag_conditions, :action => :index) %>
+<% else %>
+  <p class="text-muted"><em>Registration for autoflagging is currently closed.</em></p>
+<% end %>

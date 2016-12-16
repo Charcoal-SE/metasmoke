@@ -1,0 +1,26 @@
+<h3>Autoflagging Preferences (<%= @user.try(:username) %>)</h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="text-muted">ID</th>
+      <th>Site Count</th>
+      <th>Max Flags</th>
+      <th>Flags Used Today</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= @preferences.each do |pref| %>
+      <tr>
+        <td class="text-muted"><%= pref.id %></td>
+        <td><%= pref.sites.count %></td>
+        <td><%= pref.max_flags %></td>
+        <td><%= pref.flags_used %></td>
+        <td><%= link_to "Edit", url_for(:controller => :user_site_settings, :action => :edit, :id => pref.id) %></td>
+        <td><%= link_to "Delete", url_for(:controller => :user_site_settings, :action => :destroy, :id => pref.id),
+                        :method => :delete, :data => { :confirm => "Are you sure?" }, :class => "text-danger" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

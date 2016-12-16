@@ -1,0 +1,15 @@
+<%= form_for @preference do |f| %>
+  <div class="field">
+    <%= f.label :max_flags, "Maximum autoflags per day" %><br/>
+    <%= f.number_field :max_flags, :class => "form-control" %>
+  </div><br/>
+
+  <div class="field">
+    <%= f.label :sites, "Sites this number applies to" %><br/>
+    <%= f.select :sites, options_for_select(Site.all.map{ |s| [s.site_name, s.id] }), {}, { :multiple => true, :class => "form-control" } %>
+  </div><br/>
+
+  <div class="actions">
+    <%= f.submit "Save", :class => "btn btn-success" %>
+  </div>
+<% end %>
