@@ -5,7 +5,7 @@ class PostsController < ApplicationController
 
   def show
     begin
-      @post = Post.joins(:site).select("posts.*, sites.site_logo").find(params[:id])
+      @post = Post.joins(:site).joins(:reasons).select("posts.*, sites.site_logo, SUM(reasons.weight) AS reason_weight").find(params[:id])
     rescue
       @post = Post.find params[:id]
     end
