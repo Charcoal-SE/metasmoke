@@ -6,6 +6,9 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+# Configure MiniProfiler to require authorization.
+Rack::MiniProfiler.config.authorization_mode = :whitelist
+
 module Metasmoke
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
