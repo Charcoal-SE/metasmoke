@@ -35,8 +35,8 @@ class FlagConditionsController < ApplicationController
   end
 
   def update
-    @condition.sites = @condition.sites | params[:flag_condition][:sites].map{ |i| Site.find i.to_i if i.present? }.compact
-    if @condition.save && @condition.update(condition_params)
+    @condition.sites = params[:flag_condition][:sites].map{ |i| Site.find i.to_i if i.present? }.compact
+    if @condition.update(condition_params)
       flash[:success] = "Updated your flagging condition."
       redirect_to url_for(:controller => :flag_conditions, :action => :index)
     else

@@ -4,10 +4,10 @@ one:
   max_flags: 1
   flags_used: 1
   user: one
-  site: one
+  sites: one
 
 two:
   max_flags: 1
   flags_used: 1
   user: two
-  site: two
+  sites: two
