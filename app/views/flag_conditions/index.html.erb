@@ -10,6 +10,7 @@
         <th>Minimum Weight</th>
         <th>Maximum Poster Rep</th>
         <th>Minimum Reason Count</th>
+        <th>Sites</th>
         <th colspan="2"></th>
       </tr>
     </thead>
@@ -20,6 +21,7 @@
           <td><%= condition.min_weight %></td>
           <td><%= condition.max_poster_rep %></td>
           <td><%= condition.min_reason_count %></td>
+          <td><%= condition.sites.count %></td>
           <td><%= link_to "Edit", url_for(:controller => :flag_conditions, :action => :edit, :id => condition.id) %></td>
           <td><%= link_to "Delete", url_for(:controller => :flag_conditions, :action => :destroy, :id => condition.id),
                           :method => :delete, :data => { :confirm => "Are you sure?" }, :class => "text-danger" %></td>

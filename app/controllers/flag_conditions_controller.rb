@@ -21,7 +21,7 @@ class FlagConditionsController < ApplicationController
   def create
     @condition = FlagCondition.new condition_params
     @condition.user = current_user
-    @condition.sites = Site.where(:id => params[:sites])
+    @condition.sites = params[:flag_condition][:sites].map{ |i| Site.find i.to_i if i.present? }.compact
 
     if @condition.save
       flash[:success] = "Created a new flagging condition."
@@ -35,9 +35,8 @@ class FlagConditionsController < ApplicationController
   end
 
   def update
-    condition_params = condition_params().merge({ :sites => Site.where(:id => params[:sites]) })
-
-    if @condition.update(condition_params)
+    @condition.sites = @condition.sites | params[:flag_condition][:sites].map{ |i| Site.find i.to_i if i.present? }.compact
+    if @condition.save && @condition.update(condition_params)
       flash[:success] = "Updated your flagging condition."
       redirect_to url_for(:controller => :flag_conditions, :action => :index)
     else
@@ -69,7 +68,7 @@ class FlagConditionsController < ApplicationController
   end
 
   def condition_params
-    params.require(:flag_condition).permit(:min_weight, :max_poster_rep, :min_reason_count)
+    params.require(:flag_condition).permit(:min_weight, :max_poster_rep, :min_reason_count, :sites)
   end
 
   def verify_authorized

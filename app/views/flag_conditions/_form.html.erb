@@ -14,6 +14,11 @@
     <%= f.number_field :min_reason_count, :class => "form-control" %>
   </div><br/>
 
+  <div class="field">
+    <%= f.label :sites %> <em>(the sites this condition applies to)</em><br/>
+    <%= f.select :sites, options_for_select(Site.all.map{ |s| [s.site_name, s.id] }), {}, { :multiple => true, :class => "form-control" } %>
+  </div><br/>
+
   <div class="actions">
     <%= f.submit "Preview", :type => 'button', :class => "btn btn-primary", :id => "preview-flag-conditions-button", :name => "preview" %>
     <%= f.submit "Save", :class => "btn btn-success" %>
