@@ -22,7 +22,8 @@ class Post < ApplicationRecord
           end
         end
 
-        users = UserSiteSetting.where(:user_id => available_user_ids, :site_id => @post.site.id).where('flags_used < max_flags').pluck(:user)
+        uids = UserSiteSetting.where(:user_id => available_user_ids, :site_id => @post.site.id).where('flags_used < max_flags').pluck(:user_id)
+        users = User.where(:id => uids, :flags_enabled => true)
         successful = 0
         users.each do |user|
           success, message = user.spam_flag(post, FlagSetting['dry_run'] == '1')
