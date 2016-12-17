@@ -10,6 +10,36 @@ class Post < ApplicationRecord
     ActionCable.server.broadcast "posts_realtime", { row: PostsController.render(locals: {post: Post.last}, partial: 'post').html_safe }
   end
 
+  after_save do
+    if FlagSetting['flagging_enabled'] == '1'
+      post = self
+      Thread.new do
+        conditions = post.site.flag_conditions
+        available_user_ids = []
+        conditions.each do |condition|
+          if condition.validate!(post)
+            available_user_ids << condition.user.id
+          end
+        end
+
+        users = UserSiteSetting.where(:user_id => available_user_ids, :site_id => @post.site.id).where('flags_used < max_flags').pluck(:user)
+        successful = 0
+        users.each do |user|
+          success, message = user.spam_flag(post, FlagSetting['dry_run'] == '1')
+          if success
+            successful += 1
+          end
+
+          FlagLog.create(:success => success, :message => message)
+
+          if successful >= [@post.site.max_flags_per_post, FlagSetting['max_flags'].to_i].min
+            break
+          end
+        end
+      end
+    end
+  end
+
   def update_feedback_cache
     self.is_tp = false
     self.is_fp = false

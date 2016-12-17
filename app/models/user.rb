@@ -54,7 +54,7 @@ class User < ApplicationRecord
 
   # Flagging
 
-  def spam_flag(post)
+  def spam_flag(post, dry_run=false)
     if api_token.nil?
       raise "Not authenticated"
     end
@@ -69,10 +69,20 @@ class User < ApplicationRecord
     flag_options = JSON.parse(Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/options?site=#{site.site_domain}&#{auth_string}")).body)["items"]
     spam_flag_option = flag_options.select { |fo| fo["title"] == "spam" }.first
 
-    raise "No option to flag as spam" unless spam_flag_option.present?
+    unless spam_flag_option.present?
+      return false, "Spam flag option not present"
+    end
 
     request_params = { "option_id" => spam_flag_option["option_id"], "site" => site.site_domain }.merge auth_dict
-    flag_response = JSON.parse(Net::HTTP.post_form(URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/add"), request_params).body)
-    raise "Didn't successfully flag" if flag_response.include? "error_id" or flag_response.include? "error_message"
+    if !dry_run
+      flag_response = JSON.parse(Net::HTTP.post_form(URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/add"), request_params).body)
+      if flag_response.include? "error_id" or flag_response.include? "error_message"
+        return false, flag_response['error_message']
+      else
+        return true, nil
+      end
+    else
+      return true, nil
+    end
   end
 end
