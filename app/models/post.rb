@@ -73,4 +73,8 @@ class Post < ApplicationRecord
   def stack_id
     return self.link.scan(/(\d*)$/).first.first.to_i
   end
+
+  def flagged?
+    self.flag_logs.where(:success => true).present?
+  end
 end
