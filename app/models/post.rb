@@ -10,7 +10,7 @@ class Post < ApplicationRecord
     ActionCable.server.broadcast "posts_realtime", { row: PostsController.render(locals: {post: Post.last}, partial: 'post').html_safe }
   end
 
-  after_save do
+  after_create do
     if FlagSetting['flagging_enabled'] == '1'
       post = self
       Thread.new do
@@ -26,12 +26,13 @@ class Post < ApplicationRecord
         users = User.where(:id => uids, :flags_enabled => true)
         successful = 0
         users.each do |user|
-          success, message = user.spam_flag(post, FlagSetting['dry_run'] == '1')
+          dry_run = FlagSetting['dry_run'] == '1'
+          success, message = user.spam_flag(post, dry_run)
           if success
             successful += 1
           end
 
-          FlagLog.create(:success => success, :message => message, :flag_condition => available_user_ids[user.id], :user => user, :post => post)
+          FlagLog.create(:success => success, :message => message, :dry_run => dry_run, :flag_condition => available_user_ids[user.id], :user => user, :post => post)
 
           if successful >= [@post.site.max_flags_per_post, FlagSetting['max_flags'].to_i].min
             break
