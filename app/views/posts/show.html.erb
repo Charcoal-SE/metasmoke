@@ -1,4 +1,7 @@
 <h4>
+  <% if @post.flagged? %>
+    <span class="text-danger glyphicon glyphicon-flag" title="This post has been automatically flagged."></span>
+  <% end %>
   <%= title @post.title %>
   <% feedbacks = @post.feedbacks.to_a %>
   <strong class="post-feedbacks">
