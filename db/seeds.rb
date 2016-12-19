@@ -64,3 +64,8 @@ FlagSetting.create(
   :name => "min_post_count",
   :value => "1000"
 )
+
+FlagSetting.create(
+  :name => "dry_run",
+  :value => "1"
+)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161216184036) do
+ActiveRecord::Schema.define(version: 20161216213239) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.datetime "created_at",  null: false
@@ -189,6 +189,7 @@ ActiveRecord::Schema.define(version: 20161216184036) do
     t.datetime "updated_at",                         null: false
     t.boolean  "flags_enabled",      default: false
     t.integer  "max_flags_per_post", default: 1
+    t.boolean  "is_child_meta"
   end
 
   create_table "sites_user_site_settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
