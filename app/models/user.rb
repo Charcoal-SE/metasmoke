@@ -14,6 +14,7 @@ class User < ApplicationRecord
   has_many :user_site_settings
   has_many :flag_conditions
   has_many :flag_logs
+  has_many :smoke_detectors
 
   before_save do
     # Retroactively update

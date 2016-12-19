@@ -1,4 +1,6 @@
 class SmokeDetector < ApplicationRecord
+  belongs_to :user
+
   def self.status_color
     SmokeDetector.select("last_ping").order("last_ping DESC").first.status_color
   end
