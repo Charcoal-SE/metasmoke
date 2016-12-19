@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :setup_miniprofiler
 
   def check_if_smokedetector
     provided_key = params[:key]
@@ -46,13 +45,5 @@ class ApplicationController < ActionController::Base
 
     def configure_permitted_parameters
       devise_parameter_sanitizer.permit(:sign_up, keys: [:username])
-    end
-
-  private
-    def setup_miniprofiler
-      blacklisted_modes = ['env', 'profile-gc', 'profile-memory', 'analyze-memory']
-      unless blacklisted_modes.include? params[:pp]
-        Rack::MiniProfiler.authorize_request
-      end
     end
 end

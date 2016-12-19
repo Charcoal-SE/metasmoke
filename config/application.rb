@@ -6,8 +6,6 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-# Configure MiniProfiler to require authorization.
-Rack::MiniProfiler.config.authorization_mode = :whitelist
 
 module Metasmoke
   class Application < Rails::Application
@@ -35,6 +33,17 @@ module Metasmoke
 
         resource '/oauth/token', :headers => :any, :methods => [:get]
       end
+    end
+
+    config.after_initialize do
+      # Only authorize MiniProfiler if none of the blacklisted pp modes are specified.
+      Rack::MiniProfiler.config.pre_authorize_cb = lambda { |env|
+        blacklisted_modes = [/pp=env/, /pp=profile-gc/, /pp=profile-memory/, /pp=analyze-memory/]
+
+        !blacklisted_modes.any? { |item|
+          item =~ env['QUERY_STRING']
+        }
+      }
     end
   end
 end
