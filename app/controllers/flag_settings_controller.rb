@@ -1,5 +1,6 @@
 class FlagSettingsController < ApplicationController
-  before_action :set_flag_setting, only: [:show, :edit, :update, :destroy]
+  before_action :set_flag_setting, only: [:edit, :update]
+  before_action :authenticate_user!, :except => [:index]
   before_action :verify_admin, :except => [:index]
 
   # GET /flag_settings
@@ -38,6 +39,7 @@ class FlagSettingsController < ApplicationController
   def update
     respond_to do |format|
       if @flag_setting.update(flag_setting_params)
+        AutoflaggingMailer.setting_changed(@flag_setting, current_user).deliver_now
         format.html { redirect_to flag_settings_path, notice: 'Flag setting was successfully updated.' }
         format.json { render :show, status: :ok, location: @flag_setting }
       else
