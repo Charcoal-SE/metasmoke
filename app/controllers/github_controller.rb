@@ -81,7 +81,6 @@ class GithubController < ApplicationController
   end
 
   def ci_hook
-    byebug
     signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)
     puts "calculated signature: #{signature} | #{request.env['HTTP_X_HUB_SIGNATURE']}"
     render plain: "You're not GitHub!", status: 403 and return unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
@@ -93,26 +92,26 @@ class GithubController < ApplicationController
         case data['action']
           when 'opened'
             commits = JSON.parse(Net::HTTP.get_response(URI.parse(pull_request['commits_url'])).body)
-            PullRequest.create!(:has_review => false, :last_commit_sha => commits[-1]['sha'], :number => pull_request['number'])
-
-            authorized_post("https://api.github.com/repos/Charcoal-SE/SmokeDetector/statuses/#{commits[-1]['sha']}", {
-              :state => "pending",
-              :description => "An Approve review is required before pull requests can be merged.",
-              :context => "metasmoke/ci"
-            })
-
-            render plain: "Created PR record."
-          when 'synchronize'
-            commits = JSON.parse(Net::HTTP.get_response(URI.parse(pull_request['commits_url'])).body)
-            PullRequest.find_by_number(pull_request['number']).update!(:last_commit_sha => commits[-1]['sha'])
-
-            authorized_post("https://api.github.com/repos/Charcoal-SE/SmokeDetector/statuses/#{commits[-1]['sha']}", {
+            commits.each do |commit|
+              authorized_post("https://api.github.com/repos/Charcoal-SE/SmokeDetector/statuses/#{commit['sha']}", {
                 :state => "pending",
                 :description => "An Approve review is required before pull requests can be merged.",
                 :context => "metasmoke/ci"
-            })
+              })
+            end
 
-            render plain: "Updated final commit SHA."
+            render plain: "#{commits.length} commits set to pending."
+          when 'synchronize'
+            commits = JSON.parse(Net::HTTP.get_response(URI.parse(pull_request['commits_url'])).body)
+            commits.each do |commit|
+              authorized_post("https://api.github.com/repos/Charcoal-SE/SmokeDetector/statuses/#{commit['sha']}", {
+                  :state => "pending",
+                  :description => "An Approve review is required before pull requests can be merged.",
+                  :context => "metasmoke/ci"
+              })
+            end
+
+            render plain: "#{commits.length} commits set to pending."
           else
             render plain: "Not a newly-opened or updated PR; not interested." and return
         end
@@ -121,7 +120,6 @@ class GithubController < ApplicationController
         pull_request = data['pull_request']
         review = data['review']
         if data['action'] == 'submitted' && review['state'] == 'approved'
-          PullRequest.find_by_number(pull_request['number']).update!(:has_review => true)
           commits = JSON.parse(Net::HTTP.get_response(URI.parse(pull_request['commits_url'])).body)
           commits.each do |commit|
             authorized_post("https://api.github.com/repos/Charcoal-SE/SmokeDetector/statuses/#{commit['sha']}", {
@@ -142,22 +140,35 @@ class GithubController < ApplicationController
 
   private
   def authorized_post(uri, data)
-    private_pem = File.read("#{Rails.root}#{AppConfig['github']['integration_pem_file']}")
-    private_key = OpenSSL::PKey::RSA.new(private_pem)
-    payload = {
-      iat: Time.now,
-      exp: 1.minute.from_now.to_i,
-      iss: AppConfig['github']['integration_id']
-    }
-    jwt = JWT.encode(payload, private_key, "RS256")
+    potential_tokens = GithubToken.where('expires > ?', Time.now + 1.minute)
+    if potential_tokens.present?
+      access_token = potential_tokens.last.token
+    else
+      private_pem = File.read("#{Rails.root}#{AppConfig['github']['integration_pem_file']}")
+      private_key = OpenSSL::PKey::RSA.new(private_pem)
+      payload = {
+          iat: Time.now.to_i,
+          exp: 1.minute.from_now.to_i,
+          iss: AppConfig['github']['integration_id']
+      }
+      jwt = JWT.encode(payload, private_key, "RS256")
+
+      token_resp = HTTParty.post("https://api.github.com/installations/#{AppConfig['github']['installation_id']}/access_tokens", :headers => {
+        'Accept' => 'application/vnd.github.machine-man-preview+json',
+        'User-Agent' => 'metasmoke-ci/1.0',
+        'Authorization' => "Bearer #{jwt}"
+      })
+      token_resp = JSON.parse(token_resp.body)
+      GithubToken.create!(:token => token_resp['token'], :expires => token_resp['expires_at'])
+      access_token = token_resp['token']
+    end
 
     resp = HTTParty.post(uri, :body => data.to_json, :headers => {
-      'Content-Type' => 'application/json',
       'Accept' => 'application/vnd.github.machine-man-preview+json',
-      'Authorization' => "Bearer #{jwt}",
+      'Authorization' => "token #{access_token}",
+      'Content-Type' => 'application/json',
       'User-Agent' => 'metasmoke-ci/1.0'
     })
-
     JSON.parse(resp.body)
   end
 end

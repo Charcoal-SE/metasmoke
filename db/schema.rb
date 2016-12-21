@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161220223035) do
+ActiveRecord::Schema.define(version: 20161221111611) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.datetime "created_at",  null: false
@@ -125,6 +125,13 @@ ActiveRecord::Schema.define(version: 20161220223035) do
     t.index ["post_id"], name: "index_flags_on_post_id", using: :btree
   end
 
+  create_table "github_tokens", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "token"
+    t.datetime "expires"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "ignored_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "user_name"
     t.integer  "user_id"
@@ -162,14 +169,6 @@ ActiveRecord::Schema.define(version: 20161220223035) do
     t.integer "post_id"
     t.index ["post_id"], name: "index_posts_reasons_on_post_id", using: :btree
     t.index ["reason_id"], name: "index_posts_reasons_on_reason_id", using: :btree
-  end
-
-  create_table "pull_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.boolean  "has_review"
-    t.string   "last_commit_sha"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.integer  "number"
   end
 
   create_table "reasons", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
