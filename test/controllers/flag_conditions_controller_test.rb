@@ -38,7 +38,7 @@ class FlagConditionsControllerTest < ActionController::TestCase
 
   test "should get edit" do
     sign_in users(:approved_user)
-    get :edit, :params => { :id => FlagCondition.last.id }
+    get :edit, :params => { :id => FlagCondition.last.id, :flag_condition => { :sites => [Site.last.id] } }
 
     assert_not_nil assigns(:condition)
     assert_response 200
