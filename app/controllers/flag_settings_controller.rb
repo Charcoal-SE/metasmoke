@@ -1,7 +1,7 @@
 class FlagSettingsController < ApplicationController
   before_action :set_flag_setting, only: [:edit, :update]
-  before_action :authenticate_user!, :except => [:index]
   before_action :verify_admin, :except => [:index]
+  before_action :authenticate_user!, :except => [:index]
 
   # GET /flag_settings
   # GET /flag_settings.json
