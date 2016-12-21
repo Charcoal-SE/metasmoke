@@ -14,6 +14,8 @@ gem 'will_paginate-bootstrap'
 gem 'redis'
 gem "rolify"
 gem "octokit", "~> 4.0"
+gem 'httparty'
+gem 'jwt'
 
 gem 'rack-mini-profiler'
 gem 'flamegraph'

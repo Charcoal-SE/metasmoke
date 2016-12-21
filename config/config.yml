@@ -6,6 +6,8 @@ common: &common
     password: 'password'
   github:
     secret_token: 'gh_sekret_token'
+    integration_pem_file: '/ms-ci.pem'
+    integration_id: 404
   api_field_mappings:
     - api_keys.id
     - api_keys.created_at
