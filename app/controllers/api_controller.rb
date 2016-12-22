@@ -32,8 +32,9 @@ class ApiController < ApplicationController
   def posts_by_url
     filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
     @posts = Post.where(:link => params[:urls].split(";")).select(select_fields(filter)).order(:id => :desc)
-    results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
-    render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
+    @results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
+    @more = has_more?(params[:page], @results.count)
+    render 'posts.json.jbuilder'
   end
 
   def posts_by_site
