@@ -84,6 +84,7 @@ Rails.application.routes.draw do
   post 'github/status_hook'
   post 'github/pull_request_hook'
   post 'github/ci_hook'
+  post 'github/update_deploy_to_master'
 
   root to: "dashboard#index"
 

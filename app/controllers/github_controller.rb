@@ -3,11 +3,11 @@ require 'open-uri'
 class GithubController < ApplicationController
   skip_before_action :verify_authenticity_token
 
+  # Fires whenever a CI service finishes.
   def status_hook
-    # We're not interested in PR statuses or branches other than master
-
-    unless params[:branches].index { |b| b[:name] == "master" }
-      render text: "Not a commit on master. Uninterested." and return
+    # We're not interested in PR statuses or branches other than deploy
+    unless params[:branches].index { |b| b[:name] == "deploy" }
+      render text: "Not a commit on deploy. Uninterested." and return
     end
 
     # Check signature from GitHub
@@ -41,6 +41,7 @@ class GithubController < ApplicationController
     render text: "OK", status: 200
   end
 
+  # Fires whenever a PR is opened to check for auto-blacklist and post stats
   def pull_request_hook
     # Check signature from GitHub
 
@@ -80,6 +81,7 @@ class GithubController < ApplicationController
     render text: response_text, status: 200
   end
 
+  # Fires when a PR is posted for our fake CI service to require reviews on
   def ci_hook
     signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)
     puts "calculated signature: #{signature} | #{request.env['HTTP_X_HUB_SIGNATURE']}"
@@ -136,6 +138,23 @@ class GithubController < ApplicationController
       else
         render plain: "Pretty sure we don't subscribe to that event." and return
     end
+  end
+
+  # Fires whenever anything is pushed, so we can automatically update `deploy`
+  # to point to master's HEAD
+  def update_deploy_to_master
+    signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)
+    puts "calculated signature: #{signature} | #{request.env['HTTP_X_HUB_SIGNATURE']}"
+    render plain: "You're not GitHub!", status: 403 and return unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
+
+    unless params[:ref] == "refs/heads/master"
+      render plain: "Not on master; not interested" and return
+    end
+
+    new_sha1 = params[:after]
+
+    # false indicates a not-force-push
+    Octokit.update_ref "Charcoal-SE/SmokeDetector", "refs/heads/deploy", new_sha1, false
   end
 
   private
