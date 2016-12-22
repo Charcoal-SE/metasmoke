@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock '3.4.0'
+lock '3.6.1'
 
 set :application, 'metasmoke'
 set :repo_url, 'https://github.com/Charcoal-SE/metasmoke.git'
@@ -23,7 +23,7 @@ set :deploy_to, '/var/railsapps/metasmoke'
 # set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, fetch(:linked_files, ['config/database.yml']).push('config/database.yml', 'config/secrets.yml', 'config/config.yml')
+set :linked_files, fetch(:linked_files, ['config/database.yml']).push('config/database.yml', 'config/secrets.yml', 'config/config.yml', 'config/ms-ci.pem')
 
 # Default value for linked_dirs is []
 # set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
