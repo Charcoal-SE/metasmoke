@@ -154,7 +154,7 @@ class GithubController < ApplicationController
     new_sha1 = params[:after]
 
     # false indicates a not-force-push
-    Octokit.update_ref "Charcoal-SE/SmokeDetector", "refs/heads/deploy", new_sha1, false
+    Octokit.update_ref "Charcoal-SE/SmokeDetector", "deploy", new_sha1, false
   end
 
   private
