@@ -1,9 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  has_review: false
-  last_commit_sha: MyString
-
-two:
-  has_review: false
-  last_commit_sha: MyString

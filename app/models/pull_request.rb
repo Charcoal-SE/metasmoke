@@ -1,2 +1,0 @@
-class PullRequest < ApplicationRecord
-end
