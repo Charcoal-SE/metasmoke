@@ -182,6 +182,7 @@ ActiveRecord::Schema.define(version: 20161225225510) do
     t.boolean  "is_tp",                                   default: false
     t.boolean  "is_fp",                                   default: false
     t.boolean  "is_naa",                                  default: false
+    t.integer  "revision_count"
     t.index ["created_at"], name: "index_posts_on_created_at", using: :btree
     t.index ["link"], name: "index_posts_on_link", using: :btree
   end
