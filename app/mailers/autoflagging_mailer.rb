@@ -5,6 +5,6 @@ class AutoflaggingMailer < ApplicationMailer
     @setting = setting
     @editor = editor
 
-    mail(bcc: User.with_role(:admin).pluck(:email).join("; "), subject: "[Autoflagging] #{@editor.username} edited #{@setting.name}")
+    # mail(bcc: User.with_role(:admin).pluck(:email).join("; "), subject: "[Autoflagging] #{@editor.username} edited #{@setting.name}")
   end
 end
