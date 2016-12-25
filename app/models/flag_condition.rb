@@ -9,7 +9,7 @@ class FlagCondition < ApplicationRecord
 
 
   def accuracy_and_post_count
-    posts = Post.joins(:reasons).group('posts.id').where('posts.user_reputation <= ?', max_poster_rep).having('count(reasons.id) >= ?', min_reason_count).having('sum(reasons.weight) >= ?', min_weight)
+    posts = Post.joins(:reasons).group('posts.id').where('posts.user_reputation <= ?', max_poster_rep).where(:site_id => site_ids).having('count(reasons.id) >= ?', min_reason_count).having('sum(reasons.weight) >= ?', min_weight)
     post_feedback_results = posts.pluck(:is_tp)
     true_positive_count = post_feedback_results.count(true)
 
