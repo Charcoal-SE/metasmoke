@@ -14,6 +14,11 @@ class UserSiteSettingsController < ApplicationController
   end
 
   def enable_flagging
+    if FlagSetting["registration_enabled"] == "0" and not current_user.flags_enabled
+      render :json => { :status => "nope" }, :status => 500
+      return
+    end
+
     if current_user.update(:flags_enabled => params[:enable])
       render :json => { :status => "ok" }
     else
