@@ -1,0 +1,22 @@
+<h3>Flag Settings Audit</h3>
+
+<table class="table">
+  <tr>
+    <th>User</th>
+    <th>Action</th>
+    <th>Setting</th>
+    <th>Change</th>
+    <th>At</th>
+  </tr>
+
+  <% @audits.each do |audit| %>
+    <tr>
+      <td><%= audit.user.username %></td>
+      <td><%= audit.action %></td>
+      <td><code><%= audit.auditable.name %></code></td>
+      <% value_change = audit.audited_changes["value"] %>
+      <td><code><%= value_change.try(:first) %></code> -> <code><%= value_change.try(:second) %></code></td>
+      <td><span data-livestamp="<%= audit.created_at.to_i %>" title="<%= audit.created_at %>"></span></td>
+    </tr>
+  <% end %>
+</table>

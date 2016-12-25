@@ -1,4 +1,5 @@
 class FlagSetting < ApplicationRecord
+  audited
   validates :name, :uniqueness => true
 
   def self.[](key)

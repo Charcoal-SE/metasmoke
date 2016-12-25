@@ -132,6 +132,10 @@ Rails.application.routes.draw do
     get 'preferences/user/:user', :to => 'user_site_settings#for_user'
     post 'preferences/enable', :to => 'user_site_settings#enable_flagging'
     resources :user_site_settings, :path => "/preferences", :except => [:show]
+
+    scope "/audits" do
+      get "settings", :to => 'flag_settings#audits', :as => "flag_settings_audits"
+    end
   end
 
   devise_for :users

@@ -16,6 +16,8 @@ gem "rolify"
 gem "octokit", "~> 4.0"
 gem 'httparty'
 gem 'jwt'
+gem "audited", "~> 4.3"
+gem "rails-observers", github: 'rails/rails-observers'
 
 gem 'rack-mini-profiler'
 gem 'flamegraph'

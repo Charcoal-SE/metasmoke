@@ -1,7 +1,7 @@
 class FlagSettingsController < ApplicationController
   before_action :set_flag_setting, only: [:edit, :update]
-  before_action :verify_admin, :except => [:index]
-  before_action :authenticate_user!, :except => [:index]
+  before_action :verify_admin, :except => [:index, :audits]
+  before_action :authenticate_user!, :except => [:index, :audits]
 
   # GET /flag_settings
   # GET /flag_settings.json
@@ -32,6 +32,10 @@ class FlagSettingsController < ApplicationController
         format.json { render json: @flag_setting.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def audits
+    @audits = Audited::Audit.where(:auditable_type => "FlagSetting").includes(:auditable, :user).order('created_at DESC').paginate(:page => params[:page], :per_page => 100)
   end
 
   # PATCH/PUT /flag_settings/1
