@@ -11,7 +11,7 @@
 
   <% @audits.each do |audit| %>
     <tr>
-      <td><%= audit.user.username %></td>
+      <td><%= audit.user.try(:username) %></td>
       <td><%= audit.action %></td>
       <td><code><%= audit.auditable.name %></code></td>
       <% value_change = audit.audited_changes["value"] %>
