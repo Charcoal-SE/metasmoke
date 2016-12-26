@@ -1,0 +1,2 @@
+module FlagLogHelper
+end
