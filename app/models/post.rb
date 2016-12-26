@@ -12,6 +12,7 @@ class Post < ApplicationRecord
 
   after_create do
     if FlagSetting['flagging_enabled'] == '1'
+      dry_run = FlagSetting['dry_run'] == '1'
       post = self
       Thread.new do
         begin
@@ -27,7 +28,6 @@ class Post < ApplicationRecord
           users = User.where(:id => uids, :flags_enabled => true)
           successful = 0
           users.each do |user|
-            dry_run = FlagSetting['dry_run'] == '1'
             success, message = user.spam_flag(post, dry_run)
             if success
               successful += 1
