@@ -1,10 +1,13 @@
 <h3>Flag logs</h3>
 
+<%= line_chart FlagLog.group_by_day(:created_at, :range => 1.month.ago.to_date..Time.now).count %>
+
 <table class="table">
   <tr>
     <th>User</th>
     <th>Post</th>
     <th>Result</th>
+    <th>At</th>
   </tr>
 
   <% @flag_logs.each do |log| %>
@@ -12,6 +15,7 @@
       <td><%= log.user.try(:username) %></td>
       <td><%= link_to log.post.title, "/post/#{log.post_id}" %></td>
       <td class='<%= "success" if log.success %>'><%= log.success ? "Success" : "Fail" %><%= " (dry run)" if log.is_dry_run %><%= " - #{log.error_message}" if log.error_message.present? %></td>
+      <td><%= time_ago_in_words(log.created_at) %> ago</td>
     </tr>
   <% end %>
 </table>
