@@ -2,6 +2,7 @@ class FlagSettingsController < ApplicationController
   before_action :set_flag_setting, only: [:edit, :update]
   before_action :verify_admin, :except => [:index, :audits]
   before_action :authenticate_user!, :except => [:index, :audits]
+  before_action :check_if_smokedetector, :only => [:smokey_disable_flagging]
 
   # GET /flag_settings
   # GET /flag_settings.json
@@ -51,6 +52,18 @@ class FlagSettingsController < ApplicationController
         format.json { render json: @flag_setting.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  # Used by SmokeDetector's !!/stopflagging
+  def smokey_disable_flagging
+    # -1 == System user in metasmoke prod
+    Audited::Audit.as_user(User.find(-1)) do
+      FlagSetting.find_by_name("flagging_enabled").update(value: "0")
+    end
+
+    SmokeDetector.send_message_to_charcoal("**Autoflagging disabled** through chat.")
+
+    render :plain => "OK"
   end
 
   private

@@ -123,6 +123,7 @@ Rails.application.routes.draw do
 
   # flagging
   scope "/flagging" do
+    post "smokey_disable", :to => 'flag_settings#smokey_disable_flagging'
     resources :flag_settings, :path => "/settings", :except => [:show]
 
     get 'conditions/all', :to => 'flag_conditions#full_list'
