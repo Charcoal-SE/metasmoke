@@ -23,7 +23,7 @@ class Post < ApplicationRecord
             end
           end
 
-          uids = UserSiteSetting.where(:user_id => available_user_ids.keys, :site_id => @post.site.id).where('flags_used < max_flags').pluck(:user_id)
+          uids = @post.site.user_site_settings.where(:user_id => available_user_ids.keys).where('flags_used < max_flags').pluck(:user_id)
           users = User.where(:id => uids, :flags_enabled => true)
           successful = 0
           users.each do |user|
@@ -33,14 +33,14 @@ class Post < ApplicationRecord
               successful += 1
             end
 
-            FlagLog.create(:success => success, :message => message, :dry_run => dry_run, :flag_condition => available_user_ids[user.id], :user => user, :post => post)
+            FlagLog.create(:success => success, :error_message => message, :is_dry_run => dry_run, :flag_condition => available_user_ids[user.id], :user => user, :post => post)
 
             if successful >= [@post.site.max_flags_per_post, FlagSetting['max_flags'].to_i].min
               break
             end
           end
         rescue => e
-          FlagLog.create(:success => false, :message => "#{e}: #{e.message} | #{e.backtrace.join("\n")}", :dry_run => dry_run, :flag_condition => nil)
+          FlagLog.create(:success => false, :error_message => "#{e}: #{e.message} | #{e.backtrace.join("\n")}", :is_dry_run => dry_run, :flag_condition => nil)
         end
       end
     end
