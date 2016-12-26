@@ -14,29 +14,33 @@ class Post < ApplicationRecord
     if FlagSetting['flagging_enabled'] == '1'
       post = self
       Thread.new do
-        conditions = post.site.flag_conditions
-        available_user_ids = {}
-        conditions.each do |condition|
-          if condition.validate!(post)
-            available_user_ids[condition.user.id] = condition
-          end
-        end
-
-        uids = UserSiteSetting.where(:user_id => available_user_ids.keys, :site_id => @post.site.id).where('flags_used < max_flags').pluck(:user_id)
-        users = User.where(:id => uids, :flags_enabled => true)
-        successful = 0
-        users.each do |user|
-          dry_run = FlagSetting['dry_run'] == '1'
-          success, message = user.spam_flag(post, dry_run)
-          if success
-            successful += 1
+        begin
+          conditions = post.site.flag_conditions
+          available_user_ids = {}
+          conditions.each do |condition|
+            if condition.validate!(post)
+              available_user_ids[condition.user.id] = condition
+            end
           end
 
-          FlagLog.create(:success => success, :message => message, :dry_run => dry_run, :flag_condition => available_user_ids[user.id], :user => user, :post => post)
+          uids = UserSiteSetting.where(:user_id => available_user_ids.keys, :site_id => @post.site.id).where('flags_used < max_flags').pluck(:user_id)
+          users = User.where(:id => uids, :flags_enabled => true)
+          successful = 0
+          users.each do |user|
+            dry_run = FlagSetting['dry_run'] == '1'
+            success, message = user.spam_flag(post, dry_run)
+            if success
+              successful += 1
+            end
 
-          if successful >= [@post.site.max_flags_per_post, FlagSetting['max_flags'].to_i].min
-            break
+            FlagLog.create(:success => success, :message => message, :dry_run => dry_run, :flag_condition => available_user_ids[user.id], :user => user, :post => post)
+
+            if successful >= [@post.site.max_flags_per_post, FlagSetting['max_flags'].to_i].min
+              break
+            end
           end
+        rescue => e
+          FlagLog.create(:success => false, :message => "#{e}: #{e.message} | #{e.backtrace.join("\n")}", :dry_run => dry_run, :flag_condition => nil)
         end
       end
     end
