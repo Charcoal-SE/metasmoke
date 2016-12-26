@@ -19,9 +19,9 @@ class AuthenticationController < ApplicationController
     token = nil
 
     begin
-      token = resp.body.scan(/access_token=(.*)&?/).first.first
+      token = resp.body.scan(/access_token=(.*)&/).first.first
     rescue
-        
+
     end
 
     puts access_token_info = JSON.parse(open("https://api.stackexchange.com/2.2/access-tokens/#{token}?key=#{config["key"]}").read)["items"][0]
