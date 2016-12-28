@@ -59,6 +59,7 @@ Rails.application.routes.draw do
   get "post/:id", to: "posts#show"
   get "post/:id/body", to: "posts#body"
   get "post/:id/feedbacks.json", to: 'posts#feedbacksapi'
+  get "post/:id/flag_logs", to: 'flag_log#by_post', as: :post_flag_logs
 
   get "/users", to: "stack_exchange_users#index"
 

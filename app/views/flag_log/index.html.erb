@@ -1,6 +1,13 @@
-<h3>Flag logs</h3>
+<h3>
+  Flag logs
+  <% if @individual_post.present? %>
+    for <%= link_to @individual_post.title, "/post/#{@individual_post.id}" %>
+  <% end %>
+</h3>
 
-<%= line_chart FlagLog.group_by_day(:created_at, :range => 1.month.ago.to_date..Time.now).count %>
+<% if @individual_post.nil? %>
+  <%= line_chart FlagLog.group_by_day(:created_at, :range => 1.month.ago.to_date..Time.now).count %>
+<% end %>
 
 <table class="table">
   <tr>
