@@ -1,8 +1,8 @@
 class FlagSettingsController < ApplicationController
   protect_from_forgery :except => [:smokey_disable_flagging]
   before_action :set_flag_setting, only: [:edit, :update]
-  before_action :verify_admin, :except => [:index, :audits, :smokey_disable_flagging]
-  before_action :authenticate_user!, :except => [:index, :audits, :smokey_disable_flagging]
+  before_action :verify_admin, :except => [:index, :audits, :smokey_disable_flagging, :dashboard]
+  before_action :authenticate_user!, :except => [:index, :audits, :smokey_disable_flagging, :dashboard]
   before_action :check_if_smokedetector, :only => [:smokey_disable_flagging]
 
   # GET /flag_settings
@@ -65,6 +65,10 @@ class FlagSettingsController < ApplicationController
     SmokeDetector.send_message_to_charcoal("**Autoflagging disabled** through chat.")
 
     render :plain => "OK"
+  end
+
+  def dashboard
+    @recent_count = FlagLog.where('created_at > ?', 1.day.ago).count
   end
 
   private

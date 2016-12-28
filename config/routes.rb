@@ -122,6 +122,7 @@ Rails.application.routes.draw do
   get 'dev/prod_log', :to => 'developer#production_log'
 
   # flagging
+  get 'flagging', :to => 'flag_settings#dashboard'
   scope "/flagging" do
     post "smokey_disable", :to => 'flag_settings#smokey_disable_flagging'
     resources :flag_settings, :path => "/settings", :except => [:show]

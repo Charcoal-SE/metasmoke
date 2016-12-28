@@ -56,8 +56,8 @@ ActiveRecord::Schema.define(version: 20161225225510) do
     t.index ["user_id", "user_type"], name: "user_index", using: :btree
   end
 
-  create_table "blacklisted_websites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "host",                                   collation: "utf8_unicode_ci"
+  create_table "blacklisted_websites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.string   "host"
     t.boolean  "is_active",  default: true
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
