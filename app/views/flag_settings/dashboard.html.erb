@@ -1,5 +1,5 @@
 <div class="row clearfix">
-  <div class="col-md-3"></div>
+  <div class="col-md-2"></div>
   <div class="col-md-2">
     <% if FlagSetting['flagging_enabled'] == '0' %>
       <div class="module module-red">
@@ -33,6 +33,27 @@
     <% end %>
   </div>
   <div class="col-md-2">
+    <% if FlagSetting['registration_enabled'] == '0' %>
+      <div class="module module-red">
+        <div class="module-header">
+          <h4 class="module-title"><span class="glyphicon glyphicon-edit"></span> registration</h4>
+        </div>
+        <div class="module-body">
+          <p class="status-text">Registration is <strong>closed</strong>.</p>
+        </div>
+      </div>
+    <% else %>
+      <div class="module module-green">
+        <div class="module-header">
+          <h4 class="module-title"><span class="glyphicon glyphicon-edit"></span> registration</h4>
+        </div>
+        <div class="module-body">
+          <p class="status-text">Registration is <strong>open</strong>.</p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-md-2">
     <div class="module">
       <div class="module-header">
         <h4 class="module-title"><span class="glyphicon glyphicon-stats"></span> last 24 hours</h4>
@@ -60,7 +81,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-3"></div>
+  <div class="col-md-2"></div>
 </div>
 
 <h3>Links</h3>
