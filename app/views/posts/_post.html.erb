@@ -1,11 +1,8 @@
-<% wrap_in_tr = true if wrap_in_tr.nil? %>
 <% expand_post = false if expand_post.nil? %>
 <% preload_post_body = expand_post || (false if preload_post_body.nil?) %>
 <% @sites = [post.site] if @sites.nil? %>
 
-<% if wrap_in_tr %>
 <tr class="post-cell post-cell-<%= post.id %>">
-<% end %>
   <td>
     <% if post.try(:body).present? or post.try(:body_exists) == 1 %>
       <span class="text-muted show-post-body" data-postloaded="<%= preload_post_body.to_s %>" data-postid="<%= post.id %>"><%= (expand_post.present? and expand_post) ? "▼" : "►" %></span>
@@ -45,6 +42,4 @@
       </div>
     <% end %>
   </td>
-<% if wrap_in_tr %>
 </tr>
-<% end %>
