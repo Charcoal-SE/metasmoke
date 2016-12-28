@@ -68,7 +68,7 @@ class FlagSettingsController < ApplicationController
   end
 
   def dashboard
-    @recent_count = FlagLog.where('created_at > ?', 1.day.ago).count
+    @recent_count = FlagLog.where('created_at > ?', 1.day.ago).where(:success => true).count
   end
 
   private
