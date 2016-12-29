@@ -53,6 +53,7 @@
                 <% end %>
               </li>
             <% end %>
+            <li class='<%= [FlagConditionsController, FlagLogController, FlagSettingsController].include?(controller.class) ? "active" : "" %>'><%= link_to "flagging", flagging_path %></li>
             <li class='<%= controller.class == StatusController ? "active" : "" %> status-<%= SmokeDetector.status_color %>'><%= link_to "status", status_path %></li>
           </ul>
           <% if controller.class == DashboardController %>
