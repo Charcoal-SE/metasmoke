@@ -23,9 +23,9 @@ class SearchController < ApplicationController
     end
 
     if params[:reason].present?
-      @results = Reason.find(params[:reason]).posts
+      @results = Reason.find(params[:reason]).posts.includes_for_post_row
     else
-      @results = Post.all
+      @results = Post.all.includes_for_post_row
     end
 
     per_page = (user_signed_in? and params[:per_page].present?) ? [params[:per_page].to_i, 10000].min : 100

@@ -6,6 +6,8 @@ class Post < ApplicationRecord
   belongs_to :stack_exchange_user
   has_many :flag_logs
 
+  scope :includes_for_post_row, -> { includes(:reasons).includes(:feedbacks => [:user]) }
+
   after_create do
     ActionCable.server.broadcast "posts_realtime", { row: PostsController.render(locals: {post: Post.last}, partial: 'post').html_safe }
   end

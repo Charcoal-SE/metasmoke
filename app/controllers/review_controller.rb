@@ -4,9 +4,9 @@ class ReviewController < ApplicationController
 
   def index
     if params[:reason].present? and reason = Reason.find(params[:reason])
-      @posts = reason.posts
+      @posts = reason.posts.includes_for_post_row
     else
-      @posts = Post.all
+      @posts = Post.all.includes_for_post_row
     end
 
     @posts = @posts.includes(:reasons).includes(:feedbacks).where( :feedbacks => { :post_id => nil }).order('`posts`.`created_at` DESC').paginate(:page => params[:page], :per_page => 100)

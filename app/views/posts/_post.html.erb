@@ -23,7 +23,7 @@
     <% end %>
 
     <span class="text-muted">
-      (<%= post.reasons.pluck(:weight).reduce(:+) %>)
+      (<%= post.reasons.map(&:weight).reduce(:+) %>)
     </span>
 
     <span class="text-muted" style="float:right">
