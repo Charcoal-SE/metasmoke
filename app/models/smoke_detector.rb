@@ -26,7 +26,7 @@ class SmokeDetector < ApplicationRecord
     end
   end
 
-  def send_message_to_charcoal(message)
+  def self.send_message_to_charcoal(message)
     ActionCable.server.broadcast "smokedetector_messages", { message: message }
   end
 end

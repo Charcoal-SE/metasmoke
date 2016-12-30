@@ -74,7 +74,11 @@ class Post < ApplicationRecord
     save!
 
     if self.is_tp && self.is_fp
-      ActionCable.server.broadcast "smokedetector_messages", { message: "Conflicting feedback on [#{self.title}](//metasmoke.erwaysoftware.com/post/#{self.id})." }
+      SmokeDetector.send_message_to_charcoal "Conflicting feedback on [#{self.title}](//metasmoke.erwaysoftware.com/post/#{self.id})."
+    end
+
+    if self.is_fp_changed? && self.is_fp && self.flagged?
+      SmokeDetector.send_message_to_charcoal "**fp on autoflagged post**: #{self.title}](//metasmoke.erwaysoftware.com/post/#{self.id})"
     end
 
     return is_feedback_changed
