@@ -38,11 +38,7 @@ module Metasmoke
     config.after_initialize do
       # Only authorize MiniProfiler if none of the blacklisted pp modes are specified.
       Rack::MiniProfiler.config.pre_authorize_cb = lambda { |env|
-        blacklisted_modes = [/pp=env/, /pp=profile-gc/, /pp=profile-memory/, /pp=analyze-memory/]
-
-        !blacklisted_modes.any? { |item|
-          item =~ env['QUERY_STRING']
-        }
+        return true
       }
     end
   end
