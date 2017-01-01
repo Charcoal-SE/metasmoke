@@ -94,7 +94,7 @@ class FlagConditionsController < ApplicationController
       @false_positive_count = post_feedback_results.count(false)
       @true_positive_count = post_feedback_results.count(true)
 
-      @posts = posts.includes_for_post_row.includes(:feedbacks => [:user]).order('posts.id DESC').paginate(:page => params[:page], :per_page => 100)
+      @posts = posts.includes(:feedbacks => [:user]).order('posts.id DESC').paginate(:page => params[:page], :per_page => 100)
       @sites = Site.where(:id => @posts.map(&:site_id)).to_a
     end
   end
