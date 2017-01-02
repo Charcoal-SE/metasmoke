@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   get 'search', to: 'search#search_results'
 
   get "graphs", to: "graphs#index"
+  get 'graphs/flagging_results', :to => 'graphs#flagging_results'
+  get 'graphs/flagging_timeline', :to => 'graphs#flagging_timeline'
 
   get "status", to: "status#index"
 
@@ -61,7 +63,7 @@ Rails.application.routes.draw do
   get "post/:id/feedbacks.json", to: 'posts#feedbacksapi'
   get "post/:id/flag_logs", to: 'flag_log#by_post', as: :post_flag_logs
 
-  get "/users", to: "stack_exchange_users#index"
+  get "users", to: "stack_exchange_users#index"
 
   post 'feedbacks.json', to: "feedbacks#create"
   post 'posts.json', to: "posts#create"

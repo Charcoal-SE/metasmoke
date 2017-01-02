@@ -89,3 +89,11 @@
   <li><%= link_to "Your preferences", url_for(:controller => :user_site_settings, :action => :index) %></li>
   <li><%= link_to "Your conditions", url_for(:controller => :flag_conditions, :action => :index) %></li>
 </ul>
+
+<h3>Stats</h3>
+<%= pluralize(User.where(:flags_enabled => true).count, "active participant") %><br/>
+<%= pluralize(FlagLog.where(:success => true, :is_dry_run => false).count, "spam flag") %> total cast over
+<%= time_ago_in_words(FlagLog.where(:success => true, :is_dry_run => false).first.created_at) %><br/>
+
+<%= pie_chart url_for(:controller => :graphs, :action => :flagging_results), colors: ['red', 'orange', 'green'] %>
+<%= line_chart url_for(:controller => :graphs, :action => :flagging_timeline), colors: ['red', 'orange', 'green'] %>
