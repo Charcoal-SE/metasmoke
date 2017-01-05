@@ -48,7 +48,7 @@ class Post < ApplicationRecord
 
               FlagLog.create(:success => success, :error_message => message, :is_dry_run => dry_run, :flag_condition => available_user_ids[user.id], :user => user, :post => post)
 
-              if successful >= [@post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
+              if successful >= [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
                 break
               end
             end
