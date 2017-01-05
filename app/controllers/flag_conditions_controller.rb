@@ -76,7 +76,7 @@ class FlagConditionsController < ApplicationController
   end
 
   def check_registration_status
-    raise ActionController::RoutingError.new('Not Found') if FlagSetting['registration_enabled'] == '0'
+    raise ActionController::RoutingError.new('Not Found') if (FlagSetting['registration_enabled'] == '0' and not current_user.flags_enabled)
   end
 
   def set_preview_data
