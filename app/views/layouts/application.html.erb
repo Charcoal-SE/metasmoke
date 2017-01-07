@@ -70,7 +70,6 @@
                 <ul class="dropdown-menu">
                   <li><%= link_to 'Logout', destroy_user_session_path, :method => :delete %></li>
                   <li><%= link_to 'Apps', url_for(:controller => :users, :action => :apps) %></li>
-                  <li><%= link_to 'Autoflagging', url_for(:controller => :flag_settings, :action => :dashboard) %></li>
                   <li><a href="/admin">Tools</a></li>
                   <% if current_user.has_role? :code_admin %>
                     <li><%= link_to 'Blacklist', url_for(:controller => :blacklist, :action => :index) %></li>
