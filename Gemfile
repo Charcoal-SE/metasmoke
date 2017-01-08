@@ -26,6 +26,8 @@ gem 'stackprof'
 gem "chartkick"
 gem 'groupdate'
 
+gem 'simplecov', :require => false, :group => :test
+
 # gem 'puma_worker_killer'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

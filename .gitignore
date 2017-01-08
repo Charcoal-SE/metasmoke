@@ -28,3 +28,5 @@ db_import_*.sql
 .idea/*
 
 .byebug_history
+
+coverage
