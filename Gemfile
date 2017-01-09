@@ -24,7 +24,7 @@ gem 'flamegraph'
 gem 'stackprof'
 
 gem "chartkick"
-gem 'groupdate'
+gem 'groupdate', "~> 3.0.0"
 
 gem 'simplecov', :require => false, :group => :test
 
