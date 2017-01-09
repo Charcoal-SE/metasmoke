@@ -24,3 +24,4 @@ smoke_detector_1:
     zone: !ruby/object:ActiveSupport::TimeZone
       name: Etc/UTC
     time: *4
+  user_id: -1
