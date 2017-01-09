@@ -16,6 +16,12 @@ class User < ApplicationRecord
   has_many :flag_logs
   has_many :smoke_detectors
 
+  # All accounts start with reviewer role enabled
+  after_create do
+    self.add_role :reviewer
+    SmokeDetector.send_message_to_charcoal "New metasmoke user '#{self.username}' created"
+  end
+
   before_save do
     # Retroactively update
     (self.changed & ["stackexchange_chat_id", "meta_stackexchange_chat_id", "stackoverflow_chat_id"]).each do

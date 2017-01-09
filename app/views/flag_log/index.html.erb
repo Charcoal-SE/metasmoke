@@ -20,7 +20,7 @@
     <tr>
       <td><%= log.user.try(:username) %></td>
       <%= render "posts/post", :post => log.post, :wrap_in_tr => false %>
-      <td class='<%= "success" if log.success %>'><%= log.success ? "Success" : "Fail" %><%= " (dry run)" if log.is_dry_run %><%= " - #{log.error_message}" if log.error_message.present? %></td>
+      <td class='<%= "success" if log.success %>' title="<%= log.error_message %>"><%= log.success ? "Success" : "Fail" %><%= " (dry run)" if log.is_dry_run %></td>
     </tr>
   <% end %>
 </table>

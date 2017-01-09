@@ -34,14 +34,13 @@ class Post < ApplicationRecord
             begin
               if post.fetch_revision_count > 1
                 FlagLog.create(:success => false, :error_message => "More than one revision", :is_dry_run => dry_run, :flag_condition => nil, :user => nil, :post => post)
-
               end
             rescue => e
               FlagLog.create(:success => false, :error_message => "Couldn't get revision count: #{e}: #{e.message} | #{e.backtrace.join("\n")}", :is_dry_run => dry_run, :flag_condition => nil, :user => nil, :post => post)
             end
           end
           if post.revision_count == 1
-            users.each do |user|
+            users.shuffle.each do |user|
               success, message = user.spam_flag(post, dry_run)
               if success
                 successful += 1
@@ -49,7 +48,7 @@ class Post < ApplicationRecord
 
               FlagLog.create(:success => success, :error_message => message, :is_dry_run => dry_run, :flag_condition => available_user_ids[user.id], :user => user, :post => post)
 
-              if successful >= [@post.site.max_flags_per_post, FlagSetting['max_flags'].to_i].min
+              if successful >= [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
                 break
               end
             end
