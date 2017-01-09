@@ -39,4 +39,11 @@ class SearchControllerTest < ActionController::TestCase
     get :search_results, params: { :feedback => "false positive", :option => 'graph' }
     assert_response :success
   end
+
+  test "should search by regex" do
+    sign_in User.first
+
+    get :search_results, params: { :title => "foo", :title_is_regex => true, :title_is_inverse_regex => true }
+    assert_response :success
+  end
 end
