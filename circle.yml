@@ -5,3 +5,6 @@ database:
   post:
     - bundle exec rake test:prepare
     - bundle exec rake db:migrate
+general:
+  artifacts:
+    - "coverage"
