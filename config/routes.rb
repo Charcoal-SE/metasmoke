@@ -21,6 +21,10 @@ Rails.application.routes.draw do
   get "graphs", to: "graphs#index"
   get 'graphs/flagging_results', :to => 'graphs#flagging_results'
   get 'graphs/flagging_timeline', :to => 'graphs#flagging_timeline'
+  get 'graphs/reports_hours', :to => 'graphs#reports_by_hour'
+  get 'graphs/reports_sites', :to => 'graphs#reports_by_site'
+  get 'graphs/reports_hod', :to => 'graphs#reports_by_hour_of_day'
+  get 'graphs/ttd', :to => 'graphs#time_to_deletion'
 
   get "status", to: "status#index"
 

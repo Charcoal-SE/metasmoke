@@ -3,7 +3,7 @@
 <h3>Reports by hour</h3>
 <br />
 
-<%= line_chart [{name: "All", data: Post.group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count}, {name: "True positives", data: Post.where(:is_tp => true).group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count}, {name: "False positives", data: Post.where(:is_fp => true).group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count}], colors: ["#999", "green", "red"], library: {"tooltip" => {'shared' => 'true'} } %>
+<%= line_chart url_for(:controller => :graphs, :action => :reports_by_hour), colors: ["#999", "green", "red"], library: {"tooltip" => {'shared' => 'true'} } %>
 
 <h3>Reports by site</h3>
         (<%= link_to "Last month", graphs_path, style: params[:timeframe].nil? ? "font-weight:bold" : "" %>
@@ -13,7 +13,7 @@
 <br />
 
 <% h = HTMLEntities.new %>
-<%= pie_chart @posts.group(:site).count.map{ |k,v| {(k.nil? ? "Unknown" : h.decode(k.site_name))=>v} }.reduce(:merge).select{|k,v| k != "Unknown"}.sort_by {|k,v| v}.reverse %>
+<%= pie_chart url_for(:controller => :graphs, :action => :reports_by_site, :timeframe => params[:timeframe]) %>
 
 <h3>Reports by hour of day</h3>
         (<%= link_to "Last month", graphs_path, style: params[:timeframe].nil? ? "font-weight:bold" : "" %>
@@ -23,17 +23,14 @@
 <br />
 
 <% t = Time.now %>
-<% number_of_days = (DateTime.now - @posts.minimum(:created_at).to_date).to_i %>
-
-<% all_posts = @posts.group_by_hour_of_day(:created_at).count.map{ |k,v| [k, (v.to_f / number_of_days).round(2)] }.to_h %>
-<% tp_posts = @posts.where(:is_tp => true).group_by_hour_of_day(:created_at).count.map{ |k,v| [k, (v.to_f / number_of_days).round(2)] }.to_h %>
-<% fp_posts = @posts.where(:is_fp => true).group_by_hour_of_day(:created_at).count.map{ |k,v| [k, (v.to_f / number_of_days).round(2)] }.to_h %>
-
-<%= line_chart [{name: "All", data: @posts.group_by_hour_of_day(:created_at).count.map{ |k,v| [k, (v.to_f / number_of_days).round(2)] }.to_h}, {name: "True positives", data: tp_posts}, {name: "False positives", data: fp_posts} ], discrete: true, library: {"tooltip" => {'shared' => 'true'}, "xAxis": { "plotLines" => [{"width" => '2', :value => "#{t.hour + t.min.to_f / 60.to_f}", :color => 'blue', :dashStyle => "dot" }] } }, colors: ["#999", "green", "red"] %>
+<%= line_chart url_for(:controller => :graphs, :action => :reports_by_hour_of_day, :timeframe => params[:timeframe]), discrete: true,
+               library: {"tooltip" => {'shared' => 'true'}, "xAxis": { "plotLines" => [{"width" => '2', :value => "#{t.hour + t.min.to_f / 60.to_f}", :color => 'blue', :dashStyle => "dot" }]}},
+               colors: ["#999", "green", "red"] %>
 
 <br />
 <br />
 
 <h3>Time to deletion</h3>
 <p class="text-muted">tp posts only, same scale as above</p>
-<%= line_chart Post.group_by_hour_of_day('`posts`.`created_at`').select("AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion").joins(:deletion_logs).where(:is_tp => true).where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600").relation.each_with_index.map {|a,i| [i, a.time_to_deletion.round(0)] }, library: { "xAxis": { "labels": { "enabled": false }, "plotLines" => [{"width" => '2', :value => "#{t.hour + t.min.to_f / 60.to_f}", :color => 'blue', :dashStyle => "dot" }] } } %>
+<%= line_chart url_for(:controller => :graphs, :action => :time_to_deletion),
+               library: { "xAxis": { "labels": { "enabled": false }, "plotLines" => [{"width" => '2', :value => "#{t.hour + t.min.to_f / 60.to_f}", :color => 'blue', :dashStyle => "dot" }]}} %>
