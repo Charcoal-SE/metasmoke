@@ -41,12 +41,19 @@ class Post < ApplicationRecord
           end
           if post.revision_count == 1
             users.shuffle.each do |user|
-              success, message = user.spam_flag(post, dry_run)
-              if success
-                successful += 1
+              last_log = FlagLog.last
+              if last_log.backoff.present? && (last_log.created_at + l.backoff.seconds > Time.now)
+                sleep((last_log.created_at + last_log.backoff.seconds) - Time.now)
               end
 
-              FlagLog.create(:success => success, :error_message => message, :is_dry_run => dry_run, :flag_condition => available_user_ids[user.id], :user => user, :post => post)
+              success, message = user.spam_flag(post, dry_run)
+              backoff = 0
+              if success
+                successful += 1
+                backoff = message
+              end
+
+              FlagLog.create(:success => success, :error_message => message, :is_dry_run => dry_run, :flag_condition => available_user_ids[user.id], :user => user, :post => post, :backoff => backoff)
 
               if successful >= [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
                 break

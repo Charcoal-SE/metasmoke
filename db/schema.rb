@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170109200636) do
+ActiveRecord::Schema.define(version: 20170109235002) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.datetime "created_at",  null: false
@@ -125,6 +125,7 @@ ActiveRecord::Schema.define(version: 20170109200636) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.boolean  "is_dry_run"
+    t.integer  "backoff"
     t.index ["flag_condition_id"], name: "index_flag_logs_on_flag_condition_id", using: :btree
     t.index ["post_id"], name: "index_flag_logs_on_post_id", using: :btree
     t.index ["user_id"], name: "index_flag_logs_on_user_id", using: :btree
@@ -161,6 +162,17 @@ ActiveRecord::Schema.define(version: 20170109200636) do
     t.datetime "updated_at", null: false
     t.boolean  "is_ignored"
     t.index ["user_id"], name: "index_ignored_users_on_user_id", using: :btree
+  end
+
+  create_table "post_notes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "text"
+    t.string   "username"
+    t.integer  "user_id"
+    t.integer  "post_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_post_notes_on_post_id", using: :btree
+    t.index ["user_id"], name: "index_post_notes_on_user_id", using: :btree
   end
 
   create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
@@ -308,6 +320,8 @@ ActiveRecord::Schema.define(version: 20170109200636) do
   add_foreign_key "flag_logs", "users"
   add_foreign_key "flags", "posts"
   add_foreign_key "ignored_users", "users"
+  add_foreign_key "post_notes", "posts"
+  add_foreign_key "post_notes", "users"
   add_foreign_key "smoke_detectors", "users"
   add_foreign_key "user_site_settings", "sites"
   add_foreign_key "user_site_settings", "users"
