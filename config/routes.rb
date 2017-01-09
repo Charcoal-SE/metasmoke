@@ -27,6 +27,8 @@ Rails.application.routes.draw do
   get 'graphs/ttd', :to => 'graphs#time_to_deletion'
 
   get "status", to: "status#index"
+  get "smoke_detector/:id/statistics", to: "statistics#index", as: :smoke_detector_statistics
+  post "statistics.json", to: "statistics#create"
 
   get "users", to: 'admin#users'
 

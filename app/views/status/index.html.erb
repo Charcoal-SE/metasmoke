@@ -14,7 +14,7 @@
     <% else %>
       <tr class="status-row hidden-row" style="<%= 'display:none' %>">
     <% end %>
-      <td><%= sd.location %></td>
+      <td><%= link_to sd.location, smoke_detector_statistics_path(sd.id) %></td>
       <td class="status-<%= sd.status_color %>"><%= sd.last_ping %> (<%= time_ago_in_words(sd.last_ping, include_seconds: true)%> ago)</td>
     </tr>
   <% end %>
