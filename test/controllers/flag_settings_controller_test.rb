@@ -3,7 +3,7 @@ require 'test_helper'
 class FlagSettingsControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
   setup do
-    @flag_setting = flag_settings(:one)
+    @flag_setting = FlagSetting.first
   end
 
   test "should get index" do
@@ -62,5 +62,34 @@ class FlagSettingsControllerTest < ActionDispatch::IntegrationTest
 
     patch flag_setting_url(@flag_setting), params: { flag_setting: { name: "valid", value: "also valid" } }
     assert_redirected_to flag_settings_path
+  end
+
+  test "should get audit log" do
+    sign_out :user
+
+    get flag_settings_audits_url
+
+    assert_response :success
+  end
+
+  test "should get dashboard" do
+    sign_out :user
+    get flagging_url
+    assert_response :success
+
+    sign_in users(:admin_user)
+    get flagging_url
+    assert_response :success
+  end
+
+  test "should allow smokey to disable flagging" do
+    sign_out :user
+    post smokey_disable_url, params: { :key => SmokeDetector.first.access_token }
+
+    # Should disable flagging
+    assert FlagSetting["flagging_enabled"] == "0"
+
+    # Should be recorded as System having done it
+    assert FlagSetting.find_by_name("flagging_enabled").audits.last.user_id == -1
   end
 end

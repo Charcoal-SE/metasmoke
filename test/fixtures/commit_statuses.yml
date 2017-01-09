@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  commit_sha: MyString
+  status: MyString
+  commit_message: MyString
+
+two:
+  commit_sha: MyString
+  status: MyString
+  commit_message: MyString

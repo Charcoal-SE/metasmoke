@@ -2,8 +2,11 @@ require 'test_helper'
 
 class StatusControllerTest < ActionController::TestCase
   test "should get index" do
-    get :index
-    assert_response :success
+    [0, 2, 10].each do |m|
+      SmokeDetector.order(:last_ping).last.update(:last_ping => m.minutes.ago)
+      get :index
+      assert_response :success
+    end
   end
 
   test "should update last-seen time on status ping" do

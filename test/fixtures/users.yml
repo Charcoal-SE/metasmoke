@@ -5,10 +5,46 @@
 # below each fixture, per the syntax in the comments below
 #
 
+
+system_user:
+  email: foo@bar.com
+  encrypted_password: "abcdefghjklmnopqrstuvwxyz3"
+  remember_created_at:
+  sign_in_count: 13
+  current_sign_in_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-03-18 16:25:50.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  last_sign_in_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-10 14:06:43.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &3 2015-08-23 23:29:39.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *3
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &4 2016-03-31 15:09:34.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *4
+  reset_password_token: abcdefghijklmnopqrstuvwxyz3
+  reset_password_sent_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &5 2016-03-16 19:42:53.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *5
+  roles: reviewer, code_admin
+  id: -1
+
+
 approved_user:
   email: approved@user.com
   encrypted_password: "abcdefghjklmnopqrstuvwxyz"
-  remember_created_at: 
+  remember_created_at:
   sign_in_count: 13
   current_sign_in_at: !ruby/object:ActiveSupport::TimeWithZone
     utc: &1 2016-03-18 16:25:50.000000000 Z
@@ -41,7 +77,7 @@ approved_user:
 unapproved_user:
   email: unapproved@user.com
   encrypted_password: "abcdefghjklmnopqrstuvwxyz"
-  remember_created_at: 
+  remember_created_at:
   sign_in_count: 13
   current_sign_in_at: !ruby/object:ActiveSupport::TimeWithZone
     utc: &1 2016-03-18 16:25:50.000000000 Z
@@ -73,7 +109,7 @@ unapproved_user:
 admin_user:
   email: admin@user.com
   encrypted_password: "abcdefghjklmnopqrstuvwxyz3"
-  remember_created_at: 
+  remember_created_at:
   sign_in_count: 13
   current_sign_in_at: !ruby/object:ActiveSupport::TimeWithZone
     utc: &1 2016-03-18 16:25:50.000000000 Z
@@ -106,7 +142,7 @@ admin_user:
 code_admin_user:
   email: code_admin@user.com
   encrypted_password: "abcdefghjklmnopqrstuvwxyz3"
-  remember_created_at: 
+  remember_created_at:
   sign_in_count: 13
   current_sign_in_at: !ruby/object:ActiveSupport::TimeWithZone
     utc: &1 2016-03-18 16:25:50.000000000 Z
