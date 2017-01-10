@@ -6,6 +6,19 @@
 <% else %>
   <p class="text-muted">(you have already authenticated)</p>
   <% if current_user.has_role? :admin %>
-    <%= link_to "Authenticate w/ Write Access", "https://stackexchange.com/oauth?client_id=#{@config["client_id"]}&scope=write_access,no_expiry&redirect_uri=#{@config["redirect_uri"]}", class: "btn btn-danger" %>
+    <div class="alert alert-danger">
+      <p>
+        <strong class="text-danger">Warning:</strong> Undo (<a href="http://stackoverflow.com/users/1849664/undo">this one</a>) runs this service.
+        Due to how the API operates, <strong>Undo could, theoretically, perform any action on your account</strong>. He won't, and if there's a known breach
+        we'll revoke all our access tokens, but we're human. By clicking below, you explicitly acknowledge that you're signing up for the following:
+      </p>
+      <ul>
+        <li>a service run by dogs and humans,</li>
+        <li>who are all volunteers,</li>
+        <li>with a budget of about four dollars a month</li>
+      </ul>
+      <br />
+      <%= link_to "Authenticate w/ Write Access", "https://stackexchange.com/oauth?client_id=#{@config["client_id"]}&scope=write_access,no_expiry&redirect_uri=#{@config["redirect_uri"]}", class: "btn btn-danger" %>
+    </div>
   <% end %>
 <% end %>

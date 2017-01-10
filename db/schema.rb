@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170109235002) do
+ActiveRecord::Schema.define(version: 20170110050237) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.datetime "created_at",  null: false
@@ -164,17 +164,6 @@ ActiveRecord::Schema.define(version: 20170109235002) do
     t.index ["user_id"], name: "index_ignored_users_on_user_id", using: :btree
   end
 
-  create_table "post_notes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "text"
-    t.string   "username"
-    t.integer  "user_id"
-    t.integer  "post_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["post_id"], name: "index_post_notes_on_post_id", using: :btree
-    t.index ["user_id"], name: "index_post_notes_on_user_id", using: :btree
-  end
-
   create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.string   "title"
     t.text     "body",                   limit: 16777215
@@ -270,6 +259,7 @@ ActiveRecord::Schema.define(version: 20170109235002) do
     t.integer  "smoke_detector_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.integer  "api_quota"
   end
 
   create_table "user_site_settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -320,8 +310,6 @@ ActiveRecord::Schema.define(version: 20170109235002) do
   add_foreign_key "flag_logs", "users"
   add_foreign_key "flags", "posts"
   add_foreign_key "ignored_users", "users"
-  add_foreign_key "post_notes", "posts"
-  add_foreign_key "post_notes", "users"
   add_foreign_key "smoke_detectors", "users"
   add_foreign_key "user_site_settings", "sites"
   add_foreign_key "user_site_settings", "users"

@@ -2,12 +2,13 @@
 
 <h3>Statistics for <%= @smoke_detector.location %></h3>
 
-<%= line_chart @statistics.group_by_hour(:created_at, range: 3.days.ago.to_date..Time.now).sum(:posts_scanned) %>
+<%= area_chart @statistics.group_by_hour(:created_at, range: 3.days.ago.to_date..Time.now).sum(:posts_scanned) %>
 
 <table class="table">
   <thead>
     <tr>
       <th>Posts scanned</th>
+      <th>API quota</th>
       <th>At</th>
     </tr>
   </thead>
@@ -16,7 +17,8 @@
     <% @statistics.each do |statistic| %>
       <tr>
         <td><%= statistic.posts_scanned %></td>
-        <td><%= time_ago_in_words statistic.created_at %></td>
+        <td><%= statistic.api_quota %></td>
+        <td><%= time_ago_in_words statistic.created_at %> ago</td>
       </tr>
     <% end %>
   </tbody>
