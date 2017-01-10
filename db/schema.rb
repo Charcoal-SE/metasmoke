@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170109235002) do
+ActiveRecord::Schema.define(version: 20170110050237) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.datetime "created_at",  null: false
@@ -259,6 +259,7 @@ ActiveRecord::Schema.define(version: 20170109235002) do
     t.integer  "smoke_detector_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.integer  "api_quota"
   end
 
   create_table "user_site_settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
