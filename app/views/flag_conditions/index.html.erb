@@ -1,6 +1,10 @@
-<h3>Your Flagging Conditions</h3>
-<p>These conditions are used to determine whether or not we can use your account to cast an automatic flag. This gives
-  you control over what you're comfortable flagging; if you want 99.9999% accuracy, you can ensure that here.</p>
+<% if params[:action] == "full_list" %>
+  <h3>All Flagging Conditions</h3>
+<% else %>
+  <h3>Your Flagging Conditions</h3>
+  <p>These conditions are used to determine whether or not we can use your account to cast an automatic flag. This gives
+    you control over what you're comfortable flagging; if you want 99.9999% accuracy, you can ensure that here.</p>
+<% end %>
 
 <% if @conditions.count > 0 %>
   <table class="table table-striped">
@@ -34,8 +38,10 @@
     using the link below.</p>
 <% end %>
 
-<% if FlagSetting['registration_enabled'] == '1' %>
-  <%= link_to "New condition", url_for(:controller => :flag_conditions, :action => :new) %>
-<% else %>
-  <p class="text-muted"><em>Registration for autoflagging is currently closed.</em></p>
+<% unless params[:action] == "full_list" %>
+  <% if FlagSetting['registration_enabled'] == '1' %>
+    <%= link_to "New condition", url_for(:controller => :flag_conditions, :action => :new) %>
+  <% else %>
+    <p class="text-muted"><em>Registration for autoflagging is currently closed.</em></p>
+  <% end %>
 <% end %>
