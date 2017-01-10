@@ -145,6 +145,7 @@ Rails.application.routes.draw do
     resources :user_site_settings, :path => "/preferences", :except => [:show]
 
     get 'logs', :to => 'flag_log#index'
+    get 'logs/unflagged', :to => 'flag_log#not_flagged'
 
     scope "/audits" do
       get "settings", :to => 'flag_settings#audits', :as => "flag_settings_audits"

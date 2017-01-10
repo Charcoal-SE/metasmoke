@@ -84,7 +84,8 @@
 
 <h3>Links</h3>
 <ul>
-  <li><%= link_to "Flag logs", url_for(:controller => :flag_log, :action => :index) %></li>
+  <li><%= link_to "Flag logs", url_for(:controller => :flag_log, :action => :index) %>
+    (<%= link_to "Unflagged logs", url_for(:controller => :flag_log, :action => :not_flagged) %>)</li>
   <li><%= link_to "System settings", url_for(:controller => :flag_settings, :action => :index) %></li>
   <li><%= link_to "Your preferences", url_for(:controller => :user_site_settings, :action => :index) %></li>
   <li><%= link_to "Your conditions", url_for(:controller => :flag_conditions, :action => :index) %></li>

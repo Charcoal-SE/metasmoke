@@ -86,10 +86,10 @@ class User < ApplicationRecord
       if flag_response.include? "error_id" or flag_response.include? "error_message"
         return false, flag_response['error_message']
       else
-        return true, nil
+        return true, (flag_response.include?("backoff") ? flag_response['backoff'] : 0)
       end
     else
-      return true, nil
+      return true, 0
     end
   end
 end
