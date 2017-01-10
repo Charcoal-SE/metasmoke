@@ -2,7 +2,7 @@
 
 <h3>Statistics for <%= @smoke_detector.location %></h3>
 
-<%= line_chart @statistics.group_by_hour(:created_at, range: 3.days.ago.to_date..Time.now).sum(:posts_scanned) %>
+<%= area_chart @statistics.group_by_hour(:created_at, range: 3.days.ago.to_date..Time.now).sum(:posts_scanned) %>
 
 <table class="table">
   <thead>
