@@ -11,6 +11,11 @@ class StatisticsController < ApplicationController
   # POST /statistics.json
   def create
     @statistic = Statistic.new(statistic_params)
+
+    if @statistic.posts_scanned == 0 or @statistic.api_quota == -1
+      render plain: "OK", status: :created and return
+    end
+
     @statistic.smoke_detector = @smoke_detector
 
     respond_to do |format|
