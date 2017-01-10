@@ -14,7 +14,7 @@
       can in some cases result in your SE account being suspended. Only tick the box if you are happy with this responsibility.
     </p>
     <hr/>
-    <input id="red-button" name="red-button" type="checkbox" <%= "checked" if current_user.flags_enabled %> <%= "disabled" if FlagSetting["registration_enabled"] == "0" and not current_user.flags_enabled %> />
+    <input id="red-button" name="red-button" type="checkbox" <%= "checked" if current_user.flags_enabled %> <%= "disabled" if (FlagSetting["registration_enabled"] == "0" || !current_user.has_role?(:flagger)) and not current_user.flags_enabled %> />
     <label for="red-button">Use my account to cast flags automatically</label>
     <% if FlagSetting["registration_enabled"] == "0" and not current_user.flags_enabled %>
       <p class="text-muted">Registration is currently disabled.</p>

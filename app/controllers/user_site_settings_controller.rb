@@ -14,7 +14,7 @@ class UserSiteSettingsController < ApplicationController
   end
 
   def enable_flagging
-    if FlagSetting["registration_enabled"] == "0" and not current_user.flags_enabled
+    if (FlagSetting["registration_enabled"] == "0" || !current_user.has_role?(:flagger)) and not current_user.flags_enabled
       render :json => { :status => "nope" }, :status => 500
       return
     end
