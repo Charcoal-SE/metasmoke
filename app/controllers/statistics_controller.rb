@@ -5,12 +5,17 @@ class StatisticsController < ApplicationController
   # GET /statistics
   def index
     @smoke_detector = SmokeDetector.find(params[:id])
-    @statistics = @smoke_detector.statistics
+    @statistics = @smoke_detector.statistics.paginate(:page => params[:page], :per_page => 100).order('created_at DESC')
   end
 
   # POST /statistics.json
   def create
     @statistic = Statistic.new(statistic_params)
+
+    if @statistic.posts_scanned == 0 or @statistic.api_quota == -1
+      render plain: "OK", status: :created and return
+    end
+
     @statistic.smoke_detector = @smoke_detector
 
     respond_to do |format|
