@@ -10,6 +10,6 @@ class FlagLogController < ApplicationController
   end
 
   def not_flagged
-    @posts = Post.left_joins(:flag_logs).where(:flag_logs => { :id => nil }).paginate(:page => params[:page], :per_page => 100)
+    @posts = Post.left_joins(:flag_logs).where(:flag_logs => { :id => nil }).order(:created_at => :desc).paginate(:page => params[:page], :per_page => 100)
   end
 end
