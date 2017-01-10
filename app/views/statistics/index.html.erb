@@ -8,6 +8,7 @@
   <thead>
     <tr>
       <th>Posts scanned</th>
+      <th>API quota</th>
       <th>At</th>
     </tr>
   </thead>
@@ -16,7 +17,8 @@
     <% @statistics.each do |statistic| %>
       <tr>
         <td><%= statistic.posts_scanned %></td>
-        <td><%= time_ago_in_words statistic.created_at %></td>
+        <td><%= statistic.api_quota %></td>
+        <td><%= time_ago_in_words statistic.created_at %> ago</td>
       </tr>
     <% end %>
   </tbody>
