@@ -1,4 +1,6 @@
 class SmokeDetector < ApplicationRecord
+  audited :on => [:destroy]
+
   belongs_to :user
   has_many :statistics
 

@@ -1,0 +1,19 @@
+<h3>SmokeDetectors Audit</h3>
+
+<table class="table">
+  <tr>
+    <th>User</th>
+    <th>Action</th>
+    <th>Location</th>
+    <th>At</th>
+  </tr>
+
+  <% @audits.each do |audit| %>
+      <tr>
+        <td><%= audit.user.try(:username) %></td>
+        <td><%= audit.action %></td>
+        <td><code><%= audit.audited_changes['location'] %></code></td>
+        <td><span data-livestamp="<%= audit.created_at.to_i %>" title="<%= audit.created_at %>"></span></td>
+      </tr>
+  <% end %>
+</table>
