@@ -2,7 +2,10 @@
 
 <h3>Statistics for <%= @smoke_detector.location %></h3>
 
-<%= area_chart @smoke_detector.statistics.group_by_hour(:created_at, range: 3.days.ago.to_date..Time.now).sum(:posts_scanned) %>
+<%= line_chart [
+      {name: 'Posts scanned', data: @smoke_detector.statistics.group_by_hour(:created_at, range: 3.days.ago.to_date..Time.now).sum(:posts_scanned)},
+      {name: 'Quota remaining', data: @smoke_detector.statistics.group_by_hour(:created_at, range: 3.days.ago.to_date..Time.now).maximum(:api_quota)}
+    ], colors: ['#76ADE1', '#e0a976'] %>
 
 <table class="table">
   <thead>
