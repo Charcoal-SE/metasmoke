@@ -1,11 +1,7 @@
 class MicroAuthController < ApplicationController
   before_action :authenticate_user!, :except => [:token]
   before_action :verify_key, :except => [:invalid_key, :authorized]
-<<<<<<< HEAD
-=======
   before_action :set_token, :only => [:authorized]
-  before_action :verify_access, :only => [:authorized]
->>>>>>> 46efa0535a1fc78adb4f5158bbac28b95ab0de82
 
   def token_request
   end
@@ -55,15 +51,8 @@ class MicroAuthController < ApplicationController
         render :invalid_key, :status => 400 and return
       end
     end
-<<<<<<< HEAD
-=======
 
     def set_token
       @token = ApiToken.find params[:token_id]
     end
-
-    def verify_access
-      current_user.has_role?(:developer) || current_user == @token.user
-    end
->>>>>>> 46efa0535a1fc78adb4f5158bbac28b95ab0de82
 end
