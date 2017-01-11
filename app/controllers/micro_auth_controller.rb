@@ -1,6 +1,7 @@
 class MicroAuthController < ApplicationController
   before_action :authenticate_user!, :except => [:token]
   before_action :verify_key, :except => [:invalid_key, :authorized]
+  before_action :set_token, :only => [:authorized]
   before_action :verify_access, :only => [:authorized]
 
   def token_request
@@ -17,7 +18,6 @@ class MicroAuthController < ApplicationController
   end
 
   def authorized
-    @token = ApiToken.find params[:token_id]
   end
 
   def reject
@@ -49,7 +49,11 @@ class MicroAuthController < ApplicationController
       end
     end
 
-  def verify_access
-    current_user.has_role?(:developer) || current_user == @token.user
-  end
+    def set_token
+      @token = ApiToken.find params[:token_id]
+    end
+
+    def verify_access
+      current_user.has_role?(:developer) || current_user == @token.user
+    end
 end
