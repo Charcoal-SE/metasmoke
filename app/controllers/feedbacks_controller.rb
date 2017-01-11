@@ -5,12 +5,6 @@ class FeedbacksController < ApplicationController
 
   protect_from_forgery :except => [:create]
 
-  # GET /feedbacks
-  # GET /feedbacks.json
-  def index
-    @feedbacks = Feedback.all
-  end
-
   def clear
     @post = Post.find(params[:id])
     @feedbacks = Feedback.unscoped.where(:post_id => params[:id])
