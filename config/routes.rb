@@ -28,6 +28,8 @@ Rails.application.routes.draw do
 
   get "status", to: "status#index"
   get "smoke_detector/:id/statistics", to: "statistics#index", as: :smoke_detector_statistics
+  delete 'smoke_detector/:id', :to => 'smoke_detectors#destroy'
+  get 'smoke_detector/audits', :to => 'smoke_detectors#audits'
   post "statistics.json", to: "statistics#create"
 
   get "users", to: 'admin#users'

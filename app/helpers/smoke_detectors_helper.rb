@@ -1,0 +1,2 @@
+module SmokeDetectorsHelper
+end
