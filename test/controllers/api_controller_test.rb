@@ -16,6 +16,7 @@ class ApiControllerTest < ActionController::TestCase
     assert_nothing_raised do
       JSON.parse(@response.body)
     end
+    assert Feedback.via_api.pluck(:id).include? assigns(:feedback).id
     assert_response(201)
   end
 
