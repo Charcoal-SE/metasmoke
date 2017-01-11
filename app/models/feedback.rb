@@ -1,10 +1,13 @@
 class Feedback < ApplicationRecord
   default_scope { where(is_invalidated: false, is_ignored: false) }
+  scope :ignored, -> { unscoped.where(:is_ignored => true) }
+  scope :invalid, -> { unscoped.where(:is_invalidated => true) }
+  scope :via_api, -> { unscoped.where.not(:api_key => nil) }
 
   belongs_to :post
   belongs_to :user
   belongs_to :api_key
-  
+
   before_save :check_for_dupe_feedback
   before_save :check_for_user_assoc
 
@@ -30,19 +33,6 @@ class Feedback < ApplicationRecord
   def is_naa?
     self.feedback_type.include? "naa"
   end
-
-  def self.ignored
-    self.unscoped.where(:is_ignored => true)
-  end
-
-  def self.invalid
-    self.unscoped.where(:is_invalidated => true)
-  end
-  
-  def self.via_api
-    self.unscoped.where.not(:api_key => nil)
-  end
-
 
   def update_post_feedback_cache
     if self.changed?
@@ -81,7 +71,7 @@ class Feedback < ApplicationRecord
   def select_without_nil
     select(Feedback.attribute_names - ['message_link'])
   end
-  
+
   private
     def check_for_dupe_feedback
       duplicate = if self.user_id.present?
