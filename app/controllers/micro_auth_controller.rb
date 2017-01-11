@@ -1,6 +1,7 @@
 class MicroAuthController < ApplicationController
   before_action :authenticate_user!, :except => [:token]
   before_action :verify_key, :except => [:invalid_key, :authorized]
+  before_action :verify_access, :only => [:authorized]
 
   def token_request
   end
@@ -47,4 +48,8 @@ class MicroAuthController < ApplicationController
         render :invalid_key, :status => 400 and return
       end
     end
+
+  def verify_access
+    current_user.has_role?(:developer) || current_user == @token.user
+  end
 end
