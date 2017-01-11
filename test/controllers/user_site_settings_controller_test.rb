@@ -27,6 +27,7 @@ class UserSiteSettingsControllerTest < ActionController::TestCase
 
   test "should enable flagging" do
     sign_in users(:approved_user)
+    users(:approved_user).add_role :flagger
     post :enable_flagging, :params => { :enable => true }
 
     assert_equal "ok", JSON.parse(response.body)['status']

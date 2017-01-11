@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170110050237) do
+ActiveRecord::Schema.define(version: 20170110234842) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.datetime "created_at",  null: false
@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(version: 20170110050237) do
   end
 
   create_table "flag_conditions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.boolean  "flags_enabled"
+    t.boolean  "flags_enabled",    default: true
     t.integer  "min_weight"
     t.integer  "max_poster_rep"
     t.integer  "min_reason_count"

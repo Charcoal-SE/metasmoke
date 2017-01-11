@@ -12,6 +12,7 @@ class FlagConditionsController < ApplicationController
 
   def full_list
     @conditions = FlagCondition.all
+    render :index
   end
 
   def new
@@ -28,6 +29,20 @@ class FlagConditionsController < ApplicationController
       redirect_to url_for(:controller => :flag_conditions, :action => :index)
     else
       render :new
+    end
+  end
+
+  # PATCH /flagging/conditions/:id/toggle
+  def enable
+    @condition = FlagCondition.find(params[:id])
+
+    return unless current_user.has_role? :admin or @condition.user == current_user
+
+    @condition.flags_enabled = !@condition.flags_enabled
+
+    if @condition.save
+      flash[:success] = "#{@condition.flags_enabled ? 'Enabled' : 'Disabled'} condition."
+      redirect_to url_for(:controller => :flag_conditions, :action => :index)
     end
   end
 

@@ -1,10 +1,13 @@
 class Feedback < ApplicationRecord
   default_scope { where(is_invalidated: false, is_ignored: false) }
+  scope :ignored, -> { unscoped.where(:is_ignored => true) }
+  scope :invalid, -> { unscoped.where(:is_invalidated => true) }
+  scope :via_api, -> { unscoped.where.not(:api_key => nil) }
 
   belongs_to :post
   belongs_to :user
   belongs_to :api_key
-  
+
   before_save :check_for_dupe_feedback
   before_save :check_for_user_assoc
 
@@ -31,19 +34,6 @@ class Feedback < ApplicationRecord
     self.feedback_type.include? "naa"
   end
 
-  def self.ignored
-    self.unscoped.where(:is_ignored => true)
-  end
-
-  def self.invalid
-    self.unscoped.where(:is_invalidated => true)
-  end
-  
-  def self.via_api
-    self.unscoped.where.not(:api_key => nil)
-  end
-
-
   def update_post_feedback_cache
     if self.changed?
       return self.post.reload.update_feedback_cache # Returns whether the post feedback cache has been changed
@@ -51,37 +41,10 @@ class Feedback < ApplicationRecord
     return false
   end
 
-  # This is a really ugly way to do this, but it's fast and slightly
-  # less ugly than the alternatives I can come up with
-
-  def element_class
-    case
-      when self.is_negative?
-        "text-danger"
-      when self.is_positive?
-        "text-success"
-      else
-        ""
-    end
-  end
-
-  def element_symbol
-    case
-      when self.is_negative?
-        "&#x2717;"
-      when self.is_positive?
-        "&#x2713;"
-      when self.is_naa?
-        "&#128169;"
-      else
-        ""
-    end
-  end
-
   def select_without_nil
     select(Feedback.attribute_names - ['message_link'])
   end
-  
+
   private
     def check_for_dupe_feedback
       duplicate = if self.user_id.present?

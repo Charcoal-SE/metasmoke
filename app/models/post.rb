@@ -18,7 +18,7 @@ class Post < ApplicationRecord
       post = self
       Thread.new do
         begin
-          conditions = post.site.flag_conditions
+          conditions = post.site.flag_conditions.where(:flags_enabled => true)
           available_user_ids = {}
           conditions.each do |condition|
             if condition.validate!(post)
