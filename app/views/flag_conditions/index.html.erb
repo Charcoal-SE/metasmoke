@@ -11,6 +11,7 @@
     <thead>
       <tr>
         <th class="text-muted">ID</th>
+        <th>Enabled</th>
         <th>Minimum Weight</th>
         <th>Maximum Poster Rep</th>
         <th>Minimum Reason Count</th>
@@ -22,6 +23,12 @@
       <% @conditions.each do |condition| %>
         <tr>
           <td class="text-muted"><%= condition.id %></td>
+          <td class="text-<%= condition.flags_enabled ? 'success' : 'danger' %>">
+            <%= condition.flags_enabled ? 'Enabled' : 'Disabled' %>
+            <% if params[:action] == 'index' %>
+              <%= link_to condition.flags_enabled ? '(disable)' : '(enable)', flag_conditions_enable_path(condition.id), :method => :patch %>
+            <% end %>
+          </td>
           <td><%= condition.min_weight %></td>
           <td><%= condition.max_poster_rep %></td>
           <td><%= condition.min_reason_count %></td>
