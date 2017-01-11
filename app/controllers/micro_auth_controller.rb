@@ -1,7 +1,6 @@
 class MicroAuthController < ApplicationController
   before_action :authenticate_user!, :except => [:token]
   before_action :verify_key, :except => [:invalid_key, :authorized]
-  before_action :verify_access, :only => [:authorized]
 
   def token_request
   end
@@ -18,6 +17,9 @@ class MicroAuthController < ApplicationController
 
   def authorized
     @token = ApiToken.find params[:token_id]
+    unless current_user.has_role?(:developer) || current_user == @token.user
+      raise ActionController::RoutingError.new('https://www.youtube.com/watch?v=6_b7RDuLwcI')
+    end
   end
 
   def reject
@@ -48,8 +50,4 @@ class MicroAuthController < ApplicationController
         render :invalid_key, :status => 400 and return
       end
     end
-
-  def verify_access
-    current_user.has_role?(:developer) || current_user == @token.user
-  end
 end
