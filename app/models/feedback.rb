@@ -41,33 +41,6 @@ class Feedback < ApplicationRecord
     return false
   end
 
-  # This is a really ugly way to do this, but it's fast and slightly
-  # less ugly than the alternatives I can come up with
-
-  def element_class
-    case
-      when self.is_negative?
-        "text-danger"
-      when self.is_positive?
-        "text-success"
-      else
-        ""
-    end
-  end
-
-  def element_symbol
-    case
-      when self.is_negative?
-        "&#x2717;"
-      when self.is_positive?
-        "&#x2713;"
-      when self.is_naa?
-        "&#128169;"
-      else
-        ""
-    end
-  end
-
   def select_without_nil
     select(Feedback.attribute_names - ['message_link'])
   end

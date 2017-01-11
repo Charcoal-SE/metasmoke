@@ -20,7 +20,7 @@
             <em>Nobody. Um.</em>
           <% end %>
         </td>
-        <td class="<%= f.element_class %>"><%= f.feedback_type %></td>
+        <td class="<%= element_class_for_feedback f %>"><%= f.feedback_type %></td>
         <td><%= link_to truncate(f.post.title, :length => 50, :separator => ' '), "/post/" + f.post_id.to_s %></td>
         <td><%= f.api_key.app_name %></td>
         <td><%= time_ago_in_words(f.created_at) %> ago</td>
