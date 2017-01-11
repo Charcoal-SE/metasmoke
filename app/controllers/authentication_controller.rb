@@ -35,7 +35,13 @@ class AuthenticationController < ApplicationController
     rescue
     end
 
+    # temporarily disable SQL logging. http://stackoverflow.com/a/7760140/1849664
+    old_logger = ActiveRecord::Base.logger
+    ActiveRecord::Base.logger = nil
+
     current_user.save!
+
+    ActiveRecord::Base.logger = old_logger
 
     redirect_to authentication_status_path
   end
