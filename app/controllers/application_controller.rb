@@ -43,6 +43,12 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def verify_flagger
+      if !user_signed_in? || !current_user.has_role?(:flagger)
+        raise ActionController::RoutingError.new('Not Found') and return
+      end
+    end
+
     def configure_permitted_parameters
       devise_parameter_sanitizer.permit(:sign_up, keys: [:username])
     end

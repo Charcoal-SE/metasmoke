@@ -1,13 +1,18 @@
 class FlagConditionsController < ApplicationController
   before_action :authenticate_user!
   before_action :verify_admin, :only => [:full_list]
-  before_action :set_condition, :only => [:edit, :update, :destroy]
-  before_action :verify_authorized, :only => [:edit, :update, :destroy]
+  before_action :set_condition, :only => [:edit, :update, :destroy, :enable]
+  before_action :verify_authorized, :only => [:edit, :update, :destroy, :enable]
   before_action :check_registration_status, :only => [:new]
   before_action :set_preview_data, :only => [:new, :edit, :preview]
+  before_action :verify_flagger, :only => [:sandbox]
 
   def index
     @conditions = current_user.flag_conditions
+  end
+
+  def sandbox
+    @condition = FlagCondition.new
   end
 
   def full_list
@@ -34,10 +39,6 @@ class FlagConditionsController < ApplicationController
 
   # PATCH /flagging/conditions/:id/toggle
   def enable
-    @condition = FlagCondition.find(params[:id])
-
-    return unless current_user.has_role? :admin or @condition.user == current_user
-
     @condition.flags_enabled = !@condition.flags_enabled
 
     if @condition.save

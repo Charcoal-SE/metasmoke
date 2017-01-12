@@ -138,6 +138,7 @@ Rails.application.routes.draw do
 
     get 'conditions/all', :to => 'flag_conditions#full_list'
     get 'conditions/preview', :to => 'flag_conditions#preview'
+    get 'conditions/sandbox', :to => 'flag_conditions#sandbox'
     resources :flag_conditions, :path => "/conditions", :except => [:show]
     patch 'conditions/:id/enable', :to => "flag_conditions#enable", :as => :flag_conditions_enable
 
