@@ -6,7 +6,10 @@
 </h3>
 
 <% if @individual_post.nil? %>
-  <%= line_chart FlagLog.group_by_day(:created_at, :range => 1.month.ago.to_date..Time.now).count %>
+  <%= line_chart [
+        {name: 'Flags', data: FlagLog.group_by_day(:created_at, :range => 1.month.ago.to_date..Time.now).count},
+        {name: 'Posts', data: FlagLog.select('DISTINCT post_id').group_by_day(:created_at, :range => 1.month.ago.to_date..Time.now).count}
+      ], colors: ['#76ADE1', '#e0a976'] %>
 <% end %>
 
 <table class="table">
