@@ -4,7 +4,7 @@
 
 <%= line_chart [
       {name: 'Posts scanned', data: @smoke_detector.statistics.group_by_hour(:created_at, range: 3.days.ago.to_date..Time.now).sum(:posts_scanned)},
-      {name: 'Quota remaining', data: @smoke_detector.statistics.group_by_hour(:created_at, range: 3.days.ago.to_date..Time.now).maximum(:api_quota)}
+      {name: 'Quota remaining', data:  @smoke_detector.statistics.where(:created_at => 3.days.ago.to_date..Time.now).where.not(:api_quota => -1).select(:created_at, :api_quota).map {|s| [s.created_at, s.api_quota]}.to_h}
     ], colors: ['#76ADE1', '#e0a976'] %>
 
 <table class="table">
