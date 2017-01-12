@@ -13,7 +13,11 @@ module ReasonsHelper
 
   def self.calculate_weights_for_flagging
     Reason.all.each do |reason|
-      reason.update(:weight => reason.tp_percentage * 100)
+      if reason.posts.count > 20
+        reason.update(:weight => reason.tp_percentage * 100)
+      else
+        reason.update(:weight => 0)
+      end
     end
   end
 end
