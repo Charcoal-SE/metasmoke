@@ -5,11 +5,11 @@ one:
   min_weight: 1
   max_poster_rep: 1
   min_reason_count: 1
-  user: one
+  user: approved_user
 
 two:
   flags_enabled: false
   min_weight: 1
   max_poster_rep: 1
   min_reason_count: 1
-  user: two
+  user: approved_user

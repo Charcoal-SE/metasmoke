@@ -1,3 +1,5 @@
+<% exclude_save = false if exclude_save.nil? %>
+
 <%= form_for @condition do |f| %>
   <div class="field">
     <%= f.label :min_weight, "Minimum Weight" %><br/>

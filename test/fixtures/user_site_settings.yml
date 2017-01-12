@@ -3,11 +3,11 @@
 one:
   max_flags: 1
   flags_used: 1
-  user: one
+  user: approved_user
   sites: one
 
 two:
   max_flags: 1
   flags_used: 1
-  user: two
+  user: approved_user
   sites: two
