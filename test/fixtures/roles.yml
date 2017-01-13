@@ -37,3 +37,15 @@ code_admin:
       name: Etc/UTC
     time: *2
 
+flagger:
+  name: flagger
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-10-12 17:06:30.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-10-12 17:06:30.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
