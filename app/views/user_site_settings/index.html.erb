@@ -42,7 +42,7 @@
         <td class="text-muted"><%= pref.id %></td>
         <td><%= pref.sites.count %></td>
         <td><%= pref.max_flags %></td>
-        <td><%= pref.flags_used %></td>
+        <td><%= FlagLog.where(:user => current_user, :site => pref.sites, :success => true, :is_dry_run => false).where('created_at > ?', 1.day.ago).count %></td>
         <td><%= link_to "Edit", url_for(:controller => :user_site_settings, :action => :edit, :id => pref.id) %></td>
         <td><%= link_to "Delete", url_for(:controller => :user_site_settings, :action => :destroy, :id => pref.id),
                         :method => :delete, :data => { :confirm => "Are you sure?" }, :class => "text-danger" %></td>
