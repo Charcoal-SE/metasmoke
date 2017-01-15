@@ -7,10 +7,22 @@
   <%= line_chart reason_accuracy_chart_path(@reason.id), colors: ["green", "red"], library: {"tooltip" => {'shared' => 'true'} } %>
 </div>
 
+<ul class="nav nav-tabs">
+  <li class="<%= 'active' if params[:filter].nil? or params[:filter] == 'all' %>">
+    <%= link_to "All (#{@counts_by_accuracy_group.values.sum})", reason_path(@reason, :filter => nil) %>
+  </li>
+  <li class="<%= 'active' if params[:filter] == 'tp' %>">
+    <%= link_to "True positives (#{@counts_by_feedback[:is_tp]})", reason_path(@reason, :filter => 'tp') %>
+  </li>
+  <li class="<%= 'active' if params[:filter] == 'fp' %>">
+    <%= link_to "False positives (#{@counts_by_feedback[:is_fp]})", reason_path(@reason, :filter => 'fp') %>
+  </li>
+  <li class="<%= 'active' if params[:filter] == 'naa' %>">
+    <%= link_to "NAA (#{@counts_by_feedback[:is_naa]})", reason_path(@reason, :filter => 'naa') %>
+  </li>
+</ul>
+
 <table class="table table-striped">
-  <thead>
-    <th>Title</th>
-  </thead>
   <tbody>
     <% @posts.sort { |a,b| b.id <=> a.id }.each do |post| %>
       <%= render "posts/post", :post => post %>

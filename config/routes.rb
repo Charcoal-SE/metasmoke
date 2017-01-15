@@ -80,7 +80,7 @@ Rails.application.routes.draw do
 
   get "dashboard", to: "dashboard#index"
 
-  get "reason/:id", to: "reasons#show"
+  get "reason/:id", to: "reasons#show", as: :reason
   get "reason/:id/site_chart", to: "reasons#sites_chart", as: :reason_site_chart
   get "reason/:id/accuracy_chart", to: "reasons#accuracy_chart", as: :reason_accuracy_chart
 
