@@ -30,6 +30,6 @@ class StatisticsController < ApplicationController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def statistic_params
-      params.require(:statistic).permit(:posts_scanned, :api_quota)
+      params.require(:statistic).permit(:posts_scanned, :api_quota, :post_scan_rate)
     end
 end
