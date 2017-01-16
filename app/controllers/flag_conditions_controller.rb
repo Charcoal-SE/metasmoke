@@ -16,7 +16,7 @@ class FlagConditionsController < ApplicationController
   end
 
   def full_list
-    @conditions = FlagCondition.all
+    @conditions = FlagCondition.all.includes(:user)
     render :index
   end
 

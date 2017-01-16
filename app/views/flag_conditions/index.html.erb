@@ -11,6 +11,9 @@
     <thead>
       <tr>
         <th class="text-muted">ID</th>
+        <% if params[:action] == "full_list" %>
+          <th>User</th>
+        <% end %>
         <th>Enabled</th>
         <th>Minimum Weight</th>
         <th>Maximum Poster Rep</th>
@@ -23,6 +26,9 @@
       <% @conditions.each do |condition| %>
         <tr>
           <td class="text-muted"><%= condition.id %></td>
+          <% if params[:action] == "full_list" %>
+            <td><%= condition.user.username %></td>
+          <% end %>
           <td class="text-<%= condition.flags_enabled ? 'success' : 'danger' %>">
             <%= condition.flags_enabled ? 'Enabled' : 'Disabled' %>
             <% if params[:action] == 'index' %>
