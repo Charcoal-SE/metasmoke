@@ -14,10 +14,14 @@
       can in some cases result in your SE account being suspended. Only tick the box if you are happy with this responsibility.
     </p>
     <hr/>
-    <input id="red-button" name="red-button" type="checkbox" <%= "checked" if current_user.flags_enabled %> <%= "disabled" if (FlagSetting["registration_enabled"] == "0" || !current_user.has_role?(:flagger)) and not current_user.flags_enabled %> />
-    <label for="red-button">Use my account to cast flags automatically</label>
-    <% if FlagSetting["registration_enabled"] == "0" and not current_user.flags_enabled %>
-      <p class="text-muted">Registration is currently disabled.</p>
+    <% if current_user.api_token.nil? %>
+      <p class="text-info">You need to authenticate for write access first; <%= link_to "you can do that here", url_for(:controller => :authentication, :action => :status) %>.</p>
+    <% else %>
+      <input id="red-button" name="red-button" type="checkbox" <%= "checked" if current_user.flags_enabled %> <%= "disabled" if (FlagSetting["registration_enabled"] == "0" || !current_user.has_role?(:flagger)) and not current_user.flags_enabled %> />
+      <label for="red-button">Use my account to cast flags automatically</label>
+      <% if FlagSetting["registration_enabled"] == "0" and not current_user.flags_enabled %>
+        <p class="text-muted">Registration is currently disabled.</p>
+      <% end %>
     <% end %>
     <hr/>
     If you're trying to get started with autoflags for the first time, you'll also need to set up your preferences (which govern how many of your
