@@ -5,7 +5,7 @@
   <%= link_to "Authenticate", "https://stackexchange.com/oauth?client_id=#{@config["client_id"]}&scope=&redirect_uri=#{@config["redirect_uri"]}", class: "btn btn-success" %>
 <% else %>
   <p class="text-muted">(you have already authenticated)</p>
-  <% if current_user.has_role? :admin %>
+  <% if current_user.has_role? :flagger %>
     <div class="alert alert-danger">
       <p>
         <strong class="text-danger">Warning:</strong> Undo (<a href="http://stackoverflow.com/users/1849664/undo">this one</a>) runs this service.
