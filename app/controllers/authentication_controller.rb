@@ -19,15 +19,14 @@ class AuthenticationController < ApplicationController
     token = nil
 
     begin
-      token = resp.body.scan(/access_token=(.*)&/).first.first
+      token = resp.body.scan(/access_token=(.*)&?/).first.first
     rescue
 
     end
 
-    puts access_token_info = JSON.parse(open("https://api.stackexchange.com/2.2/access-tokens/#{token}?key=#{config["key"]}").read)["items"][0]
+    access_token_info = JSON.parse(open("https://api.stackexchange.com/2.2/access-tokens/#{token}?key=#{config["key"]}").read)["items"][0]
 
-    puts current_user.stack_exchange_account_id = access_token_info["account_id"]
-
+    current_user.stack_exchange_account_id = access_token_info["account_id"]
     current_user.update_chat_ids
 
     begin
