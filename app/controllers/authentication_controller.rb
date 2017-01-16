@@ -42,6 +42,8 @@ class AuthenticationController < ApplicationController
 
     ActiveRecord::Base.logger = old_logger
 
+    flash[:success] = "Successfully registered #{'write' if current_user.api_token.present?} token"
+
     redirect_to authentication_status_path
   end
 end
