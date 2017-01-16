@@ -12,7 +12,7 @@ class FlagConditionsController < ApplicationController
   end
 
   def sandbox
-    @condition = FlagCondition.new
+    @condition = FlagCondition.new(:site_ids => Site.mains.map(&:id))
   end
 
   def full_list
@@ -21,7 +21,7 @@ class FlagConditionsController < ApplicationController
   end
 
   def new
-    @condition = FlagCondition.new
+    @condition = FlagCondition.new(:site_ids => Site.mains.map(&:id))
   end
 
   def create
