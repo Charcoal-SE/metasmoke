@@ -18,7 +18,7 @@
 
   <div class="field">
     <%= f.label :sites %> <em>(the sites this condition applies to)</em><br/>
-    <%= f.select :sites, options_for_select(Site.mains.map{ |s| [s.site_name, s.id] }), {}, { :multiple => true, :class => "form-control" } %>
+    <%= f.select :sites, options_for_select(Site.mains.map{ |s| [s.site_name, s.id] }, @condition.site_ids), {}, { :multiple => true, :class => "form-control" } %>
   </div><br/>
 
   <div class="actions">
