@@ -7,12 +7,17 @@ class MicroAuthController < ApplicationController
   end
 
   def authorize
+    unless current_user.has_role?(:reviewer)
+      flash[:danger] = "Your account is not approved to use the write API."
+      redirect_to url_for(:controller => :micro_auth, :action => :token_request) and return
+    end
+
     @token = ApiToken.new(:user => current_user, :api_key => @api_key, :code => generate_code(7), :token => generate_code(64), :expiry => 10.minutes.from_now)
     if @token.save
       redirect_to url_for(:controller => :micro_auth, :action => :authorized, :code => @token.code, :token_id => @token.id)
     else
       flash[:danger] = "Can't create a write token right now - ask an admin to look at the server logs."
-      redirect_to url_for(:controller => :micro_auth, :action => :token_request) and return
+      redirect_to url_for(:controller => :micro_auth, :action => :token_request)
     end
   end
 
