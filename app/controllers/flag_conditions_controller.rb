@@ -5,7 +5,7 @@ class FlagConditionsController < ApplicationController
   before_action :verify_authorized, :only => [:edit, :update, :destroy, :enable]
   before_action :check_registration_status, :only => [:new]
   before_action :set_preview_data, :only => [:new, :edit, :preview]
-  before_action :verify_flagger, :only => [:sandbox]
+  before_action :verify_reviewer, :only => [:sandbox]
 
   def index
     @conditions = current_user.flag_conditions
