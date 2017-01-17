@@ -42,7 +42,7 @@ class Post < ApplicationRecord
           if post.revision_count == 1
             users.shuffle.each do |user|
               last_log = FlagLog.where(:user => user).last
-              if last_log.backoff.present? && (last_log.created_at + last_log.backoff.seconds > Time.now)
+              if last_log.try(:backoff).present? && (last_log.created_at + last_log.backoff.seconds > Time.now)
                 sleep((last_log.created_at + last_log.backoff.seconds) - Time.now)
               end
 
