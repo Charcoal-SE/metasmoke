@@ -20,6 +20,8 @@ $(document).on('turbolinks:load', function() {
 
   $('.sortable-table').tablesort();
 
+  $('.selectpicker').selectpicker();
+
   $(".admin-report").click(function(ev) {
     ev.preventDefault();
     var reason = prompt("Why does this post need admin attention?");
