@@ -71,8 +71,21 @@
 
 <% if @results.present? %>
   <ul class="nav nav-tabs">
-    <li role="presentation" class="<%= "active" if params[:option].nil? %>"><%= link_to "Results (#{@results.count})", search_path(request.query_parameters.merge({:option => nil})) %></li>
-    <li role="presentation" class="<%= "active" if params[:option] == "graphs" %>"><%= link_to "Graphs", search_path(request.query_parameters.to_h.merge({option: "graphs", anchor: "graphs"})) %></li>
+    <li role="presentation" class="<%= "active" if params[:option].nil? and (params[:feedback_filter].nil? or params[:feedback_filter] == 'all') %>">
+      <%= link_to "Results (#{@counts_by_accuracy_group.values.sum})", search_path(request.query_parameters.merge!({:option => nil, feedback_filter: nil})) %>
+    </li>
+    <li class="<%= 'active' if params[:feedback_filter] == 'tp' %>">
+      <%= link_to "True positives (#{@counts_by_feedback[:is_tp]})", search_path(request.query_parameters.to_h.merge!({option: nil, feedback_filter: "tp"})) %>
+    </li>
+    <li class="<%= 'active' if params[:feedback_filter] == 'fp' %>">
+      <%= link_to "False positives (#{@counts_by_feedback[:is_fp]})", search_path(request.query_parameters.to_h.merge!({option: nil, feedback_filter: "fp"})) %>
+    </li>
+    <li class="<%= 'active' if params[:feedback_filter] == 'naa' %>">
+      <%= link_to "NAA (#{@counts_by_feedback[:is_naa]})", search_path(request.query_parameters.to_h.merge!({:option => nil, :feedback_filter => "naa"})) %>
+    </li>
+    <li role="presentation" class="<%= "active" if params[:option] == "graphs" %>">
+      <%= link_to "Graphs", search_path(request.query_parameters.to_h.merge({option: "graphs", anchor: "graphs"})) %>
+    </li>
   </ul>
 
   <% if params[:option].nil? %>

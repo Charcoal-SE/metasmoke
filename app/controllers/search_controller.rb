@@ -63,6 +63,20 @@ class SearchController < ApplicationController
 
   respond_to do |format|
       format.html {
+        @counts_by_accuracy_group = @results.group(:is_tp, :is_fp, :is_naa).count
+        @counts_by_feedback = [:is_tp, :is_fp, :is_naa].each_with_index.map do |symbol, i|
+          [symbol, @counts_by_accuracy_group.select { |k, v| k[i] }.values.sum]
+        end.to_h
+
+        case params[:feedback_filter]
+        when 'tp'
+          @results = @results.where(:is_tp => true)
+        when 'fp'
+          @results = @results.where(:is_fp => true)
+        when 'naa'
+          @results = @results.where(:is_naa => true)
+        end
+
         @sites = Site.where(:id => @results.map(&:site_id)).to_a unless params[:option] == "graphs"
         render :search
       }
