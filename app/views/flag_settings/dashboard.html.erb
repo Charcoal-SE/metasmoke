@@ -58,7 +58,11 @@
         <h4 class="module-title"><span class="glyphicon glyphicon-stats"></span> last 24 hours</h4>
       </div>
       <div class="module-body">
-        <p><strong><%= @recent_count %></strong> flags cast</p>
+        <p>
+          <%= link_to flag_logs_path do %>
+            <strong><%= @recent_count %></strong> flags cast
+          <% end %>
+        </p>
       </div>
     </div>
   </div>
@@ -70,7 +74,9 @@
       <div class="module-body">
         <% if user_signed_in? %>
           <% if current_user.flags_enabled %>
-            <p><strong><%= current_user.flag_logs.where(:success => true).where('created_at > ?', 1.day.ago).count %></strong> flags used today</p>
+            <%= link_to flag_logs_by_user_path(current_user) do %>
+              <p><strong><%= current_user.flag_logs.where(:success => true).where('created_at > ?', 1.day.ago).count %></strong> flags used today</p>
+            <% end %>
           <% else %>
             <p class="text-muted"><em>Not registered for flagging.</em></p>
           <% end %>
@@ -84,8 +90,7 @@
 
 <h3>Links</h3>
 <ul>
-  <li><%= link_to "Flag logs", url_for(:controller => :flag_log, :action => :index) %>
-    (<%= link_to "Unflagged logs", url_for(:controller => :flag_log, :action => :not_flagged) %>)</li>
+  <li><%= link_to "Unflagged logs", unflagged_logs_path %></li>
   <li><%= link_to "System settings", url_for(:controller => :flag_settings, :action => :index) %></li>
   <li><%= link_to "Your preferences", url_for(:controller => :user_site_settings, :action => :index) %></li>
   <li><%= link_to "Your conditions", url_for(:controller => :flag_conditions, :action => :index) %></li>

@@ -1,6 +1,14 @@
 class FlagLogController < ApplicationController
   def index
-    @flag_logs = FlagLog.all.order('created_at DESC').includes(:post => [:feedbacks => [:user, :api_key]]).includes(:post => [:reasons]).includes(:user).paginate(:page => params[:page], :per_page => 100)
+    @individual_user = User.find(params[:user_id]) if params[:user_id].present?
+
+    if @individual_user
+      @applicable_flag_logs = @individual_user.flag_logs
+    else
+      @applicable_flag_logs = FlagLog.all
+    end
+
+    @flag_logs = @applicable_flag_logs.order('created_at DESC').includes(:post => [:feedbacks => [:user, :api_key]]).includes(:post => [:reasons]).includes(:user).paginate(:page => params[:page], :per_page => 100)
     @sites = Site.where(:id => @flag_logs.map(&:post).map(&:site_id)).to_a
   end
 

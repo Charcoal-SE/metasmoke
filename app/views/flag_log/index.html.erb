@@ -3,12 +3,15 @@
   <% if @individual_post.present? %>
     for <%= link_to @individual_post.title, "/post/#{@individual_post.id}" %>
   <% end %>
+  <% if @individual_user.present? %>
+    for <%= @individual_user.username %>
+  <% end %>
 </h3>
 
 <% if @individual_post.nil? %>
   <%= line_chart [
-        {name: 'Flags', data: FlagLog.group_by_day(:created_at, :range => 1.month.ago.to_date..Time.now).count},
-        {name: 'Posts', data: FlagLog.select('DISTINCT post_id').group_by_day(:created_at, :range => 1.month.ago.to_date..Time.now).count}
+        {name: 'Flags', data: @applicable_flag_logs.group_by_day(:created_at, :range => 1.month.ago.to_date..Time.now).count},
+        {name: 'Posts', data: @applicable_flag_logs.select('DISTINCT post_id').group_by_day(:created_at, :range => 1.month.ago.to_date..Time.now).count}
       ], colors: ['#76ADE1', '#e0a976'] %>
 <% end %>
 
