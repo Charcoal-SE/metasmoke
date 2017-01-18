@@ -51,7 +51,7 @@ class AdminController < ApplicationController
   end
 
   def users
-    @users = User.all
+    @users = User.all.includes(:roles)
   end
 
   def ignored_users
