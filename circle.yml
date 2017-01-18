@@ -1,6 +1,6 @@
 machine:
   ruby:
-    version: ruby-2.3.0
+    version: ruby-2.4.0
 database:
   post:
     - bundle exec rake test:prepare
