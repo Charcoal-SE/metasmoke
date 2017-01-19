@@ -25,7 +25,11 @@ class PostsController < ApplicationController
     puts params[:url]
     post = Post.select("id").where(:link => params[:url]).last
 
-    raise ActionController::RoutingError.new('Not Found') if post.nil?
+    if post.nil?
+      flash[:danger] = "Post not found for #{params[:url]}. It may have been reported during a period of metasmoke downtime."
+      redirect_to posts_path
+      return
+    end
 
     redirect_to url_for(:controller => :posts, :action => :show, :id => post.id)
   end
