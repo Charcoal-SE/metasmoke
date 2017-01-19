@@ -5,6 +5,6 @@ class HairOnFireMailer < ApplicationMailer
     @last_ping_date = smoke_detector.last_ping
     @location = smoke_detector.location
 
-    mail(to: smoke_detector.user.email, cc: "undo@erwaysoftware.com; hello@artofcode.co.uk", subject: "[SmokeDetector] status DOWN (last seen #{@last_ping_date})")
+    mail(to: smoke_detector.user.email, cc: "teward@ubuntu.com; undo@erwaysoftware.com; hello@artofcode.co.uk", subject: "[SmokeDetector] status DOWN (last seen #{@last_ping_date})")
   end
 end
