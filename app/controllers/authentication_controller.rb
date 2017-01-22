@@ -1,7 +1,7 @@
 require 'open-uri'
 
 class AuthenticationController < ApplicationController
-  before_action :authenticate_user! 
+  before_action :authenticate_user!
   def status
     puts AppConfig
 
@@ -12,17 +12,9 @@ class AuthenticationController < ApplicationController
     config = AppConfig["stack_exchange"]
 
     request_params = { "client_id" => config["client_id"], "client_secret" => config["client_secret"], "code" => params[:code], "redirect_uri" => config["redirect_uri"] }
-    resp = Net::HTTP.post_form(URI.parse('https://stackexchange.com/oauth/access_token'), request_params)
+    response = Rack::Utils.parse_nested_query(Net::HTTP.post_form(URI.parse('https://stackexchange.com/oauth/access_token'), request_params))
 
-    # Possibly fragile, but I *think* it's fine
-
-    token = nil
-
-    begin
-      token = resp.body.scan(/access_token=(.*)&?/).first.first
-    rescue
-
-    end
+    token = response["access_token"]
 
     access_token_info = JSON.parse(open("https://api.stackexchange.com/2.2/access-tokens/#{token}?key=#{config["key"]}").read)["items"][0]
 
