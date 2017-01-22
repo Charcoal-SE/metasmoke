@@ -61,19 +61,39 @@ class GithubController < ApplicationController
     end
 
     text = pull_request[:body]
-
-    domains = text.scan(/<!-- METASMOKE-BLACKLIST (.*?) -->/)[0][0].split("|")
-
+    
     response_text = ""
+    
+    # Identify blacklist type and use appropriate search
 
+    domains = text.scan(/<!-- METASMOKE-BLACKLIST-WEBSITE (.*?) -->/)[0][0]
+    
     domains.each do |domain|
-      # Run a search on each, find stats...
-
       num_tps = Post.where("body LIKE '%#{domain}%'").where(:is_tp => true).count
       num_fps = Post.where("body LIKE '%#{domain}%'").where(:is_fp => true).count
       num_naa = Post.where("body LIKE '%#{domain}%'").where(:is_naa => true).count
 
       response_text += "#{domain} has been seen in #{num_tps} true #{'positive'.pluralize(num_tps)}, #{num_fps} false #{'positive'.pluralize(num_fps)}, and #{num_naa} #{'NAA'.pluralize(num_naa)}.\n\n"
+    end
+    
+    keywords = text.scan(/<!-- METASMOKE-BLACKLIST-KEYWORD (.*?) -->/)[0][0]
+    
+    keywords.each do |keyword|
+      num_tps = Post.where("body LIKE '%#{keyword}%'").where(:is_tp => true).count
+      num_fps = Post.where("body LIKE '%#{keyword}%'").where(:is_fp => true).count
+      num_naa = Post.where("body LIKE '%#{keyword}%'").where(:is_naa => true).count
+
+      response_text += "#{keyword} has been seen in #{num_tps} true #{'positive'.pluralize(num_tps)}, #{num_fps} false #{'positive'.pluralize(num_fps)}, and #{num_naa} #{'NAA'.pluralize(num_naa)}.\n\n"
+    end
+    
+    usernames = text.scan(/<!-- METASMOKE-BLACKLIST-USERNAME (.*?) -->/)[0][0]
+    
+    usernames.each do |username|
+      num_tps = Post.where("body LIKE '%#{username}%'").where(:is_tp => true).count
+      num_fps = Post.where("body LIKE '%#{username}%'").where(:is_fp => true).count
+      num_naa = Post.where("body LIKE '%#{username}%'").where(:is_naa => true).count
+
+      response_text += "#{username} has been seen in #{num_tps} true #{'positive'.pluralize(num_tps)}, #{num_fps} false #{'positive'.pluralize(num_fps)}, and #{num_naa} #{'NAA'.pluralize(num_naa)}.\n\n"
     end
 
     Octokit.add_comment "Charcoal-SE/SmokeDetector", pull_request[:number], response_text
