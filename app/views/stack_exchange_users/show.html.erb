@@ -1,3 +1,5 @@
+<% title "Posts for #{@user.username}" %>
+
 <%= link_to @user.stack_link do %>
   <%= image_tag @user.flair_link, alt: @user.username, class: "stack_exchange_user_flair", data: { username: @user.username, reputation: @user.reputation || '-', site_logo: @user.site_logo } %>
 <% end %>
