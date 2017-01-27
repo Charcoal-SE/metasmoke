@@ -92,7 +92,7 @@
     </div>
     <div class="panel-body">
       <ul>
-        <li><%= link_to "Update feedback cache", url_for(:controller => :posts, :action => :reindex_feedback, :id => @post.id) %></li>
+        <li><%= link_to "Update feedback cache", url_for(:controller => :posts, :action => :reindex_feedback, :id => @post.id), :method => :post %></li>
       </ul>
     </div>
   </div>

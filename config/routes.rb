@@ -70,7 +70,7 @@ Rails.application.routes.draw do
   get "post/:id/body", to: "posts#body"
   get "post/:id/feedbacks.json", to: 'posts#feedbacksapi'
   get "post/:id/flag_logs", to: 'flag_log#by_post', as: :post_flag_logs
-  post "post/:id/index_feedback", to: "post#reindex_feedback"
+  post "post/:id/index_feedback", to: "posts#reindex_feedback"
 
   get "users", to: "stack_exchange_users#index"
 

@@ -126,7 +126,7 @@ class PostsController < ApplicationController
     if @post.update_feedback_cache
       flash[:success] = "Feedback reindexed and corrected."
     else
-      flash[:danger] = "Feedback reindexed; no change."
+      flash[:info] = "Feedback reindexed; no change."
     end
     redirect_to url_for(:controller => :posts, :action => :show, :id => @post.id)
   end
