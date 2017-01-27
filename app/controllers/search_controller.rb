@@ -15,11 +15,11 @@ class SearchController < ApplicationController
 
     case params[:feedback]
       when /true/
-        feedback = "t"
+        feedback = :is_tp
       when /false/
-        feedback = "f"
+        feedback = :is_fp
       when /NAA/
-        feedback = "naa"
+        feedback = :is_naa
     end
 
     if params[:reason].present?
@@ -39,7 +39,7 @@ class SearchController < ApplicationController
     end
 
     if feedback.present?
-      @results = @results.joins(:feedbacks).where("feedbacks.feedback_type LIKE :feedback", feedback: "%" + feedback + "%")
+      @results = @results.where(feedback => true)
     elsif params[:feedback] == "conflicted"
       @results = @results.where(:is_tp => true, :is_fp => true)
     end
