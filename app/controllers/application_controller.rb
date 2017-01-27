@@ -31,6 +31,12 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+    def verify_developer
+      if !user_signed_in? || !current_user.has_role?(:admin)
+        raise ActionController::RoutingError.new('Not Found') and return
+      end
+    end
+
     def verify_admin
       if !user_signed_in? || !current_user.has_role?(:admin)
         raise ActionController::RoutingError.new('Not Found') and return

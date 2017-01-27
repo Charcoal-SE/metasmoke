@@ -84,3 +84,16 @@
 <% if @post.why.present? %>
   <pre><%= @post.why %></pre>
 <% end %>
+
+<% if user_signed_in? && current_user.has_role?(:developer) %>
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+      <h3 class="panel-title">Developer tools</h3>
+    </div>
+    <div class="panel-body">
+      <ul>
+        <li><%= link_to "Update feedback cache", url_for(:controller => :posts, :action => :reindex_feedback, :id => @post.id) %></li>
+      </ul>
+    </div>
+  </div>
+<% end %>
