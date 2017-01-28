@@ -8,8 +8,8 @@ class Feedback < ApplicationRecord
   belongs_to :user
   belongs_to :api_key
 
-  before_save :check_for_dupe_feedback
   before_save :check_for_user_assoc
+  before_save :check_for_dupe_feedback
 
   after_save do
     if self.update_post_feedback_cache # if post feedback cache was changed
