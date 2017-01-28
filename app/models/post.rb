@@ -42,7 +42,7 @@ class Post < ApplicationRecord
           if post.revision_count == 1
             users.shuffle.each do |user|
               user_site_flag_count = user.flag_logs.where(:site => post.site, :success => true, :is_dry_run => false).where(:created_at => Date.today..Time.now).count
-              next if user_site_flag_count > user.user_site_settings.where(:site => post.site).last.max_flags
+              next if user_site_flag_count > user.user_site_settings.includes(:sites).where(:sites => { :id => post.site.id } ).last.max_flags
 
               last_log = FlagLog.where(:user => user).last
               if last_log.try(:backoff).present? && (last_log.created_at + last_log.backoff.seconds > Time.now)
