@@ -26,7 +26,7 @@ class Post < ApplicationRecord
             end
           end
 
-          uids = post.site.user_site_settings.where(:user_id => available_user_ids.keys).where('flags_used < max_flags').pluck(:user_id)
+          uids = post.site.user_site_settings.where(:user_id => available_user_ids.keys).map(&:user_id)
           users = User.where(:id => uids, :flags_enabled => true)
           successful = 0
 
@@ -41,6 +41,9 @@ class Post < ApplicationRecord
           end
           if post.revision_count == 1
             users.shuffle.each do |user|
+              user_site_flag_count = user.flag_logs.where(:site => post.site, :success => true, :is_dry_run => false).where(:created_at => Date.today..Time.now).count
+              next if user_site_flag_count > user.user_site_settings.where(:site => post.site).last.max_flags
+
               last_log = FlagLog.where(:user => user).last
               if last_log.try(:backoff).present? && (last_log.created_at + last_log.backoff.seconds > Time.now)
                 sleep((last_log.created_at + last_log.backoff.seconds) - Time.now)
