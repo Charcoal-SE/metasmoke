@@ -132,6 +132,7 @@ Rails.application.routes.draw do
 
   post 'dev/update_sites', :to => 'developer#update_sites'
   get 'dev/prod_log', :to => 'developer#production_log'
+  get 'dev/blank', :to => 'developer#blank_page'
 
   # flagging
   get 'flagging', :to => 'flag_settings#dashboard'
