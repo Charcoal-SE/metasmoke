@@ -32,9 +32,7 @@ class Post < ApplicationRecord
 
           if users.present?
             begin
-              if post.fetch_revision_count > 1
-                FlagLog.create(:success => false, :error_message => "More than one revision", :is_dry_run => dry_run, :flag_condition => nil, :user => nil, :post => post)
-              end
+              post.fetch_revision_count
             rescue => e
               FlagLog.create(:success => false, :error_message => "Couldn't get revision count: #{e}: #{e.message} | #{e.backtrace.join("\n")}", :is_dry_run => dry_run, :flag_condition => nil, :user => nil, :post => post)
             end
