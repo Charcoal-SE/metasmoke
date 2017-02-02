@@ -39,7 +39,7 @@
         <td><%= statistic.posts_scanned %></td>
         <td><%= statistic.post_scan_rate %></td>
         <td><%= statistic.api_quota %></td>
-        <td><%= time_ago_in_words statistic.created_at %> ago</td>
+        <td title="<%= statistic.created_at %>"><%= time_ago_in_words statistic.created_at %> ago</td>
       </tr>
     <% end %>
   </tbody>
