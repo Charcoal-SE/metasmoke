@@ -16,7 +16,7 @@ class ApiController < ApplicationController
 
   def posts
     filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
-    @posts = Post.where(:id => params[:ids].split(";")).select(select_fields(filter)).order(:id => :desc)
+    @posts = Post.where(:id => params[:ids].split(";")).select(select_fields(filter)).order(:id => :desc).includes(:feedbacks).includes(:flag_logs => [:user])
     @results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
     @more = has_more?(params[:page], @results.count)
     render :formats => :json
@@ -24,7 +24,7 @@ class ApiController < ApplicationController
 
   def posts_by_feedback
     filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
-    @posts = Post.all.joins(:feedbacks).where(:feedbacks => { :feedback_type => params[:type] }).select(select_fields(filter)).order(:id => :desc)
+    @posts = Post.all.joins(:feedbacks).where(:feedbacks => { :feedback_type => params[:type] }).select(select_fields(filter)).order(:id => :desc).includes(:feedbacks).includes(:flag_logs => [:user])
     results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
@@ -39,21 +39,21 @@ class ApiController < ApplicationController
 
   def posts_by_site
     filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
-    @posts = Post.joins(:site).where(:sites => { :site_url => params[:site] }).select(select_fields(filter)).order(:id => :desc)
+    @posts = Post.joins(:site).where(:sites => { :site_url => params[:site] }).select(select_fields(filter)).order(:id => :desc).includes(:feedbacks).includes(:flag_logs => [:user])
     results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
   def posts_by_daterange
     filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
-    @posts = Post.where(:created_at => DateTime.strptime(params[:from_date], '%s')..DateTime.strptime(params[:to_date], '%s'))
+    @posts = Post.where(:created_at => DateTime.strptime(params[:from_date], '%s')..DateTime.strptime(params[:to_date], '%s')).includes(:feedbacks).includes(:flag_logs => [:user])
     results = @posts.select(select_fields(filter)).order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
   def undeleted_posts
     filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
-    @posts = Post.left_outer_joins(:deletion_logs).where(:deletion_logs => { :id => nil }).select(select_fields(filter))
+    @posts = Post.left_outer_joins(:deletion_logs).where(:deletion_logs => { :id => nil }).select(select_fields(filter)).includes(:feedbacks).includes(:flag_logs => [:user])
     results = @posts.order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
