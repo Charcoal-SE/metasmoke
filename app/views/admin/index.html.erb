@@ -1,11 +1,10 @@
 <h3><%= title "Tools" %></h3>
-<p>Someone thought these were useful, at some point. I take no responsibility for whether they actually are or not.</p>
+<p>Someone thought these were useful, at some point. We take no responsibility for whether they actually are or not.</p>
 <p>
   <ul>
     <li><a href="/admin/invalidated">Invalidated Feedback</a></li>
     <li><a href="/admin/api_feedback">Feedback via API</a></li>
     <li><a href="/users">User Data</a></li>
-    <li><a href="/blacklist">Blacklist</a></li>
     <% if current_user.try(:has_role?, :admin) %>
       <li><a href="/admin/flagged">Posts with Admin Reports</a></li>
       <li><%= link_to "Ignored Users", admin_ignored_users_path %></li>
