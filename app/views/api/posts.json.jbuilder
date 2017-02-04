@@ -1,12 +1,12 @@
 json.items(@results) do |post|
   json.merge! post.as_json
   json.merge!({
-    :count_tp => post.feedbacks.where('feedbacks.feedback_type LIKE ?', 't%').count,
-    :count_fp => post.feedbacks.where('feedbacks.feedback_type LIKE ?', 'f%').count,
-    :count_naa => post.feedbacks.where('feedbacks.feedback_type LIKE ?', 'n%').count,
+    :count_tp => post.feedbacks.to_a.count { |f| f.feedback_type.include? "t" },
+    :count_fp => post.feedbacks.to_a.count { |f| f.feedback_type.include? "f" },
+    :count_naa => post.feedbacks.to_a.count { |f| f.feedback_type.include? "n" },
     :autoflagged => {
       :flagged => post.flagged?,
-      :names => User.where(:id => post.flag_logs.where(:success => true).map(&:user_id)).map(&:username)
+      :names => post.flag_logs.select { |f| f.success }.map { |f| f.user.username }
     }
   })
 end

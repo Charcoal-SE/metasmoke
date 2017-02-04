@@ -106,7 +106,11 @@ class Post < ApplicationRecord
   end
 
   def flagged?
-    self.flag_logs.where(:success => true).present?
+    if flag_logs.loaded?
+      flag_logs.select { |f| f.success}.present?
+    else
+      flag_logs.where(:success => true).present?
+    end
   end
 
   def fetch_revision_count
