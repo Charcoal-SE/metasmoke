@@ -33,7 +33,7 @@ class UserSiteSettingsController < ApplicationController
   def create
     @preference = UserSiteSetting.new preference_params
     @preference.user = current_user
-    @preference.sites = params[:user_site_setting][:sites].map{ |i| Site.find i.to_i if i.present? }.compact
+    @preference.site_ids = params[:user_site_setting][:sites]
 
     if @preference.save
       flash[:success] = "Saved your preferences."

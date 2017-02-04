@@ -53,6 +53,13 @@ class UserSiteSettingsControllerTest < ActionController::TestCase
     assert_response 302
   end
 
+  test "should refuse to create preference with no sites" do
+    sign_in users(:approved_user)
+    post :create, :params => { :user_site_setting => { :max_flags => 10, :sites => [] }}
+
+    assert_response 422
+  end
+
   test "should get edit" do
     sign_in users(:approved_user)
     get :edit, :params => { :id => user_site_settings(:one).id }
