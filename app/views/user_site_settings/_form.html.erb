@@ -6,7 +6,7 @@
 
   <div class="field">
     <%= f.label :sites, "Sites" %><br/>
-    <%= f.select :sites, options_for_select(Site.mains.order(:site_name).map{ |s| [s.site_name, s.id] }), {}, { :multiple => true, :class => "form-control selectpicker", "data-live-search" => true, "data-actions-box" => true, "data-dropup-auto" => false, :title => "Choose the sites this preference should apply to" } %>
+    <%= f.select :sites, options_for_select(Site.mains.order(:site_name).map{ |s| [s.site_name, s.id] }, @preference.site_ids), {}, { :multiple => true, :class => "form-control selectpicker", "data-live-search" => true, "data-actions-box" => true, "data-dropup-auto" => false, :title => "Choose the sites this preference should apply to" } %>
   </div><br/>
 
   <div class="actions">
