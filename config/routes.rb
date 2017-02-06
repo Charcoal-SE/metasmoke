@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   get "status", to: "status#index"
   get "smoke_detector/:id/statistics", to: "statistics#index", as: :smoke_detector_statistics
   delete 'smoke_detector/:id', :to => 'smoke_detectors#destroy'
+  post 'smoke_detector/:id/force_failover', to: 'smoke_detectors#force_failover', as: :smoke_detector_force_failover
   get 'smoke_detector/audits', :to => 'smoke_detectors#audits'
   post "statistics.json", to: "statistics#create"
 

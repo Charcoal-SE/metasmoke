@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170206155123) do
+ActiveRecord::Schema.define(version: 20170206165731) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.datetime "created_at",  null: false
@@ -235,7 +235,8 @@ ActiveRecord::Schema.define(version: 20170206155123) do
     t.datetime "updated_at",   null: false
     t.datetime "email_date"
     t.integer  "user_id"
-    t.boolean  "is_standby",   default: false
+    t.boolean  "is_standby",     default: false
+    t.boolean  "force_failover", default: false
     t.index ["user_id"], name: "index_smoke_detectors_on_user_id", using: :btree
   end
 

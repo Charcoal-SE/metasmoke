@@ -16,7 +16,7 @@ class StatusController < ApplicationController
     respond_to do |format|
       format.json do
         if @smoke_detector.should_failover
-          @smoke_detector.update(:is_standby => false)
+          @smoke_detector.update(:is_standby => false, :force_failover => false)
           render :status => 200, :json => { 'failover': true }
         else
           render :status => 200, :json => { 'failover': false }

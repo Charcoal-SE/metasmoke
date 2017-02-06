@@ -5,7 +5,7 @@ class SmokeDetector < ApplicationRecord
   has_many :statistics
 
   def should_failover
-    self.is_standby && SmokeDetector.where(:is_standby => false).where('last_ping > ?', 3.minutes.ago).empty?
+    self.force_failover || (self.is_standby && SmokeDetector.where(:is_standby => false).where('last_ping > ?', 3.minutes.ago).empty?)
   end
 
   def self.status_color

@@ -9,7 +9,14 @@ class SmokeDetectorsController < ApplicationController
     else
       flash[:danger] = "Can't remove key. If Undo's gone rogue, start running."
     end
-    redirect_to url_for(:controller => :status, :action => :index)
+    redirect_to status_path
+  end
+
+  def force_failover
+    @smoke_detector.update(:force_failover => true)
+    flash[:success] = "Failover for #{@smoke_detector.location} will be forced on the next ping; probably within 60 seconds."
+
+    redirect_to status_path
   end
 
   def audits
