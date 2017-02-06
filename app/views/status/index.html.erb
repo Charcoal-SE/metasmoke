@@ -17,7 +17,14 @@
     <% else %>
       <tr class="status-row hidden-row" style="<%= 'display:none' %>">
     <% end %>
-      <td><%= link_to sd.location, smoke_detector_statistics_path(sd.id) %></td>
+      <td>
+        <%= link_to smoke_detector_statistics_path(sd.id) do %>
+          <%= sd.location %>
+          <% if sd.is_standby %>
+            <span class="label label-primary">Standby</span>
+          <% end %>
+        <% end %>
+      </td>
       <td class="status-<%= sd.status_color %>"><%= sd.last_ping %> (<%= time_ago_in_words(sd.last_ping, include_seconds: true)%> ago)</td>
       <% if user_signed_in? && current_user.has_role?(:admin) %>
         <td><%= link_to "De-authorize", url_for(:controller => :smoke_detectors, :action => :destroy, :id => sd.id), :class => "text-danger",

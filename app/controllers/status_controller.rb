@@ -9,6 +9,7 @@ class StatusController < ApplicationController
   def status_update
     @smoke_detector.last_ping = DateTime.now
     @smoke_detector.location = params[:location]
+    @smoke_detector.is_standby = params[:standby] || false
 
     @smoke_detector.save!
 
