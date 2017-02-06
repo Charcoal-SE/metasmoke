@@ -1,11 +1,17 @@
 class ApiController < ApplicationController
-  before_action :verify_key, :except => [:filter_generator]
-  before_action :set_pagesize, :except => [:filter_generator]
+  before_action :verify_key, :except => [:filter_generator, :api_docs]
+  before_action :set_pagesize, :except => [:filter_generator, :api_docs]
   before_action :verify_write_token, :only => [:create_feedback, :report_post]
   skip_before_action :verify_authenticity_token, :only => [:create_feedback, :report_post]
 
   # Yes, this looks bad, but it actually works as a cache - we only have to calculate the bitstring for each filter once.
   @@filters = Hash.new { |h, k| h[k] = k.chars.map { |c| c.ord.to_s(2).rjust(8, '0') }.join('') }
+
+  # Public routes
+
+  def api_docs
+    redirect_to "https://github.com/Charcoal-SE/metasmoke/wiki/API-Documentation"
+  end
 
   # Routes for developer use
 
