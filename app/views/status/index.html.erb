@@ -29,7 +29,11 @@
       <% if user_signed_in? && current_user.has_role?(:admin) %>
         <td><%= link_to "De-authorize", url_for(:controller => :smoke_detectors, :action => :destroy, :id => sd.id), :class => "text-danger",
                 :data => {:confirm => "This will be logged, and cannot be undone. Sure?"}, :method => :delete %></td>
-        <td><%= link_to "Failover", smoke_detector_force_failover_path(sd.id), class: "text-danger", method: :post %></td>
+        <td>
+          <% if sd.is_standby %>
+            <%= link_to "Failover", smoke_detector_force_failover_path(sd.id), class: "text-danger", method: :post %>
+          <% end %>
+        </td>
       <% end %>
     </tr>
   <% end %>
