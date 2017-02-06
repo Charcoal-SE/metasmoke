@@ -4,6 +4,10 @@ class SmokeDetector < ApplicationRecord
   belongs_to :user
   has_many :statistics
 
+  def should_failover
+    self.is_standby && SmokeDetector.where(:is_standby => false).where('last_ping > ?', 3.minutes.ago).empty?
+  end
+
   def self.status_color
     SmokeDetector.select("last_ping").order("last_ping DESC").first.status_color
   end
