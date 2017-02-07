@@ -5,7 +5,11 @@
 //= require_self
 //= require_tree ./channels
 
+console.log("Outside");
+
 (function() {
+  console.log("Inside");
+  
   this.App || (this.App = {});
 
   App.cable = ActionCable.createConsumer();
