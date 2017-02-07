@@ -54,7 +54,11 @@ class Post < ApplicationRecord
                 backoff = message
               end
 
-              FlagLog.create(:success => success, :error_message => message, :is_dry_run => dry_run, :flag_condition => available_user_ids[user.id], :user => user, :post => post, :backoff => backoff)
+              flag_log = FlagLog.create(:success => success, :error_message => message, :is_dry_run => dry_run, :flag_condition => available_user_ids[user.id], :user => user, :post => post, :backoff => backoff)
+
+              if success
+                ActionCable.server.broadcast "api_flag_logs", { flag_log: JSON.parse(FlagLogController.render(locals: {flag_log: flag_log}, partial: 'flag_log.json')) }
+              end
 
               if successful >= [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
                 break

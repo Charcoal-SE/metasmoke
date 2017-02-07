@@ -3,6 +3,7 @@ class ApiChannel < ApplicationCable::Channel
     @key = ApiKey.find_by_key(params[:key])
     if params[:key].present? && @key.present?
       stream_from "api_feedback"
+      stream_from "api_flag_logs"
     else
       reject
     end
