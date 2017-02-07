@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
 
   scope "/authentication" do
-    get 'status', to: 'authentication#status'
+    get 'status', to: 'authentication#status', as: :authentication_status
     get 'redirect_target', to: 'authentication#redirect_target'
   end
 
