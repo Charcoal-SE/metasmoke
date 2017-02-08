@@ -6,7 +6,8 @@ json.items(@results) do |post|
     :count_naa => post.feedbacks.to_a.count { |f| f.feedback_type.include? "n" },
     :autoflagged => {
       :flagged => post.flagged?,
-      :names => post.flag_logs.select { |f| f.success }.map { |f| f.user.username }
+      :names => post.flag_logs.select { |f| f.success }.map { |f| f.user.username },
+      :users => post.flaggers.map { |u| u.as_json.select {|k,v| k == "username" or k.include? "_chat_id" } }
     }
   })
 end

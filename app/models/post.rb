@@ -118,6 +118,10 @@ class Post < ApplicationRecord
     end
   end
 
+  def flaggers
+    User.joins(:flag_logs).where(:flag_logs => {:success => true, :post_id => self.id})
+  end
+
   def fetch_revision_count
     params = "key=#{AppConfig["stack_exchange"]["key"]}&site=#{site.site_domain}&filter=!mggE4ZSiE7"
 
