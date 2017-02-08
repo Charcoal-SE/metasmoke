@@ -58,6 +58,7 @@ class Post < ApplicationRecord
 
               if success
                 ActionCable.server.broadcast "api_flag_logs", { flag_log: JSON.parse(FlagLogController.render(locals: {flag_log: flag_log}, partial: 'flag_log.json')) }
+                ActionCable.server.broadcast "flag_logs", { row: FlagLogController.render(locals: {flag_log: flag_log}, partial: 'flag_log') }
               end
 
               if successful >= [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min

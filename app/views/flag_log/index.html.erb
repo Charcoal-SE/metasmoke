@@ -16,19 +16,19 @@
 <% end %>
 
 <table class="table">
-  <tr>
-    <th>User</th>
-    <th>Post</th>
-    <th>Result</th>
-  </tr>
-
-  <% @flag_logs.each do |log| %>
+  <thead>
     <tr>
-      <td><%= log.user.try(:username) %></td>
-      <%= render "posts/post", :post => log.post, :wrap_in_tr => false %>
-      <td class='<%= "success" if log.success %>' title="<%= log.error_message %>"><%= log.success ? "Success" : "Fail" %><%= " (dry run)" if log.is_dry_run %></td>
+      <th>User</th>
+      <th>Post</th>
+      <th>Result</th>
     </tr>
-  <% end %>
+  </thead>
+
+  <tbody>
+    <% @flag_logs.each do |log| %>
+      <%= render 'flag_log', :log => log %>
+    <% end %>
+  </tbody>
 </table>
 
 <div class="text-center">
