@@ -1,6 +1,7 @@
 class SmokeDetectorsController < ApplicationController
   before_action :authenticate_user!, :except => [:audits]
-  before_action :verify_admin, :except => [:audits]
+  before_action :verify_admin, :except => [:audits, :force_failover]
+  before_action :verify_code_admin, :only => [:force_failover]
   before_action :set_smoke_detector, :except => [:audits]
 
   def destroy

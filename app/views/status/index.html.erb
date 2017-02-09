@@ -6,8 +6,12 @@
   <tr>
     <th>Name</th>
     <th>Last Ping</th>
-    <% if user_signed_in? && current_user.has_role?(:admin) %>
-      <th colspan="2"></th>
+    <%# This is ugly, but it's concise and performant. That's probably not a great excuse.
+    tl;dr: If there's a current_user, we map their roles to symbols then get the count
+    of the intersection of that array and [:code_admin, :admin]. If it's more than 0, we
+    assign it to a variable and the >0 check returns true %>
+    <% if (count = ((current_user&.roles&.map(&:name)&.map(&:to_sym) || []) & [:code_admin, :admin]).count) > 0 %>
+      <th colspan="<%= count %>"></th>
     <% end %>
   </tr>
 
@@ -26,9 +30,13 @@
         <% end %>
       </td>
       <td class="status-<%= sd.status_color %>"><%= sd.last_ping %> (<%= time_ago_in_words(sd.last_ping, include_seconds: true)%> ago)</td>
-      <% if user_signed_in? && current_user.has_role?(:admin) %>
-        <td><%= link_to "De-authorize", url_for(:controller => :smoke_detectors, :action => :destroy, :id => sd.id), :class => "text-danger",
-                :data => {:confirm => "This will be logged, and cannot be undone. Sure?"}, :method => :delete %></td>
+      <% if current_user&.has_role?(:admin) %>
+        <td>
+          <%= link_to "De-authorize", url_for(:controller => :smoke_detectors, :action => :destroy, :id => sd.id), :class => "text-danger",
+                :data => {:confirm => "This will be logged, and cannot be undone. Sure?"}, :method => :delete %>
+        </td>
+      <% end %>
+      <% if current_user&.has_role?(:code_admin) %>
         <td>
           <% if sd.is_standby %>
             <%= link_to "Failover", smoke_detector_force_failover_path(sd.id), class: "text-danger", method: :post %>
