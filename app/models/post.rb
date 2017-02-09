@@ -122,6 +122,16 @@ class Post < ApplicationRecord
     User.joins(:flag_logs).where(:flag_logs => {:success => true, :post_id => self.id})
   end
 
+  def deleted_at
+    if deletion_logs.loaded?
+      # Use Ruby's `select` instead of running a new query
+      deletion_logs.to_a.select(&:is_deleted).sort_by(&:created_at).last&.created_at
+    else
+      # Might as well run a new query and filter explicitly
+      deletion_logs.order(:created_at).last&.created_at
+    end
+  end
+
   def fetch_revision_count
     params = "key=#{AppConfig["stack_exchange"]["key"]}&site=#{site.site_domain}&filter=!mggE4ZSiE7"
 
