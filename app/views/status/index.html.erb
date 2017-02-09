@@ -39,7 +39,7 @@
       <% if current_user&.has_role?(:code_admin) %>
         <td>
           <% if sd.is_standby %>
-            <%= link_to "Failover", smoke_detector_force_failover_path(sd.id), class: "text-danger", method: :post %>
+            <%= link_to "Failover", smoke_detector_force_failover_path(sd.id), class: "text-danger", :data => {:confirm => "This will take effect at the next ping, within a minute. Sure?"}, method: :post %>
           <% end %>
         </td>
       <% end %>
