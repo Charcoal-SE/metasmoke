@@ -69,6 +69,10 @@ class Post < ApplicationRecord
         rescue => e
           FlagLog.create(:success => false, :error_message => "#{e}: #{e.message} | #{e.backtrace.join("\n")}", :is_dry_run => dry_run, :flag_condition => nil, :post => post)
         end
+
+        if post.flag_logs.where(:success => true).empty?
+          ActionCable.server.broadcast "api_flag_logs", { not_flagged: { post_link: post.link } }
+        end
       end
     end
   end
