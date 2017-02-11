@@ -48,6 +48,14 @@ class FlagConditionsController < ApplicationController
   end
 
   def edit
+    unless @condition.flags_enabled
+      @condition.flags_enabled = true
+      @condition.validate
+
+      @validation_errors = @condition.errors.dup
+      @condition.restore_attributes
+      @condition.errors.clear
+    end
   end
 
   def update
@@ -84,7 +92,7 @@ class FlagConditionsController < ApplicationController
   end
 
   def condition_params
-    params.require(:flag_condition).permit(:min_weight, :max_poster_rep, :min_reason_count, :sites)
+    params.require(:flag_condition).permit(:min_weight, :max_poster_rep, :min_reason_count, :sites, :flags_enabled)
   end
 
   def verify_authorized

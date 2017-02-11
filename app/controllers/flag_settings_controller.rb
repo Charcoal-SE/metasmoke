@@ -45,6 +45,17 @@ class FlagSettingsController < ApplicationController
   def update
     respond_to do |format|
       if @flag_setting.update(flag_setting_params)
+
+        if ["min_accuracy", "min_post_count"].include? @flag_setting.name
+          # If an accuracy/post count requirement is changed,
+          # we want to re-validate all existing FlagConditions
+          # and disable them if they aren't in compliance with the
+          # new settings
+          Thread.new do
+            FlagCondition.revalidate_all
+          end
+        end
+
         AutoflaggingMailer.setting_changed(@flag_setting, current_user).deliver_now
         format.html { redirect_to flag_settings_path, notice: 'Flag setting was successfully updated.' }
         format.json { render :show, status: :ok, location: @flag_setting }

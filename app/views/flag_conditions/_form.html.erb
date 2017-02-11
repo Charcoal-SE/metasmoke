@@ -2,6 +2,10 @@
 
 <%= form_for @condition do |f| %>
   <div class="field">
+    <%= f.check_box :flags_enabled %> <%= f.label :flags_enabled %>
+  </div><br/>
+
+  <div class="field">
     <%= f.label :min_weight, "Minimum Weight" %><br/>
     <%= f.number_field :min_weight, :class => "form-control" %>
   </div><br/>
