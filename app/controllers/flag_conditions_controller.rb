@@ -21,7 +21,10 @@ class FlagConditionsController < ApplicationController
   end
 
   def new
-    @condition = FlagCondition.new(:site_ids => Site.mains.map(&:id))
+    @condition = FlagCondition.new(:site_ids => Site.mains.map(&:id),
+                                   :min_weight => 280,
+                                   :max_poster_rep => 1,
+                                   :min_reason_count => 1)
   end
 
   def create
