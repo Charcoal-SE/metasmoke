@@ -1,7 +1,7 @@
 <h4>
   <% if @post.flagged? %>
     <%= link_to post_flag_logs_path(@post), :style => "text-decoration:none"  do %>
-      <span class="text-danger glyphicon glyphicon-flag" title="This post is a candidate for automatic flagging." href="#"></span>
+      <span class="text-danger" title="This post is a candidate for automatic flagging." href="#">⚑</span>
     <% end %>
   <% end %>
   <%= title @post.title %>
