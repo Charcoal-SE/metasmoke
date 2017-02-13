@@ -56,16 +56,16 @@
     height: 0;
     border-width: 4px;
     border-style: none solid;
-    border-color: currentColor;
+    border-color: #999;
     border-right-color: transparent;
     border-left-color: transparent;
   }
   &::before {
     border-bottom-style: solid;
-    top: 0.9em;
+    bottom: 1.4em;
   }
   &::after {
-    top: 1.5em;
+    bottom: 0.9em;
     border-top-style: solid;
   }
 }
