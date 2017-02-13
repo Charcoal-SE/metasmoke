@@ -41,3 +41,31 @@
 #devise-links a {
   color: grey !important
 }
+
+.sortable-table th:not(.no-sort) {
+  cursor: pointer;
+  padding-left: 1em;
+  position: relative;
+  
+  &::before, &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-width: 4px;
+    border-style: none solid;
+    border-color: currentColor;
+    border-right-color: transparent;
+    border-left-color: transparent;
+  }
+  &::before {
+    border-bottom-style: solid;
+    top: 0.9em;
+  }
+  &::after {
+    top: 1.5em;
+    border-top-style: solid;
+  }
+}
