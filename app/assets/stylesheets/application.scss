@@ -42,11 +42,47 @@
   color: grey !important
 }
 
+.navbar-form {
+  margin: 0;
+  padding-left: 0;
+  position: absolute;
+  right: 15px;
+  z-index: 1;
+  .navbar-nav {
+    height: 38px;
+    display: flex;
+    align-items: center;
+    #search {
+      width: 150px;
+      box-sizing: border-box;
+      &.ready {
+        transition: all 0.4s;
+      }
+      &:not(:focus) {
+        width: 25px !important;
+        opacity: 0;
+      }
+    }
+    .search-icon {
+      list-style: none;
+      position: absolute;
+      top: 0;
+      z-index: -1;
+      a {
+        top: 0;
+      }
+    }
+  }
+}
+.navbar-right.navbar-nav {
+  margin-right: 40px;
+}
+
 .sortable-table th:not(.no-sort) {
   cursor: pointer;
   padding-left: 1em;
   position: relative;
-  
+
   &::before, &::after {
     content: "";
     position: absolute;
