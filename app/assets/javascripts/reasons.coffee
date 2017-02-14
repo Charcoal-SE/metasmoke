@@ -26,8 +26,9 @@ $ ->
       text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
       return !~text.indexOf(val);
     ).hide();
-  $(document).on 'click', '#search ~ li a', () ->
+  $(document).on 'click', 'li.search-icon a', (e) ->
     $('#search').focus()
+    e.preventDefault()
   setTimeout ->
     $('#search').addClass 'ready'
   , 100
