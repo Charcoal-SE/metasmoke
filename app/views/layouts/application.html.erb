@@ -60,9 +60,8 @@
           </ul>
           <% if controller.class == DashboardController %>
             <form class="navbar-form navbar-right" role="search">
-              <div class="form-group nav navbar-nav">
+              <div class="form-group">
                 <input type="text" id="search" class="form-control" placeholder="Search reasons">
-                <li class="search-icon"><a class="glyphicon glyphicon-search"><span class="sr-only">Search</span></a></li>
               </div>
             </form>
           <% end %>
@@ -83,6 +82,9 @@
             <% end %>
             <% if CurrentCommit.present? %>
               <li><a href="https://github.com/Charcoal-SE/metasmoke/commit/<%= CurrentCommit %>" title="<%= Rails::VERSION::STRING %>"><code><%= CurrentCommit.first(7) %></code></a></li>
+            <% end %>
+            <% if controller.class == DashboardController %>
+              <li class="search-icon hidden-xs"><a class="glyphicon glyphicon-search" href=#><span class="sr-only">Search</span></a></li>
             <% end %>
           </ul>
         </div><!-- /.navbar-collapse -->

@@ -42,40 +42,33 @@
   color: grey !important
 }
 
-.navbar-form {
-  margin: 0;
-  padding-left: 0;
-  position: absolute;
-  right: 15px;
-  z-index: 1;
-  .navbar-nav {
-    height: 38px;
-    display: flex;
-    align-items: center;
-    #search {
-      width: 150px;
-      box-sizing: border-box;
-      &.ready {
-        transition: all 0.4s;
-      }
-      &:not(:focus) {
-        width: 25px !important;
-        opacity: 0;
-      }
-    }
-    .search-icon {
-      list-style: none;
-      position: absolute;
-      top: 0;
-      z-index: -1;
-      a {
-        top: 0;
+@media (min-width: 768px) {
+  .navbar-form {
+    margin: 0;
+    padding-left: 0;
+    position: absolute;
+    right: 15px;
+    z-index: 1;
+    pointer-events: none;
+    .form-group {
+      height: 38px;
+      display: flex;
+      align-items: center;
+      #search {
+        width: 250px;
+        box-sizing: border-box;
+        pointer-events: initial;
+        & {
+          transition: all 0.4s;
+        }
+        &:not(:focus) {
+          pointer-events: none;
+          width: 25px !important;
+          opacity: 0;
+        }
       }
     }
   }
-}
-.navbar-right.navbar-nav {
-  margin-right: 40px;
 }
 
 .sortable-table th:not(.no-sort) {
