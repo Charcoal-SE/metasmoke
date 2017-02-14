@@ -22,10 +22,16 @@ $ ->
     val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
     console.log val
 
-    $("tr").not('tr:first').show().filter( () -> 
+    $("tr").not('tr:first').show().filter( () ->
       text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
       return !~text.indexOf(val);
     ).hide();
+  $(document).on 'click', 'li.search-icon a', (e) ->
+    $('#search').focus()
+    e.preventDefault()
+  setTimeout ->
+    $('#search').addClass 'ready'
+  , 100
 
 togglePostBodyVisible = (row) ->
   $(".post-body[data-postid='" + $(row).data("postid") + "']").toggle()

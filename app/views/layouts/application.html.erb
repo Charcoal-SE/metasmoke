@@ -83,6 +83,9 @@
             <% if CurrentCommit.present? %>
               <li><a href="https://github.com/Charcoal-SE/metasmoke/commit/<%= CurrentCommit %>" title="<%= Rails::VERSION::STRING %>"><code><%= CurrentCommit.first(7) %></code></a></li>
             <% end %>
+            <% if controller.class == DashboardController %>
+              <li class="search-icon hidden-xs"><a class="glyphicon glyphicon-search" href=#><span class="sr-only">Search</span></a></li>
+            <% end %>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
