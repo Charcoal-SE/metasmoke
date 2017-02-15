@@ -7,7 +7,22 @@
   <div class="field">
     <%= f.label :sites, "Sites" %><br/>
     <%= f.select :sites, options_for_select(Site.mains.order(:site_name).map{ |s| [s.site_name, s.id] }, @preference.site_ids), {}, { :multiple => true, :class => "form-control selectpicker", "data-live-search" => true, "data-actions-box" => true, "data-dropup-auto" => false, :title => "Choose the sites this preference should apply to" } %>
-  </div><br/>
+  </div>
+  
+  <br/>
+
+  <% if (@preference.user || current_user).moderator_sites.any? %>
+    <p class="text-muted">
+      We won't cast flags on any sites where you're a moderator, regardless of your settings here. That'd be these sites:
+      <ul>
+        <% (@preference.user || current_user).moderator_sites.each do |ms| %>
+          <li class="text text-muted"><%= ms.site.site_name %></li>
+        <% end %>
+      </ul>
+    </p>
+  <% end %>
+
+  <br/>
 
   <div class="actions">
     <%= f.submit "Save", :class => "btn btn-success" %>
