@@ -96,7 +96,7 @@ class User < ApplicationRecord
 
       response["items"].each do |network_account|
         if network_account["user_type"] == "moderator"
-          self.moderator_sites << Site.find_by_site_url(network_account["site_url"])
+          self.moderator_sites << Site.find_by_site_url(network_account["site_url"]).id
         end
       end
 
