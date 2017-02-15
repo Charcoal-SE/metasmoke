@@ -16,6 +16,12 @@ class User < ApplicationRecord
   has_many :flag_logs
   has_many :smoke_detectors
 
+  # A fake array of moderator site IDs.
+  # This is a messy way to do this, should
+  # be migrated to a proper table eventually
+
+  serialize :moderator_sites
+
   # All accounts start with reviewer role enabled
   after_create do
     self.add_role :reviewer
@@ -73,7 +79,40 @@ class User < ApplicationRecord
 
   # Flagging
 
+  def update_moderator_sites
+    return if api_token.nil?
+
+    page = 1
+    has_more = true
+    self.moderator_sites = []
+    auth_string = "key=#{AppConfig["stack_exchange"]["key"]}&access_token=#{api_token}"
+    while has_more
+      params = "?page=#{page}&pagesize=100&filter=!6OrReH6NRZrmc&#{auth_string}"
+      url = "https://api.stackexchange.com/2.2/me/associated" + params
+
+      response = JSON.parse(Net::HTTP.get_response(URI.parse(url)).body)
+      has_more = response["has_more"]
+      page += 1
+
+      response["items"].each do |network_account|
+        if network_account["user_type"] == "moderator"
+          self.moderator_sites << Site.find_by_site_url(network_account["site_url"])
+        end
+      end
+
+      if has_more and response.include? "backoff"
+        sleep response["backoff"].to_i
+      end
+    end
+
+    save!
+  end
+
   def spam_flag(post, dry_run=false)
+    if self.moderator_sites.include? post.site_id
+      raise "User is a moderator on this site; not flagging"
+    end
+
     if api_token.nil?
       raise "Not authenticated"
     end
