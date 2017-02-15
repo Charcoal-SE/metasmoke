@@ -15,12 +15,7 @@ class User < ApplicationRecord
   has_many :flag_conditions
   has_many :flag_logs
   has_many :smoke_detectors
-
-  # A fake array of moderator site IDs.
-  # This is a messy way to do this, should
-  # be migrated to a proper table eventually
-
-  serialize :moderator_sites
+  has_many :moderator_sites
 
   # All accounts start with reviewer role enabled
   after_create do
@@ -96,7 +91,7 @@ class User < ApplicationRecord
 
       response["items"].each do |network_account|
         if network_account["user_type"] == "moderator"
-          self.moderator_sites << Site.find_by_site_url(network_account["site_url"]).id
+          self.moderator_sites << ModeratorSite.new(:site_id => Site.find_by_site_url(network_account["site_url"]).id)
         end
       end
 
@@ -109,7 +104,7 @@ class User < ApplicationRecord
   end
 
   def spam_flag(post, dry_run=false)
-    if self.moderator_sites.include? post.site_id
+    if self.moderator_sites.pluck(:site_id).include? post.site_id
       raise "User is a moderator on this site; not flagging"
     end
 
