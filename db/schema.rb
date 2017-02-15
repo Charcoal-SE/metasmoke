@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170206165731) do
+ActiveRecord::Schema.define(version: 20170214234130) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.datetime "created_at",  null: false
@@ -291,6 +291,7 @@ ActiveRecord::Schema.define(version: 20170206165731) do
     t.integer  "stack_exchange_account_id"
     t.string   "api_token"
     t.boolean  "flags_enabled",              default: false
+    t.text     "moderator_sites",            limit: 65535
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
