@@ -55,4 +55,21 @@ class GraphsController < ApplicationController
                   {name: 'Dry runs', data: FlagLog.where(:success => true, :is_dry_run => true).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count},
                   {name: 'Successes', data: FlagLog.where(:success => true, :is_dry_run => false).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count}]
   end
+  
+  def detailed_ttd
+    render :json => [
+      {name: '0 flags', data: Post.group_by_hour_of_day('`posts`.`created_at`').select("AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion")
+                              .joins(:deletion_logs).where(:is_tp => true).where('created_at < ?', Date.new(2017, 1, 1))
+                              .where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600").relation.each_with_index
+                              .map{|a,i| [i, a.time_to_deletion.round(0)]}},
+      {name: '1 flag', data: Post.group_by_hour_of_day('`posts`.`created_at`').select("AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion")
+                              .joins(:deletion_logs).where(:is_tp => true).where('created_at >= ?', Date.new(2017, 1, 1)).where('created_at < ?', Date.new(2017, 2, 14))
+                              .where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600").relation.each_with_index
+                              .map{|a,i| [i, a.time_to_deletion.round(0)]}},
+      {name: '3 flags', data: Post.group_by_hour_of_day('`posts`.`created_at`').select("AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion")
+                              .joins(:deletion_logs).where(:is_tp => true).where('created_at >= ?', Date.new(2017, 2, 14))
+                              .where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600").relation.each_with_index
+                              .map{|a,i| [i, a.time_to_deletion.round(0)]}}
+    ]
+  end
 end
