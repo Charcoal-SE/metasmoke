@@ -22,7 +22,7 @@ class ApiController < ApplicationController
 
   def posts
     filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
-    @posts = Post.where(:id => params[:ids].split(";")).select(select_fields(filter)).order(:id => :desc).includes(:feedbacks).includes(:deletion_logs).includes(:flag_logs => [:user])
+    @posts = Post.where(:id => params[:ids].split(";")).select(select_fields(filter)).order(:id => :desc).joins(:feedbacks).joins(:deletion_logs).includes(:flag_logs => [:user])
     @results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
     @more = has_more?(params[:page], @results.count)
     render :formats => :json
