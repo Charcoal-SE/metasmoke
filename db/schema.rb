@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170215003244) do
+ActiveRecord::Schema.define(version: 20170217064146) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.datetime "created_at",  null: false
@@ -188,6 +188,7 @@ ActiveRecord::Schema.define(version: 20170215003244) do
     t.boolean  "is_fp",                                   default: false
     t.boolean  "is_naa",                                  default: false
     t.integer  "revision_count"
+    t.datetime "deleted_at"
     t.index ["created_at"], name: "index_posts_on_created_at", using: :btree
     t.index ["link"], name: "index_posts_on_link", length: { link: 191 }, using: :btree
   end
