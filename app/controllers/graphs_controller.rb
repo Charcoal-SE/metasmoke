@@ -40,9 +40,10 @@ class GraphsController < ApplicationController
   end
 
   def time_to_deletion
-    render :json => Post.group_by_hour_of_day('`posts`.`created_at`').select("AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion")
-                        .joins(:deletion_logs).where(:is_tp => true).where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600").relation.each_with_index
-                        .map {|a,i| [i, a.time_to_deletion.round(0)] }
+    render :json => Post.group_by_hour_of_day(:created_at).where(:is_tp => true)
+                        .where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`) <= 3600")
+                        .where.not(:deleted_at => nil)
+                        .average("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`)")
   end
 
   def flagging_results
