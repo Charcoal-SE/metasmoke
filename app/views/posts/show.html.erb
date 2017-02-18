@@ -36,12 +36,11 @@
     <%= image_tag @post.site_logo, size: "20" %>
   <% end %>
   <%= link_to "View on site", @post.link %>
-  <% deletion_log = @post.deletion_logs.where(:is_deleted => true).first %>
-  <% if deletion_log %>
+  <% if @post.deleted_at %>
     <span class="text-danger">
       (deleted
-        <span title="<%= (deletion_log.created_at - @post.created_at).round(0) %> seconds">
-          <%= distance_of_time_in_words(@post.created_at, deletion_log.created_at, include_seconds: true) %>
+        <span title="<%= (@post.deleted_at - @post.created_at).round(0) %> seconds">
+          <%= distance_of_time_in_words(@post.created_at, @post.deleted_at, include_seconds: true) %>
         </span>
       after being reported)
     </span>
