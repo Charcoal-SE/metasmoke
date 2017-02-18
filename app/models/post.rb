@@ -122,6 +122,10 @@ class Post < ApplicationRecord
     end
   end
 
+  def _deleted_at
+    Post.find(id).deleted_at
+  end
+
   def flaggers
     User.joins(:flag_logs).where(:flag_logs => {:success => true, :post_id => self.id})
   end

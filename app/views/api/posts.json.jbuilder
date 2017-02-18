@@ -9,7 +9,7 @@ json.items(@results) do |post|
       :names => post.flag_logs.select { |f| f.success }.map { |f| f.user.username },
       :users => post.flaggers.map { |u| u.as_json.select {|k,v| k == "username" or k.include? "_chat_id" } }
     },
-    :deleted_at => post.deleted_at,
+    :deleted_at => post._deleted_at,
     :feedbacks => post.feedbacks.map { |f| { :feedback_type => f.feedback_type, :user_name => f.user_name || f.user.username} }
   })
 end
