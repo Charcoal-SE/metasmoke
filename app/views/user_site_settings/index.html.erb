@@ -56,6 +56,7 @@
 </table>
 
 <% if FlagSetting['registration_enabled'] == '1' %>
+  <em>Don't want to set this up yourself? <%= link_to "There's a wizard for that.", url_for(:controller => :flag_conditions, :action => :one_click_setup) %></em>
   <%= link_to "Set up preferences", url_for(:controller => :user_site_settings, :action => :new) %><br/>
   <%= link_to "Set up conditions", url_for(:controller => :flag_conditions, :action => :index) %>
 <% else %>

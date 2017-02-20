@@ -140,6 +140,9 @@ Rails.application.routes.draw do
     post "smokey_disable", :to => 'flag_settings#smokey_disable_flagging'
     resources :flag_settings, :path => "/settings", :except => [:show]
 
+    get 'ocs', :to => 'flag_conditions#one_click_setup'
+    post 'run_ocs', :to => 'flag_conditions#run_ocs'
+
     get 'conditions/all', :to => 'flag_conditions#full_list'
     get 'conditions/preview', :to => 'flag_conditions#preview'
     get 'conditions/sandbox', :to => 'flag_conditions#sandbox'
