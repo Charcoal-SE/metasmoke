@@ -36,7 +36,7 @@ class ApiController < ApplicationController
   end
 
   def posts_by_url
-    filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
+    filter = "\x00\x00\x00\x00\x00\x00\x00\x03\xC3\xA5\xC2\x83\xC2\x80\x00\x00\x00\x00\x01"
     @posts = Post.where(:link => params[:urls].split(";")).select(select_fields(filter)).order(:id => :desc).includes(:feedbacks => [:user]).includes(:deletion_logs).includes(:flag_logs => [:user])
     @results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
     @more = has_more?(params[:page], @results.count)
