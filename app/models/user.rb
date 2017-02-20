@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_and_belongs_to_many :sites
   has_many :user_site_settings
   has_many :flag_conditions
-  has_many :flag_logs
+  has_many :flag_logs, :dependent => :nullify
   has_many :smoke_detectors
   has_many :moderator_sites
 
