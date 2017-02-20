@@ -15,15 +15,26 @@
       ], colors: ['#76ADE1', '#e0a976'] %>
 <% end %>
 
-<ul class="nav nav-tabs" role="tablist">
-  <li class="<%= 'active' if params[:user_id].nil? and (params[:filter].nil? or params[:filter] == 'all') %>"><%= link_to "All", flag_logs_path %></li>
-  <% if current_user %>
-    <li class="<%= 'active' if params[:user_id].to_i == current_user.id %>"><%= link_to "Mine", flag_logs_by_user_path(:user_id => current_user.id) %></li>
-  <% end %>
-  <li class="<%= 'active' if params[:filter] == 'fps' %>"><%= link_to "False Positives", flag_logs_path(filter: 'fps') %></li>
-</ul>
+<% if @individual_post.nil? %>
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="<%= 'active' if params[:user_id].nil? and (params[:filter].nil? or params[:filter] == 'all') %>"><%= link_to "All", flag_logs_path %></li>
+    <% if current_user %>
+      <li class="<%= 'active' if params[:user_id].to_i == current_user.id %>"><%= link_to "Mine", flag_logs_by_user_path(:user_id => current_user.id) %></li>
+    <% end %>
+    <li class="<%= 'active' if params[:filter] == 'fps' %>"><%= link_to "False Positives", flag_logs_path(filter: 'fps') %></li>
+  </ul>
+<% end %>
 
 <table class="table">
+  <% if @individual_post.present? %>
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Post</th>
+        <th>Result</th>
+      </tr>
+   </thead>
+  <% end %>
   <tbody>
     <% @flag_logs.each do |log| %>
       <%= render 'flag_log', :log => log %>
