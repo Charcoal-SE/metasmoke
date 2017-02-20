@@ -90,12 +90,16 @@ class FlagConditionsController < ApplicationController
   end
 
   def one_click_setup
+    unless current_user.api_token.present?
+      flash[:warning] = "You need to be write-authenticated before you can set up flagging."
+      redirect_to url_for(:controller => :authentication, :action => :status) and return
+    end
   end
 
   def run_ocs
     unless current_user.api_token.present?
       flash[:warning] = "You need to be write-authenticated before you can set up flagging."
-      redirect_to url_for(:controller => :flag_conditions, :action => :one_click_setup) and return
+      redirect_to url_for(:controller => :authentication, :action => :status) and return
     end
 
     condition = FlagCondition.create(:user => current_user, :sites => Site.mains, :flags_enabled => true, :min_weight => 280, :max_poster_rep => 1, :min_reason_count => 1)
