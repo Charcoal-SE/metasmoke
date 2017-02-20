@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170131001705) do
+ActiveRecord::Schema.define(version: 20170217064146) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at",  null: false
@@ -54,13 +54,6 @@ ActiveRecord::Schema.define(version: 20170131001705) do
     t.index ["created_at"], name: "index_audits_on_created_at", using: :btree
     t.index ["request_uuid"], name: "index_audits_on_request_uuid", length: { request_uuid: 191 }, using: :btree
     t.index ["user_id", "user_type"], name: "user_index", length: { user_type: 191 }, using: :btree
-  end
-
-  create_table "blacklisted_websites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "host",                                   collation: "utf8_unicode_ci"
-    t.boolean  "is_active",  default: true
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
   end
 
   create_table "commit_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -168,6 +161,13 @@ ActiveRecord::Schema.define(version: 20170131001705) do
     t.index ["user_id"], name: "index_ignored_users_on_user_id", using: :btree
   end
 
+  create_table "moderator_sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.integer  "site_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title",                                                   collation: "utf8mb4_unicode_ci"
     t.text     "body",                   limit: 16777215,                 collation: "utf8mb4_unicode_ci"
@@ -188,6 +188,7 @@ ActiveRecord::Schema.define(version: 20170131001705) do
     t.boolean  "is_fp",                                   default: false
     t.boolean  "is_naa",                                  default: false
     t.integer  "revision_count"
+    t.datetime "deleted_at"
     t.index ["created_at"], name: "index_posts_on_created_at", using: :btree
     t.index ["link"], name: "index_posts_on_link", length: { link: 191 }, using: :btree
   end
@@ -235,13 +236,15 @@ ActiveRecord::Schema.define(version: 20170131001705) do
 
   create_table "smoke_detectors", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "last_ping"
-    t.string   "name",                      collation: "utf8mb4_unicode_ci"
-    t.string   "location",                  collation: "utf8mb4_unicode_ci"
-    t.string   "access_token",              collation: "utf8mb4_unicode_ci"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.string   "name",                                        collation: "utf8mb4_unicode_ci"
+    t.string   "location",                                    collation: "utf8mb4_unicode_ci"
+    t.string   "access_token",                                collation: "utf8mb4_unicode_ci"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.datetime "email_date"
     t.integer  "user_id"
+    t.boolean  "is_standby",     default: false
+    t.boolean  "force_failover", default: false
     t.index ["user_id"], name: "index_smoke_detectors_on_user_id", using: :btree
   end
 
