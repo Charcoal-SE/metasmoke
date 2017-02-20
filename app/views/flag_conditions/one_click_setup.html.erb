@@ -1,0 +1,27 @@
+<h3>Autoflagging: one-click setup</h3>
+<p>If you don't want to run through setting autoflagging up yourself, you can use this wizard to set it up for you.</p>
+<p>When you click the button below, metasmoke will create settings for you with the default values where possible, or
+  otherwise reasonable assumptions. That means:</p>
+<ul>
+  <li>You will have one flag condition set up to 280/1/1, the default setting, with an accuracy of 99.98%.</li>
+  <li>You will have one preference set up to use 7 of your flags maximum per-site.</li>
+  <li>Both of the above will be set up to only apply to Stack Overflow; no other sites will be included.</li>
+  <li class="text-danger"><strong>Flagging in your name will be enabled.</strong></li>
+</ul>
+<p>You can still change these settings manually after they've been created.</p>
+
+<div class="panel panel-danger">
+  <div class="panel-heading">
+    <h3 class="panel-title">Disclaimer</h3>
+  </div>
+  <div class="panel-body">
+    <p>
+      <strong class="text-danger">Warning:</strong> standard disclaimers apply. By using this wizard, you are explicitly consenting to
+      your Stack Exchange account being used to cast flags automatically based on data collected by SmokeDetector. While we believe this has a high
+      rate of accuracy and have designed the system to reflect this, flags cast using your account are your responsibility, and many invalid flags
+      can in some cases result in your SE account being suspended. Only use this wizard if you are happy with this responsibility.
+    </p>
+  </div>
+</div>
+
+<%= link_to "Set me up!", url_for(:controller => :flag_conditions, :action => :run_ocs), :method => :post, :class => "btn btn-danger" %>
