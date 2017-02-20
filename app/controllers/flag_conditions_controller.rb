@@ -98,8 +98,8 @@ class FlagConditionsController < ApplicationController
       redirect_to url_for(:controller => :flag_conditions, :action => :one_click_setup) and return
     end
 
-    condition = FlagCondition.create(:user => current_user, :sites => [Site.find(1)], :flags_enabled => true, :min_weight => 280, :max_poster_rep => 1, :min_reason_count => 1)
-    preference= UserSiteSetting.create(:user => current_user, :sites => [Site.find(1)], :max_flags => 7)
+    condition = FlagCondition.create(:user => current_user, :sites => Site.mains, :flags_enabled => true, :min_weight => 280, :max_poster_rep => 1, :min_reason_count => 1)
+    preference= UserSiteSetting.create(:user => current_user, :sites => Site.mains, :max_flags => 7)
     current_user.update(:flags_enabled => true)
 
     flash[:info] = "The necessary settings for autoflagging have been created - please review them to make sure you're happy."
