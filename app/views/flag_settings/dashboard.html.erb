@@ -61,7 +61,7 @@
       <div class="module-body">
         <p>
           <%= link_to flag_logs_path do %>
-            <strong><%= @recent_count %></strong> flags cast
+            <strong><%= pluralize @recent_count, 'flag' %></strong> cast
           <% end %>
         </p>
       </div>
