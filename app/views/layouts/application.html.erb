@@ -73,9 +73,6 @@
                   <li><%= link_to 'Logout', destroy_user_session_path, :method => :delete %></li>
                   <li><%= link_to 'Apps', url_for(:controller => '/users', :action => :apps) %></li>
                   <li><a href="/admin">Tools</a></li>
-                  <% if current_user.has_role? :code_admin %>
-                    <li><%= link_to 'Blacklist', url_for(:controller => '/blacklist', :action => :index) %></li>
-                  <% end %>
                   <li><%= link_to 'Feedback', admin_user_feedback_path(:user_id => current_user.id) %></li>
                 </ul>
               </li>
@@ -85,6 +82,9 @@
             <% end %>
             <% if CurrentCommit.present? %>
               <li><a href="https://github.com/Charcoal-SE/metasmoke/commit/<%= CurrentCommit %>" title="<%= Rails::VERSION::STRING %>"><code><%= CurrentCommit.first(7) %></code></a></li>
+            <% end %>
+            <% if controller.class == DashboardController %>
+              <li class="search-icon hidden-xs"><a class="glyphicon glyphicon-search" href=#><span class="sr-only">Search</span></a></li>
             <% end %>
           </ul>
         </div><!-- /.navbar-collapse -->

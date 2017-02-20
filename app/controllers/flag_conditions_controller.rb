@@ -21,7 +21,10 @@ class FlagConditionsController < ApplicationController
   end
 
   def new
-    @condition = FlagCondition.new(:site_ids => Site.mains.map(&:id))
+    @condition = FlagCondition.new(:site_ids => Site.mains.map(&:id),
+                                   :min_weight => 280,
+                                   :max_poster_rep => 1,
+                                   :min_reason_count => 1)
   end
 
   def create
@@ -48,6 +51,14 @@ class FlagConditionsController < ApplicationController
   end
 
   def edit
+    unless @condition.flags_enabled
+      @condition.flags_enabled = true
+      @condition.validate
+
+      @validation_errors = @condition.errors.dup
+      @condition.restore_attributes
+      @condition.errors.clear
+    end
   end
 
   def update
@@ -101,7 +112,7 @@ class FlagConditionsController < ApplicationController
   end
 
   def condition_params
-    params.require(:flag_condition).permit(:min_weight, :max_poster_rep, :min_reason_count, :sites)
+    params.require(:flag_condition).permit(:min_weight, :max_poster_rep, :min_reason_count, :sites, :flags_enabled)
   end
 
   def verify_authorized

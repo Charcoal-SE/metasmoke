@@ -94,5 +94,13 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.action_cable.allowed_request_origins = ['http://metasmoke.erwaysoftware.com', 'https://metasmoke.erwaysoftware.com', 'https://www.websocket.org']
+  config.action_cable.allowed_request_origins = ["http://metasmoke.erwaysoftware.com",
+                                                 "https://metasmoke.erwaysoftware.com",
+                                                 "https://www.websocket.org",
+                                                 "http://chat.stackexchange.com",
+                                                 "https://chat.stackexchange.com",
+                                                 "http://chat.meta.stackexchange.com",
+                                                 "https://chat.meta.stackexchange.com",
+                                                 "http://chat.stackoverflow.com",
+                                                 "https://chat.stackoverflow.com"]
 end

@@ -6,7 +6,7 @@ class Post < ApplicationRecord
   belongs_to :stack_exchange_user
   has_many :flag_logs
 
-  scope :includes_for_post_row, -> { includes(:reasons).includes(:feedbacks => [:user]) }
+  scope :includes_for_post_row, -> { includes(:reasons).includes(:feedbacks => [:user, :api_key]) }
 
   after_create do
     ActionCable.server.broadcast "posts_realtime", { row: PostsController.render(locals: {post: Post.last}, partial: 'post').html_safe }
@@ -32,9 +32,7 @@ class Post < ApplicationRecord
 
           if users.present?
             begin
-              if post.fetch_revision_count > 1
-                FlagLog.create(:success => false, :error_message => "More than one revision", :is_dry_run => dry_run, :flag_condition => nil, :user => nil, :post => post)
-              end
+              post.fetch_revision_count
             rescue => e
               FlagLog.create(:success => false, :error_message => "Couldn't get revision count: #{e}: #{e.message} | #{e.backtrace.join("\n")}", :is_dry_run => dry_run, :flag_condition => nil, :user => nil, :post => post)
             end
@@ -56,7 +54,12 @@ class Post < ApplicationRecord
                 backoff = message
               end
 
-              FlagLog.create(:success => success, :error_message => message, :is_dry_run => dry_run, :flag_condition => available_user_ids[user.id], :user => user, :post => post, :backoff => backoff)
+              flag_log = FlagLog.create(:success => success, :error_message => message, :is_dry_run => dry_run, :flag_condition => available_user_ids[user.id], :user => user, :post => post, :backoff => backoff)
+
+              if success
+                ActionCable.server.broadcast "api_flag_logs", { flag_log: JSON.parse(FlagLogController.render(locals: {flag_log: flag_log}, partial: 'flag_log.json')) }
+                ActionCable.server.broadcast "flag_logs", { row: FlagLogController.render(locals: {log: flag_log}, partial: 'flag_log') }
+              end
 
               if successful >= [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
                 break
@@ -65,6 +68,10 @@ class Post < ApplicationRecord
           end
         rescue => e
           FlagLog.create(:success => false, :error_message => "#{e}: #{e.message} | #{e.backtrace.join("\n")}", :is_dry_run => dry_run, :flag_condition => nil, :post => post)
+        end
+
+        if post.flag_logs.where(:success => true).empty?
+          ActionCable.server.broadcast "api_flag_logs", { not_flagged: { post_link: post.link } }
         end
       end
     end
@@ -108,7 +115,19 @@ class Post < ApplicationRecord
   end
 
   def flagged?
-    self.flag_logs.where(:success => true).present?
+    if flag_logs.loaded?
+      flag_logs.select { |f| f.success}.present?
+    else
+      flag_logs.where(:success => true).present?
+    end
+  end
+
+  def _deleted_at
+    Post.find(id).deleted_at
+  end
+
+  def flaggers
+    User.joins(:flag_logs).where(:flag_logs => {:success => true, :post_id => self.id})
   end
 
   def fetch_revision_count

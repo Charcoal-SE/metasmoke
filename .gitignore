@@ -30,3 +30,9 @@ db_import_*.sql
 .byebug_history
 
 coverage
+
+.DS_Store
+.ruby-gemset
+.ruby-version
+
+config/deploy/*

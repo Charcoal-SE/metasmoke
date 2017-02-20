@@ -10,25 +10,36 @@
 
 <% if @individual_post.nil? %>
   <%= line_chart [
-        {name: 'Flags', data: @applicable_flag_logs.group_by_day(:created_at, :range => 1.month.ago.to_date..Time.now).count},
-        {name: 'Posts', data: @applicable_flag_logs.select('DISTINCT post_id').group_by_day(:created_at, :range => 1.month.ago.to_date..Time.now).count}
+        {name: 'Flags', data: @applicable_flag_logs.group_by_day("flag_logs.created_at", :range => 1.month.ago.to_date..Time.now).count},
+        {name: 'Posts', data: @applicable_flag_logs.select('DISTINCT post_id').group_by_day("flag_logs.created_at", :range => 1.month.ago.to_date..Time.now).count}
       ], colors: ['#76ADE1', '#e0a976'] %>
 <% end %>
 
-<table class="table">
-  <tr>
-    <th>User</th>
-    <th>Post</th>
-    <th>Result</th>
-  </tr>
+<% if @individual_post.nil? %>
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="<%= 'active' if params[:user_id].nil? and (params[:filter].nil? or params[:filter] == 'all') %>"><%= link_to "All", flag_logs_path %></li>
+    <% if current_user %>
+      <li class="<%= 'active' if params[:user_id].to_i == current_user.id %>"><%= link_to "Mine", flag_logs_by_user_path(:user_id => current_user.id) %></li>
+    <% end %>
+    <li class="<%= 'active' if params[:filter] == 'fps' %>"><%= link_to "False Positives", flag_logs_path(filter: 'fps') %></li>
+  </ul>
+<% end %>
 
-  <% @flag_logs.each do |log| %>
-    <tr>
-      <td><%= log.user.try(:username) %></td>
-      <%= render "posts/post", :post => log.post, :wrap_in_tr => false %>
-      <td class='<%= "success" if log.success %>' title="<%= log.error_message %>"><%= log.success ? "Success" : "Fail" %><%= " (dry run)" if log.is_dry_run %></td>
-    </tr>
+<table class="table">
+  <% if @individual_post.present? %>
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Post</th>
+        <th>Result</th>
+      </tr>
+   </thead>
   <% end %>
+  <tbody>
+    <% @flag_logs.each do |log| %>
+      <%= render 'flag_log', :log => log %>
+    <% end %>
+  </tbody>
 </table>
 
 <div class="text-center">

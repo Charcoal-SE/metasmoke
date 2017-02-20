@@ -1,6 +1,7 @@
 class SmokeDetectorsController < ApplicationController
   before_action :authenticate_user!, :except => [:audits]
-  before_action :verify_admin, :except => [:audits]
+  before_action :verify_admin, :except => [:audits, :force_failover]
+  before_action :verify_code_admin, :only => [:force_failover]
   before_action :set_smoke_detector, :except => [:audits]
 
   def destroy
@@ -9,7 +10,14 @@ class SmokeDetectorsController < ApplicationController
     else
       flash[:danger] = "Can't remove key. If Undo's gone rogue, start running."
     end
-    redirect_to url_for(:controller => :status, :action => :index)
+    redirect_to status_path
+  end
+
+  def force_failover
+    @smoke_detector.update(:force_failover => true)
+    flash[:success] = "Failover for #{@smoke_detector.location} will be forced on the next ping; probably within 60 seconds."
+
+    redirect_to status_path
   end
 
   def audits

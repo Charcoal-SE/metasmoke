@@ -41,3 +41,60 @@
 #devise-links a {
   color: grey !important
 }
+
+@media (min-width: 768px) {
+  .navbar-form {
+    margin: 0;
+    padding-left: 0;
+    position: absolute;
+    right: 15px;
+    z-index: 1;
+    pointer-events: none;
+    .form-group {
+      height: 38px;
+      display: flex;
+      align-items: center;
+      #search {
+        width: 250px;
+        box-sizing: border-box;
+        pointer-events: initial;
+        & {
+          transition: all 0.4s;
+        }
+        &:not(:focus) {
+          pointer-events: none;
+          width: 25px !important;
+          opacity: 0;
+        }
+      }
+    }
+  }
+}
+
+.sortable-table th:not(.no-sort) {
+  cursor: pointer;
+  padding-left: 1em;
+  position: relative;
+
+  &::before, &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-width: 4px;
+    border-style: none solid;
+    border-color: #999;
+    border-right-color: transparent;
+    border-left-color: transparent;
+  }
+  &::before {
+    border-bottom-style: solid;
+    bottom: 1.4em;
+  }
+  &::after {
+    bottom: 0.9em;
+    border-top-style: solid;
+  }
+}

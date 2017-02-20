@@ -13,13 +13,15 @@ class Feedback < ApplicationRecord
 
   after_save do
     if self.update_post_feedback_cache # if post feedback cache was changed
-      if self.api_key.present?
-        # ActionCable.server.broadcast "smokedetector_messages", { :message => "Received feedback (#{self.feedback_type}) from #{self.user.username} on #{self.post_id} via API application #{self.api_key.app_name}." }
+      if self.post.flagged? and self.post.is_fp
+        SmokeDetector.send_message_to_charcoal "fp feedback on autoflagged post: [#{self.post.title}](//metasmoke.erwaysoftware.com/post/#{self.post_id})"
       end
     end
   end
+
   after_create do
     ActionCable.server.broadcast "posts_#{self.post_id}", { feedback: FeedbacksController.render(locals: {feedback: self}, partial: 'feedback').html_safe }
+    ActionCable.server.broadcast "api_feedback", { feedback: JSON.parse(FeedbacksController.render(locals: {feedback: self}, partial: 'feedback.json')) }
   end
 
   def is_positive?

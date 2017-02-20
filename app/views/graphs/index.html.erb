@@ -1,11 +1,11 @@
 <% title 'Graphs' %>
 
-<h3>Reports by hour</h3>
+<h3 id="reports-by-hour">Reports by hour</h3>
 <br />
 
 <%= line_chart url_for(:controller => :graphs, :action => :reports_by_hour), colors: ["#999", "green", "red"], library: {"tooltip" => {'shared' => 'true'} } %>
 
-<h3>Reports by site</h3>
+<h3 id="reports-by-site">Reports by site</h3>
         (<%= link_to "Last month", graphs_path, style: params[:timeframe].nil? ? "font-weight:bold" : "" %>
         |
         <%= link_to "All time", graphs_path(timeframe: "all"), style: params[:timeframe].present? ? "font-weight:bold" : ""%>)
@@ -15,7 +15,7 @@
 <% h = HTMLEntities.new %>
 <%= pie_chart url_for(:controller => :graphs, :action => :reports_by_site, :timeframe => params[:timeframe]) %>
 
-<h3>Reports by hour of day</h3>
+<h3 id="by-hour-of-day">Reports by hour of day</h3>
         (<%= link_to "Last month", graphs_path, style: params[:timeframe].nil? ? "font-weight:bold" : "" %>
         |
         <%= link_to "All time", graphs_path(timeframe: "all"), style: params[:timeframe].present? ? "font-weight:bold" : ""%>)
@@ -30,7 +30,12 @@
 <br />
 <br />
 
-<h3>Time to deletion</h3>
+<h3 id="time-to-deletion">Time to deletion</h3>
 <p class="text-muted">tp posts only, same scale as above</p>
 <%= line_chart url_for(:controller => :graphs, :action => :time_to_deletion),
-               library: { "xAxis": { "labels": { "enabled": false }, "plotLines" => [{"width" => '2', :value => "#{t.hour + t.min.to_f / 60.to_f}", :color => 'blue', :dashStyle => "dot" }]}} %>
+               library: { "xAxis": { "plotLines" => [{"width" => '2', :value => "#{t.hour + t.min.to_f / 60.to_f}", :color => 'blue', :dashStyle => "dot" }]}} %>
+
+<h3 id="autoflagging-time-to-deletion">Time to deletion</h3>
+<p class="text-muted">Last 3 months</p>
+
+<%= line_chart url_for(:controller => :graphs, :action => :monthly_ttd) %>

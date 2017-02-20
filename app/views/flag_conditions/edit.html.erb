@@ -11,4 +11,15 @@
     </div>
 <% end %>
 
+<% if @validation_errors.present? %>
+    <div class="alert alert-danger">
+      <p>This condition doesn't match the current requirements, and is disabled. It may have been automatically disabled. Here's what's wrong:</p>
+      <ul>
+        <% @validation_errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+<% end %>
+
 <%= render partial: "form" %>

@@ -1,9 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  host: MyString
-  is_active: false
+  user_id: 1
+  site_id: 1
 
 two:
-  host: MyString
-  is_active: false
+  user_id: 1
+  site_id: 1

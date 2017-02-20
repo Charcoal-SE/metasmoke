@@ -8,13 +8,17 @@ class FlagLogController < ApplicationController
       @applicable_flag_logs = FlagLog.all
     end
 
-    @flag_logs = @applicable_flag_logs.order('created_at DESC').includes(:post => [:feedbacks => [:user, :api_key]]).includes(:post => [:reasons]).includes(:user).paginate(:page => params[:page], :per_page => 100)
+    if params[:filter] == 'fps'
+      @applicable_flag_logs = @applicable_flag_logs.includes(:post).where(:posts => {:is_tp => false}).where(:success => true)
+    end
+
+    @flag_logs = @applicable_flag_logs.order('flag_logs.created_at DESC, flag_logs.id DESC').includes(:post => [:feedbacks => [:user, :api_key]]).includes(:post => [:reasons]).includes(:user).paginate(:page => params[:page], :per_page => 100)
     @sites = Site.where(:id => @flag_logs.map(&:post).map(&:site_id)).to_a
   end
 
   def by_post
     @individual_post = Post.find(params[:id])
-    @flag_logs = @individual_post.flag_logs.order('created_at DESC').includes(:post => [:feedbacks => [:user, :api_key]]).includes(:post => [:reasons]).includes(:user).paginate(:page => params[:page], :per_page => 100)
+    @flag_logs = @individual_post.flag_logs.order('created_at DESC, id DESC').includes(:post => [:feedbacks => [:user, :api_key]]).includes(:post => [:reasons]).includes(:user).paginate(:page => params[:page], :per_page => 100)
     @sites = Site.where(:id => @flag_logs.map(&:post).map(&:site_id)).to_a
     render :index
   end

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class BlacklistedWebsiteTest < ActiveSupport::TestCase
+class ModeratorSiteTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

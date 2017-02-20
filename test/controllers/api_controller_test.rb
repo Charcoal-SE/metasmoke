@@ -1,6 +1,13 @@
 require 'test_helper'
 
 class ApiControllerTest < ActionController::TestCase
+  test "should get index" do
+    sign_out(:users)
+    get :api_docs
+
+    assert_response 302
+  end
+
   test "shouldn't allow unauthenticated users to write" do
     sign_out(:users)
     put :create_feedback, params: { id: 23653, type: 'tpu-', key: api_keys(:one).key }

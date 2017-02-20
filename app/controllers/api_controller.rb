@@ -1,11 +1,17 @@
 class ApiController < ApplicationController
-  before_action :verify_key, :except => [:filter_generator]
-  before_action :set_pagesize, :except => [:filter_generator]
+  before_action :verify_key, :except => [:filter_generator, :api_docs]
+  before_action :set_pagesize, :except => [:filter_generator, :api_docs]
   before_action :verify_write_token, :only => [:create_feedback, :report_post]
   skip_before_action :verify_authenticity_token, :only => [:create_feedback, :report_post]
 
   # Yes, this looks bad, but it actually works as a cache - we only have to calculate the bitstring for each filter once.
   @@filters = Hash.new { |h, k| h[k] = k.chars.map { |c| c.ord.to_s(2).rjust(8, '0') }.join('') }
+
+  # Public routes
+
+  def api_docs
+    redirect_to "https://github.com/Charcoal-SE/metasmoke/wiki/API-Documentation"
+  end
 
   # Routes for developer use
 
@@ -16,7 +22,7 @@ class ApiController < ApplicationController
 
   def posts
     filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
-    @posts = Post.where(:id => params[:ids].split(";")).select(select_fields(filter)).order(:id => :desc)
+    @posts = Post.where(:id => params[:ids].split(";")).select(select_fields(filter)).order(:id => :desc).joins(:feedbacks).joins(:deletion_logs).includes(:flag_logs => [:user])
     @results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
     @more = has_more?(params[:page], @results.count)
     render :formats => :json
@@ -24,14 +30,14 @@ class ApiController < ApplicationController
 
   def posts_by_feedback
     filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
-    @posts = Post.all.joins(:feedbacks).where(:feedbacks => { :feedback_type => params[:type] }).select(select_fields(filter)).order(:id => :desc)
+    @posts = Post.all.joins(:feedbacks).where(:feedbacks => { :feedback_type => params[:type] }).select(select_fields(filter)).order(:id => :desc).includes(:feedbacks).includes(:flag_logs => [:user])
     results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
   def posts_by_url
     filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
-    @posts = Post.where(:link => params[:urls].split(";")).select(select_fields(filter)).order(:id => :desc)
+    @posts = Post.where(:link => params[:urls].split(";")).select(select_fields(filter)).order(:id => :desc).includes(:feedbacks => [:user]).includes(:deletion_logs).includes(:flag_logs => [:user])
     @results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
     @more = has_more?(params[:page], @results.count)
     render 'posts.json.jbuilder'
@@ -39,21 +45,21 @@ class ApiController < ApplicationController
 
   def posts_by_site
     filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
-    @posts = Post.joins(:site).where(:sites => { :site_url => params[:site] }).select(select_fields(filter)).order(:id => :desc)
+    @posts = Post.joins(:site).where(:sites => { :site_url => params[:site] }).select(select_fields(filter)).order(:id => :desc).includes(:feedbacks).includes(:flag_logs => [:user])
     results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
   def posts_by_daterange
     filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
-    @posts = Post.where(:created_at => DateTime.strptime(params[:from_date], '%s')..DateTime.strptime(params[:to_date], '%s'))
+    @posts = Post.where(:created_at => DateTime.strptime(params[:from_date], '%s')..DateTime.strptime(params[:to_date], '%s')).includes(:feedbacks).includes(:flag_logs => [:user])
     results = @posts.select(select_fields(filter)).order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
 
   def undeleted_posts
     filter = "\x00\x00\x00\x00\x00\x00\x00\x03sc\xc2\x80\x00\x00\x00\x00\x00"
-    @posts = Post.left_outer_joins(:deletion_logs).where(:deletion_logs => { :id => nil }).select(select_fields(filter))
+    @posts = Post.left_outer_joins(:deletion_logs).where(:deletion_logs => { :id => nil }).select(select_fields(filter)).includes(:feedbacks).includes(:flag_logs => [:user])
     results = @posts.order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end

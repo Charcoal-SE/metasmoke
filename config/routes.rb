@@ -1,38 +1,50 @@
 Rails.application.routes.draw do
-  get 'authentication/status'
-
-  get 'authentication/redirect_target'
+  root to: "dashboard#index"
+  get "dashboard", to: "dashboard#index"
 
   mount ActionCable.server => '/cable'
 
-  get 'users/username'
-  post 'users/username', to: "users#set_username"
-  get 'users/apps', to: 'users#apps'
-  delete 'users/revoke_app', to: 'users#revoke_app'
+  scope "/authentication" do
+    get 'status', to: 'authentication#status', as: :authentication_status
+    get 'redirect_target', to: 'authentication#redirect_target'
+  end
 
-  get 'review', to: "review#index"
-  post 'review/feedback', to: "review#add_feedback"
+  scope "/users" do
+    root to: 'admin#users', as: :users
+    get 'username', to: 'users#username', as: :users_username
+    post 'users/username', to: "users#set_username"
+    get 'users/apps', to: 'users#apps', as: :users_apps
+    delete 'users/revoke_app', to: 'users#revoke_app', as: :users_revoke_app
+  end
+
+  scope "/review" do
+    root to: "review#index", as: :review
+    post 'feedback', to: "review#add_feedback", as: :review_feedback
+  end
 
   get 'stack_exchange_users/index'
   get 'stackusers/:id', to: "stack_exchange_users#show", as: "stack_exchange_user"
 
   get 'search', to: 'search#search_results'
 
-  get "graphs", to: "graphs#index"
-  get 'graphs/flagging_results', :to => 'graphs#flagging_results'
-  get 'graphs/flagging_timeline', :to => 'graphs#flagging_timeline'
-  get 'graphs/reports_hours', :to => 'graphs#reports_by_hour'
-  get 'graphs/reports_sites', :to => 'graphs#reports_by_site'
-  get 'graphs/reports_hod', :to => 'graphs#reports_by_hour_of_day'
-  get 'graphs/ttd', :to => 'graphs#time_to_deletion'
+  scope "/graphs" do
+    root to: "graphs#index", as: :graphs
+    get 'flagging_results', :to => 'graphs#flagging_results'
+    get 'flagging_timeline', :to => 'graphs#flagging_timeline'
+    get 'reports_hours', :to => 'graphs#reports_by_hour'
+    get 'reports_sites', :to => 'graphs#reports_by_site'
+    get 'reports_hod', :to => 'graphs#reports_by_hour_of_day'
+    get 'ttd', :to => 'graphs#time_to_deletion'
+    get 'dttd', :to => 'graphs#detailed_ttd'
+    get 'monthly_ttd', :to => 'graphs#monthly_ttd'
+  end
 
   get "status", to: "status#index"
   get "smoke_detector/:id/statistics", to: "statistics#index", as: :smoke_detector_statistics
   delete 'smoke_detector/:id', :to => 'smoke_detectors#destroy'
+  post 'smoke_detector/:id/force_failover', to: 'smoke_detectors#force_failover', as: :smoke_detector_force_failover
   get 'smoke_detector/audits', :to => 'smoke_detectors#audits'
   post "statistics.json", to: "statistics#create"
-
-  get "users", to: 'admin#users'
 
   get 'admin', to: 'admin#index'
   get 'admin/invalidated', to: 'admin#recently_invalidated'
@@ -79,8 +91,6 @@ Rails.application.routes.draw do
   post 'deletion_logs.json', to: "deletion_logs#create"
   post "status-update.json", to: "status#status_update"
 
-  get "dashboard", to: "dashboard#index"
-
   get "reason/:id", to: "reasons#show", as: :reason
   get "reason/:id/site_chart", to: "reasons#sites_chart", as: :reason_site_chart
   get "reason/:id/accuracy_chart", to: "reasons#accuracy_chart", as: :reason_accuracy_chart
@@ -88,51 +98,52 @@ Rails.application.routes.draw do
   get "posts/recent.json", to: "posts#recentpostsapi"
   post "posts/add_feedback", to: "review#add_feedback"
 
-  get 'blacklist', to: 'blacklist#index'
-  get 'blacklist/add_website', to: 'blacklist#add_website'
-  post 'blacklist/add_website', to: 'blacklist#create_website'
-  delete 'blacklist/website/:id', to: 'blacklist#deactivate_website'
+  scope "/github" do
+    post 'status_hook', to: 'github#status_hook', as: :github_status_hook
+    post 'pull_request_hook', to: 'github#pull_request_hook', as: :github_pull_request_hook
+    post 'ci_hook', to: 'github#ci_hook', as: :github_ci_hook
+    post 'update_deploy_to_master', to: 'github#update_deploy_to_master', as: :github_update_deploy_to_master
+  end
 
-  post 'github/status_hook'
-  post 'github/pull_request_hook'
-  post 'github/ci_hook'
-  post 'github/update_deploy_to_master'
+  scope "/api" do
+    root to: 'api#api_docs'
 
-  root to: "dashboard#index"
+    get  'filters', :to => 'api#filter_generator'
+    get  'smoke_detectors/status', :to => 'api#current_status'
+    get  'posts/urls', :to => 'api#posts_by_url'
+    post 'posts/urls', :to => 'api#posts_by_url'
+    get  'posts/feedback', :to => 'api#posts_by_feedback'
+    get  'posts/undeleted', :to => 'api#undeleted_posts'
+    get  'posts/site', :to => 'api#posts_by_site'
+    get  'posts/between', :to => 'api#posts_by_daterange'
+    get  'posts/search', :to => 'api#search_posts'
+    get  'posts/:ids', :to => 'api#posts'
+    get  'post/:id/feedback', :to => 'api#post_feedback'
+    get  'post/:id/reasons', :to => 'api#post_reasons'
+    get  'post/:id/valid_feedback', :to => 'api#post_valid_feedback'
+    get  'reasons/:ids', :to => 'api#reasons'
+    get  'reason/:id/posts', :to => 'api#reason_posts'
+    get  'blacklist', :to => 'api#blacklisted_websites'
+    get  'users/code_privileged', :to => 'api#users_with_code_privs'
 
-  get  'api', :to => 'dashboard#api_docs'
-  get  'api/filters', :to => 'api#filter_generator'
+    post 'w/post/:id/feedback', :to => 'api#create_feedback'
+    post 'w/post/report', :to => 'api#report_post'
+  end
 
-  get  'api/smoke_detectors/status', :to => 'api#current_status'
-  get  'api/posts/urls', :to => 'api#posts_by_url'
-  post 'api/posts/urls', :to => 'api#posts_by_url'
-  get  'api/posts/feedback', :to => 'api#posts_by_feedback'
-  get  'api/posts/undeleted', :to => 'api#undeleted_posts'
-  get  'api/posts/site', :to => 'api#posts_by_site'
-  get  'api/posts/between', :to => 'api#posts_by_daterange'
-  get  'api/posts/search', :to => 'api#search_posts'
-  get  'api/posts/:ids', :to => 'api#posts'
-  get  'api/post/:id/feedback', :to => 'api#post_feedback'
-  get  'api/post/:id/reasons', :to => 'api#post_reasons'
-  get  'api/post/:id/valid_feedback', :to => 'api#post_valid_feedback'
-  get  'api/reasons/:ids', :to => 'api#reasons'
-  get  'api/reason/:id/posts', :to => 'api#reason_posts'
-  get  'api/blacklist', :to => 'api#blacklisted_websites'
-  get  'api/users/code_privileged', :to => 'api#users_with_code_privs'
+  scope "/oauth" do
+    get 'request', to: 'micro_auth#token_request', as: :oauth_request
+    post 'authorize', to: 'micro_auth#authorize', as: :oauth_authorize
+    get 'authorized', to: 'micro_auth#authorized', as: :oauth_authorized
+    get 'reject', to: 'micro_auth#reject', as: :oauth_reject
+    get 'token', to: 'micro_auth#token', as: :oauth_token
+    get 'invalid_key', to: 'micro_auth#invalid_key', as: :oauth_invalid_key
+  end
 
-  post 'api/w/post/:id/feedback', :to => 'api#create_feedback'
-  post 'api/w/post/report', :to => 'api#report_post'
-
-  get 'oauth/request', :to => 'micro_auth#token_request'
-  post 'oauth/authorize', :to => 'micro_auth#authorize'
-  get 'oauth/authorized', :to => 'micro_auth#authorized'
-  get 'oauth/reject', :to => 'micro_auth#reject'
-  get 'oauth/token', :to => 'micro_auth#token'
-  get 'oauth/invalid_key', :to => 'micro_auth#invalid_key'
-
-  post 'dev/update_sites', :to => 'developer#update_sites'
-  get 'dev/prod_log', :to => 'developer#production_log'
-  get 'dev/blank', :to => 'developer#blank_page'
+  scope "/dev" do
+    post 'update_sites', to: 'developer#update_sites', as: :dev_update_sites
+    get 'prod_log', to: 'developer#production_log', as: :dev_prod_log
+    get 'blank', to: 'developer#blank_page', as: :dev_blank
+  end
 
   # flagging
   get 'flagging', :to => 'flag_settings#dashboard'

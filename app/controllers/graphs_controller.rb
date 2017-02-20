@@ -40,9 +40,10 @@ class GraphsController < ApplicationController
   end
 
   def time_to_deletion
-    render :json => Post.group_by_hour_of_day('`posts`.`created_at`').select("AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion")
-                        .joins(:deletion_logs).where(:is_tp => true).where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600").relation.each_with_index
-                        .map {|a,i| [i, a.time_to_deletion.round(0)] }
+    render :json => Post.group_by_hour_of_day(:created_at).where(:is_tp => true)
+                        .where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`) <= 3600")
+                        .where.not(:deleted_at => nil)
+                        .average("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`)")
   end
 
   def flagging_results
@@ -54,5 +55,29 @@ class GraphsController < ApplicationController
     render json: [{name: 'Failures', data: FlagLog.where(:success => false).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count},
                   {name: 'Dry runs', data: FlagLog.where(:success => true, :is_dry_run => true).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count},
                   {name: 'Successes', data: FlagLog.where(:success => true, :is_dry_run => false).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count}]
+  end
+
+  def detailed_ttd
+    render :json => [
+      {name: '0 flags', data: Post.group_by_hour_of_day('`posts`.`created_at`').select("AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion")
+                              .joins(:deletion_logs).where(:is_tp => true).where('`posts`.`created_at` < ?', Date.new(2017, 1, 1))
+                              .where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600").relation.each_with_index
+                              .map{|a,i| [i, a.time_to_deletion.round(0)]}},
+      {name: '1 flag', data: Post.group_by_hour_of_day('`posts`.`created_at`').select("AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion")
+                              .joins(:deletion_logs).where(:is_tp => true).where('`posts`.`created_at` >= ?', Date.new(2017, 1, 1)).where('`posts`.`created_at` < ?', Date.new(2017, 2, 14))
+                              .where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600").relation.each_with_index
+                              .map{|a,i| [i, a.time_to_deletion.round(0)]}},
+      {name: '3 flags', data: Post.group_by_hour_of_day('`posts`.`created_at`').select("AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion")
+                              .joins(:deletion_logs).where(:is_tp => true).where('`posts`.`created_at` >= ?', Date.new(2017, 2, 14))
+                              .where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600").relation.each_with_index
+                              .map{|a,i| [i, a.time_to_deletion.round(0)]}}
+    ]
+  end
+
+  def monthly_ttd
+    render :json => Post.group_by_day('`posts`.`created_at`').joins(:deletion_logs)
+                              .where(:is_tp => true).where('`posts`.`created_at` > ?', 3.months.ago)
+                              .where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`) <= 3600")
+                              .average("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`)")
   end
 end

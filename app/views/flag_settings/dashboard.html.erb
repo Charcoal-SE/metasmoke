@@ -61,7 +61,7 @@
       <div class="module-body">
         <p>
           <%= link_to flag_logs_path do %>
-            <strong><%= @recent_count %></strong> flags cast
+            <strong><%= pluralize @recent_count, 'flag' %></strong> cast
           <% end %>
         </p>
       </div>
@@ -76,7 +76,7 @@
         <% if user_signed_in? %>
           <% if current_user.flags_enabled %>
             <%= link_to flag_logs_by_user_path(current_user) do %>
-              <p><strong><%= current_user.flag_logs.where(:success => true).where('created_at > ?', Date.today).count %></strong> flags used today</p>
+              <p><strong><%= pluralize current_user.flag_logs.where(:success => true).where('created_at > ?', Date.today).count, 'flag' %></strong> used today</p>
             <% end %>
           <% else %>
             <p class="text-muted"><em>Not registered for flagging.</em></p>

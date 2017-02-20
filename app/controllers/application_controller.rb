@@ -26,7 +26,13 @@ class ApplicationController < ActionController::Base
     elsif current_user.stack_exchange_account_id.nil?
       authentication_status_path
     else
-      request.env['omniauth.origin'] || stored_location_for(resource) || root_path
+      stored_location = nil
+      begin
+        stored_location = stored_location_for(resource_or_scope)
+      rescue
+      end
+
+      request.env['omniauth.origin'] || stored_location || root_path
     end
   end
 
