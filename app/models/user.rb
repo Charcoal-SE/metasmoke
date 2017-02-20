@@ -17,9 +17,10 @@ class User < ApplicationRecord
   has_many :smoke_detectors
   has_many :moderator_sites
 
-  # All accounts start with reviewer role enabled
+  # All accounts start with reviewer and flagger roles enabled
   after_create do
     self.add_role :reviewer
+    self.add_role :flagger
     SmokeDetector.send_message_to_charcoal "New metasmoke user '#{self.username}' created"
   end
 
