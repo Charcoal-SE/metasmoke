@@ -36,6 +36,7 @@ Rails.application.routes.draw do
     get 'reports_hod', :to => 'graphs#reports_by_hour_of_day'
     get 'ttd', :to => 'graphs#time_to_deletion'
     get 'dttd', :to => 'graphs#detailed_ttd'
+    get 'monthly_ttd', :to => 'graphs#monthly_ttd'
   end
 
   get "status", to: "status#index"

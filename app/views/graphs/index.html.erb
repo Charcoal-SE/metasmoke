@@ -35,6 +35,7 @@
 <%= line_chart url_for(:controller => :graphs, :action => :time_to_deletion),
                library: { "xAxis": { "plotLines" => [{"width" => '2', :value => "#{t.hour + t.min.to_f / 60.to_f}", :color => 'blue', :dashStyle => "dot" }]}} %>
 
-<h3 id="autoflagging-time-to-deletion">Autoflagging: time to deletion</h3>
-<%= line_chart url_for(:controller => :graphs, :action => :detailed_ttd),
-               library: { "xAxis": { "labels": { "enabled": false }, "plotLines" => [{"width" => '2', :value => "#{t.hour + t.min.to_f / 60.to_f}", :color => 'blue', :dashStyle => "dot" }]}} %>
+<h3 id="autoflagging-time-to-deletion">Time to deletion</h3>
+<p class="text-muted">Last 3 months</p>
+
+<%= line_chart url_for(:controller => :graphs, :action => :monthly_ttd) %>

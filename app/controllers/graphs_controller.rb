@@ -73,4 +73,11 @@ class GraphsController < ApplicationController
                               .map{|a,i| [i, a.time_to_deletion.round(0)]}}
     ]
   end
+
+  def monthly_ttd
+    render :json => Post.group_by_day('`posts`.`created_at`').joins(:deletion_logs)
+                              .where(:is_tp => true).where('`posts`.`created_at` > ?', 3.months.ago)
+                              .where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`) <= 3600")
+                              .average("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`)")
+  end
 end
