@@ -12,7 +12,8 @@
   <%= line_chart [
         {name: 'Flags', data: @applicable_flag_logs.group_by_day("flag_logs.created_at", :range => 1.month.ago.to_date..Time.now).count},
         {name: 'Posts', data: @applicable_flag_logs.select('DISTINCT post_id').group_by_day("flag_logs.created_at", :range => 1.month.ago.to_date..Time.now).count}
-      ], colors: ['#76ADE1', '#e0a976'] %>
+      ], colors: ['#76ADE1', '#e0a976'],
+      library: { "xAxis": { "plotLines" => flag_settings_plot_lines(1.month.ago)}} %>
 <% end %>
 
 <% if @individual_post.nil? %>

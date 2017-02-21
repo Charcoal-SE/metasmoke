@@ -103,4 +103,5 @@
 <%= time_ago_in_words(FlagLog.where(:success => true, :is_dry_run => false).first.try(:created_at)) rescue nil %><br/>
 
 <%= pie_chart url_for(:controller => :graphs, :action => :flagging_results), colors: ['red', 'orange', 'green'] %>
-<%= line_chart url_for(:controller => :graphs, :action => :flagging_timeline), colors: ['red', 'orange', 'green'] %>
+<%= line_chart url_for(:controller => :graphs, :action => :flagging_timeline), colors: ['red', 'orange', 'green'],
+library: { "xAxis": { "plotLines" => flag_settings_plot_lines(1.month.ago)}} %>

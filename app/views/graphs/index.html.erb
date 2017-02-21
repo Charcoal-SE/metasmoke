@@ -38,4 +38,5 @@
 <h3 id="autoflagging-time-to-deletion">Time to deletion</h3>
 <p class="text-muted">Last 3 months</p>
 
-<%= line_chart url_for(:controller => :graphs, :action => :monthly_ttd) %>
+<%= line_chart url_for(:controller => :graphs, :action => :monthly_ttd),
+               library: { "xAxis": { "plotLines" => flag_settings_plot_lines(3.months.ago)} }%>
