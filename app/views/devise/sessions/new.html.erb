@@ -1,7 +1,12 @@
 <div class="row">
-  <div class="col-md-3 col-centered">
+  <div class="col-md-4 col-centered">
     <div class="login-box">
-      <h2>Log in</h2>
+      <%= link_to "foo", class: "btn btn-default se-oauth-button" do %>
+        Login with
+          <%= image_tag "se-icon.svg", class: "se-icon" %>Stack Exchange
+      <% end %>
+
+      <p class="text-muted se-auth-or-label">or</p>
 
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
         <div class="field form-group">
@@ -17,10 +22,12 @@
         <div class="actions">
           <%= f.submit "Log in", class: "btn btn-primary" %>
         </div>
+
+        <br />
+        <div class="text-center" id="devise-links">
+          <%= render "devise/shared/links" %>
+        </div>
       <% end %>
-    </div>
-    <div class="text-center" id="devise-links">
-      <%= render "devise/shared/links" %>
     </div>
   </div>
 </div>
