@@ -10,7 +10,7 @@ module FlagSettingsHelper
     audits.map do |a|
       changes = a.audited_changes["value"]
       {"width" => '1', :value => a.created_at.to_i * 1000, :color => 'lightgrey',
-        :label => { :text => "#{FlagSetting.find(a.auditable_id).name.humanize}: #{changes.first} -> #{changes.last}" },
+        :label => { :text => "#{FlagSetting.find(a.auditable_id).name.humanize}: #{changes.first} → #{changes.last}" },
         "zIndex" => 10 }
     end
   end
