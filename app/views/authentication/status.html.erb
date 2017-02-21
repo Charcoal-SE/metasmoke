@@ -1,7 +1,7 @@
 <h3>Authenticate with Stack Exchange</h3>
 <p>Associate your metasmoke account with your Stack Exchange account to provide feedback through the API.</p>
 
-<% if [:stackexchange_chat_id, :meta_stackexchange_chat_id, :stackoverflow_chat_id].select {|x| current_user[x].nil? }.present? %>
+<% if current_user.api_token.nil? %>
   <%= link_to "Authenticate", identify_auth_url, class: "btn btn-success" %>
 <% else %>
   <p class="text-muted">(you have already authenticated)</p>
