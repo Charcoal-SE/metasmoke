@@ -9,7 +9,7 @@ class FlagLogController < ApplicationController
     end
 
     if params[:filter] == 'fps'
-      @applicable_flag_logs = @applicable_flag_logs.includes(:post).where(:posts => [{:is_fp => true}, {:is_naa => true}]).where(:success => true)
+      @applicable_flag_logs = @applicable_flag_logs.joins(:post).where(:success => true).where('`posts`.`is_fp` = 1 OR `posts`.`is_naa` = 1')
     end
 
     @flag_logs = @applicable_flag_logs.order('flag_logs.created_at DESC, flag_logs.id DESC').includes(:post => [:feedbacks => [:user, :api_key]]).includes(:post => [:reasons]).includes(:user).paginate(:page => params[:page], :per_page => 100)
