@@ -13,6 +13,7 @@ common: &common
     client_id: '1234'
     key: 'key'
     redirect_uri: 'https://domain.com/authentication/redirect_target'
+    login_redirect_uri: 'https://domain.com/authentication/login_redirect_target'
 
 development:
   <<: *common

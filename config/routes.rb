@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   scope "/authentication" do
     get 'status', to: 'authentication#status', as: :authentication_status
     get 'redirect_target', to: 'authentication#redirect_target'
+    get 'login_redirect_target', to: 'authentication#login_redirect_target'
   end
 
   scope "/users" do
