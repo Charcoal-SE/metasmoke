@@ -2,7 +2,7 @@
 <p>Associate your metasmoke account with your Stack Exchange account to provide feedback through the API.</p>
 
 <% if [:stackexchange_chat_id, :meta_stackexchange_chat_id, :stackoverflow_chat_id].select {|x| current_user[x].nil? }.present? %>
-  <%= link_to "Authenticate", "https://stackexchange.com/oauth?client_id=#{@config["client_id"]}&scope=&redirect_uri=#{@config["redirect_uri"]}", class: "btn btn-success" %>
+  <%= link_to "Authenticate", identify_auth_url, class: "btn btn-success" %>
 <% else %>
   <p class="text-muted">(you have already authenticated)</p>
   <% if current_user.has_role? :flagger %>
@@ -18,7 +18,7 @@
         <li>with a budget of about four dollars a month</li>
       </ul>
       <br />
-      <%= link_to "Authenticate w/ Write Access", "https://stackexchange.com/oauth?client_id=#{@config["client_id"]}&scope=write_access,no_expiry&redirect_uri=#{@config["redirect_uri"]}", class: "btn btn-danger" %>
+      <%= link_to "Authenticate w/ Write Access", write_auth_url, class: "btn btn-danger" %>
     </div>
   <% end %>
 <% end %>

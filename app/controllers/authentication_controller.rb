@@ -3,8 +3,6 @@ require 'open-uri'
 class AuthenticationController < ApplicationController
   before_action :authenticate_user!
   def status
-    puts AppConfig
-
     @config = AppConfig["stack_exchange"]
   end
 
