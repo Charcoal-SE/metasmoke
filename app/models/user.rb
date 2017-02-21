@@ -139,6 +139,11 @@ class User < ApplicationRecord
 
     # Try to get flag options
     flag_options = JSON.parse(Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/options?site=#{site.site_domain}&#{auth_string}")).body)["items"]
+
+    unless flag_options.present?
+      return false, "Flag options not present"
+    end
+
     spam_flag_option = flag_options.select { |fo| fo["title"] == "spam" }.first
 
     unless spam_flag_option.present?
