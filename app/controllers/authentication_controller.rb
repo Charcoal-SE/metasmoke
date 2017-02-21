@@ -55,8 +55,25 @@ class AuthenticationController < ApplicationController
       flash[:success] = "Successfully logged in as #{user.username}"
       sign_in_and_redirect user
     else
-      flash[:error] = "Account not found"
-      redirect_to new_user_session_path
+      user = User.new(api_token: token,
+                      stack_exchange_account_id: access_token_info["account_id"],
+                      email: "#{access_token_info["account_id"]}@se-oauth.metasmoke")
+
+      user.username = user.get_username
+
+      user.password = user.password_confirmation = SecureRandom.hex
+
+      user.save!
+
+      Thread.new do
+        # Do this in the background to keep the page load fast.
+        user.update_moderator_sites
+        user.update_chat_ids
+        user.save!
+      end
+
+      flash[:success] = "New account created for #{user.username}. Have fun!"
+      sign_in_and_redirect user
     end
   end
 end

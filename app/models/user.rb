@@ -65,6 +65,24 @@ class User < ApplicationRecord
     end
   end
 
+  def get_username
+    return if api_token.nil?
+
+    begin
+      config = AppConfig["stack_exchange"]
+      auth_string = "key=#{AppConfig["stack_exchange"]["key"]}&access_token=#{api_token}"
+      resp = JSON.parse(Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/me/associated?pagesize=1&filter=!ms3d6aRI6N&#{auth_string}")).body)
+
+      first_site = resp["items"][0]["site_url"]
+
+      resp = JSON.parse(Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/me?site=stackoverflow&filter=!-.wwQ56Mfo3J&#{auth_string}")).body)
+
+      return resp["items"][0]["display_name"]
+    rescue
+      return
+    end
+  end
+
   def self.code_admins
     Role.where(:name => :code_admin).first.users
   end
