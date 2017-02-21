@@ -1,22 +1,15 @@
 require 'open-uri'
+include AuthenticationHelper
 
 class AuthenticationController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, :except => [:login_redirect_target]
   def status
-    puts AppConfig
-
     @config = AppConfig["stack_exchange"]
   end
 
   def redirect_target
-    config = AppConfig["stack_exchange"]
-
-    request_params = { "client_id" => config["client_id"], "client_secret" => config["client_secret"], "code" => params[:code], "redirect_uri" => config["redirect_uri"] }
-    response = Rack::Utils.parse_nested_query(Net::HTTP.post_form(URI.parse('https://stackexchange.com/oauth/access_token'), request_params).body)
-
-    token = response["access_token"]
-
-    access_token_info = JSON.parse(open("https://api.stackexchange.com/2.2/access-tokens/#{token}?key=#{config["key"]}").read)["items"][0]
+    token = access_token_from_code(params[:code])
+    access_token_info = info_for_access_token(token)
 
     current_user.stack_exchange_account_id = access_token_info["account_id"]
     current_user.update_chat_ids
@@ -45,5 +38,25 @@ class AuthenticationController < ApplicationController
     flash[:success] = "Successfully registered #{'write' if current_user.api_token.present?} token"
 
     redirect_to authentication_status_path
+  end
+
+  def login_redirect_target
+    if user_signed_in?
+      flash[:error] = "You're already signed in."
+      redirect_to root_path
+    end
+
+    token = access_token_from_code(params[:code], AppConfig["stack_exchange"]["login_redirect_uri"])
+    access_token_info = info_for_access_token(token)
+
+    user = User.find_by_stack_exchange_account_id(access_token_info["account_id"])
+
+    if user.present?
+      flash[:success] = "Successfully logged in as #{user.username}"
+      sign_in_and_redirect user
+    else
+      flash[:error] = "Account not found"
+      redirect_to new_user_session_path
+    end
   end
 end

@@ -98,3 +98,22 @@
     border-top-style: solid;
   }
 }
+
+.login-box form {
+  border: 1px solid lightgrey;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.se-oauth-button {
+  width: 100%;
+  margin-bottom: 20px !important;
+}
+
+.se-icon {
+  height: 22px;
+}
+
+.se-auth-or-label {
+  text-align: center;
+}
