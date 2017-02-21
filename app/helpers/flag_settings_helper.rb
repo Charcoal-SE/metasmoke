@@ -3,6 +3,7 @@ module FlagSettingsHelper
     setting_ids = FlagSetting.where(:name => ["max_flags", "min_accuracy"]).pluck(:id)
 
     audits = Audited::Audit.where(:auditable_type => "FlagSetting")
+             .where(:action => "update")
              .where(:auditable_id => setting_ids)
              .where(:created_at => start_time..end_time)
 
