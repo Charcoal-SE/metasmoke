@@ -15,7 +15,7 @@
     <% @users.each do |user| %>
       <tr>
         <td><%= user.id %></td>
-        <td><%= user.username %></td>
+        <td><%= link_to_if user.stack_exchange_account_id.present?, user.username, "//stackexchange.com/users/#{user.stack_exchange_account_id}" %></td>
         <td><%= user.roles.map(&:name).map{|n| n.humanize.downcase}.to_sentence.capitalize %></td>
         <td><%= link_to "Feedback", admin_user_feedback_path(:user_id => user.id) %></td>
       </tr>
