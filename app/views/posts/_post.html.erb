@@ -30,10 +30,6 @@
       <% unless post.created_at.nil? %>
         <span data-livestamp="<%= post.created_at.to_i %>" title="<%= post.created_at %>"></span>
       <% end %>
-      
-      <% unless post.username.nil? %>
-        by <%= post.username %>
-      <% end %>
 
       <% unless post.username.nil? %>
         by <%= link_to @post.username, stack_exchange_user_path(@post.stack_exchange_user_id) %>
