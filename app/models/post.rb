@@ -27,7 +27,7 @@ class Post < ApplicationRecord
           end
 
           uids = post.site.user_site_settings.where(:user_id => available_user_ids.keys).map(&:user_id)
-          users = User.where(:id => uids, :flags_enabled => true)
+          users = User.where(:id => uids, :flags_enabled => true).where.not(:api_token => nil)
           successful = 0
 
           if users.present?
