@@ -37,7 +37,11 @@ class AuthenticationController < ApplicationController
 
     flash[:success] = "Successfully registered #{'write' if current_user.api_token.present?} token"
 
-    redirect_to authentication_status_path
+    if current_user.api_token.present? and current_user.flags_enabled == false
+      redirect_to ocs_path
+    else
+      redirect_to authentication_status_path
+    end
   end
 
   def login_redirect_target
