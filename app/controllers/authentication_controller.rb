@@ -55,8 +55,7 @@ class AuthenticationController < ApplicationController
       flash[:success] = "Successfully logged in as #{user.username}"
       sign_in_and_redirect user
     else
-      user = User.new(api_token: token,
-                      stack_exchange_account_id: access_token_info["account_id"],
+      user = User.new(stack_exchange_account_id: access_token_info["account_id"],
                       email: "#{access_token_info["account_id"]}@se-oauth.metasmoke")
 
       user.username = user.get_username
@@ -67,7 +66,6 @@ class AuthenticationController < ApplicationController
 
       Thread.new do
         # Do this in the background to keep the page load fast.
-        user.update_moderator_sites
         user.update_chat_ids
         user.save!
       end
