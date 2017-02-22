@@ -17,11 +17,21 @@ class User < ApplicationRecord
   has_many :smoke_detectors
   has_many :moderator_sites
 
-  # All accounts start with reviewer and flagger roles enabled
+  # All accounts start with flagger role enabled
   after_create do
-    self.add_role :reviewer
+    self.add_role :reviewer if self.stack_exchange_account_id.present?
     self.add_role :flagger
     SmokeDetector.send_message_to_charcoal "New metasmoke user '#{self.username}' created"
+  end
+
+  after_save do
+    if stack_exchange_account_id_changed?
+      if stack_exchange_account_id.present?
+        self.add_role :reviewer
+      else
+        self.remove_role :reviewer
+      end
+    end
   end
 
   before_save do
@@ -71,7 +81,7 @@ class User < ApplicationRecord
     begin
       config = AppConfig["stack_exchange"]
       auth_string = "key=#{AppConfig["stack_exchange"]["key"]}&access_token=#{readonly_api_token || api_token}"
-      
+
       resp = JSON.parse(Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/me/associated?pagesize=1&filter=!ms3d6aRI6N&#{auth_string}")).body)
 
       first_site = resp["items"][0]["site_url"]
