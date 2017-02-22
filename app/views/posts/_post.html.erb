@@ -35,6 +35,10 @@
         by <%= post.username %>
       <% end %>
 
+      <% unless post.username.nil? %>
+        by <%= link_to @post.username, stack_exchange_user_path(@post.stack_exchange_user_id) %>
+      <% end %>   
+      
       <% unless post.site_id.nil? %>
         <%= link_to (image_tag @sites[@sites.index { |x| x.id == post.site_id }].site_logo, size: "20"), post.link %>
       <% end %>
