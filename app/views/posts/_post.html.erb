@@ -31,8 +31,8 @@
         <span data-livestamp="<%= post.created_at.to_i %>" title="<%= post.created_at %>"></span>
       <% end %>
 
-      <% unless post.username.nil? %>
-        by <%= link_to post.username, stack_exchange_user_path(post.stack_exchange_user_id) %>
+      <% unless post.username.nil? || post.stack_exchange_user.nil? %>
+        by <%= link_to post.username, url_for(:controller => :stack_exchange_users, :action => :show, :id => post.stack_exchange_user.id %>
       <% end %>   
       
       <% unless post.site_id.nil? %>
