@@ -30,6 +30,10 @@
       <% unless post.created_at.nil? %>
         <span data-livestamp="<%= post.created_at.to_i %>" title="<%= post.created_at %>"></span>
       <% end %>
+      
+      <% unless post.username.nil? %>
+        by <%= post.username %>
+      <% end %>
 
       <% unless post.site_id.nil? %>
         <%= link_to (image_tag @sites[@sites.index { |x| x.id == post.site_id }].site_logo, size: "20"), post.link %>
