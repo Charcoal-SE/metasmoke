@@ -46,3 +46,9 @@
 <div class="text-center">
   <%= will_paginate @flag_logs, renderer: BootstrapPagination::Rails %>
 </div>
+
+<% if @individual_post.present? %>
+  <div id="eligible_flaggers">
+    <%= link_to "Eligible Flaggers", post_eligible_flaggers_path(@individual_post), :remote => true %>
+  </div>
+<% end %>

@@ -1,0 +1,30 @@
+<% if @individual_post.present? and @eligible_users.present? %>
+  <h4>Eligible Users</h3>
+  <p class="text-muted">If this post were made now, these users would be eligible to flag it</p>
+
+  <table class="table">
+    <thead>
+      <th>Core</th>
+    </thead>
+    <tbody>
+      <% @eligible_users.with_role(:core).each do |user| %>
+        <tr>
+          <td><%= user.username %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+    <table class="table">
+      <thead>
+        <th>Everyone else</th>
+      </thead>
+      <tbody>
+        <% @eligible_users.without_role(:core).each do |user| %>
+          <tr>
+            <td><%= user.username %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+<% end %>
