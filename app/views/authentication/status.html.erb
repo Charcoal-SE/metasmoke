@@ -1,7 +1,7 @@
 <h3>Authenticate with Stack Exchange</h3>
 <p>Associate your metasmoke account with your Stack Exchange account to provide feedback through the API.</p>
 
-<% if current_user.api_token.nil? %>
+<% if current_user.stack_exchange_account_id.nil? %>
   <%= link_to "Authenticate", identify_auth_url, class: "btn btn-success" %>
 <% else %>
   <p class="text-muted">(you have already authenticated)</p>
