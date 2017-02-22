@@ -58,7 +58,7 @@ class AuthenticationController < ApplicationController
       user = User.new(stack_exchange_account_id: access_token_info["account_id"],
                       email: "#{access_token_info["account_id"]}@se-oauth.metasmoke")
 
-      user.username = user.get_username
+      user.username = user.get_username(token)
 
       user.password = user.password_confirmation = SecureRandom.hex
 

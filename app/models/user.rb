@@ -65,12 +65,13 @@ class User < ApplicationRecord
     end
   end
 
-  def get_username
-    return if api_token.nil?
+  def get_username(readonly_api_token=nil)
+    return if api_token.nil? and readonly_api_token.nil?
 
     begin
       config = AppConfig["stack_exchange"]
-      auth_string = "key=#{AppConfig["stack_exchange"]["key"]}&access_token=#{api_token}"
+      auth_string = "key=#{AppConfig["stack_exchange"]["key"]}&access_token=#{readonly_api_token || api_token}"
+      
       resp = JSON.parse(Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/me/associated?pagesize=1&filter=!ms3d6aRI6N&#{auth_string}")).body)
 
       first_site = resp["items"][0]["site_url"]
