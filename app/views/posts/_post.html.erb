@@ -32,7 +32,7 @@
       <% end %>
 
       <% unless post.username.nil? %>
-        by <%= link_to @post.username, stack_exchange_user_path(@post.stack_exchange_user_id) %>
+        by <%= link_to post.username, stack_exchange_user_path(post.stack_exchange_user_id) %>
       <% end %>   
       
       <% unless post.site_id.nil? %>
