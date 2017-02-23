@@ -54,7 +54,7 @@ class Post < ApplicationRecord
                 backoff = message
               end
 
-              unless ["Flag options not present", "Spam flag option not present"].include? message
+              unless ["Flag options not present", "Spam flag option not present", "You do not have permission to flag this post"].include? message
                 flag_log = FlagLog.create(:success => success, :error_message => message, :is_dry_run => dry_run, :flag_condition => available_user_ids[user.id], :user => user, :post => post, :backoff => backoff)
 
                 if success
