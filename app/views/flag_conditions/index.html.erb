@@ -27,7 +27,7 @@
         <tr>
           <td class="text-muted"><%= condition.id %></td>
           <% if params[:action] == "full_list" %>
-            <td><%= condition.user.username %></td>
+            <td><%= condition.user&.username %></td>
           <% end %>
           <td class="text-<%= condition.flags_enabled ? 'success' : 'danger' %>">
             <%= condition.flags_enabled ? 'Enabled' : 'Disabled' %>
