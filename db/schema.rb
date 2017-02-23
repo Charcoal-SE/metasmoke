@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170222192944) do
+ActiveRecord::Schema.define(version: 20170223051835) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at",  null: false
@@ -217,11 +217,11 @@ ActiveRecord::Schema.define(version: 20170222192944) do
     t.index ["name"], name: "index_roles_on_name", length: { name: 191 }, using: :btree
   end
 
-  create_table "sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "site_name",                                       collation: "utf8_unicode_ci"
-    t.string   "site_url",                                        collation: "utf8_unicode_ci"
-    t.string   "site_logo",                                       collation: "utf8_unicode_ci"
-    t.string   "site_domain",                                     collation: "utf8_unicode_ci"
+  create_table "sites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin" do |t|
+    t.string   "site_name"
+    t.string   "site_url"
+    t.string   "site_logo"
+    t.string   "site_domain"
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
     t.boolean  "flags_enabled",      default: false
