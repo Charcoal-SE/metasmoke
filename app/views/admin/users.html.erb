@@ -2,13 +2,13 @@
 <p>A list of all user accounts on the site, with useful links about them and their content. No PII, though - if you
   <em>really</em> need access to that, ping Undo.</p>
 
-<table class="table table-striped">
+<table class="table table-striped sortable-table">
   <thead>
     <tr>
       <th>ID</th>
       <th>Username</th>
       <th>Roles</th>
-      <th></th>
+      <th class="no-sort"></th>
     </tr>
   </thead>
   <tbody>
@@ -22,3 +22,7 @@
     <% end %>
   </tbody>
 </table>
+
+<div class="text-center">
+  <%= will_paginate @users, renderer: BootstrapPagination::Rails %>
+</div>

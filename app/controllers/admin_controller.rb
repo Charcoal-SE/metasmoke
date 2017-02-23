@@ -51,7 +51,7 @@ class AdminController < ApplicationController
   end
 
   def users
-    @users = User.all.includes(:roles)
+    @users = User.all.includes(:roles).paginate(:page => params[:page], :per_page => 50)
   end
 
   def ignored_users
