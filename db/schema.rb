@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170223051835) do
+ActiveRecord::Schema.define(version: 20170224050016) do
 
   create_table "api_keys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at",  null: false
@@ -112,7 +112,7 @@ ActiveRecord::Schema.define(version: 20170223051835) do
 
   create_table "flag_logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.boolean  "success"
-    t.string   "error_message",                  collation: "utf8mb4_bin"
+    t.text     "error_message",     limit: 65535
     t.integer  "flag_condition_id"
     t.integer  "user_id"
     t.integer  "post_id"
