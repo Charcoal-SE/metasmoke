@@ -60,7 +60,10 @@ class Post < ApplicationRecord
           end
 
           unless ["Flag options not present", "Spam flag option not present", "You do not have permission to flag this post"].include? message
-            flag_log = FlagLog.create(:success => success, :error_message => message, :is_dry_run => dry_run, :flag_condition => available_user_ids[user.id], :user => user, :post => post, :backoff => backoff)
+            flag_log = FlagLog.create(:success => success, :error_message => message,
+                                      :is_dry_run => dry_run, :flag_condition => available_user_ids[user.id],
+                                      :user => user, :post => post, :backoff => backoff,
+                                      :site_id => post.site_id)
 
             if success
               ActionCable.server.broadcast "api_flag_logs", { flag_log: JSON.parse(FlagLogController.render(locals: {flag_log: flag_log}, partial: 'flag_log.json')) }
@@ -69,7 +72,9 @@ class Post < ApplicationRecord
           end
         end
       rescue => e
-        FlagLog.create(:success => false, :error_message => "#{e}: #{e.message} | #{e.backtrace.join("\n")}", :is_dry_run => dry_run, :flag_condition => nil, :post => post)
+        FlagLog.create(:success => false, :error_message => "#{e}: #{e.message} | #{e.backtrace.join("\n")}",
+                       :is_dry_run => dry_run, :flag_condition => nil, :post => post,
+                       :site_id => post.site_id)
       end
 
       if post.flag_logs.where(:success => true).empty?
