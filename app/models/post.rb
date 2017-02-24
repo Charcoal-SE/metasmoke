@@ -16,69 +16,64 @@ class Post < ApplicationRecord
 
   def autoflag
     return unless Post.where(:link => link).count == 1
+    return unless FlagSetting['flagging_enabled'] == '1'
 
-    if FlagSetting['flagging_enabled'] == '1'
-      dry_run = FlagSetting['dry_run'] == '1'
-      post = self
-      Thread.new do
-        begin
-          conditions = post.site.flag_conditions.where(:flags_enabled => true)
-          available_user_ids = {}
-          conditions.each do |condition|
-            if condition.validate!(post)
-              available_user_ids[condition.user.id] = condition
-            end
+    dry_run = FlagSetting['dry_run'] == '1'
+    post = self
+
+    Thread.new do
+      begin
+        conditions = post.site.flag_conditions.where(:flags_enabled => true)
+        available_user_ids = {}
+        conditions.each do |condition|
+          if condition.validate!(post)
+            available_user_ids[condition.user.id] = condition
           end
-
-          uids = post.site.user_site_settings.where(:user_id => available_user_ids.keys).map(&:user_id)
-          users = User.where(:id => uids, :flags_enabled => true).where.not(:api_token => nil)
-          successful = 0
-
-          if users.present?
-            begin
-              post.fetch_revision_count
-            rescue => e
-              FlagLog.create(:success => false, :error_message => "Couldn't get revision count: #{e}: #{e.message} | #{e.backtrace.join("\n")}", :is_dry_run => dry_run, :flag_condition => nil, :user => nil, :post => post)
-            end
-          end
-          if post.revision_count == 1
-            users.shuffle.each do |user|
-              if successful >= [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
-                break
-              end
-
-              user_site_flag_count = user.flag_logs.where(:site => post.site, :success => true, :is_dry_run => false).where(:created_at => Date.today..Time.now).count
-              next if user_site_flag_count >= user.user_site_settings.includes(:sites).where(:sites => { :id => post.site.id } ).last.max_flags
-
-              last_log = FlagLog.where(:user => user).last
-              if last_log.try(:backoff).present? && (last_log.created_at + last_log.backoff.seconds > Time.now)
-                sleep((last_log.created_at + last_log.backoff.seconds) - Time.now)
-              end
-
-              success, message = user.spam_flag(post, dry_run)
-              backoff = 0
-              if success
-                successful += 1
-                backoff = message
-              end
-
-              unless ["Flag options not present", "Spam flag option not present", "You do not have permission to flag this post"].include? message
-                flag_log = FlagLog.create(:success => success, :error_message => message, :is_dry_run => dry_run, :flag_condition => available_user_ids[user.id], :user => user, :post => post, :backoff => backoff)
-
-                if success
-                  ActionCable.server.broadcast "api_flag_logs", { flag_log: JSON.parse(FlagLogController.render(locals: {flag_log: flag_log}, partial: 'flag_log.json')) }
-                  ActionCable.server.broadcast "flag_logs", { row: FlagLogController.render(locals: {log: flag_log}, partial: 'flag_log') }
-                end
-              end
-            end
-          end
-        rescue => e
-          FlagLog.create(:success => false, :error_message => "#{e}: #{e.message} | #{e.backtrace.join("\n")}", :is_dry_run => dry_run, :flag_condition => nil, :post => post)
         end
 
-        if post.flag_logs.where(:success => true).empty?
-          ActionCable.server.broadcast "api_flag_logs", { not_flagged: { post_link: post.link, post: JSON.parse(PostsController.render(locals: {post: post}, partial: 'post.json')) } }
+        uids = post.site.user_site_settings.where(:user_id => available_user_ids.keys).map(&:user_id)
+        users = User.where(:id => uids, :flags_enabled => true).where.not(:api_token => nil)
+        break unless users.present?
+
+        post.fetch_revision_count
+        break unless post.revision_count == 1
+
+        successful = 0
+        users.shuffle.each do |user|
+          if successful >= [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
+            break
+          end
+
+          user_site_flag_count = user.flag_logs.where(:site => post.site, :success => true, :is_dry_run => false).where(:created_at => Date.today..Time.now).count
+          next if user_site_flag_count >= user.user_site_settings.includes(:sites).where(:sites => { :id => post.site.id } ).last.max_flags
+
+          last_log = FlagLog.where(:user => user).last
+          if last_log.try(:backoff).present? && (last_log.created_at + last_log.backoff.seconds > Time.now)
+            sleep((last_log.created_at + last_log.backoff.seconds) - Time.now)
+          end
+
+          success, message = user.spam_flag(post, dry_run)
+          backoff = 0
+          if success
+            successful += 1
+            backoff = message
+          end
+
+          unless ["Flag options not present", "Spam flag option not present", "You do not have permission to flag this post"].include? message
+            flag_log = FlagLog.create(:success => success, :error_message => message, :is_dry_run => dry_run, :flag_condition => available_user_ids[user.id], :user => user, :post => post, :backoff => backoff)
+
+            if success
+              ActionCable.server.broadcast "api_flag_logs", { flag_log: JSON.parse(FlagLogController.render(locals: {flag_log: flag_log}, partial: 'flag_log.json')) }
+              ActionCable.server.broadcast "flag_logs", { row: FlagLogController.render(locals: {log: flag_log}, partial: 'flag_log') }
+            end
+          end
         end
+      rescue => e
+        FlagLog.create(:success => false, :error_message => "#{e}: #{e.message} | #{e.backtrace.join("\n")}", :is_dry_run => dry_run, :flag_condition => nil, :post => post)
+      end
+
+      if post.flag_logs.where(:success => true).empty?
+        ActionCable.server.broadcast "api_flag_logs", { not_flagged: { post_link: post.link, post: JSON.parse(PostsController.render(locals: {post: post}, partial: 'post.json')) } }
       end
     end
   end
