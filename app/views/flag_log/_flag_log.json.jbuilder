@@ -6,3 +6,7 @@ json.user do
   json.meta_stackexchange_chat_id flag_log.user.meta_stackexchange_chat_id
   json.stackoverflow_chat_id flag_log.user.stackoverflow_chat_id
 end
+
+json.post do
+  json.partial! 'posts/post', post: flag_log.post.select(:id)
+end

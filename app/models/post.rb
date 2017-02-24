@@ -73,7 +73,7 @@ class Post < ApplicationRecord
         end
 
         if post.flag_logs.where(:success => true).empty?
-          ActionCable.server.broadcast "api_flag_logs", { not_flagged: { post_link: post.link } }
+          ActionCable.server.broadcast "api_flag_logs", { not_flagged: { post_link: post.link, post: JSON.parse(PostsController.render(locals: {post: post}, partial: 'post.json')) } }
         end
       end
     end
