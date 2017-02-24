@@ -43,8 +43,12 @@ class Post < ApplicationRecord
           end
           if post.revision_count == 1
             users.shuffle.each do |user|
+              if successful >= [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
+                break
+              end
+
               user_site_flag_count = user.flag_logs.where(:site => post.site, :success => true, :is_dry_run => false).where(:created_at => Date.today..Time.now).count
-              next if user_site_flag_count > user.user_site_settings.includes(:sites).where(:sites => { :id => post.site.id } ).last.max_flags
+              next if user_site_flag_count >= user.user_site_settings.includes(:sites).where(:sites => { :id => post.site.id } ).last.max_flags
 
               last_log = FlagLog.where(:user => user).last
               if last_log.try(:backoff).present? && (last_log.created_at + last_log.backoff.seconds > Time.now)
@@ -65,10 +69,6 @@ class Post < ApplicationRecord
                   ActionCable.server.broadcast "api_flag_logs", { flag_log: JSON.parse(FlagLogController.render(locals: {flag_log: flag_log}, partial: 'flag_log.json')) }
                   ActionCable.server.broadcast "flag_logs", { row: FlagLogController.render(locals: {log: flag_log}, partial: 'flag_log') }
                 end
-              end
-
-              if successful >= [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
-                break
               end
             end
           end
