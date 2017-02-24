@@ -8,5 +8,5 @@ json.user do
 end
 
 json.post do
-  json.partial! 'posts/post', post: flag_log.post.select(:id)
+  json.partial! 'posts/post', post: flag_log.post
 end
