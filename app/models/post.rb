@@ -12,9 +12,11 @@ class Post < ApplicationRecord
     ActionCable.server.broadcast "posts_realtime", { row: PostsController.render(locals: {post: Post.last}, partial: 'post').html_safe }
   end
 
-  after_create do
+  after_create :autoflag
+
+  def autoflag
     return unless Post.where(:link => link).count == 1
-    
+
     if FlagSetting['flagging_enabled'] == '1'
       dry_run = FlagSetting['dry_run'] == '1'
       post = self
