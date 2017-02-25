@@ -47,7 +47,7 @@ class AuthenticationController < ApplicationController
   def login_redirect_target
     if user_signed_in?
       flash[:error] = "You're already signed in."
-      redirect_to root_path
+      redirect_to root_path and return
     end
 
     token = access_token_from_code(params[:code], AppConfig["stack_exchange"]["login_redirect_uri"])
