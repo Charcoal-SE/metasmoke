@@ -33,10 +33,10 @@ class Post < ApplicationRecord
 
         uids = post.site.user_site_settings.where(:user_id => available_user_ids.keys).map(&:user_id)
         users = User.where(:id => uids, :flags_enabled => true).where.not(:api_token => nil)
-        break unless users.present?
+        return unless users.present?
 
         post.fetch_revision_count
-        break unless post.revision_count == 1
+        return unless post.revision_count == 1
 
         successful = 0
         users.shuffle.each do |user|
