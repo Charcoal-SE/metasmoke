@@ -20,12 +20,15 @@ class User < ApplicationRecord
   after_create do
     self.add_role :reviewer if self.stack_exchange_account_id.present?
     self.add_role :flagger
-    
-    if self.stack_exchange_account_id.present?
-      SmokeDetector.send_message_to_charcoal "New metasmoke user ['#{self.username}'](//stackexchange.com/users/#{self.stack_exchange_account_id}) created"
-    else
-      SmokeDetector.send_message_to_charcoal "New metasmoke user '#{self.username}' created"
+
+    message = case self.stack_exchange_account_id.present?
+    when true
+      "New metasmoke user ['#{self.username}'](//stackexchange.com/users/#{self.stack_exchange_account_id}) created"
+    when false
+      "New metasmoke user '#{self.username}' created"
     end
+
+    SmokeDetector.send_message_to_charcoal message
   end
 
   after_save do
