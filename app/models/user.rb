@@ -18,7 +18,6 @@ class User < ApplicationRecord
 
   # All accounts start with flagger role enabled
   after_create do
-    self.add_role :reviewer if self.stack_exchange_account_id.present?
     self.add_role :flagger
 
     message = case self.stack_exchange_account_id.present?
