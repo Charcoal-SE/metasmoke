@@ -30,16 +30,6 @@ class User < ApplicationRecord
     SmokeDetector.send_message_to_charcoal message
   end
 
-  after_save do
-    if stack_exchange_account_id_changed?
-      if stack_exchange_account_id.present?
-        self.add_role :reviewer
-      else
-        self.remove_role :reviewer
-      end
-    end
-  end
-
   before_save do
     # Retroactively update
     (self.changed & ["stackexchange_chat_id", "meta_stackexchange_chat_id", "stackoverflow_chat_id"]).each do
