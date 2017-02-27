@@ -125,4 +125,12 @@
 .navbar-header {
   display: flex;
   align-items: center;
+  @media (max-width: 768px) {
+    .navbar-brand {
+      flex: 1;
+    }
+    .navbar-toggle {
+      order: 1; // flexbox version of float: right
+    }
+  }
 }
