@@ -1,4 +1,4 @@
-class CreateSmokeDetectors < ActiveRecord::Migration
+class CreateSmokeDetectors < ActiveRecord::Migration[4.2]
   def change
     create_table :smoke_detectors do |t|
       t.datetime :last_ping

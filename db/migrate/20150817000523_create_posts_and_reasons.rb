@@ -1,4 +1,4 @@
-class CreatePostsAndReasons < ActiveRecord::Migration
+class CreatePostsAndReasons < ActiveRecord::Migration[4.2]
   def change
     create_table :posts do |t|
       t.string :title

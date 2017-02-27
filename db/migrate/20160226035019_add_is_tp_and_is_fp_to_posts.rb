@@ -1,4 +1,4 @@
-class AddIsTpAndIsFpToPosts < ActiveRecord::Migration
+class AddIsTpAndIsFpToPosts < ActiveRecord::Migration[4.2]
   def change
     add_column :posts, :is_tp, :boolean, :default => false
     add_column :posts, :is_fp, :boolean, :default => false

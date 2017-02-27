@@ -1,4 +1,4 @@
-class MoveMissedUsersToStackExchangeUsers < ActiveRecord::Migration
+class MoveMissedUsersToStackExchangeUsers < ActiveRecord::Migration[4.2]
   def change
     Post.where("stack_exchange_user_id IS NULL").each do |post|
       next if post.user_link.nil?

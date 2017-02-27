@@ -1,4 +1,4 @@
-class RerunMoveAllReasonsToSentenceCase < ActiveRecord::Migration
+class RerunMoveAllReasonsToSentenceCase < ActiveRecord::Migration[4.2]
   def change
     Reason.all.each do |reason|
       if reason.reason_name.downcase == reason.reason_name

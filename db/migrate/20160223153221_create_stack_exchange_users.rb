@@ -1,4 +1,4 @@
-class CreateStackExchangeUsers < ActiveRecord::Migration
+class CreateStackExchangeUsers < ActiveRecord::Migration[4.2]
   def change
     create_table :stack_exchange_users do |t|
       t.integer :user_id

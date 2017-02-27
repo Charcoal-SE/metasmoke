@@ -1,4 +1,4 @@
-class SetSiteOnExistingPosts < ActiveRecord::Migration
+class SetSiteOnExistingPosts < ActiveRecord::Migration[4.2]
   def change
     Post.all.each do |post|
       next if post.link.nil?

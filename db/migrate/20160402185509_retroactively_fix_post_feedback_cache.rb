@@ -1,4 +1,4 @@
-class RetroactivelyFixPostFeedbackCache < ActiveRecord::Migration
+class RetroactivelyFixPostFeedbackCache < ActiveRecord::Migration[4.2]
   def change
     Post.update_all(:is_tp => false, :is_fp => false)
 
