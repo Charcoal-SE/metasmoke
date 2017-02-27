@@ -67,4 +67,4 @@ preload = (event) ->
           request.send()
 
 document.addEventListener("touchstart", preload)
-document.addEventListener("mouseover", preload)
+document.addEventListener("mousedown", preload)
