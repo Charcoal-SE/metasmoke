@@ -25,7 +25,7 @@
         <%= link_to smoke_detector_statistics_path(sd.id) do %>
           <%= sd.location %>
           <% if sd.is_standby %>
-            <span class="label label-primary">Standby</span>
+            <span class="label label-<%= sd.last_ping > 3.minutes.ago ? "primary" : "default" %> ">Standby</span>
           <% end %>
         <% end %>
       </td>
@@ -38,7 +38,7 @@
       <% end %>
       <% if current_user&.has_role?(:code_admin) %>
         <td>
-          <% if sd.is_standby %>
+          <% if sd.is_standby and sd.last_ping > 3.minutes.ago %>
             <%= link_to "Failover", smoke_detector_force_failover_path(sd.id), class: "text-danger", :data => {:confirm => "This will take effect at the next ping, within a minute. Sure?"}, method: :post %>
           <% end %>
         </td>
