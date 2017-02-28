@@ -10,13 +10,13 @@ class Post < ApplicationRecord
 
   after_create do
     ActionCable.server.broadcast "posts_realtime", { row: PostsController.render(locals: {post: Post.last}, partial: 'post').html_safe }
-    ActionCable.server.broadcast "topbar", { review: Post.feedbacks_count }
+    ActionCable.server.broadcast "topbar", { review: Post.review_count }
   end
 
   after_create :autoflag
 
-  def self.feedbacks_count
-    Post.includes(:feedbacks).where( :feedbacks => { :post_id => nil }).count
+  def self.review_count
+    Post.left_joins(:feedbacks).where( :feedbacks => { :post_id => nil }).count
   end
 
   def autoflag
