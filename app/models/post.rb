@@ -10,9 +10,14 @@ class Post < ApplicationRecord
 
   after_create do
     ActionCable.server.broadcast "posts_realtime", { row: PostsController.render(locals: {post: Post.last}, partial: 'post').html_safe }
+    ActionCable.server.broadcast "topbar", { review: Post.feedbacks_count }
   end
 
   after_create :autoflag
+
+  def self.feedbacks_count
+    Post.includes(:feedbacks).where( :feedbacks => { :post_id => nil }).count
+  end
 
   def autoflag
     return unless Post.where(:link => link).count == 1
