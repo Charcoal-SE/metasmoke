@@ -17,6 +17,8 @@ class StatusController < ApplicationController
 
     @smoke_detector.save!
 
+    ActionCable.server.broadcast "topbar", { last_ping: @smoke_detector.last_ping.to_f }
+
     respond_to do |format|
       format.json do
         if @smoke_detector.should_failover and not new_standby_switch

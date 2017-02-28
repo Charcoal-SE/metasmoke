@@ -50,15 +50,14 @@
               <li class='<%= controller.class == ReviewController ? "active" : "" %>'>
                 <%= link_to review_path do %>
                   review
-                  <% review_items = Post.includes(:feedbacks).where( :feedbacks => { :post_id => nil }).count %>
-                  <% if review_items > 0 %>
-                    <span class="badge"><%= review_items %></span>
-                  <% end %>
+                  <% review_items = Post.feedbacks_count %>
+                  <!-- badge hides itself if it doesn’t have contents. -->
+                  <span class="reviews-count badge"><% if review_items > 0 %><%= review_items %><% end %></span>
                 <% end %>
               </li>
             <% end %>
             <li class='<%= [FlagConditionsController, FlagLogController, FlagSettingsController].include?(controller.class) ? "active" : "" %>'><%= link_to "flagging", flagging_path %></li>
-            <li class='<%= controller.class == StatusController ? "active" : "" %> status-<%= SmokeDetector.status_color %>'><%= link_to "status", status_path %></li>
+            <li class='status <%= controller.class == StatusController ? "active" : "" %> status-<%= SmokeDetector.status_color %>' data-last-ping='<%= SmokeDetector.select("last_ping").order("last_ping DESC").first.last_ping.to_f %>' data-toggle='tooltip' data-placement='bottom'><%= link_to "status", status_path %></li>
           </ul>
           <% if controller.class == DashboardController %>
             <form class="navbar-form navbar-right" role="search">
@@ -98,7 +97,7 @@
               <li class="search-icon hidden-xs"><a class="glyphicon glyphicon-search" href=#><span class="sr-only">Search</span></a></li>
             <% end %>
             <% if CurrentCommit.present? %>
-              <li><a href="https://github.com/Charcoal-SE/metasmoke/commit/<%= CurrentCommit %>" title="<%= Rails::VERSION::STRING %>"><code><%= CurrentCommit.first(7) %></code></a></li>
+            <li><a class="commit" href="https://github.com/Charcoal-SE/metasmoke/commit/<%= CurrentCommit %>" title="<%= Rails::VERSION::STRING %>"><code><%= CurrentCommit.first(7) %></code></a></li>
             <% end %>
           </ul>
         </div><!-- /.navbar-collapse -->

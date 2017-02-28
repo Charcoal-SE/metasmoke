@@ -29,7 +29,7 @@
           <% end %>
         <% end %>
       </td>
-      <td class="status-<%= sd.status_color %>"><%= sd.last_ping %> (<%= time_ago_in_words(sd.last_ping, include_seconds: true)%> ago)</td>
+      <td class="status-<%= sd.status_color %>" data-livestamp="<%= sd.last_ping.to_i %>" title="<%= sd.last_ping.to_s %>"><%= time_ago_in_words(sd.last_ping, include_seconds: true)%> ago</td>
       <% if current_user&.has_role?(:admin) %>
         <td>
           <%= link_to "De-authorize", url_for(:controller => :smoke_detectors, :action => :destroy, :id => sd.id), :class => "text-danger",

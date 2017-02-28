@@ -61,13 +61,13 @@ class GithubController < ApplicationController
     end
 
     text = pull_request[:body]
-    
+
     response_text = ""
-    
+
     # Identify blacklist type and use appropriate search
 
     domains = text.scan(/<!-- METASMOKE-BLACKLIST-WEBSITE (.*?) -->/)[0][0]
-    
+
     domains.each do |domain|
       num_tps = Post.where("body LIKE '%#{domain}%'").where(:is_tp => true).count
       num_fps = Post.where("body LIKE '%#{domain}%'").where(:is_fp => true).count
@@ -75,9 +75,9 @@ class GithubController < ApplicationController
 
       response_text += "#{domain} has been seen in #{num_tps} true #{'positive'.pluralize(num_tps)}, #{num_fps} false #{'positive'.pluralize(num_fps)}, and #{num_naa} #{'NAA'.pluralize(num_naa)}.\n\n"
     end
-    
+
     keywords = text.scan(/<!-- METASMOKE-BLACKLIST-KEYWORD (.*?) -->/)[0][0]
-    
+
     keywords.each do |keyword|
       num_tps = Post.where("body LIKE '%#{keyword}%'").where(:is_tp => true).count
       num_fps = Post.where("body LIKE '%#{keyword}%'").where(:is_fp => true).count
@@ -85,9 +85,9 @@ class GithubController < ApplicationController
 
       response_text += "#{keyword} has been seen in #{num_tps} true #{'positive'.pluralize(num_tps)}, #{num_fps} false #{'positive'.pluralize(num_fps)}, and #{num_naa} #{'NAA'.pluralize(num_naa)}.\n\n"
     end
-    
+
     usernames = text.scan(/<!-- METASMOKE-BLACKLIST-USERNAME (.*?) -->/)[0][0]
-    
+
     usernames.each do |username|
       num_tps = Post.where("body LIKE '%#{username}%'").where(:is_tp => true).count
       num_fps = Post.where("body LIKE '%#{username}%'").where(:is_fp => true).count
