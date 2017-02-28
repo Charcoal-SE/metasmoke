@@ -50,7 +50,7 @@
               <li class='<%= controller.class == ReviewController ? "active" : "" %>'>
                 <%= link_to review_path do %>
                   review
-                  <% review_items = Post.feedbacks_count %>
+                  <% review_items = Post.review_count %>
                   <!-- badge hides itself if it doesn’t have contents. -->
                   <span class="reviews-count badge"><% if review_items > 0 %><%= review_items %><% end %></span>
                 <% end %>
