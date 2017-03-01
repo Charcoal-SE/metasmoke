@@ -22,7 +22,6 @@ class Feedback < ApplicationRecord
   after_create do
     ActionCable.server.broadcast "posts_#{self.post_id}", { feedback: FeedbacksController.render(locals: {feedback: self}, partial: 'feedback').html_safe }
     ActionCable.server.broadcast "api_feedback", { feedback: JSON.parse(FeedbacksController.render(locals: {feedback: self}, partial: 'feedback.json')) }
-    ActionCable.server.broadcast "topbar", { review: Post.review_count }
   end
 
   def is_positive?
