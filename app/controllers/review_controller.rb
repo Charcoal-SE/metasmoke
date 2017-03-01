@@ -16,6 +16,7 @@ class ReviewController < ApplicationController
   def add_feedback
     unless current_user.has_role?(:reviewer)
       render plain: "Your account is not approved for reviewing", :status => :conflict
+      return
     end
 
     not_found unless ["tp", "fp", "naa"].include? params[:feedback_type]
