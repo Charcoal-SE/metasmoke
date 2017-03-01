@@ -1,0 +1,24 @@
+<table class="table table-striped sortable-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Roles</th>
+      <th class="no-sort"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= link_to_if user.stack_exchange_account_id.present?, sanitize(user.username), "//stackexchange.com/users/#{user.stack_exchange_account_id}" %></td>
+        <td><%= user.roles.map(&:name).map{|n| n.humanize.downcase}.to_sentence.capitalize %></td>
+        <td><%= link_to "Feedback", admin_user_feedback_path(:user_id => user.id) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= paginate @users, :theme => 'twitter-bootstrap-3' %>
+</div>

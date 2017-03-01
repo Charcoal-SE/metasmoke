@@ -44,7 +44,7 @@
 </table>
 
 <div class="text-center">
-  <%= will_paginate @flag_logs, renderer: BootstrapPagination::Rails %>
+  <%= paginate @flag_logs, :theme => 'twitter-bootstrap-3' %>
 </div>
 
 <% if @individual_post.present? %>

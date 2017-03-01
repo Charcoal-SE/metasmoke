@@ -6,7 +6,7 @@ class AdminController < ApplicationController
   end
 
   def recently_invalidated
-    @feedbacks = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(:is_invalidated => true).select('posts.title, feedbacks.*').order('feedbacks.invalidated_at DESC').paginate(:page => params[:page], :per_page => 100)
+    @feedbacks = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(:is_invalidated => true).select('posts.title, feedbacks.*').order('feedbacks.invalidated_at DESC').page(params[:page])
 
     @users = User.where(:id => @feedbacks.pluck(:invalidated_by)).map { |u| [u.id, u] }.to_h
   end
@@ -28,7 +28,7 @@ class AdminController < ApplicationController
       @sources << 'Meta Stack Exchange chat'
     end
 
-    @feedback = @feedback.order('feedbacks.id DESC').paginate(:page => params[:page], :per_page => 100)
+    @feedback = @feedback.order('feedbacks.id DESC').page(params[:page])
     @feedback_count = @feedback.count
     @invalid_count = @feedback.where(:is_invalidated => true).count
   end
@@ -51,7 +51,7 @@ class AdminController < ApplicationController
   end
 
   def users
-    @users = User.all.includes(:roles).paginate(:page => params[:page], :per_page => 50)
+    @users = User.all.includes(:roles).page(params[:page]).per(50)
   end
 
   def ignored_users
@@ -76,12 +76,12 @@ class AdminController < ApplicationController
   end
 
   def api_feedback
-    @feedback = Feedback.via_api.includes(:user, :post).order(:created_at => :desc).paginate(:page => params[:page], :per_page => 100)
+    @feedback = Feedback.via_api.includes(:user, :post).order(:created_at => :desc).page(params[:page])
   end
 
   def permissions
     @roles = Role.names
-    @users = User.all.paginate(:page => params[:page], :per_page => 100).preload(:roles)
+    @users = User.all.page(params[:page]).preload(:roles)
   end
 
   def update_permissions

@@ -5,7 +5,7 @@ class StatisticsController < ApplicationController
   # GET /statistics
   def index
     @smoke_detector = SmokeDetector.find(params[:id])
-    @statistics = @smoke_detector.statistics.paginate(:page => params[:page], :per_page => 100).order('created_at DESC')
+    @statistics = @smoke_detector.statistics.page(params[:page]).order('created_at DESC')
   end
 
   # POST /statistics.json
