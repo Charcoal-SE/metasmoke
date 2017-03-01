@@ -7,17 +7,14 @@ class Post < ApplicationRecord
   has_many :flag_logs
 
   scope :includes_for_post_row, -> { includes(:reasons).includes(:feedbacks => [:user, :api_key]) }
+  scope :without_feeback, -> { left_joins(:feedbacks).where( :feedbacks => { :post_id => nil }) }
 
   after_create do
     ActionCable.server.broadcast "posts_realtime", { row: PostsController.render(locals: {post: Post.last}, partial: 'post').html_safe }
-    ActionCable.server.broadcast "topbar", { review: Post.review_count }
+    ActionCable.server.broadcast "topbar", { review: Post.without_feedback.count }
   end
 
   after_create :autoflag
-
-  def self.review_count
-    Post.left_joins(:feedbacks).where( :feedbacks => { :post_id => nil }).count
-  end
 
   def autoflag
     return unless Post.where(:link => link).count == 1
