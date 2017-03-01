@@ -95,7 +95,7 @@
       <% end %>
     </table>
     <div class="text-center">
-      <%= paginate @results, :theme => 'twitter-bootstrap-3' %>
+      <%= will_paginate @results, renderer: BootstrapPagination::Rails %>
       <p class="text-muted">
         <%= link_to "JSON (still subject to paging limits)", search_path(params: request.query_parameters, :format => :json) %>
       </p>

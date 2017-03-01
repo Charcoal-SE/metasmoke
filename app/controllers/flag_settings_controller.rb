@@ -37,7 +37,7 @@ class FlagSettingsController < ApplicationController
   end
 
   def audits
-    @audits = Audited::Audit.where(:auditable_type => "FlagSetting").includes(:auditable, :user).order('created_at DESC').page(params[:page])
+    @audits = Audited::Audit.where(:auditable_type => "FlagSetting").includes(:auditable, :user).order('created_at DESC').paginate(:page => params[:page], :per_page => 100)
   end
 
   # PATCH/PUT /flag_settings/1

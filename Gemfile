@@ -5,12 +5,12 @@ gem 'awesome_print'
 gem 'devise', ">= 4.0.0.rc2"
 gem "mysql2"
 gem "puma"
-gem 'kaminari'
-gem 'bootstrap-kaminari-views'
+gem 'will_paginate', '~> 3.1.0'
 gem 'loofah'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'htmlentities', '~> 4.3', '>= 4.3.4'
 gem 'whenever', :require => false
+gem 'will_paginate-bootstrap'
 gem 'redis'
 gem "rolify"
 gem "octokit", "~> 4.0"

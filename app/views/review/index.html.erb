@@ -37,5 +37,5 @@
 </table>
 
 <div class="text-center">
-  <%= paginate @posts, :theme => 'twitter-bootstrap-3' %>
+  <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
 </div>

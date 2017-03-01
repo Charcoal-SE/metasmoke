@@ -55,9 +55,6 @@ GEM
       rails-observers (~> 0.1.2)
     awesome_print (1.7.0)
     bcrypt (3.1.11)
-    bootstrap-kaminari-views (0.0.5)
-      kaminari (>= 0.13)
-      rails (>= 3.1)
     builder (3.2.3)
     byebug (9.0.6)
     capistrano (3.7.2)
@@ -125,18 +122,6 @@ GEM
       thor (>= 0.14, < 2.0)
     json (2.0.3)
     jwt (1.5.6)
-    kaminari (1.0.1)
-      activesupport (>= 4.1.0)
-      kaminari-actionview (= 1.0.1)
-      kaminari-activerecord (= 1.0.1)
-      kaminari-core (= 1.0.1)
-    kaminari-actionview (1.0.1)
-      actionview
-      kaminari-core (= 1.0.1)
-    kaminari-activerecord (1.0.1)
-      activerecord
-      kaminari-core (= 1.0.1)
-    kaminari-core (1.0.1)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.4)
@@ -251,6 +236,9 @@ GEM
     websocket-extensions (0.1.2)
     whenever (0.9.7)
       chronic (>= 0.6.3)
+    will_paginate (3.1.5)
+    will_paginate-bootstrap (1.0.1)
+      will_paginate (>= 3.0.3)
 
 PLATFORMS
   ruby
@@ -258,7 +246,6 @@ PLATFORMS
 DEPENDENCIES
   audited (~> 4.3)
   awesome_print
-  bootstrap-kaminari-views
   byebug
   capistrano
   capistrano-bundler
@@ -278,7 +265,6 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   jwt
-  kaminari
   loofah
   mysql2
   octokit (~> 4.0)
@@ -299,6 +285,8 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   web-console (~> 3.0)
   whenever
+  will_paginate (~> 3.1.0)
+  will_paginate-bootstrap
 
 BUNDLED WITH
    1.13.7
