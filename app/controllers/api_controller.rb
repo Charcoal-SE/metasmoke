@@ -25,6 +25,7 @@ class ApiController < ApplicationController
     @posts = Post.where(:id => params[:ids].split(";")).select(select_fields(filter)).order(:id => :desc).joins(:feedbacks).joins(:deletion_logs).includes(:flag_logs => [:user])
     @results = @posts.paginate(:page => params[:page], :per_page => @pagesize)
     @more = has_more?(params[:page], @results.count)
+    @results = @results.group(:id)
     render :formats => :json
   end
 
