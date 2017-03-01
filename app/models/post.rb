@@ -110,6 +110,10 @@ class Post < ApplicationRecord
       SmokeDetector.send_message_to_charcoal "**fp on autoflagged post**: #{self.title}](//metasmoke.erwaysoftware.com/post/#{self.id})"
     end
 
+    if is_feedback_changed
+      ActionCable.server.broadcast "topbar", { review: Post.feedbacks_count }
+    end
+
     return is_feedback_changed
   end
 
