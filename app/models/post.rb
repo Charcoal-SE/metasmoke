@@ -7,7 +7,7 @@ class Post < ApplicationRecord
   has_many :flag_logs
 
   scope :includes_for_post_row, -> { includes(:reasons).includes(:feedbacks => [:user, :api_key]) }
-  scope :without_feeback, -> { left_joins(:feedbacks).where( :feedbacks => { :post_id => nil }) }
+  scope :without_feedback, -> { left_joins(:feedbacks).where( :feedbacks => { :post_id => nil }) }
 
   after_create do
     ActionCable.server.broadcast "posts_realtime", { row: PostsController.render(locals: {post: Post.last}, partial: 'post').html_safe }
@@ -108,7 +108,7 @@ class Post < ApplicationRecord
     end
 
     if is_feedback_changed
-      ActionCable.server.broadcast "topbar", { review: Post.feedbacks_count }
+      ActionCable.server.broadcast "topbar", { review: Post.without_feedback.count }
     end
 
     return is_feedback_changed
