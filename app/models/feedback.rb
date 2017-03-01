@@ -37,7 +37,7 @@ class Feedback < ApplicationRecord
   end
 
   def update_post_feedback_cache
-    if self.changed?
+    if self.saved_changes?
       return self.post.reload.update_feedback_cache # Returns whether the post feedback cache has been changed
     end
     return false
