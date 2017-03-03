@@ -23,7 +23,7 @@
   <%= csrf_meta_tags %>
   <%= action_cable_meta_tag %>
 </head>
-  <body>
+  <body class="<%= controller.class.name.sub(/Controller$/, '').underscore.dasherize %>">
 
     <nav class="navbar navbar-default navbar-static-top <%= "navbar-inverse" unless Rails.env.production? %>">
       <div class="container-fluid">
