@@ -1,5 +1,15 @@
 <h3 class="text-danger">API Token Invalidation</h3>
 
+<div class="panel panel-danger">
+  <div class="panel-heading">
+    <h3 class="panel-title">Warning</h3>
+  </div>
+  <div class="panel-body">
+    <strong class="text-danger">Beware</strong> - this tool removes and invalidates Stack Exchange API access tokens for any users you select. If you do this unnecessarily,
+    many people will be annoyed, and we'll lose a bunch of flaggers. You have been warned.
+  </div>
+</div>
+
 <%= form_tag url_for(:controller => :authentication, :action => :send_invalidations), :method => :post do %>
   <div class="field">
     <%= label_tag 'users' %><br/>
