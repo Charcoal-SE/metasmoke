@@ -1,0 +1,29 @@
+<h3>Revision</h3>
+
+<p>Running
+  <%= link_to code_status_index_path do %><code><%= CurrentCommit.first(7) %></code><% end %>.
+</p>
+
+<hr>
+
+<h3>Gems</h3>
+
+<table class="table" id="gems-versions-table">
+  <thead>
+    <tr>
+      <th>Gem</th>
+      <th>Version</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @gem_versions.each do |g| %>
+      <tr <%= "hidden=true" unless g.name == 'rails' %>">
+        <td><%= g.name %></td>
+        <td><%= g.version %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= link_to "Show all", "#", :id => "show-all-gem-versions" %>
+
+<hr>

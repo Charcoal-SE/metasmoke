@@ -97,7 +97,11 @@
               <li class="search-icon hidden-xs"><a class="glyphicon glyphicon-search" href=#><span class="sr-only">Search</span></a></li>
             <% end %>
             <% if CurrentCommit.present? %>
-            <li><a class="commit" href="https://github.com/Charcoal-SE/metasmoke/commit/<%= CurrentCommit %>" title="<%= Rails::VERSION::STRING %>"><code><%= CurrentCommit.first(7) %></code></a></li>
+            <li>
+              <%= link_to code_status_index_path do %>
+                <code><%= CurrentCommit.first(7) %></code>
+              <% end %>
+            </li>
             <% end %>
           </ul>
         </div><!-- /.navbar-collapse -->

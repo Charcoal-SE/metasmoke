@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     get 'login_redirect_target', to: 'authentication#login_redirect_target'
   end
 
+  get 'code_status/index'
+
   scope "/users" do
     root to: 'admin#users', as: :users
     get 'username', to: 'users#username', as: :users_username
