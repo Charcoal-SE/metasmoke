@@ -6,5 +6,5 @@ $(document).on 'turbolinks:load', ->
   $("#show-all-gem-versions").on "click", (e) ->
     e.preventDefault()
 
-    $("table#gems-versions-table tr").show()
-    $(this).hide()
+    $("table#gems-versions-table .minor").toggleClass 'hide'
+    $(this).toggleClass 'shown'
