@@ -135,7 +135,7 @@ ActiveRecord::Schema.define(version: 20170224210020) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "flags", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "flags", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.string "reason", collation: "utf8_unicode_ci"
     t.string "user_id", collation: "utf8_unicode_ci"
     t.datetime "created_at", null: false
@@ -152,7 +152,7 @@ ActiveRecord::Schema.define(version: 20170224210020) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "ignored_users", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "ignored_users", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.string "user_name", collation: "utf8_unicode_ci"
     t.integer "user_id"
     t.datetime "created_at", null: false

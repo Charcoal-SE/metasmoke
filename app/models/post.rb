@@ -48,14 +48,14 @@ class Post < ApplicationRecord
           if core_count <= 0
             break
           end
-          core_count -= post.send_autoflag(user)
+          core_count -= post.send_autoflag(user, dry_run, available_user_ids[user.id])
         end
 
         users.without_role(:core).shuffle.each do |user|
           if other_count <= 0
             break
           end
-          other_count -= post.send_autoflag(user)
+          other_count -= post.send_autoflag(user, dry_run, available_user_ids[user.id])
         end
       rescue => e
         FlagLog.create(:success => false, :error_message => "#{e}: #{e.message} | #{e.backtrace.join("\n")}",
@@ -69,7 +69,7 @@ class Post < ApplicationRecord
     end
   end
 
-  def send_autoflag(user)
+  def send_autoflag(user, dry_run, condition)
     user_site_flag_count = user.flag_logs.where(:site => self.site, :success => true, :is_dry_run => false).where(:created_at => Date.today..Time.now).count
     return 0 if user_site_flag_count >= user.user_site_settings.includes(:sites).where(:sites => { :id => self.site.id } ).minimum(:max_flags)
 
@@ -86,7 +86,7 @@ class Post < ApplicationRecord
 
     unless ["Flag options not present", "Spam flag option not present", "You do not have permission to flag this post"].include? message
       flag_log = FlagLog.create(:success => success, :error_message => message,
-                                :is_dry_run => dry_run, :flag_condition => available_user_ids[user.id],
+                                :is_dry_run => dry_run, :flag_condition => condition,
                                 :user => user, :post => self, :backoff => backoff,
                                 :site_id => self.site_id)
 
