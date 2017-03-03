@@ -41,21 +41,21 @@ class Post < ApplicationRecord
         Thread.exit unless post.revision_count == 1
 
         max_flags = [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
-        core_count = FlagSetting['core_flags'].to_i
+        core_count = (max_flags / 2).ceil
         other_count = max_flags - core_count
 
         users.with_role(:core).shuffle.each do |user|
           if core_count <= 0
             break
           end
-          core_count -= autoflag_user(post, user)
+          core_count -= post.send_autoflag(user)
         end
 
-        users.where.not(:id => users.with_role(:core).map(&:id)).shuffle.each do |user|
+        users.without_role(:core).shuffle.each do |user|
           if other_count <= 0
             break
           end
-          other_count -= autoflag_user(post, user)
+          other_count -= post.send_autoflag(user)
         end
       rescue => e
         FlagLog.create(:success => false, :error_message => "#{e}: #{e.message} | #{e.backtrace.join("\n")}",
@@ -69,7 +69,7 @@ class Post < ApplicationRecord
     end
   end
 
-  def autoflag_user(post, user)
+  def send_autoflag(user)
     user_site_flag_count = user.flag_logs.where(:site => post.site, :success => true, :is_dry_run => false).where(:created_at => Date.today..Time.now).count
     return 0 if user_site_flag_count >= user.user_site_settings.includes(:sites).where(:sites => { :id => post.site.id } ).minimum(:max_flags)
 
