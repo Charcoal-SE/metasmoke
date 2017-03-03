@@ -1,0 +1,12 @@
+<h3 class="text-danger">API Token Invalidation</h3>
+
+<%= form_tag url_for(:controller => :authentication, :action => :send_invalidations), :method => :post do %>
+  <div class="field">
+    <%= label_tag 'users' %><br/>
+    <%= select_tag 'users', options_for_select(@users.map{|u| [u.username, u.id]}), { :multiple => true, :class => "form-control selectpicker", 'data-live-search' => true, 'data-actions-box' => true, 'data-dropup-auto' => false, :title => "Choose users to invalidate API tokens for" } %>
+  </div>
+  <br/>
+  <div class="actions">
+    <%= submit_tag 'Invalidate', :class => 'btn btn-danger' %>
+  </div>
+<% end %>

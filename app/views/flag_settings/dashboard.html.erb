@@ -97,6 +97,14 @@
   <li><%= link_to "Your conditions", url_for(:controller => :flag_conditions, :action => :index) %></li>
 </ul>
 
+<% if user_signed_in? && current_user.has_role?(:admin) %>
+  <h3>Admin</h3>
+  <ul>
+    <li><%= link_to "All conditions", url_for(:controller => :flag_conditions, :action => :full_list) %></li>
+    <li><%= link_to "Invalidate API tokens", url_for(:controller => :authentication, :action => :invalidate_tokens), :class => "text-danger" %></li>
+  </ul>
+<% end %>
+
 <h3>Stats</h3>
 <%= pluralize(User.where(:flags_enabled => true).count, "active participant") %><br/>
 <%= pluralize(FlagLog.where(:success => true, :is_dry_run => false).count, "spam flag") %> total cast over

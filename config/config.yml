@@ -9,6 +9,10 @@ common: &common
     integration_pem_file: '/ms-ci.pem'
     integration_id: 896
     installation_id: 4946
+  stack_exchange:
+    key: bla
+    client_id: 1234
+    login_redirect_uri: '/'
   api_field_mappings:
     - api_keys.id
     - api_keys.created_at

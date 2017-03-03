@@ -3,6 +3,8 @@ include AuthenticationHelper
 
 class AuthenticationController < ApplicationController
   before_action :authenticate_user!, :except => [:login_redirect_target]
+  before_action :verify_admin, :only => [:invalidate_tokens, :send_invalidations]
+
   def status
     @config = AppConfig["stack_exchange"]
   end
@@ -77,5 +79,24 @@ class AuthenticationController < ApplicationController
       flash[:success] = "New account created for #{user.username}. Have fun!"
       sign_in_and_redirect user
     end
+  end
+
+  def invalidate_tokens
+    @users = User.all.where.not(:api_token => nil)
+  end
+
+  def send_invalidations
+    users = User.where(:id => params[:ids])
+    Thread.new do
+      token_groups = users.map(&:api_token).in_groups_of(20).map(&:compact)
+      token_groups.each do |group|
+        uri = "https://api.stackexchange.com/2.2/access_tokens/#{group.join(";")}/invalidate?key=#{AppConfig['stack_exchange']['key']}"
+        HTTParty.post(uri)
+      end
+
+      users.update_all(:api_token => nil)
+    end
+    flash[:info] = "Token invalidations queued."
+    redirect_to url_for(:controller => :authentication, :action => :invalidate_tokens)
   end
 end

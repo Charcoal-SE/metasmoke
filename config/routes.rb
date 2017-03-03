@@ -63,6 +63,9 @@ Rails.application.routes.draw do
   get 'admin/permissions'
   put 'admin/permissions/update', to: "admin#update_permissions"
 
+  get 'admin/invalidate_tokens', to: 'authentication#invalidate_tokens'
+  post 'admin/invalidate_tokens', to: 'authentication#send_invalidations'
+
   get 'admin/new_key', to: 'api_keys#new'
   post 'admin/new_key', to: 'api_keys#create'
   get 'admin/keys', to: 'api_keys#index'
