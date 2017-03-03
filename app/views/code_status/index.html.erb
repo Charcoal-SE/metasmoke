@@ -13,12 +13,12 @@
   </thead>
   <tbody>
     <tr>
-      <td>Ruby</td>
+      <td><%= link_to "Ruby", "https://www.ruby-lang.org/en/" %></td>
       <td><%= RUBY_VERSION %></td>
     </tr>
     <% @gem_versions.each do |g| %>
       <tr class="<% if !@important_gems.include? g.name %>minor hide<% end %>">
-        <td><%= g.name.titleize %></td>
+        <td><%= link_to g.name.titleize, "https://rubygems.org/gems/#{g.name}" %></td>
         <td><%= g.version %></td>
       </tr>
     <% end %>
