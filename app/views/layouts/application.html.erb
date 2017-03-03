@@ -98,7 +98,7 @@
             <% end %>
             <% if CurrentCommit.present? %>
             <li>
-              <%= link_to code_status_index_path do %>
+              <%= link_to code_status_path do %>
                 <code><%= CurrentCommit.first(7) %></code>
               <% end %>
             </li>
