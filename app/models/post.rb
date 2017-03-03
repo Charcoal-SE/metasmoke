@@ -45,33 +45,7 @@ class Post < ApplicationRecord
           if successful >= [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
             break
           end
-
-          user_site_flag_count = user.flag_logs.where(:site => post.site, :success => true, :is_dry_run => false).where(:created_at => Date.today..Time.now).count
-          next if user_site_flag_count >= user.user_site_settings.includes(:sites).where(:sites => { :id => post.site.id } ).minimum(:max_flags)
-
-          last_log = FlagLog.where(:user => user).last
-          if last_log.try(:backoff).present? && (last_log.created_at + last_log.backoff.seconds > Time.now)
-            sleep((last_log.created_at + last_log.backoff.seconds) - Time.now)
-          end
-
-          success, message = user.spam_flag(post, dry_run)
-          backoff = 0
-          if success
-            successful += 1
-            backoff = message
-          end
-
-          unless ["Flag options not present", "Spam flag option not present", "You do not have permission to flag this post"].include? message
-            flag_log = FlagLog.create(:success => success, :error_message => message,
-                                      :is_dry_run => dry_run, :flag_condition => available_user_ids[user.id],
-                                      :user => user, :post => post, :backoff => backoff,
-                                      :site_id => post.site_id)
-
-            if success
-              ActionCable.server.broadcast "api_flag_logs", { flag_log: JSON.parse(FlagLogController.render(locals: {flag_log: flag_log}, partial: 'flag_log.json')) }
-              ActionCable.server.broadcast "flag_logs", { row: FlagLogController.render(locals: {log: flag_log}, partial: 'flag_log') }
-            end
-          end
+          successful += autoflag_user(post, user)
         end
       rescue => e
         FlagLog.create(:success => false, :error_message => "#{e}: #{e.message} | #{e.backtrace.join("\n")}",
@@ -83,6 +57,36 @@ class Post < ApplicationRecord
         ActionCable.server.broadcast "api_flag_logs", { not_flagged: { post_link: post.link, post: JSON.parse(PostsController.render(locals: {post: post}, partial: 'post.json')) } }
       end
     end
+  end
+
+  def autoflag_user(post, user)
+    user_site_flag_count = user.flag_logs.where(:site => post.site, :success => true, :is_dry_run => false).where(:created_at => Date.today..Time.now).count
+    next if user_site_flag_count >= user.user_site_settings.includes(:sites).where(:sites => { :id => post.site.id } ).minimum(:max_flags)
+
+    last_log = FlagLog.where(:user => user).last
+    if last_log.try(:backoff).present? && (last_log.created_at + last_log.backoff.seconds > Time.now)
+      sleep((last_log.created_at + last_log.backoff.seconds) - Time.now)
+    end
+
+    success, message = user.spam_flag(post, dry_run)
+    backoff = 0
+    if success
+      backoff = message
+    end
+
+    unless ["Flag options not present", "Spam flag option not present", "You do not have permission to flag this post"].include? message
+      flag_log = FlagLog.create(:success => success, :error_message => message,
+                                :is_dry_run => dry_run, :flag_condition => available_user_ids[user.id],
+                                :user => user, :post => post, :backoff => backoff,
+                                :site_id => post.site_id)
+
+      if success
+        ActionCable.server.broadcast "api_flag_logs", { flag_log: JSON.parse(FlagLogController.render(locals: {flag_log: flag_log}, partial: 'flag_log.json')) }
+        ActionCable.server.broadcast "flag_logs", { row: FlagLogController.render(locals: {log: flag_log}, partial: 'flag_log') }
+      end
+    end
+
+    return success ? 1 : 0
   end
 
   def update_feedback_cache
