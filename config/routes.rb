@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   end
 
   get "status", to: "status#index"
+  get "status/code.json", to: "code_status#api"
   get "status/code", as: :code_status, to: "code_status#index"
   get "smoke_detector/:id/statistics", to: "statistics#index", as: :smoke_detector_statistics
   delete 'smoke_detector/:id', :to => 'smoke_detectors#destroy'

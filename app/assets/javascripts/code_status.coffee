@@ -26,45 +26,39 @@ $(document).on 'turbolinks:load', ->
              .find ".commit-diff"
              .toggleClass "hide"
 
-    $.get "https://api.github.com/repos/Charcoal-SE/metasmoke", ({ default_branch }) ->
+    $.get "/status/code.json", ({ repo, compare, compare_diff, commit, commit_diff, commit_sha }) ->
+      { default_branch } = repo
       $(".fill-branch")
         .text default_branch
         .attr "href", "https://github.com/Charcoal-SE/metasmoke/tree/#{default_branch}"
-      $.get "https://api.github.com/repos/Charcoal-SE/metasmoke/compare/#{window.commitSHA}...#{default_branch}", (meta) ->
-        status = []
-        if meta.ahead_by > 0
-          status.push "#{meta.ahead_by} commit#{"s" if meta.ahead_by != 1} behind"
-        if meta.behind_by > 0
-          status.push "#{meta.behind_by} commit#{"s" if meta.behind_by != 1} ahead of"
-        if !status.length
-          status.push "even with"
-        $(".fill-status").text status.join ", "
 
-        $.get {
-          url: "https://api.github.com/repos/Charcoal-SE/metasmoke/compare/#{window.commitSHA}...#{default_branch}",
-          headers: {
-            Accept: "application/vnd.github.v3.diff"
-          }
-        }, renderDiff("compare")
-      $.get {
-        url: "https://api.github.com/repos/Charcoal-SE/metasmoke/commits/#{window.commitSHA}"
-        headers: {
-          Accept: "application/vnd.github.v3.diff"
-        }
-      }, renderDiff("commit")
+      status = []
+      if compare.ahead_by > 0
+        status.push "#{compare.ahead_by} commit#{"s" if compare.ahead_by != 1} behind"
+      if compare.behind_by > 0
+        status.push "#{compare.behind_by} commit#{"s" if compare.behind_by != 1} ahead of"
+      if !status.length
+        status.push "even with"
+      $(".fill-status").text status.join ", "
 
-renderDiff = (type) ->
-  (diff) ->
-    unless diff && typeof diff == 'string'
-      $("#toggle-#{type}-diff").addClass "no-diff"
-      return
+      renderDiff("compare", compare_diff)
+      renderDiff("commit", commit_diff)
+      [message, other...] = commit.commit.message.split "\n\n"
+      other = other.join "\n\n"
+      $(".commit summary").text message
+      $(".commit pre").text other
 
-    diff2htmlUi = new Diff2HtmlUI {
-      diff
-    }
-    diff2htmlUi.draw ".#{type}-diff", {
-      showFiles: true,
-      matching: "words"
-    }
-    diff2htmlUi.highlightCode ".#{type}-diff"
-    diff2htmlUi.fileListCloseable ".#{type}-diff", false
+renderDiff = (type, diff) ->
+  unless diff && typeof diff == 'string'
+    $("#toggle-#{type}-diff").addClass "no-diff"
+    return
+
+  diff2htmlUi = new Diff2HtmlUI {
+    diff
+  }
+  diff2htmlUi.draw ".#{type}-diff", {
+    showFiles: true,
+    matching: "words"
+  }
+  diff2htmlUi.highlightCode ".#{type}-diff"
+  diff2htmlUi.fileListCloseable ".#{type}-diff", false
