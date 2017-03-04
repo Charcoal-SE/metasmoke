@@ -3,8 +3,9 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).on 'turbolinks:load', ->
-  $("#show-all-gem-versions").on "click", (e) ->
-    e.preventDefault()
+  if location.pathname == '/status/code'
+    $("#show-all-gem-versions").on "click", (e) ->
+      e.preventDefault()
 
     $("table#gems-versions-table .minor").toggleClass 'hide'
     $(this).toggleClass 'shown'
