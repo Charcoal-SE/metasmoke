@@ -10,8 +10,6 @@ Rails.application.routes.draw do
     get 'login_redirect_target', to: 'authentication#login_redirect_target'
   end
 
-  get 'code_status/index'
-
   scope "/users" do
     root to: 'admin#users', as: :users
     get 'username', to: 'users#username', as: :users_username
@@ -26,7 +24,7 @@ Rails.application.routes.draw do
   end
 
   get 'stack_exchange_users/index'
-  get 'stackusers/:id', to: "stack_exchange_users#show", as: "stack_exchange_user"
+  get 'stackusers/:id', to: "stack_exchange_users#show", as: :stack_exchange_user
 
   get 'search', to: 'search#search_results'
 
@@ -43,6 +41,8 @@ Rails.application.routes.draw do
   end
 
   get "status", to: "status#index"
+  get "status/code.json", to: "code_status#api"
+  get "status/code", as: :code_status, to: "code_status#index"
   get "smoke_detector/:id/statistics", to: "statistics#index", as: :smoke_detector_statistics
   delete 'smoke_detector/:id', :to => 'smoke_detectors#destroy'
   post 'smoke_detector/:id/force_failover', to: 'smoke_detectors#force_failover', as: :smoke_detector_force_failover
@@ -111,6 +111,7 @@ Rails.application.routes.draw do
     post 'pull_request_hook', to: 'github#pull_request_hook', as: :github_pull_request_hook
     post 'ci_hook', to: 'github#ci_hook', as: :github_ci_hook
     post 'update_deploy_to_master', to: 'github#update_deploy_to_master', as: :github_update_deploy_to_master
+    post 'metasmoke_push_hook', to: 'github#metasmoke_push_hook', as: :github_metasmoke_push_hook
   end
 
   scope "/api" do

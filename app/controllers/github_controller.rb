@@ -1,7 +1,9 @@
 require 'open-uri'
+include ApiHelper
 
 class GithubController < ApplicationController
   skip_before_action :verify_authenticity_token
+  before_action :verify_github, :except => [:update_deploy_to_master]
 
   # Fires whenever a CI service finishes.
   def status_hook
@@ -10,15 +12,7 @@ class GithubController < ApplicationController
       render text: "Not a commit on deploy. Uninterested." and return
     end
 
-    # Check signature from GitHub
-
-    signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)
-    puts "calculated signature: #{signature} | #{request.env['HTTP_X_HUB_SIGNATURE']}"
-
-    render text: "You're not GitHub!", status: 403 and return unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
-
-    # If the signature is good, create a
-    # new CommitStatus
+    # Create a new CommitStatus
 
     if CommitStatus.find_by_commit_sha(params[:sha])
       render text: "Already recorded status for commit", status: 200
@@ -43,13 +37,6 @@ class GithubController < ApplicationController
 
   # Fires whenever a PR is opened to check for auto-blacklist and post stats
   def pull_request_hook
-    # Check signature from GitHub
-
-    signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)
-    puts "calculated signature: #{signature} | #{request.env['HTTP_X_HUB_SIGNATURE']}"
-
-    render text: "You're not GitHub!", status: 403 and return unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
-
     unless request.request_parameters[:action] == "opened"
       render text: "Not a newly-opened PR. Uninterested." and return
     end
@@ -103,10 +90,6 @@ class GithubController < ApplicationController
 
   # Fires when a PR is posted for our fake CI service to require reviews on
   def ci_hook
-    signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)
-    puts "calculated signature: #{signature} | #{request.env['HTTP_X_HUB_SIGNATURE']}"
-    render plain: "You're not GitHub!", status: 403 and return unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
-
     case request.headers['HTTP_X_GITHUB_EVENT']
       when 'pull_request'
         data = JSON.parse(request.raw_post)
@@ -115,7 +98,7 @@ class GithubController < ApplicationController
           when 'opened'
             commits = JSON.parse(Net::HTTP.get_response(URI.parse(pull_request['commits_url'])).body)
             commits.each do |commit|
-              authorized_post("https://api.github.com/repos/Charcoal-SE/SmokeDetector/statuses/#{commit['sha']}", {
+              ApiHelper.authorized_post("https://api.github.com/repos/Charcoal-SE/SmokeDetector/statuses/#{commit['sha']}", {
                 :state => "pending",
                 :description => "An Approve review is required before pull requests can be merged.",
                 :context => "metasmoke/ci"
@@ -126,7 +109,7 @@ class GithubController < ApplicationController
           when 'synchronize'
             commits = JSON.parse(Net::HTTP.get_response(URI.parse(pull_request['commits_url'])).body)
             commits.each do |commit|
-              authorized_post("https://api.github.com/repos/Charcoal-SE/SmokeDetector/statuses/#{commit['sha']}", {
+              ApiHelper.authorized_post("https://api.github.com/repos/Charcoal-SE/SmokeDetector/statuses/#{commit['sha']}", {
                   :state => "pending",
                   :description => "An Approve review is required before pull requests can be merged.",
                   :context => "metasmoke/ci"
@@ -144,7 +127,7 @@ class GithubController < ApplicationController
         if data['action'] == 'submitted' && review['state'] == 'approved'
           commits = JSON.parse(Net::HTTP.get_response(URI.parse(pull_request['commits_url'])).body)
           commits.each do |commit|
-            authorized_post("https://api.github.com/repos/Charcoal-SE/SmokeDetector/statuses/#{commit['sha']}", {
+            ApiHelper.authorized_post("https://api.github.com/repos/Charcoal-SE/SmokeDetector/statuses/#{commit['sha']}", {
                 :state => "success",
                 :description => "PR approved :)",
                 :context => "metasmoke/ci"
@@ -160,13 +143,15 @@ class GithubController < ApplicationController
     end
   end
 
+  # Fires when a new push is made to Charcoal-SE/metasmoke, so we can bust
+  # the status/code caches
+  def metasmoke_push_hook
+    Rails.cache.delete_matched /code_status\/.*##{CurrentCommit}/
+  end
+
   # Fires whenever anything is pushed, so we can automatically update `deploy`
   # to point to master's HEAD
   def update_deploy_to_master
-    signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)
-    puts "calculated signature: #{signature} | #{request.env['HTTP_X_HUB_SIGNATURE']}"
-    render plain: "You're not GitHub!", status: 403 and return unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
-
     unless params[:ref] == "refs/heads/master"
       render plain: "Not on master; not interested" and return
     end
@@ -178,36 +163,8 @@ class GithubController < ApplicationController
   end
 
   private
-  def authorized_post(uri, data)
-    potential_tokens = GithubToken.where('expires > ?', Time.now + 1.minute)
-    if potential_tokens.present?
-      access_token = potential_tokens.last.token
-    else
-      private_pem = File.read("#{Rails.root}#{AppConfig['github']['integration_pem_file']}")
-      private_key = OpenSSL::PKey::RSA.new(private_pem)
-      payload = {
-          iat: Time.now.to_i,
-          exp: 1.minute.from_now.to_i,
-          iss: AppConfig['github']['integration_id']
-      }
-      jwt = JWT.encode(payload, private_key, "RS256")
-
-      token_resp = HTTParty.post("https://api.github.com/installations/#{AppConfig['github']['installation_id']}/access_tokens", :headers => {
-        'Accept' => 'application/vnd.github.machine-man-preview+json',
-        'User-Agent' => 'metasmoke-ci/1.0',
-        'Authorization' => "Bearer #{jwt}"
-      })
-      token_resp = JSON.parse(token_resp.body)
-      GithubToken.create!(:token => token_resp['token'], :expires => token_resp['expires_at'])
-      access_token = token_resp['token']
+    def verify_github
+      signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)
+      render plain: "You're not GitHub!", status: 403 and return unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
     end
-
-    resp = HTTParty.post(uri, :body => data.to_json, :headers => {
-      'Accept' => 'application/vnd.github.machine-man-preview+json',
-      'Authorization' => "token #{access_token}",
-      'Content-Type' => 'application/json',
-      'User-Agent' => 'metasmoke-ci/1.0'
-    })
-    JSON.parse(resp.body)
-  end
 end

@@ -1,3 +1,34 @@
 // Place all the styles related to the CodeStatus controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.code-status {
+  details:not([open]) #show-all-gem-versions {
+    display: none;
+  }
+  #show-all-gem-versions {
+    font-size: 0.5em;
+    &::after {
+      content: 'more';
+    }
+    &.shown::after {
+      content: 'less';
+    }
+  }
+  .diff-toggle {
+    &::before {
+      content: 'Show';
+    }
+    &.shown::before {
+      content: 'Hide';
+    }
+    &.no-diff {
+      color: gray;
+      pointer-events: none;
+      cursor: not-allowed;
+      &::before {
+        content: 'No';
+      }
+    }
+  }
+}
