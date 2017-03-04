@@ -146,10 +146,6 @@ class GithubController < ApplicationController
   # Fires when a new push is made to Charcoal-SE/metasmoke, so we can bust
   # the status/code caches
   def metasmoke_push_hook
-    unless params[:ref] == "refs/heads/master"
-      render plain: "Not on master; not interested" and return
-    end
-
     Rails.cache.delete_matched /code_status\/.*##{CurrentCommit}/
   end
 
