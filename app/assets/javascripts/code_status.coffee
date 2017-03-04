@@ -34,9 +34,9 @@ $(document).on 'turbolinks:load', ->
 
       status = []
       if compare.ahead_by > 0
-        status.push "#{compare.ahead_by} commit#{"s" if compare.ahead_by != 1} behind"
+        status.push "#{compare.ahead_by} commit#{if compare.ahead_by != 1 then "s" else ""} behind"
       if compare.behind_by > 0
-        status.push "#{compare.behind_by} commit#{"s" if compare.behind_by != 1} ahead of"
+        status.push "#{compare.behind_by} commit#{if compare.behind_by != 1 then "s" else ""} ahead of"
       if !status.length
         status.push "even with"
       $(".fill-status").text status.join ", "
