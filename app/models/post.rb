@@ -35,10 +35,16 @@ class Post < ApplicationRecord
 
         uids = post.site.user_site_settings.where(:user_id => available_user_ids.keys).map(&:user_id)
         users = User.where(:id => uids, :flags_enabled => true).where.not(:api_token => nil)
-        Thread.exit unless users.present?
+        unless users.present?
+          post.send_not_autoflagged
+          Thread.exit
+        end
 
         post.fetch_revision_count
-        Thread.exit unless post.revision_count == 1
+        unless post.revision_count == 1
+          post.send_not_autoflagged
+          Thread.exit
+        end
 
         max_flags = [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
         core_count = (max_flags / 2.0).ceil
@@ -63,9 +69,7 @@ class Post < ApplicationRecord
                        :site_id => post.site_id)
       end
 
-      if post.flag_logs.where(:success => true).empty?
-        ActionCable.server.broadcast "api_flag_logs", { not_flagged: { post_link: post.link, post: JSON.parse(PostsController.render(locals: {post: post}, partial: 'post.json')) } }
-      end
+      post.send_not_autoflagged if post.flag_logs.where(:success => true).empty?
     end
   end
 
@@ -97,6 +101,10 @@ class Post < ApplicationRecord
     end
 
     return success ? 1 : 0
+  end
+
+  def send_not_autoflagged
+    ActionCable.server.broadcast "api_flag_logs", { not_flagged: { post_link: self.link, post: JSON.parse(PostsController.render(locals: {post: self}, partial: 'post.json')) } }
   end
 
   def update_feedback_cache
