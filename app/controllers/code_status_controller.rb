@@ -10,19 +10,19 @@ class CodeStatusController < ApplicationController
     ]
   end
   def api
-    @repo = Rails.cache.fetch "code_status/repo##{CurrentCommit}", expires_in: 5.minutes do
+    @repo = Rails.cache.fetch "code_status/repo##{CurrentCommit}" do
       Octokit.repository "Charcoal-SE/metasmoke"
     end
-    @compare = Rails.cache.fetch "code_status/compare##{CurrentCommit}", expires_in: 1.minute do
+    @compare = Rails.cache.fetch "code_status/compare##{CurrentCommit}" do
       Octokit.compare "Charcoal-SE/metasmoke", CurrentCommit, @repo[:default_branch]
     end
-    @compare_diff = Rails.cache.fetch "code_status/compare_diff##{CurrentCommit}", expires_in: 1.minute do
+    @compare_diff = Rails.cache.fetch "code_status/compare_diff##{CurrentCommit}" do
       Octokit.compare "Charcoal-SE/metasmoke", CurrentCommit, @repo[:default_branch], accept: "application/vnd.github.v3.diff"
     end
-    @commit = Rails.cache.fetch "code_status/commit##{CurrentCommit}", expires_in: 5.minutes do
+    @commit = Rails.cache.fetch "code_status/commit##{CurrentCommit}" do
       Octokit.commit "Charcoal-SE/metasmoke", CurrentCommit
     end
-    @commit_diff = Rails.cache.fetch "code_status/commit_diff##{CurrentCommit}", expires_in: 1.day do
+    @commit_diff = Rails.cache.fetch "code_status/commit_diff##{CurrentCommit}" do
       Octokit.commit "Charcoal-SE/metasmoke", CurrentCommit, accept: "application/vnd.github.v3.diff"
     end
   end
