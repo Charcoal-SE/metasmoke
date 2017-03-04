@@ -41,7 +41,7 @@ class Post < ApplicationRecord
         Thread.exit unless post.revision_count == 1
 
         max_flags = [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
-        core_count = (max_flags / 2).ceil
+        core_count = (max_flags / 2.0).ceil
         other_count = max_flags - core_count
 
         users.with_role(:core).shuffle.each do |user|
