@@ -3,6 +3,7 @@ include ApiHelper
 
 class GithubController < ApplicationController
   skip_before_action :verify_authenticity_token
+  before_action :verify_github, :except => [:update_deploy_to_master]
 
   # Fires whenever a CI service finishes.
   def status_hook
@@ -11,15 +12,7 @@ class GithubController < ApplicationController
       render text: "Not a commit on deploy. Uninterested." and return
     end
 
-    # Check signature from GitHub
-
-    signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)
-    puts "calculated signature: #{signature} | #{request.env['HTTP_X_HUB_SIGNATURE']}"
-
-    render text: "You're not GitHub!", status: 403 and return unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
-
-    # If the signature is good, create a
-    # new CommitStatus
+    # Create a new CommitStatus
 
     if CommitStatus.find_by_commit_sha(params[:sha])
       render text: "Already recorded status for commit", status: 200
@@ -44,13 +37,6 @@ class GithubController < ApplicationController
 
   # Fires whenever a PR is opened to check for auto-blacklist and post stats
   def pull_request_hook
-    # Check signature from GitHub
-
-    signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)
-    puts "calculated signature: #{signature} | #{request.env['HTTP_X_HUB_SIGNATURE']}"
-
-    render text: "You're not GitHub!", status: 403 and return unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
-
     unless request.request_parameters[:action] == "opened"
       render text: "Not a newly-opened PR. Uninterested." and return
     end
@@ -104,10 +90,6 @@ class GithubController < ApplicationController
 
   # Fires when a PR is posted for our fake CI service to require reviews on
   def ci_hook
-    signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)
-    puts "calculated signature: #{signature} | #{request.env['HTTP_X_HUB_SIGNATURE']}"
-    render plain: "You're not GitHub!", status: 403 and return unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
-
     case request.headers['HTTP_X_GITHUB_EVENT']
       when 'pull_request'
         data = JSON.parse(request.raw_post)
@@ -164,10 +146,6 @@ class GithubController < ApplicationController
   # Fires whenever anything is pushed, so we can automatically update `deploy`
   # to point to master's HEAD
   def update_deploy_to_master
-    signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)
-    puts "calculated signature: #{signature} | #{request.env['HTTP_X_HUB_SIGNATURE']}"
-    render plain: "You're not GitHub!", status: 403 and return unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
-
     unless params[:ref] == "refs/heads/master"
       render plain: "Not on master; not interested" and return
     end
@@ -178,4 +156,10 @@ class GithubController < ApplicationController
     Octokit.update_ref "Charcoal-SE/SmokeDetector", "heads/deploy", new_sha1, false
   end
 
+  private
+    def verify_github
+      signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)
+      puts "calculated signature: #{signature} | #{request.env['HTTP_X_HUB_SIGNATURE']}"
+      render plain: "You're not GitHub!", status: 403 and return unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
+    end
 end
