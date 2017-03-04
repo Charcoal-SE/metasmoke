@@ -93,15 +93,15 @@
               <li><%= link_to "sign in", new_user_session_path %></li>
               <li><%= link_to "sign up", new_user_registration_path %></li>
             <% end %>
-            <% if controller.class == DashboardController %>
-              <li class="search-icon hidden-xs"><a class="glyphicon glyphicon-search" href=#><span class="sr-only">Search</span></a></li>
-            <% end %>
             <% if CurrentCommit.present? %>
             <li>
               <%= link_to code_status_path do %>
                 <code><%= CurrentCommit.first(7) %></code>
               <% end %>
             </li>
+            <% end %>
+            <% if controller.class == DashboardController %>
+              <li class="search-icon hidden-xs"><a class="glyphicon glyphicon-search" href=#><span class="sr-only">Search</span></a></li>
             <% end %>
           </ul>
         </div><!-- /.navbar-collapse -->
