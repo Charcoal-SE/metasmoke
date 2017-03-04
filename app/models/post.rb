@@ -137,7 +137,7 @@ class Post < ApplicationRecord
   end
 
   def is_deleted?
-    return self.deletion_logs.any? && self.deletion_logs.map(&:is_deleted).any?
+    return self.deletion_logs.where(:is_deleted => true).any?
   end
 
   def stack_id
