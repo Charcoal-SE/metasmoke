@@ -28,12 +28,12 @@
   <tbody>
     <tr>
       <td><%= link_to "Ruby", "https://www.ruby-lang.org/en/" %></td>
-      <td><%= RUBY_VERSION %></td>
+      <td><%= link_to RUBY_VERSION, "http://ruby-doc.org/core-#{RUBY_VERSION}/", title: "Ruby docs" %></td>
     </tr>
     <% @gem_versions.each do |g| %>
       <tr class="<% if !@important_gems.include? g.name %>minor hide<% end %>">
         <td><%= link_to g.name.titleize, "https://rubygems.org/gems/#{g.name}" %></td>
-        <td><%= g.version %></td>
+        <td><%= link_to g.version, "https://rubygems.org/gems/#{g.name}/versions/#{g.version}" %></td>
       </tr>
     <% end %>
   </tbody>
