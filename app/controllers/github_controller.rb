@@ -143,6 +143,12 @@ class GithubController < ApplicationController
     end
   end
 
+  # Fires when a new push is made to Charcoal-SE/metasmoke, so we can bust
+  # the status/code caches
+  def metasmoke_push_hook
+    ap params
+  end
+
   # Fires whenever anything is pushed, so we can automatically update `deploy`
   # to point to master's HEAD
   def update_deploy_to_master
