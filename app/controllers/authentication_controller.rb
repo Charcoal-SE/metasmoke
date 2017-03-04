@@ -86,7 +86,7 @@ class AuthenticationController < ApplicationController
   end
 
   def send_invalidations
-    users = User.where(:id => params[:ids])
+    users = User.where(:id => params[:users])
     Thread.new do
       token_groups = users.map(&:api_token).in_groups_of(20).map(&:compact)
       token_groups.each do |group|
