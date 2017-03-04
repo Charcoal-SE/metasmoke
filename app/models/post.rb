@@ -136,6 +136,10 @@ class Post < ApplicationRecord
     return self.link.include? "/a/"
   end
 
+  def is_deleted?
+    return self.deletion_logs.any? && self.deletion_logs.map(&:is_deleted).any?
+  end
+
   def stack_id
     return self.link.scan(/(\d*)$/).first.first.to_i
   end
