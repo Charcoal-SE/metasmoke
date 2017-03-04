@@ -35,8 +35,8 @@ class ReviewController < ApplicationController
 
     post.reasons.each do |reason|
       expire_fragment(reason)
-    end 
+    end
 
-    render :nothing => true, :status => 200
+    render :plain => "success", :status => 200
   end
 end

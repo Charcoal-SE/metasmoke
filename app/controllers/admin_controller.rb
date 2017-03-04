@@ -87,7 +87,7 @@ class AdminController < ApplicationController
   def update_permissions
     if params["permitted"] == 'true'
       if params["role"] == 'developer'
-        render :nothing => true, :status => :forbidden
+        render :plain => "you must be a developer", :status => :forbidden
         return
       end
       User.find(params["user_id"]).add_role params["role"]
@@ -95,7 +95,7 @@ class AdminController < ApplicationController
       User.find(params["user_id"]).remove_role params["role"]
     end
 
-    render :nothing => true, :status => :accepted
+    render :plain => "success", :status => :accepted
   end
 
   private
