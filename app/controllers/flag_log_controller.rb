@@ -1,13 +1,13 @@
 class FlagLogController < ApplicationController
   respond_to :html, :js
-  
+
   def index
     @individual_user = User.find(params[:user_id]) if params[:user_id].present?
 
     if @individual_user
-      @applicable_flag_logs = @individual_user.flag_logs
+      @applicable_flag_logs = @individual_user.flag_logs.where(:is_auto => true)
     else
-      @applicable_flag_logs = FlagLog.all
+      @applicable_flag_logs = FlagLog.auto
     end
 
     if params[:filter] == 'fps'

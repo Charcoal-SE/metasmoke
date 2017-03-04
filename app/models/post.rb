@@ -73,7 +73,7 @@ class Post < ApplicationRecord
     user_site_flag_count = user.flag_logs.where(:site => self.site, :success => true, :is_dry_run => false).where(:created_at => Date.today..Time.now).count
     return 0 if user_site_flag_count >= user.user_site_settings.includes(:sites).where(:sites => { :id => self.site.id } ).minimum(:max_flags)
 
-    last_log = FlagLog.where(:user => user).last
+    last_log = FlagLog.auto.where(:user => user).last
     if last_log.try(:backoff).present? && (last_log.created_at + last_log.backoff.seconds > Time.now)
       sleep((last_log.created_at + last_log.backoff.seconds) - Time.now)
     end
