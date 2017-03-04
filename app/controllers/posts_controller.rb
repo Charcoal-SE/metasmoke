@@ -1,8 +1,9 @@
 class PostsController < ApplicationController
   protect_from_forgery :except => [:create]
   before_action :check_if_smokedetector, :only => :create
-  before_action :set_post, :only => [:needs_admin, :feedbacksapi, :reindex_feedback]
-  before_action :verify_developer, :only => [:reindex_feedback]
+  before_action :set_post, :only => [:needs_admin, :feedbacksapi, :reindex_feedback, :cast_spam_flag]
+  before_action :authenticate_user!, :only => [:reindex_feedback, :cast_spam_flag]
+  before_action :verify_developer, :only => [:reindex_feedback, :cast_spam_flag]
 
   def show
     begin
@@ -129,6 +130,21 @@ class PostsController < ApplicationController
       flash[:info] = "Feedback reindexed; no change."
     end
     redirect_to url_for(:controller => :posts, :action => :show, :id => @post.id)
+  end
+
+  def cast_spam_flag
+    unless current_user.api_token.present?
+      flash[:warning] = "You must be write-authenticated to cast a spam flag."
+      redirect_to authentication_status_path and return
+    end
+
+    result, message = current_user.spam_flag(@post, false)
+    if result
+      flash[:success] = "Spam flag cast successfully."
+    else
+      flash[:danger] = "Spam flag not cast: #{message}"
+    end
+    redirect_to url_for(:controller => :posts, :action => :show, :id => params[:id])
   end
 
   private
