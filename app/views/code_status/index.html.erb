@@ -12,8 +12,9 @@
 %>
 
 <details open><summary class="h3">Revision <%= link_to "https://github.com/Charcoal-SE/metasmoke/commit/#{CurrentCommit}" do %><code><%= CurrentCommit.first(7) %></code><% end %></summary>
-  <p>This commit is <span class="fill-status">… commits ahead, … commits behind</span> the <code><%= link_to "...", "", class: "fill-branch" %></code> branch. <%= link_to " diff", "#", id: "toggle-diff" %></p>
-  <section class="diff hide"></section>
+  <p>This commit is <span class="fill-status">… commits ahead, … commits behind</span> the <code><%= link_to "...", "", class: "fill-branch" %></code> branch. <%= link_to " diff", "#", id: "toggle-compare-diff", class: "diff-toggle" %> | <%= link_to " commit diff", "#", id: "toggle-commit-diff", class: "diff-toggle" %></p>
+  <section class="commit-diff hide"></section>
+  <section class="compare-diff hide"></section>
 </details>
 
 <details open><summary class="h3">Versions <%= link_to "Show ", "#", :id => "show-all-gem-versions" %></summary>

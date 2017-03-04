@@ -15,12 +15,20 @@
       content: 'less';
     }
   }
-  #toggle-diff {
+  .diff-toggle {
     &::before {
       content: 'Show';
     }
     &.shown::before {
       content: 'Hide';
+    }
+    &.no-diff {
+      color: gray;
+      pointer-events: none;
+      cursor: not-allowed;
+      &::before {
+        content: 'No';
+      }
     }
   }
 }

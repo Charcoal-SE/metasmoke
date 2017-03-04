@@ -10,29 +10,27 @@ $(document).on 'turbolinks:load', ->
       $("table#gems-versions-table .minor").toggleClass 'hide'
       $(this).toggleClass 'shown'
 
-    $("#toggle-diff").click (e) ->
+    $("#toggle-compare-diff").click (e) ->
       e.preventDefault()
       $(this)
       $(this).toggleClass "shown"
              .parents "details"
-             .find ".diff"
+             .find ".compare-diff"
              .toggleClass "hide"
 
-    $.when(
-      $.get("https://api.github.com/repos/Charcoal-SE/metasmoke"),
-    ).then ({ default_branch }) ->
+    $("#toggle-commit-diff").click (e) ->
+      e.preventDefault()
+      $(this)
+      $(this).toggleClass "shown"
+             .parents "details"
+             .find ".commit-diff"
+             .toggleClass "hide"
+
+    $.get "https://api.github.com/repos/Charcoal-SE/metasmoke", ({ default_branch }) ->
       $(".fill-branch")
         .text default_branch
         .attr "href", "https://github.com/Charcoal-SE/metasmoke/tree/#{default_branch}"
-      $.when(
-        $.get("https://api.github.com/repos/Charcoal-SE/metasmoke/compare/#{window.commitSHA}...#{default_branch}"),
-        $.get({
-          url: "https://api.github.com/repos/Charcoal-SE/metasmoke/compare/#{window.commitSHA}...#{default_branch}",
-          headers: {
-            Accept: "application/vnd.github.v3.diff"
-          }
-        }),
-      ).then ([meta], [diff]) ->
+      $.get "https://api.github.com/repos/Charcoal-SE/metasmoke/compare/#{window.commitSHA}...#{default_branch}", (meta) ->
         status = []
         if meta.ahead_by > 0
           status.push "#{meta.ahead_by} commit#{"s" if meta.ahead_by != 1} behind"
@@ -42,12 +40,31 @@ $(document).on 'turbolinks:load', ->
           status.push "even with"
         $(".fill-status").text status.join ", "
 
-        diff2htmlUi = new Diff2HtmlUI {
-          diff
+        $.get {
+          url: "https://api.github.com/repos/Charcoal-SE/metasmoke/compare/#{window.commitSHA}...#{default_branch}",
+          headers: {
+            Accept: "application/vnd.github.v3.diff"
+          }
+        }, renderDiff("compare")
+      $.get {
+        url: "https://api.github.com/repos/Charcoal-SE/metasmoke/commits/#{window.commitSHA}"
+        headers: {
+          Accept: "application/vnd.github.v3.diff"
         }
-        diff2htmlUi.draw ".diff", {
-          showFiles: true,
-          matching: "words"
-        }
-        diff2htmlUi.highlightCode ".diff"
-        diff2htmlUi.fileListCloseable ".diff", false
+      }, renderDiff("commit")
+
+renderDiff = (type) ->
+  (diff) ->
+    unless diff && typeof diff == 'string'
+      $("#toggle-#{type}-diff").addClass "no-diff"
+      return
+
+    diff2htmlUi = new Diff2HtmlUI {
+      diff
+    }
+    diff2htmlUi.draw ".#{type}-diff", {
+      showFiles: true,
+      matching: "words"
+    }
+    diff2htmlUi.highlightCode ".#{type}-diff"
+    diff2htmlUi.fileListCloseable ".#{type}-diff", false
