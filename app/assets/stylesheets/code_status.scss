@@ -15,4 +15,12 @@
       content: 'less';
     }
   }
+  #toggle-diff {
+    &::before {
+      content: 'Show';
+    }
+    &.shown::before {
+      content: 'Hide';
+    }
+  }
 }
