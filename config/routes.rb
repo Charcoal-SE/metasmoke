@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   end
 
   get 'stack_exchange_users/index'
-  get 'stackusers/:id', to: "stack_exchange_users#show", as: "stack_exchange_user"
+  get 'stackusers/:id', to: "stack_exchange_users#show", as: :stack_exchange_user
 
   get 'search', to: 'search#search_results'
 
