@@ -1,8 +1,8 @@
 class ApiController < ApplicationController
   before_action :verify_key, :except => [:filter_generator, :api_docs]
   before_action :set_pagesize, :except => [:filter_generator, :api_docs]
-  before_action :verify_write_token, :only => [:create_feedback, :report_post]
-  skip_before_action :verify_authenticity_token, :only => [:create_feedback, :report_post]
+  before_action :verify_write_token, :only => [:create_feedback, :report_post, :spam_flag]
+  skip_before_action :verify_authenticity_token, :only => [:create_feedback, :report_post, :spam_flag]
 
   # Yes, this looks bad, but it actually works as a cache - we only have to calculate the bitstring for each filter once.
   @@filters = Hash.new { |h, k| h[k] = k.chars.map { |c| c.ord.to_s(2).rjust(8, '0') }.join('') }
@@ -184,6 +184,21 @@ class ApiController < ApplicationController
     ActionCable.server.broadcast "smokedetector_messages", { report: { :user => @user.username, :post_link => params[:post_link] } }
 
     render :plain => "OK", :status => 201
+  end
+
+  def spam_flag
+    @post = Post.find params[:id]
+
+    unless @user.api_token.present?
+      render :status => 409, :json => { :error_name => "not_write_authenticated", :error_code => 409, :error_message => "Current user is not write-authenticated." } and return
+    end
+
+    status, message = @user.spam_flag(@post, false)
+    if status
+      render :json => { :status => "success", :backoff => message }
+    else
+      render :status => 500, :json => { :status => "failed", :message => message }
+    end
   end
 
   private

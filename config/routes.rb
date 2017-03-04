@@ -136,6 +136,7 @@ Rails.application.routes.draw do
 
     post 'w/post/:id/feedback', :to => 'api#create_feedback'
     post 'w/post/report', :to => 'api#report_post'
+    post 'w/post/:id/spam_flag', :to => 'api#spam_flag'
   end
 
   scope "/oauth" do
