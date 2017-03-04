@@ -1,29 +1,42 @@
-<h3>Revision</h3>
+<script>
+  window.commitSHA = "<%= CurrentCommit.strip %>"
+</script>
+<%= stylesheet_link_tag \
+  "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css",
+  "https://cdn.rawgit.com/rtfpessoa/diff2html/01c0f152/dist/diff2html.min.css"
+%>
+<%= javascript_include_tag \
+  "https://cdn.rawgit.com/rtfpessoa/diff2html/01c0f152/dist/diff2html.min.js",
+  "https://cdn.rawgit.com/rtfpessoa/diff2html/01c0f152/dist/diff2html-ui.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"
+%>
 
-<p>Running
-  <%= link_to code_status_index_path do %><code><%= CurrentCommit.first(7) %></code><% end %>.
-</p>
+<details open><summary class="h3">Revision <%= link_to "https://github.com/Charcoal-SE/metasmoke/commit/#{CurrentCommit}" do %><code><%= CurrentCommit.first(7) %></code><% end %></summary>
+  <p>This commit is <span class="fill-status">… commits ahead, … commits behind</span> the <code><%= link_to "...", "", class: "fill-branch" %></code> branch. <%= link_to " diff", "#", id: "toggle-compare-diff", class: "diff-toggle" %> | <%= link_to " commit diff", "#", id: "toggle-commit-diff", class: "diff-toggle" %></p>
+  <section class="commit-diff hide"></section>
+  <section class="compare-diff hide"></section>
+</details>
 
-<hr>
-
-<h3>Gems</h3>
+<details open><summary class="h3">Versions <%= link_to "Show ", "#", :id => "show-all-gem-versions" %></summary>
 
 <table class="table" id="gems-versions-table">
   <thead>
     <tr>
-      <th>Gem</th>
+      <th>Name</th>
       <th>Version</th>
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <td><%= link_to "Ruby", "https://www.ruby-lang.org/en/" %></td>
+      <td><%= link_to RUBY_VERSION, "http://ruby-doc.org/core-#{RUBY_VERSION}/", title: "Ruby docs" %></td>
+    </tr>
     <% @gem_versions.each do |g| %>
-      <tr <%= "hidden=true" unless g.name == 'rails' %>">
-        <td><%= g.name %></td>
-        <td><%= g.version %></td>
+      <tr class="<% if !@important_gems.include? g.name %>minor hide<% end %>">
+        <td><%= link_to g.name.titleize, "https://rubygems.org/gems/#{g.name}" %></td>
+        <td><%= link_to g.version, "https://rubygems.org/gems/#{g.name}/versions/#{g.version}" %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-<%= link_to "Show all", "#", :id => "show-all-gem-versions" %>
-
-<hr>
+</details>
