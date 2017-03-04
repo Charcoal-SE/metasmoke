@@ -165,7 +165,6 @@ class GithubController < ApplicationController
   private
     def verify_github
       signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)
-      puts "calculated signature: #{signature} | #{request.env['HTTP_X_HUB_SIGNATURE']}"
       render plain: "You're not GitHub!", status: 403 and return unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
     end
 end
