@@ -90,8 +90,8 @@ class AuthenticationController < ApplicationController
     Thread.new do
       token_groups = users.map(&:api_token).in_groups_of(20).map(&:compact)
       token_groups.each do |group|
-        uri = "https://api.stackexchange.com/2.2/access_tokens/#{group.join(";")}/invalidate?key=#{AppConfig['stack_exchange']['key']}"
-        HTTParty.post(uri)
+        uri = "https://api.stackexchange.com/2.2/access_tokens/#{group.join(";")}/invalidate"
+        HTTParty.get(uri)
       end
 
       users.update_all(:api_token => nil)
