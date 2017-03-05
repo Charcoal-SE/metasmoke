@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).on('ready turbolinks:load', function() {
     $("#red-button").on("click", function() {
         var flagsEnabled = $(this).is(":checked");
         $.ajax({
