@@ -153,6 +153,8 @@ Rails.application.routes.draw do
     post 'update_sites', to: 'developer#update_sites', as: :dev_update_sites
     get 'prod_log', to: 'developer#production_log', as: :dev_prod_log
     get 'blank', to: 'developer#blank_page', as: :dev_blank
+    get 'websockets', to: 'developer#websocket_test'
+    post 'websockets', to: 'developer#send_websocket_test'
   end
 
   # flagging

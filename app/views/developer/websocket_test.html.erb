@@ -1,0 +1,18 @@
+<h3>Websocket Test</h3>
+<p>This lets you broadcast arbitrary content across the websockets. If you abuse this, I will find you.</p>
+
+<%= form_tag url_for(:controller => :developer, :action => :send_websocket_test), :method => :post do %>
+  <div class="field">
+    <%= label_tag 'channel' %><br/>
+    <%= select_tag 'channel', options_for_select(@channels.map{|c| [c, c]}), :class => 'form-control selectpicker' %>
+  </div><br/>
+
+  <div class="field">
+    <%= label_tag 'content' %><br/>
+    <%= text_field_tag 'content', '', :class => 'form-control', :placeholder => 'JSON format' %>
+  </div><br/>
+
+  <div class="actions">
+    <%= submit_tag 'Broadcast', :class => 'btn btn-primary' %>
+  </div>
+<% end %>

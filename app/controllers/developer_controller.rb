@@ -19,6 +19,16 @@ class DeveloperController < ApplicationController
     render :layout => false
   end
 
+  def websocket_test
+    @channels = ["api", "flag_logs", "github", "posts", "smoke_detector", "topbar"]
+  end
+
+  def send_websocket_test
+    ActionCable.server.broadcast params[:channel], JSON.parse(params[:content])
+    flash[:info] = "Queued for broadcast."
+    redirect_to url_for(:controller => :developer, :action => :websocket_test)
+  end
+
   private
     def verify_developer
       unless current_user.has_role?(:developer)
