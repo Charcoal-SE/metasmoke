@@ -13,9 +13,9 @@ Rails.application.routes.draw do
   scope "/users" do
     root to: 'admin#users', as: :users
     get 'username', to: 'users#username', as: :users_username
-    post 'users/username', to: "users#set_username"
-    get 'users/apps', to: 'users#apps', as: :users_apps
-    delete 'users/revoke_app', to: 'users#revoke_app', as: :users_revoke_app
+    post 'username', to: "users#set_username"
+    get 'apps', to: 'users#apps', as: :users_apps
+    delete 'revoke_app', to: 'users#revoke_app', as: :users_revoke_app
   end
 
   scope "/review" do
