@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).on('ready turbolinks:load', function() {
    $("#create_filter").on("click", function(ev) {
        var checkboxes = $("input[type=checkbox]");
        var bits = new Array(checkboxes.length);
