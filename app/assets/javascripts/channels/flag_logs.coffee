@@ -1,4 +1,4 @@
-$(document).on 'turbolinks:load', ->
+$(document).on 'ready turbolinks:load', ->
   if location.pathname == '/flagging/logs'
     App.flag_logs = App.cable.subscriptions.create "FlagLogsChannel",
       received: (data) ->
