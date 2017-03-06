@@ -2,13 +2,16 @@
 
 <h3><%= title 'Recent posts' %></h3>
 
-<table class="table" id="posts-index-table">
-  <thead>
-    <tr>
-      <th>Post</th>
-    </tr>
-  </thead>
+<ul class="nav nav-tabs">
+  <li class="<%= "active" if params[:filter].nil? %>">
+    <%= link_to "All", posts_path %>
+  </li>
+  <li class="<%= 'active' if params[:filter] == 'undeleted' %>">
+    <%= link_to "Undeleted", posts_path(:filter => :undeleted) %>
+  </li>
+</ul>
 
+<table class="table" id="posts-index-table">
   <tbody>
     <% @posts.each do |post| %>
       <%= render "post", :post => post %>

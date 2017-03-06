@@ -63,6 +63,11 @@ class PostsController < ApplicationController
   # GET /posts.json
   def index
     @posts = Post.all.includes_for_post_row.paginate(:page => params[:page], :per_page => 100).order('created_at DESC')
+
+    if params[:filter] == "undeleted"
+      @posts = @posts.where(:deleted_at => nil)
+    end
+
     @sites = Site.where(:id => @posts.map(&:site_id)).to_a
   end
 
