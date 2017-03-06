@@ -61,7 +61,7 @@ class ApiController < ApplicationController
 
   def undeleted_posts
     filter = "\x00\x00\x00\x00\x00\x00\x00\x03\xC3\xBF\xC3\xBF\xC2\x80\x00\x00\x00\x00\x01"
-    @posts = Post.left_outer_joins(:deletion_logs).where(:deletion_logs => { :id => nil }).select(select_fields(filter)).includes(:feedbacks).includes(:flag_logs => [:user])
+    @posts = Post.where(:deleted_at => nil).select(select_fields(filter)).includes(:feedbacks).includes(:flag_logs => [:user])
     results = @posts.order(:id => :desc).paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
