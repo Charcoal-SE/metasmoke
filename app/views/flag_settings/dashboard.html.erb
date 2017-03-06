@@ -76,7 +76,7 @@
         <% if user_signed_in? %>
           <% if current_user.flags_enabled %>
             <%= link_to flag_logs_by_user_path(current_user) do %>
-              <p><strong><%= pluralize current_user.flag_logs.where(:success => true).where('created_at > ?', Date.today).count, 'flag' %></strong> used today</p>
+              <p><strong><%= pluralize current_user.flag_logs.where(:is_auto => true, :success => true).where('created_at > ?', Date.today).count, 'flag' %></strong> used today</p>
             <% end %>
           <% else %>
             <p class="text-muted"><em>Not registered for flagging.</em></p>
@@ -107,8 +107,8 @@
 
 <h3>Stats</h3>
 <%= pluralize(User.where(:flags_enabled => true).count, "active participant") %><br/>
-<%= pluralize(FlagLog.where(:success => true, :is_dry_run => false).count, "spam flag") %> total cast over
-<%= time_ago_in_words(FlagLog.where(:success => true, :is_dry_run => false).first.try(:created_at)) rescue nil %><br/>
+<%= pluralize(FlagLog.auto.where(:success => true, :is_dry_run => false).count, "spam flag") %> total cast over
+<%= time_ago_in_words(FlagLog.auto.where(:success => true, :is_dry_run => false).first.try(:created_at)) rescue nil %><br/>
 
 <%= pie_chart url_for(:controller => :graphs, :action => :flagging_results), colors: ['red', 'orange', 'green'] %>
 <%= line_chart url_for(:controller => :graphs, :action => :flagging_timeline), colors: ['red', 'orange', 'green'],

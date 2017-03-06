@@ -194,6 +194,10 @@ class ApiController < ApplicationController
     end
 
     status, message = @user.spam_flag(@post, false)
+    flag_log = FlagLog.create(:success => status, :error_message => if status then nil else message,
+                              :is_dry_run => false, :flag_condition => nil,
+                              :user => @user, :post => @post, :backoff => if status then message else 0,
+                              :site_id => @post.site_id)
     if status
       render :json => { :status => "success", :backoff => message }
     else

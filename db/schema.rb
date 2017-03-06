@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170304001120) do
+ActiveRecord::Schema.define(version: 20170304204401) do
 
   create_table "api_keys", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at", null: false
@@ -121,6 +121,7 @@ ActiveRecord::Schema.define(version: 20170304001120) do
     t.boolean "is_dry_run"
     t.integer "backoff"
     t.integer "site_id"
+    t.boolean "is_auto", default: true
     t.index ["created_at"], name: "index_flag_logs_on_created_at"
     t.index ["flag_condition_id"], name: "index_flag_logs_on_flag_condition_id"
     t.index ["post_id"], name: "index_flag_logs_on_post_id"
