@@ -197,7 +197,7 @@ class ApiController < ApplicationController
     flag_log = FlagLog.create(:success => status, :error_message => status.present? ? nil : message,
                               :is_dry_run => false, :flag_condition => nil,
                               :user => @user, :post => @post, :backoff => status.present? ? message : 0,
-                              :site_id => @post.site_id)
+                              :site_id => @post.site_id, :is_auto => false)
     if status
       render :json => { :status => "success", :backoff => message }
     else

@@ -144,6 +144,12 @@ class PostsController < ApplicationController
     end
 
     result, message = current_user.spam_flag(@post, false)
+
+    flag_log = FlagLog.create(:success => result, :error_message => result.present? ? nil : message,
+                              :is_dry_run => false, :flag_condition => nil,
+                              :user => current_user, :post => @post, :backoff => result.present? ? message : 0,
+                              :site_id => @post.site_id, :is_auto => false)
+
     if result
       flash[:success] = "Spam flag cast successfully."
     else
