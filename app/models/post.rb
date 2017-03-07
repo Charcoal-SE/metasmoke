@@ -154,14 +154,14 @@ class Post < ApplicationRecord
 
   def flagged?
     if flag_logs.loaded?
-      flag_logs.select { |f| f.success}.present?
+      flag_logs.select { |f| f.success && f.is_auto }.present?
     else
-      flag_logs.where(:success => true).present?
+      flag_logs.where(:success => true, :is_auto => true).present?
     end
   end
 
   def flaggers
-    User.joins(:flag_logs).where(:flag_logs => {:success => true, :post_id => self.id})
+    User.joins(:flag_logs).where(:flag_logs => {:success => true, :post_id => self.id, :is_auto => true})
   end
 
   def fetch_revision_count

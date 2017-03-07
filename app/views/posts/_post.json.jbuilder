@@ -5,7 +5,7 @@ json.merge!({
   :count_naa => post.feedbacks.to_a.count { |f| f.feedback_type.include? "n" },
   :autoflagged => {
     :flagged => post.flagged?,
-    :names => post.flag_logs.select { |f| f.success }.map { |f| f.user.username },
+    :names => post.flag_logs.select { |f| f.success && f.is_auto }.map { |f| f.user.username },
     :users => post.flaggers.map { |u| u.as_json.select {|k,v| k == "username" or k.include? "_chat_id" } }
   },
   :feedbacks => post.feedbacks.map { |f| { :feedback_type => f.feedback_type, :user_name => f.user_name || f.user.username} },
