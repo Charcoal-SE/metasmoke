@@ -20,7 +20,7 @@ class FlagLogController < ApplicationController
 
   def by_post
     @individual_post = Post.find(params[:id])
-    @flag_logs = @individual_post.flag_logs.order('created_at DESC, id DESC').includes(:post => [:feedbacks => [:user, :api_key]]).includes(:post => [:reasons]).includes(:user).paginate(:page => params[:page], :per_page => 100)
+    @flag_logs = @individual_post.flag_logs.where(:is_auto => true).order('created_at DESC, id DESC').includes(:post => [:feedbacks => [:user, :api_key]]).includes(:post => [:reasons]).includes(:user).paginate(:page => params[:page], :per_page => 100)
     @sites = Site.where(:id => @flag_logs.map(&:post).map(&:site_id)).to_a
     render :index
   end
