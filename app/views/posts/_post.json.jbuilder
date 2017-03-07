@@ -8,6 +8,9 @@ json.merge!({
     :names => post.flag_logs.select { |f| f.success && f.is_auto }.map { |f| f.user.username },
     :users => post.flaggers.map { |u| u.as_json.select {|k,v| k == "username" or k.include? "_chat_id" } }
   },
+  :manual_flags => {
+    :users => post.manual_flaggers.map { |u| u.as_json.select {|k,v| k == "username" or k.include? "_chat_id" } }
+  },
   :feedbacks => post.feedbacks.map { |f| { :feedback_type => f.feedback_type, :user_name => f.user_name || f.user.username} },
   :reason_weight => post.reasons.map(&:weight).reduce(:+)
 })
