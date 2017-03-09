@@ -131,6 +131,15 @@
     }
     .navbar-toggle {
       order: 1; // flexbox version of float: right
+      &::before {
+        content: '';
+        position: absolute;
+        top: -0.4em;
+        left: -0.4em;
+        width: 0.75em;
+        height: 0.75em;
+        border-radius: 50%;
+      }
     }
   }
 }
