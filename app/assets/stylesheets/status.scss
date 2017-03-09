@@ -2,24 +2,37 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+$good: green;
+$warning: orange;
+$critical: red;
+
 .status-good {
-  color: green !important;
+  color: $good !important;
   a {
-    border-bottom: 3px solid green;
+    border-bottom: 3px solid $good;
     padding-bottom: 13px !important;
+  }
+  &.navbar-toggle::before {
+    background: $good;
   }
 }
 .status-warning {
-  color: orange !important;
+  color: $warning !important;
   a {
-    border-bottom: 3px solid orange;
+    border-bottom: 3px solid $warning;
     padding-bottom: 13px !important;
+  }
+  &.navbar-toggle::before {
+    background: $warning;
   }
 }
 .status-critical {
-  color: red !important;
+  color: $critical !important;
   a {
-    border-bottom: 3px solid red;
+    border-bottom: 3px solid $critical;
     padding-bottom: 13px !important;
+  }
+  &.navbar-toggle::before {
+    background: $critical;
   }
 }
