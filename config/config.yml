@@ -13,6 +13,7 @@ common: &common
     key: bla
     client_id: 1234
     login_redirect_uri: '/'
+    token_aes_key: 'random_bytes_here'
   api_field_mappings:
     - api_keys.id
     - api_keys.created_at

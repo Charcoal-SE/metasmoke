@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'awesome_print'
 
+gem 'aescrypt'
 gem 'devise', ">= 4.0.0.rc2"
 gem "mysql2"
 gem "puma"
