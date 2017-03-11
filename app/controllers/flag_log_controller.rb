@@ -36,7 +36,7 @@ class FlagLogController < ApplicationController
     end
 
     uids = @individual_post.site.user_site_settings.where(:user_id => available_user_ids.keys).map(&:user_id)
-    @eligible_users = User.where(:id => uids, :flags_enabled => true).where.not(:api_token => nil)
+    @eligible_users = User.where(:id => uids, :flags_enabled => true).where.not(:encrypted_api_token => nil)
   end
 
   def not_flagged

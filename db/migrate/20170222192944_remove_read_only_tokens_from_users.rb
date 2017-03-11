@@ -12,6 +12,6 @@ class RemoveReadOnlyTokensFromUsers < ActiveRecord::Migration[5.0]
       end
     end
 
-    User.where(:stack_exchange_account_id => users_to_clear).update_all(:api_token => nil)
+    User.where(:stack_exchange_account_id => users_to_clear).update_all(:encrypted_api_token => nil)
   end
 end
