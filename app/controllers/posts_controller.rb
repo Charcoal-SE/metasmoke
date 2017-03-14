@@ -89,7 +89,7 @@ class PostsController < ApplicationController
     end
 
 
-    user_id = @post.user_link.scan(/\/u[sers]?\/(\d*)/).first.first
+    user_id = @post.user_link.scan(/\/u(sers)?\/(\d*)/).first.second
 
     hash = {:site_id => @post.site_id, :user_id => user_id}
     se_user = StackExchangeUser.find_or_create_by(hash)
