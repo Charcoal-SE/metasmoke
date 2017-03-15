@@ -89,16 +89,19 @@ class PostsController < ApplicationController
     end
 
 
-    user_id = @post.user_link.scan(/\/u(sers)?\/(\d*)/).first.second
+    begin
+      user_id = @post.user_link.scan(/\/u(sers)?\/(\d*)/).first.second
 
-    hash = {:site_id => @post.site_id, :user_id => user_id}
-    se_user = StackExchangeUser.find_or_create_by(hash)
-    se_user.reputation = @post.user_reputation
-    se_user.username = @post.username
+      hash = {:site_id => @post.site_id, :user_id => user_id}
+      se_user = StackExchangeUser.find_or_create_by(hash)
+      se_user.reputation = @post.user_reputation
+      se_user.username = @post.username
 
-    se_user.save!
+      se_user.save!
 
-    @post.stack_exchange_user = se_user
+      @post.stack_exchange_user = se_user
+    rescue
+    end
 
     respond_to do |format|
       if @post.save
