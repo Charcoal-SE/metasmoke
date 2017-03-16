@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   before_action :check_if_smokedetector, :only => :create
   before_action :set_post, :only => [:needs_admin, :feedbacksapi, :reindex_feedback, :cast_spam_flag]
   before_action :authenticate_user!, :only => [:reindex_feedback, :cast_spam_flag]
-  before_action :verify_developer, :only => [:reindex_feedback, :cast_spam_flag]
+  before_action :verify_developer, :only => [:reindex_feedback]
 
   def show
     begin
