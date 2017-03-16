@@ -118,6 +118,7 @@ Rails.application.routes.draw do
     root to: 'api#api_docs'
 
     get  'filters', :to => 'api#filter_generator'
+    get  'filter_fields', :to => 'api#filter_fields'
     get  'smoke_detectors/status', :to => 'api#current_status'
     get  'posts/urls', :to => 'api#posts_by_url'
     post 'posts/urls', :to => 'api#posts_by_url'

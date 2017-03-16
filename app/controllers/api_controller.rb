@@ -147,6 +147,13 @@ class ApiController < ApplicationController
     render :json => { :last_ping => SmokeDetector.where.not(:location => params[:except]).maximum(:last_ping) }
   end
 
+  # Read routes: App stuff
+
+  def filter_fields
+    i = -1
+    render :json => AppConfig['api_field_mappings'].map{|f| [f, i+=1]}.to_h
+  end
+
   # Write routes
 
   def create_feedback
