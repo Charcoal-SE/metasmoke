@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   before_action :check_if_smokedetector, :only => :create
   before_action :set_post, :only => [:needs_admin, :feedbacksapi, :reindex_feedback, :cast_spam_flag]
   before_action :authenticate_user!, :only => [:reindex_feedback, :cast_spam_flag]
-  before_action :verify_developer, :only => [:reindex_feedback, :cast_spam_flag]
+  before_action :verify_developer, :only => [:reindex_feedback]
 
   def show
     begin
@@ -90,7 +90,7 @@ class PostsController < ApplicationController
 
 
     begin
-      user_id = @post.user_link.scan(/\/u[sers]?\/(\d*)/).first.first
+      user_id = @post.user_link.scan(/\/u(sers)?\/(\d*)/).first.second
 
       hash = {:site_id => @post.site_id, :user_id => user_id}
       se_user = StackExchangeUser.find_or_create_by(hash)

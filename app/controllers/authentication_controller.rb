@@ -82,7 +82,7 @@ class AuthenticationController < ApplicationController
   end
 
   def invalidate_tokens
-    @users = User.all.where.not(:api_token => nil)
+    @users = User.all.where.not(:encrypted_api_token => nil)
   end
 
   def send_invalidations
@@ -94,7 +94,7 @@ class AuthenticationController < ApplicationController
         HTTParty.get(uri)
       end
 
-      users.update_all(:api_token => nil)
+      users.update_all(:encrypted_api_token => nil)
     end
     flash[:info] = "Token invalidations queued."
     redirect_to url_for(:controller => :authentication, :action => :invalidate_tokens)

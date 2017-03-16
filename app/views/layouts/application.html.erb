@@ -29,7 +29,7 @@
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <button type="button" class="navbar-toggle status-<%= SmokeDetector.status_color %> collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -94,11 +94,11 @@
               <li><%= link_to "sign up", new_user_registration_path %></li>
             <% end %>
             <% if CurrentCommit.present? %>
-            <li>
-              <%= link_to code_status_path do %>
-                <code><%= CurrentCommit.first(7) %></code>
-              <% end %>
-            </li>
+              <li>
+                <%= link_to code_status_path do %>
+                  <code><%= CurrentCommit.first(7) %></code>
+                <% end %>
+              </li>
             <% end %>
             <% if controller.class == DashboardController %>
               <li class="search-icon hidden-xs"><a class="glyphicon glyphicon-search" href=#><span class="sr-only">Search</span></a></li>

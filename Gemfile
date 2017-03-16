@@ -2,10 +2,11 @@ source 'https://rubygems.org'
 
 gem 'awesome_print'
 
+gem 'aescrypt'
 gem 'devise', ">= 4.0.0.rc2"
 gem "mysql2"
 gem "puma"
-gem 'will_paginate', '~> 3.1.0'
+gem 'will_paginate', github: "Undo1/will_paginate"
 gem 'loofah'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'htmlentities', '~> 4.3', '>= 4.3.4'

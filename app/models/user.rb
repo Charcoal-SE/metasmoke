@@ -98,6 +98,20 @@ class User < ApplicationRecord
     true
   end
 
+  # Transparent interface to encrypted API token
+  def api_token
+    return self[:api_token] if encrypted_api_token.nil?
+
+    encryption_key = AppConfig["stack_exchange"]["token_aes_key"]
+    AESCrypt.decrypt(encrypted_api_token, encryption_key)
+  end
+
+  def api_token=(new_value)
+    encryption_key = AppConfig["stack_exchange"]["token_aes_key"]
+    self.encrypted_api_token = AESCrypt.encrypt(new_value, encryption_key)
+    new_value
+  end
+
   # Flagging
 
   def update_moderator_sites

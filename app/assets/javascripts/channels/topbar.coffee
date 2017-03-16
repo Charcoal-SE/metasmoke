@@ -20,6 +20,8 @@ $(document).on 'ready turbolinks:load', () ->
       when ago < 90e3 then 'good'
       when ago < 3 * 60e3 then 'warning'
       else 'critical'
+    $('.navbar-toggle').removeClass 'status-good status-warning status-critical'
+                       .addClass "status-#{status}"
     $status.removeClass 'status-good status-warning status-critical'
            .addClass "status-#{status}"
            .attr 'data-original-title', title

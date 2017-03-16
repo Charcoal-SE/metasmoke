@@ -14,6 +14,7 @@ common: &common
     key: 'key'
     redirect_uri: 'https://domain.com/authentication/redirect_target'
     login_redirect_uri: 'https://domain.com/authentication/login_redirect_target'
+    token_aes_key: 'random_bytes_here'
 
 development:
   <<: *common
