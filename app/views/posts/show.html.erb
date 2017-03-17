@@ -52,6 +52,9 @@
     <span title="<%= @post.created_at %>">
       <%= "reported " + time_ago_in_words(@post.created_at).sub("about ", "") + " ago " %>
     </span>
+    <% if @post.revision_count.to_i >= 2 %>
+      | edited <%= number_to_multiplicative_quantifier @post.revision_count - 1 %>
+    <% end %>
     <% unless @post.user_link.nil? %>
       | posted by
       <% unless @post.site_logo.nil? %>
