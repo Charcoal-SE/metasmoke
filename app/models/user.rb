@@ -103,7 +103,17 @@ class User < ApplicationRecord
     return self[:api_token] if encrypted_api_token.nil?
 
     encryption_key = AppConfig["stack_exchange"]["token_aes_key"]
-    AESCrypt.decrypt(encrypted_api_token, encryption_key)
+    begin
+      return AESCrypt.decrypt(encrypted_api_token, encryption_key)
+    rescue OpenSSL::Cipher::CipherError
+      # Since dev environments don't have the proper keys to perform
+      # decryption on a prod data dump, we allow this error in dev
+      if Rails.env.development?
+        return nil
+      else
+        raise
+      end
+    end
   end
 
   def api_token=(new_value)
