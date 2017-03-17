@@ -160,6 +160,12 @@ class ApiController < ApplicationController
     @post = Post.find params[:id]
     @feedback = Feedback.new(:user => @user, :post => @post, :api_key => @key)
     @feedback.feedback_type = params[:type]
+
+    if @post.is_question? && @feedback.is_naa?
+      render :status => 500, :json => { :error_name => "failed", :error_code => 500, :error_message => "NAA feedback isn't allowed on questions" }
+      return
+    end
+
     if @feedback.save
       if @feedback.is_positive?
         begin
