@@ -15,6 +15,8 @@ common: &common
     redirect_uri: 'https://domain.com/authentication/redirect_target'
     login_redirect_uri: 'https://domain.com/authentication/login_redirect_target'
     token_aes_key: 'random_bytes_here'
+  travis_ci:
+    token: 'gibberish'
 
 development:
   <<: *common

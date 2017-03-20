@@ -112,6 +112,7 @@ Rails.application.routes.draw do
     post 'ci_hook', to: 'github#ci_hook', as: :github_ci_hook
     post 'update_deploy_to_master', to: 'github#update_deploy_to_master', as: :github_update_deploy_to_master
     post 'metasmoke_push_hook', to: 'github#metasmoke_push_hook', as: :github_metasmoke_push_hook
+    post 'gollum', to: 'github#gollum_hook', as: :github_gollum_hook
   end
 
   scope "/api" do
