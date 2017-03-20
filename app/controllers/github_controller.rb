@@ -37,7 +37,7 @@ class GithubController < ApplicationController
 
   # Fires when a wiki page is updated on Charcoal-SE/metasmoke or Charcoal-SE/SmokeDetector
   def gollum_hook
-    Travis::Repository.find('Charcoal-SE/charcoal-session.github.io').last_build.restart
+    Travis::Repository.find('Charcoal-SE/charcoal-se.github.io').last_build.restart
   end
 
   # Fires whenever a PR is opened to check for auto-blacklist and post stats
