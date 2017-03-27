@@ -75,7 +75,7 @@ class ApiController < ApplicationController
 
   def post_reasons
     filter = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x18\x00\x00\x00\x00\x00"
-    @reasons = Reason.joins(:posts_reasons).where(:posts_reasons => { :post_id => params[:id] }).select(select_fields(filter)).order(:id => :desc)
+    @reasons = Reason.joins(:posts).where(:posts_reasons => { :post_id => params[:id] }).select(select_fields(filter)).order(:id => :desc)
     results = @reasons.paginate(:page => params[:page], :per_page => @pagesize)
     render :json => { :items => results, :has_more => has_more?(params[:page], results.count) }
   end
@@ -160,6 +160,12 @@ class ApiController < ApplicationController
     @post = Post.find params[:id]
     @feedback = Feedback.new(:user => @user, :post => @post, :api_key => @key)
     @feedback.feedback_type = params[:type]
+
+    if @post.is_question? && @feedback.is_naa?
+      render :status => 500, :json => { :error_name => "failed", :error_code => 500, :error_message => "NAA feedback isn't allowed on questions" }
+      return
+    end
+
     if @feedback.save
       if @feedback.is_positive?
         begin

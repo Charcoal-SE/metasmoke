@@ -52,6 +52,9 @@
     <span title="<%= @post.created_at %>">
       <%= "reported " + time_ago_in_words(@post.created_at).sub("about ", "") + " ago " %>
     </span>
+    <% if @post.revision_count.to_i >= 2 %>
+      | edited <%= number_to_multiplicative_quantifier @post.revision_count - 1 %>
+    <% end %>
     <% unless @post.user_link.nil? %>
       | posted by
       <% unless @post.site_logo.nil? %>
@@ -59,7 +62,7 @@
           <%= image_tag @post.site_logo, size: "20" %>
         <% end %>
       <% end %>
-      <%= link_to @post.username, stack_exchange_user_path(@post.stack_exchange_user_id) %>
+      <%= link_to @post.username, stack_exchange_user_path(@post.stack_exchange_user_id) if @post.stack_exchange_user_id.present? %>
       <% unless @post.user_reputation.nil? %>
         (<%= @post.user_reputation %>)
       <% end %>
