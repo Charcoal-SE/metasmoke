@@ -57,7 +57,7 @@ class Post < ApplicationRecord
           core_count -= post.send_autoflag(user, dry_run, available_user_ids[user.id])
         end
 
-        users.without_role(:core).shuffle.each do |user|
+        users.shuffle.each do |user|
           if other_count <= 0
             break
           end
