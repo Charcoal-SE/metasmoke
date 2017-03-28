@@ -141,7 +141,8 @@ class User < ApplicationRecord
 
       response["items"].each do |network_account|
         if network_account["user_type"] == "moderator"
-          self.moderator_sites << ModeratorSite.new(:site_id => Site.find_by_site_url(network_account["site_url"]).id)
+          domain = Addressable::URI.parse(network_account["site_url"]).host
+          self.moderator_sites << ModeratorSite.new(:site_id => Site.find_by_site_domain(domain).id)
         end
       end
 
