@@ -169,10 +169,17 @@ class User < ApplicationRecord
     site = post.site
 
     # Try to get flag options
-    flag_options = JSON.parse(Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/options?site=#{site.site_domain}&#{auth_string}")).body)["items"]
+    response = JSON.parse(Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/options?site=#{site.site_domain}&#{auth_string}")).body)
+    flag_options = response["items"]
 
     unless flag_options.present?
-      return false, "Flag options not present"
+      begin
+        if response["error_message"] == "The account associated with the access_token does not have a user on the site"
+          return false, "No account on this site."
+        end
+      rescue
+        return false, "Flag options not present"
+      end
     end
 
     spam_flag_option = flag_options.select { |fo| fo["title"] == "spam" }.first
