@@ -4,7 +4,7 @@ class Post < ApplicationRecord
   has_many :deletion_logs, :dependent => :destroy
   belongs_to :site
   belongs_to :stack_exchange_user
-  has_many :flag_logs
+  has_many :flag_logs, :dependent => :destroy
 
   scope :includes_for_post_row, -> { includes(:reasons).includes(:feedbacks => [:user, :api_key]) }
   scope :without_feedback, -> { left_joins(:feedbacks).where( :feedbacks => { :post_id => nil }) }
