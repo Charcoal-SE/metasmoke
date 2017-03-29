@@ -1,0 +1,79 @@
+<h3>Flagger Overview</h3>
+
+<h5>User</h5>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="text-muted">ID</th>
+      <th>Username</th>
+      <th>SE A/C ID</th>
+      <th>Flags enabled?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="text-muted"><%= @user.id %></td>
+      <td><%= @user.username %></td>
+      <td><%= link_to @user.stack_exchange_account_id, "https://stackexchange.com/users/#{@user.stack_exchange_account_id}" %></td>
+      <td><%= @user.flags_enabled ? "Yes" : "No" %></td>
+    </tr>
+  </tbody>
+</table>
+
+<h5>Preferences</h5>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th class="text-muted">ID</th>
+    <th>Site Count</th>
+    <th>Max Flags</th>
+    <th>Flags Used Today</th>
+    <th colspan="2"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @preferences.each do |pref| %>
+      <tr>
+        <td class="text-muted"><%= pref.id %></td>
+        <td><%= pref.sites.count %></td>
+        <td><%= pref.max_flags %></td>
+        <td><%= pref.flags_used %></td>
+        <td><%= link_to "Edit", url_for(:controller => :user_site_settings, :action => :edit, :id => pref.id) %></td>
+        <td><%= link_to "Delete", url_for(:controller => :user_site_settings, :action => :destroy, :id => pref.id),
+                        :method => :delete, :data => { :confirm => "Are you sure?" }, :class => "text-danger" %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<h5>Conditions</h5>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th class="text-muted">ID</th>
+    <th>Enabled</th>
+    <th>Minimum Weight</th>
+    <th>Maximum Poster Rep</th>
+    <th>Minimum Reason Count</th>
+    <th>Sites</th>
+    <th colspan="2"></th>
+  </tr>
+  </thead>
+  <tbody>
+    <% @conditions.each do |condition| %>
+      <tr>
+        <td class="text-muted"><%= condition.id %></td>
+        <td class="text-<%= condition.flags_enabled ? 'success' : 'danger' %>">
+          <%= condition.flags_enabled ? 'Enabled' : 'Disabled' %>
+        </td>
+        <td><%= condition.min_weight %></td>
+        <td><%= condition.max_poster_rep %></td>
+        <td><%= condition.min_reason_count %></td>
+        <td><%= condition.sites.count %></td>
+        <td><%= link_to "Edit", url_for(:controller => :flag_conditions, :action => :edit, :id => condition.id) %></td>
+        <td><%= link_to "Delete", url_for(:controller => :flag_conditions, :action => :destroy, :id => condition.id),
+                        :method => :delete, :data => { :confirm => "Are you sure?" }, :class => "text-danger" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

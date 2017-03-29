@@ -1,6 +1,6 @@
 class FlagConditionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :verify_admin, :only => [:full_list]
+  before_action :verify_admin, :only => [:full_list, :user_overview]
   before_action :set_condition, :only => [:edit, :update, :destroy, :enable]
   before_action :verify_authorized, :only => [:edit, :update, :destroy, :enable]
   before_action :check_registration_status, :only => [:new]
@@ -108,6 +108,13 @@ class FlagConditionsController < ApplicationController
 
     flash[:info] = "The necessary settings for autoflagging have been created - please review them to make sure you're happy."
     redirect_to url_for(:controller => :flag_settings, :action => :dashboard)
+  end
+
+  def user_overview
+    @user = User.find params[:user]
+    @conditions = FlagCondition.where(:user => @user)
+    @preferences = UserSiteSetting.where(:user => @user)
+    @logs = FlagLog.where(:user => @user)
   end
 
   private
