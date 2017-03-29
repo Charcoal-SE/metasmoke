@@ -23,8 +23,11 @@ Rails.application.routes.draw do
     post 'feedback', to: "review#add_feedback", as: :review_feedback
   end
 
-  get 'stack_exchange_users/index'
-  get 'stackusers/:id', to: "stack_exchange_users#show", as: :stack_exchange_user
+  get 'spammers', to: 'stack_exchange_users#index'
+  get 'spammers/sites', to: 'stack_exchange_users#sites'
+  get 'spammers/site', to: 'stack_exchange_users#on_site'
+  post 'spammers/dead/:id', to: 'stack_exchange_users#dead'
+  get 'spammers/:id', to: "stack_exchange_users#show", as: :stack_exchange_user
 
   get 'search', to: 'search#search_results'
 

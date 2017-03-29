@@ -9,6 +9,27 @@ class StackExchangeUsersController < ApplicationController
     @posts = @user.posts
   end
 
+  def on_site
+    @site = Site.find params[:site]
+    @users = StackExchangeUser.joins(:feedbacks).where(:site => @site, :still_alive => true)
+                              .where("feedbacks.feedback_type LIKE '%t%'").group('stack_exchange_users.id')
+                              .order('(stack_exchange_users.question_count + stack_exchange_users.answer_count) DESC, stack_exchange_users.reputation DESC')
+                              .paginate(:page => params[:page], :per_page => 100)
+  end
+
+  def sites
+    @sites = Site.all
+  end
+
+  def dead
+    @user = StackExchangeUser.find params[:id]
+    if @user.update(:still_alive => false)
+      render :plain => "ok"
+    else
+      render :plain => "fail"
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_stack_exchange_user

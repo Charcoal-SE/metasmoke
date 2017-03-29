@@ -1,0 +1,30 @@
+<h3>Spammers on site: <%= @site.site_name %></h3>
+<p>An overview of users who have been caught spamming by Smokey on this site.</p>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="text-muted">MS ID</th>
+      <th>Site ID</th>
+      <th>Post Count</th>
+      <th>Reputation</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |u| %>
+      <tr>
+        <td class="text-muted"><%= u.id %></td>
+        <td><%= link_to "#{u.user_id} (#{u.username})", "#{@site.site_url}/users/#{u.user_id}" %></td>
+        <td><%= (u.question_count || 0) + (u.answer_count || 0) %></td>
+        <td><%= u.reputation %></td>
+        <td><a href="#" class="not-spammer" data-uid="<%= u.id %>">Not a spammer</a></td>
+        <td><a href="#" class="not-spammer" data-uid="<%= u.id %>">Nuked</a></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= will_paginate @users, renderer: BootstrapPagination::Rails %>
+</div>
