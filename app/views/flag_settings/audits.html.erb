@@ -15,7 +15,9 @@
       <td><%= audit.action %></td>
       <td><code><%= audit.auditable.name %></code></td>
       <% value_change = audit.audited_changes["value"] %>
-      <td><code><%= value_change.try(:first) %></code> -> <code><%= value_change.try(:second) %></code></td>
+      <td><code><%= value_change.try(:first) %></code><% if value_change.try(:second).present? %>
+        → <code><%= value_change.try(:second) %></code>
+      <% end %></td>
       <td><span data-livestamp="<%= audit.created_at.to_i %>" title="<%= audit.created_at %>"></span></td>
     </tr>
   <% end %>
