@@ -103,6 +103,12 @@
     <li><%= link_to "All conditions", url_for(:controller => :flag_conditions, :action => :full_list) %></li>
     <li><%= link_to "Invalidate API tokens", url_for(:controller => :authentication, :action => :invalidate_tokens), :class => "text-danger" %></li>
   </ul>
+
+  <h5><strong>User views</strong></h5>
+  <%= form_tag url_for(:controller => :flag_conditions, :action => :user_overview), :method => 'GET' do %>
+    <%= select_tag 'user', options_for_select(User.all.map{|u| [u.try(:username), u.id]}), {:class => 'form-control selectpicker', 'data-live-search' => true, 'data-actions-box' => true, 'data-dropup-auto' => false} %><br/>
+    <%= submit_tag 'View', :class => 'btn btn-primary' %>
+  <% end %>
 <% end %>
 
 <h3>Stats</h3>
