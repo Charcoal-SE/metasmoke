@@ -154,6 +154,11 @@ class ApiController < ApplicationController
     render :json => AppConfig['api_field_mappings'].map{|f| [f, i+=1]}.to_h
   end
 
+  def spam_last_week
+    render :json => Site.joins(:posts).where(:posts => { :is_tp => true, :created_at => 1.week.ago.to_date..Date.today })
+                        .group('sites.site_name').count
+  end
+
   # Write routes
 
   def create_feedback

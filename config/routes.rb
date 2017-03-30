@@ -124,6 +124,7 @@ Rails.application.routes.draw do
 
     get  'filters', :to => 'api#filter_generator'
     get  'filter_fields', :to => 'api#filter_fields'
+    get  'stats/last_week', :to => 'api#spam_last_week'
     get  'smoke_detectors/status', :to => 'api#current_status'
     get  'posts/urls', :to => 'api#posts_by_url'
     post 'posts/urls', :to => 'api#posts_by_url'
