@@ -10,8 +10,8 @@ common: &common
     integration_id: 896
     installation_id: 4946
   stack_exchange:
-    key: bla
-    client_id: 1234
+    key: 'lKfzuApO1ASY*NegoDzU0g(('
+    client_id: 8568
     login_redirect_uri: '/'
     token_aes_key: 'random_bytes_here'
   api_field_mappings:

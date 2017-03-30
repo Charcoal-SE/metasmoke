@@ -1,4 +1,5 @@
 class StackExchangeUsersController < ApplicationController
+  before_action :authenticate_user!, :only => [:update_data]
   before_action :set_stack_exchange_user, :only => [:show]
 
   def index
@@ -28,6 +29,31 @@ class StackExchangeUsersController < ApplicationController
     else
       render :plain => "fail"
     end
+  end
+
+  def update_data
+    site = Site.find params[:site]
+    api_site_param = site.site_url.split("/")[-1].split(".")[0]
+    Thread.new do
+      live_ids = []
+      StackExchangeUser.where(:site => site, :still_alive => true).in_groups_of(100).each do |group|
+        ids = group.compact.map(&:user_id).join(';')
+        uri = "https://api.stackexchange.com/2.2/users/#{ids}?site=#{api_site_param}&key=#{AppConfig['stack_exchange']['key']}&filter=!40D.p)TeT8rA79vLR"
+
+        response = HTTParty.get(uri)
+        jsn = response.parsed_response
+        live_ids += jsn['items'].map { |u| u['user_id'] }
+        if jsn['backoff']
+          sleep(jsn['backoff'])
+        end
+      end
+
+      StackExchangeUser.where(:site => site).where.not(:user_id => live_ids).update_all(:still_alive => false)
+      site.update(:last_users_update => DateTime.now)
+    end
+
+    flash[:info] = "Data updates have been queued; check back in a few minutes."
+    redirect_to url_for(:controller => :stack_exchange_users, :action => :on_site, :site => params[:site])
   end
 
   private

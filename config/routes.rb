@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   get 'spammers', to: 'stack_exchange_users#index'
   get 'spammers/sites', to: 'stack_exchange_users#sites'
   get 'spammers/site', to: 'stack_exchange_users#on_site'
+  post 'spammers/site/:site/update', to: 'stack_exchange_users#update_data'
   post 'spammers/dead/:id', to: 'stack_exchange_users#dead'
   get 'spammers/:id', to: "stack_exchange_users#show", as: :stack_exchange_user
 

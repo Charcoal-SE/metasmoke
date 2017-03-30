@@ -2,6 +2,9 @@
 <p>An overview of users who have been caught spamming by Smokey on this site. Click <em>Not a spammer</em> or <em>Nuked</em>
   to tell the system that this user has been reviewed and the appropriate action taken; the user will be removed from this list.</p>
 
+<p class="text-muted">Data last updated: <%= @site.last_users_update.present? ? time_ago_in_words(@site.last_users_update) + ' ago' : "Never" %>
+  &mdash; <%= link_to "Update now", url_for(:controller => :stack_exchange_users, :action => :update_data, :site => @site.id), :method => :post %></p>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -15,7 +18,7 @@
   <tbody>
     <% @users.each do |u| %>
       <tr>
-        <td class="text-muted"><%= u.id %></td>
+        <td class="text-muted"><%= link_to u.id, url_for(:controller => :stack_exchange_users, :action => :show, :id => u.id) %></td>
         <td><%= link_to "#{u.user_id} (#{u.username})", "#{@site.site_url}/users/#{u.user_id}" %></td>
         <td><%= (u.question_count || 0) + (u.answer_count || 0) %></td>
         <td><%= u.reputation %></td>
