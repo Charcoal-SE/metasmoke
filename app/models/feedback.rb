@@ -37,7 +37,7 @@ class Feedback < ApplicationRecord
   end
 
   def does_affect_user?
-    self.feedback_type.ends_with? "u" || self.feedback_type.ends_with? "u-"
+    self.feedback_type.ends_with?("u") || self.feedback_type.ends_with?("u-")
   end
 
   def update_post_feedback_cache
