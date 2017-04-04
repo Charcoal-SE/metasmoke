@@ -172,7 +172,7 @@ class ApiController < ApplicationController
     end
 
     if @feedback.save
-      if @feedback.is_positive?
+      if @feedback.is_positive? && @feedback.does_affect_user?
         begin
           ActionCable.server.broadcast "smokedetector_messages", { blacklist: { uid: @post.stack_exchange_user.user_id.to_s, site: URI.parse(@post.stack_exchange_user.site.site_url).host, post: @post.link } }
         rescue

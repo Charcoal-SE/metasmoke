@@ -36,6 +36,10 @@ class Feedback < ApplicationRecord
     self.feedback_type.include? "naa"
   end
 
+  def does_affect_user?
+    self.feedback_type.ends_with? "u" || self.feedback_type.ends_with? "u-"
+  end
+
   def update_post_feedback_cache
     if self.saved_changes?
       return self.post.reload.update_feedback_cache # Returns whether the post feedback cache has been changed
