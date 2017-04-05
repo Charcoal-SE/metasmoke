@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170330113316) do
+ActiveRecord::Schema.define(version: 20170405195409) do
 
   create_table "api_keys", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at", null: false
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20170330113316) do
     t.string "app_name", collation: "utf8_unicode_ci"
     t.integer "user_id"
     t.string "github_link", collation: "utf8_unicode_ci"
+    t.boolean "is_trusted"
     t.index ["user_id"], name: "index_api_keys_on_user_id"
   end
 
@@ -136,30 +137,11 @@ ActiveRecord::Schema.define(version: 20170330113316) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "flags", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
-    t.string "reason", collation: "utf8_unicode_ci"
-    t.string "user_id", collation: "utf8_unicode_ci"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "is_completed", default: false
-    t.integer "post_id"
-    t.index ["post_id"], name: "index_flags_on_post_id"
-  end
-
   create_table "github_tokens", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "token", collation: "utf8mb4_bin"
     t.datetime "expires"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "ignored_users", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
-    t.string "user_name", collation: "utf8_unicode_ci"
-    t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "is_ignored"
-    t.index ["user_id"], name: "index_ignored_users_on_user_id"
   end
 
   create_table "moderator_sites", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -318,8 +300,6 @@ ActiveRecord::Schema.define(version: 20170330113316) do
   add_foreign_key "flag_logs", "posts"
   add_foreign_key "flag_logs", "sites"
   add_foreign_key "flag_logs", "users"
-  add_foreign_key "flags", "posts"
-  add_foreign_key "ignored_users", "users"
   add_foreign_key "smoke_detectors", "users"
   add_foreign_key "user_site_settings", "sites"
   add_foreign_key "user_site_settings", "users"

@@ -80,6 +80,7 @@ Rails.application.routes.draw do
   patch 'admin/owner_edit/:id', to: 'api_keys#owner_update'
   delete 'admin/revoke_write', to: 'api_keys#revoke_write_tokens'
   delete 'admin/owner_revoke', to: 'api_keys#owner_revoke'
+  post 'admin/keys/:id/trust', to: 'api_keys#update_trust'
 
   get "posts", to: "posts#index"
   get "posts/latest", to: "posts#latest"

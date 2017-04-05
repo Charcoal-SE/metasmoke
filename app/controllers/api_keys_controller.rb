@@ -68,6 +68,14 @@ class ApiKeysController < ApplicationController
     redirect_to url_for(:controller => :api_keys, :action => :mine)
   end
 
+  def update_trust
+    if @key.update(:is_trusted => params[:trusted] == "true")
+      render :plain => "OK"
+    else
+      render :plain => "nope"
+    end
+  end
+
   private
     def key_params
       params.require(:api_key).permit(:key, :app_name, :user_id, :github_link)

@@ -12,4 +12,19 @@ $(document).on 'turbolinks:load', ->
       url: "/admin/permissions/update"
       success: (data) ->
         checkbox.disabled = false
+
+  $("input.trust-checkbox").change ->
+    $(this).disabled = true
+    checkbox = $(this)
+
+    $.ajax
+      type: 'post'
+      data: { 'trusted': $(this).is(":checked") }
+      dataType: 'json'
+      url: "/admin/keys/" + $(this).data("key-id") + "/trust"
+      success: (data) ->
+        unless data == "OK"
+          console.error(data)
+
+        checkbox.disabled = false
         
