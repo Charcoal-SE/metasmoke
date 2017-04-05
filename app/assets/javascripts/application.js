@@ -13,6 +13,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require moment.min.js
+//= require bootstrap-select.min.js
 //= require_tree .
 
 $(document).on('ready turbolinks:load', function() {
