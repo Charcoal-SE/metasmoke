@@ -25,7 +25,7 @@ class PostsController < ApplicationController
 
   def by_url
     @posts = Post.where(:link => params[:url])
-    count = posts.count
+    count = @posts.count
 
     if count < 1
       flash[:danger] = "Post not found for #{params[:url]}. It may have been reported during a period of metasmoke downtime."
