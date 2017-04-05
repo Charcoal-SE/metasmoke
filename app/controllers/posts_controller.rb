@@ -24,16 +24,17 @@ class PostsController < ApplicationController
   end
 
   def by_url
-    puts params[:url]
-    post = Post.select("id").where(:link => params[:url]).last
+    @posts = Post.where(:link => params[:url])
+    count = posts.count
 
-    if post.nil?
+    if count < 1
       flash[:danger] = "Post not found for #{params[:url]}. It may have been reported during a period of metasmoke downtime."
       redirect_to posts_path
-      return
+    elsif count == 1
+      redirect_to url_for(:controller => :posts, :action => :show, :id => @posts.first.id)
+    else
+      flash[:info] = 'Multiple records were found for this URL; pick the one you meant from this list.'
     end
-
-    redirect_to url_for(:controller => :posts, :action => :show, :id => post.id)
   end
 
   def recentpostsapi
