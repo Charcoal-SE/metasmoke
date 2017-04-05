@@ -223,6 +223,21 @@ class ApiController < ApplicationController
     end
   end
 
+  def post_deleted
+    unless @key.is_trusted
+      render :status => 403, :json => { :status => "failed", :message => "The API key used to make the request is not trusted." } and return
+    end
+
+    post = Post.find params[:id]
+    dl = DeletionLog.new(:post => post, :is_deleted => true)
+
+    if dl.save
+      render :json => { :status => "success" }
+    else
+      render :status => 500, :json => { :status => "failed", :message => "The deletion log failed to save." }
+    end
+  end
+
   private
     def verify_key
       @key = ApiKey.find_by_key(params[:key])
