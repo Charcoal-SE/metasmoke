@@ -1,0 +1,14 @@
+<h3>Confirm your code</h3>
+<p>Last step: to confirm that it's really you trying to remove security from your account, enter the code shown in your
+  authenticator app.</p>
+
+<%= form_tag url_for(:controller => :users, :action => :confirm_disable_code) do %>
+  <div class="field">
+    <%= label_tag 'code' %><br/>
+    <%= text_field_tag 'code', '', :class => 'form-control' %>
+  </div><br/>
+
+  <div class="actions">
+    <%= submit_tag 'Confirm', :class => 'btn btn-success' %>
+  </div>
+<% end %>

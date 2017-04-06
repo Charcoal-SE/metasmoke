@@ -20,6 +20,8 @@ gem 'jwt'
 gem "audited", "~> 4.3"
 gem "rails-observers", github: 'rails/rails-observers'
 gem "travis"
+gem "rotp"
+gem "rqrcode"
 
 gem 'rack-mini-profiler'
 gem 'flamegraph'
