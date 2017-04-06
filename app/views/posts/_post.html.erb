@@ -11,7 +11,7 @@
       <span class="text-muted show-post-body" data-postloaded="<%= preload_post_body.to_s %>" data-postid="<%= post.id %>"><%= (expand_post.present? and expand_post) ? "▼" : "►" %></span>
     <% end %>
 
-    <%= link_to post.title, "/post/" + post.id.to_s %>‭
+    <%= link_to post.title, "/post/" + post.id.to_s %>&#x202D;
 
     <% if not post.feedbacks.empty? %>
       <strong>
@@ -32,7 +32,7 @@
       <% end %>
 
       <% unless post.username.nil? || post.stack_exchange_user.nil? %>
-        by <%= link_to post.username, url_for(:controller => :stack_exchange_users, :action => :show, :id => post.stack_exchange_user.id) %>‭
+        by <%= link_to post.username, url_for(:controller => :stack_exchange_users, :action => :show, :id => post.stack_exchange_user.id) %>&#x202D;
       <% end %>
 
       <% unless post.site_id.nil? %>
