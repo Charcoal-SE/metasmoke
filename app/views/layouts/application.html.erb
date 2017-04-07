@@ -84,7 +84,7 @@
                     <li class="dropdown-indent"><%= link_to "User Permissions", admin_permissions_path %></li>
                   <% end %>
                   <% if current_user.has_role?(:developer) %>
-                    <li class="dropdown-indent"><%= link_to "Production log", url_for(:controller => :developer, :action => :production_log), :class => "text-danger" %></li>
+                    <li class="dropdown-indent"><%= link_to "Production log", url_for(:controller => '/developer', :action => :production_log), :class => "text-danger" %></li>
                   <% end %>
                   <li><%= link_to 'Feedback', admin_user_feedback_path(:user_id => current_user.id) %></li>
                 </ul>
