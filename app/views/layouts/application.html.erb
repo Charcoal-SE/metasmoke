@@ -71,7 +71,8 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.username || current_user.email %> <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><%= link_to 'Logout', destroy_user_session_path, :method => :delete %></li>
+                  <li><%= link_to 'Log out', destroy_user_session_path, :method => :delete %></li>
+                  <li><%= link_to 'Account Settings', edit_user_registration_path %></li>
                   <li><%= link_to 'Apps', url_for(:controller => '/users', :action => :apps) %></li>
                   <li><a href="/admin">Tools</a></li>
                   <li class="dropdown-indent"><a href="/admin/invalidated">Invalidated Feedback</a></li>
@@ -84,7 +85,7 @@
                     <li class="dropdown-indent"><%= link_to "User Permissions", admin_permissions_path %></li>
                   <% end %>
                   <% if current_user.has_role?(:developer) %>
-                    <li class="dropdown-indent"><%= link_to "Production log", url_for(:controller => :developer, :action => :production_log), :class => "text-danger" %></li>
+                    <li class="dropdown-indent"><%= link_to "Production log", url_for(:controller => '/developer', :action => :production_log), :class => "text-danger" %></li>
                   <% end %>
                   <li><%= link_to 'Feedback', admin_user_feedback_path(:user_id => current_user.id) %></li>
                 </ul>
