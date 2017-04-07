@@ -171,3 +171,72 @@ code_admin_user:
       name: Etc/UTC
     time: *5
   roles: reviewer, code_admin
+
+two_factor_confirming:
+  email: two_factor@user.com
+  encrypted_password: "abcdefghjklmnopqrstuvwxyz3"
+  remember_created_at:
+  sign_in_count: 13
+  current_sign_in_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-03-18 16:25:50.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  last_sign_in_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-10 14:06:43.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &3 2015-08-23 23:29:39.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *3
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &4 2016-03-31 15:09:34.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *4
+  reset_password_token: abcdefghijklmnopqrstuvwxyz3
+  reset_password_sent_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &5 2016-03-16 19:42:53.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *5
+  two_factor_token: lgxobqrvbxp4p6tm
+  roles: reviewer
+
+two_factor_full:
+  email: two_factor_full@user.com
+  encrypted_password: "abcdefghjklmnopqrstuvwxyz3"
+  remember_created_at:
+  sign_in_count: 13
+  current_sign_in_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2016-03-18 16:25:50.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  last_sign_in_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2016-03-10 14:06:43.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+  created_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &3 2015-08-23 23:29:39.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *3
+  updated_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &4 2016-03-31 15:09:34.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *4
+  reset_password_token: abcdefghijklmnopqrstuvwxyz3
+  reset_password_sent_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &5 2016-03-16 19:42:53.000000000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *5
+  two_factor_token: 7vqntzjy54hx2tkv
+  enabled_2fa: true
+  roles: reviewer
