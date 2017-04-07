@@ -1,0 +1,9 @@
+<h3>Add metasmoke to your authenticator</h3>
+<p>Your account has been set up with the necessary credentials to use 2FA. You now need to add your metasmoke account to
+  your mobile authenticator - we recommend using Google Authenticator.</p>
+<p>Using Google Authenticator, tap the floating red plus button in the lower-right corner, and tap "scan a barcode".
+  Scan the QR code below, and the account should be added.</p>
+
+<div class="qr-2fa"><img src="<%= @qr_uri %>" width="300" /></div>
+
+<%= link_to "Done, next step", url_for(:controller => :users, :action => :enable_code), :class => "btn btn-success" %>

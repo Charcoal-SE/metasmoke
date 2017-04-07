@@ -16,6 +16,13 @@ Rails.application.routes.draw do
     post 'username', to: "users#set_username"
     get 'apps', to: 'users#apps', as: :users_apps
     delete 'revoke_app', to: 'users#revoke_app', as: :users_revoke_app
+
+    get '2fa', to: 'users#tf_status'
+    post '2fa/enable', to: 'users#enable_2fa'
+    get '2fa/enable/code', to: 'users#enable_code'
+    post '2fa/enable/code', to: 'users#confirm_enable_code'
+    get '2fa/disable/code', to: 'users#disable_code'
+    post '2fa/disable/code', to: 'users#confirm_disable_code'
   end
 
   scope "/review" do
@@ -195,5 +202,9 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :users
+  devise_for :users, :controllers => { :sessions => 'custom_sessions' }
+  devise_scope :user do
+    get 'users/2fa/login', to: 'custom_sessions#verify_2fa'
+    post 'users/2fa/login', to: 'custom_sessions#verify_code'
+  end
 end

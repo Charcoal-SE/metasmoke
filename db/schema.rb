@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170405195409) do
+ActiveRecord::Schema.define(version: 20170405230627) do
 
   create_table "api_keys", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at", null: false
@@ -302,6 +302,8 @@ ActiveRecord::Schema.define(version: 20170405195409) do
     t.integer "stack_exchange_account_id"
     t.boolean "flags_enabled", default: false
     t.string "encrypted_api_token"
+    t.string "two_factor_token"
+    t.boolean "enabled_2fa"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
