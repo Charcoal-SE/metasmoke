@@ -35,4 +35,20 @@ class FlaggingTest < ActionDispatch::IntegrationTest
     @user.update_moderator_sites
     assert_equal previous_ids.sort, @user.moderator_site_ids.sort
   end
+
+  test "should refuse to flag on a site user is a moderator on" do
+    @user.moderator_sites.create(site: Site.first)
+
+    assert_raise do
+      @user.spam_flag(Post.new(site: Site.first))
+    end
+  end
+
+  test "should refuse to flag if user has no access token" do
+    @user.api_token = nil
+
+    assert_raise do
+      @user.spam_flag(Post.new)
+    end
+  end
 end

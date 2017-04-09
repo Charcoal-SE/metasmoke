@@ -117,6 +117,11 @@ class User < ApplicationRecord
   end
 
   def api_token=(new_value)
+    if new_value.nil?
+      self.encrypted_api_token = nil
+      return new_value
+    end
+
     encryption_key = AppConfig["stack_exchange"]["token_aes_key"]
     self.encrypted_api_token = AESCrypt.encrypt(new_value, encryption_key)
     new_value
