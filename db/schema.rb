@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170405230627) do
+ActiveRecord::Schema.define(version: 20170409014354) do
 
   create_table "api_keys", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at", null: false
@@ -277,10 +277,8 @@ ActiveRecord::Schema.define(version: 20170405230627) do
     t.integer "max_flags"
     t.integer "flags_used", default: 0
     t.integer "user_id"
-    t.integer "site_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["site_id"], name: "index_user_site_settings_on_site_id"
     t.index ["user_id"], name: "index_user_site_settings_on_user_id"
   end
 
@@ -324,6 +322,5 @@ ActiveRecord::Schema.define(version: 20170405230627) do
   add_foreign_key "flags", "posts"
   add_foreign_key "ignored_users", "users"
   add_foreign_key "smoke_detectors", "users"
-  add_foreign_key "user_site_settings", "sites"
   add_foreign_key "user_site_settings", "users"
 end
