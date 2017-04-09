@@ -1,4 +1,5 @@
 require 'simplecov'
+require 'webmock/minitest'
 SimpleCov.start 'rails'
 
 ENV['RAILS_ENV'] ||= 'test'
