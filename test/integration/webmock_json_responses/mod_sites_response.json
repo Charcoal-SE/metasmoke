@@ -1,0 +1,407 @@
+{
+  "items": [
+    {
+      "user_type": "moderator",
+      "site_url": "http:\/\/stackoverflow.com"
+    },
+    {
+      "user_type": "moderator",
+      "site_url": "http:\/\/serverfault.com"
+    },
+    {
+      "user_type": "moderator",
+      "site_url": "https:\/\/superuser.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "https:\/\/meta.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/webapps.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/gaming.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/webmasters.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/cooking.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/gamedev.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/photo.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/stats.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/math.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/diy.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/gis.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/tex.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/askubuntu.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/money.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/english.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/stackapps.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/ux.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/unix.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/wordpress.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/cstheory.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/apple.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/rpg.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/bicycles.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/softwareengineering.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/electronics.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/android.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/boardgames.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/physics.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "https:\/\/security.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/writers.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/video.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/graphicdesign.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/dba.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/scifi.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/codereview.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/codegolf.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/quant.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/pm.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/skeptics.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/fitness.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/drupal.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/mechanics.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/parenting.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/sharepoint.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/music.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/sqa.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/judaism.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/german.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/japanese.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/philosophy.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/gardening.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/travel.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/productivity.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/crypto.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/dsp.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/french.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/christianity.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/bitcoin.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/linguistics.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/hermeneutics.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/history.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/bricks.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/spanish.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/scicomp.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/movies.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/chinese.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/biology.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/poker.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/mathematica.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/cogsci.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/outdoors.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/sports.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/academia.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/cs.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/workplace.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/windowsphone.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/chemistry.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/chess.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/raspberrypi.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/russian.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/salesforce.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/patents.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/robotics.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/expressionengine.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/politics.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/anime.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/magento.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/ell.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/sustainability.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/tridion.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/reverseengineering.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/networkengineering.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/opendata.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/freelancing.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/blender.stackexchange.com"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/mathoverflow.net"
+    },
+    {
+      "user_type": "registered",
+      "site_url": "http:\/\/space.stackexchange.com"
+    }
+  ],
+  "has_more": false,
+  "quota_max": 10000,
+  "quota_remaining": 9971
+}
