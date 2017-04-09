@@ -30,5 +30,9 @@ class FlaggingTest < ActionDispatch::IntegrationTest
 
     @user.update_moderator_sites
     assert_equal @user.moderator_sites.count, 3
+
+    previous_ids = @user.moderator_site_ids
+    @user.update_moderator_sites
+    assert_equal previous_ids.sort, @user.moderator_site_ids.sort
   end
 end
