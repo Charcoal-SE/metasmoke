@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/Undo1/db_fixtures_dump.git
+  revision: b2b4d1a354e3cdf6286c18bd252c2bba2aad5e0b
+  specs:
+    db_fixtures_dump (0.1.1)
+
+GIT
   remote: git://github.com/Undo1/will_paginate.git
   revision: 6a9e3eadbe7d1a5264429bd7d0dc54d35f5a9d51
   specs:
@@ -304,6 +310,7 @@ DEPENDENCIES
   capistrano-upload-config
   chartkick
   coffee-rails (~> 4.2.0)
+  db_fixtures_dump!
   devise (>= 4.0.0.rc2)
   flamegraph
   groupdate (~> 3.0.0)

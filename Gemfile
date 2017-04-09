@@ -73,6 +73,9 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 
+  # Export fixtures from local database
+  gem 'db_fixtures_dump', github: "Undo1/db_fixtures_dump"
+
   gem 'capistrano'
   gem 'capistrano-secrets-yml'
   gem 'capistrano-rails'
