@@ -33,7 +33,7 @@ class PostsController < ApplicationController
     elsif count == 1
       redirect_to url_for(:controller => :posts, :action => :show, :id => @posts.first.id)
     else
-      flash[:info] = 'Multiple records were found for this URL; pick the one you meant from this list.'
+      flash.now[:info] = 'Multiple records were found for this URL; pick the one you meant from this list.'
     end
   end
 
