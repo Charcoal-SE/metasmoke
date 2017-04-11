@@ -167,6 +167,17 @@ class GithubController < ApplicationController
     Octokit.update_ref "Charcoal-SE/SmokeDetector", "heads/deploy", new_sha1, false
   end
 
+  def any_status_hook
+    repo = params[:name]
+    link = "https://github.com/#{repo}"
+    sha = params[:sha]
+    state = params[:state]
+
+    return if state == 'pending'
+
+    ActionCable.server.broadcast("smokedetector_messages", {message: "[ [#{repo}](#{link}) ] CI #{state} on [#{sha.first(7)}](#{link}/commit/#{sha})."})
+  end
+
   private
     def verify_github
       signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)
