@@ -178,4 +178,12 @@ class Post < ApplicationRecord
     update(:revision_count => revision_list.count)
     revision_list.count
   end
+
+  def get_revision_count
+    if self.revision_count.present?
+      self.revision_count
+    else
+      fetch_revision_count
+    end
+  end
 end
