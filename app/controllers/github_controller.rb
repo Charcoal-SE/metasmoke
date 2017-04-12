@@ -175,7 +175,7 @@ class GithubController < ApplicationController
 
     return if state == 'pending'
 
-    ActionCable.server.broadcast("smokedetector_messages", {message: "[ [#{repo}](#{link}) ] CI #{state} on [#{sha.first(7)}](#{link}/commit/#{sha})."})
+    ActionCable.server.broadcast("smokedetector_messages", {message: "[ [#{repo.sub("Charcoal-SE/", "")}](#{link}) ] CI #{state} on [#{sha.first(7)}](#{link}/commit/#{sha})."})
   end
 
   private
