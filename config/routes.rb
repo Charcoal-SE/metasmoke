@@ -54,6 +54,7 @@ Rails.application.routes.draw do
   get "status", to: "status#index"
   get "status/code.json", to: "code_status#api"
   get "status/code", as: :code_status, to: "code_status#index"
+
   get "smoke_detector/:id/statistics", to: "statistics#index", as: :smoke_detector_statistics
   delete 'smoke_detector/:id', :to => 'smoke_detectors#destroy'
   post 'smoke_detector/:id/force_failover', to: 'smoke_detectors#force_failover', as: :smoke_detector_force_failover
@@ -125,6 +126,7 @@ Rails.application.routes.draw do
     post 'update_deploy_to_master', to: 'github#update_deploy_to_master', as: :github_update_deploy_to_master
     post 'metasmoke_push_hook', to: 'github#metasmoke_push_hook', as: :github_metasmoke_push_hook
     post 'gollum', to: 'github#gollum_hook', as: :github_gollum_hook
+    post 'project_status', to: 'github#any_status_hook', as: :github_project_status_hook
   end
 
   scope "/api" do
