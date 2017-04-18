@@ -104,7 +104,7 @@ class User < ApplicationRecord
 
     encryption_key = AppConfig["stack_exchange"]["token_aes_key"]
     begin
-      return AESCrypt.decrypt(encrypted_api_token, encryption_key)
+      return AESCrypt.decrypt(encrypted_api_token, encryption_key, self.salt, self.iv)
     rescue OpenSSL::Cipher::CipherError
       # Since dev environments don't have the proper keys to perform
       # decryption on a prod data dump, we allow this error in dev
@@ -123,7 +123,8 @@ class User < ApplicationRecord
     end
 
     encryption_key = AppConfig["stack_exchange"]["token_aes_key"]
-    self.encrypted_api_token = AESCrypt.encrypt(new_value, encryption_key)
+    salt, iv, encrypted = AESCrypt.encrypt(new_value, encryption_key)
+    self.update(:encrypted_api_token => encrypted, :salt => salt, :iv => iv)
     new_value
   end
 
