@@ -173,7 +173,7 @@ class Post < ApplicationRecord
     post ||= self
     params = "key=#{AppConfig["stack_exchange"]["key"]}&site=#{post.site.site_domain}&filter=!mggE4ZSiE7"
 
-    url = "https://api.stackexchange.com/posts/#{post.stack_id}/revisions?#{params}"
+    url = "https://api.stackexchange.com/2.2/posts/#{post.stack_id}/revisions?#{params}"
     revision_list = JSON.parse(Net::HTTP.get_response(URI.parse(url)).body)["items"]
 
     update(:revision_count => revision_list.count)

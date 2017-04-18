@@ -60,6 +60,11 @@ class ApiControllerTest < ActionController::TestCase
   end
 
   test "should get post by URL" do
+    params = "key=#{AppConfig["stack_exchange"]["key"]}&site=#{Post.last.site.site_domain}&filter=!mggE4ZSiE7"
+    api_req_url = "https://api.stackexchange.com/2.2/posts/#{Post.last.stack_id}/revisions?#{params}"
+    response = File.new("#{Rails.root}/test/helpers/webmock_json_responses/post_revisions_response.json")
+    
+    stub_request(:get, api_req_url).to_return(body: response)
     get :posts_by_url, params: { urls: Post.last.link, key: api_keys(:one).key }
 
     assert_response :success
