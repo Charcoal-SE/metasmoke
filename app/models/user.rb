@@ -183,6 +183,8 @@ class User < ApplicationRecord
       begin
         if response["error_message"] == "The account associated with the access_token does not have a user on the site"
           return false, "No account on this site."
+        else
+          return false, "Flag options not present"
         end
       rescue
         return false, "Flag options not present"
