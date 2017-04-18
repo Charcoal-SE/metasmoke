@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'awesome_print'
 
-gem 'aescrypt', '~> 1.0', '>= 1.0.2', github: 'Charcoal-SE/aescrypt'
+gem 'aescrypt', '~> 2.0', '>= 2.0.0', github: 'Charcoal-SE/aescrypt'
 gem 'devise', ">= 4.0.0.rc2"
 gem "mysql2"
 gem "puma"

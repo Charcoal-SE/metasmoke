@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/Charcoal-SE/aescrypt.git
-  revision: 4bb0997bcc7c47f1c2e35b5896b0b5920ea3d6ce
+  revision: 5ee67cae00af9b369ddad9c74ac13233c4ca8368
   specs:
-    aescrypt (1.0.2)
+    aescrypt (2.0.0)
 
 GIT
   remote: git://github.com/Undo1/db_fixtures_dump.git
@@ -301,7 +301,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aescrypt (~> 1.0, >= 1.0.2)!
+  aescrypt (~> 2.0, >= 2.0.0)!
   audited (~> 4.3)
   awesome_print
   byebug
