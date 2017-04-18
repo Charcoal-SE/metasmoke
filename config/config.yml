@@ -143,6 +143,7 @@ common: &common
     - users_roles.user_id
     - users_roles.role_id
     - posts.deleted_at
+    - posts.revision_count
 
 development:
   <<: *common

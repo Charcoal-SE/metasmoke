@@ -180,8 +180,9 @@ class Post < ApplicationRecord
   end
 
   def get_revision_count
-    if self.revision_count.present?
-      self.revision_count
+    post = Post.find self.id
+    if post.revision_count.present?
+      post.revision_count
     else
       fetch_revision_count
     end
