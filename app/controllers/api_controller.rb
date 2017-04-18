@@ -159,6 +159,23 @@ class ApiController < ApplicationController
                         .group('sites.site_name').count
   end
 
+  def detailed_ttd
+    render :json => [
+        {name: '0 flags', data: Post.group_by_hour_of_day('`posts`.`created_at`').select("AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion")
+                                    .joins(:deletion_logs).where(:is_tp => true).where('`posts`.`created_at` < ?', Date.new(2017, 1, 1))
+                                    .where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600").relation.each_with_index
+                                    .map{|a,i| [i, a.time_to_deletion.round(0)]}},
+        {name: '1 flag', data: Post.group_by_hour_of_day('`posts`.`created_at`').select("AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion")
+                                   .joins(:deletion_logs).where(:is_tp => true).where('`posts`.`created_at` >= ?', Date.new(2017, 1, 1)).where('`posts`.`created_at` < ?', Date.new(2017, 2, 14))
+                                   .where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600").relation.each_with_index
+                                   .map{|a,i| [i, a.time_to_deletion.round(0)]}},
+        {name: '3 flags', data: Post.group_by_hour_of_day('`posts`.`created_at`').select("AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion")
+                                    .joins(:deletion_logs).where(:is_tp => true).where('`posts`.`created_at` >= ?', Date.new(2017, 2, 14))
+                                    .where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600").relation.each_with_index
+                                    .map{|a,i| [i, a.time_to_deletion.round(0)]}}
+    ]
+  end
+
   # Write routes
 
   def create_feedback
