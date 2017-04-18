@@ -1,8 +1,15 @@
 GIT
   remote: git://github.com/Charcoal-SE/aescrypt.git
-  revision: 5ee67cae00af9b369ddad9c74ac13233c4ca8368
+  revision: c730d0b8219004467d5af3d093a2449085dcbe0f
   specs:
-    aescrypt (2.0.0)
+    aescrypt (2.0.1)
+
+GIT
+  remote: git://github.com/Charcoal-SE/will_paginate-bootstrap.git
+  revision: 95ee3e99801f391f47365a7946033e32714571a9
+  specs:
+    will_paginate-bootstrap (1.0.1)
+      will_paginate (>= 3.0.3)
 
 GIT
   remote: git://github.com/Undo1/db_fixtures_dump.git
@@ -294,8 +301,6 @@ GEM
     websocket-extensions (0.1.2)
     whenever (0.9.7)
       chronic (>= 0.6.3)
-    will_paginate-bootstrap (1.0.1)
-      will_paginate (>= 3.0.3)
 
 PLATFORMS
   ruby
@@ -349,7 +354,7 @@ DEPENDENCIES
   webmock
   whenever
   will_paginate!
-  will_paginate-bootstrap
+  will_paginate-bootstrap!
 
 BUNDLED WITH
    1.14.6
