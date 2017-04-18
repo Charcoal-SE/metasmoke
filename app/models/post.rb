@@ -169,10 +169,11 @@ class Post < ApplicationRecord
     User.joins(:flag_logs).where(:flag_logs => {:success => true, :post_id => self.id, :is_auto => false})
   end
 
-  def fetch_revision_count
-    params = "key=#{AppConfig["stack_exchange"]["key"]}&site=#{site.site_domain}&filter=!mggE4ZSiE7"
+  def fetch_revision_count(post=nil)
+    post ||= self
+    params = "key=#{AppConfig["stack_exchange"]["key"]}&site=#{post.site.site_domain}&filter=!mggE4ZSiE7"
 
-    url = "https://api.stackexchange.com/posts/#{stack_id}/revisions?#{params}"
+    url = "https://api.stackexchange.com/posts/#{post.stack_id}/revisions?#{params}"
     revision_list = JSON.parse(Net::HTTP.get_response(URI.parse(url)).body)["items"]
 
     update(:revision_count => revision_list.count)
@@ -180,11 +181,16 @@ class Post < ApplicationRecord
   end
 
   def get_revision_count
-    post = Post.find self.id
+    if self.respond_to? :revision_count
+      post = self
+    else
+      post = Post.find self.id
+    end
+
     if post.revision_count.present?
       post.revision_count
     else
-      fetch_revision_count
+      fetch_revision_count(self.respond_to?(:revision_count) ? nil : post)
     end
   end
 end
