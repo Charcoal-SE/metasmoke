@@ -172,10 +172,12 @@ class GithubController < ApplicationController
     link = "https://github.com/#{repo}"
     sha = params[:sha]
     state = params[:state]
+    context = params[:context]
+    description = params[:description]
 
-    return if state == 'pending'
+    return if state == 'pending' || (state == 'success' && context != 'github/pages')
 
-    ActionCable.server.broadcast("smokedetector_messages", {message: "[ [#{repo.sub("Charcoal-SE/", "")}](#{link}) ] CI #{state} on [#{sha.first(7)}](#{link}/commit/#{sha})."})
+    ActionCable.server.broadcast("smokedetector_messages", {message: "[ [#{repo.sub("Charcoal-SE/", "")}](#{link}) ] #{context} CI #{state} on [#{sha.first(7)}](#{link}/commit/#{sha}): #{description || '*No description*'}"})
   end
 
   private
