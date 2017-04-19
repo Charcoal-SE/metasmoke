@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/Charcoal-SE/aescrypt.git
-  revision: c730d0b8219004467d5af3d093a2449085dcbe0f
+  revision: a40efa0bf95a251c89c64a8367a8edfd61f244f5
   specs:
-    aescrypt (2.0.1)
+    aescrypt (2.0.2)
 
 GIT
   remote: git://github.com/Charcoal-SE/will_paginate-bootstrap.git
@@ -306,7 +306,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aescrypt (~> 2.0, >= 2.0.0)!
+  aescrypt (~> 2.0, >= 2.0.2)!
   audited (~> 4.3)
   awesome_print
   byebug
