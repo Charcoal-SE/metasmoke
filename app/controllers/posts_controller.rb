@@ -1,9 +1,9 @@
 class PostsController < ApplicationController
   protect_from_forgery :except => [:create]
   before_action :check_if_smokedetector, :only => :create
-  before_action :set_post, :only => [:needs_admin, :feedbacksapi, :reindex_feedback, :cast_spam_flag]
+  before_action :set_post, :only => [:needs_admin, :feedbacksapi, :reindex_feedback, :cast_spam_flag, :delete_post]
   before_action :authenticate_user!, :only => [:reindex_feedback, :cast_spam_flag]
-  before_action :verify_developer, :only => [:reindex_feedback]
+  before_action :verify_developer, :only => [:reindex_feedback, :delete_post]
 
   def show
     begin
@@ -136,6 +136,18 @@ class PostsController < ApplicationController
       flash[:info] = "Feedback reindexed; no change."
     end
     redirect_to url_for(:controller => :posts, :action => :show, :id => @post.id)
+  end
+
+  def delete_post
+    if @post.destroy
+      flash[:success] = "Post destroyed successfully"
+    else
+      flash[:warning] = "Something went wrong when destroying post."
+    end
+
+    SmokeDetector.send_message_to_charcoal "Metasmoke post #{@post.id} (#{@post.title}) destroyed by #{@current_user.username}"
+
+    redirect_to posts_path
   end
 
   def cast_spam_flag

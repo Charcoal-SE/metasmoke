@@ -103,6 +103,7 @@
     <div class="panel-body">
       <ul>
         <li><%= link_to "Update feedback cache", url_for(:controller => :posts, :action => :reindex_feedback, :id => @post.id), :method => :post %></li>
+        <li><%= link_to "Delete post", dev_delete_post_path(@post.id), method: :post, data: { confirm: "Are you sure you want to delete this post? This can't be undone." } %></li>
       </ul>
     </div>
   </div>

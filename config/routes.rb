@@ -104,6 +104,7 @@ Rails.application.routes.draw do
   get "post/:id/eligible_flaggers", to: 'flag_log#eligible_flaggers', as: :post_eligible_flaggers
   post "post/:id/index_feedback", to: "posts#reindex_feedback"
   post "post/:id/spam_flag", to: 'posts#cast_spam_flag'
+  post "post/:id/delete", to: 'posts#delete_post', as: :dev_delete_post
 
   get "users", to: "stack_exchange_users#index"
 
