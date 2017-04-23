@@ -179,7 +179,12 @@ class GithubController < ApplicationController
     return if state == 'pending' || (state == 'success' && context == 'github/pages')
     
     message = "[ [#{repo.sub("Charcoal-SE/", "")}](#{link}) ]"
-    message += " #{context} [#{state}](#{target})"
+    message += " #{context} "
+    if target.present?
+      message += "[#{state}](#{target})"
+    else
+      message += state
+    end
     message += " on [#{sha.first(7)}](#{link}/commit/#{sha.first(10)})"
     if description.present?
       message += ": #{description}"
