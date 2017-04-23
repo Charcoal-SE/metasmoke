@@ -77,6 +77,7 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
 
+    @post.smoke_detector = @smoke_detector
     @post.site = Site.find_by_site_domain(URI.parse(@post.link).host)
 
     params["post"]["reasons"].each do |r|
