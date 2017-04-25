@@ -1,5 +1,6 @@
 class DeletionLog < ApplicationRecord
   belongs_to :post
+  belongs_to :deletion_log
   validates :post_id, presence: true
 
   after_create do

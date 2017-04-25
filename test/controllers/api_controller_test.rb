@@ -39,6 +39,18 @@ class ApiControllerTest < ActionController::TestCase
     end
   end
 
+  test "should associated deletion logs with API key" do
+    api_key = api_keys(:one)
+    api_key.update(is_trusted: true)
+
+    api_token = api_tokens(:one)
+
+    assert_difference 'api_key.deletion_logs.count' do
+      post :post_deleted, params: { id: 23653, key: api_keys(:one).key, token: api_tokens(:one).token }
+      assert_response :success
+    end
+  end
+
   # This also happens to test that feedback is actually
   # *created*, since expects delta=1
   test "should prevent duplicate feedback from api" do

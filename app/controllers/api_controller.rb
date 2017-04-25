@@ -246,7 +246,7 @@ class ApiController < ApplicationController
     end
 
     post = Post.find params[:id]
-    dl = DeletionLog.new(:post => post, :is_deleted => true)
+    dl = post.deletion_logs.new(:api_key_id => @key.id, :is_deleted => true)
 
     if dl.save
       render :json => { :status => "success" }
