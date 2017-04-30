@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170425002546) do
+ActiveRecord::Schema.define(version: 20170430221501) do
 
   create_table "api_keys", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at", null: false
@@ -288,9 +288,6 @@ ActiveRecord::Schema.define(version: 20170425002546) do
     t.string "email", default: "", null: false, collation: "utf8_unicode_ci"
     t.string "encrypted_password", default: "", null: false, collation: "utf8_unicode_ci"
     t.datetime "remember_created_at"
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "reset_password_token", collation: "utf8_unicode_ci"
