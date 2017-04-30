@@ -26,7 +26,7 @@
   </ul>
 <% end %>
 
-<table class="table" id="all-flag-logs">
+<table class="table" id="<%= 'all-flag-logs' if params[:user_id].nil? and (params[:filter].nil? or params[:filter] == 'all') %>">
   <% if @individual_post.present? %>
     <thead>
       <tr>
