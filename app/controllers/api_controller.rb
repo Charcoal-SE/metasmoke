@@ -140,6 +140,61 @@ class ApiController < ApplicationController
 
     render :json => { :items => items }
   end
+  
+  def users_with_reviewer_privs
+    chat_ids = User.reviewers.pluck(:stackexchange_chat_id, :stackoverflow_chat_id, :meta_stackexchange_chat_id)
+
+    items = {}
+    ["stackexchange_chat_ids", "stackoverflow_chat_ids", "meta_stackexchange_chat_ids"].each_with_index do |name, index|
+      items[name] = chat_ids.map { |a| a[index] }.select { |n| n.present? }
+    end
+
+    render :json => { :items => items }
+  end
+  
+  def users_with_flagger_privs
+    chat_ids = User.flaggers.pluck(:stackexchange_chat_id, :stackoverflow_chat_id, :meta_stackexchange_chat_id)
+
+    items = {}
+    ["stackexchange_chat_ids", "stackoverflow_chat_ids", "meta_stackexchange_chat_ids"].each_with_index do |name, index|
+      items[name] = chat_ids.map { |a| a[index] }.select { |n| n.present? }
+    end
+
+    render :json => { :items => items }
+  end
+  
+  def users_with_core_privs
+    chat_ids = User.cores.pluck(:stackexchange_chat_id, :stackoverflow_chat_id, :meta_stackexchange_chat_id)
+
+    items = {}
+    ["stackexchange_chat_ids", "stackoverflow_chat_ids", "meta_stackexchange_chat_ids"].each_with_index do |name, index|
+      items[name] = chat_ids.map { |a| a[index] }.select { |n| n.present? }
+    end
+
+    render :json => { :items => items }
+  end
+  
+  def users_with_admin_privs
+    chat_ids = User.admins.pluck(:stackexchange_chat_id, :stackoverflow_chat_id, :meta_stackexchange_chat_id)
+
+    items = {}
+    ["stackexchange_chat_ids", "stackoverflow_chat_ids", "meta_stackexchange_chat_ids"].each_with_index do |name, index|
+      items[name] = chat_ids.map { |a| a[index] }.select { |n| n.present? }
+    end
+
+    render :json => { :items => items }
+  end
+  
+  def users_with_developer_privs
+    chat_ids = User.developers.pluck(:stackexchange_chat_id, :stackoverflow_chat_id, :meta_stackexchange_chat_id)
+
+    items = {}
+    ["stackexchange_chat_ids", "stackoverflow_chat_ids", "meta_stackexchange_chat_ids"].each_with_index do |name, index|
+      items[name] = chat_ids.map { |a| a[index] }.select { |n| n.present? }
+    end
+
+    render :json => { :items => items }
+  end
 
   # Read routes: Status
 
