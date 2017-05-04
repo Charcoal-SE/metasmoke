@@ -94,6 +94,26 @@ class User < ApplicationRecord
     Role.where(:name => :code_admin).first.users
   end
 
+  def self.reviewers
+    Role.where(:name => :reviewer).first.users
+  end
+
+  def self.flaggers
+    Role.where(:name => :flagger).first.users
+  end
+
+  def self.cores
+    Role.where(:name => :core).first.users
+  end
+
+  def self.admins
+    Role.where(:name => :admin).first.users
+  end
+
+  def self.developers
+    Role.where(:name => :developer).first.users
+  end  
+  
   def remember_me
     true
   end
