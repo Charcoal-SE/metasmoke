@@ -18,6 +18,7 @@ class StatusController < ApplicationController
     @smoke_detector.save!
 
     ActionCable.server.broadcast "topbar", { last_ping: @smoke_detector.last_ping.to_f }
+    ActionCable.server.broadcast "smokey_pings", { smokey: @smoke_detector.as_json }
 
     respond_to do |format|
       format.json do
