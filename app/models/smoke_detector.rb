@@ -9,6 +9,23 @@ class SmokeDetector < ApplicationRecord
     self.force_failover || (self.is_standby && SmokeDetector.where(:is_standby => false).where('last_ping > ?', 3.minutes.ago).empty?)
   end
 
+  def as_json(options = {})
+    opts = {
+      except: [:access_token],
+      methods: [:status_color]
+    }
+    opts.deep_merge!(options) { |key, a, b|
+      if a.instance_of? Array
+        a + b
+      elsif a.instance_of? Hash then
+        a.deep_merge b
+      else
+        b
+      end
+    }
+    super(opts)
+  end
+
   def self.status_color
     SmokeDetector.select("last_ping").order("last_ping DESC").first.status_color
   end
