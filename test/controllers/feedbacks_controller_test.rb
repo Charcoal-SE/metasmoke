@@ -97,4 +97,42 @@ class FeedbacksControllerTest < ActionController::TestCase
 
     assert Post.find(p.id).is_fp
   end
+
+  test "should destroy previous feedback from user created within 24 hours" do
+    p = Post.last
+    p.feedbacks.delete_all
+
+    user_id = User.last.id
+
+    f1 = p.feedbacks.create(user_id: user_id, feedback_type: "tpu-")
+
+    assert p.feedbacks.count == 1
+
+    assert_no_difference "p.feedbacks.count" do
+      f2 = f1.dup
+      f2.feedback_type = "fpu-"
+      f2.save
+    end
+  end
+
+  test "shouldn't destroy other user's previous feedback" do
+    p = Post.last
+    p.feedbacks.delete_all
+
+    user_id = User.last.id
+
+    f1 = p.feedbacks.create(user_id: user_id, feedback_type: "tpu-")
+
+    f1_other_user = f1.dup
+    f1_other_user.user_id = -12
+    f1_other_user.save
+
+    assert p.feedbacks.count == 2
+
+    assert_no_difference "p.feedbacks.count" do
+      f2 = f1.dup
+      f2.feedback_type = "fpu-"
+      f2.save
+    end
+  end
 end

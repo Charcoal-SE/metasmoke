@@ -28,7 +28,7 @@ class Feedback < ApplicationRecord
   # and less than a day old
 
   after_create do
-    return if user_id.nil?
+    next if user_id.nil?
 
     post.feedbacks.where(user_id: user_id)
                   .where('created_at > ?', 24.hours.ago)
