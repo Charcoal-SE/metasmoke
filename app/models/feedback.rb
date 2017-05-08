@@ -30,10 +30,12 @@ class Feedback < ApplicationRecord
   after_create do
     next if user_id.nil?
 
-    post.feedbacks.where(user_id: user_id)
-                  .where('created_at > ?', 24.hours.ago)
-                  .where.not(id: id)
-                  .delete_all
+    num_deleted = post.feedbacks.where(user_id: user_id)
+                                .where('created_at > ?', 24.hours.ago)
+                                .where.not(id: id)
+                                .delete_all
+
+    post.reload.update_feedback_cache if num_deleted > 0
   end
 
   def is_positive?
