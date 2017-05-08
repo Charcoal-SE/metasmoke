@@ -61,6 +61,13 @@ class SearchController < ApplicationController
 
   @results = @results.includes(:feedbacks => [:user])
 
+  case params[:autoflagged].try(:downcase)
+  when "yes"
+    @results = @results.includes(:flag_logs).where.not(flag_logs: {id: nil})
+  when "no"
+    @results = @results.left_outer_joins(:flag_logs).where(flag_logs: { id: nil })
+  end
+
   respond_to do |format|
       format.html {
         @counts_by_accuracy_group = @results.group(:is_tp, :is_fp, :is_naa).count

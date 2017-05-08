@@ -45,6 +45,11 @@
   </div>
 
   <div class="form-group">
+    <%= label_tag :autoflagged %>
+    <%= select_tag :autoflagged, options_for_select(["Yes", "No"], params[:autoflagged]), class: "form-control", include_blank: "All" %>
+  </div>
+
+  <div class="form-group">
     <%= label_tag :reason %>
     <%= select_tag :reason, options_from_collection_for_select(Reason.all.order(:reason_name), "id", "reason_name", params[:reason]), class: "form-control", include_blank: "All" %>
   </div>
