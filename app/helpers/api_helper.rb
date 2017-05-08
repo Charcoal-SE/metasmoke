@@ -30,13 +30,13 @@ module ApiHelper
       }
       jwt = JWT.encode(payload, private_key, "RS256")
 
-      token_resp = HTTParty.post("https://api.github.com/installations/#{AppConfig['github']['installation_id']}/access_tokens", :headers => {
+      token_resp = HTTParty.post("https://api.github.com/installations/#{AppConfig['github']['installation_id']}/access_tokens", headers: {
         'Accept' => 'application/vnd.github.machine-man-preview+json',
         'User-Agent' => 'metasmoke-ci/1.0',
         'Authorization' => "Bearer #{jwt}"
       })
       token_resp = JSON.parse(token_resp.body)
-      GithubToken.create!(:token => token_resp['token'], :expires => token_resp['expires_at'])
+      GithubToken.create!(token: token_resp['token'], expires: token_resp['expires_at'])
       access_token = token_resp['token']
     end
 

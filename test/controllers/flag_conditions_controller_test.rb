@@ -29,7 +29,7 @@ class FlagConditionsControllerTest < ActionController::TestCase
     sign_in users(:approved_user)
 
     assert_difference "FlagCondition.count" do
-      post :create, :params => { :flag_condition => { :min_weight => 300, :max_poster_rep => 10, :min_reason_count => 4, :sites => [sites(:Site_1).id, sites(:Site_2).id] }}
+      post :create, params: { flag_condition: { min_weight: 300, max_poster_rep: 10, min_reason_count: 4, sites: [sites(:Site_1).id, sites(:Site_2).id] }}
     end
 
     assert_not_nil assigns(:condition)
@@ -38,7 +38,7 @@ class FlagConditionsControllerTest < ActionController::TestCase
 
   test "should get edit" do
     sign_in users(:approved_user)
-    get :edit, :params => { :id => FlagCondition.last.id, :flag_condition => { :sites => [Site.last.id] } }
+    get :edit, params: { id: FlagCondition.last.id, flag_condition: { sites: [Site.last.id] } }
 
     assert_not_nil assigns(:condition)
     assert_response 200
@@ -46,7 +46,7 @@ class FlagConditionsControllerTest < ActionController::TestCase
 
   test "should update flag condition" do
     sign_in users(:approved_user)
-    patch :update, :params => { :flag_condition => { :min_weight => 301, :max_poster_rep => 11, :min_reason_count => 5, :sites => [sites(:Site_1).id] }, :id => FlagCondition.last.id }
+    patch :update, params: { flag_condition: { min_weight: 301, max_poster_rep: 11, min_reason_count: 5, sites: [sites(:Site_1).id] }, id: FlagCondition.last.id }
 
     assert_not_nil assigns(:condition)
     assert_response 302
@@ -56,7 +56,7 @@ class FlagConditionsControllerTest < ActionController::TestCase
     sign_in users(:approved_user)
 
     assert_difference "FlagCondition.count", -1 do
-      delete :destroy, :params => { :id => FlagCondition.last.id }
+      delete :destroy, params: { id: FlagCondition.last.id }
     end
     assert_not_nil assigns(:condition)
     assert_response 302

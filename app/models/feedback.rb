@@ -1,8 +1,8 @@
 class Feedback < ApplicationRecord
   default_scope { where(is_invalidated: false, is_ignored: false) }
-  scope :ignored, -> { unscoped.where(:is_ignored => true) }
-  scope :invalid, -> { unscoped.where(:is_invalidated => true) }
-  scope :via_api, -> { unscoped.where.not(:api_key => nil) }
+  scope :ignored, -> { unscoped.where(is_ignored: true) }
+  scope :invalid, -> { unscoped.where(is_invalidated: true) }
+  scope :via_api, -> { unscoped.where.not(api_key: nil) }
 
   belongs_to :post
   belongs_to :user
@@ -68,9 +68,9 @@ class Feedback < ApplicationRecord
   private
     def check_for_dupe_feedback
       duplicate = if self.user_id.present?
-        Feedback.where(:user_id => self.user_id, :post_id => self.post_id, :feedback_type => self.feedback_type).where.not(:id => self.id)
+        Feedback.where(user_id: self.user_id, post_id: self.post_id, feedback_type: self.feedback_type).where.not(id: self.id)
       else
-        Feedback.where(:user_name => self.user_name, :post_id => self.post_id, :feedback_type => self.feedback_type).where.not(:id => self.id)
+        Feedback.where(user_name: self.user_name, post_id: self.post_id, feedback_type: self.feedback_type).where.not(id: self.id)
       end
 
       if duplicate.exists? and !self.is_invalidated

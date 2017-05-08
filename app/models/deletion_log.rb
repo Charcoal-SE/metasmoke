@@ -12,7 +12,7 @@ class DeletionLog < ApplicationRecord
 
   after_create do
     if is_deleted and post.deleted_at.nil?
-      post.update(:deleted_at => created_at)
+      post.update(deleted_at: created_at)
     end
   end
 end

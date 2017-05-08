@@ -1,11 +1,11 @@
 class DeveloperController < ApplicationController
-  before_action :authenticate_user!, :except => [:blank_page]
-  before_action :verify_developer, :except => [:blank_page]
+  before_action :authenticate_user!, except: [:blank_page]
+  before_action :verify_developer, except: [:blank_page]
 
   def update_sites
     SitesHelper.updateSites
     flash[:info] = "Site cache updated, refer to MiniProfiler for execution details."
-    redirect_back(:fallback_location => url_for(:controller => :dashboard, :action => :index))
+    redirect_back(fallback_location: url_for(controller: :dashboard, action: :index))
   end
 
   def production_log
@@ -16,7 +16,7 @@ class DeveloperController < ApplicationController
   end
 
   def blank_page
-    render :layout => false
+    render layout: false
   end
 
   def websocket_test
@@ -26,7 +26,7 @@ class DeveloperController < ApplicationController
   def send_websocket_test
     ActionCable.server.broadcast params[:channel], JSON.parse(params[:content])
     flash[:info] = "Queued for broadcast."
-    redirect_to url_for(:controller => :developer, :action => :websocket_test)
+    redirect_to url_for(controller: :developer, action: :websocket_test)
   end
 
   private

@@ -4,7 +4,7 @@ class CreateStackExchangeUsers < ActiveRecord::Migration[4.2]
       t.integer :user_id
       t.string :username
       t.datetime :last_api_update
-      t.boolean :still_alive, :default => true
+      t.boolean :still_alive, default: true
       t.integer :answer_count
       t.integer :question_count
       t.integer :reputation

@@ -1,7 +1,7 @@
 class DeletionLogsController < ApplicationController
   before_action :set_deletion_log, only: [:show, :edit, :update, :destroy]
-  before_action :check_if_smokedetector, :only => :create
-  protect_from_forgery :except => [:create]
+  before_action :check_if_smokedetector, only: :create
+  protect_from_forgery except: [:create]
 
   # POST /deletion_logs
   # POST /deletion_logs.json
@@ -20,7 +20,7 @@ class DeletionLogsController < ApplicationController
 
     respond_to do |format|
       if @deletion_log.save
-        format.json { render :plain => "OK", status: :created }
+        format.json { render plain: "OK", status: :created }
       else
         format.json { render json: @deletion_log.errors, status: :unprocessable_entity }
       end

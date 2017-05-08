@@ -68,7 +68,7 @@ class ApiControllerTest < ActionController::TestCase
 
     assert_response :success
     assert assigns(:posts).to_a.count > 0
-    assert assigns(:posts).select { |p| p.feedbacks.where(:feedback_type => Feedback.first.feedback_type).exists? }.count == assigns(:posts).to_a.count
+    assert assigns(:posts).select { |p| p.feedbacks.where(feedback_type: Feedback.first.feedback_type).exists? }.count == assigns(:posts).to_a.count
   end
 
   test "should get post by URL" do
@@ -106,7 +106,7 @@ class ApiControllerTest < ActionController::TestCase
 
     assert_response :success
     assert assigns(:posts).count > 0
-    assert assigns(:posts).select { |p| p.feedbacks.where(:feedback_type => Feedback.first.feedback_type).exists? }.count == assigns(:posts).count
+    assert assigns(:posts).select { |p| p.feedbacks.where(feedback_type: Feedback.first.feedback_type).exists? }.count == assigns(:posts).count
   end
 
   test "should search within site" do

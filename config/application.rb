@@ -28,13 +28,13 @@ module Metasmoke
       allow do
         origins '*' #'http://stackoverflow.com', 'http://superuser.com', 'http://serverfault.com', /^http:\/\/.*.stackexchange.com$/, 'https://stackoverflow.com', 'https://superuser.com', 'https://serverfault.com', /^https:\/\/.*.stackexchange.com$/
 
-        resource '/posts/recent.json', :headers => :any, :methods => [:get]
-        resource '/posts/add_feedback', :headers => :any, :methods => [:post], :credentials => true
+        resource '/posts/recent.json', headers: :any, methods: [:get]
+        resource '/posts/add_feedback', headers: :any, methods: [:post], credentials: true
 
-        resource '/api/*', :headers => :any, :methods => [:get, :post]
-        resource '/api/w/*', :headers => :any, :methods => [:post], :credentials => true
+        resource '/api/*', headers: :any, methods: [:get, :post]
+        resource '/api/w/*', headers: :any, methods: [:post], credentials: true
 
-        resource '/oauth/token', :headers => :any, :methods => [:get]
+        resource '/oauth/token', headers: :any, methods: [:get]
       end
     end
 

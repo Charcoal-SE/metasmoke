@@ -84,7 +84,7 @@ class FlagSettingsControllerTest < ActionDispatch::IntegrationTest
 
   test "should allow smokey to disable flagging" do
     sign_out :user
-    post smokey_disable_url, params: { :key => SmokeDetector.first.access_token }
+    post smokey_disable_url, params: { key: SmokeDetector.first.access_token }
 
     # Should disable flagging
     assert FlagSetting["flagging_enabled"] == "0"

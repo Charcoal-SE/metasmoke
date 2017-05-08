@@ -3,7 +3,7 @@ include ActionView::Helpers::NumberHelper
 class FlagCondition < ApplicationRecord
   belongs_to :user
   has_and_belongs_to_many :sites
-  has_many :flag_logs, :dependent => :nullify
+  has_many :flag_logs, dependent: :nullify
 
   validate :accuracy_and_post_count
 
@@ -26,7 +26,7 @@ class FlagCondition < ApplicationRecord
   end
 
   def self.revalidate_all
-    FlagCondition.where(:flags_enabled => true).each do |fc|
+    FlagCondition.where(flags_enabled: true).each do |fc|
       unless fc.validate
         fc.flags_enabled = false
         fc.save!
@@ -41,6 +41,6 @@ class FlagCondition < ApplicationRecord
   end
 
   def posts
-    Post.joins(:reasons).group('posts.id').where('posts.user_reputation <= ?', max_poster_rep).where(:site_id => site_ids).having('count(reasons.id) >= ?', min_reason_count).having('sum(reasons.weight) >= ?', min_weight)
+    Post.joins(:reasons).group('posts.id').where('posts.user_reputation <= ?', max_poster_rep).where(site_id: site_ids).having('count(reasons.id) >= ?', min_reason_count).having('sum(reasons.weight) >= ?', min_weight)
   end
 end

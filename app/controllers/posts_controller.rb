@@ -1,9 +1,9 @@
 class PostsController < ApplicationController
-  protect_from_forgery :except => [:create]
-  before_action :check_if_smokedetector, :only => :create
-  before_action :set_post, :only => [:needs_admin, :feedbacksapi, :reindex_feedback, :cast_spam_flag, :delete_post]
-  before_action :authenticate_user!, :only => [:reindex_feedback, :cast_spam_flag]
-  before_action :verify_developer, :only => [:reindex_feedback, :delete_post]
+  protect_from_forgery except: [:create]
+  before_action :check_if_smokedetector, only: :create
+  before_action :set_post, only: [:needs_admin, :feedbacksapi, :reindex_feedback, :cast_spam_flag, :delete_post]
+  before_action :authenticate_user!, only: [:reindex_feedback, :cast_spam_flag]
+  before_action :verify_developer, only: [:reindex_feedback, :delete_post]
 
   def show
     begin
@@ -15,30 +15,30 @@ class PostsController < ApplicationController
 
   # Render bodies on-demand for fancy expanding rows
   def body
-    @post = Post.where(:id => params[:id]).select(:body, :id).includes(:reasons).first
-    render :layout => false
+    @post = Post.where(id: params[:id]).select(:body, :id).includes(:reasons).first
+    render layout: false
   end
 
   def latest
-    redirect_to url_for(:controller => :posts, :action => :show, :id => Post.select("id").last.id.to_s)
+    redirect_to url_for(controller: :posts, action: :show, id: Post.select("id").last.id.to_s)
   end
 
   def by_url
-    @posts = Post.where(:link => params[:url])
+    @posts = Post.where(link: params[:url])
     count = @posts.count
 
     if count < 1
       flash[:danger] = "Post not found for #{params[:url]}. It may have been reported during a period of metasmoke downtime."
       redirect_to posts_path
     elsif count == 1
-      redirect_to url_for(:controller => :posts, :action => :show, :id => @posts.first.id)
+      redirect_to url_for(controller: :posts, action: :show, id: @posts.first.id)
     else
       flash.now[:info] = 'Multiple records were found for this URL; pick the one you meant from this list.'
     end
   end
 
   def recentpostsapi
-    posts = Rails.cache.fetch("last-posts", :expires_in => 30.seconds) do
+    posts = Rails.cache.fetch("last-posts", expires_in: 30.seconds) do
       Post.joins(:site).select("posts.id, posts.title, posts.link, posts.created_at, sites.site_logo").order(:created_at).last(100)
     end
 
@@ -54,22 +54,22 @@ class PostsController < ApplicationController
 
   def feedbacksapi
     if user_signed_in?
-      render :json => @post.feedbacks.select(:id, :chat_user_id, :user_id, :feedback_type)
+      render json: @post.feedbacks.select(:id, :chat_user_id, :user_id, feedback_type)
     else
-      render :json => { :error => "You must be signed in to use the feedbacks API." }
+      render json: { error: "You must be signed in to use the feedbacks API." }
     end
   end
 
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all.includes_for_post_row.paginate(:page => params[:page], :per_page => 100).order('created_at DESC')
+    @posts = Post.all.includes_for_post_row.paginate(page: params[:page], per_page: 100).order('created_at DESC')
 
     if params[:filter] == "undeleted"
-      @posts = @posts.where(:deleted_at => nil)
+      @posts = @posts.where(deleted_at: nil)
     end
 
-    @sites = Site.where(:id => @posts.map(&:site_id)).to_a
+    @sites = Site.where(id: @posts.map(&:site_id)).to_a
   end
 
   # POST /posts
@@ -94,7 +94,7 @@ class PostsController < ApplicationController
     begin
       user_id = @post.user_link.scan(/\/u(sers)?\/(\d*)/).first.second
 
-      hash = {:site_id => @post.site_id, :user_id => user_id}
+      hash = {site_id: @post.site_id, user_id: user_id}
       se_user = StackExchangeUser.find_or_create_by(hash)
       se_user.reputation = @post.user_reputation
       se_user.username = @post.username
@@ -107,7 +107,7 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
-        format.json { render status: :created, :plain => "OK" }
+        format.json { render status: :created, plain: "OK" }
       else
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
@@ -124,9 +124,9 @@ class PostsController < ApplicationController
     flag.is_completed = false
 
     if flag.save
-      render :plain => "OK"
+      render plain: "OK"
     else
-      render :plain => "Save failed.", :status => :internal_server_error
+      render plain: "Save failed.", status: :internal_server_error
     end
   end
 
@@ -136,7 +136,7 @@ class PostsController < ApplicationController
     else
       flash[:info] = "Feedback reindexed; no change."
     end
-    redirect_to url_for(:controller => :posts, :action => :show, :id => @post.id)
+    redirect_to url_for(controller: :posts, action: :show, id: @post.id)
   end
 
   def delete_post
@@ -159,17 +159,17 @@ class PostsController < ApplicationController
 
     result, message = current_user.spam_flag(@post, false)
 
-    flag_log = FlagLog.create(:success => result, :error_message => result.present? ? nil : message,
-                              :is_dry_run => false, :flag_condition => nil,
-                              :user => current_user, :post => @post, :backoff => result.present? ? message : 0,
-                              :site_id => @post.site_id, :is_auto => false)
+    flag_log = FlagLog.create(success: result, error_message: result.present? ? nil : message,
+                              is_dry_run: false, flag_condition: nil,
+                              user: current_user, post: @post, backoff: result.present? ? message : 0,
+                              site_id: @post.site_id, is_auto: false)
 
     if result
       flash[:success] = "Spam flag cast successfully."
 
-      feedback = Feedback.new(:feedback_type => "tpu-",
-                              :user_id => current_user.id,
-                              :post_id => @post.id)
+      feedback = Feedback.new(feedback_type: "tpu-",
+                              user_id: current_user.id,
+                              post_id: @post.id)
 
       unless feedback.save
         flash[:danger] = "Unable to save feedback. Ping Undo."
@@ -177,7 +177,7 @@ class PostsController < ApplicationController
     else
       flash[:danger] = "Spam flag not cast: #{message}"
     end
-    redirect_to url_for(:controller => :posts, :action => :show, :id => params[:id])
+    redirect_to url_for(controller: :posts, action: :show, id: params[:id])
   end
 
   private

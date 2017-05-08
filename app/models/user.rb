@@ -12,7 +12,7 @@ class User < ApplicationRecord
   has_many :api_keys
   has_many :user_site_settings
   has_many :flag_conditions
-  has_many :flag_logs, :dependent => :nullify
+  has_many :flag_logs, dependent: :nullify
   has_many :smoke_detectors
   has_many :moderator_sites
 
@@ -91,7 +91,7 @@ class User < ApplicationRecord
   end
 
   def self.code_admins
-    Role.where(:name => :code_admin).first.users
+    Role.where(name: :code_admin).first.users
   end
 
   def remember_me
@@ -124,7 +124,7 @@ class User < ApplicationRecord
 
     encryption_key = AppConfig["stack_exchange"]["token_aes_key"]
     salt, iv, encrypted = AESCrypt.encrypt(new_value, encryption_key)
-    self.update(:encrypted_api_token => encrypted, :salt => salt, :iv => iv)
+    self.update(encrypted_api_token: encrypted, salt: salt, iv: iv)
     new_value
   end
 

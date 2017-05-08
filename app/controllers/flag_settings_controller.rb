@@ -1,9 +1,9 @@
 class FlagSettingsController < ApplicationController
-  protect_from_forgery :except => [:smokey_disable_flagging]
+  protect_from_forgery except: [:smokey_disable_flagging]
   before_action :set_flag_setting, only: [:edit, :update]
-  before_action :verify_admin, :except => [:index, :audits, :smokey_disable_flagging, :dashboard]
-  before_action :authenticate_user!, :except => [:index, :audits, :smokey_disable_flagging, :dashboard]
-  before_action :check_if_smokedetector, :only => [:smokey_disable_flagging]
+  before_action :verify_admin, except: [:index, :audits, :smokey_disable_flagging, :dashboard]
+  before_action :authenticate_user!, except: [:index, :audits, :smokey_disable_flagging, :dashboard]
+  before_action :check_if_smokedetector, only: [:smokey_disable_flagging]
 
   # GET /flag_settings
   # GET /flag_settings.json
@@ -30,14 +30,14 @@ class FlagSettingsController < ApplicationController
         format.html { redirect_to flag_settings_path, notice: 'Flag setting was successfully created.' }
         format.json { render :show, status: :created, location: @flag_setting }
       else
-        format.html { render :new, :status => 422 }
+        format.html { render :new, status: 422 }
         format.json { render json: @flag_setting.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def audits
-    @audits = Audited::Audit.where(:auditable_type => "FlagSetting").includes(:auditable, :user).order('created_at DESC').paginate(:page => params[:page], :per_page => 100)
+    @audits = Audited::Audit.where(auditable_type: "FlagSetting").includes(:auditable, :user).order('created_at DESC').paginate(page: params[:page], per_page: 100)
   end
 
   # PATCH/PUT /flag_settings/1
@@ -60,7 +60,7 @@ class FlagSettingsController < ApplicationController
         format.html { redirect_to flag_settings_path, notice: 'Flag setting was successfully updated.' }
         format.json { render :show, status: :ok, location: @flag_setting }
       else
-        format.html { render :edit, :status => 422 }
+        format.html { render :edit, status: 422 }
         format.json { render json: @flag_setting.errors, status: :unprocessable_entity }
       end
     end
@@ -75,11 +75,11 @@ class FlagSettingsController < ApplicationController
 
     SmokeDetector.send_message_to_charcoal("**Autoflagging disabled** through chat.")
 
-    render :plain => "OK"
+    render plain: "OK"
   end
 
   def dashboard
-    @recent_count = FlagLog.auto.where('created_at > ?', 1.day.ago).where(:success => true).count
+    @recent_count = FlagLog.auto.where('created_at > ?', 1.day.ago).where(success: true).count
   end
 
   private

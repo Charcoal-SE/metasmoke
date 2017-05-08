@@ -3,7 +3,7 @@ include ApiHelper
 
 class GithubController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :verify_github, :except => [:update_deploy_to_master]
+  before_action :verify_github, except: [:update_deploy_to_master]
 
   # Fires whenever a CI service finishes.
   def status_hook
@@ -30,7 +30,7 @@ class GithubController < ApplicationController
     ci_url = params[:target_url]
 
     ActionCable.server.broadcast "smokedetector_messages", { commit_status: { status: status, ci_url: ci_url, commit_sha: commit_sha, commit_message: commit_message } }
-    CommitStatus.create(:commit_sha => commit_sha, :status => status)
+    CommitStatus.create(commit_sha: commit_sha, status: status)
 
     render text: "OK", status: 200
   end
@@ -61,9 +61,9 @@ class GithubController < ApplicationController
     domains = text.scan(/<!-- METASMOKE-BLACKLIST-WEBSITE (.*?) -->/)[0][0]
 
     domains.each do |domain|
-      num_tps = Post.where("body LIKE '%#{domain}%'").where(:is_tp => true).count
-      num_fps = Post.where("body LIKE '%#{domain}%'").where(:is_fp => true).count
-      num_naa = Post.where("body LIKE '%#{domain}%'").where(:is_naa => true).count
+      num_tps = Post.where("body LIKE '%#{domain}%'").where(is_tp: true).count
+      num_fps = Post.where("body LIKE '%#{domain}%'").where(is_fp: true).count
+      num_naa = Post.where("body LIKE '%#{domain}%'").where(is_naa: true).count
 
       response_text += "#{domain} has been seen in #{num_tps} true #{'positive'.pluralize(num_tps)}, #{num_fps} false #{'positive'.pluralize(num_fps)}, and #{num_naa} #{'NAA'.pluralize(num_naa)}.\n\n"
     end
@@ -71,9 +71,9 @@ class GithubController < ApplicationController
     keywords = text.scan(/<!-- METASMOKE-BLACKLIST-KEYWORD (.*?) -->/)[0][0]
 
     keywords.each do |keyword|
-      num_tps = Post.where("body LIKE '%#{keyword}%'").where(:is_tp => true).count
-      num_fps = Post.where("body LIKE '%#{keyword}%'").where(:is_fp => true).count
-      num_naa = Post.where("body LIKE '%#{keyword}%'").where(:is_naa => true).count
+      num_tps = Post.where("body LIKE '%#{keyword}%'").where(is_tp: true).count
+      num_fps = Post.where("body LIKE '%#{keyword}%'").where(is_fp: true).count
+      num_naa = Post.where("body LIKE '%#{keyword}%'").where(is_naa: true).count
 
       response_text += "#{keyword} has been seen in #{num_tps} true #{'positive'.pluralize(num_tps)}, #{num_fps} false #{'positive'.pluralize(num_fps)}, and #{num_naa} #{'NAA'.pluralize(num_naa)}.\n\n"
     end
@@ -81,9 +81,9 @@ class GithubController < ApplicationController
     usernames = text.scan(/<!-- METASMOKE-BLACKLIST-USERNAME (.*?) -->/)[0][0]
 
     usernames.each do |username|
-      num_tps = Post.where("body LIKE '%#{username}%'").where(:is_tp => true).count
-      num_fps = Post.where("body LIKE '%#{username}%'").where(:is_fp => true).count
-      num_naa = Post.where("body LIKE '%#{username}%'").where(:is_naa => true).count
+      num_tps = Post.where("body LIKE '%#{username}%'").where(is_tp: true).count
+      num_fps = Post.where("body LIKE '%#{username}%'").where(is_fp: true).count
+      num_naa = Post.where("body LIKE '%#{username}%'").where(is_naa: true).count
 
       response_text += "#{username} has been seen in #{num_tps} true #{'positive'.pluralize(num_tps)}, #{num_fps} false #{'positive'.pluralize(num_fps)}, and #{num_naa} #{'NAA'.pluralize(num_naa)}.\n\n"
     end
@@ -104,9 +104,9 @@ class GithubController < ApplicationController
             commits = JSON.parse(Net::HTTP.get_response(URI.parse(pull_request['commits_url'])).body)
             commits.each do |commit|
               ApiHelper.authorized_post("https://api.github.com/repos/Charcoal-SE/SmokeDetector/statuses/#{commit['sha']}", {
-                :state => "pending",
-                :description => "An Approve review is required before pull requests can be merged.",
-                :context => "metasmoke/ci"
+                state: "pending",
+                description: "An Approve review is required before pull requests can be merged.",
+                context: "metasmoke/ci"
               })
             end
 
@@ -115,9 +115,9 @@ class GithubController < ApplicationController
             commits = JSON.parse(Net::HTTP.get_response(URI.parse(pull_request['commits_url'])).body)
             commits.each do |commit|
               ApiHelper.authorized_post("https://api.github.com/repos/Charcoal-SE/SmokeDetector/statuses/#{commit['sha']}", {
-                  :state => "pending",
-                  :description => "An Approve review is required before pull requests can be merged.",
-                  :context => "metasmoke/ci"
+                  state: "pending",
+                  description: "An Approve review is required before pull requests can be merged.",
+                  context: "metasmoke/ci"
               })
             end
 
@@ -133,9 +133,9 @@ class GithubController < ApplicationController
           commits = JSON.parse(Net::HTTP.get_response(URI.parse(pull_request['commits_url'])).body)
           commits.each do |commit|
             ApiHelper.authorized_post("https://api.github.com/repos/Charcoal-SE/SmokeDetector/statuses/#{commit['sha']}", {
-                :state => "success",
-                :description => "PR approved :)",
-                :context => "metasmoke/ci"
+                state: "success",
+                description: "PR approved :)",
+                context: "metasmoke/ci"
             })
           end
 

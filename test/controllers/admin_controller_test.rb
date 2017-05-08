@@ -32,7 +32,7 @@ class AdminControllerTest < ActionController::TestCase
   test "should get user feedback page" do
     sign_in users(:admin_user)
 
-    get :user_feedback, params: { :user_id => users(:approved_user).id }
+    get :user_feedback, params: { user_id: users(:approved_user).id }
     assert_response :success
     assert assigns(:feedback)
     assert assigns(:feedback_count)

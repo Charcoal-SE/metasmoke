@@ -8,9 +8,9 @@ gem "mysql2"
 gem "puma"
 gem 'will_paginate', github: "Undo1/will_paginate"
 gem 'loofah'
-gem 'rack-cors', :require => 'rack/cors'
+gem 'rack-cors', require: 'rack/cors'
 gem 'htmlentities', '~> 4.3', '>= 4.3.4'
-gem 'whenever', :require => false
+gem 'whenever', require: false
 gem 'will_paginate-bootstrap', github: 'Charcoal-SE/will_paginate-bootstrap'
 gem 'redis'
 gem "rolify"
@@ -29,7 +29,7 @@ gem 'stackprof'
 gem "chartkick"
 gem 'groupdate', "~> 3.0.0"
 
-gem 'simplecov', :require => false, :group => :test
+gem 'simplecov', require: false, group: :test
 
 # gem 'puma_worker_killer'
 

@@ -1,12 +1,12 @@
 class SmokeDetector < ApplicationRecord
-  audited :on => [:destroy]
+  audited on: [:destroy]
 
   belongs_to :user
   has_many :statistics
   has_many :posts
 
   def should_failover
-    self.force_failover || (self.is_standby && SmokeDetector.where(:is_standby => false).where('last_ping > ?', 3.minutes.ago).empty?)
+    self.force_failover || (self.is_standby && SmokeDetector.where(is_standby: false).where('last_ping > ?', 3.minutes.ago).empty?)
   end
 
   def as_json(options = {})

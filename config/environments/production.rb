@@ -73,13 +73,13 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-      :address => "email-smtp.us-east-1.amazonaws.com",
-      :port => 587, # Port 25 is throttled on AWS
-      :user_name => AppConfig["ses_smtp_credentials"]["username"],
-      :password => AppConfig["ses_smtp_credentials"]["password"],
-      :authentication => :login
+      address: "email-smtp.us-east-1.amazonaws.com",
+      port: 587, # Port 25 is throttled on AWS
+      user_name: AppConfig["ses_smtp_credentials"]["username"],
+      password: AppConfig["ses_smtp_credentials"]["password"],
+      authentication: :login
   }
-  config.action_mailer.default_url_options = { :host => 'metasmoke.erwaysoftware.com', :port => 80 }
+  config.action_mailer.default_url_options = { host: 'metasmoke.erwaysoftware.com', port: 80 }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

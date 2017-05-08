@@ -2,8 +2,8 @@ require 'open-uri'
 include AuthenticationHelper
 
 class AuthenticationController < ApplicationController
-  before_action :authenticate_user!, :except => [:login_redirect_target]
-  before_action :verify_admin, :only => [:invalidate_tokens, :send_invalidations]
+  before_action :authenticate_user!, except: [:login_redirect_target]
+  before_action :verify_admin, only: [:invalidate_tokens, :send_invalidations]
 
   def status
     @config = AppConfig["stack_exchange"]
@@ -82,11 +82,11 @@ class AuthenticationController < ApplicationController
   end
 
   def invalidate_tokens
-    @users = User.all.where.not(:encrypted_api_token => nil)
+    @users = User.all.where.not(encrypted_api_token: nil)
   end
 
   def send_invalidations
-    users = User.where(:id => params[:users])
+    users = User.where(id: params[:users])
     Thread.new do
       token_groups = users.map(&:api_token).in_groups_of(20).map(&:compact)
       token_groups.each do |group|
@@ -94,9 +94,9 @@ class AuthenticationController < ApplicationController
         HTTParty.get(uri)
       end
 
-      users.update_all(:encrypted_api_token => nil)
+      users.update_all(encrypted_api_token: nil)
     end
     flash[:info] = "Token invalidations queued."
-    redirect_to url_for(:controller => :authentication, :action => :invalidate_tokens)
+    redirect_to url_for(controller: :authentication, action: :invalidate_tokens)
   end
 end

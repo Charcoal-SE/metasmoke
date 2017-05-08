@@ -1,6 +1,6 @@
 class StatusController < ApplicationController
-  protect_from_forgery :except => [:status_update]
-  before_action :check_if_smokedetector, :only => [:status_update]
+  protect_from_forgery except: [:status_update]
+  before_action :check_if_smokedetector, only: [:status_update]
 
   def index
     @statuses = SmokeDetector.order('last_ping DESC').all
@@ -23,8 +23,8 @@ class StatusController < ApplicationController
     respond_to do |format|
       format.json do
         if @smoke_detector.should_failover and not new_standby_switch
-          @smoke_detector.update(:is_standby => false, :force_failover => false)
-          render :status => 200, :json => { 'failover': true }
+          @smoke_detector.update(is_standby: false, force_failover: false)
+          render status: 200, json: { 'failover': true }
         else
           head 200, content_type: "text/html"
         end

@@ -1,18 +1,18 @@
 class FlagConditionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :verify_admin, :only => [:full_list, :user_overview]
-  before_action :set_condition, :only => [:edit, :update, :destroy, :enable]
-  before_action :verify_authorized, :only => [:edit, :update, :destroy, :enable]
-  before_action :check_registration_status, :only => [:new]
-  before_action :set_preview_data, :only => [:new, :edit, :preview]
-  before_action :verify_reviewer, :only => [:sandbox]
+  before_action :verify_admin, only: [:full_list, :user_overview]
+  before_action :set_condition, only: [:edit, :update, :destroy, :enable]
+  before_action :verify_authorized, only: [:edit, :update, :destroy, :enable]
+  before_action :check_registration_status, only: [:new]
+  before_action :set_preview_data, only: [:new, :edit, :preview]
+  before_action :verify_reviewer, only: [:sandbox]
 
   def index
     @conditions = current_user.flag_conditions
   end
 
   def sandbox
-    @condition = FlagCondition.new(:site_ids => Site.mains.map(&:id))
+    @condition = FlagCondition.new(site_ids: Site.mains.map(&:id))
   end
 
   def full_list
@@ -21,10 +21,10 @@ class FlagConditionsController < ApplicationController
   end
 
   def new
-    @condition = FlagCondition.new(:site_ids => Site.mains.map(&:id),
-                                   :min_weight => 280,
-                                   :max_poster_rep => 1,
-                                   :min_reason_count => 1)
+    @condition = FlagCondition.new(site_ids: Site.mains.map(&:id),
+                                   min_weight: 280,
+                                   max_poster_rep: 1,
+                                   min_reason_count: 1)
   end
 
   def create
@@ -34,7 +34,7 @@ class FlagConditionsController < ApplicationController
 
     if @condition.save
       flash[:success] = "Created a new flagging condition."
-      redirect_to url_for(:controller => :flag_conditions, :action => :index)
+      redirect_to url_for(controller: :flag_conditions, action: :index)
     else
       render :new
     end
@@ -46,7 +46,7 @@ class FlagConditionsController < ApplicationController
 
     if @condition.save
       flash[:success] = "#{@condition.flags_enabled ? 'Enabled' : 'Disabled'} condition."
-      redirect_to url_for(:controller => :flag_conditions, :action => :index)
+      redirect_to url_for(controller: :flag_conditions, action: :index)
     end
   end
 
@@ -65,9 +65,9 @@ class FlagConditionsController < ApplicationController
     @condition.sites = params[:flag_condition][:sites].map{ |i| Site.find i.to_i if i.present? }.compact
     if @condition.update(condition_params)
       flash[:success] = "Updated your flagging condition."
-      redirect_to url_for(:controller => :flag_conditions, :action => :index)
+      redirect_to url_for(controller: :flag_conditions, action: :index)
     else
-      render :edit, :status => 422
+      render :edit, status: 422
     end
   end
 
@@ -77,7 +77,7 @@ class FlagConditionsController < ApplicationController
     else
       flash[:danger] = "Failed to remove the condition - contact a developer to find out why."
     end
-    redirect_to url_for(:controller => :flag_conditions, :action => :index)
+    redirect_to url_for(controller: :flag_conditions, action: :index)
   end
 
   def preview
@@ -92,29 +92,29 @@ class FlagConditionsController < ApplicationController
   def one_click_setup
     unless current_user.api_token.present?
       flash[:warning] = "You need to be write-authenticated before you can set up flagging."
-      redirect_to url_for(:controller => :authentication, :action => :status) and return
+      redirect_to url_for(controller: :authentication, action: :status) and return
     end
   end
 
   def run_ocs
     unless current_user.api_token.present?
       flash[:warning] = "You need to be write-authenticated before you can set up flagging."
-      redirect_to url_for(:controller => :authentication, :action => :status) and return
+      redirect_to url_for(controller: :authentication, action: :status) and return
     end
 
-    condition = FlagCondition.create(:user => current_user, :sites => Site.mains, :flags_enabled => true, :min_weight => 280, :max_poster_rep => 1, :min_reason_count => 1)
-    preference= UserSiteSetting.create(:user => current_user, :sites => Site.mains, :max_flags => 7)
-    current_user.update(:flags_enabled => true)
+    condition = FlagCondition.create(user: current_user, sites: Site.mains, flags_enabled: true, min_weight: 280, max_poster_rep: 1, min_reason_count: 1)
+    preference= UserSiteSetting.create(user: current_user, sites: Site.mains, max_flags: 7)
+    current_user.update(flags_enabled: true)
 
     flash[:info] = "The necessary settings for autoflagging have been created - please review them to make sure you're happy."
-    redirect_to url_for(:controller => :flag_settings, :action => :dashboard)
+    redirect_to url_for(controller: :flag_settings, action: :dashboard)
   end
 
   def user_overview
     @user = User.find params[:user]
-    @conditions = FlagCondition.where(:user => @user)
-    @preferences = UserSiteSetting.where(:user => @user)
-    @logs = FlagLog.where(:user => @user)
+    @conditions = FlagCondition.where(user: @user)
+    @preferences = UserSiteSetting.where(user: @user)
+    @logs = FlagLog.where(user: @user)
   end
 
   private
@@ -144,15 +144,15 @@ class FlagConditionsController < ApplicationController
         @condition.site_ids
       end
 
-      posts = Post.joins(:reasons).group('posts.id').where('posts.user_reputation <= ?', @condition.max_poster_rep).where(:site_id => site_ids).having('count(reasons.id) >= ?', @condition.min_reason_count).having('sum(reasons.weight) >= ?', @condition.min_weight)
+      posts = Post.joins(:reasons).group('posts.id').where('posts.user_reputation <= ?', @condition.max_poster_rep).where(site_id: site_ids).having('count(reasons.id) >= ?', @condition.min_reason_count).having('sum(reasons.weight) >= ?', @condition.min_weight)
 
       post_feedback_results = posts.pluck(:is_tp)
 
       @false_positive_count = post_feedback_results.count(false)
       @true_positive_count = post_feedback_results.count(true)
 
-      @posts = posts.includes(:feedbacks => [:user]).order('posts.id DESC').paginate(:page => params[:page], :per_page => 100)
-      @sites = Site.where(:id => @posts.map(&:site_id)).to_a
+      @posts = posts.includes(feedbacks: [:user]).order('posts.id DESC').paginate(page: params[:page], per_page: 100)
+      @sites = Site.where(id: @posts.map(&:site_id)).to_a
     end
   end
 end

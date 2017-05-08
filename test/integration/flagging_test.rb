@@ -93,7 +93,7 @@ class FlaggingTest < ActionDispatch::IntegrationTest
       min_reason_count: 1,
       sites: Site.mains
     })
-
+    
     # Ignore any flag accuracy warnings; we're not concerned about them right now
     flag_condition.save(validate: false)
   end

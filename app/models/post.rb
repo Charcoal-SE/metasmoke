@@ -1,15 +1,15 @@
 class Post < ApplicationRecord
   has_and_belongs_to_many :reasons
-  has_many :feedbacks, :dependent => :destroy
-  has_many :deletion_logs, :dependent => :destroy
+  has_many :feedbacks, dependent: :destroy
+  has_many :deletion_logs, dependent: :destroy
   belongs_to :site
   belongs_to :stack_exchange_user
   belongs_to :smoke_detector
-  has_many :flag_logs, :dependent => :destroy
+  has_many :flag_logs, dependent: :destroy
   has_many :flags, dependent: :destroy
 
-  scope :includes_for_post_row, -> { includes(:stack_exchange_user).includes(:reasons).includes(:feedbacks => [:user, :api_key]) }
-  scope :without_feedback, -> { left_joins(:feedbacks).where( :feedbacks => { :post_id => nil }) }
+  scope :includes_for_post_row, -> { includes(:stack_exchange_user).includes(:reasons).includes(feedbacks: [:user, :api_key]) }
+  scope :without_feedback, -> { left_joins(:feedbacks).where( feedbacks: { post_id: nil }) }
 
   scope :autoflagged, -> {
     includes(:flag_logs).where(flag_logs: { is_auto: true }).where.not(flag_logs: { id: nil })
@@ -35,14 +35,14 @@ class Post < ApplicationRecord
   end
 
   def autoflag
-    return "Duplicate post" unless Post.where(:link => link).count == 1
+    return "Duplicate post" unless Post.where(link: link).count == 1
     return "Flagging disabled" unless FlagSetting['flagging_enabled'] == '1'
 
     dry_run = FlagSetting['dry_run'] == '1'
     post = self
 
     begin
-      conditions = post.site.flag_conditions.where(:flags_enabled => true)
+      conditions = post.site.flag_conditions.where(flags_enabled: true)
       available_user_ids = {}
       conditions.each do |condition|
         if condition.validate!(post)
@@ -50,8 +50,8 @@ class Post < ApplicationRecord
         end
       end
 
-      uids = post.site.user_site_settings.where(:user_id => available_user_ids.keys).map(&:user_id)
-      users = User.where(:id => uids, :flags_enabled => true).where.not(:encrypted_api_token => nil)
+      uids = post.site.user_site_settings.where(user_id:available_user_ids.keys).map(&:user_id)
+      users = User.where(id: uids, flags_enabled: true).where.not(encrypted_api_token: nil)
       unless users.present?
         post.send_not_autoflagged
         return "No users eligible to flag"
@@ -82,22 +82,22 @@ class Post < ApplicationRecord
         other_count -= post.send_autoflag(user, dry_run, available_user_ids[user.id])
       end
     rescue => e
-      FlagLog.create(:success => false, :error_message => "#{e}: #{e.message} | #{e.backtrace.join("\n")}",
-                     :is_dry_run => dry_run, :flag_condition => nil, :post => post,
-                     :site_id => post.site_id)
+      FlagLog.create(success: false, error_message: "#{e}: #{e.message} | #{e.backtrace.join("\n")}",
+                     is_dry_run: dry_run, flag_condition: nil, post: post,
+                     site_id: post.site_id)
 
       # Re-raise if we're in test, 'cause it shouldn't be throwing in test
       raise if Rails.env.test?
     end
 
-    post.send_not_autoflagged if post.flag_logs.where(:success => true).empty?
+    post.send_not_autoflagged if post.flag_logs.where(success: true).empty?
   end
 
   def send_autoflag(user, dry_run, condition)
-    user_site_flag_count = user.flag_logs.where(:site => self.site, :success => true, :is_dry_run => false).where(:created_at => Date.today..Time.now).count
-    return 0 if user_site_flag_count >= user.user_site_settings.includes(:sites).where(:sites => { :id => self.site.id } ).minimum(:max_flags)
+    user_site_flag_count = user.flag_logs.where(site: self.site, success: true, is_dry_run: false).where(created_at: Date.today..Time.now).count
+    return 0 if user_site_flag_count >= user.user_site_settings.includes(sites).where(sites: { id: self.site.id } ).minimum(:max_flags)
 
-    last_log = FlagLog.auto.where(:user => user).last
+    last_log = FlagLog.auto.where(user: user).last
     if last_log.try(:backoff).present? && (last_log.created_at + last_log.backoff.seconds > Time.now)
       sleep((last_log.created_at + last_log.backoff.seconds) - Time.now)
     end
@@ -109,10 +109,10 @@ class Post < ApplicationRecord
     end
 
     unless ["Flag options not present", "Spam flag option not present", "You do not have permission to flag this post", "No account on this site."].include? message
-      flag_log = FlagLog.create(:success => success, :error_message => message,
-                                :is_dry_run => dry_run, :flag_condition => condition,
-                                :user => user, :post => self, :backoff => backoff,
-                                :site_id => self.site_id)
+      flag_log = FlagLog.create(success: success, error_message: message,
+                                is_dry_run: dry_run, flag_condition: condition,
+                                user: user, post: self, backoff: backoff,
+                                site_id: self.site_id)
 
       if success
         ActionCable.server.broadcast "api_flag_logs", { flag_log: JSON.parse(FlagLogController.render(locals: {flag_log: flag_log}, partial: 'flag_log.json')) }
@@ -165,7 +165,7 @@ class Post < ApplicationRecord
   end
 
   def is_deleted?
-    return self.deletion_logs.where(:is_deleted => true).any?
+    return self.deletion_logs.where(is_deleted: true).any?
   end
 
   def stack_id
@@ -176,16 +176,16 @@ class Post < ApplicationRecord
     if flag_logs.loaded?
       flag_logs.select { |f| f.success && f.is_auto }.present?
     else
-      flag_logs.where(:success => true, :is_auto => true).present?
+      flag_logs.where(success: true, is_auto: true).present?
     end
   end
 
   def flaggers
-    User.joins(:flag_logs).where(:flag_logs => {:success => true, :post_id => self.id, :is_auto => true})
+    User.joins(flag_logs).where(flag_logs: {success: true, post_id: self.id, is_auto: true})
   end
 
   def manual_flaggers
-    User.joins(:flag_logs).where(:flag_logs => {:success => true, :post_id => self.id, :is_auto => false})
+    User.joins(flag_logs).where(flag_logs: {success: true, post_id: self.id, is_auto: false})
   end
 
   def fetch_revision_count(post=nil)
@@ -195,7 +195,7 @@ class Post < ApplicationRecord
     url = "https://api.stackexchange.com/2.2/posts/#{post.stack_id}/revisions?#{params}"
     revision_list = JSON.parse(Net::HTTP.get_response(URI.parse(url)).body)["items"]
 
-    update(:revision_count => revision_list.count)
+    update(revision_count: revision_list.count)
     revision_list.count
   end
 

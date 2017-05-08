@@ -1,5 +1,5 @@
 class CustomSessionsController < Devise::SessionsController
-  protect_from_forgery :except => [:create]
+  protect_from_forgery except: [:create]
 
   @@first_factor = []
 
@@ -13,7 +13,7 @@ class CustomSessionsController < Devise::SessionsController
         id = user.id
         @@first_factor << id
         sign_out user
-        redirect_to url_for(:controller => :custom_sessions, :action => :verify_2fa, :uid => id) and return
+        redirect_to url_for(controller: :custom_sessions, action: :verify_2fa, uid: id) and return
       end
     end
   end
@@ -44,7 +44,7 @@ class CustomSessionsController < Devise::SessionsController
       end
     else
       flash[:danger] = "That's not the right code."
-      redirect_to url_for(:controller => :custom_sessions, :action => :verify_2fa, :uid => params[:uid])
+      redirect_to url_for(controller: :custom_sessions, action: :verify_2fa, uid: params[:uid])
     end
   end
 end
