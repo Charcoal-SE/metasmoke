@@ -8,7 +8,7 @@ class Post < ApplicationRecord
   has_many :flag_logs, :dependent => :destroy
   has_many :flags, dependent: :destroy
 
-  scope :includes_for_post_row, -> { includes(:reasons).includes(:feedbacks => [:user, :api_key]) }
+  scope :includes_for_post_row, -> { includes(:stack_exchange_user).includes(:reasons).includes(:feedbacks => [:user, :api_key]) }
   scope :without_feedback, -> { left_joins(:feedbacks).where( :feedbacks => { :post_id => nil }) }
 
   after_create do
