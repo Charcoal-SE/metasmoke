@@ -41,14 +41,14 @@ Rails.application.routes.draw do
 
   scope "/graphs" do
     root to: "graphs#index", as: :graphs
-    get 'flagging_results', :to => 'graphs#flagging_results'
-    get 'flagging_timeline', :to => 'graphs#flagging_timeline'
-    get 'reports_hours', :to => 'graphs#reports_by_hour'
-    get 'reports_sites', :to => 'graphs#reports_by_site'
-    get 'reports_hod', :to => 'graphs#reports_by_hour_of_day'
-    get 'ttd', :to => 'graphs#time_to_deletion'
-    get 'dttd', :to => 'graphs#detailed_ttd'
-    get 'monthly_ttd', :to => 'graphs#monthly_ttd'
+    get 'flagging_results', to: 'graphs#flagging_results'
+    get 'flagging_timeline', to: 'graphs#flagging_timeline'
+    get 'reports_hours', to: 'graphs#reports_by_hour'
+    get 'reports_sites', to: 'graphs#reports_by_site'
+    get 'reports_hod', to: 'graphs#reports_by_hour_of_day'
+    get 'ttd', to: 'graphs#time_to_deletion'
+    get 'dttd', to: 'graphs#detailed_ttd'
+    get 'monthly_ttd', to: 'graphs#monthly_ttd'
   end
 
   get "status", to: "status#index"
@@ -56,9 +56,9 @@ Rails.application.routes.draw do
   get "status/code", as: :code_status, to: "code_status#index"
 
   get "smoke_detector/:id/statistics", to: "statistics#index", as: :smoke_detector_statistics
-  delete 'smoke_detector/:id', :to => 'smoke_detectors#destroy'
+  delete 'smoke_detector/:id', to: 'smoke_detectors#destroy'
   post 'smoke_detector/:id/force_failover', to: 'smoke_detectors#force_failover', as: :smoke_detector_force_failover
-  get 'smoke_detector/audits', :to => 'smoke_detectors#audits'
+  get 'smoke_detector/audits', to: 'smoke_detectors#audits'
   post "statistics.json", to: "statistics#create"
 
   get 'admin', to: 'admin#index'
@@ -133,32 +133,32 @@ Rails.application.routes.draw do
   scope "/api" do
     root to: 'api#api_docs'
 
-    get  'filters', :to => 'api#filter_generator'
-    get  'filter_fields', :to => 'api#filter_fields'
-    get  'stats/last_week', :to => 'api#spam_last_week'
-    get  'stats/detailed_ttd', :to => 'api#detailed_ttd'
-    get  'smoke_detectors/status', :to => 'api#current_status'
-    get  'posts/urls', :to => 'api#posts_by_url'
-    post 'posts/urls', :to => 'api#posts_by_url'
-    get  'posts/feedback', :to => 'api#posts_by_feedback'
-    get  'posts/undeleted', :to => 'api#undeleted_posts'
-    get  'posts/site', :to => 'api#posts_by_site'
-    get  'posts/between', :to => 'api#posts_by_daterange'
-    get  'posts/search', :to => 'api#search_posts'
-    get  'posts/:ids', :to => 'api#posts'
-    get  'post/:id/feedback', :to => 'api#post_feedback'
-    get  'post/:id/reasons', :to => 'api#post_reasons'
-    get  'post/:id/valid_feedback', :to => 'api#post_valid_feedback'
-    get  'reasons/:ids', :to => 'api#reasons'
-    get  'reason/:id/posts', :to => 'api#reason_posts'
-    get  'blacklist', :to => 'api#blacklisted_websites'
-    get  'users', :to => 'api#users'
-    get  'users/code_privileged', :to => 'api#users_with_code_privs'
+    get  'filters', to: 'api#filter_generator'
+    get  'filter_fields', to: 'api#filter_fields'
+    get  'stats/last_week', to: 'api#spam_last_week'
+    get  'stats/detailed_ttd', to: 'api#detailed_ttd'
+    get  'smoke_detectors/status', to: 'api#current_status'
+    get  'posts/urls', to: 'api#posts_by_url'
+    post 'posts/urls', to: 'api#posts_by_url'
+    get  'posts/feedback', to: 'api#posts_by_feedback'
+    get  'posts/undeleted', to: 'api#undeleted_posts'
+    get  'posts/site', to: 'api#posts_by_site'
+    get  'posts/between', to: 'api#posts_by_daterange'
+    get  'posts/search', to: 'api#search_posts'
+    get  'posts/:ids', to: 'api#posts'
+    get  'post/:id/feedback', to: 'api#post_feedback'
+    get  'post/:id/reasons', to: 'api#post_reasons'
+    get  'post/:id/valid_feedback', to: 'api#post_valid_feedback'
+    get  'reasons/:ids', to: 'api#reasons'
+    get  'reason/:id/posts', to: 'api#reason_posts'
+    get  'blacklist', to: 'api#blacklisted_websites'
+    get  'users', to: 'api#users'
+    get  'users/code_privileged', to: 'api#users_with_code_privs'
 
-    post 'w/post/:id/feedback', :to => 'api#create_feedback'
-    post 'w/post/report', :to => 'api#report_post'
-    post 'w/post/:id/spam_flag', :to => 'api#spam_flag'
-    post 'w/post/:id/deleted', :to => 'api#post_deleted'
+    post 'w/post/:id/feedback', to: 'api#create_feedback'
+    post 'w/post/report', to: 'api#report_post'
+    post 'w/post/:id/spam_flag', to: 'api#spam_flag'
+    post 'w/post/:id/deleted', to: 'api#post_deleted'
   end
 
   scope "/oauth" do
@@ -179,35 +179,35 @@ Rails.application.routes.draw do
   end
 
   # flagging
-  get 'flagging', :to => 'flag_settings#dashboard'
+  get 'flagging', to: 'flag_settings#dashboard'
   scope "/flagging" do
-    post "smokey_disable", :to => 'flag_settings#smokey_disable_flagging'
-    resources :flag_settings, :path => "/settings", :except => [:show]
+    post "smokey_disable", to: 'flag_settings#smokey_disable_flagging'
+    resources :flag_settings, path: "/settings", except: [:show]
 
-    get 'ocs', :to => 'flag_conditions#one_click_setup'
-    post 'run_ocs', :to => 'flag_conditions#run_ocs'
+    get 'ocs', to: 'flag_conditions#one_click_setup'
+    post 'run_ocs', to: 'flag_conditions#run_ocs'
 
-    get 'conditions/all', :to => 'flag_conditions#full_list'
-    get 'conditions/preview', :to => 'flag_conditions#preview'
-    get 'conditions/sandbox', :to => 'flag_conditions#sandbox'
-    resources :flag_conditions, :path => "/conditions", :except => [:show]
-    patch 'conditions/:id/enable', :to => "flag_conditions#enable", :as => :flag_conditions_enable
+    get 'conditions/all', to: 'flag_conditions#full_list'
+    get 'conditions/preview', to: 'flag_conditions#preview'
+    get 'conditions/sandbox', to: 'flag_conditions#sandbox'
+    resources :flag_conditions, path: "/conditions", except: [:show]
+    patch 'conditions/:id/enable', to: "flag_conditions#enable", as: :flag_conditions_enable
 
-    get 'preferences/user/:user', :to => 'user_site_settings#for_user'
-    post 'preferences/enable', :to => 'user_site_settings#enable_flagging'
-    resources :user_site_settings, :path => "/preferences", :except => [:show]
+    get 'preferences/user/:user', to: 'user_site_settings#for_user'
+    post 'preferences/enable', to: 'user_site_settings#enable_flagging'
+    resources :user_site_settings, path: "/preferences", except: [:show]
 
-    get 'logs', :to => 'flag_log#index', :as => :flag_logs
-    get 'logs/unflagged', :to => 'flag_log#not_flagged', :as => :unflagged_logs
-    get 'users/:user_id/logs', :to => 'flag_log#index', :as => :flag_logs_by_user
-    get 'users/overview', :to => 'flag_conditions#user_overview', :as => :user_overview
+    get 'logs', to: 'flag_log#index', as: :flag_logs
+    get 'logs/unflagged', to: 'flag_log#not_flagged', as: :unflagged_logs
+    get 'users/:user_id/logs', to: 'flag_log#index', as: :flag_logs_by_user
+    get 'users/overview', to: 'flag_conditions#user_overview', as: :user_overview
 
     scope "/audits" do
-      get "settings", :to => 'flag_settings#audits', :as => "flag_settings_audits"
+      get "settings", to: 'flag_settings#audits', as: "flag_settings_audits"
     end
   end
 
-  devise_for :users, :controllers => { :sessions => 'custom_sessions' }
+  devise_for :users, controllers: { sessions: 'custom_sessions' }
   devise_scope :user do
     get 'users/2fa/login', to: 'custom_sessions#verify_2fa'
     post 'users/2fa/login', to: 'custom_sessions#verify_code'
