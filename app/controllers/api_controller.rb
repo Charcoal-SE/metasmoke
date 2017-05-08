@@ -141,6 +141,19 @@ class ApiController < ApplicationController
     render :json => { :items => items }
   end
 
+  def users
+    filter = "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001ø\u0000"
+
+    if params[:role]
+      users = User.with_role(params[:role])
+    else
+      users = User.all
+    end
+
+    users = users.select(select_fields(filter)).order(id: :asc).paginate(page: params[:page], per_page: @pagesize)
+    render json: { items: users, has_more: has_more?(params[:page], users.count) }
+  end
+
   # Read routes: Status
 
   def current_status
