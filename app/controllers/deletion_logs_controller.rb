@@ -11,7 +11,7 @@ class DeletionLogsController < ApplicationController
     post = Post.find_by_link(post_link)
 
     if post == nil
-      render plain: "Error: No post found for link" and return
+      render plain: 'Error: No post found for link' and return
     end
 
     @deletion_log = post.deletion_logs.new
@@ -20,7 +20,7 @@ class DeletionLogsController < ApplicationController
 
     respond_to do |format|
       if @deletion_log.save
-        format.json { render plain: "OK", status: :created }
+        format.json { render plain: 'OK', status: :created }
       else
         format.json { render json: @deletion_log.errors, status: :unprocessable_entity }
       end

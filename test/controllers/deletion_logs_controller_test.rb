@@ -9,7 +9,7 @@ class DeletionLogsControllerTest < ActionDispatch::IntegrationTest
     assert_response :forbidden
   end
 
-  test "should create deletion log" do
+  test 'should create deletion log' do
     assert_difference ['DeletionLog.count', 'Post.last.deletion_logs.count'] do
       post '/deletion_logs.json', params: { deletion_log: { is_deleted: true, post_link: Post.last.link }, key: SmokeDetector.first.access_token }
     end

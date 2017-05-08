@@ -4,7 +4,7 @@ class DeveloperController < ApplicationController
 
   def update_sites
     SitesHelper.updateSites
-    flash[:info] = "Site cache updated, refer to MiniProfiler for execution details."
+    flash[:info] = 'Site cache updated, refer to MiniProfiler for execution details.'
     redirect_back(fallback_location: url_for(controller: :dashboard, action: :index))
   end
 
@@ -20,12 +20,12 @@ class DeveloperController < ApplicationController
   end
 
   def websocket_test
-    @channels = ["api_feedback", "api_flag_logs", "api_deletion_logs", "flag_logs", "github_new_commit", "posts_realtime", "smokedetector_messages"]
+    @channels = ['api_feedback', 'api_flag_logs', 'api_deletion_logs', 'flag_logs', 'github_new_commit', 'posts_realtime', 'smokedetector_messages']
   end
 
   def send_websocket_test
     ActionCable.server.broadcast params[:channel], JSON.parse(params[:content])
-    flash[:info] = "Queued for broadcast."
+    flash[:info] = 'Queued for broadcast.'
     redirect_to url_for(controller: :developer, action: :websocket_test)
   end
 

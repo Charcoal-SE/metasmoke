@@ -4,30 +4,30 @@ gem 'awesome_print'
 
 gem 'aescrypt', '~> 2.0', '>= 2.0.2', github: 'Charcoal-SE/aescrypt'
 gem 'devise', git: 'https://github.com/plataformatec/devise.git', branch: 'master'
-gem "mysql2"
-gem "puma"
-gem 'will_paginate', github: "Undo1/will_paginate"
+gem 'mysql2'
+gem 'puma'
+gem 'will_paginate', github: 'Undo1/will_paginate'
 gem 'loofah'
 gem 'rack-cors', require: 'rack/cors'
 gem 'htmlentities', '~> 4.3', '>= 4.3.4'
 gem 'whenever', require: false
 gem 'will_paginate-bootstrap', github: 'Charcoal-SE/will_paginate-bootstrap'
 gem 'redis'
-gem "rolify"
-gem "octokit", "~> 4.0"
+gem 'rolify'
+gem 'octokit', '~> 4.0'
 gem 'httparty'
 gem 'jwt'
-gem "audited", "~> 4.4"
-gem "travis"
-gem "rotp"
-gem "rqrcode"
+gem 'audited', '~> 4.4'
+gem 'travis'
+gem 'rotp'
+gem 'rqrcode'
 
 gem 'rack-mini-profiler'
 gem 'flamegraph'
 gem 'stackprof'
 
-gem "chartkick"
-gem 'groupdate', "~> 3.0.0"
+gem 'chartkick'
+gem 'groupdate', '~> 3.0.0'
 
 gem 'simplecov', require: false, group: :test
 
@@ -73,7 +73,7 @@ group :development do
   gem 'spring'
 
   # Export fixtures from local database
-  gem 'db_fixtures_dump', github: "Undo1/db_fixtures_dump"
+  gem 'db_fixtures_dump', github: 'Undo1/db_fixtures_dump'
 
   gem 'capistrano'
   gem 'capistrano-secrets-yml'

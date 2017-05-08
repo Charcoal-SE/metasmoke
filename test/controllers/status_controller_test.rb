@@ -5,7 +5,7 @@ class StatusControllerTest < ActionController::TestCase
     @smoke_detector = SmokeDetector.order(:last_ping).last
   end
 
-  test "should get index" do
+  test 'should get index' do
     [0, 2, 10].each do |m|
       @smoke_detector.update(:last_ping: m.minutes.ago)
       get :index

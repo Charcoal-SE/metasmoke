@@ -1,16 +1,16 @@
 Rails.application.routes.draw do
   root to: "dashboard#index"
-  get "dashboard", to: "dashboard#index"
+  get 'dashboard', to: "dashboard#index"
 
   mount ActionCable.server => '/cable'
 
-  scope "/authentication" do
+  scope '/authentication' do
     get 'status', to: 'authentication#status', as: :authentication_status
     get 'redirect_target', to: 'authentication#redirect_target'
     get 'login_redirect_target', to: 'authentication#login_redirect_target'
   end
 
-  scope "/users" do
+  scope '/users' do
     root to: 'admin#users', as: :users
     get 'username', to: 'users#username', as: :users_username
     post 'username', to: "users#set_username"
@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     post '2fa/disable/code', to: 'users#confirm_disable_code'
   end
 
-  scope "/review" do
+  scope '/review' do
     root to: "review#index", as: :review
     post 'feedback', to: "review#add_feedback", as: :review_feedback
   end
@@ -39,7 +39,7 @@ Rails.application.routes.draw do
 
   get 'search', to: 'search#search_results'
 
-  scope "/graphs" do
+  scope '/graphs' do
     root to: "graphs#index", as: :graphs
     get 'flagging_results', to: 'graphs#flagging_results'
     get 'flagging_timeline', to: 'graphs#flagging_timeline'
@@ -51,15 +51,15 @@ Rails.application.routes.draw do
     get 'monthly_ttd', to: 'graphs#monthly_ttd'
   end
 
-  get "status", to: "status#index"
-  get "status/code.json", to: "code_status#api"
-  get "status/code", as: :code_status, to: "code_status#index"
+  get 'status', to: "status#index"
+  get 'status/code.json', to: "code_status#api"
+  get 'status/code', as: :code_status, to: "code_status#index"
 
-  get "smoke_detector/:id/statistics", to: "statistics#index", as: :smoke_detector_statistics
+  get 'smoke_detector/:id/statistics', to: "statistics#index", as: :smoke_detector_statistics
   delete 'smoke_detector/:id', to: 'smoke_detectors#destroy'
   post 'smoke_detector/:id/force_failover', to: 'smoke_detectors#force_failover', as: :smoke_detector_force_failover
   get 'smoke_detector/audits', to: 'smoke_detectors#audits'
-  post "statistics.json", to: "statistics#create"
+  post 'statistics.json', to: "statistics#create"
 
   get 'admin', to: 'admin#index'
   get 'admin/invalidated', to: 'admin#recently_invalidated'
@@ -90,37 +90,37 @@ Rails.application.routes.draw do
   delete 'admin/owner_revoke', to: 'api_keys#owner_revoke'
   post 'admin/keys/:id/trust', to: 'api_keys#update_trust'
 
-  get "posts", to: "posts#index"
-  get "posts/latest", to: "posts#latest"
-  get "posts/by-url", to: "posts#by_url"
+  get 'posts', to: "posts#index"
+  get 'posts/latest', to: "posts#latest"
+  get 'posts/by-url', to: "posts#by_url"
   post 'posts/needs_admin', to: 'posts#needs_admin'
-  get "post/:id/feedback/clear", to: "feedbacks#clear", as: :clear_post_feedback
-  delete "feedback/:id/delete", to: "feedbacks#delete", as: :delete_feedback
+  get 'post/:id/feedback/clear', to: "feedbacks#clear", as: :clear_post_feedback
+  delete 'feedback/:id/delete', to: "feedbacks#delete", as: :delete_feedback
 
-  get "post/:id", to: "posts#show"
-  get "post/:id/body", to: "posts#body"
-  get "post/:id/feedbacks.json", to: 'posts#feedbacksapi'
-  get "post/:id/flag_logs", to: 'flag_log#by_post', as: :post_flag_logs
-  get "post/:id/eligible_flaggers", to: 'flag_log#eligible_flaggers', as: :post_eligible_flaggers
-  post "post/:id/index_feedback", to: "posts#reindex_feedback"
-  post "post/:id/spam_flag", to: 'posts#cast_spam_flag'
-  post "post/:id/delete", to: 'posts#delete_post', as: :dev_delete_post
+  get 'post/:id', to: "posts#show"
+  get 'post/:id/body', to: "posts#body"
+  get 'post/:id/feedbacks.json', to: 'posts#feedbacksapi'
+  get 'post/:id/flag_logs', to: 'flag_log#by_post', as: :post_flag_logs
+  get 'post/:id/eligible_flaggers', to: 'flag_log#eligible_flaggers', as: :post_eligible_flaggers
+  post 'post/:id/index_feedback', to: "posts#reindex_feedback"
+  post 'post/:id/spam_flag', to: 'posts#cast_spam_flag'
+  post 'post/:id/delete', to: 'posts#delete_post', as: :dev_delete_post
 
-  get "users", to: "stack_exchange_users#index"
+  get 'users', to: "stack_exchange_users#index"
 
   post 'feedbacks.json', to: "feedbacks#create"
   post 'posts.json', to: "posts#create"
   post 'deletion_logs.json', to: "deletion_logs#create"
-  post "status-update.json", to: "status#status_update"
+  post 'status-update.json', to: "status#status_update"
 
-  get "reason/:id", to: "reasons#show", as: :reason
-  get "reason/:id/site_chart", to: "reasons#sites_chart", as: :reason_site_chart
-  get "reason/:id/accuracy_chart", to: "reasons#accuracy_chart", as: :reason_accuracy_chart
+  get 'reason/:id', to: "reasons#show", as: :reason
+  get 'reason/:id/site_chart', to: "reasons#sites_chart", as: :reason_site_chart
+  get 'reason/:id/accuracy_chart', to: "reasons#accuracy_chart", as: :reason_accuracy_chart
 
-  get "posts/recent.json", to: "posts#recentpostsapi"
-  post "posts/add_feedback", to: "review#add_feedback"
+  get 'posts/recent.json', to: "posts#recentpostsapi"
+  post 'posts/add_feedback', to: "review#add_feedback"
 
-  scope "/github" do
+  scope '/github' do
     post 'status_hook', to: 'github#status_hook', as: :github_status_hook
     post 'pull_request_hook', to: 'github#pull_request_hook', as: :github_pull_request_hook
     post 'ci_hook', to: 'github#ci_hook', as: :github_ci_hook
@@ -130,7 +130,7 @@ Rails.application.routes.draw do
     post 'project_status', to: 'github#any_status_hook', as: :github_project_status_hook
   end
 
-  scope "/api" do
+  scope '/api' do
     root to: 'api#api_docs'
 
     get  'filters', to: 'api#filter_generator'
@@ -162,7 +162,7 @@ Rails.application.routes.draw do
     post 'w/post/:id/deleted', to: 'api#post_deleted'
   end
 
-  scope "/oauth" do
+  scope '/oauth' do
     get 'request', to: 'micro_auth#token_request', as: :oauth_request
     post 'authorize', to: 'micro_auth#authorize', as: :oauth_authorize
     get 'authorized', to: 'micro_auth#authorized', as: :oauth_authorized
@@ -171,7 +171,7 @@ Rails.application.routes.draw do
     get 'invalid_key', to: 'micro_auth#invalid_key', as: :oauth_invalid_key
   end
 
-  scope "/dev" do
+  scope '/dev' do
     post 'update_sites', to: 'developer#update_sites', as: :dev_update_sites
     get 'prod_log', to: 'developer#production_log', as: :dev_prod_log
     get 'blank', to: 'developer#blank_page', as: :dev_blank
@@ -181,9 +181,9 @@ Rails.application.routes.draw do
 
   # flagging
   get 'flagging', to: 'flag_settings#dashboard'
-  scope "/flagging" do
-    post "smokey_disable", to: 'flag_settings#smokey_disable_flagging'
-    resources :flag_settings, path: "/settings", except: [:show]
+  scope '/flagging' do
+    post 'smokey_disable', to: 'flag_settings#smokey_disable_flagging'
+    resources :flag_settings, path: '/settings', except: [:show]
 
     get 'ocs', to: 'flag_conditions#one_click_setup'
     post 'run_ocs', to: 'flag_conditions#run_ocs'
@@ -191,20 +191,20 @@ Rails.application.routes.draw do
     get 'conditions/all', to: 'flag_conditions#full_list'
     get 'conditions/preview', to: 'flag_conditions#preview'
     get 'conditions/sandbox', to: 'flag_conditions#sandbox'
-    resources :flag_conditions, path: "/conditions", except: [:show]
+    resources :flag_conditions, path: '/conditions', except: [:show]
     patch 'conditions/:id/enable', to: "flag_conditions#enable", as: :flag_conditions_enable
 
     get 'preferences/user/:user', to: 'user_site_settings#for_user'
     post 'preferences/enable', to: 'user_site_settings#enable_flagging'
-    resources :user_site_settings, path: "/preferences", except: [:show]
+    resources :user_site_settings, path: '/preferences', except: [:show]
 
     get 'logs', to: 'flag_log#index', as: :flag_logs
     get 'logs/unflagged', to: 'flag_log#not_flagged', as: :unflagged_logs
     get 'users/:user_id/logs', to: 'flag_log#index', as: :flag_logs_by_user
     get 'users/overview', to: 'flag_conditions#user_overview', as: :user_overview
 
-    scope "/audits" do
-      get "settings", to: 'flag_settings#audits', as: "flag_settings_audits"
+    scope '/audits' do
+      get 'settings', to: 'flag_settings#audits', as: 'flag_settings_audits'
     end
   end
 

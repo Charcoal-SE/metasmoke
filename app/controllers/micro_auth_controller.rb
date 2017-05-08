@@ -8,7 +8,7 @@ class MicroAuthController < ApplicationController
 
   def authorize
     unless current_user.has_role?(:reviewer)
-      flash[:danger] = "Your account is not approved to use the write API."
+      flash[:danger] = 'Your account is not approved to use the write API.'
       redirect_to url_for(controller: :micro_auth, action: :token_request) and return
     end
 

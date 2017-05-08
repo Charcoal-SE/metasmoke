@@ -10,7 +10,7 @@ class ApiKeysController < ApplicationController
 
   def revoke_write_tokens
     unless ApiToken.where(api_key: @key).destroy_all
-      flash[:danger] = "Failed to revoke all API write tokens - tokens need to be removed manually."
+      flash[:danger] = 'Failed to revoke all API write tokens - tokens need to be removed manually.'
     else
       flash[:success] = "Successfully removed all write tokens belonging to #{@key.app_name}."
     end
@@ -34,10 +34,10 @@ class ApiKeysController < ApplicationController
 
   def update
     if @key.update key_params
-      flash[:success] = "Successfully updated."
+      flash[:success] = 'Successfully updated.'
       redirect_to url_for(controller: :api_keys, action: :index)
     else
-      flash[:danger] = "Failed to update."
+      flash[:danger] = 'Failed to update.'
       render :edit
     end
   end
@@ -51,7 +51,7 @@ class ApiKeysController < ApplicationController
 
   def owner_update
     if @key.update owner_edit_params
-      flash[:success] = "Successfully updated your API key."
+      flash[:success] = 'Successfully updated your API key.'
       redirect_to url_for(controller: :api_keys, action: :mine)
     else
       flash[:danger] = "Can't save your API key - contact an admin."
@@ -63,16 +63,16 @@ class ApiKeysController < ApplicationController
     if ApiToken.where(api_key: @key).destroy_all
       flash[:success] = "Removed all active write tokens for your app #{@key.app_name}."
     else
-      flash[:danger] = "Failed to remove active write tokens. Contact an admin."
+      flash[:danger] = 'Failed to remove active write tokens. Contact an admin.'
     end
     redirect_to url_for(controller: :api_keys, action: :mine)
   end
 
   def update_trust
-    if @key.update(is_trusted: params[:trusted] == "true")
-      render plain: "OK"
+    if @key.update(is_trusted: params[:trusted] == 'true')
+      render plain: 'OK'
     else
-      render plain: "nope"
+      render plain: 'nope'
     end
   end
 

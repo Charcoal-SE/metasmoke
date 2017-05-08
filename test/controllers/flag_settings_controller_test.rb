@@ -6,12 +6,12 @@ class FlagSettingsControllerTest < ActionDispatch::IntegrationTest
     @flag_setting = FlagSetting.first
   end
 
-  test "should get index" do
+  test 'should get index' do
     get flag_settings_url
     assert_response :success
   end
 
-  test "should get new" do
+  test 'should get new' do
     sign_out :user
     assert_raise ActionController::RoutingError do
       get new_flag_setting_path
@@ -23,7 +23,7 @@ class FlagSettingsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should create flag_setting" do
+  test 'should create flag_setting' do
     sign_out :user
 
     assert_raise ActionController::RoutingError do
@@ -32,14 +32,14 @@ class FlagSettingsControllerTest < ActionDispatch::IntegrationTest
 
     sign_in users(:admin_user)
 
-    assert_difference("FlagSetting.count") do
-      post flag_settings_url, params: { flag_setting: { name: "such valid", value: "very setting" } }
+    assert_difference('FlagSetting.count') do
+      post flag_settings_url, params: { flag_setting: { name: 'such valid', value: 'very setting' } }
     end
 
     assert_redirected_to flag_settings_path
   end
 
-  test "should get edit" do
+  test 'should get edit' do
     sign_out :user
 
     assert_raise ActionController::RoutingError do
@@ -51,7 +51,7 @@ class FlagSettingsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should update flag_setting" do
+  test 'should update flag_setting' do
     sign_out :user
 
     assert_raise ActionController::RoutingError do
@@ -60,11 +60,11 @@ class FlagSettingsControllerTest < ActionDispatch::IntegrationTest
 
     sign_in users(:admin_user)
 
-    patch flag_setting_url(@flag_setting), params: { flag_setting: { name: "valid", value: "also valid" } }
+    patch flag_setting_url(@flag_setting), params: { flag_setting: { name: 'valid', value: 'also valid' } }
     assert_redirected_to flag_settings_path
   end
 
-  test "should get audit log" do
+  test 'should get audit log' do
     sign_out :user
 
     get flag_settings_audits_url
@@ -72,7 +72,7 @@ class FlagSettingsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get dashboard" do
+  test 'should get dashboard' do
     sign_out :user
     get flagging_url
     assert_response :success
@@ -82,14 +82,14 @@ class FlagSettingsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should allow smokey to disable flagging" do
+  test 'should allow smokey to disable flagging' do
     sign_out :user
     post smokey_disable_url, params: { key: SmokeDetector.first.access_token }
 
     # Should disable flagging
-    assert FlagSetting["flagging_enabled"] == "0"
+    assert FlagSetting['flagging_enabled'] == '0'
 
     # Should be recorded as System having done it
-    assert FlagSetting.find_by_name("flagging_enabled").audits.last.user_id == -1
+    assert FlagSetting.find_by_name('flagging_enabled').audits.last.user_id == -1
   end
 end

@@ -6,7 +6,7 @@ class DeletionLog < ApplicationRecord
 
   after_create do
     if is_deleted
-      ActionCable.server.broadcast "api_deletion_logs", { deletion_log: JSON.parse(DeletionLogsController.render(locals: {deletion_log: self}, partial: 'deletion_log.json')) }
+      ActionCable.server.broadcast 'api_deletion_logs', { deletion_log: JSON.parse(DeletionLogsController.render(locals: {deletion_log: self}, partial: 'deletion_log.json')) }
     end
   end
 

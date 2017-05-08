@@ -2,7 +2,7 @@
 class SmokeDetectorChannel < ApplicationCable::Channel
   def subscribed
     if SmokeDetector.find_by_access_token(params[:key]).present?
-      stream_from "smokedetector_messages"
+      stream_from 'smokedetector_messages'
     else
       reject
     end

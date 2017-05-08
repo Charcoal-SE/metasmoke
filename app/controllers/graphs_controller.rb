@@ -11,21 +11,21 @@ class GraphsController < ApplicationController
   end
 
   def reports_by_site
-    if params[:timeframe] == "all"
+    if params[:timeframe] == 'all'
       @posts = Post.all
     else
-      @posts = Post.where("created_at >= ?", 1.month.ago)
+      @posts = Post.where('created_at >= ?', 1.month.ago)
     end
     h = HTMLEntities.new
 
-    render json: @posts.group(:site).count.map{ |k,v| {(k.nil? ? "Unknown" : h.decode(k.site_name))=>v} }.reduce(:merge).select{|k,v| k != "Unknown"}.sort_by {|k,v| v}.reverse
+    render json: @posts.group(:site).count.map{ |k,v| {(k.nil? ? 'Unknown' : h.decode(k.site_name))=>v} }.reduce(:merge).select{|k,v| k != 'Unknown'}.sort_by {|k,v| v}.reverse
   end
 
   def reports_by_hour_of_day
-    if params[:timeframe] == "all"
+    if params[:timeframe] == 'all'
       @posts = Post.all
     else
-      @posts = Post.where("created_at >= ?", 1.month.ago)
+      @posts = Post.where('created_at >= ?', 1.month.ago)
     end
 
     number_of_days = (DateTime.now - @posts.minimum(:created_at).to_date).to_i
@@ -41,9 +41,9 @@ class GraphsController < ApplicationController
 
   def time_to_deletion
     render json: Post.group_by_hour_of_day(created_at).where(is_tp: true)
-                        .where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`) <= 3600")
+                        .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`) <= 3600')
                         .where.not(deleted_at: nil)
-                        .average("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`)")
+                        .average('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`)')
   end
 
   def flagging_results
@@ -77,7 +77,7 @@ class GraphsController < ApplicationController
   def monthly_ttd
     render json: Post.group_by_day('`posts`.`created_at`').joins(:deletion_logs)
                               .where(is_tp: true).where('`posts`.`created_at` > ?', 3.months.ago)
-                              .where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`) <= 3600")
-                              .average("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`)")
+                              .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`) <= 3600')
+                              .average('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`)')
   end
 end

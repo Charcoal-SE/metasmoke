@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     if @tokens.destroy_all
       flash[:success] = "Revoked access to your account from #{@key.app_name}."
     else
-      flash[:danger] = "Could not revoke access - contact a metasmoke admin."
+      flash[:danger] = 'Could not revoke access - contact a metasmoke admin.'
     end
     redirect_to url_for(controller: :users, action: :apps)
   end
@@ -51,7 +51,7 @@ class UsersController < ApplicationController
     totp = ROTP::TOTP.new(current_user.two_factor_token)
     if totp.verify_with_drift(params[:code], 30, Time.now)
       current_user.update(enabled_2fa: true)
-      flash[:success] = "Success! 2FA has been enabled on your account."
+      flash[:success] = 'Success! 2FA has been enabled on your account.'
       redirect_to url_for(controller: :users, action: :tf_status)
     else
       flash[:danger] = "That's not the right code."
@@ -71,7 +71,7 @@ class UsersController < ApplicationController
     totp = ROTP::TOTP.new(current_user.two_factor_token)
     if totp.verify_with_drift(params[:code], 30, Time.now)
       current_user.update(two_factor_token: nil, enabled_2fa: false)
-      flash[:success] = "Success! 2FA has been disabled on your account."
+      flash[:success] = 'Success! 2FA has been disabled on your account.'
       redirect_to url_for(controller: :users, action: :tf_status)
     else
       flash[:danger] = "That's not the right code."

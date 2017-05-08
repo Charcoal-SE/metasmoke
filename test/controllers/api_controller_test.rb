@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ApiControllerTest < ActionController::TestCase
-  test "should get index" do
+  test 'should get index' do
     sign_out(:users)
     get :api_docs
 
@@ -17,7 +17,7 @@ class ApiControllerTest < ActionController::TestCase
     assert_equal 'unauthorized', json['error_name']
   end
 
-  test "should return created and post feedback" do
+  test 'should return created and post feedback' do
     sign_in users(:admin_user)
     put :create_feedback, params: { id: 23653, type: 'tpu-', key: api_keys(:one).key, token: api_tokens(:one).token }
     assert_nothing_raised do
@@ -27,7 +27,7 @@ class ApiControllerTest < ActionController::TestCase
     assert_response(201)
   end
 
-  test "should associate feedback with API key" do
+  test 'should associate feedback with API key' do
     sign_in users(:admin_user)
 
     assert_difference ApiKey.find(api_keys(:one).id).feedbacks do
@@ -39,7 +39,7 @@ class ApiControllerTest < ActionController::TestCase
     end
   end
 
-  test "should associated deletion logs with API key" do
+  test 'should associated deletion logs with API key' do
     api_key = api_keys(:one)
     api_key.update(is_trusted: true)
 
@@ -53,12 +53,12 @@ class ApiControllerTest < ActionController::TestCase
 
   # This also happens to test that feedback is actually
   # *created*, since expects delta=1
-  test "should prevent duplicate feedback from api" do
+  test 'should prevent duplicate feedback from api' do
     sign_in users(:admin_user)
 
     assert_difference 'Feedback.count' do # delta of one
       2.times do
-        post :create_feedback, params: { id: 23653, type: "tpu-", key: api_keys(:one).key, token: api_tokens(:one).token }
+        post :create_feedback, params: { id: 23653, type: 'tpu-', key: api_keys(:one).key, token: api_tokens(:one).token }
       end
     end
   end
@@ -71,8 +71,8 @@ class ApiControllerTest < ActionController::TestCase
     assert assigns(:posts).select { |p| p.feedbacks.where(feedback_type: Feedback.first.feedback_type).exists? }.count == assigns(:posts).to_a.count
   end
 
-  test "should get post by URL" do
-    params = "key=#{AppConfig["stack_exchange"]["key"]}&site=#{Post.last.site.site_domain}&filter=!mggE4ZSiE7"
+  test 'should get post by URL' do
+    params = "key=#{AppConfig['stack_exchange']['key']}&site=#{Post.last.site.site_domain}&filter=!mggE4ZSiE7"
     api_req_url = "https://api.stackexchange.com/2.2/posts/#{Post.last.stack_id}/revisions?#{params}"
     response = File.new("#{Rails.root}/test/helpers/webmock_json_responses/post_revisions_response.json")
     
@@ -84,7 +84,7 @@ class ApiControllerTest < ActionController::TestCase
     assert assigns(:posts).select { |p| p.link == Post.last.link }.count == assigns(:posts).to_a.count
   end
 
-  test "should get posts by site" do
+  test 'should get posts by site' do
     get :posts_by_site, params: { site: Post.last.site.site_url, key: api_keys(:one).key, filter: "\x00\x00\x00\x00\x00\x00\x00\x03\xC3\xBF\xC3\xBF\xC2\x80\x00\x00\x00\x00\x00" }
 
     assert_response :success
@@ -94,7 +94,7 @@ class ApiControllerTest < ActionController::TestCase
 
   # Search tests
 
-  test "should search for everything" do
+  test 'should search for everything' do
     get :search_posts, params: { key: api_keys(:one).key }
 
     assert_response :success
@@ -109,7 +109,7 @@ class ApiControllerTest < ActionController::TestCase
     assert assigns(:posts).select { |p| p.feedbacks.where(feedback_type: Feedback.first.feedback_type).exists? }.count == assigns(:posts).count
   end
 
-  test "should search within site" do
+  test 'should search within site' do
     get :search_posts, params: { site: Post.last.site.site_domain, key: api_keys(:one).key }
 
     assert_response :success
@@ -117,7 +117,7 @@ class ApiControllerTest < ActionController::TestCase
     assert assigns(:posts).select { |p| p.site.site_domain == Post.last.site.site_domain }.count == assigns(:posts).count
   end
 
-  test "should search by date" do
+  test 'should search by date' do
     get :search_posts, params: { from_date: (Post.last.created_at - 1.second).to_i, key: api_keys(:one).key }
 
     assert_response :success

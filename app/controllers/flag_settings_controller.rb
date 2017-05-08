@@ -37,7 +37,7 @@ class FlagSettingsController < ApplicationController
   end
 
   def audits
-    @audits = Audited::Audit.where(auditable_type: "FlagSetting").includes(:auditable, :user).order('created_at DESC').paginate(page: params[:page], per_page: 100)
+    @audits = Audited::Audit.where(auditable_type: 'FlagSetting').includes(:auditable, :user).order('created_at DESC').paginate(page: params[:page], per_page: 100)
   end
 
   # PATCH/PUT /flag_settings/1
@@ -46,7 +46,7 @@ class FlagSettingsController < ApplicationController
     respond_to do |format|
       if @flag_setting.update(flag_setting_params)
 
-        if ["min_accuracy", "min_post_count"].include? @flag_setting.name
+        if ['min_accuracy', 'min_post_count'].include? @flag_setting.name
           # If an accuracy/post count requirement is changed,
           # we want to re-validate all existing FlagConditions
           # and disable them if they aren't in compliance with the
@@ -70,12 +70,12 @@ class FlagSettingsController < ApplicationController
   def smokey_disable_flagging
     # -1 == System user in metasmoke prod
     Audited::Audit.as_user(User.find(-1)) do
-      FlagSetting.find_by_name("flagging_enabled").update(value: "0")
+      FlagSetting.find_by_name('flagging_enabled').update(value: '0')
     end
 
-    SmokeDetector.send_message_to_charcoal("**Autoflagging disabled** through chat.")
+    SmokeDetector.send_message_to_charcoal('**Autoflagging disabled** through chat.')
 
-    render plain: "OK"
+    render plain: 'OK'
   end
 
   def dashboard

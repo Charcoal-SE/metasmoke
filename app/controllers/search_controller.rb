@@ -32,7 +32,7 @@ class SearchController < ApplicationController
 
     @results = @results.where("IFNULL(posts.username, '') #{username_operation} :username AND IFNULL(title, '') #{title_operation} :title AND IFNULL(body, '') #{body_operation} :body AND IFNULL(why, '') #{why_operation} :why", username: username, title: title, body: body, why: why)
                    .paginate(page: params[:page], per_page: per_page)
-                   .order("`posts`.`created_at` DESC")
+                   .order('`posts`.`created_at` DESC')
 
     if params[:option].nil?
       @results = @results.includes(:reasons).includes(:feedbacks)
@@ -40,17 +40,17 @@ class SearchController < ApplicationController
 
     if feedback.present?
       @results = @results.where(feedback => true)
-    elsif params[:feedback] == "conflicted"
+    elsif params[:feedback] == 'conflicted'
       @results = @results.where(is_tp: true, is_fp: true)
     end
 
     @results = case params[:user_rep_direction]
-      when ">="
-        @results.where("ifnull(user_reputation, 0) >= :rep", rep: user_reputation)
-      when "=="
-        @results.where("ifnull(user_reputation, 0) = :rep", rep: user_reputation)
-      when "<="
-        @results.where("ifnull(user_reputation, 0) <= :rep", rep: user_reputation)
+      when '>='
+        @results.where('ifnull(user_reputation, 0) >= :rep', rep: user_reputation)
+      when '=='
+        @results.where('ifnull(user_reputation, 0) = :rep', rep: user_reputation)
+      when '<='
+        @results.where('ifnull(user_reputation, 0) <= :rep', rep: user_reputation)
       else
         @results
     end
@@ -62,9 +62,9 @@ class SearchController < ApplicationController
   @results = @results.includes(feedbacks: [:user])
 
   case params[:autoflagged].try(:downcase)
-  when "yes"
+  when 'yes'
     @results = @results.autoflagged
-  when "no"
+  when 'no'
     @results = @results.not_autoflagged
   end
 
@@ -84,7 +84,7 @@ class SearchController < ApplicationController
           @results = @results.where(is_naa: true)
         end
 
-        @sites = Site.where(id: @results.map(&:site_id)).to_a unless params[:option] == "graphs"
+        @sites = Site.where(id: @results.map(&:site_id)).to_a unless params[:option] == 'graphs'
         render :search
       }
       format.json {

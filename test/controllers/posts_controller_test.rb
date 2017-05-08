@@ -6,13 +6,13 @@ class PostsControllerTest < ActionController::TestCase
     @single_post = Post.last
   end
 
-  test "should get index" do
+  test 'should get index' do
     get :index
     assert_response :success
     assert_not_nil assigns(:posts)
   end
 
-  test "should show post" do
+  test 'should show post' do
     @posts.each do |post|
       get :show, params: { id: post.id }
       assert_response :success
@@ -20,7 +20,7 @@ class PostsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should show posts to signed-in users" do
+  test 'should show posts to signed-in users' do
     sign_in users(:admin_user)
     @posts.each do |post|
       get :show, params: { id: post.id }
@@ -37,13 +37,13 @@ class PostsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  test "should create post" do
+  test 'should create post' do
     assert_difference 'Post.count' do
       post :create, params: { post: { title: "Test Post Title", body: "Awesome Post Body", link: "//stackoverflow.com/q/1", username: "Undo", user_reputation: 101, user_link: "//stackoverflow.com/users/1849664/undo", reasons: ["Bad keyword in body"] }, key: SmokeDetector.first.access_token }
     end
   end
 
-  test "should create new reason" do
+  test 'should create new reason' do
     assert_difference 'Reason.count' do
       post :create, params: { post: { title: "Test Post Title", body: "Awesome Post Body", link: "//stackoverflow.com/q/1", username: "Undo", user_reputation: 101, user_link: "//stackoverflow.com/users/1849664/undo", reasons: ["Brand new reason"] }, key: SmokeDetector.first.access_token }
     end

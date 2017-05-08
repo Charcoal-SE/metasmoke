@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
     if @smoke_detector.present?
       return # Authorized
     else
-      render plain: "Go away", status: 403 and return
+      render plain: 'Go away', status: 403 and return
     end
   end
 

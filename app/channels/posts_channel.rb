@@ -4,7 +4,7 @@ class PostsChannel < ApplicationCable::Channel
     if params[:post_id].present?
       stream_from "posts_#{params[:post_id]}"
     else
-      stream_from "posts_realtime"
+      stream_from 'posts_realtime'
     end
   end
 

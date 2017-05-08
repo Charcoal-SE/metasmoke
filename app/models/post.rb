@@ -108,15 +108,15 @@ class Post < ApplicationRecord
       backoff = message
     end
 
-    unless ["Flag options not present", "Spam flag option not present", "You do not have permission to flag this post", "No account on this site."].include? message
+    unless ['Flag options not present', 'Spam flag option not present', 'You do not have permission to flag this post', 'No account on this site.'].include? message
       flag_log = FlagLog.create(success: success, error_message: message,
                                 is_dry_run: dry_run, flag_condition: condition,
                                 user: user, post: self, backoff: backoff,
                                 site_id: self.site_id)
 
       if success
-        ActionCable.server.broadcast "api_flag_logs", { flag_log: JSON.parse(FlagLogController.render(locals: {flag_log: flag_log}, partial: 'flag_log.json')) }
-        ActionCable.server.broadcast "flag_logs", { row: FlagLogController.render(locals: {log: flag_log}, partial: 'flag_log') }
+        ActionCable.server.broadcast 'api_flag_logs', { flag_log: JSON.parse(FlagLogController.render(locals: {flag_log: flag_log}, partial: 'flag_log.json')) }
+        ActionCable.server.broadcast 'flag_logs', { row: FlagLogController.render(locals: {log: flag_log}, partial: 'flag_log') }
       end
     end
 
@@ -124,7 +124,7 @@ class Post < ApplicationRecord
   end
 
   def send_not_autoflagged
-    ActionCable.server.broadcast "api_flag_logs", { not_flagged: { post_link: self.link, post: JSON.parse(PostsController.render(locals: {post: self}, partial: 'post.json')) } }
+    ActionCable.server.broadcast 'api_flag_logs', { not_flagged: { post_link: self.link, post: JSON.parse(PostsController.render(locals: {post: self}, partial: 'post.json')) } }
   end
 
   def update_feedback_cache
@@ -150,18 +150,18 @@ class Post < ApplicationRecord
     end
 
     if is_feedback_changed
-      ActionCable.server.broadcast "topbar", { review: Post.without_feedback.count }
+      ActionCable.server.broadcast 'topbar', { review: Post.without_feedback.count }
     end
 
     return is_feedback_changed
   end
 
   def is_question?
-    return self.link.include? "/questions/"
+    return self.link.include? '/questions/'
   end
 
   def is_answer?
-    return self.link.include? "/a/"
+    return self.link.include? '/a/'
   end
 
   def is_deleted?
@@ -190,10 +190,10 @@ class Post < ApplicationRecord
 
   def fetch_revision_count(post=nil)
     post ||= self
-    params = "key=#{AppConfig["stack_exchange"]["key"]}&site=#{post.site.site_domain}&filter=!mggE4ZSiE7"
+    params = "key=#{AppConfig['stack_exchange']['key']}&site=#{post.site.site_domain}&filter=!mggE4ZSiE7"
 
     url = "https://api.stackexchange.com/2.2/posts/#{post.stack_id}/revisions?#{params}"
-    revision_list = JSON.parse(Net::HTTP.get_response(URI.parse(url)).body)["items"]
+    revision_list = JSON.parse(Net::HTTP.get_response(URI.parse(url)).body)['items']
 
     update(revision_count: revision_list.count)
     revision_list.count

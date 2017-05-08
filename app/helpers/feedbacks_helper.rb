@@ -2,9 +2,9 @@ module FeedbacksHelper
   def element_class_for_feedback(f)
     case
     when f.is_negative?
-        "text-danger"
+        'text-danger'
       when f.is_positive?
-        "text-success"
+        'text-success'
       else
         ""
     end

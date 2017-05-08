@@ -10,7 +10,7 @@ class ApiController < ApplicationController
   # Public routes
 
   def api_docs
-    redirect_to "https://github.com/Charcoal-SE/metasmoke/wiki/API-Documentation"
+    redirect_to 'https://github.com/Charcoal-SE/metasmoke/wiki/API-Documentation'
   end
 
   # Routes for developer use
@@ -108,7 +108,7 @@ class ApiController < ApplicationController
 
   def reasons
     filter = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x18\x00\x00\x00\x00\x00"
-    @reasons = Reason.where(id: params[:ids].split(";")).select(select_fields(filter)).order(id: :desc)
+    @reasons = Reason.where(id: params[:ids].split(';')).select(select_fields(filter)).order(id: :desc)
     results = @reasons.paginate(page: params[:page], per_page: @pagesize)
     render json: { items: results, has_more: has_more?(params[:page], results.count) }
   end
@@ -134,7 +134,7 @@ class ApiController < ApplicationController
     chat_ids = User.code_admins.pluck(:stackexchange_chat_id, :stackoverflow_chat_id, :meta_stackexchange_chat_id)
 
     items = {}
-    ["stackexchange_chat_ids", "stackoverflow_chat_ids", "meta_stackexchange_chat_ids"].each_with_index do |name, index|
+    ['stackexchange_chat_ids', 'stackoverflow_chat_ids', 'meta_stackexchange_chat_ids'].each_with_index do |name, index|
       items[name] = chat_ids.map { |a| a[index] }.select { |n| n.present? }
     end
 
@@ -211,19 +211,19 @@ class ApiController < ApplicationController
     @feedback.feedback_type = params[:type]
 
     if @post.is_question? && @feedback.is_naa?
-      render status: 500, json: { error_name: "failed", error_code: 500, error_message: "NAA feedback isn't allowed on questions" }
+      render status: 500, json: { error_name: 'failed', error_code: 500, error_message: "NAA feedback isn't allowed on questions" }
       return
     end
 
     if @feedback.save
       if @feedback.is_positive? && @feedback.does_affect_user?
         begin
-          ActionCable.server.broadcast "smokedetector_messages", { blacklist: { uid: @post.stack_exchange_user.user_id.to_s, site: URI.parse(@post.stack_exchange_user.site.site_url).host, post: @post.link } }
+          ActionCable.server.broadcast 'smokedetector_messages', { blacklist: { uid: @post.stack_exchange_user.user_id.to_s, site: URI.parse(@post.stack_exchange_user.site.site_url).host, post: @post.link } }
         rescue
         end
       elsif @feedback.is_naa?
         begin
-          ActionCable.server.broadcast "smokedetector_messages", { naa: { post_link: @post.link } }
+          ActionCable.server.broadcast 'smokedetector_messages', { naa: { post_link: @post.link } }
         rescue
         end
       elsif @feedback.is_negative?
@@ -233,11 +233,11 @@ class ApiController < ApplicationController
         end
       end
       unless Feedback.where(post_id: @post.id, feedback_type: @feedback.feedback_type).where.not(id: @feedback.id).exists?
-        ActionCable.server.broadcast "smokedetector_messages", { message: "#{@feedback.feedback_type} by #{@user.username}" + (@post.id == Post.last.id ? "" : " on [#{@post.title}](#{@post.link}) \\[[MS](#{url_for(controller: :posts, action: :show, id: @post.id)})]") }
+        ActionCable.server.broadcast 'smokedetector_messages', { message: "#{@feedback.feedback_type} by #{@user.username}" + (@post.id == Post.last.id ? '' : " on [#{@post.title}](#{@post.link}) \\[[MS](#{url_for(controller: :posts, action: :show, id: @post.id)})]") }
       end
       render json: @post.feedbacks, status: 201
     else
-      render status: 500, json: { error_name: "failed", error_code: 500, error_message: "Feedback object failed to save." }
+      render status: 500, json: { error_name: 'failed', error_code: 500, error_message: 'Feedback object failed to save.' }
     end
   end
 
@@ -245,14 +245,14 @@ class ApiController < ApplicationController
     # We don't create any posts here, just send them on to Smokey to do all the processing
     ActionCable.server.broadcast 'smokedetector_messages', { report: { user: @user.username, post_link: params[post_link] } }
 
-    render plain: "OK", status: 201
+    render plain: 'OK', status: 201
   end
 
   def spam_flag
     @post = Post.find params[:id]
 
     unless @user.api_token.present?
-      render status: 409, json: { error_name: "not_write_authenticated", error_code: 409, error_message: "Current user is not write-authenticated." } and return
+      render status: 409, json: { error_name: 'not_write_authenticated', error_code: 409, error_message: 'Current user is not write-authenticated.' } and return
     end
 
     status, message = @user.spam_flag(@post, false)
@@ -261,24 +261,24 @@ class ApiController < ApplicationController
                               user: @user, post: @post, backoff: status.present? ? message : 0,
                               site_id: @post.site_id, is_auto: false)
     if status
-      render json: { status: "success", backoff: message }
+      render json: { status: 'success', backoff: message }
     else
-      render status: 500, json: { status: "failed", message: message }
+      render status: 500, json: { status: 'failed', message: message }
     end
   end
 
   def post_deleted
     unless @key.is_trusted
-      render status: 403, json: { status: "failed", message: "The API key used to make the request is not trusted." } and return
+      render status: 403, json: { status: 'failed', message: 'The API key used to make the request is not trusted.' } and return
     end
 
     post = Post.find params[:id]
     dl = post.deletion_logs.new(api_key_id: @key.id, is_deleted: true)
 
     if dl.save
-      render json: { status: "success" }
+      render json: { status: 'success' }
     else
-      render status: 500, json: { status: "failed", message: "The deletion log failed to save." }
+      render status: 500, json: { status: 'failed', message: 'The deletion log failed to save.' }
     end
   end
 
@@ -288,7 +288,7 @@ class ApiController < ApplicationController
       unless params[:key].present? && @key.present?
         smokey = SmokeDetector.find_by_access_token(params[:key])
         unless smokey.present?
-          render status: 403, json: { error_name: "unauthenticated", error_code: 403, error_message: "No key was passed or the passed key is invalid." } and return
+          render status: 403, json: { error_name: 'unauthenticated', error_code: 403, error_message: 'No key was passed or the passed key is invalid.' } and return
         end
       end
     end
@@ -308,7 +308,7 @@ class ApiController < ApplicationController
         @token = @token.first
         @user = @token.user
       else
-        render status: 401, json: { error_name: 'unauthorized', error_code: 401, error_message: "The token provided does not supply authorization to perform this action." } and return
+        render status: 401, json: { error_name: 'unauthorized', error_code: 401, error_message: 'The token provided does not supply authorization to perform this action.' } and return
       end
     end
 

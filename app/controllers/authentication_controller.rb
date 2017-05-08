@@ -6,18 +6,18 @@ class AuthenticationController < ApplicationController
   before_action :verify_admin, only: [:invalidate_tokens, :send_invalidations]
 
   def status
-    @config = AppConfig["stack_exchange"]
+    @config = AppConfig['stack_exchange']
   end
 
   def redirect_target
     token = access_token_from_code(params[:code])
     access_token_info = info_for_access_token(token)
 
-    current_user.stack_exchange_account_id = access_token_info["account_id"]
+    current_user.stack_exchange_account_id = access_token_info['account_id']
     current_user.update_chat_ids
 
     begin
-      current_user.api_token = token if access_token_info["scope"].include? "write_access"
+      current_user.api_token = token if access_token_info['scope'].include? 'write_access'
     rescue
     end
 
@@ -52,17 +52,17 @@ class AuthenticationController < ApplicationController
       redirect_to root_path and return
     end
 
-    token = access_token_from_code(params[:code], AppConfig["stack_exchange"]["login_redirect_uri"])
+    token = access_token_from_code(params[:code], AppConfig['stack_exchange']['login_redirect_uri'])
     access_token_info = info_for_access_token(token)
 
-    user = User.find_by_stack_exchange_account_id(access_token_info["account_id"])
+    user = User.find_by_stack_exchange_account_id(access_token_info['account_id'])
 
     if user.present?
       flash[:success] = "Successfully logged in as #{user.username}"
       sign_in_and_redirect user
     else
-      user = User.new(stack_exchange_account_id: access_token_info["account_id"],
-                      email: "#{access_token_info["account_id"]}@se-oauth.metasmoke")
+      user = User.new(stack_exchange_account_id: access_token_info['account_id'],
+                      email: "#{access_token_info['account_id']}@se-oauth.metasmoke")
 
       user.username = user.get_username(token)
 
@@ -90,13 +90,13 @@ class AuthenticationController < ApplicationController
     Thread.new do
       token_groups = users.map(&:api_token).in_groups_of(20).map(&:compact)
       token_groups.each do |group|
-        uri = "https://api.stackexchange.com/2.2/access-tokens/#{group.join(";")}/invalidate"
+        uri = "https://api.stackexchange.com/2.2/access-tokens/#{group.join(';')}/invalidate"
         HTTParty.get(uri)
       end
 
       users.update_all(encrypted_api_token: nil)
     end
-    flash[:info] = "Token invalidations queued."
+    flash[:info] = 'Token invalidations queued.'
     redirect_to url_for(controller: :authentication, action: :invalidate_tokens)
   end
 end

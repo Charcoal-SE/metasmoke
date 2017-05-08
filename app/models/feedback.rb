@@ -21,7 +21,7 @@ class Feedback < ApplicationRecord
 
   after_create do
     ActionCable.server.broadcast "posts_#{self.post_id}", { feedback: FeedbacksController.render(locals: {feedback: self}, partial: 'feedback').html_safe }
-    ActionCable.server.broadcast "api_feedback", { feedback: JSON.parse(FeedbacksController.render(locals: {feedback: self}, partial: 'feedback.json')) }
+    ActionCable.server.broadcast 'api_feedback', { feedback: JSON.parse(FeedbacksController.render(locals: {feedback: self}, partial: 'feedback.json')) }
   end
 
   # Drop a user's earlier feedback if it's not invalidated
@@ -39,19 +39,19 @@ class Feedback < ApplicationRecord
   end
 
   def is_positive?
-    self.feedback_type.include? "t"
+    self.feedback_type.include? 't'
   end
 
   def is_negative?
-    self.feedback_type.include? "f"
+    self.feedback_type.include? 'f'
   end
 
   def is_naa?
-    self.feedback_type.include? "naa"
+    self.feedback_type.include? 'naa'
   end
 
   def does_affect_user?
-    self.feedback_type.ends_with?("u") || self.feedback_type.ends_with?("u-")
+    self.feedback_type.ends_with?('u') || self.feedback_type.ends_with?('u-')
   end
 
   def update_post_feedback_cache
@@ -82,11 +82,11 @@ class Feedback < ApplicationRecord
       return if chat_host.nil? or chat_user_id.nil?
 
       chat_id_field = case chat_host
-      when "stackexchange.com"
+      when 'stackexchange.com'
         :stackexchange_chat_id
-      when "stackoverflow.com"
+      when 'stackoverflow.com'
         :stackoverflow_chat_id
-      when "meta.stackexchange.com"
+      when 'meta.stackexchange.com'
         :meta_stackexchange_chat_id
       else
         nil

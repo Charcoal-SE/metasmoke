@@ -4,11 +4,11 @@ class ReasonsController < ApplicationController
     @posts = @reason.posts.select(:id, :created_at, :link, :title, :site_id, :username, :stack_exchange_user_id, 'IF(LENGTH(body)>1,1,0) as body_exists').includes(:reasons, :feedbacks).includes(feedbacks: [:user, :api_key]).paginate(page: params[:page], per_page: 100).order('created_at DESC')
 
     case params[:filter]
-    when "tp"
+    when 'tp'
       @posts = @posts.where(is_tp: true)
-    when "fp"
+    when 'fp'
       @posts = @posts.where(is_fp: true)
-    when "naa"
+    when 'naa'
       @posts = @posts.where(is_naa: true)
     end
 
@@ -21,7 +21,7 @@ class ReasonsController < ApplicationController
   end
   def sites_chart
     h = HTMLEntities.new
-    render json: Reason.find(params[:id]).posts.group(:site).count.map{ |k,v| {(k.nil? ? "Unknown" : h.decode(k.site_name))=>v} }.reduce(:merge).select{|k,v| k != "Unknown"}.sort_by {|k,v| v}.reverse
+    render json: Reason.find(params[:id]).posts.group(:site).count.map{ |k,v| {(k.nil? ? 'Unknown' : h.decode(k.site_name))=>v} }.reduce(:merge).select{|k,v| k != 'Unknown'}.sort_by {|k,v| v}.reverse
   end
   def accuracy_chart
     @reason = Reason.find(params[:id])

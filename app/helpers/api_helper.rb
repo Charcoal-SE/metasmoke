@@ -28,7 +28,7 @@ module ApiHelper
           exp: 1.minute.from_now.to_i,
           iss: AppConfig['github']['integration_id']
       }
-      jwt = JWT.encode(payload, private_key, "RS256")
+      jwt = JWT.encode(payload, private_key, 'RS256')
 
       token_resp = HTTParty.post("https://api.github.com/installations/#{AppConfig['github']['installation_id']}/access_tokens", headers: {
         'Accept' => 'application/vnd.github.machine-man-preview+json',

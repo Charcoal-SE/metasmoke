@@ -33,7 +33,7 @@ class FlagConditionsController < ApplicationController
     @condition.sites = params[:flag_condition][:sites].map{ |i| Site.find i.to_i if i.present? }.compact
 
     if @condition.save
-      flash[:success] = "Created a new flagging condition."
+      flash[:success] = 'Created a new flagging condition.'
       redirect_to url_for(controller: :flag_conditions, action: :index)
     else
       render :new
@@ -64,7 +64,7 @@ class FlagConditionsController < ApplicationController
   def update
     @condition.sites = params[:flag_condition][:sites].map{ |i| Site.find i.to_i if i.present? }.compact
     if @condition.update(condition_params)
-      flash[:success] = "Updated your flagging condition."
+      flash[:success] = 'Updated your flagging condition.'
       redirect_to url_for(controller: :flag_conditions, action: :index)
     else
       render :edit, status: 422
@@ -73,9 +73,9 @@ class FlagConditionsController < ApplicationController
 
   def destroy
     if @condition.destroy
-      flash[:success] = "Removed your flagging condition."
+      flash[:success] = 'Removed your flagging condition.'
     else
-      flash[:danger] = "Failed to remove the condition - contact a developer to find out why."
+      flash[:danger] = 'Failed to remove the condition - contact a developer to find out why.'
     end
     redirect_to url_for(controller: :flag_conditions, action: :index)
   end
@@ -91,14 +91,14 @@ class FlagConditionsController < ApplicationController
 
   def one_click_setup
     unless current_user.api_token.present?
-      flash[:warning] = "You need to be write-authenticated before you can set up flagging."
+      flash[:warning] = 'You need to be write-authenticated before you can set up flagging.'
       redirect_to url_for(controller: :authentication, action: :status) and return
     end
   end
 
   def run_ocs
     unless current_user.api_token.present?
-      flash[:warning] = "You need to be write-authenticated before you can set up flagging."
+      flash[:warning] = 'You need to be write-authenticated before you can set up flagging.'
       redirect_to url_for(controller: :authentication, action: :status) and return
     end
 
@@ -138,8 +138,8 @@ class FlagConditionsController < ApplicationController
 
   def set_preview_data
     if @condition
-      site_ids = if params["flag_condition"]
-        params["flag_condition"]["sites"].map {|s| s.to_i}
+      site_ids = if params['flag_condition']
+        params['flag_condition']['sites'].map {|s| s.to_i}
       else
         @condition.site_ids
       end

@@ -15,11 +15,11 @@ class ReviewController < ApplicationController
 
   def add_feedback
     unless current_user.has_role?(:reviewer)
-      render plain: "Your account is not approved for reviewing", status: :conflict
+      render plain: 'Your account is not approved for reviewing', status: :conflict
       return
     end
 
-    not_found unless ["tp", "fp", "naa"].include? params[:feedback_type]
+    not_found unless ['tp', 'fp', 'naa'].include? params[:feedback_type]
 
     post = Post.find(params[:post_id])
     if post.nil?
@@ -37,6 +37,6 @@ class ReviewController < ApplicationController
       expire_fragment(reason)
     end
 
-    render plain: "success", status: 200
+    render plain: 'success', status: 200
   end
 end

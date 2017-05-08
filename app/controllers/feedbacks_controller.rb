@@ -62,12 +62,12 @@ class FeedbacksController < ApplicationController
     post = Post.where(link: post_link).order(:created_at).last
 
     if post == nil
-      render plain: "Error: No post found for link" and return
+      render plain: 'Error: No post found for link' and return
     end
 
     # Ignore identical feedback from the same user
     if Feedback.where(post: post, user_name: feedback_params[:user_name], feedback_type: feedback_params[:feedback_type]).present?
-      render plain: "Identical feedback from user already exists on post" and return
+      render plain: 'Identical feedback from user already exists on post' and return
     end
 
     @feedback = Feedback.new(feedback_params)
@@ -89,7 +89,7 @@ class FeedbacksController < ApplicationController
       expire_fragment(reason)
     end
 
-    expire_fragment("post" + post.id.to_s)
+    expire_fragment('post' + post.id.to_s)
 
     @feedback.post = post
 
@@ -103,12 +103,12 @@ class FeedbacksController < ApplicationController
     end
 
     if Feedback.where(chat_user_id: @feedback.chat_user_id).count == 0
-      ActionCable.server.broadcast "smokedetector_messages", { message: "@#{@feedback.user_name.gsub(" ", "")}: It seems this is your first time sending feedback to SmokeDetector. Make sure you've read the guidance on [your privileges](https://git.io/voC8N), the [available commands](https://git.io/voC4m), and [what feedback to use in different situations](https://git.io/voC4s)." }
+      ActionCable.server.broadcast 'smokedetector_messages', { message: "@#{@feedback.user_name.gsub(' ', '')}: It seems this is your first time sending feedback to SmokeDetector. Make sure you've read the guidance on [your privileges](https://git.io/voC8N), the [available commands](https://git.io/voC4m), and [what feedback to use in different situations](https://git.io/voC4s)." }
     end
 
     respond_to do |format|
       if @feedback.save
-        format.json { render :show, status: :created, body: "OK" }
+        format.json { render :show, status: :created, body: 'OK' }
       else
         format.json { render json: @feedback.errors, status: :unprocessable_entity }
       end

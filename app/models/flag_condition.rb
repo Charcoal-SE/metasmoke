@@ -15,12 +15,12 @@ class FlagCondition < ApplicationRecord
 
       accuracy = true_positive_count.to_f * 100 / post_feedback_results.count.to_f
 
-      if accuracy < FlagSetting["min_accuracy"].to_f
-        errors.add(:accuracy, "must be over #{number_to_percentage(FlagSetting["min_accuracy"].to_f, precision: 2)}")
+      if accuracy < FlagSetting['min_accuracy'].to_f
+        errors.add(:accuracy, "must be over #{number_to_percentage(FlagSetting['min_accuracy'].to_f, precision: 2)}")
       end
 
-      if post_feedback_results.count < FlagSetting["min_post_count"].to_i
-        errors.add(:post_count, "must be over  #{FlagSetting["min_post_count"]}")
+      if post_feedback_results.count < FlagSetting['min_post_count'].to_i
+        errors.add(:post_count, "must be over  #{FlagSetting['min_post_count']}")
       end
     end
   end

@@ -1,13 +1,13 @@
 require 'test_helper'
 
 class SearchControllerTest < ActionController::TestCase
-  test "should get index" do
+  test 'should get index' do
     get :search_results
     assert_response :success
     assert_not_nil assigns(:results)
   end
 
-  test "should search by site" do
+  test 'should search by site' do
     site = Post.last.site
 
     get :search_results, params: { site: site.site_name }
@@ -40,7 +40,7 @@ class SearchControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should search by regex" do
+  test 'should search by regex' do
     sign_in User.first
 
     get :search_results, params: { title: "foo", title_is_regex: true, title_is_inverse_regex: true }

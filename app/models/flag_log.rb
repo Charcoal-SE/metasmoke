@@ -8,9 +8,9 @@ class FlagLog < ApplicationRecord
 
   def flag_icon
     if is_auto
-      return "⚑"
+      return '⚑'
     else
-      return "⚐"
+      return '⚐'
     end
   end
 end

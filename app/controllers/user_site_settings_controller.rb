@@ -22,7 +22,7 @@ class UserSiteSettingsController < ApplicationController
     if current_user.update(flags_enabled: params[:enable])
       render json: { status: "o	k" }
     else
-      render json: { status: "nope" }, status: 500
+      render json: { status: 'nope' }, status: 500
     end
   end
 
@@ -36,7 +36,7 @@ class UserSiteSettingsController < ApplicationController
     @preference.site_ids = params[:user_site_setting][:sites]
 
     if @preference.save
-      flash[:success] = "Saved your preferences."
+      flash[:success] = 'Saved your preferences.'
       redirect_to url_for(controller: :user_site_settings, action: :index)
     else
       render :new, status: 422
@@ -49,7 +49,7 @@ class UserSiteSettingsController < ApplicationController
   def update
     @preference.sites = params[:user_site_setting][:sites].map{ |i| Site.find i.to_i if i.present? }.compact
     if @preference.update preference_params
-      flash[:success] = "Saved your preferences."
+      flash[:success] = 'Saved your preferences.'
       redirect_to url_for(controller: :user_site_settings, action: :index)
     else
       render :edit, status: 422
@@ -58,9 +58,9 @@ class UserSiteSettingsController < ApplicationController
 
   def destroy
     if @preference.destroy
-      flash[:success] = "Removed your preferences."
+      flash[:success] = 'Removed your preferences.'
     else
-      flash[:danger] = "Failed to remove your preferences - contact a developer to find out why."
+      flash[:danger] = 'Failed to remove your preferences - contact a developer to find out why.'
     end
     redirect_to url_for(controller: :user_site_settings, action: :index)
   end

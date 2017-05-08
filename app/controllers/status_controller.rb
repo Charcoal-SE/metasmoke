@@ -26,7 +26,7 @@ class StatusController < ApplicationController
           @smoke_detector.update(is_standby: false, force_failover: false)
           render status: 200, json: { 'failover': true }
         else
-          head 200, content_type: "text/html"
+          head 200, content_type: 'text/html'
         end
       end
     end

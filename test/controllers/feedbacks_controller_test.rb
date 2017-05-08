@@ -1,14 +1,14 @@
 require 'test_helper'
 
 class FeedbacksControllerTest < ActionController::TestCase
-  test "should allow admin to clear feedback" do
+  test 'should allow admin to clear feedback' do
     sign_in users(:admin_user)
 
     get :clear, params: { id: Post.last.id }
     assert_response :success
   end
 
-  test "should not allow non-admins to clear feedback" do
+  test 'should not allow non-admins to clear feedback' do
     sign_out :user
     get :clear, params: { id: Post.last.id }
     assert_redirected_to new_user_session_url
@@ -20,20 +20,20 @@ class FeedbacksControllerTest < ActionController::TestCase
     end
   end
 
-  test "should mark cleared feedback invalidated" do
+  test 'should mark cleared feedback invalidated' do
     sign_in users(:admin_user)
     delete :delete, params: { id: Feedback.last.id }
     assert Feedback.unscoped.last.is_invalidated?
   end
 
-  test "should not delete cleared feedback" do
+  test 'should not delete cleared feedback' do
     assert_no_difference 'Feedback.unscoped.count' do
       sign_in(:admin_user)
       delete :delete, params: { id: Feedback.last.id }
     end
   end
 
-  test "should redirect to clear page after deleting" do
+  test 'should redirect to clear page after deleting' do
     sign_in users(:admin_user)
     id = Feedback.last.id
     post_id = Feedback.last.post.id
@@ -41,7 +41,7 @@ class FeedbacksControllerTest < ActionController::TestCase
     assert_redirected_to clear_post_feedback_url(post_id)
   end
 
-  test "should attribute invalidations" do
+  test 'should attribute invalidations' do
     user = users(:admin_user)
     f_id = Feedback.last.id
     sign_in user
@@ -59,13 +59,13 @@ class FeedbacksControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  test "should create feedback" do
+  test 'should create feedback' do
     assert_difference ['Post.last.feedbacks.count', 'Feedback.count'] do
       post :create, params: { feedback: { message_link: "foo", user_name: "Undo", user_link: "http://foo.bar/undo", feedback_type: "tpu-", post_link: Post.last.link, chat_user: 12345 }, key: SmokeDetector.last.access_token }
     end
   end
 
-  test "should ignore identical feedback from the same user" do
+  test 'should ignore identical feedback from the same user' do
     # assert_difference looks for a delta of 1; a delta of 2 would error out
     assert_difference ['Post.last.feedbacks.count', 'Feedback.count'] do
       3.times do
@@ -74,7 +74,7 @@ class FeedbacksControllerTest < ActionController::TestCase
     end
   end
 
-  test "should not ignore unidentical feedback from the same user" do
+  test 'should not ignore unidentical feedback from the same user' do
     Post.last.feedbacks.destroy_all
 
     assert_difference ['Post.last.feedbacks.count', 'Feedback.count'], 2 do
@@ -84,7 +84,7 @@ class FeedbacksControllerTest < ActionController::TestCase
     end
   end
 
-  test "should cache feedback" do
+  test 'should cache feedback' do
     p = Post.where(is_tp: false).last
 
     post :create, params: { feedback: { message_link: "foo", user_name: "Undo", user_link: "http://foo.bar/undo", feedback_type: "tpu-", post_link: p.link, chat_user: 12345 }, key: SmokeDetector.last.access_token }
