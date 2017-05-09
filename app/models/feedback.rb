@@ -24,6 +24,20 @@ class Feedback < ApplicationRecord
     ActionCable.server.broadcast "api_feedback", { feedback: JSON.parse(FeedbacksController.render(locals: {feedback: self}, partial: 'feedback.json')) }
   end
 
+  # Drop a user's earlier feedback if it's not invalidated
+  # and less than a day old
+
+  after_create do
+    next if user_id.nil?
+
+    num_deleted = post.feedbacks.where(user_id: user_id)
+                                .where('created_at > ?', 24.hours.ago)
+                                .where.not(id: id)
+                                .delete_all
+
+    post.reload.update_feedback_cache if num_deleted > 0
+  end
+
   def is_positive?
     self.feedback_type.include? "t"
   end
