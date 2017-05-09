@@ -160,6 +160,20 @@ class ApiController < ApplicationController
     render :json => { :last_ping => SmokeDetector.where.not(:location => params[:except]).maximum(:last_ping) }
   end
 
+  # Read routes: SmokeDetectors
+
+  def smoke_detectors
+    filter = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0D\x00\x00\x00\x00"
+    fields = select_fields(filter) - ['smoke_detectors.access_token']
+
+    smokeys = SmokeDetector.all.select(fields).order(id: :asc)
+    if params[:owner].present?
+      smokeys = smokeys.where(:user_id => params[:owner])
+    end
+
+    render json: { items: smokeys }
+  end
+
   # Read routes: App stuff
 
   def filter_fields

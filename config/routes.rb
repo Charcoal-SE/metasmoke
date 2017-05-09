@@ -138,6 +138,7 @@ Rails.application.routes.draw do
     get  'stats/last_week', to: 'api#spam_last_week'
     get  'stats/detailed_ttd', to: 'api#detailed_ttd'
     get  'smoke_detectors/status', to: 'api#current_status'
+    get  'smoke_detectors', to: 'api#smoke_detectors'
     get  'posts/urls', to: 'api#posts_by_url'
     post 'posts/urls', to: 'api#posts_by_url'
     get  'posts/feedback', to: 'api#posts_by_feedback'
