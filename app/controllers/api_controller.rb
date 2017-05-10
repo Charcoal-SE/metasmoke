@@ -142,7 +142,7 @@ class ApiController < ApplicationController
   end
 
   def users
-    filter = "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001ø\u0000"
+    filter = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\xC3\xB8\x00"
 
     if params[:role]
       users = User.with_role(params[:role])
