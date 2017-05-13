@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'awesome_print'
 
 gem 'aescrypt', '~> 2.0', '>= 2.0.2', github: 'Charcoal-SE/aescrypt'
-gem 'devise', ">= 4.0.0.rc2"
+gem 'devise', git: 'https://github.com/plataformatec/devise.git', branch: 'master'
 gem "mysql2"
 gem "puma"
 gem 'will_paginate', github: "Undo1/will_paginate"
@@ -17,8 +17,7 @@ gem "rolify"
 gem "octokit", "~> 4.0"
 gem 'httparty'
 gem 'jwt'
-gem "audited", "~> 4.3"
-gem "rails-observers", github: 'rails/rails-observers'
+gem "audited", "~> 4.4"
 gem "travis"
 gem "rotp"
 gem "rqrcode"
@@ -35,7 +34,7 @@ gem 'simplecov', :require => false, :group => :test
 # gem 'puma_worker_killer'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.1.0.rc2'
+gem 'rails', '~> 5.1.1'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use SCSS for stylesheets
