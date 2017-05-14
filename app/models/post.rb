@@ -11,6 +11,14 @@ class Post < ApplicationRecord
   scope :includes_for_post_row, -> { includes(:stack_exchange_user).includes(:reasons).includes(:feedbacks => [:user, :api_key]) }
   scope :without_feedback, -> { left_joins(:feedbacks).where( :feedbacks => { :post_id => nil }) }
 
+  scope :autoflagged, -> {
+    includes(:flag_logs).where(flag_logs: { is_auto: true }).where.not(flag_logs: { id: nil })
+  }
+
+  scope :not_autoflagged, -> {
+    joins('LEFT OUTER JOIN flag_logs ON flag_logs.post_id = posts.id AND flag_logs.is_auto = 0').where(flag_logs: { id: nil })
+  }
+
   after_create do
     ActionCable.server.broadcast "posts_realtime", { row: PostsController.render(locals: {post: Post.last}, partial: 'post').html_safe }
     ActionCable.server.broadcast "topbar", { review: Post.without_feedback.count }

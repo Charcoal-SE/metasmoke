@@ -63,9 +63,9 @@ class SearchController < ApplicationController
 
   case params[:autoflagged].try(:downcase)
   when "yes"
-    @results = @results.includes(:flag_logs).where.not(flag_logs: {id: nil})
+    @results = @results.autoflagged
   when "no"
-    @results = @results.left_outer_joins(:flag_logs).where(flag_logs: { id: nil })
+    @results = @results.not_autoflagged
   end
 
   respond_to do |format|
