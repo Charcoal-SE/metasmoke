@@ -27,17 +27,17 @@ class FlaggingTest < ActionDispatch::IntegrationTest
     @stack_id = 1234
     @multi_rev_stack_id = 4321
 
-    @post = Post.new({
+    @post = Post.create({
       link: "//#{@site.site_domain}/questions/#{@stack_id}",
       site: @site
     })
 
-    @multi_rev_post = Post.new({
+    @multi_rev_post = Post.create({
       link: "//#{@site.site_domain}/questions/#{@multi_rev_stack_id}",
       site: @site
     })
 
-    @limited_post = Post.new({
+    @limited_post = Post.create({
       link: "//#{@limited_site.site_domain}/questions/#{@stack_id}",
       site: @limited_site
     })
@@ -46,6 +46,8 @@ class FlaggingTest < ActionDispatch::IntegrationTest
   end
 
   def setup_webmock
+    WebMock.reset!
+
     stub_request(:get, /https:\/\/api.stackexchange.com\/2\.2\/me\/associated/).
       to_return(:status => 200, :body => webmock_file("mod_sites_response"), :headers => {})
 
@@ -98,5 +100,16 @@ class FlaggingTest < ActionDispatch::IntegrationTest
 
     assert_requested @multi_rev_stub
     assert_operator @multi_rev_post.revision_count, :>, 1
+  end
+
+  test "shouldn't flag if flagging is disabled" do
+    FlagSetting.find_by_name('flagging_enabled').update(value: '0')
+    assert_equal @post.autoflag, "Flagging disabled"
+  end
+
+  test "shouldn't flag if there are no eligible users" do
+    @user.update(flags_enabled: false)
+
+    assert_equal @post.autoflag, "No users eligible to flag"
   end
 end

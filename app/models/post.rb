@@ -32,8 +32,8 @@ class Post < ApplicationRecord
   end
 
   def autoflag
-    return unless Post.where(:link => link).count == 1
-    return unless FlagSetting['flagging_enabled'] == '1'
+    return "Duplicate post" unless Post.where(:link => link).count == 1
+    return "Flagging disabled" unless FlagSetting['flagging_enabled'] == '1'
 
     dry_run = FlagSetting['dry_run'] == '1'
     post = self
@@ -51,13 +51,13 @@ class Post < ApplicationRecord
       users = User.where(:id => uids, :flags_enabled => true).where.not(:encrypted_api_token => nil)
       unless users.present?
         post.send_not_autoflagged
-        Thread.exit
+        return "No users eligible to flag"
       end
 
       post.fetch_revision_count
       unless post.revision_count == 1
         post.send_not_autoflagged
-        Thread.exit
+        return "More than one revision"
       end
 
       max_flags = [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
