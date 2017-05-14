@@ -175,7 +175,7 @@ GEM
     multi_json (1.12.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
-    mysql2 (0.4.5)
+    mysql2 (0.4.6)
     net-http-persistent (2.9.4)
     net-http-pipeline (1.0.1)
     net-scp (1.2.1)
@@ -330,7 +330,7 @@ DEPENDENCIES
   jquery-rails
   jwt
   loofah
-  mysql2 (= 0.4.5)
+  mysql2
   octokit (~> 4.0)
   puma
   rack-cors

@@ -4,7 +4,7 @@ gem 'awesome_print'
 
 gem 'aescrypt', '~> 2.0', '>= 2.0.2', github: 'Charcoal-SE/aescrypt'
 gem 'devise', git: 'https://github.com/plataformatec/devise.git', branch: 'master'
-gem "mysql2", '0.4.5'
+gem "mysql2"
 gem "puma"
 gem 'will_paginate', github: "Undo1/will_paginate"
 gem 'loofah'
