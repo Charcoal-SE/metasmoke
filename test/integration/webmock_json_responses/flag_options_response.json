@@ -1,0 +1,167 @@
+{
+   "items":[
+      {
+         "has_flagged":false,
+         "requires_question_id":false,
+         "requires_site":false,
+         "requires_comment":false,
+         "option_id":46534,
+         "dialog_title":"I am flagging to report this question as...",
+         "description":"Exists only to promote a product or service, <a href=\"/help/promotion\">does not disclose the author's affiliation</a>.",
+         "title":"spam"
+      },
+      {
+         "has_flagged":false,
+         "requires_question_id":false,
+         "requires_site":false,
+         "requires_comment":false,
+         "option_id":7852,
+         "dialog_title":"I am flagging to report this question as...",
+         "description":"A reasonable person would find this content <a href=\"/help/be-nice\">inappropriate for respectful discourse</a>.",
+         "title":"rude or abusive"
+      },
+      {
+         "sub_options":[
+            {
+               "sub_options":[
+                  {
+                     "requires_question_id":true,
+                     "requires_site":false,
+                     "requires_comment":false,
+                     "option_id":45465,
+                     "dialog_title":"Duplicate",
+                     "title":"\"Throttling/Adjusting Bandwidth in Conjunction with Bitmonerod\" is a duplicate of:"
+                  }
+               ],
+               "count":0,
+               "has_flagged":false,
+               "requires_question_id":false,
+               "requires_site":false,
+               "requires_comment":false,
+               "dialog_title":"This question doesn't belong here because it is",
+               "description":"This question has been asked before and already has an answer.",
+               "title":"duplicate of..."
+            },
+            {
+               "sub_options":[
+                  {
+                     "count":0,
+                     "requires_question_id":false,
+                     "requires_site":false,
+                     "requires_comment":false,
+                     "option_id":25770,
+                     "dialog_title":"Off-Topic",
+                     "description":"You should only ask <b>practical, answerable questions based on actual problems that you face</b>. <a href=\"http://monero.stackexchange.com/help/dont-ask\">Chatty, open-ended questions</a> diminish the usefulness of our site and push other questions off the front page."
+                  },
+                  {
+                     "count":0,
+                     "requires_question_id":false,
+                     "requires_site":false,
+                     "requires_comment":false,
+                     "option_id":42400,
+                     "dialog_title":"Off-Topic",
+                     "description":"Questions asking us to <b>recommend or find a book, tool, software library, tutorial or other off-site resource</b> are off-topic for Monero Stack Exchange as they tend to attract opinionated answers and spam. Instead, <a href=\"http://meta.stackoverflow.com/questions/254393\">describe the problem</a> and what has been done so far to solve it."
+                  },
+                  {
+                     "count":0,
+                     "requires_question_id":false,
+                     "requires_site":false,
+                     "requires_comment":false,
+                     "option_id":53882,
+                     "dialog_title":"Off-Topic",
+                     "description":"This question was caused by a <b>problem that can no longer be reproduced</b> or a <b>simple typographical error</b>. While similar questions may be on-topic here, this one was resolved in a manner unlikely to help future readers. This can often be avoided by <a href=\"http://stackoverflow.com/help/mcve\">identifying and closely inspecting the shortest program necessary</a> to reproduce the problem before posting."
+                  },
+                  {
+                     "count":0,
+                     "requires_question_id":false,
+                     "requires_site":false,
+                     "requires_comment":false,
+                     "option_id":6272,
+                     "dialog_title":"Off-Topic",
+                     "description":"<b>Blatantly off-topic</b> (this question has nothing to do with Monero cryptocurrency)"
+                  }
+               ],
+               "count":0,
+               "has_flagged":false,
+               "requires_question_id":false,
+               "requires_site":false,
+               "requires_comment":false,
+               "dialog_title":"This question doesn't belong here because it is",
+               "description":"This question does not appear to be about Monero cryptocurrency within the scope defined in the <a href=\"/help/on-topic\">help center</a>.",
+               "title":"off-topic because… (too old to migrate)"
+            },
+            {
+               "count":0,
+               "has_flagged":false,
+               "requires_question_id":false,
+               "requires_site":false,
+               "requires_comment":false,
+               "option_id":44684,
+               "dialog_title":"This question doesn't belong here because it is",
+               "description":"Please clarify your specific problem or add additional details to highlight exactly what you need. As it's currently written, it’s hard to tell exactly what you're asking.",
+               "title":"unclear what you're asking"
+            },
+            {
+               "count":0,
+               "has_flagged":false,
+               "requires_question_id":false,
+               "requires_site":false,
+               "requires_comment":false,
+               "option_id":8175,
+               "dialog_title":"This question doesn't belong here because it is",
+               "description":"Please edit the question to limit it to a specific problem with enough detail to identify an adequate answer. Avoid asking multiple distinct questions at once. See the <a href=\"/help/how-to-ask\">How to Ask</a> page for help clarifying this question.",
+               "title":"too broad"
+            },
+            {
+               "count":0,
+               "has_flagged":false,
+               "requires_question_id":false,
+               "requires_site":false,
+               "requires_comment":false,
+               "option_id":1529,
+               "dialog_title":"This question doesn't belong here because it is",
+               "description":"Many good questions generate some degree of opinion based on expert experience, but answers to this question will tend to be almost entirely based on opinions, rather than facts, references, or specific expertise.",
+               "title":"primarily opinion-based"
+            }
+         ],
+         "has_flagged":false,
+         "requires_question_id":false,
+         "requires_site":false,
+         "requires_comment":false,
+         "dialog_title":"I am flagging to report this question as...",
+         "description":"This question is completely unclear, incomplete, overly-broad, primarily opinion-based or is not about Monero cryptocurrency as described in the <a href=\"/help/on-topic\">help center</a>, and it is unlikely to be fixed via editing.",
+         "title":"should be closed..."
+      },
+      {
+         "sub_options":[
+            {
+               "requires_question_id":true,
+               "requires_site":false,
+               "requires_comment":false,
+               "option_id":12438,
+               "dialog_title":"Duplicate",
+               "title":"\"Throttling/Adjusting Bandwidth in Conjunction with Bitmonerod\" is a duplicate of:"
+            }
+         ],
+         "has_flagged":false,
+         "requires_question_id":false,
+         "requires_site":false,
+         "requires_comment":false,
+         "dialog_title":"I am flagging to report this question as...",
+         "description":"This question has been asked before and already has an answer.",
+         "title":"a duplicate..."
+      },
+      {
+         "requires_question_id":false,
+         "requires_site":false,
+         "requires_comment":true,
+         "option_id":22992,
+         "dialog_title":"I am flagging to report this question as...",
+         "description":"A problem not listed above that requires action by a moderator. <i>Be specific and detailed!</i>",
+         "title":"in need of moderator intervention"
+      }
+   ],
+   "has_more":false,
+   "quota_max":10000,
+   "quota_remaining":9988
+}

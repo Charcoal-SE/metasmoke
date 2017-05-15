@@ -108,8 +108,8 @@ class User < ApplicationRecord
     rescue OpenSSL::Cipher::CipherError
       # Since dev environments don't have the proper keys to perform
       # decryption on a prod data dump, we allow this error in dev
-      if Rails.env.development?
-        return nil
+      if Rails.env.development? or Rails.env.test?
+        return encrypted_api_token
       else
         raise
       end

@@ -8,7 +8,7 @@ class FlaggingTest < ActionDispatch::IntegrationTest
 
     @user = User.first
     @user.flags_enabled = true
-    @user.api_token = @api_token
+    @user.encrypted_api_token = @api_token
     @user.save!
 
     @user.user_site_settings.destroy_all
@@ -16,6 +16,16 @@ class FlaggingTest < ActionDispatch::IntegrationTest
     site_setting = @user.user_site_settings.new(max_flags: 100)
     site_setting.sites = Site.mains
     site_setting.save!
+
+    flag_condition = @user.flag_conditions.new({
+      min_weight: 10,
+      max_poster_rep: 1,
+      min_reason_count: 1,
+      sites: Site.mains
+    })
+
+    # Ignore any flag accuracy warnings; we're not concerned about them right now
+    flag_condition.save(validate: false)
 
     # Pick a couple of random main sites
 
@@ -27,20 +37,35 @@ class FlaggingTest < ActionDispatch::IntegrationTest
     @stack_id = 1234
     @multi_rev_stack_id = 4321
 
+    Reason.update_all(weight: 10)
+
+    common_attrs = {
+      site: @site,
+      reasons: Reason.last(2),
+      user_reputation: 1,
+      stack_exchange_user: StackExchangeUser.new({
+        username: "asdf",
+        reputation: 1,
+        site: @site
+      })
+    }
+
     @post = Post.create({
       link: "//#{@site.site_domain}/questions/#{@stack_id}",
-      site: @site
-    })
+    }.reverse_merge!(common_attrs))
 
     @multi_rev_post = Post.create({
       link: "//#{@site.site_domain}/questions/#{@multi_rev_stack_id}",
-      site: @site
-    })
+    }.reverse_merge!(common_attrs))
 
     @limited_post = Post.create({
       link: "//#{@limited_site.site_domain}/questions/#{@stack_id}",
-      site: @limited_site
-    })
+      stack_exchange_user: StackExchangeUser.new({
+        username: "asdf",
+        reputation: 1,
+        site: @limited_site
+      })
+    }.reverse_merge!(common_attrs))
 
     setup_webmock
   end
@@ -56,6 +81,12 @@ class FlaggingTest < ActionDispatch::IntegrationTest
 
     @multi_rev_stub = stub_request(:get, /https:\/\/api.stackexchange.com\/2\.2\/posts\/#{@multi_rev_stack_id}\/revisions/).
       to_return(status: 200, body: webmock_file("multi_revision_response"), headers: {})
+
+    @flag_options_stub = stub_request(:get, /https:\/\/api.stackexchange.com\/2\.2\/(questions|answers)\/\d+\/flags\/options/).
+      to_return(status: 200, body: webmock_file("flag_options_response"), headers: {})
+
+    @flag_submit_stub = stub_request(:post, /https:\/\/api.stackexchange.com\/2\.2\/(questions|answers)\/\d+\/flags\/add/).
+      to_return(status: 200, body: webmock_file("flag_submit_response"), headers: {})
   end
 
   def webmock_file(name)
@@ -64,10 +95,10 @@ class FlaggingTest < ActionDispatch::IntegrationTest
 
   test "should update moderator sites" do
     @user.moderator_sites.destroy_all
-    assert_equal @user.moderator_sites.count, 0
+    assert_equal 0, @user.moderator_sites.count
 
     @user.update_moderator_sites
-    assert_equal @user.moderator_sites.count, 3
+    assert_equal 3, @user.moderator_sites.count
 
     previous_ids = @user.moderator_site_ids
     @user.update_moderator_sites
@@ -94,7 +125,7 @@ class FlaggingTest < ActionDispatch::IntegrationTest
     @post.get_revision_count
 
     assert_requested @single_rev_stub
-    assert_equal @post.revision_count, 1
+    assert_equal 1, @post.revision_count
 
     @multi_rev_post.get_revision_count
 
@@ -104,12 +135,45 @@ class FlaggingTest < ActionDispatch::IntegrationTest
 
   test "shouldn't flag if flagging is disabled" do
     FlagSetting.find_by_name('flagging_enabled').update(value: '0')
-    assert_equal @post.autoflag, "Flagging disabled"
+    assert_equal "Flagging disabled", @post.autoflag
   end
 
   test "shouldn't flag if there are no eligible users" do
-    @user.update(flags_enabled: false)
+    User.update_all(flags_enabled: false)
 
-    assert_equal @post.autoflag, "No users eligible to flag"
+    assert_equal "No users eligible to flag", @post.autoflag
+  end
+
+  test "should request revision count" do
+    @post.autoflag
+
+    assert_requested @single_rev_stub
+  end
+
+  test "shouldn't flag if post has more than one revision" do
+    assert_equal "More than one revision", @multi_rev_post.autoflag
+  end
+
+  test "should flag flaggable post" do
+    @post.autoflag
+
+    assert_requested @flag_options_stub
+    assert_requested @flag_submit_stub
+  end
+
+  test "shouldn't flag if post doesn't have enough weight" do
+    Reason.update_all(weight: 1)
+
+    @post.reload.autoflag
+
+    assert_not_requested @flag_submit_stub
+  end
+
+  test "shouldn't flag if user has too much rep" do
+    @post.stack_exchange_user.reputation = 100_000
+
+    @post.autoflag
+
+    assert_not_requested @flag_submit_stub
   end
 end

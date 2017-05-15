@@ -85,6 +85,9 @@ class Post < ApplicationRecord
       FlagLog.create(:success => false, :error_message => "#{e}: #{e.message} | #{e.backtrace.join("\n")}",
                      :is_dry_run => dry_run, :flag_condition => nil, :post => post,
                      :site_id => post.site_id)
+
+      # Re-raise if we're in test, 'cause it shouldn't be throwing in test
+      raise if Rails.env.test?
     end
 
     post.send_not_autoflagged if post.flag_logs.where(:success => true).empty?

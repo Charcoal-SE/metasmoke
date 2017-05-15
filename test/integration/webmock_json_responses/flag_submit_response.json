@@ -1,0 +1,32 @@
+{
+  "items": [
+    {
+      "tags": [
+        "discussion",
+        "data-explorer",
+        "statistics",
+        "regression"
+      ],
+      "owner": {
+        "reputation": 1,
+        "user_id": 358982,
+        "user_type": "registered",
+        "profile_image": "https://www.gravatar.com/avatar/a131736a3bd01f72c2efb353a8fb4c0c?s=128&d=identicon&r=PG&f=1",
+        "display_name": "user6658936",
+        "link": "https://meta.stackexchange.com/users/358982/user6658936"
+      },
+      "is_answered": false,
+      "view_count": 7,
+      "answer_count": 0,
+      "score": -3,
+      "last_activity_date": 1494810258,
+      "creation_date": 1494810258,
+      "question_id": 295997,
+      "link": "https://meta.stackexchange.com/questions/295997/r-logistic-regression",
+      "title": "R logistic regression"
+    }
+  ],
+  "has_more": false,
+  "quota_max": 10000,
+  "quota_remaining": 9986
+}
