@@ -24,64 +24,70 @@ class Post < ApplicationRecord
     ActionCable.server.broadcast "topbar", { review: Post.without_feedback.count }
   end
 
-  after_create :autoflag
+  after_create do
+    post = self
+    Thread.new do
+      # Trying to autoflag in a different thread while in test
+      # can cause race conditions and segfaults. This is bad,
+      # so we completely suppress the issue and just don't do that.
+      post.autoflag unless Rails.env.test?
+    end
+  end
 
   def autoflag
-    return unless Post.where(:link => link).count == 1
-    return unless FlagSetting['flagging_enabled'] == '1'
+    return "Duplicate post" unless Post.where(:link => link).count == 1
+    return "Flagging disabled" unless FlagSetting['flagging_enabled'] == '1'
 
     dry_run = FlagSetting['dry_run'] == '1'
     post = self
 
-    Thread.new do
-      begin
-        conditions = post.site.flag_conditions.where(:flags_enabled => true)
-        available_user_ids = {}
-        conditions.each do |condition|
-          if condition.validate!(post)
-            available_user_ids[condition.user.id] = condition
-          end
+    begin
+      conditions = post.site.flag_conditions.where(:flags_enabled => true)
+      available_user_ids = {}
+      conditions.each do |condition|
+        if condition.validate!(post)
+          available_user_ids[condition.user.id] = condition
         end
-
-        uids = post.site.user_site_settings.where(:user_id => available_user_ids.keys).map(&:user_id)
-        users = User.where(:id => uids, :flags_enabled => true).where.not(:encrypted_api_token => nil)
-        unless users.present?
-          post.send_not_autoflagged
-          Thread.exit
-        end
-
-        post.fetch_revision_count
-        unless post.revision_count == 1
-          post.send_not_autoflagged
-          Thread.exit
-        end
-
-        max_flags = [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
-        core_count = (max_flags / 2.0).ceil
-        other_count = max_flags - core_count
-
-        users.with_role(:core).shuffle.each do |user|
-          if core_count <= 0
-            break
-          end
-          core_count -= post.send_autoflag(user, dry_run, available_user_ids[user.id])
-        end
-
-        # Go through all non-core users first; then add core users at the end. See #146
-        (users.without_role(:core).shuffle + users.with_role(:core).shuffle).each do |user|
-          if other_count <= 0
-            break
-          end
-          other_count -= post.send_autoflag(user, dry_run, available_user_ids[user.id])
-        end
-      rescue => e
-        FlagLog.create(:success => false, :error_message => "#{e}: #{e.message} | #{e.backtrace.join("\n")}",
-                       :is_dry_run => dry_run, :flag_condition => nil, :post => post,
-                       :site_id => post.site_id)
       end
 
-      post.send_not_autoflagged if post.flag_logs.where(:success => true).empty?
+      uids = post.site.user_site_settings.where(:user_id => available_user_ids.keys).map(&:user_id)
+      users = User.where(:id => uids, :flags_enabled => true).where.not(:encrypted_api_token => nil)
+      unless users.present?
+        post.send_not_autoflagged
+        return "No users eligible to flag"
+      end
+
+      post.fetch_revision_count
+      unless post.revision_count == 1
+        post.send_not_autoflagged
+        return "More than one revision"
+      end
+
+      max_flags = [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
+      core_count = (max_flags / 2.0).ceil
+      other_count = max_flags - core_count
+
+      users.with_role(:core).shuffle.each do |user|
+        if core_count <= 0
+          break
+        end
+        core_count -= post.send_autoflag(user, dry_run, available_user_ids[user.id])
+      end
+
+      # Go through all non-core users first; then add core users at the end. See #146
+      (users.without_role(:core).shuffle + users.with_role(:core).shuffle).each do |user|
+        if other_count <= 0
+          break
+        end
+        other_count -= post.send_autoflag(user, dry_run, available_user_ids[user.id])
+      end
+    rescue => e
+      FlagLog.create(:success => false, :error_message => "#{e}: #{e.message} | #{e.backtrace.join("\n")}",
+                     :is_dry_run => dry_run, :flag_condition => nil, :post => post,
+                     :site_id => post.site_id)
     end
+
+    post.send_not_autoflagged if post.flag_logs.where(:success => true).empty?
   end
 
   def send_autoflag(user, dry_run, condition)
