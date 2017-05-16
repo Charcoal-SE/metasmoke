@@ -207,4 +207,27 @@ class FlaggingTest < ActionDispatch::IntegrationTest
     @limited_post.autoflag
     assert_requested @flag_submit_stub, times: 1
   end
+
+  test "should respect max flags setting" do
+    10.times do
+      user = @user.dup
+      user.email = SecureRandom.hex
+      user.save!(validate: false)
+
+      setup_user_with_permissive_flag_settings(user)
+    end
+
+    FlagSetting.find_by_name("max_flags").update(value: "2")
+
+    @post.autoflag
+    assert_requested @flag_submit_stub, times: 2
+  end
+
+  test "should respect dry run setting" do
+    FlagSetting.find_by_name("dry_run").update(value: "1")
+
+    @post.autoflag
+    assert_requested @flag_options_stub, at_least_times: 1
+    assert_not_requested @flag_submit_stub
+  end
 end

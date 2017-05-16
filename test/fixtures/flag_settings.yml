@@ -7,3 +7,11 @@ enabled:
 registration:
   name: registration_enabled
   value: 1
+
+max_flags:
+  name: max_flags
+  value: 3
+
+dry_run:
+  name: dry_run
+  value: 0
