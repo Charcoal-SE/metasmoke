@@ -10,8 +10,11 @@ class FlagLogController < ApplicationController
       @applicable_flag_logs = FlagLog.auto
     end
 
-    if params[:filter] == 'fps'
-      @applicable_flag_logs = @applicable_flag_logs.joins(:post).where(:success => true).where(:posts => { :is_tp => false }).where('`posts`.`is_fp` = 1 OR `posts`.`is_naa` = 1')
+    case params[:filter]
+      when 'fps'
+        @applicable_flag_logs = @applicable_flag_logs.joins(:post).where(:success => true).where(:posts => { :is_tp => false }).where('`posts`.`is_fp` = 1 OR `posts`.`is_naa` = 1')
+      when "failures"
+        @applicable_flag_logs = @applicable_flag_logs.where(:success => false)
     end
 
     @flag_logs = @applicable_flag_logs.order('flag_logs.created_at DESC, flag_logs.id DESC').includes(:post => [:feedbacks => [:user, :api_key]]).includes(:post => [:reasons]).includes(:user).paginate(:page => params[:page], :per_page => 100)
