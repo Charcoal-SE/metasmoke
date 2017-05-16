@@ -4,28 +4,8 @@ class FlaggingTest < ActionDispatch::IntegrationTest
   def setup
     # Use a user with flagging enabled and permissive settings
 
-    @api_token = SecureRandom.uuid
-
     @user = User.first
-    @user.flags_enabled = true
-    @user.encrypted_api_token = @api_token
-    @user.save!
-
-    @user.user_site_settings.destroy_all
-
-    site_setting = @user.user_site_settings.new(max_flags: 100)
-    site_setting.sites = Site.mains
-    site_setting.save!
-
-    flag_condition = @user.flag_conditions.new({
-      min_weight: 10,
-      max_poster_rep: 1,
-      min_reason_count: 1,
-      sites: Site.mains
-    })
-
-    # Ignore any flag accuracy warnings; we're not concerned about them right now
-    flag_condition.save(validate: false)
+    setup_user_with_permissive_flag_settings(@user)
 
     # Pick a couple of random main sites
 
@@ -60,6 +40,7 @@ class FlaggingTest < ActionDispatch::IntegrationTest
 
     @limited_post = Post.create({
       link: "//#{@limited_site.site_domain}/questions/#{@stack_id}",
+      site: @limited_site,
       stack_exchange_user: StackExchangeUser.new({
         username: "asdf",
         reputation: 1,
@@ -91,6 +72,30 @@ class FlaggingTest < ActionDispatch::IntegrationTest
 
   def webmock_file(name)
     File.open("#{Rails.root}/test/integration/webmock_json_responses/#{name}.json").read()
+  end
+
+  def setup_user_with_permissive_flag_settings(user)
+    user.flags_enabled = true
+    user.encrypted_api_token = SecureRandom.uuid
+    user.save!
+
+    user.add_role :core
+
+    user.user_site_settings.destroy_all
+
+    site_setting = user.user_site_settings.new(max_flags: 100)
+    site_setting.sites = Site.mains
+    site_setting.save!
+
+    flag_condition = user.flag_conditions.new({
+      min_weight: 10,
+      max_poster_rep: 1,
+      min_reason_count: 1,
+      sites: Site.mains
+    })
+
+    # Ignore any flag accuracy warnings; we're not concerned about them right now
+    flag_condition.save(validate: false)
   end
 
   test "should update moderator sites" do
@@ -157,8 +162,8 @@ class FlaggingTest < ActionDispatch::IntegrationTest
   test "should flag flaggable post" do
     @post.autoflag
 
-    assert_requested @flag_options_stub
-    assert_requested @flag_submit_stub
+    assert_requested @flag_options_stub, at_least_times: 1
+    assert_requested @flag_submit_stub, at_least_times: 1
   end
 
   test "shouldn't flag if post doesn't have enough weight" do
@@ -175,5 +180,31 @@ class FlaggingTest < ActionDispatch::IntegrationTest
     @post.autoflag
 
     assert_not_requested @flag_submit_stub
+  end
+
+  test "should cast only three flags on flaggable post" do
+    10.times do
+      user = @user.dup
+      user.email = SecureRandom.hex
+      user.save!(validate: false)
+
+      setup_user_with_permissive_flag_settings(user)
+    end
+
+    @post.autoflag
+    assert_requested @flag_submit_stub, times: 3
+  end
+
+  test "should cast only one flag on flaggable post on limited site" do
+    10.times do
+      user = @user.dup
+      user.email = SecureRandom.hex
+      user.save!(validate: false)
+
+      setup_user_with_permissive_flag_settings(user)
+    end
+
+    @limited_post.autoflag
+    assert_requested @flag_submit_stub, times: 1
   end
 end
