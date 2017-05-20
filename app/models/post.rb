@@ -112,8 +112,8 @@ class Post < ApplicationRecord
                                 site_id: site_id)
 
       if success
-        flag_log = FlagLogController.render(locals: { flag_log: flag_log }, partial: 'flag_log.json')
-        ActionCable.server.broadcast 'api_flag_logs', flag_log: JSON.parse(flag_log)
+        log_as_json = JSON.parse(FlagLogController.render(locals: { flag_log: flag_log }, partial: 'flag_log.json'))
+        ActionCable.server.broadcast 'api_flag_logs', flag_log: log_as_json
         ActionCable.server.broadcast 'flag_logs', row: FlagLogController.render(locals: { log: flag_log }, partial: 'flag_log')
       end
     end
