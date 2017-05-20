@@ -20,7 +20,7 @@ class UserSiteSettingsController < ApplicationController
     end
 
     if current_user.update(flags_enabled: params[:enable])
-      render json: { status: "o\tk" }
+      render json: { status: 'ok' }
     else
       render json: { status: 'nope' }, status: 500
     end
