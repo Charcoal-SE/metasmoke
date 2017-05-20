@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FlagConditionsController < ApplicationController
   before_action :authenticate_user!
   before_action :verify_admin, only: [:full_list, :user_overview]

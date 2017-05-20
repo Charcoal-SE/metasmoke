@@ -1,30 +1,30 @@
 GIT
-  remote: git://github.com/Charcoal-SE/aescrypt.git
+  remote: https://github.com/Charcoal-SE/aescrypt.git
   revision: a40efa0bf95a251c89c64a8367a8edfd61f244f5
   specs:
     aescrypt (2.0.2)
 
 GIT
-  remote: git://github.com/Charcoal-SE/will_paginate-bootstrap.git
+  remote: https://github.com/Charcoal-SE/will_paginate-bootstrap.git
   revision: 95ee3e99801f391f47365a7946033e32714571a9
   specs:
     will_paginate-bootstrap (1.0.1)
       will_paginate (>= 3.0.3)
 
 GIT
-  remote: git://github.com/Undo1/db_fixtures_dump.git
+  remote: https://github.com/Undo1/db_fixtures_dump.git
   revision: b2b4d1a354e3cdf6286c18bd252c2bba2aad5e0b
   specs:
     db_fixtures_dump (0.1.1)
 
 GIT
-  remote: git://github.com/Undo1/will_paginate.git
+  remote: https://github.com/Undo1/will_paginate.git
   revision: 6a9e3eadbe7d1a5264429bd7d0dc54d35f5a9d51
   specs:
     will_paginate (3.1.5)
 
 GIT
-  remote: git://github.com/plataformatec/devise.git
+  remote: https://github.com/plataformatec/devise.git
   revision: 079ed3b6f8b671acde2dd630d28d21adb010fb3a
   branch: master
   specs:

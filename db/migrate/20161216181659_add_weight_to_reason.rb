@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddWeightToReason < ActiveRecord::Migration[5.0]
   def change
     add_column :reasons, :weight, :int, default: 0

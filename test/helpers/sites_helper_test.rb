@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SitesHelperTest < ActionView::TestCase
   test 'should get new sites' do
     webmock_json_file = "#{Rails.root}/test/helpers/webmock_json_responses/sites_response.json"

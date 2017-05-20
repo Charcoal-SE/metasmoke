@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DeletionLogsController < ApplicationController
   before_action :set_deletion_log, only: [:show, :edit, :update, :destroy]
   before_action :check_if_smokedetector, only: :create

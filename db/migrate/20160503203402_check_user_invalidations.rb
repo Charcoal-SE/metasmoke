@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CheckUserInvalidations < ActiveRecord::Migration[5.0]
   def change
     Feedback.pluck(:user_name).uniq.each do |username|

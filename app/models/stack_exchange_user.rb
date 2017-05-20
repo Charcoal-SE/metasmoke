@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class StackExchangeUser < ApplicationRecord
   belongs_to :site
   has_many :posts

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveReadOnlyTokensFromUsers < ActiveRecord::Migration[5.0]
   def change
     users_to_clear = []

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FlagSettingsController < ApplicationController
   protect_from_forgery except: [:smokey_disable_flagging]
   before_action :set_flag_setting, only: [:edit, :update]

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AuthenticationHelper
   def auth_url(scope, redirect_uri)
     config = AppConfig['stack_exchange']

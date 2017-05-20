@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FlagSetting < ApplicationRecord
   audited
   validates :name, uniqueness: true

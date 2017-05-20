@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SmokeDetectorsController < ApplicationController
   before_action :authenticate_user!, except: [:audits]
   before_action :verify_admin, except: [:audits, :force_failover]

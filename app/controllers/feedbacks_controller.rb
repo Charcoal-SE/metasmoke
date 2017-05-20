@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FeedbacksController < ApplicationController
   before_action :authenticate_user!, except: [:create]
   before_action :set_feedback, only: [:show, :edit, :update, :destroy]

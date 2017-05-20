@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PostsController < ApplicationController
   protect_from_forgery except: [:create]
   before_action :check_if_smokedetector, only: :create

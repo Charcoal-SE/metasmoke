@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UpdateTablesToUtf8Mb4 < ActiveRecord::Migration[5.0]
   def change
     [Post, StackExchangeUser].each do |m|

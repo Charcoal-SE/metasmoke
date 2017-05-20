@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FlagLogController < ApplicationController
   respond_to :html, :js
 

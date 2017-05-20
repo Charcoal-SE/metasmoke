@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApiKeysController < ApplicationController
   before_action :authenticate_user!
   before_action :set_key, except: [:index, :new, :create, :mine]

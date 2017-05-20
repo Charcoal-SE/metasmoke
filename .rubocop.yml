@@ -16,6 +16,9 @@ Style/Documentation:
 Style/FileName:
   Exclude:
     - Gemfile
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: always
+  Enabled: true
 
 # Want to refactor some stuff? Remove these.
 Metrics/AbcSize:

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FixedMixedContentErrors < ActiveRecord::Migration[4.2]
   def change
     Site.all.each do |site|

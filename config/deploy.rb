@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 set :application, 'metasmoke'
 set :repo_url, 'https://github.com/Charcoal-SE/metasmoke.git'
 

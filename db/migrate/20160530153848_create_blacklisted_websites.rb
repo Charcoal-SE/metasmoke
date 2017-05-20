@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateBlacklistedWebsites < ActiveRecord::Migration[5.0]
   def change
     create_table :blacklisted_websites do |t|

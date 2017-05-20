@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MoveUsersToStackExchangeUser < ActiveRecord::Migration[4.2]
   def change
     Post.where('stack_exchange_user_id IS NULL').each do |post|

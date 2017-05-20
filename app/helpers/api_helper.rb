@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApiHelper
   def authorized_get(uri, options = {})
     authorized_request(uri, :get, options)

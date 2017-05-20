@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class StackExchangeUsersController < ApplicationController
   before_action :authenticate_user!, only: [:update_data]
   before_action :set_stack_exchange_user, only: [:show]

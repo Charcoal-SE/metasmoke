@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UpgradeAesCrypt < ActiveRecord::Migration[5.1]
   def change
     users = User.all.where.not(encrypted_api_token: nil)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateUserSiteSettings < ActiveRecord::Migration[5.0]
   def change
     create_table :user_site_settings do |t|

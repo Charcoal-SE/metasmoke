@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SetDefaultValueOnFlagConditionEnabled < ActiveRecord::Migration[5.0]
   def up
     change_column :flag_conditions, :flags_enabled, :boolean, default: true

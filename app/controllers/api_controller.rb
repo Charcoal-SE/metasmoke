@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApiController < ApplicationController
   before_action :verify_key, except: [:filter_generator, :api_docs, :filter_fields]
   before_action :set_pagesize, except: [:filter_generator, :api_docs]

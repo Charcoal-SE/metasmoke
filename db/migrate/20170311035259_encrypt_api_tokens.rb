@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EncryptApiTokens < ActiveRecord::Migration[5.1]
   def up
     encryption_key = AppConfig['stack_exchange']['token_aes_key']

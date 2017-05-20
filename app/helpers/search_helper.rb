@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SearchHelper
   def self.parse_search_params(params, symbol, user_signed_in)
     input = params[symbol] || ''

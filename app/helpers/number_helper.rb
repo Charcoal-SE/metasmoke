@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module NumberHelper
   def number_to_multiplicative_quantifier(n)
     return 'once' if n == 1

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateGithubTokens < ActiveRecord::Migration[5.0]
   def change
     create_table :github_tokens do |t|

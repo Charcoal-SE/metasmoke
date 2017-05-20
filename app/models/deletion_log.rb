@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DeletionLog < ApplicationRecord
   belongs_to :post
   belongs_to :api_key

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ReviewController < ApplicationController
   before_action :authenticate_user!
   skip_before_action :verify_authenticity_token, only: [:add_feedback]

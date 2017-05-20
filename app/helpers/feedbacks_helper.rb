@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FeedbacksHelper
   def element_class_for_feedback(f)
     if f.is_negative?

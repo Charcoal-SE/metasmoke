@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSitesUserSiteSettingsJoinTable < ActiveRecord::Migration[5.0]
   def change
     create_table 'sites_user_site_settings' do |t|

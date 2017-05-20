@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FixReasonsWithParenthesis < ActiveRecord::Migration[4.2]
   def change
     Reason.where("reason_name LIKE '%(%'").each do |reason|

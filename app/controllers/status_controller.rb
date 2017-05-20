@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class StatusController < ApplicationController
   protect_from_forgery except: [:status_update]
   before_action :check_if_smokedetector, only: [:status_update]

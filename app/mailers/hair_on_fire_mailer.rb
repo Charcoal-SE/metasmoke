@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class HairOnFireMailer < ApplicationMailer
   default from: 'Hair on Fire <metasmoke@erwaysoftware.com>'
 

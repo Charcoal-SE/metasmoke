@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DeveloperController < ApplicationController
   before_action :authenticate_user!, except: [:blank_page]
   before_action :verify_developer, except: [:blank_page]

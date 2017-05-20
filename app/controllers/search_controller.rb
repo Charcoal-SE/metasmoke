@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SearchController < ApplicationController
   def search_results
     # This might be ugly, but it's better than the alternative.

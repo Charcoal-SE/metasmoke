@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApiChannel < ApplicationCable::Channel
   def subscribed
     @key = ApiKey.find_by_key(params[:key])

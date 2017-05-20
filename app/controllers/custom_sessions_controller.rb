@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CustomSessionsController < Devise::SessionsController
   protect_from_forgery except: [:create]
 

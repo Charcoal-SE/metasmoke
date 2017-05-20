@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ReasonsController < ApplicationController
   def show
     @reason = Reason.find(params[:id])

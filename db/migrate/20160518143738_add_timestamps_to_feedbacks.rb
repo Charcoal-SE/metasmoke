@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddTimestampsToFeedbacks < ActiveRecord::Migration[5.0]
   def change
     add_column(:feedbacks, :created_at, :datetime)

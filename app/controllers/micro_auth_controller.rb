@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MicroAuthController < ApplicationController
   before_action :authenticate_user!, except: [:token]
   before_action :verify_key, except: [:invalid_key, :authorized]

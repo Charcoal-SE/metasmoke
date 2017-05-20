@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FlagSettingsHelper
   def flag_settings_plot_lines(start_time, end_time = Time.now)
     setting_ids = FlagSetting.where(name: %w[max_flags min_accuracy]).pluck(:id)

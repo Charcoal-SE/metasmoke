@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SitesHelper
   def self.update_sites
     require 'net/http'

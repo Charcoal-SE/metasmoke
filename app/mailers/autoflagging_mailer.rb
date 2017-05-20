@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AutoflaggingMailer < ApplicationMailer
   default from: 'MS Autoflagger <metasmoke@erwaysoftware.com>'
 

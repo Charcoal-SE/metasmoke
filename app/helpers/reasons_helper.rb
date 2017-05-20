@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ReasonsHelper
   def self.check_for_inactive_reasons
     Reason.where(inactive: false).each do |reason|
