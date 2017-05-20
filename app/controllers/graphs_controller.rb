@@ -44,7 +44,7 @@ class GraphsController < ApplicationController
   end
 
   def time_to_deletion
-    render json: Post.group_by_hour_of_day(created_at).where(is_tp: true)
+    render json: Post.group_by_hour_of_day(:created_at).where(is_tp: true)
       .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`) <= 3600')
       .where.not(deleted_at: nil)
       .average('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`)')
