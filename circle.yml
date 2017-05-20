@@ -6,6 +6,9 @@ database:
     - bundle exec rake test:prepare
     - bundle exec rake db:migrate
     - mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
+test:
+  post:
+    - bundle exec rubocop
 general:
   artifacts:
     - "coverage"
