@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_170_430_221_501) do
+ActiveRecord::Schema.define(version: 20170430221501) do # rubocop:disable Style/NumericLiterals
   create_table 'api_keys', id: :integer, force: :cascade, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8' do |t|
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
