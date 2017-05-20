@@ -10,9 +10,7 @@ class DeletionLogsController < ApplicationController
 
     post = Post.find_by_link(post_link)
 
-    if post == nil
-      render plain: 'Error: No post found for link' and return
-    end
+    render(plain: 'Error: No post found for link') && return if post.nil?
 
     @deletion_log = post.deletion_logs.new
 
@@ -28,13 +26,14 @@ class DeletionLogsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_deletion_log
-      @deletion_log = DeletionLog.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def deletion_log_params
-      params.require(:deletion_log).permit(:post_link, :is_deleted)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_deletion_log
+    @deletion_log = DeletionLog.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def deletion_log_params
+    params.require(:deletion_log).permit(:post_link, :is_deleted)
+  end
 end

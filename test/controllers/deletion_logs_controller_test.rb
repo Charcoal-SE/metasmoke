@@ -1,11 +1,11 @@
 require 'test_helper'
 
 class DeletionLogsControllerTest < ActionDispatch::IntegrationTest
-  test "should require smokedetector key to create deletion log" do
+  test 'should require smokedetector key to create deletion log' do
     post '/deletion_logs.json', params: { post: {} }
     assert_response :forbidden
 
-    post '/deletion_logs.json', params: { post: {}, key: "wrongkey" }
+    post '/deletion_logs.json', params: { post: {}, key: 'wrongkey' }
     assert_response :forbidden
   end
 

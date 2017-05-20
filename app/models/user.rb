@@ -18,21 +18,21 @@ class User < ApplicationRecord
 
   # All accounts start with flagger role enabled
   after_create do
-    self.add_role :flagger
+    add_role :flagger
 
-    message = case self.stack_exchange_account_id.present?
-    when true
-      "New metasmoke user ['#{self.username}'](//stackexchange.com/users/#{self.stack_exchange_account_id}) created"
-    when false
-      "New metasmoke user '#{self.username}' created"
-    end
+    message = case stack_exchange_account_id.present?
+              when true
+                "New metasmoke user ['#{username}'](//stackexchange.com/users/#{stack_exchange_account_id}) created"
+              when false
+                "New metasmoke user '#{username}' created"
+              end
 
     SmokeDetector.send_message_to_charcoal message
   end
 
   before_save do
     # Retroactively update
-    (self.changed & ['stackexchange_chat_id', 'meta_stackexchange_chat_id', 'stackoverflow_chat_id']).each do
+    (changed & %w[stackexchange_chat_id meta_stackexchange_chat_id stackoverflow_chat_id]).each do
       # todo
     end
   end
@@ -53,36 +53,41 @@ class User < ApplicationRecord
     return if stack_exchange_account_id.nil?
 
     begin
-      self.stackexchange_chat_id = Net::HTTP.get_response(URI.parse("http://chat.stackexchange.com/accounts/#{stack_exchange_account_id}"))['location'].scan(/\/users\/(\d*)\//)[0][0]
+      res = Net::HTTP.get_response(URI.parse("http://chat.stackexchange.com/accounts/#{stack_exchange_account_id}"))
+      self.stackexchange_chat_id = res['location'].scan(%r{/users/(\d*)/})[0][0]
     rescue
       puts 'Probably no c.SE ID'
     end
 
     begin
-      self.stackoverflow_chat_id = Net::HTTP.get_response(URI.parse("http://chat.stackoverflow.com/accounts/#{stack_exchange_account_id}"))['location'].scan(/\/users\/(\d*)\//)[0][0]
+      res = Net::HTTP.get_response(URI.parse("http://chat.stackoverflow.com/accounts/#{stack_exchange_account_id}"))
+      self.stackoverflow_chat_id = res['location'].scan(%r{/users/(\d*)/})[0][0]
     rescue
       puts 'Probably no c.SO ID'
     end
 
     begin
-      self.meta_stackexchange_chat_id = Net::HTTP.get_response(URI.parse("http://chat.meta.stackexchange.com/accounts/#{stack_exchange_account_id}"))['location'].scan(/\/users\/(\d*)\//)[0][0]
+      res = Net::HTTP.get_response(URI.parse("http://chat.meta.stackexchange.com/accounts/#{stack_exchange_account_id}"))
+      self.meta_stackexchange_chat_id = res['location'].scan(%r{/users/(\d*)/})[0][0]
     rescue
       puts 'Probably no c.mSE ID'
     end
   end
 
-  def get_username(readonly_api_token=nil)
-    return if api_token.nil? and readonly_api_token.nil?
+  def get_username(readonly_api_token = nil)
+    return if api_token.nil? && readonly_api_token.nil?
 
     begin
       config = AppConfig['stack_exchange']
-      auth_string = "key=#{AppConfig['stack_exchange']['key']}&access_token=#{readonly_api_token || api_token}"
+      auth_string = "key=#{config['key']}&access_token=#{readonly_api_token || api_token}"
 
-      resp = JSON.parse(Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/me/associated?pagesize=1&filter=!ms3d6aRI6N&#{auth_string}")).body)
+      resp = Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/me/associated?pagesize=1&filter=!ms3d6aRI6N&#{auth_string}")).body
+      resp = JSON.parse(resp.body)
 
       first_site = resp['items'][0]['site_url']
 
-      resp = JSON.parse(Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/me?site=stackoverflow&filter=!-.wwQ56Mfo3J&#{auth_string}")).body)
+      resp = Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/me?site=#{first_site}&filter=!-.wwQ56Mfo3J&#{auth_string}"))
+      resp = JSON.parse(resp.body)
 
       return resp['items'][0]['display_name']
     rescue
@@ -104,15 +109,12 @@ class User < ApplicationRecord
 
     encryption_key = AppConfig['stack_exchange']['token_aes_key']
     begin
-      return AESCrypt.decrypt(encrypted_api_token, encryption_key, self.salt, self.iv)
+      return AESCrypt.decrypt(encrypted_api_token, encryption_key, salt, iv)
     rescue OpenSSL::Cipher::CipherError
       # Since dev environments don't have the proper keys to perform
       # decryption on a prod data dump, we allow this error in dev
-      if Rails.env.development? or Rails.env.test?
-        return encrypted_api_token
-      else
-        raise
-      end
+      return encrypted_api_token if Rails.env.development? || Rails.env.test?
+      raise
     end
   end
 
@@ -124,7 +126,7 @@ class User < ApplicationRecord
 
     encryption_key = AppConfig['stack_exchange']['token_aes_key']
     salt, iv, encrypted = AESCrypt.encrypt(new_value, encryption_key)
-    self.update(encrypted_api_token: encrypted, salt: salt, iv: iv)
+    update(encrypted_api_token: encrypted, salt: salt, iv: iv)
     new_value
   end
 
@@ -146,29 +148,24 @@ class User < ApplicationRecord
       page += 1
 
       response['items'].each do |network_account|
-        if network_account['user_type'] == 'moderator'
-          domain = Addressable::URI.parse(network_account['site_url']).host
-          ModeratorSite.find_or_create_by(site_id: Site.find_by_site_domain(domain).id,
-                                          user_id: self.id)
-        end
+        next unless network_account['user_type'] == 'moderator'
+        domain = Addressable::URI.parse(network_account['site_url']).host
+        ModeratorSite.find_or_create_by(site_id: Site.find_by_site_domain(domain).id,
+                                        user_id: id)
       end
 
-      if has_more and response.include? 'backoff'
-        sleep response['backoff'].to_i
-      end
+      sleep response['backoff'].to_i if has_more && response.include?('backoff')
     end
 
     save!
   end
 
-  def spam_flag(post, dry_run=false)
-    if self.moderator_sites.pluck(:site_id).include? post.site_id
+  def spam_flag(post, dry_run = false)
+    if moderator_sites.pluck(:site_id).include? post.site_id
       raise 'User is a moderator on this site; not flagging'
     end
 
-    if api_token.nil?
-      raise 'Not authenticated'
-    end
+    raise 'Not authenticated' if api_token.nil?
 
     auth_dict = { 'key' => AppConfig['stack_exchange']['key'], 'access_token' => api_token }
     auth_string = "key=#{AppConfig['stack_exchange']['key']}&access_token=#{api_token}"
@@ -177,16 +174,19 @@ class User < ApplicationRecord
     site = post.site
 
     # Try to get flag options
-    response = JSON.parse(Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/options?site=#{site.site_domain}&#{auth_string}")).body)
+    uri = URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/options?site=#{site.site_domain}&#{auth_string}")
+    response = JSON.parse(Net::HTTP.get_response(uri).body)
     flag_options = response['items']
 
     unless flag_options.present?
       begin
+        # rubocop:disable Style/GuardClause
         if response['error_message'] == 'The account associated with the access_token does not have a user on the site'
           return false, 'No account on this site.'
         else
           return false, 'Flag options not present'
         end
+        # rubocop:enable Style/GuardClause
       rescue
         return false, 'Flag options not present'
       end
@@ -199,15 +199,15 @@ class User < ApplicationRecord
     end
 
     request_params = { 'option_id' => spam_flag_option['option_id'], 'site' => site.site_domain }.merge auth_dict
-    if !dry_run
-      flag_response = JSON.parse(Net::HTTP.post_form(URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/add"), request_params).body)
-      if flag_response.include? 'error_id' or flag_response.include? 'error_message'
-        return false, flag_response['error_message']
-      else
-        return true, (flag_response.include?('backoff') ? flag_response['backoff'] : 0)
-      end
+    return true, 0 if dry_run
+    uri = URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/add")
+    flag_response = JSON.parse(Net::HTTP.post_form(uri, request_params).body)
+    # rubocop:disable Style/GuardClause
+    if flag_response.include?('error_id') || flag_response.include?('error_message')
+      return false, flag_response['error_message']
     else
-      return true, 0
+      return true, (flag_response.include?('backoff') ? flag_response['backoff'] : 0)
     end
+    # rubocop:enable Style/GuardClause
   end
 end

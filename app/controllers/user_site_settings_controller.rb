@@ -14,13 +14,13 @@ class UserSiteSettingsController < ApplicationController
   end
 
   def enable_flagging
-    if (FlagSetting["registration_enabled"] == "0" || !current_user.has_role?(:flagger)) and not current_user.flags_enabled
-      render json: { status: "nope" }, status: 500
+    if (FlagSetting['registration_enabled'] == '0' || !current_user.has_role?(:flagger)) && !current_user.flags_enabled
+      render json: { status: 'nope' }, status: 500
       return
     end
 
     if current_user.update(flags_enabled: params[:enable])
-      render json: { status: "o	k" }
+      render json: { status: "o\tk" }
     else
       render json: { status: 'nope' }, status: 500
     end
@@ -43,11 +43,10 @@ class UserSiteSettingsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
-    @preference.sites = params[:user_site_setting][:sites].map{ |i| Site.find i.to_i if i.present? }.compact
+    @preference.sites = params[:user_site_setting][:sites].map { |i| Site.find i.to_i if i.present? }.compact
     if @preference.update preference_params
       flash[:success] = 'Saved your preferences.'
       redirect_to url_for(controller: :user_site_settings, action: :index)
@@ -66,6 +65,7 @@ class UserSiteSettingsController < ApplicationController
   end
 
   private
+
   def set_preference
     @preference = UserSiteSetting.find params[:id]
   end
@@ -75,8 +75,7 @@ class UserSiteSettingsController < ApplicationController
   end
 
   def verify_authorized
-    unless current_user.has_role?(:admin) || @preference.user == current_user
-      raise ActionController::RoutingError.new('Not Found')
-    end
+    return if current_user.has_role?(:admin) || @preference.user == current_user
+    raise ActionController::RoutingError, 'Not Found'
   end
 end

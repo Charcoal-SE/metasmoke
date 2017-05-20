@@ -4,10 +4,10 @@ class StackExchangeUser < ApplicationRecord
   has_many :feedbacks, through: :posts
 
   def stack_link
-    return "#{self.site.site_url}/users/#{self.user_id}"
+    "#{site.site_url}/users/#{user_id}"
   end
 
   def flair_link
-    return "#{self.site.site_url}/users/flair/#{self.user_id}.png"
+    "#{site.site_url}/users/flair/#{user_id}.png"
   end
 end

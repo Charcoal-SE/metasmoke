@@ -6,7 +6,6 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-
 module Metasmoke
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
@@ -26,7 +25,10 @@ module Metasmoke
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins '*' #'http://stackoverflow.com', 'http://superuser.com', 'http://serverfault.com', /^http:\/\/.*.stackexchange.com$/, 'https://stackoverflow.com', 'https://superuser.com', 'https://serverfault.com', /^https:\/\/.*.stackexchange.com$/
+        origins '*'
+        # 'http://stackoverflow.com', 'http://superuser.com', 'http://serverfault.com',
+        # /^http:\/\/.*.stackexchange.com$/, 'https://stackoverflow.com', 'https://superuser.com',
+        # 'https://serverfault.com', /^https:\/\/.*.stackexchange.com$/
 
         resource '/posts/recent.json', headers: :any, methods: [:get]
         resource '/posts/add_feedback', headers: :any, methods: [:post], credentials: true
@@ -44,9 +46,9 @@ module Metasmoke
       Rack::MiniProfiler.config.pre_authorize_cb = lambda { |env|
         blacklisted_modes = [/pp=env/, /pp=profile-gc/, /pp=profile-memory/, /pp=analyze-memory/]
 
-        !blacklisted_modes.any? { |item|
+        blacklisted_modes.none? do |item|
           item =~ env['QUERY_STRING']
-        }
+        end
       }
     end
   end

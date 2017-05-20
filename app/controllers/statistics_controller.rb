@@ -12,8 +12,8 @@ class StatisticsController < ApplicationController
   def create
     @statistic = Statistic.new(statistic_params)
 
-    if @statistic.posts_scanned == 0 or @statistic.api_quota == -1
-      render plain: 'OK', status: :created and return
+    if @statistic.posts_scanned.zero? || @statistic.api_quota == -1
+      render(plain: 'OK', status: :created) && return
     end
 
     @statistic.smoke_detector = @smoke_detector
@@ -28,8 +28,9 @@ class StatisticsController < ApplicationController
   end
 
   private
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def statistic_params
-      params.require(:statistic).permit(:posts_scanned, :api_quota, :post_scan_rate)
-    end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def statistic_params
+    params.require(:statistic).permit(:posts_scanned, :api_quota, :post_scan_rate)
+  end
 end

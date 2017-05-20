@@ -5,7 +5,7 @@ class ApiController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:posts_by_url, :create_feedback, :report_post, :spam_flag, :post_deleted]
 
   # Yes, this looks bad, but it actually works as a cache - we only have to calculate the bitstring for each filter once.
-  @@filters = Hash.new { |h, k| h[k] = k.chars.map { |c| c.ord.to_s(2).rjust(8, '0') }.join('') }
+  @@filters = Hash.new { |h, k| h[k] = k.chars.map { |c| c.ord.to_s(2).rjust(8, '0') }.join('') } # rubocop:disable Style/ClassVars
 
   # Public routes
 
@@ -15,14 +15,18 @@ class ApiController < ApplicationController
 
   # Routes for developer use
 
-  def filter_generator
-  end
+  def filter_generator; end
 
   # Read routes: Posts
 
   def posts
     filter = "\x00\x00\x00\x00\x00\x00\x00\x03\xC3\xBF\xC3\xBF\xC2\x80\x00\x00\x00\x00\x01"
-    @posts = Post.where(id: params[:ids].split(";")).select(select_fields(filter)).order(id: :desc).left_joins(:feedbacks).left_joins(:deletion_logs).includes(flag_logs: [:user])
+    @posts = Post.where(id: params[:ids].split(';'))
+                 .select(select_fields(filter))
+                 .order(id: :desc)
+                 .left_joins(:feedbacks)
+                 .left_joins(:deletion_logs)
+                 .includes(flag_logs: [:user])
     @results = @posts.paginate(page: params[:page], per_page: @pagesize)
     @more = has_more?(params[:page], @results.count)
     @results = @results.group(:id)
@@ -31,14 +35,24 @@ class ApiController < ApplicationController
 
   def posts_by_feedback
     filter = "\x00\x00\x00\x00\x00\x00\x00\x03\xC3\xBF\xC3\xBF\xC2\x80\x00\x00\x00\x00\x01"
-    @posts = Post.all.joins(:feedbacks).where(feedbacks: { feedback_type: params[:type] }).select(select_fields(filter)).order(id: :desc).includes(:feedbacks).includes(flag_logs: [:user])
+    @posts = Post.all.joins(:feedbacks)
+                 .where(feedbacks: { feedback_type: params[:type] })
+                 .select(select_fields(filter))
+                 .order(id: :desc)
+                 .includes(:feedbacks)
+                 .includes(flag_logs: [:user])
     results = @posts.paginate(page: params[:page], per_page: @pagesize)
     render json: { items: results, has_more: has_more?(params[:page], results.count) }
   end
 
   def posts_by_url
     filter = "\x00\x00\x00\x00\x00\x00\x00\x03\xC3\xA5\xC2\x83\xC2\x80\x00\x00\x00\x00\x01"
-    @posts = Post.where(link: params[:urls].split(";")).select(select_fields(filter)).order(id: :desc).includes(feedbacks: [:user]).includes(:deletion_logs).includes(flag_logs: [:user])
+    @posts = Post.where(link: params[:urls].split(';'))
+                 .select(select_fields(filter))
+                 .order(id: :desc)
+                 .includes(feedbacks: [:user])
+                 .includes(:deletion_logs)
+                 .includes(flag_logs: [:user])
     @results = @posts.paginate(page: params[:page], per_page: @pagesize)
     @more = has_more?(params[:page], @results.count)
     @results = @results.group(:id)
@@ -47,14 +61,21 @@ class ApiController < ApplicationController
 
   def posts_by_site
     filter = "\x00\x00\x00\x00\x00\x00\x00\x03\xC3\xBF\xC3\xBF\xC2\x80\x00\x00\x00\x00\x01"
-    @posts = Post.joins(:site).where(sites: { site_url: params[:site] }).select(select_fields(filter)).order(id: :desc).includes(:feedbacks).includes(flag_logs: [:user])
+    @posts = Post.joins(:site)
+                 .where(sites: { site_url: params[:site] })
+                 .select(select_fields(filter))
+                 .order(id: :desc)
+                 .includes(:feedbacks)
+                 .includes(flag_logs: [:user])
     results = @posts.paginate(page: params[:page], per_page: @pagesize)
     render json: { items: results, has_more: has_more?(params[:page], results.count) }
   end
 
   def posts_by_daterange
     filter = "\x00\x00\x00\x00\x00\x00\x00\x03\xC3\xBF\xC3\xBF\xC2\x80\x00\x00\x00\x00\x01"
-    @posts = Post.where(created_at: DateTime.strptime(params[:from_date], '%s')..DateTime.strptime(params[:to_date], '%s')).includes(:feedbacks).includes(flag_logs: [:user])
+    @posts = Post.where(created_at: DateTime.strptime(params[:from_date], '%s')..DateTime.strptime(params[:to_date], '%s'))
+                 .includes(:feedbacks)
+                 .includes(flag_logs: [:user])
     results = @posts.select(select_fields(filter)).order(id: :desc).paginate(page: params[:page], per_page: @pagesize)
     render json: { items: results, has_more: has_more?(params[:page], results.count) }
   end
@@ -134,8 +155,8 @@ class ApiController < ApplicationController
     chat_ids = User.code_admins.pluck(:stackexchange_chat_id, :stackoverflow_chat_id, :meta_stackexchange_chat_id)
 
     items = {}
-    ['stackexchange_chat_ids', 'stackoverflow_chat_ids', 'meta_stackexchange_chat_ids'].each_with_index do |name, index|
-      items[name] = chat_ids.map { |a| a[index] }.select { |n| n.present? }
+    %w[stackexchange_chat_ids stackoverflow_chat_ids meta_stackexchange_chat_ids].each_with_index do |name, index|
+      items[name] = chat_ids.map { |a| a[index] }.select(&:present?)
     end
 
     render json: { items: items }
@@ -144,11 +165,11 @@ class ApiController < ApplicationController
   def users
     filter = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\xC3\xB8\x00"
 
-    if params[:role]
-      users = User.with_role(params[:role])
-    else
-      users = User.all
-    end
+    users = if params[:role]
+              User.with_role(params[:role])
+            else
+              User.all
+            end
 
     users = users.select(select_fields(filter)).order(id: :asc).paginate(page: params[:page], per_page: @pagesize)
     render json: { items: users, has_more: has_more?(params[:page], users.count) }
@@ -167,9 +188,7 @@ class ApiController < ApplicationController
     fields = select_fields(filter) - ['smoke_detectors.access_token']
 
     smokeys = SmokeDetector.all.select(fields).order(id: :asc)
-    if params[:owner].present?
-      smokeys = smokeys.where(:user_id => params[:owner])
-    end
+    smokeys = smokeys.where(user_id: params[:owner]) if params[:owner].present?
 
     render json: { items: smokeys }
   end
@@ -178,28 +197,41 @@ class ApiController < ApplicationController
 
   def filter_fields
     i = -1
-    render json: AppConfig['api_field_mappings'].map{|f| [f, i+=1]}.to_h
+    render json: AppConfig['api_field_mappings'].map { |f| [f, i += 1] }.to_h
   end
 
   def spam_last_week
     render json: Site.joins(:posts).where(posts: { is_tp: true, created_at: 1.week.ago.to_date..Date.today })
-                        .group('sites.site_name').count
+      .group('sites.site_name').count
   end
 
   def detailed_ttd
+    no_flags = Post.group_by_hour_of_day('`posts`.`created_at`')
+                   .select('AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion')
+                   .joins(:deletion_logs)
+                   .where(is_tp: true)
+                   .where('`posts`.`created_at` < ?', Date.new(2017, 1, 1))
+                   .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600').relation.each_with_index
+                   .map { |a, i| [i, a.time_to_deletion.round(0)] }
+    one_flag = Post.group_by_hour_of_day('`posts`.`created_at`')
+                   .select('AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion')
+                   .joins(:deletion_logs)
+                   .where(is_tp: true)
+                   .where('`posts`.`created_at` >= ?', Date.new(2017, 1, 1))
+                   .where('`posts`.`created_at` < ?', Date.new(2017, 2, 14))
+                   .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600').relation.each_with_index
+                   .map { |a, i| [i, a.time_to_deletion.round(0)] }
+    three_flags = Post.group_by_hour_of_day('`posts`.`created_at`')
+                      .select('AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion')
+                      .joins(:deletion_logs)
+                      .where(is_tp: true)
+                      .where('`posts`.`created_at` >= ?', Date.new(2017, 2, 14))
+                      .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600').relation.each_with_index
+                      .map { |a, i| [i, a.time_to_deletion.round(0)] }
     render json: [
-        {name: '0 flags', data: Post.group_by_hour_of_day('`posts`.`created_at`').select("AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion")
-                                    .joins(:deletion_logs).where(is_tp: true).where('`posts`.`created_at` < ?', Date.new(2017, 1, 1))
-                                    .where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600").relation.each_with_index
-                                    .map{|a,i| [i, a.time_to_deletion.round(0)]}},
-        {name: '1 flag', data: Post.group_by_hour_of_day('`posts`.`created_at`').select("AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion")
-                                   .joins(:deletion_logs).where(is_tp: true).where('`posts`.`created_at` >= ?', Date.new(2017, 1, 1)).where('`posts`.`created_at` < ?', Date.new(2017, 2, 14))
-                                   .where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600").relation.each_with_index
-                                   .map{|a,i| [i, a.time_to_deletion.round(0)]}},
-        {name: '3 flags', data: Post.group_by_hour_of_day('`posts`.`created_at`').select("AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion")
-                                    .joins(:deletion_logs).where(is_tp: true).where('`posts`.`created_at` >= ?', Date.new(2017, 2, 14))
-                                    .where("TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600").relation.each_with_index
-                                    .map{|a,i| [i, a.time_to_deletion.round(0)]}}
+      { name: '0 flags', data: no_flags },
+      { name: '1 flag', data: one_flag },
+      { name: '3 flags', data: three_flags }
     ]
   end
 
@@ -218,22 +250,33 @@ class ApiController < ApplicationController
     if @feedback.save
       if @feedback.is_positive? && @feedback.does_affect_user?
         begin
-          ActionCable.server.broadcast 'smokedetector_messages', { blacklist: { uid: @post.stack_exchange_user.user_id.to_s, site: URI.parse(@post.stack_exchange_user.site.site_url).host, post: @post.link } }
-        rescue
+          ActionCable.server.broadcast 'smokedetector_messages', blacklist: {
+            uid: @post.stack_exchange_user.user_id.to_s,
+            site: URI.parse(@post.stack_exchange_user.site.site_url).host,
+            post: @post.link
+          }
+        rescue # rubocop:disable Lint/HandleExceptions
         end
       elsif @feedback.is_naa?
         begin
-          ActionCable.server.broadcast 'smokedetector_messages', { naa: { post_link: @post.link } }
-        rescue
+          ActionCable.server.broadcast 'smokedetector_messages', naa: { post_link: @post.link }
+        rescue # rubocop:disable Lint/HandleExceptions
         end
       elsif @feedback.is_negative?
         begin
-          ActionCable.server.broadcast 'smokedetector_messages', { fp: { post_link: @post.link } }
-        rescue
+          ActionCable.server.broadcast 'smokedetector_messages', fp: { post_link: @post.link }
+        rescue # rubocop:disable Lint/HandleExceptions
         end
       end
-      unless Feedback.where(post_id: @post.id, feedback_type: @feedback.feedback_type).where.not(id: @feedback.id).exists?
-        ActionCable.server.broadcast 'smokedetector_messages', { message: "#{@feedback.feedback_type} by #{@user.username}" + (@post.id == Post.last.id ? '' : " on [#{@post.title}](#{@post.link}) \\[[MS](#{url_for(controller: :posts, action: :show, id: @post.id)})]") }
+      unless Feedback.where(
+        post_id: @post.id,
+        feedback_type: @feedback.feedback_type
+      ).where.not(id: @feedback.id).exists?
+        message = "#{@feedback.feedback_type} by #{@user.username}"
+        unless @post.id == Post.last.id
+          message += " on [#{@post.title}](#{@post.link}) \\[[MS](#{url_for(controller: :posts, action: :show, id: @post.id)})]"
+        end
+        ActionCable.server.broadcast 'smokedetector_messages', message: message
       end
       render json: @post.feedbacks, status: 201
     else
@@ -243,7 +286,7 @@ class ApiController < ApplicationController
 
   def report_post
     # We don't create any posts here, just send them on to Smokey to do all the processing
-    ActionCable.server.broadcast 'smokedetector_messages', { report: { user: @user.username, post_link: params[post_link] } }
+    ActionCable.server.broadcast 'smokedetector_messages', report: { user: @user.username, post_link: params[post_link] }
 
     render plain: 'OK', status: 201
   end
@@ -252,14 +295,26 @@ class ApiController < ApplicationController
     @post = Post.find params[:id]
 
     unless @user.api_token.present?
-      render status: 409, json: { error_name: 'not_write_authenticated', error_code: 409, error_message: 'Current user is not write-authenticated.' } and return
+      render status: 409, json: {
+        error_name: 'not_write_authenticated',
+        error_code: 409,
+        error_message: 'Current user is not write-authenticated.'
+      }
+      return
     end
 
     status, message = @user.spam_flag(@post, false)
-    flag_log = FlagLog.create(success: status, error_message: status.present? ? nil : message,
-                              is_dry_run: false, flag_condition: nil,
-                              user: @user, post: @post, backoff: status.present? ? message : 0,
-                              site_id: @post.site_id, is_auto: false)
+    FlagLog.create(
+      success: status,
+      error_message: status.present? ? nil : message,
+      is_dry_run: false,
+      flag_condition: nil,
+      user: @user,
+      post: @post,
+      backoff: status.present? ? message : 0,
+      site_id: @post.site_id,
+      is_auto: false
+    )
     if status
       render json: { status: 'success', backoff: message }
     else
@@ -269,7 +324,7 @@ class ApiController < ApplicationController
 
   def post_deleted
     unless @key.is_trusted
-      render status: 403, json: { status: 'failed', message: 'The API key used to make the request is not trusted.' } and return
+      render(status: 403, json: { status: 'failed', message: 'The API key used to make the request is not trusted.' }) && return
     end
 
     post = Post.find params[:id]
@@ -283,39 +338,48 @@ class ApiController < ApplicationController
   end
 
   private
-    def verify_key
-      @key = ApiKey.find_by_key(params[:key])
-      unless params[:key].present? && @key.present?
-        smokey = SmokeDetector.find_by_access_token(params[:key])
-        unless smokey.present?
-          render status: 403, json: { error_name: 'unauthenticated', error_code: 403, error_message: 'No key was passed or the passed key is invalid.' } and return
-        end
-      end
+
+  def verify_key
+    @key = ApiKey.find_by_key(params[:key])
+    return if params[:key].present? && @key.present?
+    smokey = SmokeDetector.find_by_access_token(params[:key])
+    return if smokey.present?
+    render status: 403, json: {
+      error_name: 'unauthenticated',
+      error_code: 403,
+      error_message: 'No key was passed or the passed key is invalid.'
+    }
+  end
+
+  def set_pagesize
+    @pagesize = [(params[:per_page] || 10).to_i, 100].min
+  end
+
+  def has_more?(page, result_count) # rubocop:disable Style/PredicateName
+    (page || 1).to_i * @pagesize < result_count
+  end
+
+  def verify_write_token
+    # This method deliberately doesn't check expiry: tokens are valid for authorization
+    # forever, but can only be fetched using the code in the first 10 minutes.
+    @token = ApiToken.where(token: params[:token], api_key: @key)
+    unless @token.any?
+      render status: 401, json: {
+        error_name: 'unauthorized',
+        error_code: 401,
+        error_message: 'The token provided does not supply authorization to perform this action.'
+      }
+      return
     end
 
-    def set_pagesize
-      @pagesize = [(params[:per_page] || 10).to_i, 100].min
-    end
+    @token = @token.first
+    @user = @token.user
+  end
 
-    def has_more?(page, result_count)
-      (page || 1).to_i * @pagesize < result_count
-    end
-
-    def verify_write_token
-      # This method deliberately doesn't check expiry: tokens are valid for authorization forever, but can only be fetched using the code in the first 10 minutes.
-      @token = ApiToken.where(token: params[:token], api_key: @key)
-      if @token.any?
-        @token = @token.first
-        @user = @token.user
-      else
-        render status: 401, json: { error_name: 'unauthorized', error_code: 401, error_message: 'The token provided does not supply authorization to perform this action.' } and return
-      end
-    end
-
-    def select_fields(default="")
-      filter = params[:filter] || default
-      bitstring = @@filters[filter]
-      bits = bitstring.chars.map { |c| c.to_i }
-      AppConfig['api_field_mappings'].zip(bits).map { |k, v| k if v == 1 }.compact
-    end
+  def select_fields(default = '')
+    filter = params[:filter] || default
+    bitstring = @@filters[filter]
+    bits = bitstring.chars.map(&:to_i)
+    AppConfig['api_field_mappings'].zip(bits).map { |k, v| k if v == 1 }.compact
+  end
 end

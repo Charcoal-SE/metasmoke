@@ -6,6 +6,7 @@ class MigrateToRolesBasedPermissions < ActiveRecord::Migration[5.0]
       u.add_role :code_admin if u.is_code_admin
     end
   end
+
   def down
     Role.destroy_all
   end

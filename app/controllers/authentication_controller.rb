@@ -18,7 +18,7 @@ class AuthenticationController < ApplicationController
 
     begin
       current_user.api_token = token if access_token_info['scope'].include? 'write_access'
-    rescue
+    rescue # rubocop:disable Lint/HandleExceptions
     end
 
     # temporarily disable SQL logging. http://stackoverflow.com/a/7760140/1849664
@@ -39,7 +39,7 @@ class AuthenticationController < ApplicationController
 
     flash[:success] = "Successfully registered #{'write' if current_user.api_token.present?} token"
 
-    if current_user.api_token.present? and current_user.flags_enabled == false
+    if current_user.api_token.present? && current_user.flags_enabled == false
       redirect_to ocs_path
     else
       redirect_to authentication_status_path
@@ -49,7 +49,7 @@ class AuthenticationController < ApplicationController
   def login_redirect_target
     if user_signed_in?
       flash[:error] = "You're already signed in."
-      redirect_to root_path and return
+      redirect_to(root_path) && return
     end
 
     token = access_token_from_code(params[:code], AppConfig['stack_exchange']['login_redirect_uri'])
@@ -59,7 +59,6 @@ class AuthenticationController < ApplicationController
 
     if user.present?
       flash[:success] = "Successfully logged in as #{user.username}"
-      sign_in_and_redirect user
     else
       user = User.new(stack_exchange_account_id: access_token_info['account_id'],
                       email: "#{access_token_info['account_id']}@se-oauth.metasmoke")
@@ -77,8 +76,8 @@ class AuthenticationController < ApplicationController
       end
 
       flash[:success] = "New account created for #{user.username}. Have fun!"
-      sign_in_and_redirect user
     end
+    sign_in_and_redirect user
   end
 
   def invalidate_tokens

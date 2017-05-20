@@ -2,27 +2,30 @@ class AdminController < ApplicationController
   before_action :verify_admin, except: [:user_feedback, :api_feedback, :users, :recently_invalidated, :index]
   before_action :set_ignored_user, only: [:ignore, :unignore, :destroy_ignored]
 
-  def index
-  end
+  def index; end
 
   def recently_invalidated
-    @feedbacks = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(is_invalidated: true).select('posts.title, feedbacks.*').order('feedbacks.invalidated_at DESC').paginate(page: params[:page], per_page: 100)
+    @feedbacks = Feedback.unscoped
+                         .joins('inner join posts on feedbacks.post_id = posts.id')
+                         .where(is_invalidated: true)
+                         .select('posts.title, feedbacks.*')
+                         .order('feedbacks.invalidated_at DESC')
+                         .paginate(page: params[:page], per_page: 100)
 
     @users = User.where(id: @feedbacks.pluck(:invalidated_by)).map { |u| [u.id, u] }.to_h
   end
 
   def user_feedback
     @user = User.all.where(id: params[:user_id]).first
-    @feedback = Feedback.unscoped.joins('inner join posts on feedbacks.post_id = posts.id').where(user_id: @user.id).select('posts.title, feedbacks.*')
+    @feedback = Feedback.unscoped
+                        .joins('inner join posts on feedbacks.post_id = posts.id')
+                        .where(user_id: @user.id)
+                        .select('posts.title, feedbacks.*')
     @sources = ['metasmoke']
 
-    if @user.stackoverflow_chat_id.present?
-      @sources << 'Stack Overflow chat'
-    end
+    @sources << 'Stack Overflow chat' if @user.stackoverflow_chat_id.present?
 
-    if @user.stackexchange_chat_id.present?
-      @sources << 'Stack Exchange chat'
-    end
+    @sources << 'Stack Exchange chat' if @user.stackexchange_chat_id.present?
 
     if @user.meta_stackexchange_chat_id.present?
       @sources << 'Meta Stack Exchange chat'
@@ -99,7 +102,8 @@ class AdminController < ApplicationController
   end
 
   private
-    def set_ignored_user
-      @ignored = IgnoredUser.find params[:id]
-    end
+
+  def set_ignored_user
+    @ignored = IgnoredUser.find params[:id]
+  end
 end

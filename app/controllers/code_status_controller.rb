@@ -2,13 +2,14 @@ include ApiHelper
 
 class CodeStatusController < ApplicationController
   def index
-    @gem_versions = Gem::Specification.sort_by{ |g| [g.name.downcase, g.version] }.sort_by(&:name)
-    @important_gems = [
-      'rails',
-      'will_paginate',
-      'turbolinks'
+    @gem_versions = Gem::Specification.sort_by { |g| [g.name.downcase, g.version] }.sort_by(&:name)
+    @important_gems = %w[
+      rails
+      will_paginate
+      turbolinks
     ]
   end
+
   def api
     @repo = Rails.cache.fetch "code_status/repo##{CurrentCommit}" do
       Octokit.repository 'Charcoal-SE/metasmoke'

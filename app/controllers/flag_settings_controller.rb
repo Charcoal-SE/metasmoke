@@ -17,8 +17,7 @@ class FlagSettingsController < ApplicationController
   end
 
   # GET /flag_settings/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /flag_settings
   # POST /flag_settings.json
@@ -37,7 +36,10 @@ class FlagSettingsController < ApplicationController
   end
 
   def audits
-    @audits = Audited::Audit.where(auditable_type: 'FlagSetting').includes(:auditable, :user).order('created_at DESC').paginate(page: params[:page], per_page: 100)
+    @audits = Audited::Audit.where(auditable_type: 'FlagSetting')
+                            .includes(:auditable, :user)
+                            .order('created_at DESC')
+                            .paginate(page: params[:page], per_page: 100)
   end
 
   # PATCH/PUT /flag_settings/1
@@ -46,7 +48,7 @@ class FlagSettingsController < ApplicationController
     respond_to do |format|
       if @flag_setting.update(flag_setting_params)
 
-        if ['min_accuracy', 'min_post_count'].include? @flag_setting.name
+        if %w[min_accuracy min_post_count].include? @flag_setting.name
           # If an accuracy/post count requirement is changed,
           # we want to re-validate all existing FlagConditions
           # and disable them if they aren't in compliance with the
@@ -83,13 +85,14 @@ class FlagSettingsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_flag_setting
-      @flag_setting = FlagSetting.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def flag_setting_params
-      params.require(:flag_setting).permit(:name, :value)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_flag_setting
+    @flag_setting = FlagSetting.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def flag_setting_params
+    params.require(:flag_setting).permit(:name, :value)
+  end
 end

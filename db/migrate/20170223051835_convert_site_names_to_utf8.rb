@@ -4,6 +4,6 @@ class ConvertSiteNamesToUtf8 < ActiveRecord::Migration[5.0]
 
     SitesHelper.updateSites
   end
-  def down
-  end
+
+  def down; end
 end

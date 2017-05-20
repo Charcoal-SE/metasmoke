@@ -1,8 +1,8 @@
 class Feedback < ApplicationRecord
   default_scope { where(is_invalidated: false, is_ignored: false) }
-  scope :ignored, -> { unscoped.where(is_ignored: true) }
-  scope :invalid, -> { unscoped.where(is_invalidated: true) }
-  scope :via_api, -> { unscoped.where.not(api_key: nil) }
+  scope(:ignored, -> { unscoped.where(is_ignored: true) })
+  scope(:invalid, -> { unscoped.where(is_invalidated: true) })
+  scope(:via_api, -> { unscoped.where.not(api_key: nil) })
 
   belongs_to :post
   belongs_to :user
@@ -12,16 +12,17 @@ class Feedback < ApplicationRecord
   before_save :check_for_dupe_feedback
 
   after_save do
-    if self.update_post_feedback_cache # if post feedback cache was changed
-      if self.post.flagged? and self.post.is_fp
-        SmokeDetector.send_message_to_charcoal "fp feedback on autoflagged post: [#{self.post.title}](//metasmoke.erwaysoftware.com/post/#{self.post_id})"
+    if update_post_feedback_cache # if post feedback cache was changed
+      if post.flagged? && post.is_fp
+        SmokeDetector.send_message_to_charcoal "fp feedback on autoflagged post: [#{post.title}](//metasmoke.erwaysoftware.com/post/#{post_id})"
       end
     end
   end
 
   after_create do
-    ActionCable.server.broadcast "posts_#{self.post_id}", { feedback: FeedbacksController.render(locals: {feedback: self}, partial: 'feedback').html_safe }
-    ActionCable.server.broadcast 'api_feedback', { feedback: JSON.parse(FeedbacksController.render(locals: {feedback: self}, partial: 'feedback.json')) }
+    ActionCable.server.broadcast "posts_#{post_id}", feedback: FeedbacksController.render(locals: { feedback: self }, partial: 'feedback').html_safe
+    feedback = FeedbacksController.render(locals: { feedback: self }, partial: 'feedback.json')
+    ActionCable.server.broadcast 'api_feedback', feedback: JSON.parse(feedback)
   end
 
   # Drop a user's earlier feedback if it's not invalidated
@@ -31,34 +32,34 @@ class Feedback < ApplicationRecord
     next if user_id.nil?
 
     num_deleted = post.feedbacks.where(user_id: user_id)
-                                .where('created_at > ?', 24.hours.ago)
-                                .where.not(id: id)
-                                .delete_all
+                      .where('created_at > ?', 24.hours.ago)
+                      .where.not(id: id)
+                      .delete_all
 
     post.reload.update_feedback_cache if num_deleted > 0
   end
 
-  def is_positive?
-    self.feedback_type.include? 't'
+  def is_positive? # rubocop:disable Style/PredicateName
+    feedback_type.include? 't'
   end
 
-  def is_negative?
-    self.feedback_type.include? 'f'
+  def is_negative? # rubocop:disable Style/PredicateName
+    feedback_type.include? 'f'
   end
 
-  def is_naa?
-    self.feedback_type.include? 'naa'
+  def is_naa? # rubocop:disable Style/PredicateName
+    feedback_type.include? 'naa'
   end
 
   def does_affect_user?
-    self.feedback_type.ends_with?('u') || self.feedback_type.ends_with?('u-')
+    feedback_type.ends_with?('u') || feedback_type.ends_with?('u-')
   end
 
   def update_post_feedback_cache
-    if self.saved_changes?
-      return self.post.reload.update_feedback_cache # Returns whether the post feedback cache has been changed
+    if saved_changes?
+      return post.reload.update_feedback_cache # Returns whether the post feedback cache has been changed
     end
-    return false
+    false
   end
 
   def select_without_nil
@@ -66,34 +67,31 @@ class Feedback < ApplicationRecord
   end
 
   private
-    def check_for_dupe_feedback
-      duplicate = if self.user_id.present?
-        Feedback.where(user_id: self.user_id, post_id: self.post_id, feedback_type: self.feedback_type).where.not(id: self.id)
-      else
-        Feedback.where(user_name: self.user_name, post_id: self.post_id, feedback_type: self.feedback_type).where.not(id: self.id)
-      end
 
-      if duplicate.exists? and !self.is_invalidated
-        throw :abort
-      end
-    end
+  def check_for_dupe_feedback
+    duplicate = if user_id.present?
+                  Feedback.where(user_id: user_id, post_id: post_id, feedback_type: feedback_type).where.not(id: id)
+                else
+                  Feedback.where(user_name: user_name, post_id: post_id, feedback_type: feedback_type).where.not(id: id)
+                end
 
-    def check_for_user_assoc
-      return if chat_host.nil? or chat_user_id.nil?
+    throw :abort if duplicate.exists? && !is_invalidated
+  end
 
-      chat_id_field = case chat_host
-      when 'stackexchange.com'
-        :stackexchange_chat_id
-      when 'stackoverflow.com'
-        :stackoverflow_chat_id
-      when 'meta.stackexchange.com'
-        :meta_stackexchange_chat_id
-      else
-        nil
-      end
+  def check_for_user_assoc
+    return if chat_host.nil? || chat_user_id.nil?
 
-      return unless chat_id_field
+    chat_id_field = case chat_host
+                    when 'stackexchange.com'
+                      :stackexchange_chat_id
+                    when 'stackoverflow.com'
+                      :stackoverflow_chat_id
+                    when 'meta.stackexchange.com'
+                      :meta_stackexchange_chat_id
+                    end
 
-      self.user = User.where(chat_id_field => chat_user_id).try(:first)
-    end
+    return unless chat_id_field
+
+    self.user = User.where(chat_id_field => chat_user_id).try(:first)
+  end
 end

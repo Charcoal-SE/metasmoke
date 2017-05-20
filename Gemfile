@@ -3,32 +3,33 @@ source 'https://rubygems.org'
 gem 'awesome_print'
 
 gem 'aescrypt', '~> 2.0', '>= 2.0.2', github: 'Charcoal-SE/aescrypt'
-gem 'devise', git: 'https://github.com/plataformatec/devise.git', branch: 'master'
-gem 'mysql2'
-gem 'puma'
-gem 'will_paginate', github: 'Undo1/will_paginate'
-gem 'loofah'
-gem 'rack-cors', require: 'rack/cors'
+gem 'audited', '~> 4.4'
+gem 'devise', github: 'plataformatec/devise', branch: 'master'
 gem 'htmlentities', '~> 4.3', '>= 4.3.4'
-gem 'whenever', require: false
-gem 'will_paginate-bootstrap', github: 'Charcoal-SE/will_paginate-bootstrap'
-gem 'redis'
-gem 'rolify'
-gem 'octokit', '~> 4.0'
 gem 'httparty'
 gem 'jwt'
-gem 'audited', '~> 4.4'
-gem 'travis'
+gem 'loofah'
+gem 'mysql2'
+gem 'octokit', '~> 4.0'
+gem 'puma'
+gem 'rack-cors', require: 'rack/cors'
+gem 'redis'
+gem 'rolify'
 gem 'rotp'
 gem 'rqrcode'
+gem 'travis'
+gem 'whenever', require: false
+gem 'will_paginate', github: 'Undo1/will_paginate'
+gem 'will_paginate-bootstrap', github: 'Charcoal-SE/will_paginate-bootstrap'
 
-gem 'rack-mini-profiler'
 gem 'flamegraph'
+gem 'rack-mini-profiler'
 gem 'stackprof'
 
 gem 'chartkick'
 gem 'groupdate', '~> 3.0.0'
 
+gem 'rubocop', '~> 0.48.1', require: false, group: :test
 gem 'simplecov', require: false, group: :test
 
 # gem 'puma_worker_killer'
@@ -69,20 +70,21 @@ group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 3.0'
 
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  # Spring speeds up development by keeping your application running
+  # in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 
   # Export fixtures from local database
   gem 'db_fixtures_dump', github: 'Undo1/db_fixtures_dump'
 
   gem 'capistrano'
-  gem 'capistrano-secrets-yml'
-  gem 'capistrano-rails'
-  gem 'capistrano-rvm'
   gem 'capistrano-bundler'
   gem 'capistrano-faster-assets'
-  gem 'capistrano-upload-config'
   gem 'capistrano-passenger'
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm'
+  gem 'capistrano-secrets-yml'
+  gem 'capistrano-upload-config'
 end
 
 group :test do

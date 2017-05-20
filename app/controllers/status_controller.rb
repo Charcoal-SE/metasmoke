@@ -13,18 +13,18 @@ class StatusController < ApplicationController
 
     # If an instance is manually switched to standby, we
     # don't want it to immediately kick back
-    new_standby_switch = @smoke_detector.is_standby_changed? and @smoke_detector.is_standby
+    new_standby_switch = @smoke_detector.is_standby_changed? && @smoke_detector.is_standby
 
     @smoke_detector.save!
 
-    ActionCable.server.broadcast "topbar", { last_ping: @smoke_detector.last_ping.to_f }
-    ActionCable.server.broadcast "smokey_pings", { smokey: @smoke_detector.as_json }
+    ActionCable.server.broadcast 'topbar', last_ping: @smoke_detector.last_ping.to_f
+    ActionCable.server.broadcast 'smokey_pings', smokey: @smoke_detector.as_json
 
     respond_to do |format|
       format.json do
-        if @smoke_detector.should_failover and not new_standby_switch
+        if @smoke_detector.should_failover && !new_standby_switch
           @smoke_detector.update(is_standby: false, force_failover: false)
-          render status: 200, json: { 'failover': true }
+          render status: 200, json: { failover: true }
         else
           head 200, content_type: 'text/html'
         end

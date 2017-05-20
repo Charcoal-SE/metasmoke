@@ -23,10 +23,15 @@ module AuthenticationHelper
     login_auth_url
   end
 
-  def access_token_from_code(code, redirect_uri=AppConfig['stack_exchange']['redirect_uri'])
+  def access_token_from_code(_code, redirect_uri = AppConfig['stack_exchange']['redirect_uri'])
     config = AppConfig['stack_exchange']
 
-    request_params = { 'client_id' => config['client_id'], 'client_secret' => config['client_secret'], 'code' => params[:code], 'redirect_uri' => redirect_uri }
+    request_params = {
+      client_id: config['client_id'],
+      client_secret: config['client_secret'],
+      code: params[:code],
+      redirect_uri: redirect_uri
+    }.stringify_keys
     response = Rack::Utils.parse_nested_query(Net::HTTP.post_form(URI.parse('https://stackexchange.com/oauth/access_token'), request_params).body)
 
     response['access_token']

@@ -30,7 +30,7 @@ class FlagConditionsController < ApplicationController
   def create
     @condition = FlagCondition.new condition_params
     @condition.user = current_user
-    @condition.sites = params[:flag_condition][:sites].map{ |i| Site.find i.to_i if i.present? }.compact
+    @condition.sites = params[:flag_condition][:sites].map { |i| Site.find i.to_i if i.present? }.compact
 
     if @condition.save
       flash[:success] = 'Created a new flagging condition.'
@@ -44,25 +44,23 @@ class FlagConditionsController < ApplicationController
   def enable
     @condition.flags_enabled = !@condition.flags_enabled
 
-    if @condition.save
-      flash[:success] = "#{@condition.flags_enabled ? 'Enabled' : 'Disabled'} condition."
-      redirect_to url_for(controller: :flag_conditions, action: :index)
-    end
+    return unless @condition.save
+    flash[:success] = "#{@condition.flags_enabled ? 'Enabled' : 'Disabled'} condition."
+    redirect_to url_for(controller: :flag_conditions, action: :index)
   end
 
   def edit
-    unless @condition.flags_enabled
-      @condition.flags_enabled = true
-      @condition.validate
+    return if @condition.flags_enabled
+    @condition.flags_enabled = true
+    @condition.validate
 
-      @validation_errors = @condition.errors.dup
-      @condition.restore_attributes
-      @condition.errors.clear
-    end
+    @validation_errors = @condition.errors.dup
+    @condition.restore_attributes
+    @condition.errors.clear
   end
 
   def update
-    @condition.sites = params[:flag_condition][:sites].map{ |i| Site.find i.to_i if i.present? }.compact
+    @condition.sites = params[:flag_condition][:sites].map { |i| Site.find i.to_i if i.present? }.compact
     if @condition.update(condition_params)
       flash[:success] = 'Updated your flagging condition.'
       redirect_to url_for(controller: :flag_conditions, action: :index)
@@ -90,20 +88,19 @@ class FlagConditionsController < ApplicationController
   end
 
   def one_click_setup
-    unless current_user.api_token.present?
-      flash[:warning] = 'You need to be write-authenticated before you can set up flagging.'
-      redirect_to url_for(controller: :authentication, action: :status) and return
-    end
+    return if current_user.api_token.present?
+    flash[:warning] = 'You need to be write-authenticated before you can set up flagging.'
+    redirect_to(url_for(controller: :authentication, action: :status))
   end
 
   def run_ocs
     unless current_user.api_token.present?
       flash[:warning] = 'You need to be write-authenticated before you can set up flagging.'
-      redirect_to url_for(controller: :authentication, action: :status) and return
+      redirect_to(url_for(controller: :authentication, action: :status))
     end
 
-    condition = FlagCondition.create(user: current_user, sites: Site.mains, flags_enabled: true, min_weight: 280, max_poster_rep: 1, min_reason_count: 1)
-    preference= UserSiteSetting.create(user: current_user, sites: Site.mains, max_flags: 7)
+    FlagCondition.create(user: current_user, sites: Site.mains, flags_enabled: true, min_weight: 280, max_poster_rep: 1, min_reason_count: 1)
+    UserSiteSetting.create(user: current_user, sites: Site.mains, max_flags: 7)
     current_user.update(flags_enabled: true)
 
     flash[:info] = "The necessary settings for autoflagging have been created - please review them to make sure you're happy."
@@ -118,6 +115,7 @@ class FlagConditionsController < ApplicationController
   end
 
   private
+
   def set_condition
     @condition = FlagCondition.find params[:id]
   end
@@ -127,32 +125,36 @@ class FlagConditionsController < ApplicationController
   end
 
   def verify_authorized
-    unless current_user.has_role?(:admin) || @condition.user == current_user
-      raise ActionController::RoutingError.new('Not Found')
-    end
+    return if current_user.has_role?(:admin) || @condition.user == current_user
+    raise ActionController::RoutingError, 'Not Found'
   end
 
   def check_registration_status
-    raise ActionController::RoutingError.new('Not Found') if (FlagSetting['registration_enabled'] == '0' and not current_user.flags_enabled)
+    return unless FlagSetting['registration_enabled'] == '0' && !current_user.flags_enabled
+    raise ActionController::RoutingError, 'Not Found'
   end
 
   def set_preview_data
-    if @condition
-      site_ids = if params['flag_condition']
-        params['flag_condition']['sites'].map {|s| s.to_i}
-      else
-        @condition.site_ids
-      end
+    return unless @condition
+    site_ids = if params['flag_condition']
+                 params['flag_condition']['sites'].map(&:to_i)
+               else
+                 @condition.site_ids
+               end
 
-      posts = Post.joins(:reasons).group('posts.id').where('posts.user_reputation <= ?', @condition.max_poster_rep).where(site_id: site_ids).having('count(reasons.id) >= ?', @condition.min_reason_count).having('sum(reasons.weight) >= ?', @condition.min_weight)
+    posts = Post.joins(:reasons)
+                .group('posts.id')
+                .where('posts.user_reputation <= ?', @condition.max_poster_rep)
+                .where(site_id: site_ids)
+                .having('count(reasons.id) >= ?', @condition.min_reason_count)
+                .having('sum(reasons.weight) >= ?', @condition.min_weight)
 
-      post_feedback_results = posts.pluck(:is_tp)
+    post_feedback_results = posts.pluck(:is_tp)
 
-      @false_positive_count = post_feedback_results.count(false)
-      @true_positive_count = post_feedback_results.count(true)
+    @false_positive_count = post_feedback_results.count(false)
+    @true_positive_count = post_feedback_results.count(true)
 
-      @posts = posts.includes(feedbacks: [:user]).order('posts.id DESC').paginate(page: params[:page], per_page: 100)
-      @sites = Site.where(id: @posts.map(&:site_id)).to_a
-    end
+    @posts = posts.includes(feedbacks: [:user]).order('posts.id DESC').paginate(page: params[:page], per_page: 100)
+    @sites = Site.where(id: @posts.map(&:site_id)).to_a
   end
 end

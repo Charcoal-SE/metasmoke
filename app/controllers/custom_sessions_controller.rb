@@ -1,7 +1,7 @@
 class CustomSessionsController < Devise::SessionsController
   protect_from_forgery except: [:create]
 
-  @@first_factor = []
+  @@first_factor = [] # rubocop:disable Style/ClassVars
 
   def new
     super
@@ -13,7 +13,7 @@ class CustomSessionsController < Devise::SessionsController
         id = user.id
         @@first_factor << id
         sign_out user
-        redirect_to url_for(controller: :custom_sessions, action: :verify_2fa, uid: id) and return
+        redirect_to(url_for(controller: :custom_sessions, action: :verify_2fa, uid: id)) && return
       end
     end
   end
@@ -22,15 +22,14 @@ class CustomSessionsController < Devise::SessionsController
     super
   end
 
-  def verify_2fa
-  end
+  def verify_2fa; end
 
   def verify_code
     target_user = User.find params[:uid]
 
     unless target_user.two_factor_token.present?
       flash[:danger] = 'I have no idea how you got here, but something is very wrong.'
-      redirect_to root_path and return
+      redirect_to(root_path) && return
     end
 
     totp = ROTP::TOTP.new(target_user.two_factor_token)

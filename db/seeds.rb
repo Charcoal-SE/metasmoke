@@ -15,10 +15,10 @@ SmokeDetector.create(
 )
 
 Site.create(
-  site_name: "Stack Overflow",
-  site_url: "//stackoverflow.com/",
-  site_logo: "//cdn.sstatic.net/Sites/stackoverflow/img/apple-touch-icon.png",
-  site_domain: "stackoverflow.com"
+  site_name: 'Stack Overflow',
+  site_url: '//stackoverflow.com/',
+  site_logo: '//cdn.sstatic.net/Sites/stackoverflow/img/apple-touch-icon.png',
+  site_domain: 'stackoverflow.com'
 )
 
 StackExchangeUser.create(

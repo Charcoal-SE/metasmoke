@@ -46,7 +46,7 @@ class UserSiteSettingsControllerTest < ActionController::TestCase
     sign_in users(:approved_user)
 
     assert_difference 'UserSiteSetting.count' do
-      post :create, params: { user_site_setting: { max_flags: 10, sites: [sites(:Site_1).id] }}
+      post :create, params: { user_site_setting: { max_flags: 10, sites: [sites(:Site_1).id] } }
     end
 
     assert_not_nil assigns(:preference)
@@ -55,7 +55,7 @@ class UserSiteSettingsControllerTest < ActionController::TestCase
 
   test 'should refuse to create preference with no sites' do
     sign_in users(:approved_user)
-    post :create, params: { user_site_setting: { max_flags: 10, sites: [] }}
+    post :create, params: { user_site_setting: { max_flags: 10, sites: [] } }
 
     assert_response 422
   end

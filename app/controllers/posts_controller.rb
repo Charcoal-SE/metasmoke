@@ -6,11 +6,12 @@ class PostsController < ApplicationController
   before_action :verify_developer, only: [:reindex_feedback, :delete_post]
 
   def show
-    begin
-      @post = Post.joins('LEFT JOIN `sites` ON `sites`.`id` = `posts`.`site_id`').joins(:reasons).select('posts.*, sites.site_logo, SUM(reasons.weight) AS reason_weight').find(params[:id])
-    rescue
-      @post = Post.find params[:id]
-    end
+    @post = Post.joins('LEFT JOIN `sites` ON `sites`.`id` = `posts`.`site_id`')
+                .joins(:reasons)
+                .select('posts.*, sites.site_logo, SUM(reasons.weight) AS reason_weight')
+                .find(params[:id])
+  rescue
+    @post = Post.find params[:id]
   end
 
   # Render bodies on-demand for fancy expanding rows
@@ -65,9 +66,7 @@ class PostsController < ApplicationController
   def index
     @posts = Post.all.includes_for_post_row.paginate(page: params[:page], per_page: 100).order('created_at DESC')
 
-    if params[:filter] == 'undeleted'
-      @posts = @posts.where(deleted_at: nil)
-    end
+    @posts = @posts.where(deleted_at: nil) if params[:filter] == 'undeleted'
 
     @sites = Site.where(id: @posts.map(&:site_id)).to_a
   end
@@ -90,11 +89,10 @@ class PostsController < ApplicationController
       @post.reasons << reason
     end
 
-
     begin
-      user_id = @post.user_link.scan(/\/u(sers)?\/(\d*)/).first.second
+      user_id = @post.user_link.scan(%r{/u(sers)?/(\d*)}).first.second
 
-      hash = {site_id: @post.site_id, user_id: user_id}
+      hash = { site_id: @post.site_id, user_id: user_id }
       se_user = StackExchangeUser.find_or_create_by(hash)
       se_user.reputation = @post.user_reputation
       se_user.username = @post.username
@@ -102,7 +100,7 @@ class PostsController < ApplicationController
       se_user.save!
 
       @post.stack_exchange_user = se_user
-    rescue
+    rescue # rubocop:disable Lint/HandleExceptions
     end
 
     respond_to do |format|
@@ -117,9 +115,7 @@ class PostsController < ApplicationController
   def needs_admin
     flag = Flag.new
     flag.reason = params[:reason]
-    unless current_user.nil?
-      flag.user_id = current_user.id
-    end
+    flag.user_id = current_user.id unless current_user.nil?
     flag.post = @post
     flag.is_completed = false
 
@@ -154,15 +150,15 @@ class PostsController < ApplicationController
   def cast_spam_flag
     unless current_user.api_token.present?
       flash[:warning] = 'You must be write-authenticated to cast a spam flag.'
-      redirect_to authentication_status_path and return
+      redirect_to(authentication_status_path) && return
     end
 
     result, message = current_user.spam_flag(@post, false)
 
-    flag_log = FlagLog.create(success: result, error_message: result.present? ? nil : message,
-                              is_dry_run: false, flag_condition: nil,
-                              user: current_user, post: @post, backoff: result.present? ? message : 0,
-                              site_id: @post.site_id, is_auto: false)
+    FlagLog.create(success: result, error_message: result.present? ? nil : message,
+                   is_dry_run: false, flag_condition: nil,
+                   user: current_user, post: @post, backoff: result.present? ? message : 0,
+                   site_id: @post.site_id, is_auto: false)
 
     if result
       flash[:success] = 'Spam flag cast successfully.'
@@ -181,13 +177,16 @@ class PostsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_post
-      @post = Post.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def post_params
-      params.require(:post).permit(:title, :body, :link, :post_creation_date, :reasons, :username, :user_link, :why, :user_reputation, :score, :upvote_count, :downvote_count)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_post
+    @post = Post.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def post_params
+    permitted = %w[title body link post_creation_date reasons username user_link why user_reputation score upvote_count downvote_count]
+    params.require(:post)
+          .permit(*permitted)
+  end
 end

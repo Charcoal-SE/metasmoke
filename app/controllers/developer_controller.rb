@@ -3,7 +3,7 @@ class DeveloperController < ApplicationController
   before_action :verify_developer, except: [:blank_page]
 
   def update_sites
-    SitesHelper.updateSites
+    SitesHelper.update_sites
     flash[:info] = 'Site cache updated, refer to MiniProfiler for execution details.'
     redirect_back(fallback_location: url_for(controller: :dashboard, action: :index))
   end
@@ -20,7 +20,7 @@ class DeveloperController < ApplicationController
   end
 
   def websocket_test
-    @channels = ['api_feedback', 'api_flag_logs', 'api_deletion_logs', 'flag_logs', 'github_new_commit', 'posts_realtime', 'smokedetector_messages']
+    @channels = %w[api_feedback api_flag_logs api_deletion_logs flag_logs github_new_commit posts_realtime smokedetector_messages]
   end
 
   def send_websocket_test
@@ -30,9 +30,9 @@ class DeveloperController < ApplicationController
   end
 
   private
-    def verify_developer
-      unless current_user.has_role?(:developer)
-        raise ActionController::RoutingError.new('Not Found') and return
-      end
-    end
+
+  def verify_developer
+    return if current_user.has_role?(:developer)
+    raise ActionController::RoutingError, 'Not Found'
+  end
 end

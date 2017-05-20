@@ -6,7 +6,7 @@ module ReasonsHelper
           reason.inactive = true
           reason.save!
         end
-      rescue
+      rescue # rubocop:disable Lint/HandleExceptions
       end
     end
   end

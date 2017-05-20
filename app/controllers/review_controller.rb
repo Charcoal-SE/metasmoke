@@ -3,13 +3,17 @@ class ReviewController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:add_feedback]
 
   def index
-    if params[:reason].present? and reason = Reason.find(params[:reason])
-      @posts = reason.posts.includes_for_post_row
-    else
-      @posts = Post.all.includes_for_post_row
-    end
+    @posts = if params[:reason].present? && (reason = Reason.find(params[:reason]))
+               reason.posts.includes_for_post_row
+             else
+               Post.all.includes_for_post_row
+             end
 
-    @posts = @posts.includes(:reasons).includes(:feedbacks).where( feedbacks: { post_id: nil }).order('`posts`.`created_at` DESC').paginate(page: params[:page], per_page: 100)
+    @posts = @posts.includes(:reasons)
+                   .includes(:feedbacks)
+                   .where(feedbacks: { post_id: nil })
+                   .order('`posts`.`created_at` DESC')
+                   .paginate(page: params[:page], per_page: 100)
     @sites = Site.where(id: @posts.map(&:site_id)).to_a
   end
 
@@ -19,7 +23,7 @@ class ReviewController < ApplicationController
       return
     end
 
-    not_found unless ['tp', 'fp', 'naa'].include? params[:feedback_type]
+    not_found unless %w[tp fp naa].include? params[:feedback_type]
 
     post = Post.find(params[:post_id])
     if post.nil?

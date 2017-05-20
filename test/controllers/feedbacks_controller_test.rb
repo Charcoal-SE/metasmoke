@@ -51,17 +51,27 @@ class FeedbacksControllerTest < ActionController::TestCase
     assert_equal Feedback.unscoped.find(f_id).invalidated_by, user.id
   end
 
-  test "should require smokedetector key to create feedback" do
+  test 'should require smokedetector key to create feedback' do
     post :create, params: { feedback: {} }
     assert_response :forbidden
 
-    post :create, params: { feedback: {}, key: "wrongkey" }
+    post :create, params: { feedback: {}, key: 'wrongkey' }
     assert_response :forbidden
   end
 
   test 'should create feedback' do
     assert_difference ['Post.last.feedbacks.count', 'Feedback.count'] do
-      post :create, params: { feedback: { message_link: "foo", user_name: "Undo", user_link: "http://foo.bar/undo", feedback_type: "tpu-", post_link: Post.last.link, chat_user: 12345 }, key: SmokeDetector.last.access_token }
+      post :create, params: {
+        feedback: {
+          message_link: 'foo',
+          user_name: 'Undo',
+          user_link: 'http://foo.bar/undo',
+          feedback_type: 'tpu-',
+          post_link: Post.last.link,
+          chat_user: 12_345
+        },
+        key: SmokeDetector.last.access_token
+      }
     end
   end
 
@@ -69,7 +79,17 @@ class FeedbacksControllerTest < ActionController::TestCase
     # assert_difference looks for a delta of 1; a delta of 2 would error out
     assert_difference ['Post.last.feedbacks.count', 'Feedback.count'] do
       3.times do
-        post :create, params: { feedback: { message_link: "foo", user_name: "Undo", user_link: "http://foo.bar/undo", feedback_type: "tpu-", post_link: Post.last.link, chat_user: 12345 }, key: SmokeDetector.last.access_token }
+        post :create, params: {
+          feedback: {
+            message_link: 'foo',
+            user_name: 'Undo',
+            user_link: 'http://foo.bar/undo',
+            feedback_type: 'tpu-',
+            post_link: Post.last.link,
+            chat_user: 12_345
+          },
+          key: SmokeDetector.last.access_token
+        }
       end
     end
   end
@@ -78,8 +98,18 @@ class FeedbacksControllerTest < ActionController::TestCase
     Post.last.feedbacks.destroy_all
 
     assert_difference ['Post.last.feedbacks.count', 'Feedback.count'], 2 do
-      ["tpu-", "fpu-"].each do |feedback_type|
-        post :create, params: { feedback: { message_link: "foo", user_name: "Undo", user_link: "http://foo.bar/undo", feedback_type: feedback_type, post_link: Post.last.link, chat_user: 12345 }, key: SmokeDetector.last.access_token }
+      ['tpu-', 'fpu-'].each do |feedback_type|
+        post :create, params: {
+          feedback: {
+            message_link: 'foo',
+            user_name: 'Undo',
+            user_link: 'http://foo.bar/undo',
+            feedback_type: feedback_type,
+            post_link: Post.last.link,
+            chat_user: 12_345
+          },
+          key: SmokeDetector.last.access_token
+        }
       end
     end
   end
@@ -87,30 +117,50 @@ class FeedbacksControllerTest < ActionController::TestCase
   test 'should cache feedback' do
     p = Post.where(is_tp: false).last
 
-    post :create, params: { feedback: { message_link: "foo", user_name: "Undo", user_link: "http://foo.bar/undo", feedback_type: "tpu-", post_link: p.link, chat_user: 12345 }, key: SmokeDetector.last.access_token }
+    post :create, params: {
+      feedback: {
+        message_link: 'foo',
+        user_name: 'Undo',
+        user_link: 'http://foo.bar/undo',
+        feedback_type: 'tpu-',
+        post_link: p.link,
+        chat_user: 12_345
+      },
+      key: SmokeDetector.last.access_token
+    }
 
     assert Post.find(p.id).is_tp
 
     p = Post.where(is_fp: false).last
 
-    post :create, params: { feedback: { message_link: "foo", user_name: "Undo", user_link: "http://foo.bar/undo", feedback_type: "fpu-", post_link: p.link, chat_user: 12345 }, key: SmokeDetector.last.access_token }
+    post :create, params: {
+      feedback: {
+        message_link: 'foo',
+        user_name: 'Undo',
+        user_link: 'http://foo.bar/undo',
+        feedback_type: 'fpu-',
+        post_link: p.link,
+        chat_user: 12_345
+      },
+      key: SmokeDetector.last.access_token
+    }
 
     assert Post.find(p.id).is_fp
   end
 
-  test "should destroy previous feedback from user created within 24 hours" do
+  test 'should destroy previous feedback from user created within 24 hours' do
     p = Post.last
     p.feedbacks.delete_all
 
     user_id = User.last.id
 
-    f1 = p.feedbacks.create(user_id: user_id, feedback_type: "tpu-")
+    f1 = p.feedbacks.create(user_id: user_id, feedback_type: 'tpu-')
 
     assert p.feedbacks.count == 1
 
-    assert_no_difference "p.feedbacks.count" do
+    assert_no_difference 'p.feedbacks.count' do
       f2 = f1.dup
-      f2.feedback_type = "fpu-"
+      f2.feedback_type = 'fpu-'
       f2.save
     end
   end
@@ -121,7 +171,7 @@ class FeedbacksControllerTest < ActionController::TestCase
 
     user_id = User.last.id
 
-    f1 = p.feedbacks.create(user_id: user_id, feedback_type: "tpu-")
+    f1 = p.feedbacks.create(user_id: user_id, feedback_type: 'tpu-')
 
     f1_other_user = f1.dup
     f1_other_user.user_id = -12
@@ -129,9 +179,9 @@ class FeedbacksControllerTest < ActionController::TestCase
 
     assert p.feedbacks.count == 2
 
-    assert_no_difference "p.feedbacks.count" do
+    assert_no_difference 'p.feedbacks.count' do
       f2 = f1.dup
-      f2.feedback_type = "fpu-"
+      f2.feedback_type = 'fpu-'
       f2.save
     end
   end

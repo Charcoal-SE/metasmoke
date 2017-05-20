@@ -5,9 +5,8 @@ class UserSiteSetting < ApplicationRecord
   validate :site_count
 
   private
+
   def site_count
-    unless self.sites.present?
-      errors.add(:sites, 'must contain at least one site')
-    end
+    errors.add(:sites, 'must contain at least one site') unless sites.present?
   end
 end

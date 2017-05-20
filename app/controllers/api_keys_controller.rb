@@ -9,10 +9,10 @@ class ApiKeysController < ApplicationController
   end
 
   def revoke_write_tokens
-    unless ApiToken.where(api_key: @key).destroy_all
-      flash[:danger] = 'Failed to revoke all API write tokens - tokens need to be removed manually.'
-    else
+    if ApiToken.where(api_key: @key).destroy_all
       flash[:success] = "Successfully removed all write tokens belonging to #{@key.app_name}."
+    else
+      flash[:danger] = 'Failed to revoke all API write tokens - tokens need to be removed manually.'
     end
     redirect_to url_for(controller: :api_keys, action: :index)
   end
@@ -29,8 +29,7 @@ class ApiKeysController < ApplicationController
     redirect_to :admin_new_key
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @key.update key_params
@@ -46,8 +45,7 @@ class ApiKeysController < ApplicationController
     @keys = ApiKey.where(user: current_user)
   end
 
-  def owner_edit
-  end
+  def owner_edit; end
 
   def owner_update
     if @key.update owner_edit_params
@@ -77,19 +75,20 @@ class ApiKeysController < ApplicationController
   end
 
   private
-    def key_params
-      params.require(:api_key).permit(:key, :app_name, :user_id, :github_link)
-    end
 
-    def set_key
-      @key = ApiKey.find params[:id]
-    end
+  def key_params
+    params.require(:api_key).permit(:key, :app_name, :user_id, :github_link)
+  end
 
-    def verify_ownership
-      raise ActionController::RoutingError.new('Not Found') unless current_user == @key.user || current_user.is_admin
-    end
+  def set_key
+    @key = ApiKey.find params[:id]
+  end
 
-    def owner_edit_params
-      params.require(:api_key).permit(:app_name, :github_link)
-    end
+  def verify_ownership
+    raise ActionController::RoutingError, 'Not Found' unless current_user == @key.user || current_user.is_admin
+  end
+
+  def owner_edit_params
+    params.require(:api_key).permit(:app_name, :github_link)
+  end
 end

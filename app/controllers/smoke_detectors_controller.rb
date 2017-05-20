@@ -21,10 +21,14 @@ class SmokeDetectorsController < ApplicationController
   end
 
   def audits
-    @audits = Audited::Audit.where(auditable_type: "SmokeDetector").includes(:auditable, :user).order('created_at DESC').paginate(page: params[:page], per_page: 100)
+    @audits = Audited::Audit.where(auditable_type: 'SmokeDetector')
+                            .includes(:auditable, :user)
+                            .order('created_at DESC')
+                            .paginate(page: params[:page], per_page: 100)
   end
 
   private
+
   def set_smoke_detector
     @smoke_detector = SmokeDetector.find params[:id]
   end

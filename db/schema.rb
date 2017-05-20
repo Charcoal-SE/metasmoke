@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170430221501) do
-
+ActiveRecord::Schema.define(version: 20_170_430_221_501) do
   create_table 'api_keys', id: :integer, force: :cascade, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8' do |t|
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
@@ -50,11 +49,11 @@ ActiveRecord::Schema.define(version: 20170430221501) do
     t.string 'remote_address', collation: 'utf8mb4_bin'
     t.string 'request_uuid', collation: 'utf8mb4_bin'
     t.datetime 'created_at'
-    t.index ['associated_id', 'associated_type'], name: 'associated_index', length: { associated_type: 191 }
-    t.index ['auditable_id', 'auditable_type'], name: 'auditable_index', length: { auditable_type: 191 }
+    t.index %w[associated_id associated_type], name: 'associated_index', length: { associated_type: 191 }
+    t.index %w[auditable_id auditable_type], name: 'auditable_index', length: { auditable_type: 191 }
     t.index ['created_at'], name: 'index_audits_on_created_at'
     t.index ['request_uuid'], name: 'index_audits_on_request_uuid', length: { request_uuid: 191 }
-    t.index ['user_id', 'user_type'], name: 'user_index', length: { user_type: 191 }
+    t.index %w[user_id user_type], name: 'user_index', length: { user_type: 191 }
   end
 
   create_table 'commit_statuses', id: :integer, force: :cascade, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8' do |t|
@@ -138,7 +137,7 @@ ActiveRecord::Schema.define(version: 20170430221501) do
     t.datetime 'updated_at', null: false
   end
 
-  create_table 'flags', id: :integer, force: :cascade, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci' do |t|
+  create_table 'flags', id: :integer, force: :cascade, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8' do |t|
     t.string 'reason', collation: 'utf8_unicode_ci'
     t.string 'user_id', collation: 'utf8_unicode_ci'
     t.datetime 'created_at', null: false
@@ -155,7 +154,7 @@ ActiveRecord::Schema.define(version: 20170430221501) do
     t.datetime 'updated_at', null: false
   end
 
-  create_table 'ignored_users', id: :integer, force: :cascade, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci' do |t|
+  create_table 'ignored_users', id: :integer, force: :cascade, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8' do |t|
     t.string 'user_name', collation: 'utf8_unicode_ci'
     t.integer 'user_id'
     t.datetime 'created_at', null: false
@@ -173,7 +172,7 @@ ActiveRecord::Schema.define(version: 20170430221501) do
 
   create_table 'posts', id: :integer, force: :cascade, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8' do |t|
     t.string 'title', collation: 'utf8mb4_unicode_ci'
-    t.text 'body', limit: 16777215, collation: 'utf8mb4_unicode_ci'
+    t.text 'body', limit: 16_777_215, collation: 'utf8mb4_unicode_ci'
     t.string 'link', collation: 'utf8mb4_unicode_ci'
     t.datetime 'post_creation_date'
     t.datetime 'created_at'
@@ -181,7 +180,7 @@ ActiveRecord::Schema.define(version: 20170430221501) do
     t.integer 'site_id'
     t.string 'user_link', collation: 'utf8mb4_unicode_ci'
     t.string 'username', collation: 'utf8mb4_unicode_ci'
-    t.text 'why', limit: 16777215, collation: 'utf8mb4_unicode_ci'
+    t.text 'why', limit: 16_777_215, collation: 'utf8mb4_unicode_ci'
     t.integer 'user_reputation'
     t.integer 'score'
     t.integer 'upvote_count'
@@ -217,7 +216,7 @@ ActiveRecord::Schema.define(version: 20170430221501) do
     t.integer 'resource_id'
     t.datetime 'created_at'
     t.datetime 'updated_at'
-    t.index ['name', 'resource_type', 'resource_id'], name: 'index_roles_on_name_and_resource_type_and_resource_id', length: { name: 191, resource_type: 191 }
+    t.index %w[name resource_type resource_id], name: 'index_roles_on_name_and_resource_type_and_resource_id', length: { name: 191, resource_type: 191 }
     t.index ['name'], name: 'index_roles_on_name', length: { name: 191 }
   end
 
@@ -285,8 +284,8 @@ ActiveRecord::Schema.define(version: 20170430221501) do
   end
 
   create_table 'users', id: :integer, force: :cascade, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8' do |t|
-    t.string 'email', default: "', null: false, collation: 'utf8_unicode_ci"
-    t.string 'encrypted_password', default: "', null: false, collation: 'utf8_unicode_ci"
+    t.string 'email', default: '', null: false, collation: 'utf8_unicode_ci'
+    t.string 'encrypted_password', default: '', null: false, collation: 'utf8_unicode_ci'
     t.datetime 'remember_created_at'
     t.datetime 'created_at'
     t.datetime 'updated_at'
@@ -309,7 +308,7 @@ ActiveRecord::Schema.define(version: 20170430221501) do
   create_table 'users_roles', id: false, force: :cascade, options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8' do |t|
     t.integer 'user_id'
     t.integer 'role_id'
-    t.index ['user_id', 'role_id'], name: 'index_users_roles_on_user_id_and_role_id'
+    t.index %w[user_id role_id], name: 'index_users_roles_on_user_id_and_role_id'
   end
 
   add_foreign_key 'api_keys', 'users'

@@ -9,15 +9,12 @@ class ApplicationController < ActionController::Base
 
     @smoke_detector = SmokeDetector.find_by_access_token(provided_key)
 
-    if @smoke_detector.present?
-      return # Authorized
-    else
-      render plain: 'Go away', status: 403 and return
-    end
+    return if @smoke_detector.present? # Authorized
+    render(plain: 'Go away', status: 403)
   end
 
   def not_found
-    raise ActionController::RoutingError.new('Not Found')
+    raise ActionController::RoutingError, 'Not Found'
   end
 
   def after_sign_in_path_for(resource_or_scope)
@@ -29,7 +26,7 @@ class ApplicationController < ActionController::Base
       stored_location = nil
       begin
         stored_location = stored_location_for(resource_or_scope)
-      rescue
+      rescue # rubocop:disable Lint/HandleExceptions
       end
 
       request.env['omniauth.origin'] || stored_location || root_path
@@ -37,37 +34,33 @@ class ApplicationController < ActionController::Base
   end
 
   protected
-    def verify_developer
-      if !user_signed_in? || !current_user.has_role?(:admin)
-        raise ActionController::RoutingError.new('Not Found') and return
-      end
-    end
 
-    def verify_admin
-      if !user_signed_in? || !current_user.has_role?(:admin)
-        raise ActionController::RoutingError.new('Not Found') and return
-      end
-    end
+  def verify_developer
+    return if user_signed_in? && current_user.has_role?(:admin)
+    raise ActionController::RoutingError, 'Not Found'
+  end
 
-    def verify_code_admin
-      if !user_signed_in? || !current_user.has_role?(:code_admin)
-        raise ActionController::RoutingError.new('Not Found') and return
-      end
-    end
+  def verify_admin
+    return if user_signed_in? && current_user.has_role?(:admin)
+    raise ActionController::RoutingError, 'Not Found'
+  end
 
-    def verify_flagger
-      if !user_signed_in? || !current_user.has_role?(:flagger)
-        raise ActionController::RoutingError.new('Not Found') and return
-      end
-    end
+  def verify_code_admin
+    return if user_signed_in? && current_user.has_role?(:code_admin)
+    raise ActionController::RoutingError, 'Not Found'
+  end
 
-    def verify_reviewer
-      if !user_signed_in? || !current_user.has_role?(:reviewer)
-        raise ActionController::RoutingError.new('Not Found') and return
-      end
-    end
+  def verify_flagger
+    return if user_signed_in? && current_user.has_role?(:flagger)
+    raise ActionController::RoutingError, 'Not Found'
+  end
 
-    def configure_permitted_parameters
-      devise_parameter_sanitizer.permit(:sign_up, keys: [:username])
-    end
+  def verify_reviewer
+    return if user_signed_in? && current_user.has_role?(:reviewer)
+    raise ActionController::RoutingError, 'Not Found'
+  end
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:username])
+  end
 end

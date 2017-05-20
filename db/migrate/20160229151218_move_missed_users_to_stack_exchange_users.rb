@@ -3,15 +3,15 @@ class MoveMissedUsersToStackExchangeUsers < ActiveRecord::Migration[4.2]
     Post.where('stack_exchange_user_id IS NULL').each do |post|
       next if post.user_link.nil?
 
-      user_id = nil      
+      user_id = nil
 
       begin
-        user_id = post.user_link.scan(/\/u\/(\d*)/).first.first
+        user_id = post.user_link.scan(%r{/u/(\d*)}).first.first
       rescue
         next
       end
 
-      hash = {site_id: post.site_id, user_id: user_id}
+      hash = { site_id: post.site_id, user_id: user_id }
       se_user = StackExchangeUser.find_or_create_by(hash)
       se_user.reputation = post.user_reputation
       se_user.username = post.username

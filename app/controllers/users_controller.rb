@@ -1,9 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
 
-  def username
-
-  end
+  def username; end
 
   def set_username
     current_user.username = params[:username]
@@ -27,8 +25,7 @@ class UsersController < ApplicationController
     redirect_to url_for(controller: :users, action: :apps)
   end
 
-  def tf_status
-  end
+  def tf_status; end
 
   def enable_2fa
     secret = ROTP::Base32.random_base32
@@ -39,13 +36,12 @@ class UsersController < ApplicationController
     @qr_uri = "data:image/svg+xml;base64,#{Base64.encode64(qr_svg)}"
   end
 
-  def enable_code
-  end
+  def enable_code; end
 
   def confirm_enable_code
     unless current_user.two_factor_token.present?
       flash[:danger] = "Missed a step! There's no 2FA token on your account."
-      redirect_to url_for(controller: :users, action: :tf_status) and return
+      redirect_to(url_for(controller: :users, action: :tf_status)) && return
     end
 
     totp = ROTP::TOTP.new(current_user.two_factor_token)
@@ -59,13 +55,12 @@ class UsersController < ApplicationController
     end
   end
 
-  def disable_code
-  end
+  def disable_code; end
 
   def confirm_disable_code
     unless current_user.two_factor_token.present?
       flash[:danger] = "I don't know how you got here, but something is badly wrong."
-      redirect_to url_for(controller: :users, action: :tf_status) and return
+      redirect_to(url_for(controller: :users, action: :tf_status)) && return
     end
 
     totp = ROTP::TOTP.new(current_user.two_factor_token)
