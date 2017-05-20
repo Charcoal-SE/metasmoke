@@ -182,11 +182,11 @@ class Post < ApplicationRecord
   end
 
   def flaggers
-    User.joins(flag_logs).where(flag_logs: { success: true, post_id: id, is_auto: true })
+    User.joins(:flag_logs).where(flag_logs: { success: true, post_id: id, is_auto: true })
   end
 
   def manual_flaggers
-    User.joins(flag_logs).where(flag_logs: { success: true, post_id: id, is_auto: false })
+    User.joins(:flag_logs).where(flag_logs: { success: true, post_id: id, is_auto: false })
   end
 
   def fetch_revision_count(post = nil)
