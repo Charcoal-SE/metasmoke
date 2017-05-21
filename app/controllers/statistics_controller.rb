@@ -14,7 +14,7 @@ class StatisticsController < ApplicationController
   def create
     @statistic = Statistic.new(statistic_params)
 
-    if @statistic.posts_scanned.zero? || @statistic.api_quota == -1
+    if @statistic.posts_scanned == 0 || @statistic.api_quota == -1
       render(plain: 'OK', status: :created) && return
     end
 

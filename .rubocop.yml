@@ -20,6 +20,10 @@ Style/FileName:
 Style/FrozenStringLiteralComment:
   EnforcedStyle: always
   Enabled: true
+Style/NumericPredicate:
+  AutoCorrect: true
+  EnforcedStyle: comparison
+  Enabled: true
 
 # Want to refactor some stuff? Remove these.
 Metrics/AbcSize:
