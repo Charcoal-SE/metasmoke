@@ -1,0 +1,50 @@
+AllCops:
+  Include:
+    - '**/Rakefile'
+    - '**/config.ru'
+  Exclude:
+    - 'lib/**/*'
+    - 'bin/**/*'
+    - 'script/**/*'
+    - '**/*.json.jbuilder'
+    - 'vendor/bundle/**/*'
+    - 'db/schema.rb' # auto-generated :(
+
+Style/SymbolArray:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/FileName:
+  Exclude:
+    - Gemfile
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: always
+  Enabled: true
+Style/NumericPredicate:
+  AutoCorrect: true
+  EnforcedStyle: comparison
+  Enabled: true
+
+# Want to refactor some stuff? Remove these.
+Metrics/AbcSize:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 100
+  Exclude:
+    - 'db/migrate/*'
+Metrics/LineLength:
+  Max: 150
+Metrics/ClassLength:
+  Enabled: false
+Metrics/BlockLength:
+  ExcludedMethods:
+    - scope
+    - configure
+    - draw
+    - define
+    - test

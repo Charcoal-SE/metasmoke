@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddUserToSmokeDetectors < ActiveRecord::Migration[5.0]
   def change
     add_reference :smoke_detectors, :user, foreign_key: true

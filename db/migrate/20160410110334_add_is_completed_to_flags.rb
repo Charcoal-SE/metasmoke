@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class AddIsCompletedToFlags < ActiveRecord::Migration[5.0]
   def change
-    add_column :flags, :is_completed, :boolean, :default => false
+    add_column :flags, :is_completed, :boolean, default: false
   end
 end

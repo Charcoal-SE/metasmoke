@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSmokeDetectors < ActiveRecord::Migration[4.2]
   def change
     create_table :smoke_detectors do |t|

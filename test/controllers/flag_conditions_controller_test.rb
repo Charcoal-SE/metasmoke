@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class FlagConditionsControllerTest < ActionController::TestCase
-  test "should list my flag conditions" do
+  test 'should list my flag conditions' do
     sign_in users(:approved_user)
     get :index
 
@@ -9,7 +11,7 @@ class FlagConditionsControllerTest < ActionController::TestCase
     assert_response 200
   end
 
-  test "should list all flag conditions" do
+  test 'should list all flag conditions' do
     sign_in users(:approved_user)
 
     assert_raise ActionController::RoutingError do
@@ -25,38 +27,53 @@ class FlagConditionsControllerTest < ActionController::TestCase
     assert_response 200
   end
 
-  test "should create new flag condition" do
+  test 'should create new flag condition' do
     sign_in users(:approved_user)
 
-    assert_difference "FlagCondition.count" do
-      post :create, :params => { :flag_condition => { :min_weight => 300, :max_poster_rep => 10, :min_reason_count => 4, :sites => [sites(:Site_1).id, sites(:Site_2).id] }}
+    assert_difference 'FlagCondition.count' do
+      post :create, params: {
+        flag_condition: {
+          min_weight: 300,
+          max_poster_rep: 10,
+          min_reason_count: 4,
+          sites: [sites(:Site_1).id, sites(:Site_2).id]
+        }
+      }
     end
 
     assert_not_nil assigns(:condition)
     assert_response 302
   end
 
-  test "should get edit" do
+  test 'should get edit' do
     sign_in users(:approved_user)
-    get :edit, :params => { :id => FlagCondition.last.id, :flag_condition => { :sites => [Site.last.id] } }
+    get :edit, params: { id: FlagCondition.last.id, flag_condition: { sites: [Site.last.id] } }
 
     assert_not_nil assigns(:condition)
     assert_response 200
   end
 
-  test "should update flag condition" do
+  test 'should update flag condition' do
     sign_in users(:approved_user)
-    patch :update, :params => { :flag_condition => { :min_weight => 301, :max_poster_rep => 11, :min_reason_count => 5, :sites => [sites(:Site_1).id] }, :id => FlagCondition.last.id }
+    patch :update, params: {
+      flag_condition: {
+        min_weight: 301,
+        max_poster_rep: 11,
+        min_reason_count: 5,
+        sites: [sites(:Site_1).id]
+      },
+      id: FlagCondition.last.id
+    }
 
     assert_not_nil assigns(:condition)
     assert_response 302
   end
 
-  test "should destroy flag condition" do
+  test 'should destroy flag condition' do
     sign_in users(:approved_user)
 
-    assert_difference "FlagCondition.count", -1 do
-      delete :destroy, :params => { :id => FlagCondition.last.id }
+    assert_difference 'FlagCondition.count', -1 do
+      delete :destroy, params: { id: FlagCondition.last.id }
     end
     assert_not_nil assigns(:condition)
     assert_response 302

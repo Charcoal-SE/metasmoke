@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateFlagConditionsSitesJoinTable < ActiveRecord::Migration[5.0]
   def change
     create_table 'flag_conditions_sites' do |t|

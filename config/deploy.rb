@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 set :application, 'metasmoke'
 set :repo_url, 'https://github.com/Charcoal-SE/metasmoke.git'
 
@@ -20,19 +22,30 @@ set :deploy_to, '/var/railsapps/metasmoke'
 # set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, fetch(:linked_files, ['config/database.yml']).push('config/database.yml', 'config/secrets.yml', 'config/config.yml', 'config/ms-ci.pem')
+set :linked_files, fetch(:linked_files, ['config/database.yml']).push(
+  'config/database.yml',
+  'config/secrets.yml',
+  'config/config.yml',
+  'config/ms-ci.pem'
+)
 
 # Default value for linked_dirs is []
-# set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
+# set :linked_dirs, fetch(:linked_dirs, []).push(
+#   'log',
+#   'tmp/pids',
+#   'tmp/cache',
+#   'tmp/sockets',
+#   'vendor/bundle',
+#   'public/system'
+# )
 
 # Default value for default_env is {}
-# set :default_env, { path: "/opt/ruby/bin:$PATH" }
+# set :default_env, { path: '/opt/ruby/bin:$PATH' }
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
 namespace :deploy do
-
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
       # Here we can do anything such as:

@@ -1,5 +1,3 @@
-if File.readable?("REVISION")
-  CurrentCommit = File.read("REVISION").strip
-else
-  CurrentCommit = nil
-end
+# frozen_string_literal: true
+
+CurrentCommit = (File.read('REVISION').strip if File.readable?('REVISION')) # rubocop:disable Style/ConstantName

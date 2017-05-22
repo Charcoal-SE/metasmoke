@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 every 3.minutes do
   runner 'SmokeDetector.check_smokey_status'
 end
@@ -11,6 +13,6 @@ end
 # We don't want to run it *during* the spam wave,
 # as that could cause us to get unrespected API backoffs.
 
-every 1.day, :at => '2:00 am' do
-  runner 'User.where.not(:encrypted_api_token => nil).each { |u| u.update_moderator_sites rescue nil }'
+every 1.day, at: '2:00 am' do
+  runner 'User.where.not(encrypted_api_token: nil).each { |u| u.update_moderator_sites rescue nil }'
 end

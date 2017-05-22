@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
@@ -6,7 +8,6 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-
 module Metasmoke
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
@@ -14,7 +15,7 @@ module Metasmoke
     # -- all .rb files in that directory are automatically loaded.
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
-    # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
+    # Run 'rake -D time' for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
@@ -26,15 +27,18 @@ module Metasmoke
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins '*' #'http://stackoverflow.com', 'http://superuser.com', 'http://serverfault.com', /^http:\/\/.*.stackexchange.com$/, 'https://stackoverflow.com', 'https://superuser.com', 'https://serverfault.com', /^https:\/\/.*.stackexchange.com$/
+        origins '*'
+        # 'http://stackoverflow.com', 'http://superuser.com', 'http://serverfault.com',
+        # /^http:\/\/.*.stackexchange.com$/, 'https://stackoverflow.com', 'https://superuser.com',
+        # 'https://serverfault.com', /^https:\/\/.*.stackexchange.com$/
 
-        resource '/posts/recent.json', :headers => :any, :methods => [:get]
-        resource '/posts/add_feedback', :headers => :any, :methods => [:post], :credentials => true
+        resource '/posts/recent.json', headers: :any, methods: [:get]
+        resource '/posts/add_feedback', headers: :any, methods: [:post], credentials: true
 
-        resource '/api/*', :headers => :any, :methods => [:get, :post]
-        resource '/api/w/*', :headers => :any, :methods => [:post], :credentials => true
+        resource '/api/*', headers: :any, methods: [:get, :post]
+        resource '/api/w/*', headers: :any, methods: [:post], credentials: true
 
-        resource '/oauth/token', :headers => :any, :methods => [:get]
+        resource '/oauth/token', headers: :any, methods: [:get]
       end
     end
 
@@ -44,9 +48,9 @@ module Metasmoke
       Rack::MiniProfiler.config.pre_authorize_cb = lambda { |env|
         blacklisted_modes = [/pp=env/, /pp=profile-gc/, /pp=profile-memory/, /pp=analyze-memory/]
 
-        !blacklisted_modes.any? { |item|
+        blacklisted_modes.none? do |item|
           item =~ env['QUERY_STRING']
-        }
+        end
       }
     end
   end
