@@ -74,6 +74,9 @@
                   <li><%= link_to 'Log out', destroy_user_session_path, :method => :delete %></li>
                   <li><%= link_to 'Account Settings', edit_user_registration_path %></li>
                   <li><%= link_to 'Apps', url_for(:controller => '/users', :action => :apps) %></li>
+                  <% if current_user.try(:has_role?, :smoke_detector_runner) %>
+                    <li><%= link_to 'Smoke Detectors', smoke_detector_mine_path %></li>
+                  <% end %>
                   <li><a href="/admin">Tools</a></li>
                   <li class="dropdown-indent"><a href="/admin/invalidated">Invalidated Feedback</a></li>
                   <li class="dropdown-indent"><a href="/admin/api_feedback">Feedback via API</a></li>

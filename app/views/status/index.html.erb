@@ -51,6 +51,12 @@
   <a href="#" class="expand-status-table">Toggle hidden</a>
 <% end %>
 
-<br/>
+<hr/>
+
+<% if current_user.try(:has_role?, :smoke_detector_runner) %>
+  <strong><%= link_to "Manage my keys", smoke_detector_mine_path %></strong>
+<% end %>
+
+<br />
 
 <%= link_to "Audits", url_for(:controller => :smoke_detectors, :action => :audits) %>

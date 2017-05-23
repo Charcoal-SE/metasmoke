@@ -57,11 +57,15 @@ Rails.application.routes.draw do
   get 'status/code.json', to: 'code_status#api'
   get 'status/code', as: :code_status, to: 'code_status#index'
 
+  get 'smoke_detector/mine', to: 'smoke_detectors#mine'
+  get 'smoke_detector/new', to: 'smoke_detectors#new'
+  post 'smoke_detector/create', to: 'smoke_detectors#create'
+  post 'smoke_detector/:id/token_regen', to: 'smoke_detectors#token_regen', as: :smoke_detector_token_regen
   get 'smoke_detector/:id/statistics', to: 'statistics#index', as: :smoke_detector_statistics
-  delete 'smoke_detector/:id', to: 'smoke_detectors#destroy'
+  delete 'smoke_detector/:id', to: 'smoke_detectors#destroy', as: :smoke_detector_delete
   post 'smoke_detector/:id/force_failover', to: 'smoke_detectors#force_failover', as: :smoke_detector_force_failover
   get 'smoke_detector/audits', to: 'smoke_detectors#audits'
-  post 'statistics.json', to: 'statistics#create'
+  post "statistics.json", to: "statistics#create"
 
   get 'admin', to: 'admin#index'
   get 'admin/invalidated', to: 'admin#recently_invalidated'

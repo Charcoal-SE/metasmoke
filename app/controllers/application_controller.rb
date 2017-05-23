@@ -65,4 +65,9 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:username])
   end
+
+  def verify_smoke_detector_runner
+    return if user_signed_in? && current_user.has_role?(:smoke_detector_runner)
+    raise ActionController::RoutingError, 'Not Found'
+  end
 end
