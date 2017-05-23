@@ -65,7 +65,7 @@ Rails.application.routes.draw do
   delete 'smoke_detector/:id', to: 'smoke_detectors#destroy', as: :smoke_detector_delete
   post 'smoke_detector/:id/force_failover', to: 'smoke_detectors#force_failover', as: :smoke_detector_force_failover
   get 'smoke_detector/audits', to: 'smoke_detectors#audits'
-  post "statistics.json", to: "statistics#create"
+  post 'statistics.json', to: 'statistics#create'
 
   get 'admin', to: 'admin#index'
   get 'admin/invalidated', to: 'admin#recently_invalidated'
