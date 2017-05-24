@@ -33,11 +33,12 @@ class StackExchangeUsersController < ApplicationController
   end
 
   def dead
-    @user = StackExchangeUser.find params[id]
+    @user = StackExchangeUser.find params[:id]
+
     if @user.update(still_alive: false)
-      render plain: 'ok'
+      render plain: 'ok', status: :ok
     else
-      render plain: 'fail'
+      render plain: 'fail', status: :conflictt
     end
   end
 
