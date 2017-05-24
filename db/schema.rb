@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170522025142) do
+ActiveRecord::Schema.define(version: 20170524035300) do
 
   create_table "api_keys", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at", null: false
@@ -209,6 +209,7 @@ ActiveRecord::Schema.define(version: 20170522025142) do
     t.string "last_post_title", collation: "utf8mb4_unicode_ci"
     t.boolean "inactive", default: false
     t.integer "weight", default: 0
+    t.integer "maximum_weight", limit: 1
   end
 
   create_table "roles", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
