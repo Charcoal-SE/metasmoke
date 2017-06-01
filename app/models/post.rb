@@ -67,13 +67,16 @@ class Post < ApplicationRecord
       core_count = (max_flags / 2.0).ceil
       other_count = max_flags - core_count
 
+      core_users_used = []
+
       users.with_role(:core).shuffle.each do |user|
         break if core_count <= 0
         core_count -= post.send_autoflag(user, dry_run, available_user_ids[user.id])
+        core_users_used << user
       end
 
       # Go through all non-core users first; then add core users at the end. See #146
-      (users.without_role(:core).shuffle + users.with_role(:core).shuffle).each do |user|
+      ((users.without_role(:core).shuffle + users.with_role(:core).shuffle) - core_users_used).each do |user|
         break if other_count <= 0
         other_count -= post.send_autoflag(user, dry_run, available_user_ids[user.id])
       end
