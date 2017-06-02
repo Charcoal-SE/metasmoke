@@ -16,7 +16,7 @@ class Post < ApplicationRecord
   scope(:autoflagged, -> { includes(:flag_logs).where(flag_logs: { is_auto: true }).where.not(flag_logs: { id: nil }) })
 
   scope(:not_autoflagged, lambda {
-    left_joins('flag_logs ON flag_logs.post_id = posts.id').where('flag_logs.id IS NULL OR flag_logs.is_auto = 0')
+    left_joins(:flag_logs).where('flag_logs.id IS NULL OR flag_logs.is_auto = 0')
   })
 
   after_create do
