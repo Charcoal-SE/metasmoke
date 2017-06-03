@@ -138,7 +138,7 @@ ActiveRecord::Schema.define(version: 20170524035300) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "flags", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "flags", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.string "reason", collation: "utf8_unicode_ci"
     t.string "user_id", collation: "utf8_unicode_ci"
     t.datetime "created_at", null: false
@@ -155,7 +155,7 @@ ActiveRecord::Schema.define(version: 20170524035300) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "ignored_users", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "ignored_users", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.string "user_name", collation: "utf8_unicode_ci"
     t.integer "user_id"
     t.datetime "created_at", null: false
@@ -206,7 +206,7 @@ ActiveRecord::Schema.define(version: 20170524035300) do
 
   create_table "reasons", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "reason_name", collation: "utf8_unicode_ci"
-    t.string "last_post_title", collation: "utf8mb4_unicode_ci"
+    t.string "last_post_title", collation: "utf8_unicode_ci"
     t.boolean "inactive", default: false
     t.integer "weight", default: 0
     t.integer "maximum_weight", limit: 1
