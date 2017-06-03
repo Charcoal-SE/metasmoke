@@ -1,8 +1,10 @@
 <h3>User Feedback for <%= @user.username %></h3>
 
 <p>
-  <strong><%= @feedback_count %></strong>
-  feedbacks,
+  <span title='<%= @feedback_count_today %> feedbacks today'>
+  	<strong><%= @feedback_count %></strong>
+  	feedbacks,
+  </span>
   <strong><%= @invalid_count %></strong>
   invalidated
   (<strong><%= ((@invalid_count.to_f / @feedback_count.to_f) * 100).round(2) %>%</strong> invalid)
