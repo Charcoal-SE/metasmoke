@@ -198,9 +198,9 @@ class GithubController < ApplicationController
     context = params[:context]
     state = params[:state]
     target = params[:target_url]
-    pr = /https?:\/\/pullapprove\.com\/Charcoal-SE\/SmokeDetector\/pull-request\/(\d+)\/?/.match(target)[1].to_i
 
     if context == 'code-review/pullapprove' && state == 'success'
+      pr = /https?:\/\/pullapprove\.com\/Charcoal-SE\/SmokeDetector\/pull-request\/(\d+)\/?/.match(target)[1].to_i
       if !Octokit.client.pull_merged?('Charcoal-SE/SmokeDetector', pr)
         Octokit.client.merge_pull_request('Charcoal-SE/SmokeDetector', pr)
         message = "Merged SmokeDetector [##{pr}](https://github.com/Charcoal-SE/SmokeDetector/pulls/#{pr}."
