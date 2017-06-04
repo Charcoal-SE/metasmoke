@@ -11,7 +11,7 @@ gem 'awesome_print'
 
 gem 'aescrypt', '~> 2.0', '>= 2.0.2', github: 'Charcoal-SE/aescrypt'
 gem 'audited', '~> 4.4'
-gem 'devise', github: 'plataformatec/devise', branch: 'master'
+gem 'devise'
 gem 'htmlentities', '~> 4.3', '>= 4.3.4'
 gem 'httparty'
 gem 'jwt'
