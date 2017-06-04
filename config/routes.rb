@@ -134,6 +134,7 @@ Rails.application.routes.draw do
     post 'metasmoke_push_hook', to: 'github#metasmoke_push_hook', as: :github_metasmoke_push_hook
     post 'gollum', to: 'github#gollum_hook', as: :github_gollum_hook
     post 'project_status', to: 'github#any_status_hook', as: :github_project_status_hook
+    post 'pr_merge', to: 'github#pullapprove_merge_hook', as: :github_pr_merge_hook
   end
 
   scope '/api' do

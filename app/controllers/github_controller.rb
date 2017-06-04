@@ -194,8 +194,27 @@ class GithubController < ApplicationController
     ActionCable.server.broadcast('smokedetector_messages', message: message)
   end
 
-  private
+  def pullapprove_merge_hook
+    context = params[:context]
+    state = params[:state]
+    target = params[:target_url]
+    pr = /https?:\/\/pullapprove\.com\/Charcoal-SE\/SmokeDetector\/pull-request\/(\d+)\/?/.match(target)[1].to_i
 
+    if context == 'code-review/pullapprove' && state == 'success'
+      if !Octokit.client.pull_merged?('Charcoal-SE/SmokeDetector', pr)
+        Octokit.client.merge_pull_request('Charcoal-SE/SmokeDetector', pr)
+        message = "Merged SmokeDetector [##{pr}](https://github.com/Charcoal-SE/SmokeDetector/pulls/#{pr}."
+        ActionCable.server.broadcase('smokedetector_messages', message: message)
+        render plain: "Merged ##{pr}"
+      else
+        render plain: "##{pr} already merged"
+      end
+    else
+      render plain: 'Not PullApprove successful status, ignoring'
+    end
+  end
+
+  private
   def verify_github
     signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)
     render(plain: "You're not GitHub!", status: 403) && return unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
