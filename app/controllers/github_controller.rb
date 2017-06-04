@@ -200,14 +200,20 @@ class GithubController < ApplicationController
     target = params[:target_url]
 
     if context == 'code-review/pullapprove' && state == 'success'
-      pr = %r{https?:\/\/pullapprove\.com\/Charcoal-SE\/SmokeDetector\/pull-request\/(\d+)\/?}.match(target)[1].to_i
-      if !Octokit.client.pull_merged?('Charcoal-SE/SmokeDetector', pr)
-        Octokit.client.merge_pull_request('Charcoal-SE/SmokeDetector', pr)
-        message = "Merged SmokeDetector [##{pr}](https://github.com/Charcoal-SE/SmokeDetector/pulls/#{pr})."
+      pr_num = %r{https?:\/\/pullapprove\.com\/Charcoal-SE\/SmokeDetector\/pull-request\/(\d+)\/?}.match(target)[1].to_i
+      pr = Octokit.client.pull_request('Charcoal-SE/SmokeDetector', pr_num)
+
+      if pr[:user][:login] != 'SmokeDetector'
+        render plain: "Not a blacklist PR, not merging (##{pr_num})" and return
+      end
+
+      if !Octokit.client.pull_merged?('Charcoal-SE/SmokeDetector', pr_num)
+        Octokit.client.merge_pull_request('Charcoal-SE/SmokeDetector', pr_num)
+        message = "Merged SmokeDetector [##{pr_num}](https://github.com/Charcoal-SE/SmokeDetector/pulls/#{pr_num})."
         ActionCable.server.broadcase('smokedetector_messages', message: message)
-        render plain: "Merged ##{pr}"
+        render plain: "Merged ##{pr_num}"
       else
-        render plain: "##{pr} already merged"
+        render plain: "##{pr_num} already merged"
       end
     else
       render plain: 'Not PullApprove successful status, ignoring'
