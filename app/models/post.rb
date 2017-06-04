@@ -137,7 +137,7 @@ class Post < ApplicationRecord
 
   def reject_recent_duplicates_from_other_instances
     # If a different SmokeDetector has reported the same post in the last 5 minutes, reject it
-:
+
     return unless smoke_detector_id.present?
 
     conflict = Post.where(link: link)
