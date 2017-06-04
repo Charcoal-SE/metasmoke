@@ -200,7 +200,7 @@ class GithubController < ApplicationController
     target = params[:target_url]
 
     if context == 'code-review/pullapprove' && state == 'success'
-      pr = /https?:\/\/pullapprove\.com\/Charcoal-SE\/SmokeDetector\/pull-request\/(\d+)\/?/.match(target)[1].to_i
+      pr = %r(https?:\/\/pullapprove\.com\/Charcoal-SE\/SmokeDetector\/pull-request\/(\d+)\/?).match(target)[1].to_i
       if !Octokit.client.pull_merged?('Charcoal-SE/SmokeDetector', pr)
         Octokit.client.merge_pull_request('Charcoal-SE/SmokeDetector', pr)
         message = "Merged SmokeDetector [##{pr}](https://github.com/Charcoal-SE/SmokeDetector/pulls/#{pr}."
@@ -215,6 +215,7 @@ class GithubController < ApplicationController
   end
 
   private
+
   def verify_github
     signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)
     render(plain: "You're not GitHub!", status: 403) && return unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
