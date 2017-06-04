@@ -36,6 +36,7 @@ class AdminController < ApplicationController
     @feedback = @feedback.order('feedbacks.id DESC').paginate(page: params[:page], per_page: 100)
     @feedback_count = @feedback.count
     @invalid_count = @feedback.where(is_invalidated: true).count
+    @feedback_count_today = @feedback.where('feedbacks.updated_at > ?', Date.today).count
   end
 
   def flagged

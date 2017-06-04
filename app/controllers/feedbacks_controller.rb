@@ -93,9 +93,11 @@ class FeedbacksController < ApplicationController
       previous_identical = Feedback.ignored.where(post: @feedback.post, feedback_type: @feedback.feedback_type)
       previous_identical.update_all(is_ignored: false)
 
-      opposite_type = @feedback.feedback_type == 'tpu-' ? 'fp-' : 'tpu-'
-      previous_opposite = Feedback.ignored.where(post: @feedback.post, feedback_type: opposite_type)
-      previous_opposite.update_all(is_invalidated: true, is_ignored: false, invalidated_at: Time.now, invalidated_by: -1)
+      if @feedback.is_positive? || @feedback.is_negative?
+        opposite_type = @feedback.feedback_type == 'tpu-' ? 'fp-' : 'tpu-'
+        previous_opposite = Feedback.ignored.where(post: @feedback.post, feedback_type: opposite_type)
+        previous_opposite.update_all(is_invalidated: true, is_ignored: false, invalidated_at: Time.now, invalidated_by: -1)
+      end
     end
 
     if Feedback.where(chat_user_id: @feedback.chat_user_id).count == 0
