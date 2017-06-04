@@ -56,6 +56,68 @@ class PostsControllerTest < ActionController::TestCase
     end
   end
 
+  test 'should reject recent duplicates from other instances' do
+    post :create, params: {
+      post: {
+        title: 'blah blah blah',
+        body: 'blah blah',
+        link: '//stackoverflow.com/q/1234',
+        username: 'Undo',
+        user_reputation: 101,
+        user_link: '//stackoverflow.com/users/123',
+        reasons: ['Bad keyword in body']
+      },
+      key: SmokeDetector.first.access_token
+    }
+
+    assert_no_difference 'Post.count' do
+      post :create, params: {
+        post: {
+          title: 'blah blah blah',
+          body: 'blah blah',
+          link: '//stackoverflow.com/q/1234',
+          username: 'Undo',
+          user_reputation: 101,
+          user_link: '//stackoverflow.com/users/123',
+          reasons: ['Bad keyword in body']
+        },
+        key: SmokeDetector.last.access_token
+      }
+
+      assert_response :unprocessable_entity
+    end
+  end
+
+  test 'should not reject duplicate posts from same instance' do
+    post :create, params: {
+      post: {
+        title: 'blah blah blah',
+        body: 'blah blah',
+        link: '//stackoverflow.com/q/1234',
+        username: 'Undo',
+        user_reputation: 101,
+        user_link: '//stackoverflow.com/users/123',
+        reasons: ['Bad keyword in body']
+      },
+      key: SmokeDetector.first.access_token
+    }
+
+    assert_difference 'Post.count' do
+      post :create, params: {
+        post: {
+          title: 'blah blah blah',
+          body: 'blah blah',
+          link: '//stackoverflow.com/q/1234',
+          username: 'Undo',
+          user_reputation: 101,
+          user_link: '//stackoverflow.com/users/123',
+          reasons: ['Bad keyword in body']
+        },
+        key: SmokeDetector.first.access_token
+      }
+    end
+  end
+
   test 'should create new reason' do
     assert_difference 'Reason.count' do
       post :create, params: {

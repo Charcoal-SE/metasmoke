@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Post < ApplicationRecord
+  validate :reject_recent_duplicates_from_other_instances
+
   has_and_belongs_to_many :reasons
   has_many :feedbacks, dependent: :destroy
   has_many :deletion_logs, dependent: :destroy
@@ -131,6 +133,21 @@ class Post < ApplicationRecord
       post_link: link,
       post: JSON.parse(PostsController.render(locals: { post: self }, partial: 'post.json'))
     }
+  end
+
+  def reject_recent_duplicates_from_other_instances
+    # If a different SmokeDetector has reported the same post in the last 5 minutes, reject it
+:
+    return unless smoke_detector_id.present?
+
+    conflict = Post.where(link: link)
+                   .where('created_at > ?', 5.minutes.ago)
+                   .where.not(smoke_detector_id: smoke_detector_id)
+                   .last
+
+    return unless conflict.present?
+
+    errors.add(:base, "Reported in the last 5 minutes by a different instance: #{conflict.id}")
   end
 
   def update_feedback_cache
