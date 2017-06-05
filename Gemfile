@@ -98,4 +98,5 @@ end
 group :test do
   gem 'rails-controller-testing'
   gem 'webmock'
+  gem 'byebug'
 end
