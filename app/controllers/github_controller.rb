@@ -16,7 +16,7 @@ class GithubController < ApplicationController
 
     # Create a new CommitStatus
 
-    if CommitStatus.find_by_commit_sha(params[:sha])
+    if CommitStatus.find_by(commit_sha: params[:sha])
       render text: 'Already recorded status for commit', status: 200
       return
     end

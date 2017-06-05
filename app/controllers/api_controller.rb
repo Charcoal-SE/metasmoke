@@ -296,7 +296,7 @@ class ApiController < ApplicationController
   def spam_flag
     @post = Post.find params[:id]
 
-    unless @user.api_token.present?
+    if @user.api_token.blank?
       render status: 409, json: {
         error_name: 'not_write_authenticated',
         error_code: 409,
@@ -342,9 +342,9 @@ class ApiController < ApplicationController
   private
 
   def verify_key
-    @key = ApiKey.find_by_key(params[:key])
+    @key = ApiKey.find_by(key: params[:key])
     return if params[:key].present? && @key.present?
-    smokey = SmokeDetector.find_by_access_token(params[:key])
+    smokey = SmokeDetector.find_by(access_token: params[:key])
     return if smokey.present?
     render status: 403, json: {
       error_name: 'unauthenticated',

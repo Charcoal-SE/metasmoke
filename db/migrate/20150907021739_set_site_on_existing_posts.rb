@@ -5,7 +5,7 @@ class SetSiteOnExistingPosts < ActiveRecord::Migration[4.2]
     Post.all.each do |post|
       next if post.link.nil?
 
-      post.site = Site.find_by_site_domain(URI.parse(post.link).host)
+      post.site = Site.find_by(site_domain: URI.parse(post.link).host)
       post.save!
     end
   end

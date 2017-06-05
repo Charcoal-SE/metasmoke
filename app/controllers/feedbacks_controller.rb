@@ -72,7 +72,7 @@ class FeedbacksController < ApplicationController
 
     @feedback = Feedback.new(feedback_params)
 
-    @ignored = IgnoredUser.find_by_user_name(@feedback.user_name)
+    @ignored = IgnoredUser.find_by(user_name: @feedback.user_name)
     total_count = Feedback.unscoped.where(user_name: @feedback.user_name).count
     invalid_count = Feedback.invalid.where(user_name: @feedback.user_name).count
     if invalid_count > (0.04 * total_count) + 4

@@ -2,7 +2,7 @@
 
 class ApiChannel < ApplicationCable::Channel
   def subscribed
-    @key = ApiKey.find_by_key(params[:key])
+    @key = ApiKey.find_by(key: params[:key])
     if params[:key].present? && @key.present?
       stream_from 'api_feedback'
       stream_from 'api_flag_logs'

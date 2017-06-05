@@ -9,6 +9,6 @@ class UserSiteSetting < ApplicationRecord
   private
 
   def site_count
-    errors.add(:sites, 'must contain at least one site') unless sites.present?
+    errors.add(:sites, 'must contain at least one site') if sites.blank?
   end
 end

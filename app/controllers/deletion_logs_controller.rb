@@ -10,7 +10,7 @@ class DeletionLogsController < ApplicationController
   def create
     post_link = deletion_log_params[:post_link]
 
-    post = Post.find_by_link(post_link)
+    post = Post.find_by(link: post_link)
 
     if post.nil?
       render plain: 'Error: No post found for link', status: 404

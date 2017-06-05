@@ -74,7 +74,7 @@ class FlagSettingsController < ApplicationController
   def smokey_disable_flagging
     # -1 == System user in metasmoke prod
     Audited::Audit.as_user(User.find(-1)) do
-      FlagSetting.find_by_name('flagging_enabled').update(value: '0')
+      FlagSetting.find_by(name: 'flagging_enabled').update(value: '0')
     end
 
     SmokeDetector.send_message_to_charcoal('**Autoflagging disabled** through chat.')

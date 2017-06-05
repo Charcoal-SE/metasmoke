@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   def check_if_smokedetector
     provided_key = params[:key]
 
-    @smoke_detector = SmokeDetector.find_by_access_token(provided_key)
+    @smoke_detector = SmokeDetector.find_by(access_token: provided_key)
 
     return if @smoke_detector.present? # Authorized
     render(plain: 'Go away', status: 403)

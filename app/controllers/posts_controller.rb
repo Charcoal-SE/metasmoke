@@ -79,7 +79,7 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
 
     @post.smoke_detector = @smoke_detector
-    @post.site = Site.find_by_site_domain(URI.parse(@post.link).host)
+    @post.site = Site.find_by(site_domain: URI.parse(@post.link).host)
 
     params['post']['reasons'].each do |r|
       reason = Reason.find_or_create_by(reason_name: r.split('(').first.strip.humanize)
@@ -150,7 +150,7 @@ class PostsController < ApplicationController
   end
 
   def cast_spam_flag
-    unless current_user.api_token.present?
+    if current_user.api_token.blank?
       flash[:warning] = 'You must be write-authenticated to cast a spam flag.'
       redirect_to(authentication_status_path) && return
     end

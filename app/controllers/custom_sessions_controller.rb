@@ -29,7 +29,7 @@ class CustomSessionsController < Devise::SessionsController
   def verify_code
     target_user = User.find params[:uid]
 
-    unless target_user.two_factor_token.present?
+    if target_user.two_factor_token.blank?
       flash[:danger] = 'I have no idea how you got here, but something is very wrong.'
       redirect_to(root_path) && return
     end

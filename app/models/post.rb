@@ -54,7 +54,7 @@ class Post < ApplicationRecord
 
       uids = post.site.user_site_settings.where(user_id: available_user_ids.keys).map(&:user_id)
       users = User.where(id: uids, flags_enabled: true).where.not(encrypted_api_token: nil)
-      unless users.present?
+      if users.blank?
         post.send_not_autoflagged
         return 'No users eligible to flag'
       end
@@ -145,7 +145,7 @@ class Post < ApplicationRecord
                    .where.not(smoke_detector: smoke_detector)
                    .last
 
-    return unless conflict.present?
+    return if conflict.blank?
 
     errors.add(:base, "Reported in the last 5 minutes by a different instance: #{conflict.id}")
   end

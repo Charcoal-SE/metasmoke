@@ -152,7 +152,7 @@ class User < ApplicationRecord
       response['items'].each do |network_account|
         next unless network_account['user_type'] == 'moderator'
         domain = Addressable::URI.parse(network_account['site_url']).host
-        ModeratorSite.find_or_create_by(site_id: Site.find_by_site_domain(domain).id,
+        ModeratorSite.find_or_create_by(site_id: Site.find_by(site_domain: domain).id,
                                         user_id: id)
       end
 
@@ -180,7 +180,7 @@ class User < ApplicationRecord
     response = JSON.parse(Net::HTTP.get_response(uri).body)
     flag_options = response['items']
 
-    unless flag_options.present?
+    if flag_options.blank?
       begin
         # rubocop:disable Style/GuardClause
         if response['error_message'] == 'The account associated with the access_token does not have a user on the site'
@@ -196,9 +196,7 @@ class User < ApplicationRecord
 
     spam_flag_option = flag_options.select { |fo| fo['title'] == 'spam' }.first
 
-    unless spam_flag_option.present?
-      return false, 'Spam flag option not present'
-    end
+    return false, 'Spam flag option not present' if spam_flag_option.blank?
 
     request_params = { 'option_id' => spam_flag_option['option_id'], 'site' => site.site_domain }.merge auth_dict
     return true, 0 if dry_run

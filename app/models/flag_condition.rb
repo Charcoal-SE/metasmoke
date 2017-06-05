@@ -25,7 +25,7 @@ class FlagCondition < ApplicationRecord
   end
 
   def self.revalidate_all
-    FlagCondition.where(flags_enabled: true).each do |fc|
+    FlagCondition.where(flags_enabled: true).find_each do |fc|
       unless fc.validate
         fc.flags_enabled = false
         fc.save!

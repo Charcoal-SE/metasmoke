@@ -92,6 +92,6 @@ class FlagSettingsControllerTest < ActionDispatch::IntegrationTest
     assert FlagSetting['flagging_enabled'] == '0'
 
     # Should be recorded as System having done it
-    assert FlagSetting.find_by_name('flagging_enabled').audits.last.user_id == -1
+    assert FlagSetting.find_by(name: 'flagging_enabled').audits.last.user_id == -1
   end
 end

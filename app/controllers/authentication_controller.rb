@@ -57,7 +57,7 @@ class AuthenticationController < ApplicationController
     token = access_token_from_code(params[:code], AppConfig['stack_exchange']['login_redirect_uri'])
     access_token_info = info_for_access_token(token)
 
-    user = User.find_by_stack_exchange_account_id(access_token_info['account_id'])
+    user = User.find_by(stack_exchange_account_id: access_token_info['account_id'])
 
     if user.present?
       flash[:success] = "Successfully logged in as #{user.username}"

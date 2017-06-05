@@ -41,7 +41,7 @@ class UsersController < ApplicationController
   def enable_code; end
 
   def confirm_enable_code
-    unless current_user.two_factor_token.present?
+    if current_user.two_factor_token.blank?
       flash[:danger] = "Missed a step! There's no 2FA token on your account."
       redirect_to(url_for(controller: :users, action: :tf_status)) && return
     end
@@ -60,7 +60,7 @@ class UsersController < ApplicationController
   def disable_code; end
 
   def confirm_disable_code
-    unless current_user.two_factor_token.present?
+    if current_user.two_factor_token.blank?
       flash[:danger] = "I don't know how you got here, but something is badly wrong."
       redirect_to(url_for(controller: :users, action: :tf_status)) && return
     end
