@@ -62,6 +62,11 @@ class ApplicationController < ActionController::Base
     raise ActionController::RoutingError, 'Not Found'
   end
 
+  def verify_core
+    return if user_signed_in? && current_user.has_role?(:core)
+    raise ActionController::RoutingError, 'Not Found'
+  end
+
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:username])
   end

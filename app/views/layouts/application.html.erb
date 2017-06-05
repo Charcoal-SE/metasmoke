@@ -14,12 +14,12 @@
   <%= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" %>
   <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css" %>
   <%= stylesheet_link_tag "https://charcoal-se.org/assets/css/branding.css" %>
-  <%= javascript_include_tag "https://code.jquery.com/jquery-2.2.2.min.js" %>
+
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" %>
   <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js" %>
-
   <%= javascript_include_tag "//code.highcharts.com/highcharts.js", "chartkick" %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
   <%= csrf_meta_tags %>
   <%= action_cable_meta_tag %>
 </head>
@@ -115,6 +115,13 @@
       <% flash.each do |key, value| %>
         <div class="alert alert-<%= key %>"><%= value %></div>
       <% end %>
+
+      <p><em><a href="#" class="announcement-collapse">Hide announcements</a></em></p>
+      <div class="announcements">
+        <% Announcement.current.each do |a| %>
+          <%= render 'announcements/announcement', announcement: a %>
+        <% end %>
+      </div><br/>
 
       <%= yield %>
       <div class="footer">

@@ -1,0 +1,22 @@
+<h3>New Announcement</h3>
+<p>Use this form to create an announcement, which will be displayed prominently around metasmoke.</p>
+
+<%= form_tag url_for(controller: :announcements, action: :create) do %>
+  <div class="field">
+    <%= label_tag :text %>
+    <em class="text-muted">(Markdown allowed)</em><br/>
+    <%= text_area_tag :text, nil, rows: 5, cols: 80, class: 'form-control' %>
+  </div><br/>
+  <div class="field">
+    <%= label_tag :expiry_date, "Expiry (date & time)" %><br/>
+    <div class="input-group datetime">
+      <span class="input-group-addon">Date</span>
+      <%= date_field_tag :expiry_date, nil, class: 'form-control' %>
+      <span class="input-group-addon">Time</span>
+      <%= time_field_tag :expiry_time, nil, class: 'form-control' %>
+    </div>
+  </div><br/>
+  <div class="actions">
+    <%= submit_tag "Create", class: 'btn btn-success' %>
+  </div>
+<% end %>

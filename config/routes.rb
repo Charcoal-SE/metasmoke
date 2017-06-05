@@ -215,6 +215,11 @@ Rails.application.routes.draw do
     end
   end
 
+  scope '/announcements' do
+    get  'new', to: 'announcements#new'
+    post 'new', to: 'announcements#create'
+  end
+
   devise_for :users, controllers: { sessions: 'custom_sessions' }
   devise_scope :user do
     get 'users/2fa/login', to: 'custom_sessions#verify_2fa'

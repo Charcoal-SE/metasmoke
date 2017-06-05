@@ -10,12 +10,13 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require jquery
 //= require jquery_ujs
 //= require turbolinks
 //= require moment.min.js
-//= require_tree .
+//= require_directory .
 
-$(document).on('ready turbolinks:load', function() {
+$(document).on('turbolinks:load', function() {
 
   $('.sortable-table').tablesort();
 
@@ -34,7 +35,7 @@ $(document).on('ready turbolinks:load', function() {
       }
     })
     .done(function(data) {
-      if(data == "OK") {
+      if(data === "OK") {
         alert("Post successfully reported for admin attention.");
       }
     })
@@ -55,7 +56,7 @@ $(document).on('ready turbolinks:load', function() {
       'target': $(this)
     })
     .done(function(data) {
-      if(data == "OK") {
+      if(data === "OK") {
         alert("Marked done.");
         $(this.target).parent().parent().siblings().addBack().siblings(".flag-" + $(this.target).data("flag-id")).first().prev().remove();
         $(this.target).parents("tr").remove();
@@ -65,6 +66,13 @@ $(document).on('ready turbolinks:load', function() {
       alert("Failed to mark done: status " + jqXHR.status);
       console.error(jqXHR.responseText);
     });
-  })
+  });
+
+  $(".announcement-collapse").click(function(ev) {
+      ev.preventDefault();
+      $(".announcements").slideToggle(500);
+      var collapser = $(".announcement-collapse");
+      collapser.text(collapser.text().indexOf("Hide") > -1 ? "Show announcements" : "Hide announcements");
+  });
 
 });

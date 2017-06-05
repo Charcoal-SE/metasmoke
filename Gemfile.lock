@@ -225,6 +225,7 @@ GEM
     rainbow (2.2.2)
       rake
     rake (12.0.0)
+    redcarpet (3.4.0)
     redis (3.3.3)
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
@@ -345,6 +346,7 @@ DEPENDENCIES
   rack-mini-profiler
   rails (~> 5.1.1)
   rails-controller-testing
+  redcarpet
   redis
   rolify
   rotp
