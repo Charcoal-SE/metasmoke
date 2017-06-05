@@ -204,7 +204,8 @@ class GithubController < ApplicationController
       pr = Octokit.client.pull_request('Charcoal-SE/SmokeDetector', pr_num)
 
       if pr[:user][:login] != 'SmokeDetector'
-        render plain: "Not a blacklist PR, not merging (##{pr_num})" and return
+        render plain: "Not a blacklist PR, not merging (##{pr_num})"
+        return
       end
 
       if !Octokit.client.pull_merged?('Charcoal-SE/SmokeDetector', pr_num)
