@@ -79,11 +79,10 @@ class UsersController < ApplicationController
   def set_announcement_emails
     emails = params[:emails].present?
     if current_user.update(announcement_emails: emails)
-      flash[:success] = (emails ? "Subscribed to" : "Unsubscribed from") + " announcement emails."
-      redirect_to edit_user_registration_path
+      flash[:success] = (emails ? 'Subscribed to' : 'Unsubscribed from') + ' announcement emails.'
     else
-      flash[:danger] = "Failed to save your preferences."
-      redirect_to edit_user_registration_path
+      flash[:danger] = 'Failed to save your preferences.'
     end
+    redirect_to edit_user_registration_path
   end
 end
