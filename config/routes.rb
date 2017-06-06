@@ -216,8 +216,9 @@ Rails.application.routes.draw do
   end
 
   scope '/announcements' do
-    get  'new', to: 'announcements#new'
-    post 'new', to: 'announcements#create'
+    get  'new',    to: 'announcements#new'
+    post 'new',    to: 'announcements#create'
+    post 'enable', to: 'users#set_announcement_emails'
   end
 
   devise_for :users, controllers: { sessions: 'custom_sessions' }

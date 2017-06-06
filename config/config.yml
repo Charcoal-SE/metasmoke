@@ -2,8 +2,8 @@ common: &common
   smoke_detector:
     key: 'key'
   ses_smtp_credentials: 
-    username: 'AAAA'
-    password: 'password'
+    username: 'AKIAI3ZPAAHY52RE63LA'
+    password: 'AnLGOARIG69hpPZCScjmY8GCqF27X0Uc7WJC6RmtHkpj'
   github:
     secret_token: 'gh_sekret_token'
     integration_pem_file: '/ms-ci.pem'

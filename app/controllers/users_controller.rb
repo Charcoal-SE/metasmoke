@@ -75,4 +75,15 @@ class UsersController < ApplicationController
       redirect_to url_for(controller: :users, action: :disable_code)
     end
   end
+
+  def set_announcement_emails
+    emails = params[:emails].present?
+    if current_user.update(announcement_emails: emails)
+      flash[:success] = (emails ? "Subscribed to" : "Unsubscribed from") + " announcement emails."
+      redirect_to edit_user_registration_path
+    else
+      flash[:danger] = "Failed to save your preferences."
+      redirect_to edit_user_registration_path
+    end
+  end
 end

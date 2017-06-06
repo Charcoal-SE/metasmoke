@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170605110906) do
+ActiveRecord::Schema.define(version: 20170606161642) do
 
   create_table "announcements", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "text"
@@ -311,6 +311,7 @@ ActiveRecord::Schema.define(version: 20170605110906) do
     t.boolean "enabled_2fa"
     t.binary "salt"
     t.binary "iv"
+    t.boolean "announcement_emails"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

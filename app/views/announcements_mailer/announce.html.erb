@@ -1,0 +1,6 @@
+<h1>Announcement</h1>
+<p>This announcement was just posted on metasmoke:</p>
+<div>
+  <%= raw(sanitize(@announcement.text, scrubber: Announcement.scrubber)) %>
+</div>
+<p><em>Please do not reply to this email. Direct any comments or queries to <a href="https://chat.stackexchange.com/rooms/11540">Charcoal HQ</a>.</em></p>

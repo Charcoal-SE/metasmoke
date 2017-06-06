@@ -1,3 +1,3 @@
 <div class="alert alert-info">
-  <%= raw(sanitize(announcement.text)) %>
+  <%= raw(sanitize(announcement.text, scrubber: Announcement.scrubber)) %>
 </div>
