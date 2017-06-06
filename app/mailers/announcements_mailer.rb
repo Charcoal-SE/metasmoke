@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AnnouncementsMailer < ApplicationMailer
   default from: 'MS Announcements <metasmoke@erwaysoftware.com>'
 
