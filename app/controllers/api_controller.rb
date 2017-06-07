@@ -288,7 +288,7 @@ class ApiController < ApplicationController
 
   def report_post
     # We don't create any posts here, just send them on to Smokey to do all the processing
-    ActionCable.server.broadcast 'smokedetector_messages', report: { user: @user.username, post_link: params[post_link] }
+    ActionCable.server.broadcast 'smokedetector_messages', report: { user: @user.username, post_link: params[:post_link] }
 
     render plain: 'OK', status: 201
   end
