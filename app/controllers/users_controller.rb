@@ -85,4 +85,19 @@ class UsersController < ApplicationController
     end
     redirect_to edit_user_registration_path
   end
+
+  def update_email
+    unless current_user.oauth_created
+      flash[:danger] = "Nice try, but you've got a password that you can use."
+      redirect_to edit_user_registration_path
+      return
+    end
+
+    if current_user.update(email: params[:email])
+      flash[:success] = 'Updated your email address.'
+    else
+      flash[:danger] = 'Failed to update your email address.'
+    end
+    redirect_to edit_user_registration_path
+  end
 end

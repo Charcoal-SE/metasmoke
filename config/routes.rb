@@ -25,6 +25,8 @@ Rails.application.routes.draw do
     post '2fa/enable/code', to: 'users#confirm_enable_code'
     get '2fa/disable/code', to: 'users#disable_code'
     post '2fa/disable/code', to: 'users#confirm_disable_code'
+
+    post 'update_email', to: 'users#update_email'
   end
 
   scope '/review' do
@@ -223,7 +225,7 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { sessions: 'custom_sessions' }
   devise_scope :user do
-    get 'users/2fa/login', to: 'custom_sessions#verify_2fa'
+    get  'users/2fa/login', to: 'custom_sessions#verify_2fa'
     post 'users/2fa/login', to: 'custom_sessions#verify_code'
   end
 end

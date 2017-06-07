@@ -32,6 +32,19 @@
   </div>
 <% end %>
 
+<% unless current_user.oauth_created %>
+  <h3>No password? No problem!</h3>
+  <%= form_tag url_for(controller: '/users', action: :update_email) do %>
+    <div class="field">
+      <%= label_tag :email %><br/>
+      <%= email_field_tag :email, nil, class: 'form-control' %>
+    </div><br/>
+    <div class="actions">
+      <%= submit_tag 'Save', class: 'btn btn-success' %>
+    </div>
+  <% end %>
+<% end %>
+
 <h3>Two-factor authentication</h3>
 <p><%= link_to 'Configure two-factor authentication', url_for(:controller => '/users', :action => :tf_status) %></p>
 

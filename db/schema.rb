@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170606161642) do
+ActiveRecord::Schema.define(version: 20170607163348) do
 
   create_table "announcements", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "text"
@@ -312,6 +312,7 @@ ActiveRecord::Schema.define(version: 20170606161642) do
     t.binary "salt"
     t.binary "iv"
     t.boolean "announcement_emails"
+    t.boolean "oauth_created"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
