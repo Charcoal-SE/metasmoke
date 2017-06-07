@@ -70,9 +70,32 @@ $(document).on('turbolinks:load', function() {
 
   $(".announcement-collapse").click(function(ev) {
       ev.preventDefault();
-      $(".announcements").slideToggle(500);
-      var collapser = $(".announcement-collapse");
-      collapser.text(collapser.text().indexOf("Hide") > -1 ? "Show announcements" : "Hide announcements");
+
+      const collapser = $(".announcement-collapse");
+      let announcements = $(".announcements").children(".alert-info");
+      let showing = collapser.text().indexOf("Hide") > -1;
+      if (showing) {
+          let text = announcements.map((i, x) => $('p', x).text()).toArray().join(' ');
+          localStorage.setItem('metasmoke-announcements-read', text);
+          $('.announcements').slideUp(500);
+          collapser.text('Show announcements');
+      }
+      else {
+          localStorage.removeItem('metasmoke-announcements-read');
+          $('.announcements').slideDown(500);
+          collapser.text('Hide announcements');
+      }
   });
+
+  (function() {
+      let announcements = $(".announcements").children(".alert-info");
+      let text = announcements.map((i, x) => $('p', x).text()).toArray().join(' ');
+
+      let read = localStorage.getItem('metasmoke-announcements-read');
+      if (read && read === text) {
+          $(".announcements").hide();
+          $('.announcement-collapse').text('Show announcements');
+      }
+  })();
 
 });
