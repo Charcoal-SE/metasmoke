@@ -1,6 +1,9 @@
 machine:
   ruby:
     version: ruby-2.4.1
+checkout:
+  post:
+    - cp config/config.sample.yml config/config.yml
 database:
   post:
     - bundle exec rake test:prepare
