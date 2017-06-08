@@ -72,10 +72,10 @@ $(document).on('turbolinks:load', function() {
       ev.preventDefault();
 
       const collapser = $(".announcement-collapse");
-      var announcements = $(".announcements").children(".alert-info");
-      var showing = collapser.text().indexOf("Hide") > -1;
+      let announcements = $(".announcements").children(".alert-info");
+      let showing = collapser.text().indexOf("Hide") > -1;
       if (showing) {
-          var text = announcements.map((i, x) => $('p', x).text()).toArray().join(' ');
+          let text = announcements.map((i, x) => $('p', x).text()).toArray().join(' ');
           localStorage.setItem('metasmoke-announcements-read', text);
           $('.announcements').slideUp(500);
           collapser.text('Show announcements');
@@ -88,10 +88,10 @@ $(document).on('turbolinks:load', function() {
   });
 
   (function() {
-      var announcements = $(".announcements").children(".alert-info");
-      var text = announcements.map((i, x) => $('p', x).text()).toArray().join(' ');
+      let announcements = $(".announcements").children(".alert-info");
+      let text = announcements.map((i, x) => $('p', x).text()).toArray().join(' ');
 
-      var read = localStorage.getItem('metasmoke-announcements-read');
+      let read = localStorage.getItem('metasmoke-announcements-read');
       if (read && read === text) {
           $(".announcements").hide();
           $('.announcement-collapse').text('Show announcements');
