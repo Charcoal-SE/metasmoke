@@ -137,6 +137,7 @@ Rails.application.routes.draw do
     post 'gollum', to: 'github#gollum_hook', as: :github_gollum_hook
     post 'project_status', to: 'github#any_status_hook', as: :github_project_status_hook
     post 'pr_merge', to: 'github#pullapprove_merge_hook', as: :github_pr_merge_hook
+    post 'pr_approve/:number', to: 'github#add_pullapprove_comment', as: :github_pr_approve_comment
   end
 
   scope '/api' do

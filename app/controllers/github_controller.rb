@@ -221,6 +221,12 @@ class GithubController < ApplicationController
     end
   end
 
+  def add_pullapprove_comment
+    pr_num = params[:number]
+    Octokit.client.add_comment 'Charcoal-SE/SmokeDetector', pr_num, '!!/approve'
+    render plain: 'OK'
+  end
+
   private
 
   def verify_github

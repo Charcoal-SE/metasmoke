@@ -16,7 +16,7 @@ $(document).on 'turbolinks:load', ->
   else if /^\/post\/(\d*)(\/)?$/.test(location.pathname)
     if App.posts != undefined
       App.posts.unsubscribe()
-    
+
     App.posts = App.cable.subscriptions.create { channel: "PostsChannel", post_id: location.pathname.match(/^\/post\/(\d*)(\/)?$/)[1] },
       received: (data) ->
         $('strong.post-feedbacks').prepend(data['feedback'])
