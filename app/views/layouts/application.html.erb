@@ -117,12 +117,12 @@
       <% end %>
 
 	  <% if Announcement.current.count > 0 %>
-	      <p><em><a href="#" class="announcement-collapse">Hide announcements</a></em></p>
-	      <div class="announcements">
-	        <% Announcement.current.each do |a| %>
-	          <%= render 'announcements/announcement', announcement: a %>
-	        <% end %>
-	      </div><br/>
+	    <p><em><a href="#" class="announcement-collapse">Hide announcements</a></em></p>
+	    <div class="announcements">
+	      <% Announcement.current.each do |a| %>
+	        <%= render 'announcements/announcement', announcement: a %>
+	      <% end %>
+	    </div><br/>
 	  <% end %>
 
       <%= yield %>
