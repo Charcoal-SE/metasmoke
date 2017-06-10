@@ -83,6 +83,12 @@ group :development do
   # in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 
+  # Run `foreman start` to launch a local dev instance; 
+  # runs both `rails s` and starts the webpack server
+  # https://chat.stackexchange.com/transcript/message/38020561#38020561
+
+  gem 'foreman'
+
   # Export fixtures from local database
   gem 'db_fixtures_dump', github: 'Undo1/db_fixtures_dump'
 
