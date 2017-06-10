@@ -1,27 +1,26 @@
 // This really is the wrong file for all of this
 
-$(function() {
-  $(document).on('click', '.show-post-body', function(event) {
+$(() => {
+  $(document).on('click', '.show-post-body', function () {
     const span = $(this);
-    if (!$(this).data('postloaded')) {
+    if ($(this).data('postloaded')) {
+      togglePostBodyVisible(this);
+    } else {
       // If we need to lazy-load the post body from the server
       // This is criminally ugly
       $($(this).parent().children('div.post-body')[0]).load(`/post/${$(this).data('postid')}/body`, () => {
-        console.log("yay");
+        console.log('yay');
         togglePostBodyVisible(span);
         span.data('postloaded', true);
       });
-    } else {
-      togglePostBodyVisible(this);
     }
   });
-  $(document).on('keyup', '#search', function(event) {
-    var val;
-    val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+  $(document).on('keyup', '#search', function () {
+    const val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
     console.log(val);
-    $("tr").not('tr:first').show().filter(function() {
+    $('tr').not('tr:first').show().filter(function () {
       const text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
-      return !~text.indexOf(val);
+      return text.indexOf(val) !== -1;
     }).hide();
   });
   $(document).on('click', 'li.search-icon a', e => {
@@ -32,10 +31,10 @@ $(function() {
 });
 
 function togglePostBodyVisible(row) {
-  $(".post-body[data-postid='" + $(row).data("postid") + "']").toggle();
-  if ($(row).text() === "►") {
-    $(row).text("▼");
-  } else if ($(row).text() === "▼") {
-    $(row).text("►");
+  $('.post-body[data-postid=\'' + $(row).data('postid') + '\']').toggle();
+  if ($(row).text() === '►') {
+    $(row).text('▼');
+  } else if ($(row).text() === '▼') {
+    $(row).text('►');
   }
-};
+}

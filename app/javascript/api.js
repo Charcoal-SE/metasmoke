@@ -1,28 +1,27 @@
-$(document).on('ready turbolinks:load', function() {
-   $("#create_filter").on("click", function(ev) {
-       var checkboxes = $("input[type=checkbox]");
-       var bits = new Array(checkboxes.length);
+$(document).on('ready turbolinks:load', () => {
+  $('#create_filter').on('click', () => {
+    const checkboxes = $('input[type=checkbox]');
+    const bits = new Array(checkboxes.length);
 
-       $.each(checkboxes, function(index, item) {
-           var $item = $(item);
-           var arrayIndex = $item.data("index");
-           if ($item.is(":checked")) {
-               bits[arrayIndex] = 1;
-           }
-           else {
-               bits[arrayIndex] = 0;
-           }
-       });
+    $.each(checkboxes, (index, item) => {
+      const $item = $(item);
+      const arrayIndex = $item.data('index');
+      if ($item.is(':checked')) {
+        bits[arrayIndex] = 1;
+      } else {
+        bits[arrayIndex] = 0;
+      }
+    });
 
-       var unsafeFilter = "";
-       while (bits.length) {
-           var nextByte = bits.splice(0, 8).join("");
-           var charCode = parseInt(nextByte.toString(), 2);
-           unsafeFilter += String.fromCharCode(charCode);
-           console.log(nextByte, charCode, unsafeFilter);
-       }
+    let unsafeFilter = '';
+    while (bits.length) {
+      const nextByte = bits.splice(0, 8).join('');
+      const charCode = parseInt(nextByte.toString(), 2);
+      unsafeFilter += String.fromCharCode(charCode);
+      console.log(nextByte, charCode, unsafeFilter);
+    }
 
-       var filter = encodeURIComponent(unsafeFilter);
-       prompt("Calculated, URL-encoded filter:", filter);
-   });
+    const filter = encodeURIComponent(unsafeFilter);
+    window.prompt('Calculated, URL-encoded filter:', filter);
+  });
 });

@@ -1,12 +1,10 @@
 // Note: You must restart bin/webpack-dev-server for changes to take effect
 
-/* eslint global-require: 0 */
+const merge = require('webpack-merge');
+const CompressionPlugin = require('compression-webpack-plugin');
+const BabiliPlugin = require('babili-webpack-plugin');
 
-const webpack = require('webpack')
-const merge = require('webpack-merge')
-const CompressionPlugin = require('compression-webpack-plugin')
-const BabiliPlugin = require('babili-webpack-plugin')
-const sharedConfig = require('./shared.js')
+const sharedConfig = require('./shared');
 
 module.exports = merge(sharedConfig, {
   output: { filename: '[name]-[chunkhash].js' },
@@ -21,4 +19,4 @@ module.exports = merge(sharedConfig, {
       test: /\.(js|css|html|json|ico|svg|eot|otf|ttf)$/
     })
   ]
-})
+});

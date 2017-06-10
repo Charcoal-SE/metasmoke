@@ -6,6 +6,12 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
+/* eslint-disable
+  import/no-unassigned-import,
+  import/newline-after-import,
+  import/first
+*/
+
 import 'bootstrap';
 import Highcharts from 'highcharts';
 window.Highcharts = Highcharts;
@@ -15,7 +21,7 @@ import 'jquery-tablesort';
 import 'livestamp';
 
 import Turbolinks from 'turbolinks';
-import '../turbolinks_prefetch';
+import '../turbolinks_prefetch.coffee'; // The original is in coffee.
 Turbolinks.start();
 
 window.jQuery = $;
@@ -32,86 +38,81 @@ import '../stack_exchange_users';
 import '../status';
 import '../user_site_settings';
 
-$(document).on('turbolinks:load', function() {
-
+$(document).on('turbolinks:load', () => {
   $('.sortable-table').tablesort();
 
   $('.selectpicker').selectpicker();
 
-  $(".admin-report").click(function(ev) {
+  $('.admin-report').click(function (ev) {
     ev.preventDefault();
-    var reason = prompt("Why does this post need admin attention?");
-    if(reason === null) return;
+    const reason = window.prompt('Why does this post need admin attention?');
+    if (reason === null) {
+      return;
+    }
     $.ajax({
-      'type': 'POST',
-      'url': '/posts/needs_admin',
-      'data': {
-        'id': $(this).data('post-id'),
-        'reason': reason
+      type: 'POST',
+      url: '/posts/needs_admin',
+      data: {
+        id: $(this).data('post-id'),
+        reason
       }
-    })
-    .done(function(data) {
-      if(data === "OK") {
-        alert("Post successfully reported for admin attention.");
+    }).done(data => {
+      if (data === 'OK') {
+        window.alert('Post successfully reported for admin attention.');
       }
-    })
-    .fail(function(jqXHR, textStatus, errorThrown) {
-      alert("Post was not reported: status " + jqXHR.status);
+    }).fail(jqXHR => {
+      window.alert('Post was not reported: status ' + jqXHR.status);
       console.error(jqXHR.responseText);
     });
   });
 
-  $(".admin-report-done").click(function(ev) {
+  $('.admin-report-done').click(function (ev) {
     ev.preventDefault();
     $.ajax({
-      'type': 'POST',
-      'url': '/admin/clear_flag',
-      'data': {
-        'id': $(this).data("flag-id")
+      type: 'POST',
+      url: '/admin/clear_flag',
+      data: {
+        id: $(this).data('flag-id')
       },
-      'target': $(this)
-    })
-    .done(function(data) {
-      if(data === "OK") {
-        alert("Marked done.");
-        $(this.target).parent().parent().siblings().addBack().siblings(".flag-" + $(this.target).data("flag-id")).first().prev().remove();
-        $(this.target).parents("tr").remove();
+      target: $(this)
+    }).done(function (data) {
+      if (data === 'OK') {
+        window.alert('Marked done.');
+        $(this.target).parent().parent().siblings().addBack().siblings('.flag-' + $(this.target).data('flag-id')).first().prev().remove();
+        $(this.target).parents('tr').remove();
       }
-    })
-    .fail(function(jqXHR, textStatus, errorThrown) {
-      alert("Failed to mark done: status " + jqXHR.status);
+    }).fail(jqXHR => {
+      window.alert('Failed to mark done: status ' + jqXHR.status);
       console.error(jqXHR.responseText);
     });
   });
 
-  $(".announcement-collapse").click(function(ev) {
-      ev.preventDefault();
+  $('.announcement-collapse').click(ev => {
+    ev.preventDefault();
 
-      const collapser = $(".announcement-collapse");
-      let announcements = $(".announcements").children(".alert-info");
-      let showing = collapser.text().indexOf("Hide") > -1;
-      if (showing) {
-          let text = announcements.map((i, x) => $('p', x).text()).toArray().join(' ');
-          localStorage.setItem('metasmoke-announcements-read', text);
-          $('.announcements').slideUp(500);
-          collapser.text('Show announcements');
-      }
-      else {
-          localStorage.removeItem('metasmoke-announcements-read');
-          $('.announcements').slideDown(500);
-          collapser.text('Hide announcements');
-      }
+    const collapser = $('.announcement-collapse');
+    const announcements = $('.announcements').children('.alert-info');
+    const showing = collapser.text().indexOf('Hide') > -1;
+    if (showing) {
+      const text = announcements.map((i, x) => $('p', x).text()).toArray().join(' ');
+      localStorage.setItem('metasmoke-announcements-read', text);
+      $('.announcements').slideUp(500);
+      collapser.text('Show announcements');
+    } else {
+      localStorage.removeItem('metasmoke-announcements-read');
+      $('.announcements').slideDown(500);
+      collapser.text('Hide announcements');
+    }
   });
 
-  (function() {
-      let announcements = $(".announcements").children(".alert-info");
-      let text = announcements.map((i, x) => $('p', x).text()).toArray().join(' ');
+  (function () {
+    const announcements = $('.announcements').children('.alert-info');
+    const text = announcements.map((i, x) => $('p', x).text()).toArray().join(' ');
 
-      let read = localStorage.getItem('metasmoke-announcements-read');
-      if (read && read === text) {
-          $(".announcements").hide();
-          $('.announcement-collapse').text('Show announcements');
-      }
+    const read = localStorage.getItem('metasmoke-announcements-read');
+    if (read && read === text) {
+      $('.announcements').hide();
+      $('.announcement-collapse').text('Show announcements');
+    }
   })();
-
 });

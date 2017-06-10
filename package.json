@@ -1,4 +1,43 @@
 {
+  "scripts": {
+    "test": "xo"
+  },
+  "xo": {
+    "envs": [
+      "browser",
+      "es6"
+    ],
+    "globals": [
+      "App",
+      "$"
+    ],
+    "parser": "babel-eslint",
+    "space": true,
+    "rules": {
+      "unicorn/filename-case": [
+        "error",
+        {
+          "case": "snakeCase"
+        }
+      ],
+      "object-curly-spacing": [
+        "error",
+        "always"
+      ],
+      "camelcase": [
+        "error",
+        {
+          "properties": "never"
+        }
+      ],
+      "no-eq-null": "off",
+      "eqeqeq": [
+        "error",
+        "smart"
+      ],
+      "no-alert": "off"
+    }
+  },
   "dependencies": {
     "actioncable": "^5.1.1",
     "autoprefixer": "^7.1.1",
@@ -39,6 +78,8 @@
     "webpack-merge": "^4.1.0"
   },
   "devDependencies": {
-    "webpack-dev-server": "^2.4.5"
+    "babel-eslint": "^7.2.3",
+    "webpack-dev-server": "^2.4.5",
+    "xo": "^0.18.2"
   }
 }

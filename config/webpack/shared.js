@@ -3,25 +3,25 @@
 /* eslint global-require: 0 */
 /* eslint import/no-dynamic-require: 0 */
 
-const webpack = require('webpack')
-const { basename, dirname, join, relative, resolve } = require('path')
-const { sync } = require('glob')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const ManifestPlugin = require('webpack-manifest-plugin')
-const extname = require('path-complete-extname')
-const { env, settings, output, loadersDir } = require('./configuration.js')
+const { basename, dirname, join, relative, resolve } = require('path');
+const { sync } = require('glob');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
+const webpack = require('webpack');
+const extname = require('path-complete-extname');
+const { env, settings, output, loadersDir } = require('./configuration.js');
 
-const extensionGlob = `**/*{${settings.extensions.join(',')}}*`
-const entryPath = join(settings.source_path, settings.source_entry_path)
-const packPaths = sync(join(entryPath, extensionGlob))
+const extensionGlob = `**/*{${settings.extensions.join(',')}}*`;
+const entryPath = join(settings.source_path, settings.source_entry_path);
+const packPaths = sync(join(entryPath, extensionGlob));
 
 module.exports = {
   entry: packPaths.reduce(
     (map, entry) => {
-      const localMap = map
-      const namespace = relative(join(entryPath), dirname(entry))
-      localMap[join(namespace, basename(entry, extname(entry)))] = resolve(entry)
-      return localMap
+      const localMap = map;
+      const namespace = relative(join(entryPath), dirname(entry));
+      localMap[join(namespace, basename(entry, extname(entry)))] = resolve(entry);
+      return localMap;
     }, {}
   ),
 
@@ -43,7 +43,7 @@ module.exports = {
       writeToFileEmit: true
     }),
     new webpack.ProvidePlugin({
-      'App': [resolve(settings.source_path, '_app.js'), 'default'],
+      App: [resolve(settings.source_path, '_app.js'), 'default'],
       'window.jQuery': 'jquery',
       jQuery: 'jquery',
       $: 'jquery'
@@ -61,4 +61,4 @@ module.exports = {
   resolveLoader: {
     modules: ['node_modules']
   }
-}
+};
