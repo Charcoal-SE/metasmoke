@@ -12,10 +12,6 @@
   import/first
 */
 
-import 'bootstrap';
-import Highcharts from 'highcharts';
-window.Highcharts = Highcharts;
-
 import 'bootstrap-select';
 import 'jquery-tablesort';
 import 'livestamp';
