@@ -48,6 +48,11 @@ module.exports = {
     })
   ],
 
+  externals: {
+    jquery: 'jQuery',
+    moment: 'moment'
+  },
+
   resolve: {
     extensions: settings.extensions,
     modules: [
