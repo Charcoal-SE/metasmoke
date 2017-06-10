@@ -15,7 +15,7 @@ $(() => {
       }
       if (commit != null) {
         if ($('.commit-sha').data('sha') === commit) {
-          return; // don’t worry! nothing’s changed!
+          return; // Don’t worry! nothing’s changed!
         }
         $('.commit-sha').attr('href', `https://github.com/Charcoal-SE/metasmoke/commit/${commit}`)
                         .children('code').text(commit.slice(0, 7));
