@@ -12,15 +12,9 @@
   import/first
 */
 
-import 'bootstrap-select';
-import 'jquery-tablesort';
-import 'livestamp';
-
 import Turbolinks from 'turbolinks';
 import '../turbolinks_prefetch.coffee'; // The original is in coffee.
-Turbolinks.start();
-
-window.jQuery = $;
+setTimeout(() => Turbolinks.start());
 
 import '../cable';
 
