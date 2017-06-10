@@ -1,4 +1,6 @@
-function ready() {
+import { onLoad } from './util';
+
+onLoad(() => {
   $('img.stack_exchange_user_flair').error(function () {
     $(this).replaceWith('<h3><img src=\'' + $(this).data('site-logo') + '\'> ' + $(this).data('username') + ' (' + $(this).data('reputation') + ')</h3><p class=\'text-danger\'>(user has been deleted)</p>');
   });
@@ -17,7 +19,4 @@ function ready() {
       }
     }).fail(jqXHR => console.error('something went wrong: update returned', jqXHR.status, jqXHR.responseText));
   });
-}
-
-$(document).ready(ready);
-$(document).on('turbolinks:load', ready);
+});

@@ -1,4 +1,6 @@
-$(document).on('ready turbolinks:load', () => {
+import { onLoad } from './util';
+
+onLoad(() => {
   $('#red-button').on('click', function () {
     const flagsEnabled = $(this).is(':checked');
     $.ajax({

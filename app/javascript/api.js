@@ -1,4 +1,6 @@
-$(document).on('ready turbolinks:load', () => {
+import { onLoad } from './util';
+
+onLoad(() => {
   $('#create_filter').on('click', () => {
     const checkboxes = $('input[type=checkbox]');
     const bits = new Array(checkboxes.length);

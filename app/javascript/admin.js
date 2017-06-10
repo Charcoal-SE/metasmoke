@@ -1,4 +1,6 @@
-$(document).on('turbolinks:load', () => {
+import { onLoad } from './util';
+
+onLoad(() => {
   $('input.permissions-checkbox').change(function () {
     const $this = $(this);
     $this.disabled = true;

@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-$(document).on('ready turbolinks:load', () => {
+$(() => {
   App.cable.subscriptions.create('TopbarChannel', {
     received({ review, commit, last_ping: lastPing }) {
       console.log(review, commit, lastPing);

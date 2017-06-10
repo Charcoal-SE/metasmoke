@@ -35,7 +35,16 @@
         "error",
         "smart"
       ],
-      "no-alert": "off"
+      "no-alert": "off",
+      "spaced-comment": [
+        "error",
+        "always",
+        {
+          "exceptions": [
+            "*"
+          ]
+        }
+      ]
     }
   },
   "dependencies": {

@@ -2,4 +2,5 @@
 
 import './flag_logs';
 import './posts';
+import './post';
 import './topbar';
