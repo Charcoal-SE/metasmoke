@@ -1,5 +1,7 @@
 // Vendor stuff
 
+/* eslint-disable import/no-unassigned-import */
+
 import 'bootstrap-select';
 import 'jquery-tablesort';
 import 'livestamp';
