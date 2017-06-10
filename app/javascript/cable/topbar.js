@@ -14,13 +14,12 @@ $(() => {
         $('.navbar .reviews-count').text(review || '');
       }
       if (commit != null) {
-        $('.commit').attr('href', `https://github.com/Charcoal-SE/metasmoke/commit/${commit}`)
-                    .children('code').text(commit.slice(0, 7));
-        $('.nav + div').prepend($(`
-          <div class='alert alert-warning' role='alert'>
-            This page has been updated. <a href='${location.href}' data-turbolinks='false'>Refresh</a> to get the latest version.
-          </div>
-        `));
+        if ($('.commit-sha').data('sha') === commit) {
+          return; // don’t worry! nothing’s changed!
+        }
+        $('.commit-sha').attr('href', `https://github.com/Charcoal-SE/metasmoke/commit/${commit}`)
+                        .children('code').text(commit.slice(0, 7));
+        $('#metasmoke-deployed-banner').slideDown();
       }
       if (lastPing != null) {
         $('.navbar .status').data('last-ping', lastPing);

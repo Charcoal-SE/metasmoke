@@ -4,4 +4,5 @@
 
 import 'bootstrap-select';
 import 'jquery-tablesort';
+import 'jquery-ujs';
 import 'livestamp';

@@ -4,6 +4,9 @@
 class TopbarChannel < ApplicationCable::Channel
   def subscribed
     stream_from 'topbar'
+    Thread.new do
+      ActionCable.server.broadcast 'topbar', commit: CurrentCommit
+    end
   end
 
   def unsubscribed

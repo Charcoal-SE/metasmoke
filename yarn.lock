@@ -3075,7 +3075,13 @@ jquery-tablesort@^0.0.11:
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/jquery-tablesort/-/jquery-tablesort-0.0.11.tgz#b1167542ff0001e8bdd6a64e1c58d92208228301"
 
-jquery@>=1.8, jquery@>=1.9.1:
+jquery-ujs@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/jquery-ujs/-/jquery-ujs-1.2.2.tgz#6a8ef1020e6b6dda385b90a4bddc128c21c56397"
+  dependencies:
+    jquery ">=1.8.0"
+
+jquery@>=1.8, jquery@>=1.8.0, jquery@>=1.9.1:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-2.2.4.tgz#2c89d6889b5eac522a7eea32c14521559c6cbf02"
 

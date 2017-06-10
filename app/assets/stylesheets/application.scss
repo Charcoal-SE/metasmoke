@@ -147,3 +147,10 @@ body .profiler-results {
   position: absolute;
   top: 52px;
 }
+
+#metasmoke-deployed-banner {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 15px;
+  z-index: 1048576;
+}
