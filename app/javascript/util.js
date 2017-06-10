@@ -15,9 +15,6 @@ $(document).on('turbolinks:load', () => {
   const { pathname } = location;
   for (const route of routes) {
     if (route.pathisRe ? pathname.match(route.path) : route.path === pathname) {
-      if (route.current) {
-        continue;
-      }
       route.enter.call(null, pathname);
       route.current = true;
     } else if (route.current) {
