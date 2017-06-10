@@ -8,7 +8,6 @@
       "es6"
     ],
     "globals": [
-      "App",
       "$"
     ],
     "parser": "babel-eslint",

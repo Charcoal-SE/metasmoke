@@ -43,7 +43,6 @@ module.exports = {
       writeToFileEmit: true
     }),
     new webpack.ProvidePlugin({
-      App: [resolve(settings.source_path, '_app.js'), 'default'],
       'window.jQuery': 'jquery',
       jQuery: 'jquery',
       $: 'jquery'

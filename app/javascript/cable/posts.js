@@ -1,11 +1,12 @@
 import { route } from '../util';
+import cable from './cable';
 
 let isPageVisible = true;
 let numUnseenPosts = 0;
 
 let postsSocket;
 route('/posts', () => {
-  postsSocket = App.cable.subscriptions.create('PostsChannel', {
+  postsSocket = cable.subscriptions.create('PostsChannel', {
     received(data) {
       $('table#posts-index-table tbody').prepend(data.row);
       if (!isPageVisible) {

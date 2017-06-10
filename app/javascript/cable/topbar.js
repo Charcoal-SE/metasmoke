@@ -1,7 +1,8 @@
 import moment from 'moment';
+import cable from './cable';
 
 $(() => {
-  App.cable.subscriptions.create('TopbarChannel', {
+  cable.subscriptions.create('TopbarChannel', {
     received({ review, commit, last_ping: lastPing }) {
       console.log(review, commit, lastPing);
       if (review != null) {

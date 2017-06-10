@@ -1,8 +1,9 @@
 import { route } from '../util';
+import cable from './cable';
 
 let postSocket;
 route(/^\/post\/(\d*)(\/)?$/, () => {
-  postSocket = App.cable.subscriptions.create({
+  postSocket = cable.subscriptions.create({
     channel: 'PostsChannel',
     post_id: location.pathname.match(/^\/post\/(\d*)(\/)?$/)[1]
   }, {
