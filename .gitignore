@@ -36,3 +36,5 @@ coverage
 .ruby-version
 
 config/deploy/*
+/public/packs
+/node_modules

@@ -1,6 +1,11 @@
 machine:
   ruby:
     version: ruby-2.4.1
+  node:
+    version: node # latest stable
+dependencies:
+  post:
+    - curl -o- -L https://yarnpkg.com/install.sh | bash # install latest Yarn
 checkout:
   post:
     - cp config/config.sample.yml config/config.yml
