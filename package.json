@@ -43,7 +43,8 @@
             "*"
           ]
         }
-      ]
+      ],
+      "no-console": "error"
     }
   },
   "dependencies": {
@@ -62,6 +63,7 @@
     "coffee-script": "^1.12.6",
     "compression-webpack-plugin": "^0.4.0",
     "css-loader": "^0.28.4",
+    "debug": "^2.6.8",
     "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "^0.11.2",
     "glob": "^7.1.2",

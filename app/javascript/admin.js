@@ -1,4 +1,8 @@
+import createDebug from 'debug';
+
 import { onLoad } from './util';
+
+const debug = createDebug('ms:admin');
 
 onLoad(() => {
   $('input.permissions-checkbox').change(function () {
@@ -30,7 +34,7 @@ onLoad(() => {
       url: '/admin/keys/' + $this.data('key-id') + '/trust',
       success: data => {
         if (data !== 'OK') {
-          console.error(data);
+          debug('toggle failed:', data);
         }
         $this.disabled = false;
       }

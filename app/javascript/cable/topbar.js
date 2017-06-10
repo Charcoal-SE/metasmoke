@@ -1,10 +1,15 @@
+import createDebug from 'debug';
 import moment from 'moment';
+
 import cable from './cable';
+
+const debug = createDebug('ms:topbar');
 
 $(() => {
   cable.subscriptions.create('TopbarChannel', {
-    received({ review, commit, last_ping: lastPing }) {
-      console.log(review, commit, lastPing);
+    received(arg) {
+      const { review, commit, last_ping: lastPing } = arg;
+      debug('received', arg);
       if (review != null) {
         $('.navbar .reviews-count').text(review || '');
       }

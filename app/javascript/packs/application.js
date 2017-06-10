@@ -38,6 +38,9 @@ import '../stack_exchange_users';
 import '../status';
 import '../user_site_settings';
 
+import createDebug from 'debug';
+const debug = createDebug('ms:app');
+
 $(document).on('turbolinks:load', () => {
   $('.sortable-table').tablesort();
 
@@ -62,7 +65,7 @@ $(document).on('turbolinks:load', () => {
       }
     }).fail(jqXHR => {
       window.alert('Post was not reported: status ' + jqXHR.status);
-      console.error(jqXHR.responseText);
+      debug('report failed:', jqXHR.responseText, 'status:', jqXHR.status, '\n', jqXHR);
     });
   });
 
@@ -83,7 +86,7 @@ $(document).on('turbolinks:load', () => {
       }
     }).fail(jqXHR => {
       window.alert('Failed to mark done: status ' + jqXHR.status);
-      console.error(jqXHR.responseText);
+      debug('flag completion failed:', jqXHR.responseText, 'status:', jqXHR.status, '\n', jqXHR);
     });
   });
 

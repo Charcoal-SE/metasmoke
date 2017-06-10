@@ -1,4 +1,8 @@
+import createDebug from 'debug';
+
 import { onLoad } from './util';
+
+const debug = createDebug('ms:stack_exchange_users');
 
 onLoad(() => {
   $('img.stack_exchange_user_flair').error(function () {
@@ -15,8 +19,8 @@ onLoad(() => {
         const $tr = $this.parent().parent();
         $tr.fadeOut(200, () => $tr.remove());
       } else {
-        console.error('something went wrong: update returned', data);
+        debug('something went wrong: update returned', data);
       }
-    }).fail(jqXHR => console.error('something went wrong: update returned', jqXHR.status, jqXHR.responseText));
+    }).fail(jqXHR => debug('something went wrong: update failed:', jqXHR.status, jqXHR.responseText, '\n', jqXHR));
   });
 });

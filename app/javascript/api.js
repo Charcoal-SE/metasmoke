@@ -1,4 +1,8 @@
+import createDebug from 'debug';
+
 import { onLoad } from './util';
+
+const debug = createDebug('ms:api');
 
 onLoad(() => {
   $('#create_filter').on('click', () => {
@@ -20,7 +24,7 @@ onLoad(() => {
       const nextByte = bits.splice(0, 8).join('');
       const charCode = parseInt(nextByte.toString(), 2);
       unsafeFilter += String.fromCharCode(charCode);
-      console.log(nextByte, charCode, unsafeFilter);
+      debug({ nextByte, charCode, unsafeFilter });
     }
 
     const filter = encodeURIComponent(unsafeFilter);

@@ -1,4 +1,8 @@
+import createDebug from 'debug';
+
 import { onLoad } from './util';
+
+const debug = createDebug('ms:user_site_settings');
 
 onLoad(() => {
   $('#red-button').on('click', function () {
@@ -9,6 +13,6 @@ onLoad(() => {
       data: {
         enable: flagsEnabled
       }
-    }).done(() => console.log('Saved :)')).error(xhr => console.error(xhr.responseText));
+    }).done(() => debug('saved :)')).error(xhr => debug('save failed', xhr));
   });
 });
