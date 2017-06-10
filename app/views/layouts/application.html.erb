@@ -101,7 +101,7 @@
             <% end %>
             <% if CurrentCommit.present? %>
               <li>
-                <%= link_to code_status_path do %>
+                <%= link_to code_status_path, class: 'commit-sha', 'data-sha' => CurrentCommit do %>
                   <code><%= CurrentCommit.first(7) %></code>
                 <% end %>
               </li>
@@ -114,6 +114,11 @@
       </div><!-- /.container-fluid -->
     </nav>
     <div class="col-md-offset-1 col-md-10">
+
+      <div class="alert alert-warning" id="metasmoke-deployed-banner" style="display: none" role="alert">
+        This page has been updated. <a href="" data-turbolinks="false">Refresh</a> to get the latest version.
+      </div>
+
       <% flash.each do |key, value| %>
         <div class="alert alert-<%= key %>"><%= value %></div>
       <% end %>
@@ -122,7 +127,7 @@
         <p><em><a href="#" class="announcement-collapse">Hide announcements</a></em></p>
         <div class="announcements">
           <% Announcement.current.each do |a| %>
-            <%= render 'announcements/announcement', announcement: a %>
+            <%= render "announcements/announcement", announcement: a %>
           <% end %>
         </div><br/>
       <% end %>
