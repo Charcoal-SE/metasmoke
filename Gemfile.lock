@@ -5,6 +5,13 @@ GIT
     aescrypt (2.0.2)
 
 GIT
+  remote: https://github.com/Charcoal-SE/capistrano-faster-assets.git
+  revision: e698f94623600eae9a51c6e924e9a7f4e5277c3e
+  specs:
+    capistrano-faster-assets (1.0.2)
+      capistrano (>= 3.1)
+
+GIT
   remote: https://github.com/Charcoal-SE/will_paginate-bootstrap.git
   revision: 95ee3e99801f391f47365a7946033e32714571a9
   specs:
@@ -84,8 +91,6 @@ GEM
     capistrano-bundler (1.2.0)
       capistrano (~> 3.1)
       sshkit (~> 1.2)
-    capistrano-faster-assets (1.0.2)
-      capistrano (>= 3.1)
     capistrano-passenger (0.2.0)
       capistrano (~> 3.0)
     capistrano-rails (1.2.3)
@@ -327,7 +332,7 @@ DEPENDENCIES
   byebug
   capistrano
   capistrano-bundler
-  capistrano-faster-assets
+  capistrano-faster-assets!
   capistrano-passenger
   capistrano-rails
   capistrano-rvm

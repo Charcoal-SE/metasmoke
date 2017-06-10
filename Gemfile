@@ -94,7 +94,7 @@ group :development do
 
   gem 'capistrano'
   gem 'capistrano-bundler'
-  gem 'capistrano-faster-assets'
+  gem 'capistrano-faster-assets', github: 'Charcoal-SE/capistrano-faster-assets'
   gem 'capistrano-passenger'
   gem 'capistrano-rails'
   gem 'capistrano-rvm'
