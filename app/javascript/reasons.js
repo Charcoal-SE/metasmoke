@@ -13,7 +13,7 @@ $(() => {
       // If we need to lazy-load the post body from the server
       // This is criminally ugly
       $($(this).parent().children('div.post-body')[0]).load(`/post/${$(this).data('postid')}/body`, () => {
-        debug('post data loaded', span[0])
+        debug('post data loaded', span[0]);
         togglePostBodyVisible(span);
         span.data('postloaded', true);
       });
@@ -21,7 +21,7 @@ $(() => {
   });
   $(document).on('keyup', '#search', function () {
     const val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
-    debug('searching for', `"${val}"`)
+    debug('searching for', `"${val}"`);
     $('tr').not('tr:first').show().filter(function () {
       const text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
       return text.indexOf(val) !== -1;

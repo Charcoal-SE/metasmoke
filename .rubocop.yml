@@ -8,6 +8,7 @@ AllCops:
     - 'script/**/*'
     - '**/*.json.jbuilder'
     - 'vendor/bundle/**/*'
+    - 'node_modules/**/*'
     - 'db/schema.rb' # auto-generated :(
 
 Style/SymbolArray:

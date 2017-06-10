@@ -3,6 +3,9 @@ machine:
     version: ruby-2.4.1
   node:
     version: node # latest stable
+install:
+  pre:
+    - curl -o- -L https://yarnpkg.com/install.sh | bash # install latest Yarn
 checkout:
   post:
     - cp config/config.sample.yml config/config.yml
@@ -14,7 +17,6 @@ database:
 test:
   post:
     - bundle exec rubocop -D
-    - npm test
 general:
   artifacts:
     - "coverage"
