@@ -1,6 +1,8 @@
 machine:
   ruby:
     version: ruby-2.4.1
+  node:
+    version: node # latest stable
 checkout:
   post:
     - cp config/config.sample.yml config/config.yml
@@ -12,6 +14,7 @@ database:
 test:
   post:
     - bundle exec rubocop -D
+    - npm test
 general:
   artifacts:
     - "coverage"
