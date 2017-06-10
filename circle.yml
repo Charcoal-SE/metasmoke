@@ -3,7 +3,7 @@ machine:
     version: ruby-2.4.1
   node:
     version: node # latest stable
-install:
+dependencies:
   pre:
     - curl -o- -L https://yarnpkg.com/install.sh | bash # install latest Yarn
 checkout:
