@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 $(document).on 'ready turbolinks:load', () ->
   App.flag_logs = App.cable.subscriptions.create "TopbarChannel",
     received: ({ review, commit, last_ping }) ->

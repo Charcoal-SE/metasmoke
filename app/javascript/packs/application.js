@@ -1,20 +1,36 @@
-// This is a manifest file that'll be compiled into application.js, which will include all the files
-// listed below.
+// This file is automatically compiled by Webpack, along with any other files
+// present in this directory. You're encouraged to place your actual application logic in
+// a relevant structure within app/javascript and only use these pack files to reference
+// that code so it'll be compiled.
 //
-// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
-// or any plugin's vendor/assets/javascripts directory can be referenced here using a relative path.
-//
-// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
-// compiled file.
-//
-// Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
-// about supported directives.
-//
-//= require jquery
-//= require jquery_ujs
-//= require turbolinks
-//= require moment.min.js
-//= require_directory .
+// To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
+// layout file, like app/views/layouts/application.html.erb
+
+import 'bootstrap';
+import Highcharts from 'highcharts';
+window.Highcharts = Highcharts;
+
+import 'bootstrap-select';
+import 'jquery-tablesort';
+import 'livestamp';
+
+import Turbolinks from 'turbolinks';
+import '../turbolinks_prefetch';
+Turbolinks.start();
+
+window.jQuery = $;
+
+import '../cable';
+
+import '../admin';
+import '../api';
+import '../code_status';
+import '../flag_conditions';
+import '../reasons';
+import '../review';
+import '../stack_exchange_users';
+import '../status';
+import '../user_site_settings';
 
 $(document).on('turbolinks:load', function() {
 

@@ -1,5 +1,7 @@
 # From glennfu on Github Gist: https://gist.github.com/glennfu/936548b58091f284dbb5c1a769130bfc
 
+import Turbolinks from 'turbolinks'
+
 OldHttpRequest = Turbolinks.HttpRequest
 
 class Turbolinks.CachedHttpRequest extends Turbolinks.HttpRequest

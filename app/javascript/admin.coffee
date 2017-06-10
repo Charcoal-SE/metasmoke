@@ -27,4 +27,3 @@ $(document).on 'turbolinks:load', ->
           console.error(data)
 
         checkbox.disabled = false
-        
