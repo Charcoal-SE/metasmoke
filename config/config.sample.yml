@@ -1,13 +1,12 @@
 common: &common
   smoke_detector:
     key: 'smokey_key'
-  ses_smtp_credentials:
+  ses_smtp_credentials: # email
     username: 'xxx'
     password: 'yyy'
   github:
-    secret_token: 'xxyyzz'
-    username: 'username'
-    password: 'p455w0rd'
+    secret_token: 'xxyyzz' # the webhook token
+    access_token: 'deadbeef' # or username & password, if you prefer
   stack_exchange:
     client_secret: 'sekrit'
     client_id: '1234'
@@ -156,4 +155,3 @@ test:
 
 production:
   <<: *common
-
