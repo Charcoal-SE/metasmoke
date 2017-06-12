@@ -213,7 +213,7 @@ ActiveRecord::Schema.define(version: 20170607163348) do
 
   create_table "reasons", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "reason_name", collation: "utf8_unicode_ci"
-    t.string "last_post_title", collation: "utf8_unicode_ci"
+    t.string "last_post_title", collation: "utf8mb4_unicode_ci"
     t.boolean "inactive", default: false
     t.integer "weight", default: 0
     t.integer "maximum_weight", limit: 1

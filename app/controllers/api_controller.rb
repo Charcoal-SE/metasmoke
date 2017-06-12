@@ -173,7 +173,8 @@ class ApiController < ApplicationController
               User.all
             end
 
-    users = users.select(select_fields(filter)).order(id: :asc).paginate(page: params[:page], per_page: @pagesize)
+    users = users.joins(:moderator_sites).select(select_fields(filter)).order(id: :asc)
+                 .paginate(page: params[:page], per_page: @pagesize)
     render json: { items: users, has_more: has_more?(params[:page], users.count) }
   end
 

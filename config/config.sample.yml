@@ -147,6 +147,11 @@ common: &common
       - users_roles.role_id
       - posts.deleted_at
       - posts.revision_count
+      - moderator_sites.id
+      - moderator_sites.user_id
+      - moderator_sites.site_id
+      - moderator_sites.created_at
+      - moderator_sites.updated_at
 
 development:
   <<: *common
