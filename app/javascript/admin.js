@@ -31,7 +31,7 @@ onLoad(() => {
         trusted: $this.is(':checked')
       },
       dataType: 'json',
-      url: '/admin/keys/' + $this.data('key-id') + '/trust',
+      url: `/admin/keys/${$this.data('key-id')}/trust`,
       success: data => {
         if (data !== 'OK') {
           debug('toggle failed:', data);
