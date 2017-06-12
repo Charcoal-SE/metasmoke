@@ -3,7 +3,7 @@
 // call `enter`(pathname) when visiting `path` (string orregex)
 // call `exit`(pathname) when leaving `path`
 const routes = [];
-$(document).on('turbolinks:load', ev => {
+$(document).on('turbolinks:load', () => {
   const { pathname } = location;
   for (const route of routes) {
     if (route.pathisRe ? pathname.match(route.path) : route.path === pathname) {
