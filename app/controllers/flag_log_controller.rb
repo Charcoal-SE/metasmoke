@@ -21,6 +21,13 @@ class FlagLogController < ApplicationController
     when 'failures'
       @applicable_flag_logs = @applicable_flag_logs.where(success: false)
     end
+    if params[:filter] == 'manual'
+      if @individual_user
+        @applicable_flag_logs = @individual_user.flag_logs.where(:auto => false)
+      else
+        @applicable_flag_logs = FlagLog.manual
+      end
+    end
 
     @flag_logs = @applicable_flag_logs.order('flag_logs.created_at DESC, flag_logs.id DESC')
                                       .includes(post: [feedbacks: [:user, :api_key]])
