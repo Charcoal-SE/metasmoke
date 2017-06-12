@@ -38,3 +38,4 @@ coverage
 config/deploy/*
 /public/packs
 /node_modules
+REVISION
