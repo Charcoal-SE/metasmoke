@@ -52,8 +52,7 @@ route('/status/code', () => {
   }).fail(debug);
 });
 
-const $escaper = $('<div>')
-
+const $escaper = $('<div>');
 function escapeAndLinkify(message) {
   return $escaper
     .text(message)

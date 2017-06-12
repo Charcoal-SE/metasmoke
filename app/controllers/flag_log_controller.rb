@@ -22,11 +22,7 @@ class FlagLogController < ApplicationController
       @applicable_flag_logs = @applicable_flag_logs.where(success: false)
     end
     if params[:filter] == 'manual'
-      if @individual_user
-        @applicable_flag_logs = @individual_user.flag_logs.where(:auto => false)
-      else
-        @applicable_flag_logs = FlagLog.manual
-      end
+      @applicable_flag_logs = @individual_user ? @individual_user.flag_logs.where(auto: false) : FlagLog.manual
     end
 
     @flag_logs = @applicable_flag_logs.order('flag_logs.created_at DESC, flag_logs.id DESC')
