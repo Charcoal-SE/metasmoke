@@ -21,8 +21,7 @@ route('/status/code', () => {
            .find('.commit-diff')
            .toggleClass('hide');
   });
-  $.get('/status/code.json', ({ repo, compare, compare_diff, commit, commit_diff }) => {
-    const { default_branch: defaultBranch } = repo;
+  $.get('/status/code.json', ({ repo: { default_branch: defaultBranch }, compare, compare_diff, commit, commit_diff }) => {
     $('.fill-branch')
       .text(defaultBranch)
       .attr('href', `https://github.com/Charcoal-SE/metasmoke/tree/${defaultBranch}`);
