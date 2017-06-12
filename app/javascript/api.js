@@ -1,8 +1,4 @@
-import createDebug from 'debug';
-
 import { onLoad } from './util';
-
-const debug = createDebug('ms:api');
 
 onLoad(() => {
   $('#create_filter').on('click', () => {
