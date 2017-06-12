@@ -14,7 +14,7 @@ $(() => {
       $(this).parent().children('div.post-body:first').load(`/post/${$(this).data('postid')}/body`, () => {
         debug('post data loaded', $(this)[0]);
         togglePostBodyVisible($(this));
-        span.data('postloaded', true);
+        $(this).data('postloaded', true);
       });
     }
   });
