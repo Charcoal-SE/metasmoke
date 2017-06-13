@@ -47,15 +47,18 @@ route('/status/code', () => {
     renderDiff('commit', commit_diff);
 
     const [message, ...other] = commit.commit.message.split('\n\n');
-    $('.commit summary').html(escapeAndLinkify(message));
-    $('.commit pre').html(escapeAndLinkify(other.join('\n\n').trim()) || '<em>No details</em>');
+    $('.commit summary').text(escapeAndLinkify(message));
+    $('.commit pre').text(escapeAndLinkify(other.join('\n\n').trim()) || '<em>No details</em>');
   }).fail(debug);
 });
 
+const $escaper = $('<div>');
 function escapeAndLinkify(message) {
-  return message.replace(/(^|\W)@([a-z0-9][a-z0-9-]*)(?!\/)(?=\.+[ \t\W]|\.+$|[^0-9a-zA-Z_.]|$)/ig,
-                         '$1<a class="user-mention" href="//github.com/$2">@$2</a>')
-                .replace(/#(\d+)/g, '<a href="//github.com/Charcoal-SE/metasmoke/issues/$1">#$1</a>');
+  return $escaper
+    .text(message)
+    .html()
+    .replace(/(^|\W)@([a-z0-9][a-z0-9-]*)(?!\/)(?=\.+[ \t\W]|\.+$|[^0-9a-zA-Z_.]|$)/ig, '$1<a class="user-mention" href="//github.com/$2">@$2</a>')
+    .replace(/#(\d+)/g, '<a href="//github.com/Charcoal-SE/metasmoke/issues/$1">#$1</a>');
 }
 
 function renderDiff(type, diff) {
