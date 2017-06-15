@@ -8,11 +8,11 @@ window.results = [];
 
 /* globals store, results, ace */
 
-const addDataListRow = function () {
+const addDataListRow = () => {
   $('.data-list').prepend($('#data-list-row').clone().removeClass('template'));
 };
 
-const displaySchema = function (table) {
+const displaySchema = table => {
   $.ajax({
     type: 'GET',
     url: `/data/schema?table=${table}`
@@ -25,7 +25,7 @@ const displaySchema = function (table) {
   });
 };
 
-const fetchDataMultiple = function (types, limits) {
+const fetchDataMultiple = (types, limits) => {
   const required = [];
   for (let i = 0; i < types.length; i++) {
     if (!store.hasOwnProperty(types[i]) || store[types[i]].length !== limits[types[i]]) {
@@ -51,7 +51,7 @@ const fetchDataMultiple = function (types, limits) {
   });
 };
 
-const fetchData = function (type, limit) {
+const fetchData = (type, limit) => {
   const limits = {};
   limits[type] = limit;
   fetchDataMultiple([type], limits);
@@ -74,7 +74,7 @@ const preloadDataTypes = function () {
   }
 };
 
-const renderResults = function () {
+const renderResults = () => {
   $('.results-table').show();
 
   const $headerRow = $('.results-header');
@@ -114,7 +114,7 @@ const renderResults = function () {
   }
 };
 
-const validateDataset = function () {
+const validateDataset = () => {
   const types = [];
   const limits = {};
   $('.data-list-item').each((i, item) => {
