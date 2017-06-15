@@ -175,8 +175,8 @@ onLoad(() => {
     }
   });
 
-  $(document).on('change', '.data-type-select', ev => {
-    const $this = $(ev.target);
+  $(document).on('change', '.data-type-select', ({ target }) => {
+    const $this = $(target);
     if ($this.val().length > 0) {
       displaySchema($this.val());
     }
@@ -187,8 +187,8 @@ onLoad(() => {
     $('.script-help').slideToggle(500);
   });
 
-  $('.run-script').on('click', ev => {
-    const $this = $(ev.target);
+  $('.run-script').on('click', ({ target }) => {
+    const $this = $(target);
     $this.attr('disabled', 'disabled');
 
     validateDataset();
