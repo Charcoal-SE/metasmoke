@@ -3,10 +3,8 @@ import createDebug from 'debug';
 import { onLoad } from './util';
 
 const debug = createDebug('ms:api');
-debug('hi');
 
 onLoad(() => {
-  debug('onLoad callback');
   $('#create_filter').on('click', () => {
     const checkboxes = $('input[type=checkbox]');
     const bits = new Array(checkboxes.length);

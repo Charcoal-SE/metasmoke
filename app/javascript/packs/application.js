@@ -21,6 +21,7 @@ import '../cable';
 import '../admin';
 import '../api';
 import '../code_status';
+import '../data';
 import '../flag_conditions';
 import '../reasons';
 import '../review';
