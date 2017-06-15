@@ -197,6 +197,10 @@ onLoad(() => {
         eval.call(null, scriptContent);
         renderResults();
 
+        let csv = btoa(results.map(x => x.join(',')).join('\n'));
+        let uri = `data:text/csv;base64,${csv}`;
+        $(".csv-download").attr('href', uri);
+
         $this.removeAttr('disabled');
     });
 });
