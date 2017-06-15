@@ -4,9 +4,10 @@ import { onLoad } from './util'
 const debug = createDebug('ms:data');
 
 window.store = {};
+window.results = [];
 
 let addDataListRow = function() {
-    $(".data-list").prepend($("#data-list-row").clone());
+    $(".data-list").prepend($("#data-list-row").clone().removeClass('template'));
 };
 
 let displaySchema = function(table) {
@@ -23,14 +24,12 @@ let displaySchema = function(table) {
 };
 
 let fetchData = function(type, limit) {
-    debug('fetchData:', type, limit);
     let limits = {};
     limits[type] = limit;
     fetchDataMultiple([type], limits);
 };
 
 let fetchDataMultiple = function(types, limits) {
-    debug('fetchDataMultiple:', types, limits);
     let required = [];
     for (let i = 0; i < types.length; i++) {
         if (!store.hasOwnProperty(types[i]) || store[types[i]].length !== limits[types[i]]) {
@@ -62,7 +61,7 @@ let humanize = function(s) {
 };
 
 let preloadDataTypes = function() {
-    const types = ['announcements', 'api_keys', 'audits', 'commit_statuses', 'deletion_logs', 'feedbacks',
+    const types = ['announcements', 'api_keys', 'commit_statuses', 'deletion_logs', 'feedbacks',
                    'flag_conditions', 'flag_logs', 'flag_settings', 'moderator_sites', 'posts', 'reasons', 'roles',
                    'sites', 'smoke_detectors', 'stack_exchange_users', 'statistics', 'user_site_settings', 'users'];
     const select = $("#data-list-row").find(".data-type-select");
@@ -73,9 +72,85 @@ let preloadDataTypes = function() {
     }
 };
 
+let renderResults = function() {
+    $(".results-table").show();
+
+    if (!(results instanceof Array)) {
+        throw new Error('window.results is not an array; can\'t render it');
+    }
+
+    let typeCheck = results.map(x => x instanceof Array);
+    if (typeCheck.indexOf(false) >= 0) {
+        throw new Error('Not all elements of window.results are arrays; can\'t render results');
+    }
+
+    let columns = Math.max(...results.map(x => x.length));
+    if (results.length < 1) {
+        return;
+    }
+
+    let headers = results[0];
+    let $headerRow = $(".results-header");
+    for (let i = 0; i < headers.length; i++) {
+        $headerRow.append($("<th>").text(headers[i]));
+    }
+
+    if (results.length < 2) {
+        return;
+    }
+
+    let $resultBody = $(".results-body");
+    for (let i = 1; i < results.length; i++) {
+        let $row = $("<tr>");
+        for (let m = 0; m < results[i].length; m++) {
+            $row.append($("<td>").text(results[i][m]));
+        }
+        $resultBody.append($row);
+    }
+};
+
+let validateDataset = function() {
+    let types = [];
+    let limits = {};
+    $(".data-list-item").each((i, item) => {
+        if ($(item).hasClass('template')) {
+            return;
+        }
+
+        let $this = $(item);
+        let type = $this.find('.data-type-select').first().val();
+        let limit = $this.find('.data-type-limit').first().val();
+        if (type && limit && type.length > 0 && limit.length > 0) {
+            types.push(type);
+            limits[type] = limit;
+        }
+    });
+
+    let storedTypes = Object.keys(store);
+    let surplusTypes = storedTypes.filter(x => types.indexOf(x) < 0);
+    for (let m = 0; m < surplusTypes.length; m++) {
+        delete store[surplusTypes[m]];
+    }
+
+    fetchDataMultiple(types, limits);
+};
+
 onLoad(() => {
     preloadDataTypes();
     $(".schema-display").hide();
+    $(".script-help").hide();
+
+    let editor = ace.edit('editor');
+    editor.setTheme('ace/theme/monokai');
+    editor.getSession().setMode('ace/mode/javascript');
+    editor.setOptions({
+        minLines: 15,
+        maxLines: 30,
+        useSoftTabs: true,
+        tabSize: 4,
+        printMarginColumn: 120
+    });
+    editor.resize();
 
     $(".add-data").on('click', ev => {
         ev.preventDefault();
@@ -100,5 +175,23 @@ onLoad(() => {
         if ($this.val().length > 0) {
             displaySchema($this.val());
         }
+    });
+
+    $(".toggle-script-help").on('click', ev => {
+        ev.preventDefault();
+        $(".script-help").slideToggle(500);
+    });
+
+    $(".run-script").on('click', ev => {
+        let $this = $(ev.target);
+        $this.attr('disabled', 'disabled');
+
+        validateDataset();
+
+        let scriptContent = editor.getValue();
+        eval.call(null, scriptContent);
+        renderResults();
+
+        $this.removeAttr('disabled');
     });
 });

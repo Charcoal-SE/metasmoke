@@ -1,3 +1,10 @@
+<%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js" %>
+<%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/mode-javascript.js" %>
+<%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/theme-monokai.js" %>
+<script>
+
+</script>
+
 <h3>Data Explorer</h3>
 <p><strong>Using this data...</strong></p>
 <div class="data-select">
@@ -12,8 +19,33 @@
   </div>
 </div>
 
+<p><strong>Run the following script...</strong> <em class="text-muted">(JS)</em></p>
+<div class="custom-script">
+  <p class="toggle-script-help text-info"><a href="#">Toggle help</a></p>
+  <div class="panel panel-info script-help">
+    <div class="panel-body">
+      <p>The data you've selected above is available in <code>window.store</code>, which is a dictionary whose keys are
+        table names and whose values are arrays of database records.</p>
+      <p>Values you write to the 2-dimensional <code>window.results</code> array will be displayed in a table once your
+        script has finished executing. The array at <code>window.results[0]</code> will be used as a header row.</p>
+    </div>
+  </div>
+  <textarea rows="15" cols="100" class="form-control script-input" id="editor"></textarea>
+</div>
+
+<div class="actions">
+  <button class="btn btn-primary run-script">Run</button>
+</div>
+
+<table class="table table-condensed table-striped results-table">
+  <thead>
+    <tr class="results-header"></tr>
+  </thead>
+  <tbody class="results-body"></tbody>
+</table>
+
 <div class="templates">
-  <li id="data-list-row" class="data-list-item">
+  <li id="data-list-row" class="data-list-item template">
     Last
     <input type="number" class="data-type-limit form-control small-fc" />
     <select class="data-type-select form-control small-fc">
