@@ -12,7 +12,7 @@ const addDataListRow = () => {
   $('.data-list').prepend($('#data-list-row').clone().removeClass('template'));
 };
 
-const displaySchema = table => {
+const displaySchema = async table => {
   $.ajax({
     type: 'GET',
     url: `/data/schema?table=${table}`
@@ -25,7 +25,7 @@ const displaySchema = table => {
   });
 };
 
-const fetchDataMultiple = (types, limits) => {
+const fetchDataMultiple = async (types, limits) => {
   const required = [];
   for (let i = 0; i < types.length; i++) {
     if (!store.hasOwnProperty(types[i]) || store[types[i]].length !== limits[types[i]]) {
