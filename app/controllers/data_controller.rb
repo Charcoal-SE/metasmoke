@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 class DataController < ApplicationController
   before_action :verify_core
 
-  def tool
-  end
+  def tool; end
 
-  def get_data
+  def retrieve
     types = data_params[:types].to_a
     limits = data_params[:limits].to_h
     limits = limits.map do |k, v|
@@ -12,7 +13,7 @@ class DataController < ApplicationController
         [k, v.to_i]
       rescue
         render status: :bad_request
-        return
+        return # rubocop:disable Lint/NonLocalExitFromIterator
       end
     end.to_h
 
@@ -21,15 +22,10 @@ class DataController < ApplicationController
 
     tables = types.map do |t|
       clazz = t.classify
-      if Object.const_defined? clazz
-        const = clazz.constantize
-        if const < ApplicationRecord
-          [t, const, (limits.include?(t) ? limits[t] : 100)]
-        else
-          nil
-        end
-      else
-        nil
+      next unless Object.const_defined? clazz
+      const = clazz.constantize
+      if const < ApplicationRecord
+        [t, const, (limits.include?(t) ? limits[t] : 100)]
       end
     end
 
