@@ -75,6 +75,12 @@ let preloadDataTypes = function() {
 let renderResults = function() {
     $(".results-table").show();
 
+    let $headerRow = $(".results-header");
+    let $resultBody = $(".results-body");
+
+    $headerRow.find('th').remove();
+    $resultBody.find('tr').remove();
+
     if (!(results instanceof Array)) {
         throw new Error('window.results is not an array; can\'t render it');
     }
@@ -90,7 +96,6 @@ let renderResults = function() {
     }
 
     let headers = results[0];
-    let $headerRow = $(".results-header");
     for (let i = 0; i < headers.length; i++) {
         $headerRow.append($("<th>").text(headers[i]));
     }
@@ -99,7 +104,6 @@ let renderResults = function() {
         return;
     }
 
-    let $resultBody = $(".results-body");
     for (let i = 1; i < results.length; i++) {
         let $row = $("<tr>");
         for (let m = 0; m < results[i].length; m++) {
@@ -188,6 +192,7 @@ onLoad(() => {
 
         validateDataset();
 
+        results = [];
         let scriptContent = editor.getValue();
         eval.call(null, scriptContent);
         renderResults();
