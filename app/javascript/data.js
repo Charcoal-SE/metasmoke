@@ -162,8 +162,8 @@ onLoad(() => {
     addDataListRow();
   });
 
-  $(document).on('change', '.data-type-limit, .data-type-select', ev => {
-    const $this = $(ev.target);
+  $(document).on('change', '.data-type-limit, .data-type-select', ({ target }) => {
+    const $this = $(target);
     const isLimit = $this.hasClass('data-type-limit');
     const $limit = isLimit ? $this : $this.siblings(isLimit ? '.data-type-select' : '.data-type-limit').first();
     const $select = isLimit ? $this.siblings(isLimit ? '.data-type-select' : '.data-type-limit').first() : $this;
