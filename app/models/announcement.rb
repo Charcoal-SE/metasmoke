@@ -13,6 +13,10 @@ class AnnouncementScrubber < Rails::Html::PermitScrubber
 end
 
 class Announcement < ApplicationRecord
+  def current?
+    expiry > DateTime.now
+  end
+
   def self.current
     Announcement.where('expiry > ?', DateTime.now)
   end

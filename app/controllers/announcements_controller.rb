@@ -2,11 +2,28 @@
 
 class AnnouncementsController < ApplicationController
   before_action :verify_core
+  before_action :verify_admin, only: [:index, :expire]
 
   @markdown_renderer = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new)
 
   def self.renderer
     @markdown_renderer
+  end
+
+  def index
+    @announcements = Announcement.all.sort_by(&:created_at).reverse
+  end
+
+  def expire
+    @announcement = Announcement.find(params[:id])
+
+    if @announcement.update(expiry: DateTime.now)
+      flash[:success] = 'Announcement expired'
+    else
+      flash[:danger] = 'Something went wrong'
+    end
+
+    redirect_to announcements_path
   end
 
   def new

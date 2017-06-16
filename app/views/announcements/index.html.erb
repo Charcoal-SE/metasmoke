@@ -1,0 +1,15 @@
+<h2>Announcements</h2>
+
+<% @announcements.each do |announcement| %>
+  <p>
+    <% if announcement.current? %>
+      <span class="badge">Active</span>
+    <% end %>
+    <span class="text-muted">Created <%= announcement.created_at %>, expires <%= announcement.expiry %>.</span>
+    <% if announcement.current? %>
+      <%= link_to "Expire now", announcements_expire_path(announcement), class: "text-danger", method: :post, data: { confirm: "Are you sure? This can't be undone" } %>
+    <% end %>
+  </p>
+  <%= render "announcements/announcement", announcement: announcement %>
+  <hr />
+<% end %>
