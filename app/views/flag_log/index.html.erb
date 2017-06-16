@@ -24,6 +24,7 @@
     <% end %>
     <li class="<%= 'active' if params[:filter] == 'fps' %>"><%= link_to "False Positives", flag_logs_path(filter: 'fps') %></li>
     <li class="<%= 'active' if params[:filter] == 'failures' %>"><%= link_to "Failures", flag_logs_path(filter: 'failures') %></li>
+    <li class="<%= 'active' if params[:filter] == 'manual' %>"><%= link_to "Manual", flag_logs_path(filter: 'manual') %></li>
   </ul>
 <% end %>
 

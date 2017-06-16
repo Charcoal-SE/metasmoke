@@ -1,13 +1,5 @@
 // Common utilities
 
-/*
- * ██████   ██████  ██    ██ ████████ ███████ ██████
- * ██   ██ ██    ██ ██    ██    ██    ██      ██   ██
- * ██████  ██    ██ ██    ██    ██    █████   ██████
- * ██   ██ ██    ██ ██    ██    ██    ██      ██   ██
- * ██   ██  ██████   ██████     ██    ███████ ██   ██
-**/
-
 // call `enter`(pathname) when visiting `path` (string orregex)
 // call `exit`(pathname) when leaving `path`
 const routes = [];

@@ -5,7 +5,8 @@ include ApiHelper
 
 class GithubController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :verify_github, except: [:update_deploy_to_master]
+  before_action :verify_github, except: [:update_deploy_to_master, :add_pullapprove_comment]
+  before_action :check_if_smokedetector, only: [:add_pullapprove_comment]
 
   # Fires whenever a CI service finishes.
   def status_hook
@@ -210,7 +211,7 @@ class GithubController < ApplicationController
 
       if !Octokit.client.pull_merged?('Charcoal-SE/SmokeDetector', pr_num)
         Octokit.client.merge_pull_request('Charcoal-SE/SmokeDetector', pr_num)
-        message = "Merged SmokeDetector [##{pr_num}](https://github.com/Charcoal-SE/SmokeDetector/pulls/#{pr_num})."
+        message = "Merged SmokeDetector [##{pr_num}](https://github.com/Charcoal-SE/SmokeDetector/pull/#{pr_num})."
         ActionCable.server.broadcast('smokedetector_messages', message: message)
         render plain: "Merged ##{pr_num}"
       else

@@ -14,7 +14,7 @@
 
 import Turbolinks from 'turbolinks';
 import '../turbolinks_prefetch.coffee'; // The original is in coffee.
-setTimeout(() => Turbolinks.start());
+Turbolinks.start();
 
 import '../cable';
 

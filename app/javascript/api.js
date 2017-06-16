@@ -1,6 +1,9 @@
 import { onLoad } from './util';
 
+const debug = createDebug('ms:api');
+
 onLoad(() => {
+  debug('onLoad callback');
   $('#create_filter').on('click', () => {
     const bits = Array.from($('input[type=checkbox]')).reduce((acc, x) => {
       acc[$(x).data('index')] = $(x).is(':checked') ? 1 : 0;
