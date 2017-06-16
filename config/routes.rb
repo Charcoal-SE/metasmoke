@@ -226,6 +226,12 @@ Rails.application.routes.draw do
     post 'enable',     to: 'users#set_announcement_emails'
   end
 
+  scope '/data' do
+    root             to: 'data#tool'
+    get  'retrieve', to: 'data#retrieve',     as: :data_retrieve
+    get  'schema',   to: 'data#table_schema', as: :data_schema
+  end
+
   devise_for :users, controllers: { sessions: 'custom_sessions' }
   devise_scope :user do
     get  'users/2fa/login', to: 'custom_sessions#verify_2fa'

@@ -13,6 +13,9 @@
     "parser": "babel-eslint",
     "space": true,
     "rules": {
+      "no-prototype-builtins": "off",
+      "no-eval": 1,
+      "no-useless-call": 1,
       "unicorn/filename-case": [
         "error",
         {
