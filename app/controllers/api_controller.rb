@@ -25,7 +25,7 @@ class ApiController < ApplicationController
   # Read routes: Posts
 
   def posts
-    filter = "AAAAAAAAAAPHx4AAAAAAASA="
+    filter = 'AAAAAAAAAAPHx4AAAAAAASA='
     @posts = Post.where(id: params[:ids].split(';'))
                  .select(select_fields(filter))
                  .order(id: :desc)
@@ -39,7 +39,7 @@ class ApiController < ApplicationController
   end
 
   def posts_by_feedback
-    filter = "AAAAAAAAAAPHx4AAAAAAASA="
+    filter = 'AAAAAAAAAAPHx4AAAAAAASA='
     @posts = Post.all.joins(:feedbacks)
                  .where(feedbacks: { feedback_type: params[:type] })
                  .select(select_fields(filter))
@@ -51,7 +51,7 @@ class ApiController < ApplicationController
   end
 
   def posts_by_url
-    filter = "AAAAAAAAAAPHx4AAAAAAASA="
+    filter = 'AAAAAAAAAAPHx4AAAAAAASA='
     @posts = Post.where(link: params[:urls].split(';'))
                  .select(select_fields(filter))
                  .order(id: :desc)
@@ -65,7 +65,7 @@ class ApiController < ApplicationController
   end
 
   def posts_by_site
-    filter = "AAAAAAAAAAPHx4AAAAAAASA="
+    filter = 'AAAAAAAAAAPHx4AAAAAAASA='
     @posts = Post.joins(:site)
                  .where(sites: { site_url: params[:site] })
                  .select(select_fields(filter))
@@ -77,7 +77,7 @@ class ApiController < ApplicationController
   end
 
   def posts_by_daterange
-    filter = "AAAAAAAAAAPHx4AAAAAAASA="
+    filter = 'AAAAAAAAAAPHx4AAAAAAASA='
     @posts = Post.where(created_at: DateTime.strptime(params[:from_date], '%s')..DateTime.strptime(params[:to_date], '%s'))
                  .includes(:feedbacks)
                  .includes(flag_logs: [:user])
@@ -86,21 +86,21 @@ class ApiController < ApplicationController
   end
 
   def undeleted_posts
-    filter = "AAAAAAAAAAPHx4AAAAAAASA="
+    filter = 'AAAAAAAAAAPHx4AAAAAAASA='
     @posts = Post.where(deleted_at: nil).select(select_fields(filter)).includes(:feedbacks).includes(flag_logs: [:user])
     results = @posts.order(id: :desc).paginate(page: params[:page], per_page: @pagesize)
     render json: { items: results, has_more: has_more?(params[:page], results.count) }
   end
 
   def post_feedback
-    filter = "AAAAAI0JAAAAAAAAAAAAAAA="
+    filter = 'AAAAAI0JAAAAAAAAAAAAAAA='
     @feedbacks = Feedback.where(post_id: params[:id]).select(select_fields(filter)).order(id: :desc)
     results = @feedbacks.paginate(page: params[:page], per_page: @pagesize)
     render json: { items: results, has_more: has_more?(params[:page], results.count) }
   end
 
   def post_reasons
-    filter = "AAAAAAAAAAAAABgAAAAAAAA="
+    filter = 'AAAAAAAAAAAAABgAAAAAAAA='
     @reasons = Reason.joins(:posts).where(posts_reasons: { post_id: params[:id] }).select(select_fields(filter)).order(id: :desc)
     results = @reasons.paginate(page: params[:page], per_page: @pagesize)
     render json: { items: results, has_more: has_more?(params[:page], results.count) }
@@ -112,7 +112,7 @@ class ApiController < ApplicationController
   end
 
   def search_posts
-    filter = "AAAAAAAAAAPHx4AAAAAAASA="
+    filter = 'AAAAAAAAAAPHx4AAAAAAASA='
     @posts = Post.all
     if params[:feedback_type].present?
       @posts = @posts.includes(:feedbacks).where(feedbacks: { feedback_type: params[:feedback_type] })
@@ -133,14 +133,14 @@ class ApiController < ApplicationController
   # Read routes: Reasons
 
   def reasons
-    filter = "AAAAAAAAAAAAABgAAAAAAAA="
+    filter = 'AAAAAAAAAAAAABgAAAAAAAA='
     @reasons = Reason.where(id: params[:ids].split(';')).select(select_fields(filter)).order(id: :desc)
     results = @reasons.paginate(page: params[:page], per_page: @pagesize)
     render json: { items: results, has_more: has_more?(params[:page], results.count) }
   end
 
   def reason_posts
-    filter = "AAAAAAAAAAPHx4AAAAAAASA="
+    filter = 'AAAAAAAAAAPHx4AAAAAAASA='
     @posts = Post.joins(:posts_reasons).where(posts_reasons: { reason_id: params[:id] }).select(select_fields(filter)).order(id: :desc)
     results = @posts.paginate(page: params[:page], per_page: @pagesize)
     render json: { items: results, has_more: has_more?(params[:page], results.count) }
@@ -168,7 +168,7 @@ class ApiController < ApplicationController
   end
 
   def users
-    filter = "AAAAAAAAAAAAAAAAAAAB+AA="
+    filter = 'AAAAAAAAAAAAAAAAAAAB+AA='
 
     users = if params[:role]
               User.with_role(params[:role])
@@ -190,7 +190,7 @@ class ApiController < ApplicationController
   # Read routes: SmokeDetectors
 
   def smoke_detectors
-    filter = "AAAAAAAAAAAAAAAADUAAAAA="
+    filter = 'AAAAAAAAAAAAAAAADUAAAAA='
     fields = select_fields(filter) - ['smoke_detectors.access_token']
 
     smokeys = SmokeDetector.all.select(fields).order(id: :asc)

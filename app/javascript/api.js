@@ -3,8 +3,8 @@ import createDebug from 'debug';
 import { onLoad } from './util';
 
 const debug = createDebug('ms:api');
-const partitionArray = (array, size) => array.map( (e,i) => (i % size === 0) ?
-  array.slice(i, i + size) : null ) .filter( (e) => e );
+const partitionArray = (array, size) => array.map((e, i) => (i % size === 0) ?
+  array.slice(i, i + size) : null).filter(e => e);
 
 onLoad(() => {
   $('#create_filter').on('click', () => {
