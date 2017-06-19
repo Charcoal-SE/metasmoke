@@ -22,7 +22,7 @@ class ApiController < ApplicationController
   # Read routes: Posts
 
   def posts
-    filter = "\x00\x00\x00\x00\x00\x00\x00\x03\xC3\xBF\xC3\xBF\xC2\x80\x00\x00\x00\x00\x01"
+    filter = "AAAAAAAAAAPDv8O/woAAAAAAAQ=="
     @posts = Post.where(id: params[:ids].split(';'))
                  .select(select_fields(filter))
                  .order(id: :desc)
@@ -36,7 +36,7 @@ class ApiController < ApplicationController
   end
 
   def posts_by_feedback
-    filter = "\x00\x00\x00\x00\x00\x00\x00\x03\xC3\xBF\xC3\xBF\xC2\x80\x00\x00\x00\x00\x01"
+    filter = "AAAAAAAAAAPDv8O/woAAAAAAAQ=="
     @posts = Post.all.joins(:feedbacks)
                  .where(feedbacks: { feedback_type: params[:type] })
                  .select(select_fields(filter))
@@ -48,7 +48,7 @@ class ApiController < ApplicationController
   end
 
   def posts_by_url
-    filter = "\x00\x00\x00\x00\x00\x00\x00\x03\xC3\xA5\xC2\x83\xC2\x80\x00\x00\x00\x00\x01"
+    filter = "AAAAAAAAAAPDpcKDwoAAAAAAAQ=="
     @posts = Post.where(link: params[:urls].split(';'))
                  .select(select_fields(filter))
                  .order(id: :desc)
@@ -62,7 +62,7 @@ class ApiController < ApplicationController
   end
 
   def posts_by_site
-    filter = "\x00\x00\x00\x00\x00\x00\x00\x03\xC3\xBF\xC3\xBF\xC2\x80\x00\x00\x00\x00\x01"
+    filter = "AAAAAAAAAAPDv8O/woAAAAAAAQ=="
     @posts = Post.joins(:site)
                  .where(sites: { site_url: params[:site] })
                  .select(select_fields(filter))
@@ -74,7 +74,7 @@ class ApiController < ApplicationController
   end
 
   def posts_by_daterange
-    filter = "\x00\x00\x00\x00\x00\x00\x00\x03\xC3\xBF\xC3\xBF\xC2\x80\x00\x00\x00\x00\x01"
+    filter = "AAAAAAAAAAPDv8O/woAAAAAAAQ=="
     @posts = Post.where(created_at: DateTime.strptime(params[:from_date], '%s')..DateTime.strptime(params[:to_date], '%s'))
                  .includes(:feedbacks)
                  .includes(flag_logs: [:user])
@@ -83,21 +83,21 @@ class ApiController < ApplicationController
   end
 
   def undeleted_posts
-    filter = "\x00\x00\x00\x00\x00\x00\x00\x03\xC3\xBF\xC3\xBF\xC2\x80\x00\x00\x00\x00\x01"
+    filter = "AAAAAAAAAAPDv8O/woAAAAAAAQ=="
     @posts = Post.where(deleted_at: nil).select(select_fields(filter)).includes(:feedbacks).includes(flag_logs: [:user])
     results = @posts.order(id: :desc).paginate(page: params[:page], per_page: @pagesize)
     render json: { items: results, has_more: has_more?(params[:page], results.count) }
   end
 
   def post_feedback
-    filter = "\x00\x00\x00\x00\xc2\xbd\x19\xc2\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+    filter = "AAAAAMK9GcKAAAAAAAAAAAAA"
     @feedbacks = Feedback.where(post_id: params[:id]).select(select_fields(filter)).order(id: :desc)
     results = @feedbacks.paginate(page: params[:page], per_page: @pagesize)
     render json: { items: results, has_more: has_more?(params[:page], results.count) }
   end
 
   def post_reasons
-    filter = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x18\x00\x00\x00\x00\x00"
+    filter = "AAAAAAAAAAAAABgAAAAAAA=="
     @reasons = Reason.joins(:posts).where(posts_reasons: { post_id: params[:id] }).select(select_fields(filter)).order(id: :desc)
     results = @reasons.paginate(page: params[:page], per_page: @pagesize)
     render json: { items: results, has_more: has_more?(params[:page], results.count) }
@@ -109,7 +109,7 @@ class ApiController < ApplicationController
   end
 
   def search_posts
-    filter = "\x00\x00\x00\x00\x00\x00\x00\x03\xC3\xBF\xC3\xBF\xC2\x80\x00\x00\x00\x00\x01"
+    filter = "AAAAAAAAAAPDv8O/woAAAAAAAQ=="
     @posts = Post.all
     if params[:feedback_type].present?
       @posts = @posts.includes(:feedbacks).where(feedbacks: { feedback_type: params[:feedback_type] })
@@ -130,14 +130,14 @@ class ApiController < ApplicationController
   # Read routes: Reasons
 
   def reasons
-    filter = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x18\x00\x00\x00\x00\x00"
+    filter = "AAAAAAAAAAAAABgAAAAAAA=="
     @reasons = Reason.where(id: params[:ids].split(';')).select(select_fields(filter)).order(id: :desc)
     results = @reasons.paginate(page: params[:page], per_page: @pagesize)
     render json: { items: results, has_more: has_more?(params[:page], results.count) }
   end
 
   def reason_posts
-    filter = "\x00\x00\x00\x00\x00\x00\x00\x03\xC3\xBF\xC3\xBF\xC2\x80\x00\x00\x00\x00\x01"
+    filter = "AAAAAAAAAAPDv8O/woAAAAAAAQ=="
     @posts = Post.joins(:posts_reasons).where(posts_reasons: { reason_id: params[:id] }).select(select_fields(filter)).order(id: :desc)
     results = @posts.paginate(page: params[:page], per_page: @pagesize)
     render json: { items: results, has_more: has_more?(params[:page], results.count) }
@@ -165,7 +165,7 @@ class ApiController < ApplicationController
   end
 
   def users
-    filter = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\xC3\xB8\x00"
+    filter = "AAAAAAAAAAAAAAAAAAABw7gA"
 
     users = if params[:role]
               User.with_role(params[:role])
@@ -187,7 +187,7 @@ class ApiController < ApplicationController
   # Read routes: SmokeDetectors
 
   def smoke_detectors
-    filter = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x0D\x00\x00\x00\x00"
+    filter = "AAAAAAAAAAAAAAAADQAAAAA="
     fields = select_fields(filter) - ['smoke_detectors.access_token']
 
     smokeys = SmokeDetector.all.select(fields).order(id: :asc)
@@ -380,7 +380,7 @@ class ApiController < ApplicationController
   end
 
   def select_fields(default = '')
-    filter = params[:filter] || default
+    filter = Base64.decode64(params[:filter] || default)
     bitstring = @@filters[filter]
     bits = bitstring.chars.map(&:to_i)
     AppConfig['api_field_mappings'].zip(bits).map { |k, v| k if v == 1 }.compact
