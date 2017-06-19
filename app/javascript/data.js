@@ -1,5 +1,5 @@
 import createDebug from 'debug';
-import { onLoad } from './util';
+import { route } from './util';
 
 const debug = createDebug('ms:data');
 
@@ -140,7 +140,7 @@ const validateDataset = () => {
   fetchDataMultiple(types, limits);
 };
 
-onLoad(() => {
+route('/data', () => {
   preloadDataTypes();
   $('.schema-display').hide();
   $('.script-help').hide();
