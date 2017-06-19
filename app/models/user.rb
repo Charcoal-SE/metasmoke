@@ -77,7 +77,11 @@ class User < ApplicationRecord
   end
 
   def get_username(readonly_api_token = nil)
-    return if api_token.nil? && readonly_api_token.nil?
+    if api_token.nil? && readonly_api_token.nil?
+      Rails.logger.error 'User#get_username called without api_token or readonly_api_token'
+      Rails.logger.error caller.join("\n")
+      return
+    end
 
     begin
       config = AppConfig['stack_exchange']
@@ -92,8 +96,9 @@ class User < ApplicationRecord
       resp = JSON.parse(resp.body)
 
       return resp['items'][0]['display_name']
-    rescue
-      return
+    rescue => ex
+      Rails.logger.error "Error raised while fetching username: #{ex.message}"
+      Rails.logger.error ex.backtrace
     end
   end
 
