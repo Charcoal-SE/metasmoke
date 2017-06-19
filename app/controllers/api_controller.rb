@@ -384,10 +384,8 @@ class ApiController < ApplicationController
 
   def select_fields(default = '')
     filter = Base64.decode64(params[:filter] || default)
-    puts filter.chars.map(&:ord)
     bitstring = @@filters[filter]
     bits = bitstring.chars.map(&:to_i)
-    puts AppConfig['api_field_mappings'].zip(bits)
     AppConfig['api_field_mappings'].zip(bits).map { |k, v| k if v == 1 }.compact
   end
 end
