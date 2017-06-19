@@ -3,6 +3,8 @@ import createDebug from 'debug';
 import { onLoad } from './util';
 
 const debug = createDebug('ms:api');
+const partitionArray = (array, size) => array.map( (e,i) => (i % size === 0) ?
+  array.slice(i, i + size) : null ) .filter( (e) => e );
 
 onLoad(() => {
   $('#create_filter').on('click', () => {
@@ -14,20 +16,27 @@ onLoad(() => {
       const arrayIndex = $item.data('index');
       if ($item.is(':checked')) {
         bits[arrayIndex] = 1;
+        debug($item, arrayIndex);
       } else {
         bits[arrayIndex] = 0;
       }
     });
 
+    const bytes = partitionArray(bits, 8);
+    debug(bits.join(''));
+    debug(bytes.map(x => x.join('')).join(' '));
+    debug(bytes.map(x => parseInt(x.join(''), 2)).join('        '));
+
     let unsafeFilter = '';
-    while (bits.length) {
-      const nextByte = bits.splice(0, 8).join('');
+    for (let i = 0; i < bytes.length; i++) {
+      const nextByte = bytes[i].join('');
       const charCode = parseInt(nextByte.toString(), 2);
       unsafeFilter += String.fromCharCode(charCode);
-      debug({ nextByte, charCode, unsafeFilter });
+      debug(nextByte, charCode, unsafeFilter);
     }
 
-    const filter = encodeURIComponent(unsafeFilter);
-    window.prompt('Calculated, URL-encoded filter:', filter);
+    const filter = btoa(unsafeFilter);
+    debug(filter);
+    window.prompt('Your filter:', filter);
   });
 });
