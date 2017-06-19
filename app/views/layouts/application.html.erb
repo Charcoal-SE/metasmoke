@@ -79,6 +79,10 @@
                   <% if current_user.try(:has_role?, :smoke_detector_runner) %>
                     <li><%= link_to 'Smoke Detectors', smoke_detector_mine_path %></li>
                   <% end %>
+                  <% if current_user.try(:has_role?, :core) %>
+                    <li><%= link_to 'Data Explorer', data_explorer_path %></li>
+                    <li><%= link_to 'Announcements', announcements_path %></li>
+                  <% end %>
                   <li><a href="/admin">Tools</a></li>
                   <li class="dropdown-indent"><a href="/admin/invalidated">Invalidated Feedback</a></li>
                   <li class="dropdown-indent"><a href="/admin/api_feedback">Feedback via API</a></li>

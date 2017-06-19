@@ -227,7 +227,7 @@ Rails.application.routes.draw do
   end
 
   scope '/data' do
-    root             to: 'data#tool'
+    root             to: 'data#tool',         as: :data_explorer
     get  'retrieve', to: 'data#retrieve',     as: :data_retrieve
     get  'schema',   to: 'data#table_schema', as: :data_schema
   end
