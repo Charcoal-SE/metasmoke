@@ -211,8 +211,8 @@ class GithubController < ApplicationController
 
       if !Octokit.client.pull_merged?('Charcoal-SE/SmokeDetector', pr_num)
         Octokit.client.merge_pull_request(
-          'Charcoal-SE/SmokeDetector', 
-          pr_num, 
+          'Charcoal-SE/SmokeDetector',
+          pr_num,
           'Merge blacklist request ##{pr_num} --autopull'
         )
         message = "Merged SmokeDetector [##{pr_num}](https://github.com/Charcoal-SE/SmokeDetector/pull/#{pr_num})."
