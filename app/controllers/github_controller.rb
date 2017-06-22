@@ -213,7 +213,7 @@ class GithubController < ApplicationController
         Octokit.client.merge_pull_request(
           'Charcoal-SE/SmokeDetector',
           pr_num,
-          'Merge blacklist request ##{pr_num} --autopull'
+          '--autopull'
         )
         message = "Merged SmokeDetector [##{pr_num}](https://github.com/Charcoal-SE/SmokeDetector/pull/#{pr_num})."
         ActionCable.server.broadcast('smokedetector_messages', message: message)
