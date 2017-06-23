@@ -6,7 +6,7 @@
       <span class="badge">Active</span>
     <% end %>
     <span class="text-muted">Created <%= announcement.created_at %>, expires <%= announcement.expiry %>.</span>
-    <% if announcement.current? %>
+    <% if announcement.current? && current_user&.has_role?(:admin) %>
       <%= link_to "Expire now", announcements_expire_path(announcement), class: "text-danger", method: :post, data: { confirm: "Are you sure? This can't be undone" } %>
     <% end %>
   </p>
