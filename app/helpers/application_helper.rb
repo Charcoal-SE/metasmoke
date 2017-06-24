@@ -5,4 +5,12 @@ module ApplicationHelper
     content_for :title, text
     text
   end
+
+  def active(clazz, action = nil)
+    return '' unless controller.class == clazz
+    if action
+      return controller.action_name == action.to_s ? 'active' : ''
+    end
+    'active'
+  end
 end
