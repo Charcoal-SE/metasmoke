@@ -3,7 +3,7 @@
     ["env", {
       "modules": false,
       "targets": {
-        "browsers": "> 5%, not ie <= 11"
+        "browsers": "last 2 versions, > 5%, not ie <= 11"
       },
       "useBuiltIns": true
     }]

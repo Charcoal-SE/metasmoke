@@ -20,7 +20,11 @@ module.exports = {
     (map, entry) => {
       const localMap = map;
       const namespace = relative(join(entryPath), dirname(entry));
-      localMap[join(namespace, basename(entry, extname(entry)))] = resolve(entry);
+      const key = join(namespace, basename(entry, extname(entry)));
+      localMap[key] = [resolve(entry)];
+      if (entry.includes('vendor')) {
+        localMap[key].unshift('babel-polyfill');
+      }
       return localMap;
     }, {}
   ),
