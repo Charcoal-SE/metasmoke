@@ -8,9 +8,9 @@
   "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"
 %>
 
-<details open><summary class="h3">Revision <%= link_to "https://github.com/Charcoal-SE/metasmoke/commit/#{CurrentCommit}" do %><code><%= CurrentCommit.first(7) %></code><% end %></summary>
+<details open><summary class="h3">Revision <code><%= CurrentCommit.first(7) %></code></summary>
   <div>
-    <p>This commit is <span class="fill-status">… commits ahead, … commits behind</span> the <code><%= link_to "...", "", class: "fill-branch" %></code> branch. <%= link_to " diff", "#", id: "toggle-compare-diff", class: "diff-toggle" %> | <%= link_to " commit diff", "#", id: "toggle-commit-diff", class: "diff-toggle" %></p>
+    <p><%= link_to 'This commit', "https://github.com/Charcoal-SE/metasmoke/commit/#{CurrentCommit}" %> is <span class="fill-status">… commits ahead, … commits behind</span> the <code><%= link_to "...", "", class: "fill-branch" %></code> branch. <%= link_to " diff", "#", id: "toggle-compare-diff", class: "diff-toggle" %> | <%= link_to " commit diff", "#", id: "toggle-commit-diff", class: "diff-toggle" %></p>
     <details class="commit"><summary>Loading commit info…</summary>
       <pre></pre>
     </details>
