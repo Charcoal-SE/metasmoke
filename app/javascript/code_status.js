@@ -9,21 +9,21 @@ route('/status/code', () => {
   $('#show-all-gem-versions').click(e => {
     e.preventDefault();
     $('table#gems-versions-table .minor').toggleClass('hide');
-    $(this).toggleClass('shown');
+    $(e.currentTarget).toggleClass('shown');
   });
   $('#toggle-compare-diff').click(e => {
     e.preventDefault();
-    $(this).toggleClass('shown')
-           .parents('details')
-           .find('.compare-diff')
-           .toggleClass('hide');
+    $(e.currentTarget).toggleClass('shown')
+                      .parents('details')
+                      .find('.compare-diff')
+                      .toggleClass('hide');
   });
   $('#toggle-commit-diff').click(e => {
     e.preventDefault();
-    $(this).toggleClass('shown')
-           .parents('details')
-           .find('.commit-diff')
-           .toggleClass('hide');
+    $(e.currentTarget).toggleClass('shown')
+                      .parents('details')
+                      .find('.commit-diff')
+                      .toggleClass('hide');
   });
   $.get('/status/code.json', ({ repo: { default_branch: defaultBranch }, compare, compare_diff, commit, commit_diff }) => {
     $('.fill-branch')
@@ -46,8 +46,14 @@ route('/status/code', () => {
     renderDiff('commit', commit_diff);
 
     const [message, ...other] = commit.commit.message.split('\n\n');
-    $('.commit summary').html(escapeAndLinkify(message));
-    $('.commit pre').html(escapeAndLinkify(other.join('\n\n').trim()) || '<em>No details</em>');
+    const escapedMessge = escapeAndLinkify(message);
+    const escapedDetails = escapeAndLinkify(other.join('\n\n').trim());
+    if (other.join('').length > 0) {
+      $('.commit summary').html(escapedMessge);
+      $('.commit pre').html(escapedDetails);
+    } else {
+      $('.commit').html(escapedMessge);
+    }
   }).fail(debug);
 });
 

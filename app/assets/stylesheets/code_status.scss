@@ -3,6 +3,11 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .code-status {
+
+  .commit summary {
+    font-size: 14px;
+  }
+
   details:not([open]) #show-all-gem-versions {
     display: none;
   }
