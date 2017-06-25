@@ -60,7 +60,7 @@
             <% end %>
             <li class='<%= [FlagConditionsController, FlagLogController, FlagSettingsController].include?(controller.class) ? "active" : "" %>'><%= link_to "flagging", flagging_path %></li>
             <% if user_signed_in? %>
-              <li class="dropdown <%= active AdminController %><%= active ApiKeysController %><%= active DeveloperController %><%= active AnnouncementsController %>" title="Controller: <%= controller.class %>#<%= controller.action_name %>">
+              <li class="dropdown <%= active AdminController %><%= active ApiKeysController %><%= active DeveloperController %><%= active AnnouncementsController %>">
                 <a href="/admin" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">tools <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li class="<%= active AdminController, :recently_invalidated %>"><a href="/admin/invalidated">Invalidated Feedback</a></li>
@@ -106,11 +106,11 @@
                 </ul>
               </li>
             <% else %>
-              <li><%= link_to "sign in", new_user_session_path %></li>
-              <li><%= link_to "sign up", new_user_registration_path %></li>
+              <li class="<%= active CustomSessionsController, :new %>"><%= link_to "sign in", new_user_session_path %></li>
+              <li class="<%= active Devise::RegistrationsController, :new %>"><%= link_to "sign up", new_user_registration_path %></li>
             <% end %>
             <% if CurrentCommit.present? %>
-              <li>
+              <li class="<%= active CodeStatusController %>" title="Controller: <%= controller.class %>#<%= controller.action_name %>">
                 <%= link_to code_status_path, class: 'commit-sha', 'data-sha' => CurrentCommit do %>
                   <code><%= CurrentCommit.first(7) %></code>
                 <% end %>
