@@ -6,12 +6,6 @@ class APIController < ApplicationController
   before_action :verify_write_token, only: [:create_feedback, :report_post, :spam_flag]
   skip_before_action :verify_authenticity_token, only: [:posts_by_url, :create_feedback, :report_post, :spam_flag, :post_deleted]
 
-  # Yes, this looks bad, but it actually works as a cache - we only have to calculate the bitstring for each filter once.
-  @@filters = Hash.new do |h, k| # rubocop:disable Style/ClassVars
-    chars = k.chars
-    h[k] = chars.map.with_index { |c, i| i < chars.size - 1 ? c.ord.to_s(2).rjust(8, '0') : c.ord.to_s(2) }.join('')
-  end
-
   # Public routes
 
   def api_docs
@@ -382,10 +376,9 @@ class APIController < ApplicationController
     @user = @token.user
   end
 
+  private
+
   def select_fields(default = '')
-    filter = Base64.decode64(params[:filter] || default)
-    bitstring = @@filters[filter]
-    bits = bitstring.chars.map(&:to_i)
-    AppConfig['api_field_mappings'].zip(bits).map { |k, v| k if v == 1 }.compact
+    Filterator.fields_from_string(params[:filter] || default)
   end
 end
