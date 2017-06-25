@@ -10,7 +10,7 @@ $critical: red;
   color: $good !important;
   a {
     border-bottom: 3px solid $good;
-    padding-bottom: 13px !important;
+    padding-bottom: 12px !important;
   }
   &.navbar-toggle::before {
     background: $good;
@@ -20,7 +20,7 @@ $critical: red;
   color: $warning !important;
   a {
     border-bottom: 3px solid $warning;
-    padding-bottom: 13px !important;
+    padding-bottom: 12px !important;
   }
   &.navbar-toggle::before {
     background: $warning;
@@ -30,7 +30,7 @@ $critical: red;
   color: $critical !important;
   a {
     border-bottom: 3px solid $critical;
-    padding-bottom: 13px !important;
+    padding-bottom: 12px !important;
   }
   &.navbar-toggle::before {
     background: $critical;
