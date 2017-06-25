@@ -8,7 +8,7 @@ module ApplicationHelper
     text
   end
 
-  @current_dropdown = nil
+  @current_dropdown_is_active = false
   def nav_link(cls, options = {}, &block)
     options[:active] ||= []
     options[:attrs] ||= {}
@@ -45,15 +45,19 @@ module ApplicationHelper
              link_to options[:label], url, options[:link_attrs]
            end
 
-    actives = options[:active]
-              .clone
-              .unshift([cls, options[:action]])
-              .reject { |item| item.nil? || (item.is_a?(Array) && item[0].nil?) }
-              .map { |item| item.is_a?(Array) ? item : [item, nil] }
+    if [true, false].include? options[:active]
+      is_active = options[:active]
+    else
+      actives = options[:active]
+                .clone
+                .unshift([cls, options[:action]])
+                .reject { |item| item.nil? || (item.is_a?(Array) && item[0].nil?) }
+                .map { |item| item.is_a?(Array) ? item : [item, nil] }
 
-    @current_dropdown.concat actives if @current_dropdown
+      is_active = !actives.select { |args| current_action?(*args) }.empty?
+    end
 
-    is_active = !actives.select { |args| current_action?(*args) }.empty?
+    @current_dropdown_is_active ||= is_active unless @current_dropdown_is_active.nil?
 
     tag.li link + options[:children], options[:attrs].merge(class: [is_active ? 'active' : '', *options[:attrs][:class]])
   end
@@ -64,15 +68,15 @@ module ApplicationHelper
       cls = nil
     end
 
-    @current_dropdown = []
+    @current_dropdown_is_active = false
     children = capture(&block)
-    actives = @current_dropdown
-    @current_dropdown = nil
+    is_active = @current_dropdown_is_active
+    @current_dropdown_is_active = nil
 
     nav_link(
       cls,
       options.merge(
-        active: actives,
+        active: !!is_active, # rubocop:disable Style/DoubleNegation
         attrs: {
           class: 'dropdown'
         },
