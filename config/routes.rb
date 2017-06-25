@@ -41,7 +41,7 @@ Rails.application.routes.draw do
   post 'spammers/dead/:id', to: 'stack_exchange_users#dead'
   get 'spammers/:id', to: 'stack_exchange_users#show', as: :stack_exchange_user
 
-  get 'search', to: 'search#search_results'
+  get 'search', to: 'search#index'
 
   scope '/graphs' do
     root to: 'graphs#index', as: :graphs
@@ -227,7 +227,7 @@ Rails.application.routes.draw do
   end
 
   scope '/data' do
-    root             to: 'data#tool',         as: :data_explorer
+    root             to: 'data#index',        as: :data_explorer
     get  'retrieve', to: 'data#retrieve',     as: :data_retrieve
     get  'schema',   to: 'data#table_schema', as: :data_schema
   end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RemoveApiTokenFromUsers < ActiveRecord::Migration[5.1]
+class RemoveAPITokenFromUsers < ActiveRecord::Migration[5.1]
   def change
     remove_column :users, :api_token
   end

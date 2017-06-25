@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ApiToken < ApplicationRecord
+class APIToken < ApplicationRecord
   belongs_to :api_key
   belongs_to :user
 

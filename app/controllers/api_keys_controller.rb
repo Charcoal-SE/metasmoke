@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-class ApiKeysController < ApplicationController
+class APIKeysController < ApplicationController
   before_action :authenticate_user!
   before_action :set_key, except: [:index, :new, :create, :mine]
   before_action :verify_admin, except: [:owner_edit, :owner_update, :owner_revoke, :mine]
   before_action :verify_ownership, only: [:owner_edit, :owner_update, :owner_revoke]
 
   def index
-    @keys = ApiKey.all
+    @keys = APIKey.all
   end
 
   def revoke_write_tokens
-    if ApiToken.where(api_key: @key).destroy_all
+    if APIToken.where(api_key: @key).destroy_all
       flash[:success] = "Successfully removed all write tokens belonging to #{@key.app_name}."
     else
       flash[:danger] = 'Failed to revoke all API write tokens - tokens need to be removed manually.'
@@ -20,12 +20,12 @@ class ApiKeysController < ApplicationController
   end
 
   def new
-    @key = ApiKey.new
+    @key = APIKey.new
     @key.key = Digest::SHA256.hexdigest("#{rand(0..9e9)}#{Time.now}")
   end
 
   def create
-    @key = ApiKey.new(key_params)
+    @key = APIKey.new(key_params)
     @key.save!
     flash[:success] = "Successfully registered API key #{@key.key}"
     redirect_to :admin_new_key
@@ -44,7 +44,7 @@ class ApiKeysController < ApplicationController
   end
 
   def mine
-    @keys = ApiKey.where(user: current_user)
+    @keys = APIKey.where(user: current_user)
   end
 
   def owner_edit; end
@@ -60,7 +60,7 @@ class ApiKeysController < ApplicationController
   end
 
   def owner_revoke
-    if ApiToken.where(api_key: @key).destroy_all
+    if APIToken.where(api_key: @key).destroy_all
       flash[:success] = "Removed all active write tokens for your app #{@key.app_name}."
     else
       flash[:danger] = 'Failed to remove active write tokens. Contact an admin.'
@@ -83,7 +83,7 @@ class ApiKeysController < ApplicationController
   end
 
   def set_key
-    @key = ApiKey.find params[:id]
+    @key = APIKey.find params[:id]
   end
 
   def verify_ownership

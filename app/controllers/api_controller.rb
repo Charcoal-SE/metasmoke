@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ApiController < ApplicationController
+class APIController < ApplicationController
   before_action :verify_key, except: [:filter_generator, :api_docs, :filter_fields]
   before_action :set_pagesize, except: [:filter_generator, :api_docs]
   before_action :verify_write_token, only: [:create_feedback, :report_post, :spam_flag]
@@ -346,7 +346,7 @@ class ApiController < ApplicationController
   private
 
   def verify_key
-    @key = ApiKey.find_by(key: params[:key])
+    @key = APIKey.find_by(key: params[:key])
     return if params[:key].present? && @key.present?
     smokey = SmokeDetector.find_by(access_token: params[:key])
     return if smokey.present?
@@ -368,7 +368,7 @@ class ApiController < ApplicationController
   def verify_write_token
     # This method deliberately doesn't check expiry: tokens are valid for authorization
     # forever, but can only be fetched using the code in the first 10 minutes.
-    @token = ApiToken.where(token: params[:token], api_key: @key)
+    @token = APIToken.where(token: params[:token], api_key: @key)
     unless @token.any?
       render status: 401, json: {
         error_name: 'unauthorized',

@@ -45,21 +45,49 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li class='<%= (controller.class == DashboardController or controller.class == ReasonsController) ? "active" : "" %>'><%= link_to "reasons", dashboard_path %></li>
-            <li class='<%= controller.class == GraphsController ? "active" : "" %>'><%= link_to "graphs", graphs_path %></li>
-            <li class='<%= controller.class == PostsController ? "active" : "" %>'><%= link_to "posts", posts_path %></li>
-            <li class='<%= controller.class == SearchController ? "active" : "" %>'><%= link_to "search", search_path %></li>
+            <%= nav_link GraphsController %>
+            <%= nav_link PostsController %>
+            <%= nav_link SearchController %>
             <% if user_signed_in? %>
-              <li class='<%= controller.class == ReviewController ? "active" : "" %>'>
-                <%= link_to review_path do %>
-                  review
-                  <% review_items = Post.without_feedback.count %>
-                  <!-- badge hides itself if it doesn’t have contents. -->
-                  <span class="reviews-count badge"><% if review_items > 0 %><%= review_items %><% end %></span>
-                <% end %>
-              </li>
+              <%= nav_link ReviewController do %>
+                <% review_items = Post.without_feedback.count %>
+                <%# badge hides itself if it doesn’t have contents. %>
+                <span class="reviews-count badge"><% if review_items > 0 %><%= review_items %><% end %></span>
+              <% end %>
             <% end %>
-            <li class='<%= [FlagConditionsController, FlagLogController, FlagSettingsController].include?(controller.class) ? "active" : "" %>'><%= link_to "flagging", flagging_path %></li>
-            <li class='status <%= controller.class == StatusController ? "active" : "" %> status-<%= SmokeDetector.status_color %>' data-last-ping='<%= SmokeDetector.select("last_ping").order("last_ping DESC").first.last_ping.to_f %>' data-toggle='tooltip' data-placement='bottom'><%= link_to "status", status_path %></li>
+            <%= nav_link FlagSettingsController, action: :dashboard, label: 'flagging', active: [FlagConditionsController, FlagLogController] %>
+            <% if user_signed_in? %>
+              <%= nav_dropdown AdminController, label: 'tools' do %>
+                <%= nav_link AdminController, label: 'Invalidated Feedback', action: :recently_invalidated %>
+                <%= nav_link AdminController, label: 'Feedback via API', action: :api_feedback %>
+                <%= nav_link AdminController, label: 'User Data', action: :users %>
+                <% if current_user.has_role? :admin %>
+                  <%= nav_link AdminController, label: 'Posts with Admin Reports', action: :flagged %>
+                  <%= nav_link AdminController, label: 'Ignored Users', action: :ignored_users %>
+                  <%= nav_link APIKeysController, label: 'API Keys' %>
+                  <%= nav_link AdminController, label: 'User Permissions', action: :permissions %>
+                <% end %>
+                <% if current_user.has_role? :developer %>
+                  <%#
+                    TODO:  Make the `class="text-danger"` part actually adjust the color of the item
+                    (currently, it’s overridden with `.dropdown-menu > li > a` in Bootstrap)
+                  %>
+                  <%= nav_link DeveloperController, label: 'Production log', action: :production_log %>
+                <% end %>
+                <%= nav_link AnnouncementsController, label: 'Announcements' %>
+              <% end %>
+            <% end %>
+            <% if current_user.try(:has_role?, :core) %>
+              <%= nav_link DataController %>
+            <% end %>
+            <%= nav_link StatusController, attrs: {
+              class: ['status', "status-#{SmokeDetector.status_color}"],
+              data: {
+                last_ping: SmokeDetector.select("last_ping").order("last_ping DESC").first.last_ping.to_f,
+                toggle: 'tooltip',
+                placement: 'bottom'
+              }
+            } %>
           </ul>
           <% if controller.class == DashboardController %>
             <form class="navbar-form navbar-right" role="search">
@@ -70,45 +98,29 @@
           <% end %>
           <ul class="nav navbar-nav navbar-right">
             <% if user_signed_in? %>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.username || current_user.email %> <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><%= link_to 'Log out', destroy_user_session_path, :method => :delete %></li>
-                  <li><%= link_to 'Account Settings', edit_user_registration_path %></li>
-                  <li><%= link_to 'Apps', url_for(:controller => '/users', :action => :apps) %></li>
-                  <% if current_user.try(:has_role?, :smoke_detector_runner) %>
-                    <li><%= link_to 'Smoke Detectors', smoke_detector_mine_path %></li>
-                  <% end %>
-                  <% if current_user.try(:has_role?, :core) %>
-                    <li><%= link_to 'Data Explorer', data_explorer_path %></li>
-                    <li><%= link_to 'Announcements', announcements_path %></li>
-                  <% end %>
-                  <li><a href="/admin">Tools</a></li>
-                  <li class="dropdown-indent"><a href="/admin/invalidated">Invalidated Feedback</a></li>
-                  <li class="dropdown-indent"><a href="/admin/api_feedback">Feedback via API</a></li>
-                  <li class="dropdown-indent"><a href="/users">User Data</a></li>
-                  <% if current_user.try(:has_role?, :admin) %>
-                    <li class="dropdown-indent"><a href="/admin/flagged">Posts with Admin Reports</a></li>
-                    <li class="dropdown-indent"><%= link_to "Ignored Users", admin_ignored_users_path %></li>
-                    <li class="dropdown-indent"><a href="/admin/keys">API Keys</a></li>
-                    <li class="dropdown-indent"><%= link_to "User Permissions", admin_permissions_path %></li>
-                  <% end %>
-                  <% if current_user.has_role?(:developer) %>
-                    <li class="dropdown-indent"><%= link_to "Production log", url_for(:controller => '/developer', :action => :production_log), :class => "text-danger" %></li>
-                  <% end %>
-                  <li><%= link_to 'Feedback', admin_user_feedback_path(:user_id => current_user.id) %></li>
-                </ul>
-              </li>
+              <%= nav_dropdown label: current_user.username || current_user.email do %>
+                <%= nav_link CustomSessionsController, label: 'Sign Out', action: :destroy, link_attrs: { method: 'delete' } %>
+                <%= nav_link Devise::RegistrationsController, label: 'Account Settings', action: :edit %>
+                <%= nav_link UsersController, action: :apps %>
+                <% if current_user.has_role? :smoke_detector_runner %>
+                  <%= nav_link SmokeDetectorsController, label: 'My SmokeDetectors', action: :mine %>
+                <% end %>
+                <%= nav_link AdminController, label: 'My Feedback', params: { user_id: current_user.id }, action: :user_feedback %>
+              <% end %>
             <% else %>
-              <li><%= link_to "sign in", new_user_session_path %></li>
-              <li><%= link_to "sign up", new_user_registration_path %></li>
+              <%= nav_link CustomSessionsController, label: 'sign in', action: :new %>
+              <%= nav_link Devise::RegistrationsController, label: 'sign up', action: :new %>
             <% end %>
             <% if CurrentCommit.present? %>
-              <li>
-                <%= link_to code_status_path, class: 'commit-sha', 'data-sha' => CurrentCommit do %>
-                  <code><%= CurrentCommit.first(7) %></code>
-                <% end %>
-              </li>
+              <%= nav_link CodeStatusController, label: '', attrs: {
+                title: "Controller: #{controller.class}##{controller.action_name}",
+                class: 'commit-sha',
+                data: {
+                  sha: CurrentCommit
+                }
+              } do %>
+                <code><%= CurrentCommit.first(7) %></code>
+              <% end %>
             <% end %>
             <% if controller.class == DashboardController %>
               <li class="search-icon hidden-xs"><a class="glyphicon glyphicon-search" href=#><span class="sr-only">Search</span></a></li>

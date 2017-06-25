@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class ApiKeyTest < ActiveSupport::TestCase
+class APIKeyTest < ActiveSupport::TestCase
   # test 'the truth' do
   #   assert true
   # end

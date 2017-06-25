@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'open-uri'
-include ApiHelper
+include APIHelper
 
 class GithubController < ApplicationController
   skip_before_action :verify_authenticity_token
@@ -117,7 +117,7 @@ class GithubController < ApplicationController
       when 'opened', 'synchronize'
         commits = JSON.parse(Net::HTTP.get_response(URI.parse(pull_request['commits_url'])).body)
         commits.each do |commit|
-          ApiHelper.authorized_post(
+          APIHelper.authorized_post(
             "https://api.github.com/repos/Charcoal-SE/SmokeDetector/statuses/#{commit['sha']}",
             state: 'pending',
             description: 'An Approve review is required before pull requests can be merged.',
@@ -135,7 +135,7 @@ class GithubController < ApplicationController
       if data['action'] == 'submitted' && review['state'] == 'approved'
         commits = JSON.parse(Net::HTTP.get_response(URI.parse(pull_request['commits_url'])).body)
         commits.each do |commit|
-          ApiHelper.authorized_post(
+          APIHelper.authorized_post(
             "https://api.github.com/repos/Charcoal-SE/SmokeDetector/statuses/#{commit['sha']}",
             state: 'success',
             description: 'PR approved :)',

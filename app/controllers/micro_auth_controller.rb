@@ -13,7 +13,7 @@ class MicroAuthController < ApplicationController
       redirect_to(url_for(controller: :micro_auth, action: :token_request)) && return
     end
 
-    @token = ApiToken.new(user: current_user, api_key: @api_key, code: generate_code(7), token: generate_code(64), expiry: 10.minutes.from_now)
+    @token = APIToken.new(user: current_user, api_key: @api_key, code: generate_code(7), token: generate_code(64), expiry: 10.minutes.from_now)
     if @token.save
       redirect_to url_for(controller: :micro_auth, action: :authorized, code: @token.code, token_id: @token.id)
     else
@@ -23,7 +23,7 @@ class MicroAuthController < ApplicationController
   end
 
   def authorized
-    @token = ApiToken.find params[:token_id]
+    @token = APIToken.find params[:token_id]
     return if current_user.has_role?(:developer) || current_user == @token.user
     raise ActionController::RoutingError, 'https://www.youtube.com/watch?v=6_b7RDuLwcI'
   end
@@ -32,7 +32,7 @@ class MicroAuthController < ApplicationController
 
   def token
     code = params[:code]
-    token = ApiToken.where(code: code, api_key: @api_key)
+    token = APIToken.where(code: code, api_key: @api_key)
     if token.any? && !token.first.expiry.past?
       render json: { token: token.first.token }
     else
@@ -54,12 +54,12 @@ class MicroAuthController < ApplicationController
   end
 
   def verify_key
-    @api_key = ApiKey.find_by(key: params[:key])
+    @api_key = APIKey.find_by(key: params[:key])
     return if params[:key].present? && @api_key.present?
     render :invalid_key, status: 400
   end
 
   def set_token
-    @token = ApiToken.find params[:token_id]
+    @token = APIToken.find params[:token_id]
   end
 end

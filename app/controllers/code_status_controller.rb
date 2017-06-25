@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-include ApiHelper
+include APIHelper
 
 class CodeStatusController < ApplicationController
   def index

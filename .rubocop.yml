@@ -25,6 +25,8 @@ Style/NumericPredicate:
   AutoCorrect: true
   EnforcedStyle: comparison
   Enabled: true
+Style/AsciiComments:
+  Enabled: false
 
 # Want to refactor some stuff? Remove these.
 Metrics/AbcSize:
