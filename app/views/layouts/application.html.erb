@@ -93,16 +93,16 @@
           <% end %>
           <ul class="nav navbar-nav navbar-right">
             <% if user_signed_in? %>
-              <li class="dropdown">
+              <li class="dropdown <%= active Devise::RegistrationsController, :edit %><%= active UsersController, :apps %><%= active SmokeDetectorsController, :mine %><%= active AdminController, :user_feedback %>">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.username || current_user.email %> <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><%= link_to 'Log out', destroy_user_session_path, :method => :delete %></li>
-                  <li><%= link_to 'Account Settings', edit_user_registration_path %></li>
-                  <li><%= link_to 'Apps', url_for(:controller => '/users', :action => :apps) %></li>
+                  <li class="<%= active Devise::RegistrationsController, :edit %>"><%= link_to 'Account Settings', edit_user_registration_path %></li>
+                  <li class="<%= active UsersController, :apps %>"><%= link_to 'Apps', url_for(:controller => '/users', :action => :apps) %></li>
                   <% if current_user.try(:has_role?, :smoke_detector_runner) %>
-                    <li><%= link_to 'My SmokeDetectors', smoke_detector_mine_path %></li>
+                    <li class="<%= active SmokeDetectorsController, :mine %>"><%= link_to 'My SmokeDetectors', smoke_detector_mine_path %></li>
                   <% end %>
-                  <li><%= link_to 'Feedback', admin_user_feedback_path(:user_id => current_user.id) %></li>
+                  <li class="<%= active AdminController, :user_feedback %>"><%= link_to 'Feedback', admin_user_feedback_path(:user_id => current_user.id) %></li>
                 </ul>
               </li>
             <% else %>
