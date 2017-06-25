@@ -8,12 +8,6 @@ module ApplicationHelper
     text
   end
 
-  def current_action?(cls, action = nil)
-    return false unless controller.is_a? cls
-    return controller.action_name == action.to_s if action
-    true
-  end
-
   @current_dropdown = nil
   def nav_link(cls, options = {}, &block)
     options[:active] ||= []
@@ -96,5 +90,13 @@ module ApplicationHelper
         children: tag.ul(children, class: 'dropdown-menu')
       )
     ) { tag.span class: 'caret' }
+  end
+
+  protected
+
+  def current_action?(cls, action = nil)
+    return false unless controller.is_a? cls
+    return controller.action_name == action.to_s if action
+    true
   end
 end
