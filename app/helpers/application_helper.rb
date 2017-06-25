@@ -8,7 +8,7 @@ module ApplicationHelper
     text
   end
 
-  @current_dropdown_is_active = false
+  @current_dropdown_is_active = nil
   def nav_link(cls, options = {}, &block)
     options[:active] ||= []
     options[:attrs] ||= {}
