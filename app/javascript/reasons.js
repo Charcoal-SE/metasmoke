@@ -6,16 +6,15 @@ const debug = createDebug('ms:reasons');
 
 $(() => {
   $(document).on('click', '.show-post-body', function () {
-    const span = $(this);
     if ($(this).data('postloaded')) {
       togglePostBodyVisible(this);
     } else {
       // If we need to lazy-load the post body from the server
       // This is criminally ugly
-      $($(this).parent().children('div.post-body')[0]).load(`/post/${$(this).data('postid')}/body`, () => {
-        debug('post data loaded', span[0]);
-        togglePostBodyVisible(span);
-        span.data('postloaded', true);
+      $(this).parent().children('div.post-body:first').load(`/post/${$(this).data('postid')}/body`, () => {
+        debug('post data loaded', $(this)[0]);
+        togglePostBodyVisible($(this));
+        $(this).data('postloaded', true);
       });
     }
   });
@@ -24,7 +23,7 @@ $(() => {
     debug('searching for', `"${val}"`);
     $('tr').not('tr:first').show().filter(function () {
       const text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
-      return text.indexOf(val) !== -1;
+      return text.includes(val);
     }).hide();
   });
   $(document).on('click', 'li.search-icon a', e => {
@@ -35,7 +34,7 @@ $(() => {
 });
 
 function togglePostBodyVisible(row) {
-  $('.post-body[data-postid=\'' + $(row).data('postid') + '\']').toggle();
+  $(`.post-body[data-postid="${$(row).data('postid')}"]`).toggle();
   if ($(row).text() === '►') {
     $(row).text('▼');
   } else if ($(row).text() === '▼') {
