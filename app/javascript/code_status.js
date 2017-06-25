@@ -46,8 +46,14 @@ route('/status/code', () => {
     renderDiff('commit', commit_diff);
 
     const [message, ...other] = commit.commit.message.split('\n\n');
-    $('.commit summary').html(escapeAndLinkify(message));
-    $('.commit pre').html(escapeAndLinkify(other.join('\n\n').trim()) || '<em>No details</em>');
+    const escapedMessge = escapeAndLinkify(message);
+    const escapedDetails = escapeAndLinkify(other.join('\n\n').trim());
+    if (other.join('').length > 0) {
+      $('.commit summary').html(escapedMessge);
+      $('.commit pre').html(escapedDetails);
+    } else {
+      $('.commit').html(escapedMessge);
+    }
   }).fail(debug);
 });
 
