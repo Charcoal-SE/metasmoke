@@ -11,11 +11,11 @@ class UsersControllerTest < ActionController::TestCase
 
   test 'should revoke app access' do
     sign_in users(:approved_user)
-    before_test_count = ApiToken.count
+    before_test_count = APIToken.count
     delete :revoke_app, params: { key_id: api_keys(:one).id }
     assert_response(302)
     assert_nil flash[:danger]
-    assert_operator before_test_count, :>, ApiToken.count
+    assert_operator before_test_count, :>, APIToken.count
   end
 
   test 'should get two-factor status page' do

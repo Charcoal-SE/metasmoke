@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class ApiControllerTest < ActionController::TestCase
+class APIControllerTest < ActionController::TestCase
   test 'should get index' do
     sign_out(:users)
     get :api_docs
@@ -32,7 +32,7 @@ class ApiControllerTest < ActionController::TestCase
   test 'should associate feedback with API key' do
     sign_in users(:admin_user)
 
-    assert_difference ApiKey.find(api_keys(:one).id).feedbacks do
+    assert_difference APIKey.find(api_keys(:one).id).feedbacks do
       post :create_feedback, params: { id: 23_653, type: 'tpu-', key: api_keys(:one).key, token: api_tokens(:one).token }
       assert_nothing_raised do
         JSON.parse(@response.body)

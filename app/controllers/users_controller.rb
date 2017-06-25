@@ -13,12 +13,12 @@ class UsersController < ApplicationController
   end
 
   def apps
-    @keys = ApiKey.find(current_user.api_tokens.pluck(:api_key_id))
+    @keys = APIKey.find(current_user.api_tokens.pluck(:api_key_id))
   end
 
   def revoke_app
-    @key = ApiKey.find params[:key_id]
-    @tokens = ApiToken.where(api_key: @key, user: current_user)
+    @key = APIKey.find params[:key_id]
+    @tokens = APIToken.where(api_key: @key, user: current_user)
     if @tokens.destroy_all
       flash[:success] = "Revoked access to your account from #{@key.app_name}."
     else

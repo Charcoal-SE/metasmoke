@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class ApiKeysControllerTest < ActionController::TestCase
+class APIKeysControllerTest < ActionController::TestCase
   test 'should get index' do
     sign_in users(:admin_user)
     get :index
@@ -23,13 +23,13 @@ class ApiKeysControllerTest < ActionController::TestCase
 
   test 'should revoke write tokens' do
     sign_in users(:admin_user)
-    before_test_count = ApiToken.count
+    before_test_count = APIToken.count
 
     delete :revoke_write_tokens, params: { id: api_keys(:one).id }
     assert_response(302)
 
     # Assert that the count before the test is more than the count
     # after the test; i.e. some tokens disappeared
-    assert_operator before_test_count, :>, ApiToken.count
+    assert_operator before_test_count, :>, APIToken.count
   end
 end

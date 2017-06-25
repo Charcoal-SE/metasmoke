@@ -14,8 +14,8 @@
     <% @keys.each do |key| %>
       <tr>
         <td><%= key.app_name %></td>
-        <td><%= ApiToken.where(:user => current_user, :api_key => key).last.created_at %></td>
-        <td><%= ApiToken.where(:user => current_user, :api_key => key).count %></td>
+        <td><%= APIToken.where(:user => current_user, :api_key => key).last.created_at %></td>
+        <td><%= APIToken.where(:user => current_user, :api_key => key).count %></td>
         <td><%= link_to "Revoke Access", url_for(:controller => :users, :action => :revoke_app, :key_id => key.id), :method => :delete,
                 :data => { :confirm => "Are you sure? If you want to use this app again, you will have to re-authenticate." }, :class => "text text-danger" %></td>
       </tr>
@@ -35,7 +35,7 @@
     </tr>
   </thead>
   <tbody>
-    <% ApiKey.all.each do |key| %>
+    <% APIKey.all.each do |key| %>
       <tr>
         <td><%= key.app_name %></td>
         <td>
