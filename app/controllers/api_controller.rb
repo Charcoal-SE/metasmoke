@@ -376,8 +376,6 @@ class APIController < ApplicationController
     @user = @token.user
   end
 
-  private
-
   def select_fields(default = '')
     Filterator.fields_from_string(params[:filter] || default)
   end

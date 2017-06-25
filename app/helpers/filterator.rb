@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Filterator
   # I'm fairly sure most of this class works by magic, rather than by any design.
 
