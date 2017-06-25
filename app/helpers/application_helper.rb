@@ -37,7 +37,7 @@ module ApplicationHelper
     end
 
     options[:label] = options[:label].to_s
-    options[:label] = options[:label].titleize.sub 'Smoke Detector', 'SmokeDetector' if @current_dropdown
+    options[:label] = options[:label].titleize.sub 'Smoke Detector', 'SmokeDetector' if @current_dropdown_is_active
 
     link = if block_given?
              link_to(url, options[:link_attrs]) { h(options[:label]) + ' ' + capture(&block) }
