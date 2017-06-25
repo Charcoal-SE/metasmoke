@@ -8,19 +8,11 @@ const partitionArray = (array, size) => array.map((e, i) => (i % size === 0) ?
 
 onLoad(() => {
   $('#create_filter').on('click', () => {
-    const checkboxes = $('input[type=checkbox]');
-    const bits = new Array(checkboxes.length);
-
-    $.each(checkboxes, (index, item) => {
-      const $item = $(item);
-      const arrayIndex = $item.data('index');
-      if ($item.is(':checked')) {
-        bits[arrayIndex] = 1;
-        debug($item, arrayIndex);
-      } else {
-        bits[arrayIndex] = 0;
-      }
-    });
+    const bits = Array.from($('input[type=checkbox]')).reduce((arr, el) => {
+      const $el = $(el);
+      arr[$el.data('index')] = Number($el.is(':checked'));
+      return arr;
+    }, []);
 
     const bytes = partitionArray(bits, 8);
     debug(bits.join(''));
