@@ -3,7 +3,7 @@
 class DataController < ApplicationController
   before_action :verify_core
 
-  def tool; end
+  def index; end
 
   def retrieve
     types = data_params[:types].to_a
