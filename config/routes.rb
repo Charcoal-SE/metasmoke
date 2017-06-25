@@ -41,7 +41,7 @@ Rails.application.routes.draw do
   post 'spammers/dead/:id', to: 'stack_exchange_users#dead'
   get 'spammers/:id', to: 'stack_exchange_users#show', as: :stack_exchange_user
 
-  get 'search', to: 'search#search_results'
+  get 'search', to: 'search#index'
 
   scope '/graphs' do
     root to: 'graphs#index', as: :graphs
