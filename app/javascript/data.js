@@ -247,5 +247,5 @@ route('/data', async () => {
     $this.removeAttr('disabled');
   });
 }, () => {
-  localStorage.dataExplorerScriptContent = editor.getSession().getDocument().getValue();
+  localStorage.dataExplorerScriptContent = editor.getValue();
 });
