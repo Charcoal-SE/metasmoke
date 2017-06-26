@@ -35,6 +35,7 @@ import '../user_site_settings';
 import { onLoad } from '../util';
 
 onLoad(() => {
+  $('[data-toggle="tooltip"]').tooltip();
 
   $('.sortable-table').tablesort();
 
