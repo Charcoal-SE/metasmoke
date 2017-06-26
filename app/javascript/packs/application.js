@@ -16,6 +16,9 @@ import Turbolinks from 'turbolinks';
 import '../turbolinks_prefetch.coffee'; // The original is in coffee.
 Turbolinks.start();
 
+import createDebug from 'debug';
+const debug = createDebug('ms:app');
+
 import '../cable';
 
 import '../admin';
@@ -29,10 +32,10 @@ import '../stack_exchange_users';
 import '../status';
 import '../user_site_settings';
 
-import createDebug from 'debug';
-const debug = createDebug('ms:app');
+import { onLoad } from '../util';
 
-$(document).on('turbolinks:load', () => {
+onLoad(() => {
+
   $('.sortable-table').tablesort();
 
   $('.selectpicker').selectpicker();
