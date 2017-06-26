@@ -1,4 +1,5 @@
 import createDebug from 'debug';
+
 import { route } from './util';
 
 const debug = createDebug('ms:data');
@@ -7,6 +8,7 @@ window.store = {};
 window.results = [];
 
 /* globals store, results, ace */
+const loadPromise = ($el, gbl) => new Promise(resolve => window[gbl] ? resolve() : $el.on('load', resolve));
 
 const addDataListRow = () => {
   $('.data-list').prepend($('#data-list-row').clone().removeClass('template'));
@@ -140,13 +142,21 @@ const validateDataset = () => {
   fetchDataMultiple(types, limits);
 };
 
-route('/data', () => {
+const themes = {
+  dark: 'ace/theme/monokai',
+  light: 'ace/theme/xcode'
+};
+let theme = localStorage.editorTheme || themes.dark;
+
+route('/data', async () => {
   preloadDataTypes();
   $('.schema-display').hide();
   $('.script-help').hide();
 
+  await loadPromise($('.js-ace'), 'ace');
+  await loadPromise($('.js-jailed'), 'jailed');
+
   const editor = ace.edit('editor');
-  editor.setTheme('ace/theme/monokai');
   editor.getSession().setMode('ace/mode/javascript');
   editor.setOptions({
     minLines: 15,
@@ -156,6 +166,20 @@ route('/data', () => {
     printMarginColumn: 120
   });
   editor.resize();
+
+  $('.js-theme-toggle').click(e => {
+    e.preventDefault();
+    if (theme === themes.dark) {
+      theme = themes.light;
+      $('.js-theme-toggle').text('🌙');
+    } else {
+      theme = themes.dark;
+      $('.js-theme-toggle').text('☀️');
+    }
+    editor.setTheme(theme);
+    localStorage.editorTheme = theme;
+  });
+  $('.js-theme-toggle').click().click();
 
   $('.add-data').on('click', ev => {
     ev.preventDefault();
