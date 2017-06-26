@@ -148,6 +148,7 @@ const themes = {
 };
 let theme = localStorage.editorTheme || themes.dark;
 
+let editor;
 route('/data', async () => {
   preloadDataTypes();
   $('.schema-display').hide();
@@ -156,7 +157,12 @@ route('/data', async () => {
   await loadPromise($('.js-ace'), 'ace');
   await loadPromise($('.js-jailed'), 'jailed');
 
-  const editor = ace.edit('editor');
+  editor = ace.edit('editor');
+  if (localStorage.dataExplorerScriptContent) {
+    editor.getSession().getDocument().setValue(localStorage.dataExplorerScriptContent);
+  }
+  // Why? Because.
+  editor.$blockScrolling = Infinity;
   editor.getSession().setMode('ace/mode/javascript');
   editor.setOptions({
     minLines: 15,
@@ -228,4 +234,6 @@ route('/data', async () => {
 
     $this.removeAttr('disabled');
   });
+}, () => {
+  localStorage.dataExplorerScriptContent = editor.getSession().getDocument().getValue();
 });
