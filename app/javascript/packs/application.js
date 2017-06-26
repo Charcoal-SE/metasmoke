@@ -36,6 +36,7 @@ import { onLoad } from '../util';
 
 onLoad(() => {
   $('[data-toggle="tooltip"]').tooltip();
+  $('[data-toggle="popover"]').popover();
 
   $('.sortable-table').tablesort();
 
