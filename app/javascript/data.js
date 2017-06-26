@@ -162,8 +162,8 @@ route('/data', async () => {
     minLines: 15,
     maxLines: 30,
     useSoftTabs: true,
-    tabSize: 4,
-    printMarginColumn: 120
+    tabSize: 2,
+    printMarginColumn: 80
   });
   editor.resize();
 
