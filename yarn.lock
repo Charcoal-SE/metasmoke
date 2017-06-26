@@ -3150,6 +3150,10 @@ isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
 
+jailed@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/jailed/-/jailed-0.3.1.tgz#3c888440640b914d9ee28ed30bcec27745e657be"
+
 jquery-tablesort@^0.0.11:
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/jquery-tablesort/-/jquery-tablesort-0.0.11.tgz#b1167542ff0001e8bdd6a64e1c58d92208228301"

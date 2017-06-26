@@ -1,9 +1,5 @@
-<%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js" %>
-<%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/mode-javascript.js" %>
-<%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/theme-monokai.js" %>
-<script>
-
-</script>
+<%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js", class: 'js-ace' %>
+<%= javascript_include_tag "https://cdn.rawgit.com/asvd/jailed/4d26cd26/lib/jailed.js", crossorigin: 'anonymous', class: 'js-jailed' %>
 
 <h3>Data Explorer</h3>
 <p><strong>Using this data...</strong></p>
@@ -24,17 +20,34 @@
   <p class="toggle-script-help text-info"><a href="#">Toggle help</a></p>
   <div class="panel panel-info script-help">
     <div class="panel-body">
-      <p>The data you've selected above is available in <code>window.store</code>, which is a dictionary whose keys are
+      <p>The data you've selected above is available in <code>store</code>, which is a dictionary whose keys are
         table names and whose values are arrays of database records.</p>
-      <p>Values you write to the 2-dimensional <code>window.results</code> array will be displayed in a table once your
-        script has finished executing. The array at <code>window.results[0]</code> will be used as a header row.</p>
+      <p>Values you write to the 2-dimensional <code>results</code> array will be displayed in a table once your
+        script has finished executing. The array at <code>results[0]</code> will be used as a header row.</p>
     </div>
   </div>
-  <textarea rows="15" cols="100" class="form-control script-input" id="editor"></textarea>
+  <textarea rows="15" cols="100" class="form-control script-input" id="editor">
+store => {
+  let results = [];
+  return results;
+};
+</textarea>
 </div>
 
 <div class="actions">
+  <button class="btn btn-default js-theme-toggle" data-toggle="tooltip" data-placement="bottom" title="toggle editor theme">☀️</button>
   <button class="btn btn-primary run-script">Run</button>
+  <i
+    aria-role="button"
+    class="js-script-error glyphicon glyphicon-alert text-danger"
+    data-toggle="popover"
+    data-placement="bottom"
+    data-title="Your script failed to run!"
+    data-trigger="hover click"
+    data-content="foo foo foo"
+    style="display: none;"
+    data-template='<div class="popover data-run-error-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><pre class="popover-content"></pre></div>'>
+  </i>
 </div>
 
 <table class="table table-condensed table-striped results-table">

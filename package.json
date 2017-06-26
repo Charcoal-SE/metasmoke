@@ -54,6 +54,7 @@
     "actioncable": "^5.1.1",
     "bootstrap-select": "^1.12.2",
     "debug": "^2.6.8",
+    "jailed": "^0.3.1",
     "jquery": ">=1.9.1",
     "jquery-tablesort": "^0.0.11",
     "jquery-ujs": "^1.2.2",
