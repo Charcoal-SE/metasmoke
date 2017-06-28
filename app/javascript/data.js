@@ -5,8 +5,7 @@ import { route } from './util';
 const debug = createDebug('ms:data');
 
 window.store = {};
-window.results = [];
-/* globals store, results, ace, jailed */
+/* globals store, ace */
 
 const loadPromise = ($el, gbl) => new Promise(resolve => window[gbl] ? resolve() : $el.on('load', resolve));
 
@@ -162,12 +161,9 @@ route('/data', async () => {
   $('.script-help').hide();
 
   await loadPromise($('.js-ace'), 'ace');
-  await loadPromise($('.js-jailed'), 'jailed');
 
   const url = new URL(location.href);
   url.pathname = '/data_sandbox.js';
-  const runner = new jailed.Plugin(url.toString());
-  runner.whenFailed(() => debug('failed to load runner'));
 
   editor = ace.edit('editor');
   if (localStorage.dataExplorerScriptContent) {
@@ -235,10 +231,16 @@ route('/data', async () => {
 
     validateDataset();
 
-    runner.remote.eval({
-      code: editor.getValue(),
-      store
-    }, renderResults);
+    let results = null;
+    let error = null;
+    try {
+      // eslint-disable-next-line no-eval
+      results = eval(editor.getValue())(store);
+    } catch (err) {
+      error = err;
+    }
+
+    renderResults(error, results);
 
     const csv = btoa(results.map(x => x.join(',')).join('\n'));
     const uri = `data:text/csv;base64,${csv}`;
