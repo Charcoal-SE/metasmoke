@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-class APIChannel < ApplicationCable::Channel
+# If you change this to APIChannel, FIRE and AIM will break!
+class ApiChannel < ApplicationCable::Channel
   def subscribed
     @key = APIKey.find_by(key: params[:key])
     if params[:key].present? && @key.present?
