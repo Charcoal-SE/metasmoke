@@ -1,3 +1,6 @@
+import createDebug from 'debug';
+
+const debug = createDebug('ms:util');
 // Common utilities
 
 // call `enter`(pathname) when visiting `path` (string orregex)
@@ -14,6 +17,13 @@ $(document).on('turbolinks:load', () => {
       route.exit.call(null, pathname);
     }
   }
+});
+
+$(window).on('beforeunload', () => {
+  debug('onbeforeunload');
+  const route = routes.find(route => route.current) || { exit: () => {} };
+  route.current = false;
+  route.exit.call(null);
 });
 
 export function route(path, enter, exit = () => {}) {

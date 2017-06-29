@@ -1,12 +1,13 @@
 import createDebug from 'debug';
+
 import { route } from './util';
 
 const debug = createDebug('ms:data');
 
 window.store = {};
-window.results = [];
+/* globals store, ace */
 
-/* globals store, results, ace */
+const loadPromise = ($el, gbl) => new Promise(resolve => window[gbl] ? resolve() : $el.on('load', resolve));
 
 const addDataListRow = () => {
   $('.data-list').prepend($('#data-list-row').clone().removeClass('template'));
@@ -74,43 +75,50 @@ const preloadDataTypes = function () {
   }
 };
 
-const renderResults = () => {
-  $('.results-table').show();
-
-  const $headerRow = $('.results-header');
-  const $resultBody = $('.results-body');
-
-  $headerRow.find('th').remove();
-  $resultBody.find('tr').remove();
-
-  if (!(Array.isArray(results))) {
-    throw new TypeError('window.results is not an array; can\'t render it');
-  }
-
-  const typeCheck = results.map(x => Array.isArray(x));
-  if (typeCheck.indexOf(false) >= 0) {
-    throw new Error('Not all elements of window.results are arrays; can\'t render results');
-  }
-
-  if (results.length < 1) {
+const renderResults = (err, results) => {
+  if (err) {
+    debug('failed:', err);
+    $('.js-script-error').attr('data-content', err.stack).fadeIn();
     return;
   }
+  try {
+    $('.results-table').show();
 
-  const headers = results[0];
-  for (let i = 0; i < headers.length; i++) {
-    $headerRow.append($('<th>').text(headers[i]));
-  }
+    const $headerRow = $('.results-header');
+    const $resultBody = $('.results-body');
 
-  if (results.length < 2) {
-    return;
-  }
+    $headerRow.find('th').remove();
+    $resultBody.find('tr').remove();
 
-  for (let i = 1; i < results.length; i++) {
-    const $row = $('<tr>');
-    for (let m = 0; m < results[i].length; m++) {
-      $row.append($('<td>').text(results[i][m]));
+    if (!(Array.isArray(results))) {
+      throw new TypeError('results is not an array; can\'t render it');
     }
-    $resultBody.append($row);
+
+    const typeCheck = results.map(x => Array.isArray(x));
+    if (typeCheck.indexOf(false) >= 0) {
+      throw new Error('Not all elements of results are arrays; can\'t render results');
+    }
+
+    if (results.length >= 1) {
+      const headers = results[0];
+      for (let i = 0; i < headers.length; i++) {
+        $headerRow.append($('<th>').text(headers[i]));
+      }
+
+      if (results.length >= 2) {
+        for (let i = 1; i < results.length; i++) {
+          const $row = $('<tr>');
+          for (let m = 0; m < results[i].length; m++) {
+            $row.append($('<td>').text(results[i][m]));
+          }
+          $resultBody.append($row);
+        }
+      }
+    }
+
+    $('.js-script-error').popover('hide').fadeOut();
+  } catch (err) {
+    $('.js-script-error').attr('data-content', err.stack).fadeIn();
   }
 };
 
@@ -140,22 +148,52 @@ const validateDataset = () => {
   fetchDataMultiple(types, limits);
 };
 
-route('/data', () => {
+const themes = {
+  dark: 'ace/theme/monokai',
+  light: 'ace/theme/xcode'
+};
+let theme = localStorage.editorTheme || themes.dark;
+
+let editor;
+route('/data', async () => {
   preloadDataTypes();
   $('.schema-display').hide();
   $('.script-help').hide();
 
-  const editor = ace.edit('editor');
-  editor.setTheme('ace/theme/monokai');
+  await loadPromise($('.js-ace'), 'ace');
+
+  const url = new URL(location.href);
+  url.pathname = '/data_sandbox.js';
+
+  editor = ace.edit('editor');
+  if (localStorage.dataExplorerScriptContent) {
+    editor.getSession().getDocument().setValue(localStorage.dataExplorerScriptContent);
+  }
+  // Why? Because.
+  editor.$blockScrolling = Infinity;
   editor.getSession().setMode('ace/mode/javascript');
   editor.setOptions({
     minLines: 15,
     maxLines: 30,
     useSoftTabs: true,
-    tabSize: 4,
+    tabSize: 2,
     printMarginColumn: 120
   });
   editor.resize();
+
+  $('.js-theme-toggle').click(e => {
+    e.preventDefault();
+    if (theme === themes.dark) {
+      theme = themes.light;
+      $('.js-theme-toggle').text('🌙');
+    } else {
+      theme = themes.dark;
+      $('.js-theme-toggle').text('☀️');
+    }
+    editor.setTheme(theme);
+    localStorage.editorTheme = theme;
+  });
+  $('.js-theme-toggle').click().click();
 
   $('.add-data').on('click', ev => {
     ev.preventDefault();
@@ -193,10 +231,16 @@ route('/data', () => {
 
     validateDataset();
 
-    window.results = [];
-    const scriptContent = editor.getValue();
-    eval.call(null, scriptContent);
-    renderResults();
+    let results = null;
+    let error = null;
+    try {
+      // eslint-disable-next-line no-eval
+      results = eval(editor.getValue())(store);
+    } catch (err) {
+      error = err;
+    }
+
+    renderResults(error, results);
 
     const csv = btoa(results.map(x => x.join(',')).join('\n'));
     const uri = `data:text/csv;base64,${csv}`;
@@ -204,4 +248,6 @@ route('/data', () => {
 
     $this.removeAttr('disabled');
   });
+}, () => {
+  localStorage.dataExplorerScriptContent = editor.getValue();
 });

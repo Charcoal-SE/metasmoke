@@ -100,6 +100,10 @@ group :development do
   gem 'capistrano-rvm'
   gem 'capistrano-secrets-yml'
   gem 'capistrano-upload-config'
+
+  # for the RailsPanel Chrome extension
+  # https://chrome.google.com/webstore/detail/railspanel/gjpfobpafnhjhbajcjgccbbdofdckggg
+  gem 'meta_request'
 end
 
 group :test do
