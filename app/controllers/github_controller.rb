@@ -169,6 +169,10 @@ class GithubController < ApplicationController
 
     # false indicates a not-force-push
     Octokit.update_ref 'Charcoal-SE/SmokeDetector', 'heads/deploy', new_sha1, false
+
+    # See https://developer.github.com/v3/activity/events/types/#webhook-payload-example-26
+    # for what’s in `params`
+    ActionCable.server.broadcast 'smokedetector_messages', deploy_updated: params
   end
 
   def any_status_hook
@@ -192,7 +196,7 @@ class GithubController < ApplicationController
     message += " on [#{sha.first(7)}](#{link}/commit/#{sha.first(10)})"
     message += ": #{description}" if description.present?
 
-    ActionCable.server.broadcast('smokedetector_messages', message: message)
+    ActionCable.server.broadcast 'smokedetector_messages', message: message
   end
 
   def pullapprove_merge_hook
