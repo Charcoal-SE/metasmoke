@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170607163348) do
+ActiveRecord::Schema.define(version: 20170705231757) do
 
   create_table "announcements", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "text"
@@ -131,6 +131,8 @@ ActiveRecord::Schema.define(version: 20170607163348) do
     t.integer "backoff"
     t.integer "site_id"
     t.boolean "is_auto", default: true
+    t.integer "api_key_id"
+    t.index ["api_key_id"], name: "index_flag_logs_on_api_key_id"
     t.index ["created_at"], name: "index_flag_logs_on_created_at"
     t.index ["flag_condition_id"], name: "index_flag_logs_on_flag_condition_id"
     t.index ["post_id"], name: "index_flag_logs_on_post_id"
@@ -326,6 +328,7 @@ ActiveRecord::Schema.define(version: 20170607163348) do
   add_foreign_key "api_tokens", "api_keys"
   add_foreign_key "api_tokens", "users"
   add_foreign_key "flag_conditions", "users"
+  add_foreign_key "flag_logs", "api_keys"
   add_foreign_key "flag_logs", "flag_conditions"
   add_foreign_key "flag_logs", "posts"
   add_foreign_key "flag_logs", "sites"

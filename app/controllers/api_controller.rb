@@ -313,7 +313,8 @@ class APIController < ApplicationController
       post: @post,
       backoff: status.present? ? message : 0,
       site_id: @post.site_id,
-      is_auto: false
+      is_auto: false,
+      api_key: @key
     )
     if status
       render json: { status: 'success', backoff: message }

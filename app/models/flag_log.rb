@@ -5,6 +5,8 @@ class FlagLog < ApplicationRecord
   belongs_to :user
   belongs_to :post
   belongs_to :site
+  belongs_to :api_key, optional: true
+
   scope(:auto, -> { where(is_auto: true) })
   scope(:manual, -> { where(is_auto: false) })
 
