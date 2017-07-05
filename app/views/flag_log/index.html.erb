@@ -34,13 +34,16 @@
       <tr>
         <th>User</th>
         <th>Post</th>
+        <% if params[:filter] == 'manual' %>
+          <th>App</th>
+        <% end %>
         <th>Result</th>
       </tr>
    </thead>
   <% end %>
   <tbody>
     <% @flag_logs.each do |log| %>
-      <%= render 'flag_log', :log => log %>
+      <%= render 'flag_log', log: log, with_app: params[:filter] == 'manual' %>
     <% end %>
   </tbody>
 </table>

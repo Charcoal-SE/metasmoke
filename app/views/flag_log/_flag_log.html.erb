@@ -1,5 +1,8 @@
 <tr>
   <td><%= log.user.try(:username) %></td>
   <%= render "posts/post", :post => log.post, :wrap_in_tr => false %>
+  <% if with_app %>
+    <td><%= log.api_key.present? ? log.api_key.app_name : 'MS Web UI' %></td>
+  <% end %>
   <td class='<%= "success" if log.success %>' title="<%= log.error_message %>"><%= log.success ? "Success" : "Fail" %><%= " (dry run)" if log.is_dry_run %></td>
 </tr>

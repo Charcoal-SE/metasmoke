@@ -20,8 +20,7 @@ class FlagLogController < ApplicationController
                                                    .where('`posts`.`is_fp` = 1 OR `posts`.`is_naa` = 1')
     when 'failures'
       @applicable_flag_logs = @applicable_flag_logs.where(success: false)
-    end
-    if params[:filter] == 'manual'
+    when 'manual'
       @applicable_flag_logs = @individual_user ? @individual_user.flag_logs.where(auto: false) : FlagLog.manual
     end
 
