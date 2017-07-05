@@ -61,6 +61,9 @@
                 <%= nav_link AdminController, label: 'Invalidated Feedback', action: :recently_invalidated %>
                 <%= nav_link AdminController, label: 'Feedback via API', action: :api_feedback %>
                 <%= nav_link AdminController, label: 'User Data', action: :users %>
+                <% if current_user.try(:has_role?, :core) %>
+                  <%= nav_link DataController %>
+                <% end %>
                 <% if current_user.has_role? :admin %>
                   <%= nav_link AdminController, label: 'Posts with Admin Reports', action: :flagged %>
                   <%= nav_link AdminController, label: 'Ignored Users', action: :ignored_users %>
@@ -76,9 +79,6 @@
                 <% end %>
                 <%= nav_link AnnouncementsController, label: 'Announcements' %>
               <% end %>
-            <% end %>
-            <% if current_user.try(:has_role?, :core) %>
-              <%= nav_link DataController %>
             <% end %>
             <%= nav_link StatusController, attrs: {
               class: ['status', "status-#{SmokeDetector.status_color}"],
