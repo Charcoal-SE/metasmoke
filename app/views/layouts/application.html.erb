@@ -83,7 +83,7 @@
             <%= nav_link StatusController, attrs: {
               class: ['status', "status-#{SmokeDetector.status_color}"],
               data: {
-                last_ping: SmokeDetector.select("last_ping").order("last_ping DESC").first.last_ping.to_f,
+                last_ping: SmokeDetector.select(:last_ping).order(last_ping: :desc).first.last_ping.to_f,
                 toggle: 'tooltip',
                 placement: 'bottom'
               }
