@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class AnnouncementsController < ApplicationController
-  before_action :verify_core
+  before_action :verify_core, except: [:index]
   before_action :verify_admin, only: [:expire]
 
   @markdown_renderer = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new)
