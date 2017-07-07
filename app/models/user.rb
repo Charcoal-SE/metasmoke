@@ -87,10 +87,10 @@ class User < ApplicationRecord
       config = AppConfig['stack_exchange']
       auth_string = "key=#{config['key']}&access_token=#{readonly_api_token || api_token}"
 
-      resp = Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/me/associated?pagesize=1&filter=!ms3d6aRI6N&#{auth_string}")).body
+      resp = Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/me/associated?pagesize=1&filter=!ms3d6aRI6N&#{auth_string}"))
       resp = JSON.parse(resp.body)
 
-      first_site = resp['items'][0]['site_url']
+      first_site = URI.parse(resp['items'][0]['site_url']).host
 
       resp = Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/me?site=#{first_site}&filter=!-.wwQ56Mfo3J&#{auth_string}"))
       resp = JSON.parse(resp.body)
