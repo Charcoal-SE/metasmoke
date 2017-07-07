@@ -112,9 +112,10 @@ class FlaggingTest < ActionDispatch::IntegrationTest
   test 'should refuse to flag on a site user is a moderator on' do
     @user.moderator_sites.create(site: Site.first)
 
-    assert_raise do
-      @user.spam_flag(Post.new(site: Site.first))
-    end
+    success, message = @user.spam_flag(Post.new(site: Site.first))
+
+    assert_not success
+    assert_equal message, 'User is a moderator on this site'
   end
 
   test 'should refuse to flag if user has no access token' do

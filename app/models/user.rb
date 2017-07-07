@@ -169,7 +169,7 @@ class User < ApplicationRecord
 
   def spam_flag(post, dry_run = false)
     if moderator_sites.pluck(:site_id).include? post.site_id
-      raise 'User is a moderator on this site; not flagging'
+      return false, 'User is a moderator on this site'
     end
 
     raise 'Not authenticated' if api_token.nil?

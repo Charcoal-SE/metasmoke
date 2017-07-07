@@ -111,7 +111,8 @@ class Post < ApplicationRecord
       'Flag options not present',
       'Spam flag option not present',
       'You do not have permission to flag this post',
-      'No account on this site.'
+      'No account on this site.',
+      'User is a moderator on this site'
     ].include? message
       flag_log = FlagLog.create(success: success, error_message: message,
                                 is_dry_run: dry_run, flag_condition: condition,
