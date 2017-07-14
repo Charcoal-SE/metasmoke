@@ -1,4 +1,6 @@
-UPDATE `api_tokens` SET `code` = '', `token` = '';
+DROP TABLE `ar_internal_metadata`;
+TRUNCATE TABLE `api_tokens`;
+UPDATE `api_keys` SET `key` = '';
 UPDATE `audits` SET `remote_address` = '';
 TRUNCATE TABLE `flags`;
 TRUNCATE TABLE `ignored_users`;
@@ -10,5 +12,6 @@ UPDATE `users` SET
     `reset_password_sent_at` = NULL,
     `encrypted_api_token` = '',
     `two_factor_token` = NULL,
+    `enabled_2fa` = NULL,
     `salt` = NULL,
     `iv` = NULL
