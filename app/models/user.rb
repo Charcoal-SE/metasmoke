@@ -10,12 +10,12 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :feedbacks
-  has_many :api_tokens
-  has_many :api_keys
-  has_many :user_site_settings
-  has_many :flag_conditions
+  has_many :api_tokens, dependent: :destroy
+  has_many :api_keys, dependent: :nullify
+  has_many :user_site_settings, dependent: :destroy
+  has_many :flag_conditions, dependent: :destroy
   has_many :flag_logs, dependent: :nullify
-  has_many :smoke_detectors
+  has_many :smoke_detectors, dependent: :destroy
   has_many :moderator_sites
 
   # All accounts start with flagger role enabled
