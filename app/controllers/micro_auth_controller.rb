@@ -49,7 +49,7 @@ class MicroAuthController < ApplicationController
   private
 
   def generate_code(len)
-    SecureRandom.hex len
+    SecureRandom.hex((len / 2.0).ceil)
   end
 
   def verify_key
