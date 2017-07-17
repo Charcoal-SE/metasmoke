@@ -49,8 +49,7 @@ class MicroAuthController < ApplicationController
   private
 
   def generate_code(len)
-    hash = Digest::SHA256.hexdigest("#{rand(0..9e9)}#{Time.now}")
-    hash[0..(len - 1)]
+    SecureRandom.hex len
   end
 
   def verify_key
