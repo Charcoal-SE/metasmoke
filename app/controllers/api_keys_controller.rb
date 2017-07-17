@@ -21,7 +21,7 @@ class APIKeysController < ApplicationController
 
   def new
     @key = APIKey.new
-    @key.key = Digest::SHA256.hexdigest("#{rand(0..9e9)}#{Time.now}")
+    @key.key = SecureRandom.hex 32
   end
 
   def create
