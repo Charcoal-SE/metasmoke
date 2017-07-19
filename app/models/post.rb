@@ -15,10 +15,14 @@ class Post < ApplicationRecord
   scope(:includes_for_post_row, -> { includes(:stack_exchange_user).includes(:reasons).includes(feedbacks: [:user, :api_key]) })
   scope(:without_feedback, -> { left_joins(:feedbacks).where(feedbacks: { post_id: nil }) })
 
-  scope(:autoflagged, -> { includes(:flag_logs).where(flag_logs: { is_auto: true }).where.not(flag_logs: { id: nil }) })
+  scope(:autoflagged, -> { includes(:flag_logs).where(flag_logs: { is_auto: true }) })
 
   scope(:not_autoflagged, lambda {
-    left_joins(:flag_logs).where('flag_logs.id IS NULL OR flag_logs.is_auto = 0')
+    # I'm sorry.
+    left_joins(:flag_logs)
+      .joins("LEFT JOIN (SELECT posts.id AS 'post_id', COUNT(DISTINCT flag_logs.id) AS 'autoflag_count' FROM posts INNER JOIN flag_logs ON flag_logs.post_id = posts.id WHERE flag_logs.is_auto = 1 GROUP BY posts.id) AS flag_counts ON flag_counts.post_id = posts.id")
+      .where(flag_counts: { autoflag_count: 0 }) +
+      left_joins(:flag_logs).where(flag_logs: { post_id: nil })
   })
 
   after_create do
