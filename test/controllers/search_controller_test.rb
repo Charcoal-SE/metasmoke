@@ -48,4 +48,10 @@ class SearchControllerTest < ActionController::TestCase
     get :index, params: { title: 'foo', title_is_regex: true, title_is_inverse_regex: true }
     assert_response :success
   end
+
+  test 'should search by not autoflagged' do
+    get :index, params: { autoflagged: 'No' }
+    assert_response :success
+    assert_not_nil assigns(:results)
+  end
 end

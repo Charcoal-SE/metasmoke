@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170707225913) do
+ActiveRecord::Schema.define(version: 20170719220932) do
 
   create_table "announcements", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "text"
@@ -202,6 +202,7 @@ ActiveRecord::Schema.define(version: 20170707225913) do
     t.integer "revision_count"
     t.datetime "deleted_at"
     t.integer "smoke_detector_id"
+    t.boolean "autoflagged"
     t.index ["created_at"], name: "index_posts_on_created_at"
     t.index ["link"], name: "index_posts_on_link", length: { link: 191 }
   end
