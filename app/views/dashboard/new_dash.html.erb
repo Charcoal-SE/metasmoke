@@ -57,3 +57,17 @@
     </div>
   </div>
 </div>
+
+<h3>Stats</h3>
+<p>
+  <strong><%= Post.count %> total reports</strong> from <strong><%= Reason.count %> reasons</strong>.<br/>
+  <strong><%= Post.tp.count %></strong> (<%= ((Post.tp.count.to_f / Post.count) * 100).round(2) %>%) TP,
+  <strong><%= Post.fp.count %></strong> (<%= ((Post.fp.count.to_f / Post.count) * 100).round(2) %>%) FP, and
+  <strong><%= Post.naa.count %></strong> (<%= ((Post.naa.count.to_f / Post.count) * 100).round(2) %>%) NAA.
+</p>
+<p>
+  <strong><%= Post.autoflagged.count %> posts</strong> have been autoflagged,
+  totalling <strong><%= FlagLog.successful.auto.count %> flags</strong>.<br/>
+  <strong><%= Post.autoflagged.tp.count %></strong> (<%= ((Post.autoflagged.tp.count.to_f / Post.autoflagged.count) * 100).round(2) %>%) TP, and
+  <strong><%= Post.autoflagged.fp.count %></strong> (<%= ((Post.autoflagged.fp.count.to_f / Post.autoflagged.count) * 100).round(2) %>%) FP.
+</p>

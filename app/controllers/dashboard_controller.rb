@@ -10,7 +10,5 @@ class DashboardController < ApplicationController
     @posts = Post.all
   end
 
-  def new_dash
-
-  end
+  def new_dash; end
 end

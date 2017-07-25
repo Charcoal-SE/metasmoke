@@ -7,7 +7,7 @@ class SmokeDetector < ApplicationRecord
   has_many :statistics
   has_many :posts
 
-  scope :active, -> { where('last_ping > ?', 3.minutes.ago) }
+  scope(:active, -> { where('last_ping > ?', 3.minutes.ago) })
 
   def should_failover
     force_failover || (is_standby && SmokeDetector.where(is_standby: false).where('last_ping > ?', 3.minutes.ago).empty?)

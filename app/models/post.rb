@@ -21,6 +21,10 @@ class Post < ApplicationRecord
 
   scope(:today, -> { where('created_at > ?', Date.today) })
 
+  scope(:tp, -> { where(is_tp: true) })
+  scope(:fp, -> { where(is_fp: true) })
+  scope(:naa, -> { where(is_naa: true) })
+
   after_create do
     ActionCable.server.broadcast 'posts_realtime', row: PostsController.render(locals: { post: Post.last }, partial: 'post').html_safe
     ActionCable.server.broadcast 'topbar', review: Post.without_feedback.count
