@@ -9,6 +9,8 @@ class FlagLog < ApplicationRecord
 
   scope(:auto, -> { where(is_auto: true) })
   scope(:manual, -> { where(is_auto: false) })
+  scope(:successful, -> { where(success: true) })
+  scope(:today, -> { where('created_at > ?', Date.today) })
 
   def flag_icon
     if is_auto

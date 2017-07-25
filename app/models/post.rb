@@ -19,6 +19,8 @@ class Post < ApplicationRecord
 
   scope(:not_autoflagged, -> { where(autoflagged: false) })
 
+  scope(:today, -> { where('created_at > ?', Date.today) })
+
   after_create do
     ActionCable.server.broadcast 'posts_realtime', row: PostsController.render(locals: { post: Post.last }, partial: 'post').html_safe
     ActionCable.server.broadcast 'topbar', review: Post.without_feedback.count

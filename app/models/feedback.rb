@@ -5,6 +5,7 @@ class Feedback < ApplicationRecord
   scope(:ignored, -> { unscoped.where(is_ignored: true) })
   scope(:invalid, -> { unscoped.where(is_invalidated: true) })
   scope(:via_api, -> { unscoped.where.not(api_key: nil) })
+  scope(:today, -> { where('created_at > ?', Date.today) })
 
   belongs_to :post
   belongs_to :user

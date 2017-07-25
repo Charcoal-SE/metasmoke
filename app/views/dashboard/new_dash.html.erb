@@ -1,0 +1,59 @@
+<% title 'Dashboard' %>
+<div class="row clearfix">
+  <div class="col-md-3">
+    <% smokey_count = SmokeDetector.active.count %>
+    <% system_status = smokey_count > 0 ? (smokey_count > 1 ? 'module-green' : 'module-amber') : 'module-red' %>
+    <div class="module <%= system_status %>">
+      <div class="module-header">
+        <h4 class="module-title"><span class="glyphicon glyphicon-dashboard"></span> system status</h4>
+      </div>
+      <div class="module-body">
+        <p class="status-text"><strong><%= smokey_count %> <%= 'instance'.pluralize smokey_count %></strong> active</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <% is_enabled = FlagSetting['flagging_enabled'] == '1' %>
+    <% is_dry_run = FlagSetting['dry_run'] == '1' %>
+    <% status = is_enabled ? (is_dry_run ? 'Dry-running' : 'Enabled') : 'Disabled' %>
+    <% flagging_status = is_enabled ? (is_dry_run ? 'module-amber' : 'module-green') : 'module-red' %>
+    <div class="module <%= flagging_status %>">
+      <div class="module-header">
+        <h4 class="module-title"><span class="glyphicon glyphicon-flag"></span> flagging</h4>
+      </div>
+      <div class="module-body">
+        <p class="status-text">
+          <strong><%= status %></strong>, <%= pluralize(FlagLog.successful.auto.today.count, 'flag') %> today
+          <% if user_signed_in? && current_user.flags_enabled %>
+            (<%= FlagLog.successful.auto.today.where(user: current_user).count %> yours)
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="module">
+      <div class="module-header">
+        <h4 class="module-title"><span class="glyphicon glyphicon-time"></span> last 24 hours</h4>
+      </div>
+      <div class="module-body">
+        <p><strong><%= Post.today.count %> <%= 'post'.pluralize Post.today.count %></strong> reported</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="module">
+      <div class="module-header">
+        <h4 class="module-title"><span class="glyphicon glyphicon-ok"></span> feedback</h4>
+      </div>
+      <div class="module-body">
+        <p>
+          <strong><%= pluralize(Feedback.today.count, 'feedback') %></strong> today
+          <% if user_signed_in? %>
+            (<%= Feedback.today.where(user: current_user).count %> yours)
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

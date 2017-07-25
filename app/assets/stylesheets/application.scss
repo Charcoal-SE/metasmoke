@@ -154,3 +154,51 @@ body .profiler-results {
   top: 15px;
   z-index: 1048576;
 }
+
+.module {
+  border: 1px solid lightgray;
+  box-shadow: 2px 2px 7px lightgray;
+  border-radius: 4px;
+  padding-bottom: 3px;
+}
+
+.module-green {
+  border-top: 4px solid green;
+  padding-bottom: 0;
+}
+
+.module-green .status-text {
+  color: green;
+}
+
+.module-amber {
+  border-top: 4px solid orange;
+  padding-bottom: 0;
+}
+
+.module-amber .status-text {
+  color: orange;
+}
+
+.module-red {
+  border-top: 4px solid red;
+  padding-bottom: 0;
+}
+
+.module-red .status-text {
+  color: red;
+}
+
+.module-header {
+  padding: 3px 10px;
+  width: 100%;
+  border-bottom: 1px solid lightgray;
+}
+
+.module-title {
+  font-variant: small-caps;
+}
+
+.module-body {
+  padding: 10px;
+}

@@ -9,4 +9,8 @@ class DashboardController < ApplicationController
                      .to_a
     @posts = Post.all
   end
+
+  def new_dash
+
+  end
 end

@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  root to: 'dashboard#index'
-  get 'dashboard', to: 'dashboard#index'
+  root to: 'dashboard#new_dash', as: :dashboard
 
   mount ActionCable.server => '/cable'
 
@@ -121,6 +120,7 @@ Rails.application.routes.draw do
   post 'deletion_logs.json', to: 'deletion_logs#create'
   post 'status-update.json', to: 'status#status_update'
 
+  get 'reasons', to: 'dashboard#index', as: :reasons
   get 'reason/:id', to: 'reasons#show', as: :reason
   get 'reason/:id/site_chart', to: 'reasons#sites_chart', as: :reason_site_chart
   get 'reason/:id/accuracy_chart', to: 'reasons#accuracy_chart', as: :reason_accuracy_chart
