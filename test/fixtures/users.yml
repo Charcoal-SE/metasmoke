@@ -72,6 +72,7 @@ unapproved_user:
     zone: !ruby/object:ActiveSupport::TimeZone
       name: Etc/UTC
     time: *5
+  roles: flagger
 
 admin_user:
   email: admin@user.com

@@ -2,6 +2,7 @@
 
 class ReviewController < ApplicationController
   before_action :authenticate_user!
+  before_action :verify_reviewer
   skip_before_action :verify_authenticity_token, only: [:add_feedback]
 
   def index
