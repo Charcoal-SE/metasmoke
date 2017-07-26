@@ -195,6 +195,7 @@ Rails.application.routes.draw do
   scope '/flagging' do
     post 'smokey_disable', to: 'flag_settings#smokey_disable_flagging'
     resources :flag_settings, path: '/settings', except: [:show]
+    get 'by-site', to: 'flag_settings#by_site', as: :flagging_by_site
 
     get 'ocs', to: 'flag_conditions#one_click_setup'
     post 'run_ocs', to: 'flag_conditions#run_ocs'

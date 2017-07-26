@@ -86,6 +86,15 @@ class FlagSettingsController < ApplicationController
     @recent_count = FlagLog.auto.where('created_at > ?', 1.day.ago).where(success: true).count
   end
 
+  def by_site
+    if params[:site].present?
+      @site = Site.find params[:site]
+      @flags = FlagLog.where(site: @site)
+      @posts = Post.includes_for_post_row.where(id: @flags.where.not(post_id: nil).map(&:post_id)).paginate(per_page: 50, page: params[:page])
+    end
+    @sites = Site.mains.order(site_name: :asc)
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

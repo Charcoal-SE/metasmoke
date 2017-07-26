@@ -1,0 +1,28 @@
+<h3>
+  Autoflagging by Site
+  <% if @site.present? %>
+    - <%= @site.site_name %>
+  <% end %>
+</h3>
+
+<%= form_tag :flagging_by_site, method: :get do %>
+  <%= label_tag :site, 'Select a site:' %>
+  <%= select_tag :site, options_from_collection_for_select(@sites, 'id', 'site_name') %>
+  <%= submit_tag 'Apply', class: 'btn btn-xs btn-primary' %>
+<% end %>
+
+<% if @site.present? %>
+  <p>
+    There have been <strong><%= @flags.count %> attempts</strong> to cast flags automatically on <%= @site.site_name %>.<br/>
+    <strong><%= @flags.successful.count %></strong> successful and <strong><%= @flags.failed.count %></strong> failed;
+    <strong><%= @flags.successful.tp.count %></strong> (<%= ((@flags.successful.tp.count.to_f / @flags.successful.count) * 100).round(2) %>%) TP and
+    <strong><%= @flags.successful.fp.count %></strong> (<%= ((@flags.successful.fp.count.to_f / @flags.successful.count) * 100).round(2) %>%) FP.
+  </p>
+
+  <h4>Flagged Posts</h4>
+  <table class="table">
+    <% @posts.each do |p| %>
+      <%= render 'posts/post', post: p %>
+    <% end %>
+  </table>
+<% end %>

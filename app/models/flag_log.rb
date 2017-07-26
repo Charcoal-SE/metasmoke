@@ -10,7 +10,10 @@ class FlagLog < ApplicationRecord
   scope(:auto, -> { where(is_auto: true) })
   scope(:manual, -> { where(is_auto: false) })
   scope(:successful, -> { where(success: true) })
+  scope(:failed, -> { where(success: false) })
   scope(:today, -> { where('created_at > ?', Date.today) })
+  scope(:tp, -> { joins(:post).where(posts: { is_tp: true }) })
+  scope(:fp, -> { joins(:post).where(posts: { is_fp: true }) })
 
   def flag_icon
     if is_auto
