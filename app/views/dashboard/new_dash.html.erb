@@ -71,3 +71,8 @@
   <strong><%= Post.autoflagged.tp.count %></strong> (<%= ((Post.autoflagged.tp.count.to_f / Post.autoflagged.count) * 100).round(2) %>%) TP, and
   <strong><%= Post.autoflagged.fp.count %></strong> (<%= ((Post.autoflagged.fp.count.to_f / Post.autoflagged.count) * 100).round(2) %>%) FP.
 </p>
+
+<h3>Links</h3>
+<ul>
+  <li><%= link_to 'Spam by site (including undeleted)', spam_by_site_path %></li>
+</ul>

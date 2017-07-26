@@ -1,0 +1,26 @@
+<h3>Spam by Site</h3>
+<div class="filters">
+  <%= form_tag :spam_by_site, method: :get do %>
+    <div class="col-md-3 col-sm-12">
+      <%= label_tag :site %>
+      <%= select_tag :site, options_from_collection_for_select(Site.mains.order(site_name: :asc), 'id', 'site_name', params[:site]) %>
+    </div>
+    <div class="col-md-3 col-sm-12">
+      <%= check_box_tag :undeleted, 'yes', checked: ('checked' if params[:undeleted].present?) %>
+      <%= label_tag :undeleted, 'Undeleted posts only?' %>
+    </div>
+    <div class="col-md-3 col-sm-12">
+      <%= submit_tag 'Apply', class: 'btn btn-xs btn-primary' %>
+    </div>
+  <% end %>
+</div>
+
+<% if @posts.count == 0 %>
+  <p>No spam here! Try another filter.</p>
+<% else %>
+  <table class="table">
+    <% @posts.each do |p| %>
+      <%= render 'posts/post', post: p %>
+    <% end %>
+  </table>
+<% end %>

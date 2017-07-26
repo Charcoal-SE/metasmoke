@@ -11,4 +11,19 @@ class DashboardController < ApplicationController
   end
 
   def new_dash; end
+
+  def spam_by_site
+    @posts = Post.includes_for_post_row
+
+    if params[:site].present?
+      @posts = @posts.where(site_id: params[:site])
+    end
+
+    if params[:undeleted].present?
+      @posts = @posts.undeleted
+    end
+
+    @posts = @posts.order(id: :desc).paginate(per_page: 50, page: params[:page])
+    @sites = Site.where(id: @posts.map(&:site_id))
+  end
 end
