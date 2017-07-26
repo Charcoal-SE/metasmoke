@@ -111,4 +111,12 @@ class GraphsController < ApplicationController
       .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`) <= 3600')
       .average('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`)')
   end
+
+  def reports
+    render json: [
+      { name: 'All', data: Post.where('created_at > ?', 3.months.ago).group_by_day(:created_at).count },
+      { name: 'TP', data: Post.tp.where('created_at > ?', 3.months.ago).group_by_day(:created_at).count },
+      { name: 'FP', data: Post.fp.where('created_at > ?', 3.months.ago).group_by_day(:created_at).count }
+    ]
+  end
 end
