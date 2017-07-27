@@ -8,7 +8,7 @@
         <h4 class="module-title"><span class="glyphicon glyphicon-dashboard"></span> system status</h4>
       </div>
       <div class="module-body">
-        <p class="status-text"><strong><%= smokey_count %> <%= 'instance'.pluralize smokey_count %></strong> active</p>
+        <p class="status-text"><strong><%= pluralize(smokey_count, 'instance') %></strong> active</p>
       </div>
     </div>
   </div>
@@ -37,7 +37,7 @@
         <h4 class="module-title"><span class="glyphicon glyphicon-pencil"></span> posts today</h4>
       </div>
       <div class="module-body">
-        <p><strong><%= Post.today.count %> <%= 'post'.pluralize Post.today.count %></strong> reported</p>
+        <p><strong><%= pluralize(Post.today.count, 'post') %></strong> reported</p>
       </div>
     </div>
   </div>
@@ -56,6 +56,18 @@
       </div>
     </div>
   </div>
+</div>
+
+<h4>Reports <small>hourly, last week</small></h4>
+<%= line_chart reports_by_hour_graph_path(cache: true), colors: ['#444', '#0a0', '#a00'] %>
+
+<div class="col-md-6">
+  <h4>Time to deletion <small>daily, last month</small></h4>
+  <%= line_chart monthly_ttd_graph_path(cache: true, months: 1), colors: ['#444'] %>
+</div>
+<div class="col-md-6">
+  <h4>Flagging results <small>daily, last month</small></h4>
+  <%= line_chart flagging_timeline_graph_path(cache: true), colors: ['#a00', '#fa0', '#0a0'] %>
 </div>
 
 <h3>Stats</h3>
@@ -82,11 +94,3 @@
   <li><%= link_to 'Spam by site (including undeleted)', spam_by_site_path %></li>
   <li><%= link_to 'Autoflagging by site', flagging_by_site_path %></li>
 </ul>
-
-<h4>Reports <small>last 3 months</small></h4>
-<%= line_chart reports_graph_data_path, colors: ['#444', '#0a0', '#a00'] %>
-
-<h4>Time to deletion <small>last 3 months</small></h4>
-<%= line_chart url_for(:controller => :graphs, :action => :monthly_ttd),
-               library: { "xAxis": { "plotLines" => flag_settings_plot_lines(3.months.ago)} },
-               colors: ['#444'] %>

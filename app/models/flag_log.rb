@@ -9,6 +9,7 @@ class FlagLog < ApplicationRecord
 
   scope(:auto, -> { where(is_auto: true) })
   scope(:manual, -> { where(is_auto: false) })
+  scope(:dry_run, -> { where(is_dry_run: true) })
   scope(:successful, -> { where(success: true) })
   scope(:failed, -> { where(success: false) })
   scope(:today, -> { where('created_at > ?', Date.today) })
