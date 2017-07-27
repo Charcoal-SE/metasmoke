@@ -52,7 +52,7 @@ Rails.application.routes.draw do
     get 'ttd', to: 'graphs#time_to_deletion'
     get 'dttd', to: 'graphs#detailed_ttd'
     get 'monthly_ttd', to: 'graphs#monthly_ttd', as: :monthly_ttd_graph
-    get 'reports', to: 'graphs#reports', as: :reports_graph_data
+    get 'reports', to: 'graphs#reports', as: :reports_graph
   end
 
   get 'status', to: 'status#index'

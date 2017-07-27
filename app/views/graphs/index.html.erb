@@ -1,9 +1,9 @@
 <% title 'Graphs' %>
 
-<h3 id="reports-by-hour">Reports by hour</h3>
+<h3 id="reports-by-hour">Reports <small>last 3 months</small></h3>
 <br />
 
-<%= line_chart url_for(:controller => :graphs, :action => :reports_by_hour), colors: ["#999", "green", "red"], library: {"tooltip" => {'shared' => 'true'} } %>
+<%= line_chart reports_graph_path, colors: ["#444", "#0a0", "#a00"], library: {"tooltip" => {'shared' => 'true'} } %>
 
 <h3 id="reports-by-site">Reports by site</h3>
         (<%= link_to "Last month", graphs_path, style: params[:timeframe].nil? ? "font-weight:bold" : "" %>
