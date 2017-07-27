@@ -4,21 +4,21 @@ class GraphsController < ApplicationController
   def index; end
 
   def reports_by_hour
-    if params[:cache].present?
-      data = Rails.cache.fetch(:reports_by_hour_graph, expires_in: 1.hour) do
-        [
-          { name: 'All', data: Post.group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count },
-          { name: 'True positives', data: Post.where(is_tp: true).group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count },
-          { name: 'False positives', data: Post.where(is_fp: true).group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count }
-        ]
-      end
-    else
-      data = [
-        { name: 'All', data: Post.group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count },
-        { name: 'True positives', data: Post.where(is_tp: true).group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count },
-        { name: 'False positives', data: Post.where(is_fp: true).group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count }
-      ]
-    end
+    data = if params[:cache].present?
+             Rails.cache.fetch(:reports_by_hour_graph, expires_in: 1.hour) do
+               [
+                 { name: 'All', data: Post.group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count },
+                 { name: 'True positives', data: Post.where(is_tp: true).group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count },
+                 { name: 'False positives', data: Post.where(is_fp: true).group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count }
+               ]
+             end
+           else
+             [
+               { name: 'All', data: Post.group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count },
+               { name: 'True positives', data: Post.where(is_tp: true).group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count },
+               { name: 'False positives', data: Post.where(is_fp: true).group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count }
+             ]
+           end
     render json: data
   end
 
@@ -69,41 +69,41 @@ class GraphsController < ApplicationController
   end
 
   def flagging_timeline
-    if params[:cache].present?
-      data = Rails.cache.fetch(:flagging_timelin_graph, expires_in: 1.hour) do
-        [
-          {
-            name: 'Failures',
-            data: FlagLog.auto.where(success: false).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count
-          },
-          {
-            name: 'Dry runs',
-            visible: false,
-            data: FlagLog.auto.where(success: true, is_dry_run: true).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count
-          },
-          {
-            name: 'Successes',
-            data: FlagLog.auto.where(success: true, is_dry_run: false).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count
-          }
-        ]
-      end
-    else
-      data = [
-        {
-          name: 'Failures',
-          data: FlagLog.auto.where(success: false).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count
-        },
-        {
-          name: 'Dry runs',
-          visible: false,
-          data: FlagLog.auto.where(success: true, is_dry_run: true).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count
-        },
-        {
-          name: 'Successes',
-          data: FlagLog.auto.where(success: true, is_dry_run: false).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count
-        }
-      ]
-    end
+    data = if params[:cache].present?
+             Rails.cache.fetch(:flagging_timelin_graph, expires_in: 1.hour) do
+               [
+                 {
+                   name: 'Failures',
+                   data: FlagLog.auto.where(success: false).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count
+                 },
+                 {
+                   name: 'Dry runs',
+                   visible: false,
+                   data: FlagLog.auto.where(success: true, is_dry_run: true).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count
+                 },
+                 {
+                   name: 'Successes',
+                   data: FlagLog.auto.where(success: true, is_dry_run: false).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count
+                 }
+               ]
+             end
+           else
+             [
+               {
+                 name: 'Failures',
+                 data: FlagLog.auto.where(success: false).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count
+               },
+               {
+                 name: 'Dry runs',
+                 visible: false,
+                 data: FlagLog.auto.where(success: true, is_dry_run: true).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count
+               },
+               {
+                 name: 'Successes',
+                 data: FlagLog.auto.where(success: true, is_dry_run: false).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count
+               }
+             ]
+           end
     render json: data
   end
 
@@ -138,19 +138,19 @@ class GraphsController < ApplicationController
   end
 
   def monthly_ttd
-    if params[:cache].present?
-      data = Rails.cache.fetch(:monthly_ttd_graph, expires_in: 1.hour) do
-        Post.group_by_day('`posts`.`created_at`').joins(:deletion_logs)
-            .where(is_tp: true).where('`posts`.`created_at` > ?', (params[:months].try(:to_i) || 3).months.ago)
-            .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`) <= 3600')
-            .average('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`)')
-      end
-    else
-      data = Post.group_by_day('`posts`.`created_at`').joins(:deletion_logs)
+    data = if params[:cache].present?
+             Rails.cache.fetch(:monthly_ttd_graph, expires_in: 1.hour) do
+               Post.group_by_day('`posts`.`created_at`').joins(:deletion_logs)
+                   .where(is_tp: true).where('`posts`.`created_at` > ?', (params[:months].try(:to_i) || 3).months.ago)
+                   .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`) <= 3600')
+                   .average('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`)')
+             end
+           else
+             Post.group_by_day('`posts`.`created_at`').joins(:deletion_logs)
                  .where(is_tp: true).where('`posts`.`created_at` > ?', (params[:months].try(:to_i) || 3).months.ago)
                  .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`) <= 3600')
                  .average('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`)')
-    end
+           end
     render json: data
   end
 
