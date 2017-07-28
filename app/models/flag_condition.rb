@@ -3,8 +3,6 @@
 include ActionView::Helpers::NumberHelper
 
 class FlagCondition < ApplicationRecord
-  include Websocket
-
   belongs_to :user
   has_and_belongs_to_many :sites
   has_many :flag_logs, dependent: :nullify

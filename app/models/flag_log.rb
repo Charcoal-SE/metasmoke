@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class FlagLog < ApplicationRecord
-  include Websocket
-
   belongs_to :flag_condition
   belongs_to :user
   belongs_to :post

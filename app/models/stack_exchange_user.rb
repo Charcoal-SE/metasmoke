@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class StackExchangeUser < ApplicationRecord
-  include Websocket
-
   belongs_to :site
   has_many :posts
   has_many :feedbacks, through: :posts

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Feedback < ApplicationRecord
-  include Websocket
-
   default_scope { where(is_invalidated: false, is_ignored: false) }
   scope(:ignored, -> { unscoped.where(is_ignored: true) })
   scope(:invalid, -> { unscoped.where(is_invalidated: true) })

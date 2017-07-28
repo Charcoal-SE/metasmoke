@@ -3,8 +3,6 @@
 require 'open-uri'
 
 class User < ApplicationRecord
-  include Websocket
-
   rolify
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

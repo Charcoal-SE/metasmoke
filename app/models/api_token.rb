@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class APIToken < ApplicationRecord
-  include Websocket
-
   belongs_to :api_key
   belongs_to :user
 
