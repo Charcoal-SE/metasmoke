@@ -69,11 +69,11 @@ class Feedback < ApplicationRecord
     select(Feedback.attribute_names - ['message_link'])
   end
 
-  def send_to_chat
-    unless Feedback.where(post_id: @post.id, feedback_type: @feedback.feedback_type).where.not(id: @feedback.id).exists?
+  def send_to_chat(post)
+    unless Feedback.where(post: post, feedback_type: @feedback.feedback_type).where.not(id: @feedback.id).exists?
       message = "#{@feedback.feedback_type} by #{@user.username}"
-      unless @post.id == Post.last.id
-        message += " on [#{@post.title}](#{@post.link}) \\[[MS](#{url_for(controller: :posts, action: :show, id: @post.id)})]"
+      unless post.id == Post.last.id
+        message += " on [#{post.title}](#{post.link}) \\[[MS](#{url_for(controller: :posts, action: :show, id: post.id)})]"
       end
       ActionCable.server.broadcast 'smokedetector_messages', message: message
       true
