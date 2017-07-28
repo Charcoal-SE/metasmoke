@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Post < ApplicationRecord
+  include Websocket
+
   validate :reject_recent_duplicates
 
   has_and_belongs_to_many :reasons

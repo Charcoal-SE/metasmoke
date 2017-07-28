@@ -5,10 +5,11 @@ class ApiChannel < ApplicationCable::Channel
   def subscribed
     @key = APIKey.find_by(key: params[:key])
     if params[:key].present? && @key.present?
-      stream_from 'api_feedback'
-      stream_from 'api_flag_logs'
-      stream_from 'api_deletion_logs'
-      stream_from 'api_statistics'
+      if params[:events].present?
+        params[:events].split(';').each do |e|
+          stream_from "api_#{e}"
+        end
+      end
     else
       reject
     end
