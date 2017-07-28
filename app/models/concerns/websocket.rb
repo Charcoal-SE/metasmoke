@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Websocket
+module WebSocket
   extend ActiveSupport::Concern
 
   included do

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 class GithubToken < ApplicationRecord
-  include Websocket
+  include WebSocket
 end

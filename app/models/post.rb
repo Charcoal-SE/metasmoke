@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Post < ApplicationRecord
-  include Websocket
+  include WebSocket
 
   validate :reject_recent_duplicates
 

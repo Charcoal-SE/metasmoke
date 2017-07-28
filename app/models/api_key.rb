@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class APIKey < ApplicationRecord
-  include Websocket
+  include WebSocket
 
   validates :key, length: { minimum: 10, maximum: 100 }
   validates :key, uniqueness: true

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class StackExchangeUser < ApplicationRecord
-  include Websocket
+  include WebSocket
 
   belongs_to :site
   has_many :posts

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Flag < ApplicationRecord
-  include Websocket
+  include WebSocket
 
   belongs_to :post
 end

@@ -3,7 +3,7 @@
 include ActionView::Helpers::NumberHelper
 
 class FlagCondition < ApplicationRecord
-  include Websocket
+  include WebSocket
 
   belongs_to :user
   has_and_belongs_to_many :sites

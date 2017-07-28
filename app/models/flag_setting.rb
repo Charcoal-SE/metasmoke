@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class FlagSetting < ApplicationRecord
-  include Websocket
+  include WebSocket
 
   audited
   validates :name, uniqueness: true

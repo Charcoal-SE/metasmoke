@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DeletionLog < ApplicationRecord
-  include Websocket
+  include WebSocket
 
   belongs_to :post
   belongs_to :api_key

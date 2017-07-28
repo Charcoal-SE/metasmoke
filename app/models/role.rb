@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Role < ApplicationRecord
-  include Websocket
+  include WebSocket
 
   has_and_belongs_to_many :users, join_table: :users_roles
 
