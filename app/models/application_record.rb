@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ApplicationRecord < ActiveRecord::Base
-  include WebSocket
-
   self.abstract_class = true
 
   # From http://stackoverflow.com/questions/6591722/how-to-generate-fixtures-based-on-my-development-database
