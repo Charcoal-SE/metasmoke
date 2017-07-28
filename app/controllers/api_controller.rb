@@ -268,7 +268,7 @@ class APIController < ApplicationController
         rescue # rubocop:disable Lint/HandleExceptions
         end
       end
-      @feedback.send_to_chat
+      @feedback.send_to_chat @post
       render json: @post.feedbacks, status: 201
     else
       render status: 500, json: { error_name: 'failed', error_code: 500, error_message: 'Feedback object failed to save.' }

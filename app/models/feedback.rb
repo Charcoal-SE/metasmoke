@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Feedback < ApplicationRecord
+  include WebSocket
+
   default_scope { where(is_invalidated: false, is_ignored: false) }
   scope(:ignored, -> { unscoped.where(is_ignored: true) })
   scope(:invalid, -> { unscoped.where(is_invalidated: true) })
@@ -24,8 +26,6 @@ class Feedback < ApplicationRecord
 
   after_create do
     ActionCable.server.broadcast "posts_#{post_id}", feedback: FeedbacksController.render(locals: { feedback: self }, partial: 'feedback').html_safe
-    feedback = FeedbacksController.render(locals: { feedback: self }, partial: 'feedback.json')
-    ActionCable.server.broadcast 'api_feedback', feedback: JSON.parse(feedback)
   end
 
   # Drop a user's earlier feedback if it's not invalidated
@@ -69,11 +69,11 @@ class Feedback < ApplicationRecord
     select(Feedback.attribute_names - ['message_link'])
   end
 
-  def send_to_chat
-    unless Feedback.where(post_id: @post.id, feedback_type: @feedback.feedback_type).where.not(id: @feedback.id).exists?
+  def send_to_chat(post)
+    unless Feedback.where(post: post, feedback_type: @feedback.feedback_type).where.not(id: @feedback.id).exists?
       message = "#{@feedback.feedback_type} by #{@user.username}"
-      unless @post.id == Post.last.id
-        message += " on [#{@post.title}](#{@post.link}) \\[[MS](#{url_for(controller: :posts, action: :show, id: @post.id)})]"
+      unless post.id == Post.last.id
+        message += " on [#{post.title}](#{post.link}) \\[[MS](#{url_for(controller: :posts, action: :show, id: post.id)})]"
       end
       ActionCable.server.broadcast 'smokedetector_messages', message: message
       true
