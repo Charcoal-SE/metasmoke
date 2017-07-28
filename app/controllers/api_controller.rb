@@ -268,16 +268,7 @@ class APIController < ApplicationController
         rescue # rubocop:disable Lint/HandleExceptions
         end
       end
-      unless Feedback.where(
-        post_id: @post.id,
-        feedback_type: @feedback.feedback_type
-      ).where.not(id: @feedback.id).exists?
-        message = "#{@feedback.feedback_type} by #{@user.username}"
-        unless @post.id == Post.last.id
-          message += " on [#{@post.title}](#{@post.link}) \\[[MS](#{url_for(controller: :posts, action: :show, id: @post.id)})]"
-        end
-        ActionCable.server.broadcast 'smokedetector_messages', message: message
-      end
+      @feedback.send_to_chat
       render json: @post.feedbacks, status: 201
     else
       render status: 500, json: { error_name: 'failed', error_code: 500, error_message: 'Feedback object failed to save.' }
