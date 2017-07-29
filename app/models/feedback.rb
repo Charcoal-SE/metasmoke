@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Feedback < ApplicationRecord
-  include WebSocket
-
   default_scope { where(is_invalidated: false, is_ignored: false) }
   scope(:ignored, -> { unscoped.where(is_ignored: true) })
   scope(:invalid, -> { unscoped.where(is_invalidated: true) })
@@ -26,6 +24,8 @@ class Feedback < ApplicationRecord
 
   after_create do
     ActionCable.server.broadcast "posts_#{post_id}", feedback: FeedbacksController.render(locals: { feedback: self }, partial: 'feedback').html_safe
+    feedback = FeedbacksController.render(locals: { feedback: self }, partial: 'feedback.json')
+    ActionCable.server.broadcast 'api_feedback', feedback: JSON.parse(feedback)
   end
 
   # Drop a user's earlier feedback if it's not invalidated
