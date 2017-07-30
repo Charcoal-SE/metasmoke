@@ -13,7 +13,7 @@ class AnnouncementScrubber < Rails::Html::PermitScrubber
 end
 
 class Announcement < ApplicationRecord
-  include WebSocket
+  include Websocket
 
   def current?
     expiry > DateTime.now

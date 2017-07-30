@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Statistic < ApplicationRecord
-  include WebSocket
+  include Websocket
 
   belongs_to :smoke_detector
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module WebSocket
+module Websocket
   extend ActiveSupport::Concern
 
   included do
@@ -11,7 +11,7 @@ module WebSocket
       event_class = self.class.to_s
       channel = event_class.pluralize.underscore
       object_data = attributes.delete_if { |k, _| AppConfig['sensitive_fields'].include? "#{channel}.#{k}" }
-      ActionCable.server.broadcast "api_#{channel}", event_type: type, event_class: event_class, object: object_data
+      ApiChannel.broadcast_to channel, event_type: type, event_class: event_class, object: object_data
     end
 
     def broadcast_create

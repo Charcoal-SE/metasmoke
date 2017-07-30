@@ -7,7 +7,7 @@ class ApiChannel < ApplicationCable::Channel
     if params[:key].present? && @key.present?
       if params[:events].present?
         params[:events].split(';').each do |e|
-          stream_from "api_#{e}"
+          stream_for e
         end
       end
     else

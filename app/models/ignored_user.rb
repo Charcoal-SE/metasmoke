@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class IgnoredUser < ApplicationRecord
-  include WebSocket
+  include Websocket
 
   belongs_to :user
 end

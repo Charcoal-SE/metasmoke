@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UserSiteSetting < ApplicationRecord
-  include WebSocket
+  include Websocket
 
   belongs_to :user
   has_and_belongs_to_many :sites

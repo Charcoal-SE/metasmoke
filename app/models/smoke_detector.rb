@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SmokeDetector < ApplicationRecord
-  include WebSocket
+  include Websocket
 
   audited on: [:destroy]
 
