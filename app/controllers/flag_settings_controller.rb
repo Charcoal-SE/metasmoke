@@ -3,8 +3,8 @@
 class FlagSettingsController < ApplicationController
   protect_from_forgery except: [:smokey_disable_flagging]
   before_action :set_flag_setting, only: [:edit, :update]
-  before_action :verify_admin, except: [:index, :audits, :smokey_disable_flagging, :dashboard]
-  before_action :authenticate_user!, except: [:index, :audits, :smokey_disable_flagging, :dashboard]
+  before_action :verify_admin, except: [:index, :audits, :smokey_disable_flagging, :dashboard, :by_site]
+  before_action :authenticate_user!, except: [:index, :audits, :smokey_disable_flagging, :dashboard, :by_site]
   before_action :check_if_smokedetector, only: [:smokey_disable_flagging]
 
   # GET /flag_settings
