@@ -141,13 +141,13 @@ class GraphsController < ApplicationController
     data = if params[:cache].present?
              Rails.cache.fetch(:monthly_ttd_graph, expires_in: 1.hour) do
                Post.group_by_day('`posts`.`created_at`').joins(:deletion_logs)
-                   .where(is_tp: true).where('`posts`.`created_at` > ?', (params[:months].try(:to_i) || 3).months.ago)
+                   .where(is_tp: true).where('`posts`.`created_at` > ?', (params[:months].try(:to_i) || 3).months.ago.to_date)
                    .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`) <= 3600')
                    .average('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`)')
              end
            else
              Post.group_by_day('`posts`.`created_at`').joins(:deletion_logs)
-                 .where(is_tp: true).where('`posts`.`created_at` > ?', (params[:months].try(:to_i) || 3).months.ago)
+                 .where(is_tp: true).where('`posts`.`created_at` > ?', (params[:months].try(:to_i) || 3).months.ago.to_date)
                  .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`) <= 3600')
                  .average('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`)')
            end
