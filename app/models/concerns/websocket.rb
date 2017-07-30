@@ -11,7 +11,8 @@ module Websocket
       event_class = self.class.to_s
       channel = event_class.pluralize.underscore
       object_data = attributes.delete_if { |k, _| AppConfig['sensitive_fields'].include? "#{channel}.#{k}" }
-      ApiChannel.broadcast_to channel, event_type: type, event_class: event_class, object: object_data
+      extended = respond_to?(:extended_websocket) ? extended_websocket : nil
+      ApiChannel.broadcast_to channel, event_type: type, event_class: event_class, object: object_data, extended: extended
     end
 
     def broadcast_create
