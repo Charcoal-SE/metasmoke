@@ -9,6 +9,11 @@ class ApiChannel < ApplicationCable::Channel
         params[:events].split(';').each do |e|
           stream_for e
         end
+      else
+        stream_from 'api_feedback'
+        stream_from 'api_flag_logs'
+        stream_from 'api_deletion_logs'
+        stream_from 'api_statistics'
       end
     else
       reject
