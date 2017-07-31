@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class SmokeDetector < ApplicationRecord
+  include Websocket
+
   audited on: [:destroy]
 
   belongs_to :user
