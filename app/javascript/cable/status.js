@@ -10,7 +10,7 @@ route('/status', () => {
     received(data) {
       debug('received', data);
 
-      const { id, tsUnix, tsAgo, tsRaw, location } = data;
+      const { id, ts_unix: tsUnix, ts_ago: tsAgo, ts_raw: tsRaw, location } = data;
       if ([id, tsUnix, tsAgo, tsRaw, location].some(x => x === null || x === undefined)) {
         return;
       }
