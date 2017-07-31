@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class StatusController < ApplicationController
+  include ActionView::Helpers::DateHelper
+
   protect_from_forgery except: [:status_update]
   before_action :check_if_smokedetector, only: [:status_update]
 
@@ -19,6 +21,11 @@ class StatusController < ApplicationController
 
     @smoke_detector.save!
 
+    ActionCable.server.broadcast 'status',       id: @smoke_detector.id,
+                                                 ts_unix: @smoke_detector.last_ping.to_i,
+                                                 ts_ago: time_ago_in_words(@smoke_detector.last_ping, include_seconds: true),
+                                                 ts_raw: @smoke_detector.last_ping.to_s,
+                                                 location: @smoke_detector.location
     ActionCable.server.broadcast 'topbar', last_ping: @smoke_detector.last_ping.to_f
     ActionCable.server.broadcast 'smokey_pings', smokey: @smoke_detector.as_json
 

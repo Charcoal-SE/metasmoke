@@ -17,19 +17,21 @@
 
   <% @statuses.each_with_index do |sd, index| %>
     <% if index == 0 or sd.last_ping > 1.hour.ago %>
-      <tr class="status-row">
+      <tr class="status-row" data-id="<%= sd.id %>">
     <% else %>
-      <tr class="status-row hidden-row" style="<%= 'display:none' %>">
+      <tr class="status-row hidden-row" style="<%= 'display:none' %>" data-id="<%= sd.id %>">
     <% end %>
-      <td>
+      <td class="location-cell">
         <%= link_to smoke_detector_statistics_path(sd.id) do %>
-          <%= sd.location %>
+          <span class="location"><%= sd.location %></span>
           <% if sd.is_standby %>
             <span class="label label-<%= sd.last_ping > 3.minutes.ago ? "primary" : "default" %> ">Standby</span>
           <% end %>
         <% end %>
       </td>
-      <td class="status-<%= sd.status_color %>" data-livestamp="<%= sd.last_ping.to_i %>" title="<%= sd.last_ping.to_s %>"><%= time_ago_in_words(sd.last_ping, include_seconds: true)%> ago</td>
+      <td class="status-<%= sd.status_color %> ping-cell" data-livestamp="<%= sd.last_ping.to_i %>" title="<%= sd.last_ping.to_s %>">
+        <%= time_ago_in_words(sd.last_ping, include_seconds: true)%> ago
+      </td>
       <% if current_user&.has_role?(:admin) %>
         <td>
           <%= link_to "De-authorize", url_for(:controller => :smoke_detectors, :action => :destroy, :id => sd.id), :class => "text-danger",
