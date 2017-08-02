@@ -1,11 +1,13 @@
-import { onLoad } from './util';
 import createDebug from 'debug';
+import { onLoad } from './util';
+
+/* global previewHandler */
 
 const debug = createDebug('ms:flag_conditions');
 
 onLoad(() => {
   window.previewHandler = ev => {
-    let filter = $(ev.target).attr('data-filter') || '';
+    const filter = $(ev.target).attr('data-filter') || '';
 
     debug(`preview-flag-conditions: click, filter=${filter}`);
     $.ajax({
