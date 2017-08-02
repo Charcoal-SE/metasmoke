@@ -84,6 +84,15 @@ class FlagConditionsController < ApplicationController
     @condition = FlagCondition.new(condition_params)
     set_preview_data
 
+    if params[:filter].present? && !params[:filter].empty?
+      if params[:filter] == 'fps'
+        @posts = @posts.where(is_tp: false)
+      elsif params[:filter] == 'tps'
+        @posts = @posts.where(is_tp: true)
+      end
+      @sites = Site.where(id: @posts.map(&:site_id)).to_a
+    end
+
     respond_to do |format|
       format.js
     end

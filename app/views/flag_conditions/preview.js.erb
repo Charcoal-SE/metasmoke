@@ -1,1 +1,2 @@
-$(".flag-condition-preview").html("<%= escape_javascript(render partial: 'preview') %>"); 
+$(".flag-condition-preview").html("<%= escape_javascript(render partial: 'preview') %>");
+$(".preview-flag-conditions-button").off('click').on('click', previewHandler);
