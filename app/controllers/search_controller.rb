@@ -13,7 +13,7 @@ class SearchController < ApplicationController
       SearchHelper.parse_search_params(params, s, user_signed_in?)
     end.flatten
 
-    if [title_operation, body_operation, why_operation, username_operation].any? { |x| !x }
+    if [title_operation, body_operation, why_operation, username_operation].any?(&:!)
       render json: { error: 'Unauthenticated users cannot use regex search' }, status: 403
       return
     end

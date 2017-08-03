@@ -5,11 +5,11 @@ module SearchHelper
     input = params[symbol] || ''
 
     if params[is_regex?(symbol)]
-      if user_signed_in
-        operation = params[is_inverse_regex?(symbol)] ? 'NOT REGEXP' : 'REGEXP'
-      else
-        operation = false
-      end
+      operation = if user_signed_in
+                    params[is_inverse_regex?(symbol)] ? 'NOT REGEXP' : 'REGEXP'
+                  else
+                    false
+                  end
     else
       operation = 'LIKE'
       input = '%' + input + '%'
