@@ -1,5 +1,10 @@
 <h3>User permissions</h3>
-<br>
+
+<%= form_tag admin_permissions_path, method: :get, class: 'form-inline' do %>
+  <%= label_tag :username, 'Username filter:' %>
+  <%= text_field_tag :username, params[:username], class: 'form-control' %>
+  <%= submit_tag 'Filter', class: 'btn btn-sm btn-primary' %>
+<% end %><br/>
 
 <table class="table">
   <tr>

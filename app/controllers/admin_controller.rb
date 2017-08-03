@@ -87,7 +87,13 @@ class AdminController < ApplicationController
 
   def permissions
     @roles = Role.names
-    @users = User.all.paginate(page: params[:page], per_page: 100).preload(:roles)
+    @users = if params[:username].present?
+               User.where("username LIKE '%#{params[:username]}%'")
+             else
+               User.all
+             end
+
+    @users = @users.paginate(page: params[:page], per_page: 100).preload(:roles)
   end
 
   def update_permissions
