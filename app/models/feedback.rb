@@ -2,7 +2,7 @@
 
 class Feedback < ApplicationRecord
   include Websocket
-  include ActionView::Helpers::UrlHelper
+  delegate :url_helpers, to: 'Rails.application.routes'
 
   default_scope { where(is_invalidated: false, is_ignored: false) }
   scope(:ignored, -> { unscoped.where(is_ignored: true) })
@@ -76,7 +76,9 @@ class Feedback < ApplicationRecord
     unless Feedback.where(post: post, feedback_type: feedback_type).where.not(id: id).exists?
       message = "#{feedback_type} by #{user.username}"
       unless post.id == Post.last.id
-        message += " on [#{post.title}](#{post.link}) \\[[MS](#{url_for(controller: :posts, action: :show, id: post.id)})]"
+        host = 'metasmoke.erwaysoftware.com'
+        link = url_helpers.url_for controller: :posts, action: :show, id: post.id, host: host
+        message += " on [#{post.title}](#{post.link}) \\[[MS](#{link})]"
       end
       ActionCable.server.broadcast 'smokedetector_messages', message: message
       true

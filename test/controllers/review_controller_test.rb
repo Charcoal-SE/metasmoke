@@ -20,4 +20,10 @@ class ReviewControllerTest < ActionController::TestCase
     get :index
     assert_response :success
   end
+
+  test 'should submit feedback' do
+    sign_in users(:approved_user)
+    post :add_feedback, params: { feedback_type: 'tp', post_id: posts(:post_23653).id }
+    assert_response :success
+  end
 end
