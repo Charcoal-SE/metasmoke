@@ -192,7 +192,7 @@ Rails.application.routes.draw do
   end
 
   # flagging
-  get 'flagging', to: 'flag_settings#dashboard', as: :flagging_dashboard
+  get 'flagging', to: 'flag_settings#dashboard', as: :flagging
   scope '/flagging' do
     post 'smokey_disable', to: 'flag_settings#smokey_disable_flagging'
     resources :flag_settings, path: '/settings', except: [:show]
