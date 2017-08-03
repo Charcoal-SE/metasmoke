@@ -6,14 +6,13 @@ class ReviewController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:add_feedback]
 
   def index
-    @posts = if params[:reason].present? && (reason = Reason.find(params[:reason]))
-               reason.posts.includes_for_post_row
+    @posts = if params[:reason].present?
+               Post.joins(:posts_reasons).where(posts_reasons: { reason_id: params[:reason] }).includes_for_post_row
              else
                Post.all.includes_for_post_row
              end
 
-    @posts = @posts.includes(:reasons)
-                   .includes(:feedbacks)
+    @posts = @posts.left_joins(:feedbacks)
                    .where(feedbacks: { post_id: nil })
                    .order('`posts`.`created_at` DESC')
                    .paginate(page: params[:page], per_page: 100)
