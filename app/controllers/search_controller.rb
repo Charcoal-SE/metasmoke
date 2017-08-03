@@ -7,11 +7,16 @@ class SearchController < ApplicationController
     # And it's kinda clever.
 
     title, title_operation,
-      body, body_operation,
-      why, why_operation,
-      username, username_operation = [:title, :body, :why, :username].map do |s|
-        SearchHelper.parse_search_params(params, s, user_signed_in?)
-      end.flatten
+    body, body_operation,
+    why, why_operation,
+    username, username_operation = [:title, :body, :why, :username].map do |s|
+      SearchHelper.parse_search_params(params, s, user_signed_in?)
+    end.flatten
+
+    if [title_operation, body_operation, why_operation, username_operation].any? { |x| !x }
+      render json: { error: 'Unauthenticated users cannot use regex search' }, status: 403
+      return
+    end
 
     user_reputation = params[:user_reputation].to_i || 0
 
