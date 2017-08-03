@@ -2,6 +2,7 @@
 
 class Feedback < ApplicationRecord
   include Websocket
+  include ActionView::Helpers::UrlHelper
 
   default_scope { where(is_invalidated: false, is_ignored: false) }
   scope(:ignored, -> { unscoped.where(is_ignored: true) })
