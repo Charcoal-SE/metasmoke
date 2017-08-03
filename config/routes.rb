@@ -55,7 +55,7 @@ Rails.application.routes.draw do
     get 'reports', to: 'graphs#reports', as: :reports_graph
   end
 
-  get 'status', to: 'status#index'
+  get 'status', to: 'status#index', as: :status
   get 'status/code.json', to: 'code_status#api'
   get 'status/code', as: :code_status, to: 'code_status#index'
 
@@ -71,7 +71,7 @@ Rails.application.routes.draw do
 
   get 'admin', to: 'admin#index'
   get 'admin/invalidated', to: 'admin#recently_invalidated'
-  get 'admin/user_feedback', to: 'admin#user_feedback'
+  get 'admin/user_feedback', to: 'admin#user_feedback', as: :user_feedback
   get 'admin/api_feedback', to: 'admin#api_feedback'
   get 'admin/flagged', to: 'admin#flagged'
   post 'admin/clear_flag', to: 'admin#clear_flag'
@@ -98,7 +98,7 @@ Rails.application.routes.draw do
   delete 'admin/owner_revoke', to: 'api_keys#owner_revoke'
   post 'admin/keys/:id/trust', to: 'api_keys#update_trust'
 
-  get 'posts', to: 'posts#index'
+  get 'posts', to: 'posts#index', as: :posts
   get 'posts/latest', to: 'posts#latest'
   get 'posts/by-url', to: 'posts#by_url'
   get 'posts/by-site', to: 'dashboard#spam_by_site', as: :spam_by_site
@@ -192,7 +192,7 @@ Rails.application.routes.draw do
   end
 
   # flagging
-  get 'flagging', to: 'flag_settings#dashboard'
+  get 'flagging', to: 'flag_settings#dashboard', as: :flagging_dashboard
   scope '/flagging' do
     post 'smokey_disable', to: 'flag_settings#smokey_disable_flagging'
     resources :flag_settings, path: '/settings', except: [:show]

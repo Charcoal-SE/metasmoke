@@ -169,6 +169,18 @@ body .profiler-results {
 
 .module-green .status-text {
   color: green;
+
+  a, a:visited {
+    color: green;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  a:hover, a:active {
+    color: green;
+    text-decoration: underline;
+    font-weight: bold;
+  }
 }
 
 .module-amber {
@@ -178,6 +190,18 @@ body .profiler-results {
 
 .module-amber .status-text {
   color: orange;
+
+  a, a:visited {
+    color: orange;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  a:hover, a:active {
+    color: orange;
+    text-decoration: underline;
+    font-weight: bold;
+  }
 }
 
 .module-red {
@@ -187,6 +211,18 @@ body .profiler-results {
 
 .module-red .status-text {
   color: red;
+
+  a, a:visited {
+    color: red;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  a:hover, a:active {
+    color: red;
+    text-decoration: underline;
+    font-weight: bold;
+  }
 }
 
 .module-header {
@@ -197,6 +233,16 @@ body .profiler-results {
 
 .module-title {
   font-variant: small-caps;
+
+  a, a:visited {
+    color: #333;
+    text-decoration: none;
+  }
+
+  a:hover, a:active {
+    color: #333;
+    text-decoration: underline;
+  }
 }
 
 .module-body {

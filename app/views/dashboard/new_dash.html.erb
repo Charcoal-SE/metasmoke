@@ -5,7 +5,11 @@
     <% system_status = smokey_count > 0 ? (smokey_count > 1 ? 'module-green' : 'module-amber') : 'module-red' %>
     <div class="module <%= system_status %>">
       <div class="module-header">
-        <h4 class="module-title"><span class="glyphicon glyphicon-dashboard"></span> system status</h4>
+        <h4 class="module-title">
+          <%= link_to status_path do %>
+            <span class="glyphicon glyphicon-dashboard"></span> system status
+          <% end %>
+        </h4>
       </div>
       <div class="module-body">
         <p class="status-text"><strong><%= pluralize(smokey_count, 'instance') %></strong> active</p>
@@ -19,7 +23,11 @@
     <% flagging_status = is_enabled ? (is_dry_run ? 'module-amber' : 'module-green') : 'module-red' %>
     <div class="module <%= flagging_status %>">
       <div class="module-header">
-        <h4 class="module-title"><span class="glyphicon glyphicon-flag"></span> flagging</h4>
+        <h4 class="module-title">
+          <%= link_to flagging_dashboard_path do %>
+            <span class="glyphicon glyphicon-flag"></span> flagging
+          <% end %>
+        </h4>
       </div>
       <div class="module-body">
         <p class="status-text">
@@ -34,7 +42,11 @@
   <div class="col-md-3">
     <div class="module">
       <div class="module-header">
-        <h4 class="module-title"><span class="glyphicon glyphicon-pencil"></span> posts today</h4>
+        <h4 class="module-title">
+          <%= link_to posts_path do %>
+            <span class="glyphicon glyphicon-pencil"></span> posts today
+          <% end %>
+        </h4>
       </div>
       <div class="module-body">
         <p><strong><%= pluralize(Post.today.count, 'post') %></strong> reported</p>
@@ -50,7 +62,7 @@
         <p>
           <strong><%= pluralize(Feedback.today.count, 'feedback') %></strong> today
           <% if user_signed_in? %>
-            (<%= Feedback.today.where(user: current_user).count %> yours)
+            (<%= link_to "#{Feedback.today.where(user: current_user).count} yours", user_feedback_path(user_id: current_user.id) %>)
           <% end %>
         </p>
       </div>
