@@ -7,7 +7,15 @@ class ApiChannel < ApplicationCable::Channel
     if params[:key].present? && @key.present?
       if params[:events].present?
         params[:events].split(';').each do |e|
-          stream_for e
+          if e.include? '#'
+            event_types = e.split('#')[1].split(',')
+            e = e.split('#')[0]
+          else
+            event_types = %w[create update]
+          end
+          event_types.each do |et|
+            stream_for "#{e}_#{et}"
+          end
         end
       else
         stream_from 'api_feedback'

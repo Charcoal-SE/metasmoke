@@ -9,7 +9,8 @@ module Websocket
 
     def broadcast_event(type)
       event_class = self.class.to_s
-      channel = event_class.pluralize.underscore
+      table = event_class.pluralize.underscore
+      channel = "#{table}_#{type}"
       object_data = attributes.delete_if { |k, _| AppConfig['sensitive_fields'].include? "#{channel}.#{k}" }
       extended = respond_to?(:extended_websocket) ? extended_websocket : {}
       object_data.deep_merge! extended
