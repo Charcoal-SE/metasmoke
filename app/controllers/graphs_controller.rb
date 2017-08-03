@@ -131,13 +131,13 @@ class GraphsController < ApplicationController
 
   private
 
-  def cached_query(cache_key, &block)
+  def cached_query(cache_key)
     if params[:cache].present?
       Rails.cache.fetch cache_key, expires_in: 1.hour do
-        block.call
+        yield
       end
     else
-      block.call
+      yield
     end
   end
 end
