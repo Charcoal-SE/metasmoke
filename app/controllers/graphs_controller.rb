@@ -49,15 +49,24 @@ class GraphsController < ApplicationController
   end
 
   def time_to_deletion
-    render json: Post.group_by_hour_of_day(:created_at).where(is_tp: true)
-      .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`) <= 3600')
-      .where.not(deleted_at: nil)
-      .average('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`)')
+    data = cached_query :time_to_deletion_graph, expires_in: 1.day, always_cache: true do
+      Post.group_by_hour_of_day(:created_at).where(is_tp: true)
+          .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`) <= 3600')
+          .where.not(deleted_at: nil)
+          .average('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`)')
+    end
+    render json: data
   end
 
   def flagging_results
-    render json: [['Fail', FlagLog.auto.where(success: false).count], ['Dry run', FlagLog.auto.where(success: true, is_dry_run: true).count],
-                  ['Success', FlagLog.auto.where(success: true, is_dry_run: false).count]]
+    data = cached_query :flagging_results_graph do
+      [
+        ['Fail', FlagLog.auto.where(success: false).count],
+        ['Dry run', FlagLog.auto.where(success: true, is_dry_run: true).count],
+        ['Success', FlagLog.auto.where(success: true, is_dry_run: false).count]
+      ]
+    end
+    render json: data
   end
 
   def flagging_timeline
@@ -131,9 +140,13 @@ class GraphsController < ApplicationController
 
   private
 
-  def cached_query(cache_key)
-    if params[:cache].present?
-      Rails.cache.fetch cache_key, expires_in: 1.hour do
+  def cached_query(cache_key, **opts)
+    opts[:expires_in] ||= 1.hour
+    opts[:param_name] ||= :cache
+    opts[:always_cache] ||= false
+
+    if opts[:always_cache] || params[opts[:param_name]].present?
+      Rails.cache.fetch cache_key, expires_in: opts[:expires_in] do
         yield
       end
     else
