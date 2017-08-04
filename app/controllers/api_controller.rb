@@ -184,7 +184,7 @@ class APIController < ApplicationController
   # Read routes: SmokeDetectors
 
   def smoke_detectors
-    filter = 'AAAAAAAAAAAAAAAADUAAAAA='
+    filter = 'AAAAAAAAAAAAAAAADQAAAAE='
     fields = select_fields(filter) - ['smoke_detectors.access_token']
 
     smokeys = SmokeDetector.all.select(fields).order(id: :asc)
