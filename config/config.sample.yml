@@ -151,6 +151,7 @@ common: &common
     - moderator_sites.site_id
     - moderator_sites.created_at
     - moderator_sites.updated_at
+    - smoke_detectors.is_standby
   sensitive_fields:
     - api_keys.key
     - api_tokens.code
