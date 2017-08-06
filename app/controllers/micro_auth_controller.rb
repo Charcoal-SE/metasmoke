@@ -15,7 +15,11 @@ class MicroAuthController < ApplicationController
 
     @token = APIToken.new(user: current_user, api_key: @api_key, code: generate_code(7), token: generate_code(64), expiry: 10.minutes.from_now)
     if @token.save
-      redirect_to url_for(controller: :micro_auth, action: :authorized, code: @token.code, token_id: @token.id)
+      if params[:redirect].present? && !params[:redirect].empty?
+        redirect_to "#{params[:redirect]}?token=#{@token.token}"
+      else
+        redirect_to url_for(controller: :micro_auth, action: :authorized, code: @token.code, token_id: @token.id)
+      end
     else
       flash[:danger] = "Can't create a write token right now - ask an admin to look at the server logs."
       redirect_to url_for(controller: :micro_auth, action: :token_request)
