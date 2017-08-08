@@ -10,7 +10,16 @@ class Filterator
   # this hash.
   @generator = Hash.new do |h, k|
     chars = k.chars
-    h[k] = chars.map.with_index { |c, i| i < chars.size - 1 ? c.ord.to_s(2).rjust(8, '0') : c.ord.to_s(2) }.join('')
+    mappings = AppConfig['api_field_mappings']
+    h[k] = chars.map.with_index do |c, i|
+      if i < chars.size - 1
+        c.ord.to_s(2).rjust(8, '0')
+      else
+        rem = mappings.size % 8
+        rem = 8 if rem == 0
+        c.ord.to_s(2).rjust(rem, '0')
+      end
+    end.join('')
   end
 
   # This takes a Base64-encoded filter string and turns it into an array of database-level qualified database column
