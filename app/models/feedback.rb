@@ -102,7 +102,7 @@ class Feedback < ApplicationRecord
       return
     end
 
-    post.stack_exchange_user.blacklist_for_post(post)
+    post.stack_exchange_user&.blacklist_for_post(post)
   end
 
   private
