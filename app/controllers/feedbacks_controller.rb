@@ -30,27 +30,7 @@ class FeedbacksController < ApplicationController
     f.is_invalidated = true
     f.invalidated_by = current_user.id
     f.invalidated_at = DateTime.now
-    f.save
-
-    if f.user
-      total_count = Feedback.unscoped.where(user: f.user).count
-      invalid_count = Feedback.unscoped.where(user: f.user, is_invalidated: true).count
-      mode = 'user'
-    else
-      total_count = Feedback.unscoped.where(user_name: f.user_name).count
-      invalid_count = Feedback.unscoped.where(user_name: f.user_name, is_invalidated: true).count
-      mode = 'user_name'
-    end
-    if invalid_count > (0.04 * total_count) + 4
-      ignored = nil
-      if mode == 'user'
-        ignored = IgnoredUser.find_or_create_by(user_id: f.user.id)
-      elsif mode == 'user_name'
-        ignored = IgnoredUser.find_or_create_by(user_name: f.user_name)
-      end
-      ignored.is_ignored = true
-      ignored.save
-    end
+    f.save!
 
     redirect_to clear_post_feedback_path(f.post_id)
   end
@@ -72,15 +52,6 @@ class FeedbacksController < ApplicationController
 
     @feedback = Feedback.new(feedback_params)
 
-    @ignored = IgnoredUser.find_by(user_name: @feedback.user_name)
-    total_count = Feedback.unscoped.where(user_name: @feedback.user_name).count
-    invalid_count = Feedback.invalid.where(user_name: @feedback.user_name).count
-    if invalid_count > (0.04 * total_count) + 4
-      @feedback.is_ignored = true if @ignored && @ignored.is_ignored == true
-    elsif @ignored
-      @ignored.destroy!
-    end
-
     post.reasons.each do |reason|
       expire_fragment(reason)
     end
@@ -88,17 +59,6 @@ class FeedbacksController < ApplicationController
     expire_fragment('post' + post.id.to_s)
 
     @feedback.post = post
-
-    unless @feedback.is_ignored
-      previous_identical = Feedback.ignored.where(post: @feedback.post, feedback_type: @feedback.feedback_type)
-      previous_identical.update_all(is_ignored: false)
-
-      if @feedback.is_positive? || @feedback.is_negative?
-        opposite_type = @feedback.feedback_type == 'tpu-' ? 'fp-' : 'tpu-'
-        previous_opposite = Feedback.ignored.where(post: @feedback.post, feedback_type: opposite_type)
-        previous_opposite.update_all(is_invalidated: true, is_ignored: false, invalidated_at: Time.now, invalidated_by: -1)
-      end
-    end
 
     if Feedback.where(chat_user_id: @feedback.chat_user_id).count == 0
       feedback_intro = 'It seems this is your first time sending feedback to SmokeDetector. ' \
