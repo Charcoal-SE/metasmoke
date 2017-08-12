@@ -66,7 +66,6 @@
                 <% end %>
                 <% if current_user.has_role? :admin %>
                   <%= nav_link AdminController, label: 'Posts with Admin Reports', action: :flagged %>
-                  <%= nav_link AdminController, label: 'Ignored Users', action: :ignored_users %>
                   <%= nav_link APIKeysController, label: 'API Keys' %>
                   <%= nav_link AdminController, label: 'User Permissions', action: :permissions %>
                 <% end %>
