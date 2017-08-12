@@ -76,23 +76,26 @@ class Feedback < ApplicationRecord
   end
 
   def send_to_chat
-    unless Feedback.where(post: post, feedback_type: feedback_type).where.not(id: id).exists?
-      message = "#{feedback_type} by #{user&.username || user_name}"
-      unless post.id == Post.last.id
-        host = 'metasmoke.erwaysoftware.com'
-        link = url_helpers.url_for controller: :posts, action: :show, id: post.id, host: host
-        message += " on [#{post.title}](#{post.link}) \\[[MS](#{link})]"
-      end
-      ActionCable.server.broadcast 'smokedetector_messages', message: message
+    if Feedback.where(post: post, feedback_type: feedback_type).where.not(id: id).exists?
+      return
     end
+
+    message = "#{feedback_type} by #{user&.username || user_name}"
+    unless post.id == Post.last.id
+      host = 'metasmoke.erwaysoftware.com'
+      link = url_helpers.url_for controller: :posts, action: :show, id: post.id, host: host
+      message += " on [#{post.title}](#{post.link}) \\[[MS](#{link})]"
+    end
+    ActionCable.server.broadcast 'smokedetector_messages', message: message
   end
 
   def send_blacklist_request
-    if is_positive? && does_affect_user?
-      begin
-        post.stack_exchange_user.blacklist_for_post(post)
-      rescue # rubocop:disable Lint/HandleExceptions
-      end
+    unless is_positive? && does_affect_user?
+      return
+    end
+    begin
+      post.stack_exchange_user.blacklist_for_post(post)
+    rescue # rubocop:disable Lint/HandleExceptions
     end
   end
 
