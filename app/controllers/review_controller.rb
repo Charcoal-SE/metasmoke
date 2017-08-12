@@ -38,7 +38,7 @@ class ReviewController < ApplicationController
     f.post = post
     f.feedback_type = params[:feedback_type]
     f.save!
-    f.send_to_chat post, current_user
+    f.send_to_chat
 
     post.reasons.each do |reason|
       expire_fragment(reason)

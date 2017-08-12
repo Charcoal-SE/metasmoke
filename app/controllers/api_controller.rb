@@ -248,16 +248,7 @@ class APIController < ApplicationController
     end
 
     if @feedback.save
-      if @feedback.is_positive? && @feedback.does_affect_user?
-        begin
-          ActionCable.server.broadcast 'smokedetector_messages', blacklist: {
-            uid: @post.stack_exchange_user.user_id.to_s,
-            site: URI.parse(@post.stack_exchange_user.site.site_url).host,
-            post: @post.link
-          }
-        rescue # rubocop:disable Lint/HandleExceptions
-        end
-      elsif @feedback.is_naa?
+      if @feedback.is_naa?
         begin
           ActionCable.server.broadcast 'smokedetector_messages', naa: { post_link: @post.link }
         rescue # rubocop:disable Lint/HandleExceptions
@@ -268,7 +259,6 @@ class APIController < ApplicationController
         rescue # rubocop:disable Lint/HandleExceptions
         end
       end
-      @feedback.send_to_chat @post, @user
       render json: @post.feedbacks, status: 201
     else
       render status: 500, json: { error_name: 'failed', error_code: 500, error_message: 'Feedback object failed to save.' }
