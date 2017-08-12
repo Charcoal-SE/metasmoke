@@ -25,7 +25,7 @@ class ReviewController < ApplicationController
       return
     end
 
-    not_found unless %w[tp fp naa].include? params[:feedback_type]
+    not_found unless %w[tpu fp naa].include? params[:feedback_type]
 
     post = Post.find(params[:post_id])
     if post.nil?
