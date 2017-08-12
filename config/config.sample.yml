@@ -73,12 +73,12 @@ common: &common
     - flags.updated_at
     - flags.is_completed
     - flags.post_id
-    - ignored_users.id
-    - ignored_users.user_name
-    - ignored_users.user_id
-    - ignored_users.created_at
-    - ignored_users.updated_at
-    - ignored_users.is_ignored
+    - deleted.deleted
+    - deleted.deleted
+    - deleted.deleted
+    - deleted.deleted
+    - deleted.deleted
+    - deleted.deleted
     - posts.id
     - posts.title
     - posts.body
