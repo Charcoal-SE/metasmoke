@@ -4,8 +4,7 @@ class Feedback < ApplicationRecord
   include Websocket
   delegate :url_helpers, to: 'Rails.application.routes'
 
-  default_scope { where(is_invalidated: false, is_ignored: false) }
-  scope(:ignored, -> { unscoped.where(is_ignored: true) })
+  default_scope { where(is_invalidated: false) }
   scope(:invalid, -> { unscoped.where(is_invalidated: true) })
   scope(:via_api, -> { unscoped.where.not(api_key: nil) })
   scope(:today, -> { where('created_at > ?', Date.today) })

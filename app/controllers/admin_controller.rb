@@ -2,7 +2,6 @@
 
 class AdminController < ApplicationController
   before_action :verify_admin, except: [:user_feedback, :api_feedback, :users, :recently_invalidated, :index]
-  before_action :set_ignored_user, only: [:ignore, :unignore, :destroy_ignored]
 
   def index; end
 
@@ -60,27 +59,6 @@ class AdminController < ApplicationController
     @users = User.all.includes(:roles).paginate(page: params[:page], per_page: 50)
   end
 
-  def ignored_users
-    @ignored_users = IgnoredUser.all
-  end
-
-  def ignore
-    @ignored.is_ignored = true
-    @ignored.save
-    redirect_to url_for(controller: :admin, action: :ignored_users)
-  end
-
-  def unignore
-    @ignored.is_ignored = false
-    @ignored.save
-    redirect_to url_for(controller: :admin, action: :ignored_users)
-  end
-
-  def destroy_ignored
-    @ignored.destroy
-    redirect_to url_for(controller: :admin, action: :ignored_users)
-  end
-
   def api_feedback
     @feedback = Feedback.via_api.includes(:user, :post).order(created_at: :desc).paginate(page: params[:page], per_page: 100)
   end
@@ -108,11 +86,5 @@ class AdminController < ApplicationController
     end
 
     render plain: 'success', status: :accepted
-  end
-
-  private
-
-  def set_ignored_user
-    @ignored = IgnoredUser.find params[:id]
   end
 end
