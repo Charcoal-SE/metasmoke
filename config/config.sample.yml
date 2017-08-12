@@ -63,7 +63,7 @@ common: &common
     - feedbacks.chat_user_id
     - feedbacks.created_at
     - feedbacks.updated_at
-    - feedbacks.is_ignored
+    - feedbacks.id # Used to be feedbacks.is_ignored. Keep this as a placeholder so we don't break filters
     - feedbacks.api_key_id
     - feedbacks.chat_host
     - flags.id
