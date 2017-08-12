@@ -14,4 +14,12 @@ class StackExchangeUser < ApplicationRecord
   def flair_link
     "#{site.site_url}/users/flair/#{user_id}.png"
   end
+
+  def blacklist_for_post(post)
+    ActionCable.server.broadcast 'smokedetector_messages', blacklist: {
+      uid: user_id.to_s,
+      site: URI.parse(site.site_url).host,
+      post: post.link
+    }
+  end
 end
