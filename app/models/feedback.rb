@@ -75,13 +75,9 @@ class Feedback < ApplicationRecord
   end
 
   def send_to_chat
-    if chat_user_id.present?
-      return
-    end
+    return if chat_user_id.present?
 
-    if Feedback.where(post: post, feedback_type: feedback_type).where.not(id: id).exists?
-      return
-    end
+    return if Feedback.where(post: post, feedback_type: feedback_type).where.not(id: id).exists?
 
     message = "#{feedback_type} by #{user&.username || user_name}"
     unless post.id == Post.last.id
@@ -93,13 +89,9 @@ class Feedback < ApplicationRecord
   end
 
   def send_blacklist_request
-    if chat_user_id.present?
-      return
-    end
+    return if chat_user_id.present?
 
-    unless is_positive? && does_affect_user?
-      return
-    end
+    return unless is_positive? && does_affect_user?
 
     post.stack_exchange_user&.blacklist_for_post(post)
   end
