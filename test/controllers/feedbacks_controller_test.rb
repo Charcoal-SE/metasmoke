@@ -17,7 +17,7 @@ class FeedbacksControllerTest < ActionController::TestCase
 
     sign_in users(:approved_user)
     get :clear, params: { id: Post.last.id }
-    assert_redirected_to missing_privileges_path
+    assert_redirected_to missing_privileges_path(required: :admin)
   end
 
   test 'should mark cleared feedback invalidated' do

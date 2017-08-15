@@ -15,7 +15,7 @@ class FlagConditionsControllerTest < ActionController::TestCase
     sign_in users(:approved_user)
 
     get :full_list
-    assert_redirected_to missing_privileges_path
+    assert_redirected_to missing_privileges_path(required: :admin)
 
     sign_out :user
     sign_in users(:admin_user)

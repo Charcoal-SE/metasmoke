@@ -14,11 +14,11 @@ class AdminControllerTest < ActionController::TestCase
       sign_out :user
 
       get path
-      assert_redirected_to missing_privileges_path
+      assert_redirected_to missing_privileges_path(required: :admin)
 
       sign_in users(:approved_user)
       get path
-      assert_redirected_to missing_privileges_path
+      assert_redirected_to missing_privileges_path(required: :admin)
     end
   end
 

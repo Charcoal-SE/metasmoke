@@ -11,7 +11,7 @@ class ReviewControllerTest < ActionController::TestCase
   test 'should require account approval' do
     sign_in users(:unapproved_user)
     get :index
-    assert_redirected_to missing_privileges_path
+    assert_redirected_to missing_privileges_path(required: :reviewer)
   end
 
   test 'should load while logged in' do

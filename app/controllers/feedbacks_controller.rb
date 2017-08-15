@@ -11,7 +11,10 @@ class FeedbacksController < ApplicationController
     @post = Post.find(params[:id])
     @feedbacks = Feedback.unscoped.where(post_id: params[:id])
 
-    raise ActionController::RoutingError, 'Not Found' unless verify_access(@feedbacks)
+    unless verify_access(@feedbacks)
+      redirect_to missing_privileges_path(required: :admin)
+      return
+    end
 
     @sites = [@post.site]
 
