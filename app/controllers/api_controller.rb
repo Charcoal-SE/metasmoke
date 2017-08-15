@@ -372,13 +372,11 @@ class APIController < ApplicationController
   end
 
   def verify_trusted_key
-    unless @key.present? && @key.is_trusted
-      render status: 403, json: {
-        error_name: 'trusted_key_required',
-        error_code: 403,
-        error_message: 'The requested action requires the presented key to be trusted.'
-      }
-      return
-    end
+    return if @key.present? && @key.is_trusted
+    render status: 403, json: {
+      error_name: 'trusted_key_required',
+      error_code: 403,
+      error_message: 'The requested action requires the presented key to be trusted.'
+    }
   end
 end
