@@ -38,33 +38,33 @@ class ApplicationController < ActionController::Base
   protected
 
   def verify_developer
-    return if user_signed_in? && current_user.has_role?(:admin)
-    raise ActionController::RoutingError, 'Not Found'
+    return if user_signed_in? && current_user.has_role?(:developer)
+    redirect_to missing_privileges_path(required: :developer)
   end
 
   def verify_admin
     return if user_signed_in? && current_user.has_role?(:admin)
-    raise ActionController::RoutingError, 'Not Found'
+    redirect_to missing_privileges_path(required: :admin)
   end
 
   def verify_code_admin
     return if user_signed_in? && current_user.has_role?(:code_admin)
-    raise ActionController::RoutingError, 'Not Found'
+    redirect_to missing_privileges_path(required: :code_admin)
   end
 
   def verify_flagger
     return if user_signed_in? && current_user.has_role?(:flagger)
-    raise ActionController::RoutingError, 'Not Found'
+    redirect_to missing_privileges_path(required: :flagger)
   end
 
   def verify_reviewer
     return if user_signed_in? && current_user.has_role?(:reviewer)
-    raise ActionController::RoutingError, 'Not Found'
+    redirect_to missing_privileges_path(required: :reviewer)
   end
 
   def verify_core
     return if user_signed_in? && current_user.has_role?(:core)
-    raise ActionController::RoutingError, 'Not Found'
+    redirect_to missing_privileges_path(required: :core)
   end
 
   def configure_permitted_parameters
@@ -73,6 +73,6 @@ class ApplicationController < ActionController::Base
 
   def verify_smoke_detector_runner
     return if user_signed_in? && current_user.has_role?(:smoke_detector_runner)
-    raise ActionController::RoutingError, 'Not Found'
+    redirect_to missing_privileges_path(required: :smoke_detector_runner)
   end
 end

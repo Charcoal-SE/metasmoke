@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:missing_privileges]
 
   def username; end
 
@@ -99,5 +99,9 @@ class UsersController < ApplicationController
       flash[:danger] = 'Failed to update your email address.'
     end
     redirect_to edit_user_registration_path
+  end
+
+  def missing_privileges
+    @role = Role.find_by(name: params[:required])
   end
 end

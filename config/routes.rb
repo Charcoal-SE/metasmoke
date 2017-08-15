@@ -26,6 +26,8 @@ Rails.application.routes.draw do
     post '2fa/disable/code', to: 'users#confirm_disable_code'
 
     post 'update_email', to: 'users#update_email'
+
+    get 'denied', to: 'users#missing_privileges', as: :missing_privileges
   end
 
   scope '/review' do
