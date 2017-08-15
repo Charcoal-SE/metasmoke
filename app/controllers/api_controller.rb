@@ -2,6 +2,7 @@
 
 class APIController < ApplicationController
   before_action :verify_key, except: [:filter_generator, :api_docs, :filter_fields]
+  before_action :verify_trusted_key, only: [:regex_search]
   before_action :set_pagesize, except: [:filter_generator, :api_docs]
   before_action :verify_write_token, only: [:create_feedback, :report_post, :spam_flag]
   skip_before_action :verify_authenticity_token, only: [:posts_by_url, :create_feedback, :report_post, :spam_flag, :post_deleted]
@@ -235,6 +236,14 @@ class APIController < ApplicationController
     ]
   end
 
+  def regex_search
+    filter = 'AAAAAAAAAAPHx4AAAAAAAUA='
+    query = params[:query]
+    results = Post.where("body REGEXP '#{query}' OR title REGEXP '#{query}'").select(select_fields(filter)).order(id: :desc)
+    results = results.paginate(page: params[:page], per_page: @pagesize)
+    render json: { items: results, has_more: has_more?(params[:page], results.count) }
+  end
+
   # Write routes
 
   def create_feedback
@@ -370,5 +379,16 @@ class APIController < ApplicationController
 
   def select_fields(default = '')
     Filterator.fields_from_string(params[:filter] || default)
+  end
+
+  def verify_trusted_key
+    unless @key.present? && @key.is_trusted
+      render status: 403, json: {
+        error_name: 'trusted_key_required',
+        error_code: 403,
+        error_message: 'The requested action requires the presented key to be trusted.'
+      }
+      return
+    end
   end
 end
