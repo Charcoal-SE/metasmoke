@@ -15,9 +15,8 @@ class FlagSettingsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should get new' do
     sign_out :user
-    assert_raise ActionController::RoutingError do
-      get new_flag_setting_path
-    end
+    get new_flag_setting_path
+    assert_redirected_to missing_privileges_path
 
     sign_in users(:admin_user)
     get new_flag_setting_path
@@ -28,9 +27,8 @@ class FlagSettingsControllerTest < ActionDispatch::IntegrationTest
   test 'should create flag_setting' do
     sign_out :user
 
-    assert_raise ActionController::RoutingError do
-      post flag_settings_url, params: { flag_setting: { name: @flag_setting.name, value: @flag_setting.value } }
-    end
+    post flag_settings_url, params: { flag_setting: { name: @flag_setting.name, value: @flag_setting.value } }
+    assert_redirected_to missing_privileges_path
 
     sign_in users(:admin_user)
 
@@ -44,9 +42,9 @@ class FlagSettingsControllerTest < ActionDispatch::IntegrationTest
   test 'should get edit' do
     sign_out :user
 
-    assert_raise ActionController::RoutingError do
-      get edit_flag_setting_url(@flag_setting)
-    end
+    get edit_flag_setting_url(@flag_setting)
+    assert_redirected_to missing_privileges_path
+
     sign_in users(:admin_user)
 
     get edit_flag_setting_url(@flag_setting)
@@ -56,9 +54,8 @@ class FlagSettingsControllerTest < ActionDispatch::IntegrationTest
   test 'should update flag_setting' do
     sign_out :user
 
-    assert_raise ActionController::RoutingError do
-      patch flag_setting_url(@flag_setting), params: { flag_setting: { name: @flag_setting.name, value: @flag_setting.value } }
-    end
+    patch flag_setting_url(@flag_setting), params: { flag_setting: { name: @flag_setting.name, value: @flag_setting.value } }
+    assert_redirected_to missing_privileges_path
 
     sign_in users(:admin_user)
 

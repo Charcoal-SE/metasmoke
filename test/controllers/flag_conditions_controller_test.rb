@@ -14,9 +14,8 @@ class FlagConditionsControllerTest < ActionController::TestCase
   test 'should list all flag conditions' do
     sign_in users(:approved_user)
 
-    assert_raise ActionController::RoutingError do
-      get :full_list
-    end
+    get :full_list
+    assert_redirected_to missing_privileges_path
 
     sign_out :user
     sign_in users(:admin_user)

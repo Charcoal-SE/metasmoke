@@ -13,9 +13,8 @@ class UserSiteSettingsControllerTest < ActionController::TestCase
 
   test 'should list another users preferences' do
     sign_in users(:approved_user)
-    assert_raise ActionController::RoutingError do
-      get :for_user, params: { user: users(:approved_user).id }
-    end
+    get :for_user, params: { user: users(:approved_user).id }
+    assert_redirected_to missing_privileges_path
 
     sign_out :user
     sign_in users(:admin_user)
