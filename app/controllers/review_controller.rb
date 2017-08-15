@@ -25,7 +25,7 @@ class ReviewController < ApplicationController
       return
     end
 
-    not_found unless %w[tp fp naa].include? params[:feedback_type]
+    not_found unless %w[tpu fp naa].include? params[:feedback_type]
 
     post = Post.find(params[:post_id])
     if post.nil?
@@ -38,7 +38,6 @@ class ReviewController < ApplicationController
     f.post = post
     f.feedback_type = params[:feedback_type]
     f.save!
-    f.send_to_chat post, current_user
 
     post.reasons.each do |reason|
       expire_fragment(reason)

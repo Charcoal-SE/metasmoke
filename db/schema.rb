@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170719220932) do
+ActiveRecord::Schema.define(version: 20170812184224) do
 
   create_table "announcements", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "text"
@@ -96,7 +96,6 @@ ActiveRecord::Schema.define(version: 20170719220932) do
     t.integer "chat_user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean "is_ignored", default: false
     t.integer "api_key_id"
     t.string "chat_host", collation: "utf8_unicode_ci"
     t.index ["post_id"], name: "index_feedbacks_on_post_id"
@@ -162,15 +161,6 @@ ActiveRecord::Schema.define(version: 20170719220932) do
     t.datetime "expires"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "ignored_users", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
-    t.string "user_name", collation: "utf8_unicode_ci"
-    t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "is_ignored"
-    t.index ["user_id"], name: "index_ignored_users_on_user_id"
   end
 
   create_table "moderator_sites", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -335,7 +325,6 @@ ActiveRecord::Schema.define(version: 20170719220932) do
   add_foreign_key "flag_logs", "sites"
   add_foreign_key "flag_logs", "users"
   add_foreign_key "flags", "posts"
-  add_foreign_key "ignored_users", "users"
   add_foreign_key "smoke_detectors", "users"
   add_foreign_key "user_site_settings", "users"
 end

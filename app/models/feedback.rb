@@ -4,8 +4,7 @@ class Feedback < ApplicationRecord
   include Websocket
   delegate :url_helpers, to: 'Rails.application.routes'
 
-  default_scope { where(is_invalidated: false, is_ignored: false) }
-  scope(:ignored, -> { unscoped.where(is_ignored: true) })
+  default_scope { where(is_invalidated: false) }
   scope(:invalid, -> { unscoped.where(is_invalidated: true) })
   scope(:via_api, -> { unscoped.where.not(api_key: nil) })
   scope(:today, -> { where('created_at > ?', Date.today) })
@@ -16,6 +15,9 @@ class Feedback < ApplicationRecord
 
   before_save :check_for_user_assoc
   before_save :check_for_dupe_feedback
+
+  after_save :send_to_chat
+  after_save :send_blacklist_request
 
   after_save do
     if update_post_feedback_cache # if post feedback cache was changed
@@ -72,18 +74,26 @@ class Feedback < ApplicationRecord
     select(Feedback.attribute_names - ['message_link'])
   end
 
-  def send_to_chat(post, user)
-    unless Feedback.where(post: post, feedback_type: feedback_type).where.not(id: id).exists?
-      message = "#{feedback_type} by #{user.username}"
-      unless post.id == Post.last.id
-        host = 'metasmoke.erwaysoftware.com'
-        link = url_helpers.url_for controller: :posts, action: :show, id: post.id, host: host
-        message += " on [#{post.title}](#{post.link}) \\[[MS](#{link})]"
-      end
-      ActionCable.server.broadcast 'smokedetector_messages', message: message
-      true
+  def send_to_chat
+    return if chat_user_id.present?
+
+    return if Feedback.where(post: post, feedback_type: feedback_type).where.not(id: id).exists?
+
+    message = "#{feedback_type} by #{user&.username || user_name}"
+    unless post.id == Post.last.id
+      host = 'metasmoke.erwaysoftware.com'
+      link = url_helpers.url_for controller: :posts, action: :show, id: post.id, host: host
+      message += " on [#{post.title}](#{post.link}) \\[[MS](#{link})]"
     end
-    false
+    ActionCable.server.broadcast 'smokedetector_messages', message: message
+  end
+
+  def send_blacklist_request
+    return if chat_user_id.present?
+
+    return unless is_positive? && does_affect_user?
+
+    post.stack_exchange_user&.blacklist_for_post(post)
   end
 
   private

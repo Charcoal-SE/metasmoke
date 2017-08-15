@@ -63,7 +63,7 @@ common: &common
     - feedbacks.chat_user_id
     - feedbacks.created_at
     - feedbacks.updated_at
-    - feedbacks.is_ignored
+    - feedbacks.id # Used to be feedbacks.is_ignored. Keep this as a placeholder so we don't break filters
     - feedbacks.api_key_id
     - feedbacks.chat_host
     - flags.id
@@ -73,12 +73,12 @@ common: &common
     - flags.updated_at
     - flags.is_completed
     - flags.post_id
-    - ignored_users.id
-    - ignored_users.user_name
-    - ignored_users.user_id
-    - ignored_users.created_at
-    - ignored_users.updated_at
-    - ignored_users.is_ignored
+    - deleted.deleted
+    - deleted.deleted
+    - deleted.deleted
+    - deleted.deleted
+    - deleted.deleted
+    - deleted.deleted
     - posts.id
     - posts.title
     - posts.body
@@ -145,13 +145,6 @@ common: &common
     - users_roles.user_id
     - users_roles.role_id
     - posts.deleted_at
-    - posts.revision_count
-    - moderator_sites.id
-    - moderator_sites.user_id
-    - moderator_sites.site_id
-    - moderator_sites.created_at
-    - moderator_sites.updated_at
-    - smoke_detectors.is_standby
   sensitive_fields:
     - api_keys.key
     - api_tokens.code
