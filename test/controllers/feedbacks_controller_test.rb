@@ -15,11 +15,9 @@ class FeedbacksControllerTest < ActionController::TestCase
     get :clear, params: { id: Post.last.id }
     assert_redirected_to new_user_session_url
 
-    assert_raises ActionController::RoutingError do
-      sign_in users(:approved_user)
-      get :clear, params: { id: Post.last.id }
-      assert_response :not_found
-    end
+    sign_in users(:approved_user)
+    get :clear, params: { id: Post.last.id }
+    assert_redirected_to missing_privileges_path
   end
 
   test 'should mark cleared feedback invalidated' do

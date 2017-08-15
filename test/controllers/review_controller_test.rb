@@ -10,9 +10,8 @@ class ReviewControllerTest < ActionController::TestCase
 
   test 'should require account approval' do
     sign_in users(:unapproved_user)
-    assert_raises ActionController::RoutingError do
-      get :index
-    end
+    get :index
+    assert_redirected_to missing_privileges_path
   end
 
   test 'should load while logged in' do

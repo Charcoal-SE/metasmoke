@@ -13,14 +13,12 @@ class AdminControllerTest < ActionController::TestCase
     [:flagged].each do |path|
       sign_out :user
 
-      assert_raises ActionController::RoutingError do
-        get path
-      end
+      get path
+      assert_redirected_to missing_privileges_path
 
       sign_in users(:approved_user)
-      assert_raises ActionController::RoutingError do
-        get path
-      end
+      get path
+      assert_redirected_to missing_privileges_path
     end
   end
 
