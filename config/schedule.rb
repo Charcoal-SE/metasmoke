@@ -15,4 +15,5 @@ end
 
 every 1.day, at: '2:00 am' do
   runner 'User.where.not(encrypted_api_token: nil).each { |u| u.update_moderator_sites rescue nil }'
+  runner 'FlagCondition.revalidate_all'
 end
