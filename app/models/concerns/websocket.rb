@@ -8,10 +8,11 @@ module Websocket
     after_update :broadcast_update
 
     def broadcast_event(type)
+      byebug
       event_class = self.class.to_s
       table = event_class.pluralize.underscore
       channel = "#{table}_#{type}"
-      object_data = attributes.delete_if { |k, _| AppConfig['sensitive_fields'].include? "#{channel}.#{k}" }
+      object_data = attributes.delete_if { |k, _| AppConfig['sensitive_fields'].include? "#{table}.#{k}" }
       extended = respond_to?(:extended_websocket) ? extended_websocket : {}
       object_data.deep_merge! extended
       ApiChannel.broadcast_to channel, event_type: type, event_class: event_class, object: object_data
