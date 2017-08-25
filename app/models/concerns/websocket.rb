@@ -8,7 +8,6 @@ module Websocket
     after_update :broadcast_update
 
     def broadcast_event(type)
-      byebug
       event_class = self.class.to_s
       table = event_class.pluralize.underscore
       channel = "#{table}_#{type}"
