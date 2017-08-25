@@ -30,11 +30,4 @@ class DeveloperController < ApplicationController
     flash[:info] = 'Queued for broadcast.'
     redirect_to url_for(controller: :developer, action: :websocket_test)
   end
-
-  private
-
-  def verify_developer
-    return if current_user.has_role?(:developer)
-    raise ActionController::RoutingError, 'Not Found'
-  end
 end
