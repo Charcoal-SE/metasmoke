@@ -22,7 +22,6 @@ class DeveloperController < ApplicationController
   end
 
   def websocket_test
-    @channels = %w[api_feedback api_flag_logs api_deletion_logs flag_logs github_new_commit posts_realtime smokedetector_messages]
   end
 
   def send_websocket_test
