@@ -11,7 +11,7 @@ class AnnouncementsController < ApplicationController
   end
 
   def index
-    @announcements = Announcement.all.sort_by(&:created_at).reverse
+    @announcements = Announcement.all.order(created_at: :desc)
   end
 
   def expire
