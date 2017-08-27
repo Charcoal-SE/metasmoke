@@ -238,6 +238,15 @@ Rails.application.routes.draw do
     get  'schema',   to: 'data#table_schema', as: :data_schema
   end
 
+  scope '/domains' do
+    root                  to: 'spam_domains#index',   as: :spam_domains
+    post   'create.json', to: 'spam_domains#create',  as: :create_spam_domain
+    get    ':id/edit',    to: 'spam_domains#edit',    as: :edit_spam_domain
+    patch  ':id/edit',    to: 'spam_domains#update',  as: :update_spam_domain
+    get    ':id',         to: 'spam_domains#show',    as: :spam_domain
+    delete ':id',         to: 'spam_domains#destroy', as: :destroy_spam_domain
+  end
+
   devise_for :users, controllers: { sessions: 'custom_sessions' }
   devise_scope :user do
     get  'users/2fa/login', to: 'custom_sessions#verify_2fa'

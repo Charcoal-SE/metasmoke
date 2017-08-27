@@ -1,0 +1,2 @@
+module SpamDomainsHelper
+end

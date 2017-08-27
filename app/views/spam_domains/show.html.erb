@@ -1,0 +1,15 @@
+<h3>Domain: <code><%= @domain.domain %></code></h3>
+<p>This domain has been seen in <%= pluralize @counts[:all], 'post' %>, <%= @counts[:tp] %> TP.</p>
+<% if @domain.whois.present? %>
+  <pre><code><%= @domain.whois %></code></pre>
+<% else %>
+    <p><em>No whois data available.</em></p>
+<% end %>
+
+<table class="table">
+  <tbody>
+    <% @posts.includes_for_post_row.each do |post| %>
+      <%= render 'posts/post', :post => post %>
+    <% end %>
+  </tbody>
+</table>
