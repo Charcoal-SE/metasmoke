@@ -13,6 +13,7 @@ class Post < ApplicationRecord
   belongs_to :smoke_detector
   has_many :flag_logs, dependent: :destroy
   has_many :flags, dependent: :destroy
+  has_and_belongs_to_many :spam_domains
 
   scope(:includes_for_post_row, -> { includes(:stack_exchange_user).includes(:reasons).includes(feedbacks: [:user, :api_key]) })
   scope(:without_feedback, -> { left_joins(:feedbacks).where(feedbacks: { post_id: nil }) })
