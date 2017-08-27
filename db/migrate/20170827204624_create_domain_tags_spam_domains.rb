@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateDomainTagsSpamDomains < ActiveRecord::Migration[5.1]
   def change
     create_table :domain_tags_spam_domains, id: false do |t|

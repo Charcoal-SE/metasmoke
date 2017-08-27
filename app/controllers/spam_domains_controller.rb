@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SpamDomainsController < ApplicationController
   before_action :check_if_smokedetector, only: [:create]
   before_action :authenticate_user!, only: [:edit, :update, :destroy]
@@ -33,8 +35,7 @@ class SpamDomainsController < ApplicationController
     @sites = Site.where(id: @posts.map(&:site_id))
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @domain.update domain_params
