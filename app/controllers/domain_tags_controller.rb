@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DomainTagsController < ApplicationController
   before_action :authenticate_user!, only: [:add, :remove, :edit, :update, :destroy]
   before_action :verify_core, only: [:add, :remove, :edit, :update]
@@ -31,8 +33,7 @@ class DomainTagsController < ApplicationController
     @counts = SpamDomain.where(id: @domains.map(&:id)).joins(:posts).group('spam_domains.id').count
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @tag.update tag_params
