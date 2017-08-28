@@ -27,6 +27,8 @@ class DomainTagsController < ApplicationController
   end
 
   def show
+    @domains = @tag.spam_domains
+    @counts = SpamDomain.where(id: @domains.map(&:id)).joins(:posts).group('spam_domains.id').count
   end
 
   def edit

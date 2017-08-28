@@ -1,0 +1,16 @@
+<h3>Editing Domain Tag: <%= render 'tag', tag: @tag %></h3>
+<%= form_for @tag, url: update_domain_tag_path do |f| %>
+  <div class="field">
+    <%= f.label :name %><br/>
+    <%= f.text_field :name, class: 'form-control' %>
+  </div><br/>
+
+  <div class="field">
+    <%= f.label :description %><br/>
+    <%= f.text_area :description, rows: 5, cols: 70, class: 'form-control' %>
+  </div><br/>
+
+  <div class="actions">
+    <%= f.submit 'Save', class: 'btn btn-primary' %>
+  </div>
+<% end %>
