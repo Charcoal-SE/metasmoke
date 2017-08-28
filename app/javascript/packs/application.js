@@ -114,4 +114,8 @@ onLoad(() => {
       $('.announcement-collapse').text('Show announcements');
     }
   })();
+
+  $('.form-submit').click((ev) => {
+    $(ev.target).parent().submit();
+  });
 });

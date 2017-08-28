@@ -2,7 +2,7 @@ class DomainTagsController < ApplicationController
   before_action :authenticate_user!, only: [:add, :remove, :edit, :update, :destroy]
   before_action :verify_core, only: [:add, :remove, :edit, :update]
   before_action :verify_admin, only: [:destroy]
-  before_action :set_domain_tag, only: [:edit, :update, :destroy]
+  before_action :set_domain_tag, only: [:show, :edit, :update, :destroy]
 
   def index
     @tags = if params[:filter].present?
@@ -10,6 +10,7 @@ class DomainTagsController < ApplicationController
             else
               DomainTag.all
             end.order(name: :asc).paginate(page: params[:page], per_page: 100)
+    @counts = DomainTag.where(id: @tags.map(&:id)).joins(:spam_domains).group('domain_tags.id').count
   end
 
   def add

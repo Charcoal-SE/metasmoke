@@ -1,3 +1,29 @@
 // Place all the styles related to the SpamDomains controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.add-domain-tag {
+  margin-left: 15px;
+}
+
+.domain-tags {
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  p {
+    margin-top: 7px;
+  }
+}
+
+.domain-tag {
+  color: white !important;
+}
+
+.tag-label form {
+  display: inline;
+}
+
+.tag-label {
+  margin: 0 5px;
+}
