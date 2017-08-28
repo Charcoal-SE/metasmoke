@@ -115,7 +115,7 @@ onLoad(() => {
     }
   })();
 
-  $('.form-submit').click((ev) => {
+  $('.form-submit').click(ev => {
     $(ev.target).parent().submit();
   });
 });
