@@ -250,4 +250,8 @@ class Post < ApplicationRecord
       fetch_revision_count(respond_to?(:revision_count) ? nil : post)
     end
   end
+
+  def parse_domains
+    URI.extract(body || '').map { |x| URI.parse(x).hostname }
+  end
 end
