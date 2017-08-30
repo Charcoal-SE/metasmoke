@@ -95,6 +95,19 @@
   </p>
 <% end %>
 
+<hr/>
+
+<p>Contains domains:</p>
+<% if @post.spam_domains.any? %>
+  <ul>
+    <% @post.spam_domains.each do |d| %>
+      <li><%= render 'spam_domains/domain', domain: d %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <em>No domains</em>
+<% end %>
+
 <% if user_signed_in? && current_user.has_role?(:developer) %>
   <div class="panel panel-danger">
     <div class="panel-heading">

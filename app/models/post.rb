@@ -252,6 +252,18 @@ class Post < ApplicationRecord
   end
 
   def parse_domains
-    URI.extract(body || '').map { |x| URI.parse(x).hostname }
+    hosts = URI.extract(body || '').map do |x|
+      begin
+        URI.parse(x).hostname
+      rescue
+        nil
+      end
+    end.compact.uniq
+
+    hosts.each do |h|
+      next if h.length >= 255
+      domain = SpamDomain.find_or_create_by domain: h
+      domain.posts << self unless domain.posts.include? self
+    end
   end
 end
