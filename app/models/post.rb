@@ -13,6 +13,7 @@ class Post < ApplicationRecord
   belongs_to :smoke_detector
   has_many :flag_logs, dependent: :destroy
   has_many :flags, dependent: :destroy
+  has_and_belongs_to_many :spam_domains
 
   scope(:includes_for_post_row, -> { includes(:stack_exchange_user).includes(:reasons).includes(feedbacks: [:user, :api_key]) })
   scope(:without_feedback, -> { left_joins(:feedbacks).where(feedbacks: { post_id: nil }) })
@@ -247,6 +248,22 @@ class Post < ApplicationRecord
       post.revision_count
     else
       fetch_revision_count(respond_to?(:revision_count) ? nil : post)
+    end
+  end
+
+  def parse_domains
+    hosts = URI.extract(body || '').map do |x|
+      begin
+        URI.parse(x).hostname
+      rescue
+        nil
+      end
+    end.compact.uniq
+
+    hosts.each do |h|
+      next if h.length >= 255
+      domain = SpamDomain.find_or_create_by domain: h
+      domain.posts << self unless domain.posts.include? self
     end
   end
 end

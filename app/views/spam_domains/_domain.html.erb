@@ -1,0 +1,6 @@
+<span class="spam-domain">
+  <%= link_to domain.domain, spam_domain_path(domain) %>
+  <% domain.domain_tags.each do |t| %>
+    <%= render 'domain_tags/tag', tag: t, domain: domain %>
+  <% end %>
+</span>

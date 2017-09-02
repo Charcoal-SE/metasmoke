@@ -21,8 +21,7 @@ class DeveloperController < ApplicationController
     render layout: false
   end
 
-  def websocket_test
-  end
+  def websocket_test; end
 
   def send_websocket_test
     ActionCable.server.broadcast params[:channel], JSON.parse(params[:content])
