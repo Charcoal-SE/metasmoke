@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20170829211320) do
 
-  create_table "announcements", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "announcements", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text "text"
     t.datetime "expiry"
     t.datetime "created_at", null: false
@@ -94,7 +94,7 @@ ActiveRecord::Schema.define(version: 20170829211320) do
     t.integer "spam_domain_id", null: false
   end
 
-  create_table "feedbacks", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "feedbacks", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "message_link", collation: "utf8_unicode_ci"
     t.string "user_name", collation: "utf8_unicode_ci"
     t.string "user_link", collation: "utf8_unicode_ci"
@@ -221,7 +221,7 @@ ActiveRecord::Schema.define(version: 20170829211320) do
     t.integer "spam_domain_id", null: false
   end
 
-  create_table "reasons", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "reasons", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "reason_name", collation: "utf8_unicode_ci"
     t.string "last_post_title", collation: "utf8mb4_unicode_ci"
     t.boolean "inactive", default: false
@@ -278,7 +278,7 @@ ActiveRecord::Schema.define(version: 20170829211320) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "stack_exchange_users", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "stack_exchange_users", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "user_id"
     t.string "username", collation: "utf8mb4_unicode_ci"
     t.datetime "last_api_update"
