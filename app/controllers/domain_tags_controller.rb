@@ -29,7 +29,7 @@ class DomainTagsController < ApplicationController
   end
 
   def show
-    @domains = @tag.spam_domains
+    @domains = @tag.spam_domains.paginate(page: params[:page], per_page: 100)
     @counts = SpamDomain.where(id: @domains.map(&:id)).joins(:posts).group('spam_domains.id').count
   end
 
