@@ -31,6 +31,8 @@ class Post < ApplicationRecord
   # WARNING: This is *very* slow without a limit - use Post.undeleted.limit(n) where possible.
   scope(:undeleted, -> { left_joins(:deletion_logs).where(deletion_logs: { id: nil }) })
 
+  after_create :parse_domains
+
   after_create do
     ActionCable.server.broadcast 'posts_realtime', row: PostsController.render(locals: { post: Post.last }, partial: 'post').html_safe
     ActionCable.server.broadcast 'topbar', review: Post.without_feedback.count
