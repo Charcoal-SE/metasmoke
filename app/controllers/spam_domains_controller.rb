@@ -10,7 +10,7 @@ class SpamDomainsController < ApplicationController
   def index
     @total = SpamDomain.count
     @domains = if params[:filter].present?
-                 SpamDomain.where("domain LIKE '%#{params[:filter]}%'")
+                 SpamDomain.where('domain LIKE ?', sanitize_sql_like('%#{params[:filter]}%'))
                else
                  SpamDomain.all
                end.order(domain: :asc).paginate(page: params[:page], per_page: 100)
