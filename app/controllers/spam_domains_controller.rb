@@ -31,7 +31,7 @@ class SpamDomainsController < ApplicationController
   def show
     @counts = { all: SpamDomain.where(id: params[:id]).joins(:posts).count,
                 tp: SpamDomain.where(id: params[:id]).joins(:posts).where(posts: { is_tp: true }).count }
-    @posts = @domain.posts.includes_for_post_row
+    @posts = @domain.posts.includes_for_post_row.paginate(page: params[:page], per_page: 100)
     @sites = Site.where(id: @posts.map(&:site_id))
   end
 
