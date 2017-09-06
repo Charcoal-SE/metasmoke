@@ -66,7 +66,7 @@ class AdminController < ApplicationController
   def permissions
     @roles = Role.names
     @users = if params[:username].present?
-               User.where("username LIKE '%#{params[:username]}%'")
+               User.where('username LIKE ?', "%#{params[:username]}%")
              else
                User.all
              end
