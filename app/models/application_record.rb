@@ -19,7 +19,7 @@ class ApplicationRecord < ActiveRecord::Base
   def self.mass_habtm(join_table, first_type, second_type, record_pairs)
     first_ids = record_pairs.map { |p| p[0].id }.join(', ')
     second_ids = record_pairs.map { |p| p[1].id }.join(', ')
-    pre_existing = connection.execute("SELECT #{first_type}_id, #{second_type}_id FROM #{join_table} " +
+    pre_existing = connection.execute("SELECT #{first_type}_id, #{second_type}_id FROM #{join_table} " \
                                       "WHERE #{first_type}_id IN (#{first_ids}) AND #{second_type}_id IN (#{second_ids})").to_a
 
     record_ids = record_pairs.map do |pair|
