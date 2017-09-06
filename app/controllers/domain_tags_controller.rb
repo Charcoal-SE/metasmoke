@@ -8,7 +8,7 @@ class DomainTagsController < ApplicationController
 
   def index
     @tags = if params[:filter].present?
-              DomainTag.where('name LIKE ?', '%#{params[:filter]}%')
+              DomainTag.where('name LIKE ?', "%#{params[:filter]}%")
             else
               DomainTag.all
             end.order(name: :asc).paginate(page: params[:page], per_page: 100)

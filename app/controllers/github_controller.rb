@@ -69,9 +69,9 @@ class GithubController < ApplicationController
     domains = text.scan(/<!-- METASMOKE-BLACKLIST-WEBSITE (.*?) -->/)[0][0]
 
     domains.each do |domain|
-      num_tps = Post.where('body LIKE ?', '%#{domain}%').where(is_tp: true).count
-      num_fps = Post.where('body LIKE ?', '%#{domain}%').where(is_fp: true).count
-      num_naa = Post.where('body LIKE ?', '%#{domain}%').where(is_naa: true).count
+      num_tps = Post.where('body LIKE ?', "%#{domain}%").where(is_tp: true).count
+      num_fps = Post.where('body LIKE ?', "%#{domain}%").where(is_fp: true).count
+      num_naa = Post.where('body LIKE ?', "%#{domain}%").where(is_naa: true).count
 
       response_text += get_line domain, num_tps, num_fps, num_naa
     end
@@ -79,9 +79,9 @@ class GithubController < ApplicationController
     keywords = text.scan(/<!-- METASMOKE-BLACKLIST-KEYWORD (.*?) -->/)[0][0]
 
     keywords.each do |keyword|
-      num_tps = Post.where('body LIKE ?', '%#{keyword}%').where(is_tp: true).count
-      num_fps = Post.where('body LIKE ?', '%#{keyword}%').where(is_fp: true).count
-      num_naa = Post.where('body LIKE ?', '%#{keyword}%').where(is_naa: true).count
+      num_tps = Post.where('body LIKE ?', "%#{keyword}%").where(is_tp: true).count
+      num_fps = Post.where('body LIKE ?', "%#{keyword}%").where(is_fp: true).count
+      num_naa = Post.where('body LIKE ?', "%#{keyword}%").where(is_naa: true).count
 
       response_text += get_line keyword, num_tps, num_fps, num_naa
     end
@@ -89,9 +89,9 @@ class GithubController < ApplicationController
     usernames = text.scan(/<!-- METASMOKE-BLACKLIST-USERNAME (.*?) -->/)[0][0]
 
     usernames.each do |username|
-      num_tps = Post.where('body LIKE ?', '%#{username}%').where(is_tp: true).count
-      num_fps = Post.where('body LIKE ?', '%#{username}%').where(is_fp: true).count
-      num_naa = Post.where('body LIKE ?', '%#{username}%').where(is_naa: true).count
+      num_tps = Post.where('body LIKE ?', "%#{username}%").where(is_tp: true).count
+      num_fps = Post.where('body LIKE ?', "%#{username}%").where(is_fp: true).count
+      num_naa = Post.where('body LIKE ?', "%#{username}%").where(is_naa: true).count
       response_text += get_line username, num_tps, num_fps, num_naa
     end
 
