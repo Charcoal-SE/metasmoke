@@ -70,7 +70,8 @@ class DomainTagsController < ApplicationController
     @tag = DomainTag.find_or_create_by name: params[:tag]
     pairs = @domains.map { |d| [@tag, d] }
     ApplicationRecord.mass_habtm 'domain_tags_spam_domains', 'domain_tag', 'spam_domain', pairs
-    redirect_to domain_tags_mass_tagging_path
+    flash[:success] = 'Tag applied to selected posts.'
+    redirect_to domain_tags_mass_tagging_path(filter: params[:filter])
   end
 
   private
@@ -84,6 +85,6 @@ class DomainTagsController < ApplicationController
   end
 
   def mass_tag_filter(filter_param)
-    SpamDomain.where("domain LIKE '#{ApplicationRecord.sanitize_like(filter_param).gsub('*', '%')}'")
+    SpamDomain.where("domain LIKE '#{ApplicationRecord.sanitize_like(filter_param).tr('*', '%')}'")
   end
 end
