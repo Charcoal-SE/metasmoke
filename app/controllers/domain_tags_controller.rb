@@ -55,6 +55,24 @@ class DomainTagsController < ApplicationController
     end
   end
 
+  def mass_tagging
+    @domains = if params[:filter].present?
+                 mass_tag_filter params[:filter]
+               else
+                 SpamDomain.all
+               end.paginate(page: params[:page], per_page: 100)
+    @counts = SpamDomain.where(id: @domains.map(&:id)).joins(:posts).group('spam_domains.id').count
+    @taggable = params[:filter].present?
+  end
+
+  def submit_mass_tag
+    @domains = mass_tag_filter params[:filter]
+    @tag = DomainTag.find_or_create_by name: params[:tag]
+    pairs = @domains.map { |d| [@tag, d] }
+    ApplicationRecord.mass_habtm 'domain_tags_spam_domains', 'domain_tag', 'spam_domain', pairs
+    redirect_to domain_tags_mass_tagging_path
+  end
+
   private
 
   def set_domain_tag
@@ -63,5 +81,9 @@ class DomainTagsController < ApplicationController
 
   def tag_params
     params.require(:domain_tag).permit(:name, :description)
+  end
+
+  def mass_tag_filter(filter_param)
+    SpamDomain.where("domain LIKE '#{ApplicationRecord.sanitize_like(filter_param).gsub('*', '%')}'")
   end
 end

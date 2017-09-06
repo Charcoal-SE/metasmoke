@@ -240,13 +240,15 @@ Rails.application.routes.draw do
 
   scope '/domains' do
     scope '/tags' do
-      root                to: 'domain_tags#index',    as: :domain_tags
-      post   'add',       to: 'domain_tags#add',      as: :add_domain_tag
-      post   'remove',    to: 'domain_tags#remove',   as: :remove_domain_tag
-      get    ':id/edit',  to: 'domain_tags#edit',     as: :edit_domain_tag
-      patch  ':id/edit',  to: 'domain_tags#update',   as: :update_domain_tag
-      get    ':id',       to: 'domain_tags#show',     as: :domain_tag
-      delete ':id',       to: 'domain_tags#destroy',  as: :destroy_domain_tag
+      root                to: 'domain_tags#index',           as: :domain_tags
+      post   'add',       to: 'domain_tags#add',             as: :add_domain_tag
+      post   'remove',    to: 'domain_tags#remove',          as: :remove_domain_tag
+      get    'mass',      to: 'domain_tags#mass_tagging',    as: :domain_tags_mass_tagging
+      post   'mass',      to: 'domain_tags#submit_mass_tag', as: :domain_tags_submit_tagging
+      get    ':id/edit',  to: 'domain_tags#edit',            as: :edit_domain_tag
+      patch  ':id/edit',  to: 'domain_tags#update',          as: :update_domain_tag
+      get    ':id',       to: 'domain_tags#show',            as: :domain_tag
+      delete ':id',       to: 'domain_tags#destroy',         as: :destroy_domain_tag
     end
 
     root                  to: 'spam_domains#index',   as: :spam_domains

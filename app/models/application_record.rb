@@ -11,4 +11,17 @@ class ApplicationRecord < ActiveRecord::Base
         .to_yaml.sub!(/---\s?/, "\n"))
     end
   end
+
+  def self.sanitize_like(unsafe, *args)
+    sanitize_sql_like unsafe, *args
+  end
+
+  def self.mass_habtm(join_table, first_type, second_type, record_pairs)
+    record_ids = record_pairs.map { |p| p[0..1].map(&:id) }
+    values = record_ids.map { |p| "(#{p[0]}, #{p[1]})" }.join(', ')
+    query = "INSERT INTO #{join_table} (#{first_type}_id, #{second_type}_id) VALUES #{values};"
+    transaction do
+      connection.execute query
+    end
+  end
 end
