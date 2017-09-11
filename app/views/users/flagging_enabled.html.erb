@@ -1,0 +1,26 @@
+<h3>Autoflagging Users</h3>
+<p>The following users have accepted a disclaimer and signed up for their accounts to be used for autoflagging. The minimum
+  weight listed is the minimum total reason weight the user has set themselves; it must be more than <%= FlagSetting['min_accuracy'] %>%
+  accurate, but the higher it is, the more accurate this user's automatic flags will be.
+  <span class="text-small">(<%= link_to 'What does this mean?', 'https://charcoal-se.org/flagging' %>)</span></p>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Min. weight</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= link_to user.username, "https://stackexchange.com/users/#{user.stack_exchange_account_id}" %></td>
+        <td><%= user.flag_conditions.first&.min_weight %></td>
+        <td><%= link_to 'Flags cast as this user', flag_logs_by_user_path(user_id: user.id) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= will_paginate @users, renderer: BootstrapPagination::Rails %>

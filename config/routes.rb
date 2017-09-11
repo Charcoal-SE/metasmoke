@@ -218,6 +218,7 @@ Rails.application.routes.draw do
     get 'logs/unflagged', to: 'flag_log#not_flagged', as: :unflagged_logs
     get 'users/:user_id/logs', to: 'flag_log#index', as: :flag_logs_by_user
     get 'users/overview', to: 'flag_conditions#user_overview', as: :user_overview
+    get 'users', to: 'users#flagging_enabled', as: :flagging_users
 
     scope '/audits' do
       get 'settings', to: 'flag_settings#audits', as: 'flag_settings_audits'

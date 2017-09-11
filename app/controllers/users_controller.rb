@@ -104,4 +104,8 @@ class UsersController < ApplicationController
   def missing_privileges
     @role = Role.find_by(name: params[:required])
   end
+
+  def flagging_enabled
+    @users = User.where(flags_enabled: true).paginate(per_page: 100, page: params[:page])
+  end
 end
