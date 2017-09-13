@@ -61,6 +61,9 @@
                 <%= nav_link AdminController, label: 'Invalidated Feedback', action: :recently_invalidated %>
                 <%= nav_link AdminController, label: 'Feedback via API', action: :api_feedback %>
                 <%= nav_link AdminController, label: 'User Data', action: :users %>
+                <% if current_user.moderator? %>
+                  <%= nav_link StackExchangeUsersController, label: 'Spammers', action: :sites %>
+                <% end %>
                 <% if current_user.try(:has_role?, :core) %>
                   <%= nav_link DataController %>
                 <% end %>

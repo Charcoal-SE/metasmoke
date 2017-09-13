@@ -217,4 +217,8 @@ class User < ApplicationRecord
     end
     # rubocop:enable Style/GuardClause
   end
+
+  def moderator?
+    moderator_sites.any?
+  end
 end
