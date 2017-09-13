@@ -75,7 +75,7 @@
 
 <ul>
   <% @post.reasons.each do |reason| %>
-    <li><%= link_to reason.reason_name, "/reason/" + reason.id.to_s %></li>
+    <li><%= link_to reason.reason_name, "/reason/" + reason.id.to_s %> <span class="text-muted">(<%= reason.weight %>)</span></li>
   <% end %>
 </ul>
 
