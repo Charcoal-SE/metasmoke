@@ -44,9 +44,9 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li class='<%= (controller.class == ReasonsController) ? "active" : "" %>'><%= link_to "reasons", reasons_path %></li>
-            <%= nav_link GraphsController %>
             <%= nav_link PostsController %>
+            <li class='<%= (controller.class == DashboardController && controller.action_name == :index) ? "active" : "" %>'><%= link_to "reasons", reasons_path %></li>
+            <%= nav_link GraphsController %>
             <%= nav_link SearchController %>
             <% if user_signed_in? %>
               <%= nav_link ReviewController do %>
@@ -58,19 +58,28 @@
             <%= nav_link FlagSettingsController, action: :dashboard, label: 'flagging', active: [FlagConditionsController, FlagLogController] %>
             <% if user_signed_in? %>
               <%= nav_dropdown AdminController, label: 'tools' do %>
+                <%= nav_link AdminController, label: 'User Data', action: :users %>
                 <%= nav_link AdminController, label: 'Invalidated Feedback', action: :recently_invalidated %>
                 <%= nav_link AdminController, label: 'Feedback via API', action: :api_feedback %>
-                <%= nav_link AdminController, label: 'User Data', action: :users %>
                 <% if current_user.moderator? %>
                   <%= nav_link StackExchangeUsersController, label: 'Spammers', action: :sites %>
                 <% end %>
-                <% if current_user.try(:has_role?, :core) %>
-                  <%= nav_link DataController %>
+                <li role="separator" class="divider"></li>
+                <% if Announcement.current.count > 0 %>
+                  <%= nav_link AnnouncementsController, label: 'Announcements <span class="badge">' + Announcement.current.count + '</span>' %>
+                <% else %>
+                  <%= nav_link AnnouncementsController, label: 'Announcements' %>
                 <% end %>
+                <% if current_user.try(:has_role?, :core) %>
+                  <%= nav_link DataController, label: 'Data Explorer' %>
+                <% end %>
+                <%= nav_link SpamDomainsController, label: 'Spam Domains' %>
+                <%= nav_link DomainTagsController, label: 'Domain Tags' %>
                 <% if current_user.has_role? :admin %>
-                  <%= nav_link AdminController, label: 'Posts with Admin Reports', action: :flagged %>
-                  <%= nav_link APIKeysController, label: 'API Keys' %>
+                  <li role="separator" class="divider"></li>
                   <%= nav_link AdminController, label: 'User Permissions', action: :permissions %>
+                  <%= nav_link APIKeysController, label: 'API Keys' %>
+                  <%= nav_link AdminController, label: 'Admin Report Queue', action: :flagged %>
                 <% end %>
                 <% if current_user.has_role? :developer %>
                   <%#
@@ -79,7 +88,6 @@
                   %>
                   <%= nav_link DeveloperController, label: 'Production log', action: :production_log %>
                 <% end %>
-                <%= nav_link AnnouncementsController, label: 'Announcements' %>
               <% end %>
             <% end %>
             <%= nav_link StatusController, attrs: {
@@ -91,7 +99,7 @@
               }
             } %>
           </ul>
-          <% if controller.class == DashboardController %>
+          <% if controller.class == DashboardController && controller.action_name == :index %>
             <form class="navbar-form navbar-right" role="search">
               <div class="form-group">
                 <input type="text" id="search" class="form-control" placeholder="Search reasons">
