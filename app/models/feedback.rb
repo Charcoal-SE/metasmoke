@@ -16,8 +16,8 @@ class Feedback < ApplicationRecord
   before_save :check_for_user_assoc
   before_save :check_for_dupe_feedback
 
-  after_save :send_to_chat
-  after_save :send_blacklist_request
+  after_create :send_to_chat
+  after_create :send_blacklist_request
 
   after_save do
     if update_post_feedback_cache # if post feedback cache was changed
