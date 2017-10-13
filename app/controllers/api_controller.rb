@@ -62,7 +62,7 @@ class APIController < ApplicationController
   def posts_by_site
     filter = 'AAAAAAAAAAPHx4AAAAAAAUA='
     @posts = Post.joins(:site)
-                 .where(sites: { site_url: params[:site] })
+                 .where(sites: { site_domain: params[:site] })
                  .select(select_fields(filter))
                  .order(id: :desc)
                  .includes(:feedbacks)

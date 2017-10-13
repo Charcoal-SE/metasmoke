@@ -88,14 +88,14 @@ class APIControllerTest < ActionController::TestCase
 
   test 'should get posts by site' do
     get :posts_by_site, params: {
-      site: Post.last.site.site_url,
+      site: Post.last.site.site_domain,
       key: api_keys(:one).key,
       filter: "\x00\x00\x00\x00\x00\x00\x00\x03\xC3\xBF\xC3\xBF\xC2\x80\x00\x00\x00\x00\x00"
     }
 
     assert_response :success
     assert !assigns(:posts).to_a.empty?
-    assert assigns(:posts).select { |p| p.site.site_url == Post.last.site.site_url }.count == assigns(:posts).to_a.size
+    assert assigns(:posts).select { |p| p.site.site_domain == Post.last.site.site_domain }.count == assigns(:posts).to_a.size
   end
 
   # Search tests
