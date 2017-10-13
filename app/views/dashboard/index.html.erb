@@ -8,7 +8,7 @@
 <table class="table sortable-table" style="margin-top:50px">
   <thead>
     <tr>
-      <th>Active Reason</th>
+      <th>Reason</th>
       <th>Number caught</th>
       <th class='no-sort'>Last caught</th>
       <th>Accuracy</th>
@@ -17,7 +17,7 @@
 
   <tbody>
     <% @active_reasons.each do |reason| %>
-      <tr class="<%= "active text-muted inactive-reason" if reason.inactive %>">
+      <tr class="">
         <td><%= link_to reason.reason_name, "/reason/#{reason.id}" %></td>
         <td data-sort-value="<%= reason.post_count %>"><%= reason.post_count %></td>
         <td><%= truncate((reason.last_post_title.nil? ? reason.posts.last.title : reason.last_post_title), :length => 40, :seperator => ' ') %></td>
@@ -41,7 +41,7 @@
 
   <tbody>
     <% @inactive_reasons.each do |reason| %>
-      <tr class="<%= "active text-muted inactive-reason" if reason.inactive %>">
+      <tr class="active text-muted inactive-reason">
         <td><%= link_to reason.reason_name, "/reason/#{reason.id}" %></td>
         <td data-sort-value="<%= reason.post_count %>"><%= reason.post_count %></td>
         <td><%= truncate((reason.last_post_title.nil? ? reason.posts.last.title : reason.last_post_title), :length => 40, :seperator => ' ') %></td>
