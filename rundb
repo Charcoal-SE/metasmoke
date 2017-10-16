@@ -1,0 +1,8 @@
+#!/bin/sh
+
+set -e -u
+
+./startdb
+foreman start
+rails server -b 0.0.0.0
+wait

@@ -1,0 +1,40 @@
+#!/bin/sh
+
+set -e -u
+
+./startdb
+
+mysql -u root -ppassword <<\____
+
+    # Create the metasmoke database and metasmoke_test database
+
+    CREATE DATABASE metasmoke;
+    CREATE DATABASE metasmoke_test;
+
+    # Create the metasmoke user and password.
+    # This user will only be able to access MySQL locally.
+    # You should still select a strong password.
+    # Grant this user privileges on the metasmoke database
+
+    CREATE USER 'metasmoke'@'localhost' IDENTIFIED BY 'password';
+    GRANT ALL PRIVILEGES ON `metasmoke`.* TO `metasmoke`@`localhost`;
+    GRANT ALL PRIVILEGES ON `metasmoke_test`.* TO `metasmoke`@`localhost`;
+    FLUSH PRIVILEGES; 
+
+____
+
+sed '/^development:/!b;x;N;N;x;a\
+  adapter: mysql2\
+  database: metasmoke\
+  encoding: utf8\
+  username: metasmoke\
+  password: password\
+  host: 127.0.0.1\
+  port: 3306
+q' config/database.sample.yml >config/database.yml
+
+cp config/config.sample.yml config/config.yml
+
+rails db:create
+rails db:schema:load
+rails db:seed
