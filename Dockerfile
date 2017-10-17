@@ -21,6 +21,7 @@ WORKDIR /usr/src/app
 COPY . .
 RUN bundle install \
     && ./createdb \
+    && sed -i 's/^web:.*/& -b 0.0.0.0/' Procfile \
     && yarn install
 
 ######## TODO: minimize the number of RUN statements
