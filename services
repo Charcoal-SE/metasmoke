@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -e -u
+
+# Make sure IPv6 is disabled inside Docker to avoid
+# https://github.com/puma/puma/issues/1062
+# ... also, can't use sed -i because Device or resource busy on /etc
+cp /etc/hosts /tmp/hosts
+sed 's/^::1/#&/' /tmp/hosts >/etc/hosts
+
+# Weird wacky workaround for MySQL in Docker
+# https://github.com/docker/for-linux/issues/72
+find /var/lib/mysql -type f -exec touch {} +
+service mysql start
+
+# start redis, too
+service redis-server start

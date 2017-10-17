@@ -1,8 +1,0 @@
-#!/bin/sh
-
-set -e -u
-
-# Weird wacky workaround for MySQL in Docker
-# https://github.com/docker/for-linux/issues/72
-find /var/lib/mysql -type f -exec touch {} +
-service mysql start

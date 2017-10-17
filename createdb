@@ -2,7 +2,7 @@
 
 set -e -u
 
-./startdb
+./services
 
 mysql -u root -ppassword <<\____
 
