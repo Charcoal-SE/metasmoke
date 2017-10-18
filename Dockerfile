@@ -26,5 +26,5 @@ RUN bundle install \
 
 ######## TODO: minimize the number of RUN statements
 
-EXPOSE 5000
+EXPOSE 5000 8080
 CMD ["./rundb"]
