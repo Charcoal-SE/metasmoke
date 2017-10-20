@@ -4,7 +4,7 @@ class DashboardController < ApplicationController
   def index
     @inactive_reasons, @active_reasons = [true, false].map do |inactive|
       Reason.all.joins(:posts)
-            .where("reasons.inactive = #{inactive}")
+            .where('reasons.inactive = ?', inactive)
             .group('reasons.id')
             .select('reasons.*, count(\'posts.*\') as post_count')
             .order('post_count DESC')
