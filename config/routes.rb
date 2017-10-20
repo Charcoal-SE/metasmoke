@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  mount ActionCable.server => '/cable'
+
   root to: 'dashboard#new_dash', as: :dashboard
 
-  mount ActionCable.server => '/cable'
+  # Have to have this root route *without* the as: parameter, otherwise we get weirdness like #247
+  root to: 'dashboard#new_dash'
 
   scope '/authentication' do
     get 'status', to: 'authentication#status', as: :authentication_status
@@ -145,7 +148,7 @@ Rails.application.routes.draw do
   end
 
   scope '/api' do
-    root to: 'api#api_docs'
+    root to: 'api#api_docs', as: :api_docs
 
     get  'filters', to: 'api#filter_generator'
     get  'filter_fields', to: 'api#filter_fields'
