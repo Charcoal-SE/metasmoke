@@ -254,7 +254,7 @@ class Post < ApplicationRecord
   end
 
   def parse_domains
-    hosts = URI.extract(body || '').map do |x|
+    hosts = (URI.extract(body || '') + URI.extract(title || '')).map do |x|
       begin
         URI.parse(x).hostname
       rescue
