@@ -7,10 +7,10 @@
 <% if user_signed_in? && (current_user.has_role?(:core) || current_user.has_role?(:admin)) %>
   <p>
     <% if current_user.has_role?(:core) %>
-      <%= link_to 'Edit', edit_domain_tag_path(@domain) %>
+      <%= link_to 'Edit', edit_domain_tag_path(@tag) %>
     <% end %>
     <% if current_user.has_role?(:admin) %>
-      &middot; <%= link_to 'Delete', destroy_domain_tag_path(@domain), method: :delete,
+      &middot; <%= link_to 'Delete', destroy_domain_tag_path(@tag), method: :delete,
                     data: { confirm: 'Are you sure?' }, class: 'text-danger' %>
     <% end %>
   </p>
