@@ -181,6 +181,22 @@ class Post < ApplicationRecord
 
     save!
 
+    conflicting_revisions = Post.where(link: link,
+                                       is_tp: is_fp,
+                                       is_fp: is_tp,
+                                       is_naa: false)
+                                .where.not(id: id)
+
+    if conflicting_revisions.count > 0
+      msg = "Conflicting feedback across revisions: [current](//metasmoke.erwaysoftware.com/post/#{id})"
+
+      conflicting_revisions.each_with_index do |post, i|
+        msg += ", [##{i + 1}](//metasmoke.erwaysoftware.com/post/#{post.id})"
+      end
+
+      SmokeDetector.send_message_to_charcoal msg
+    end
+
     if is_tp && is_fp
       SmokeDetector.send_message_to_charcoal "Conflicting feedback on [#{title}](//metasmoke.erwaysoftware.com/post/#{id})."
     end
