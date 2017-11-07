@@ -182,9 +182,8 @@ class Post < ApplicationRecord
     save!
 
     conflicting_revisions = Post.where(link: link,
-                                       is_tp: is_fp,
-                                       is_fp: is_tp,
-                                       is_naa: false)
+                                       is_tp: !is_tp,
+                                       is_fp: !is_fp)
                                 .where.not(id: id)
 
     if conflicting_revisions.count > 0
