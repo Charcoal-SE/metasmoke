@@ -183,7 +183,7 @@ class Post < ApplicationRecord
 
     conflicting_revisions = Post.where(link: link)
                                 .where.not(id: id)
-                                .where("is_tp <> ? or is_fp <> ?", is_tp, is_fp)
+                                .where('is_tp != ? or is_fp != ?', is_tp, is_fp)
 
     if conflicting_revisions.count > 0
       msg = "Conflicting feedback across revisions: [current](//metasmoke.erwaysoftware.com/post/#{id})"
