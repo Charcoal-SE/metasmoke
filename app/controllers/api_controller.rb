@@ -4,8 +4,8 @@ class APIController < ApplicationController
   before_action :verify_key, except: [:filter_generator, :api_docs, :filter_fields]
   before_action :verify_trusted_key, only: [:regex_search]
   before_action :set_pagesize, except: [:filter_generator, :api_docs]
-  before_action :verify_write_token, only: [:create_feedback, :report_post, :spam_flag]
-  skip_before_action :verify_authenticity_token, only: [:posts_by_url, :create_feedback, :report_post, :spam_flag, :post_deleted]
+  before_action :verify_write_token, only: [:create_feedback, :report_post, :spam_flag, :add_domain_tag]
+  skip_before_action :verify_authenticity_token, only: [:posts_by_url, :create_feedback, :report_post, :spam_flag, :post_deleted, :add_domain_tag]
 
   # Public routes
 
@@ -326,6 +326,26 @@ class APIController < ApplicationController
     else
       render status: 500, json: { status: 'failed', message: 'The deletion log failed to save.' }
     end
+  end
+
+  def post_domains
+    post = Post.find params[:id]
+    results = post.spam_domains
+    render json: { items: results.paginate(page: params[:page], per_page: @pagesize), has_more: has_more?(params[:page], results.count) }
+  end
+
+  def domain_tags
+    domain = SpamDomain.find params[:id]
+    results = domain.domain_tags
+    render json: { items: results.paginate(page: params[:page], per_page: @pagesize), has_more: has_more?(params[:page], results.count) }
+  end
+
+  def add_domain_tag
+    domain = SpamDomain.find params[:id]
+    tag = DomainTag.find_or_create_by name: params[:tag]
+    domain.domain_tags << tag
+    results = domain.domain_tags.limit(@pagesize)
+    render json: { success: true, items: results, more_url: api_domain_tags_url(domain) }
   end
 
   private

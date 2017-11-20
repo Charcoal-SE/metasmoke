@@ -173,11 +173,14 @@ Rails.application.routes.draw do
     get  'blacklist', to: 'api#blacklisted_websites'
     get  'users', to: 'api#users'
     get  'users/code_privileged', to: 'api#users_with_code_privs'
+    get  'post/:id/domains', to: 'api#post_domains', as: :api_post_domains
+    get  'domains/:id/tags', to: 'api#domain_tags', as: :api_domain_tags
 
     post 'w/post/:id/feedback', to: 'api#create_feedback'
     post 'w/post/report', to: 'api#report_post'
     post 'w/post/:id/spam_flag', to: 'api#spam_flag'
     post 'w/post/:id/deleted', to: 'api#post_deleted'
+    post 'w/domains/:id/add_tag', to: 'api#add_domain_tag', as: :api_add_domain_tag
   end
 
   scope '/oauth' do
