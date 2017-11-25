@@ -216,12 +216,17 @@ class GithubController < ApplicationController
       unless Dir.exist?('SmokeDetector')
         `git clone https://github.com/Charcoal-SE/SmokeDetector`
 
-        File.write 'SmokeDetector/.git/info/attributes', <<~END
-          bad_keywords.txt -text merge=union
-          blacklisted_usernames.txt -text merge=union
-          blacklisted_websites.txt -text merge=union
-          watched_keywords.txt -text merge=union
-        END
+        Dir.chdir('SmokeDetector') do
+          `git config user.name metasmoke`
+          `git config user.email #{AppConfig['github']['username']}`
+
+          File.write '.git/info/attributes', <<~END
+            bad_keywords.txt -text merge=union
+            blacklisted_usernames.txt -text merge=union
+            blacklisted_websites.txt -text merge=union
+            watched_keywords.txt -text merge=union
+          END
+        end
       end
 
       if !Octokit.client.pull_merged?('Charcoal-SE/SmokeDetector', pr_num)
