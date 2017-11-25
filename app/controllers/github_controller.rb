@@ -213,10 +213,10 @@ class GithubController < ApplicationController
         return
       end
 
-      if not Dir.exists?("SmokeDetector")
+      unless Dir.exist?('SmokeDetector')
         `git clone https://github.com/Charcoal-SE/SmokeDetector`
 
-        File.write "SmokeDetector/.git/info/attributes", <<~END
+        File.write 'SmokeDetector/.git/info/attributes', <<~END
           bad_keywords.txt -text merge=union
           blacklisted_usernames.txt -text merge=union
           blacklisted_websites.txt -text merge=union
@@ -225,7 +225,7 @@ class GithubController < ApplicationController
       end
 
       if !Octokit.client.pull_merged?('Charcoal-SE/SmokeDetector', pr_num)
-        Dir.chdir("SmokeDetector") do
+        Dir.chdir('SmokeDetector') do
           ref = pr[:head][:ref]
 
           `git checkout master; git pull origin master`
