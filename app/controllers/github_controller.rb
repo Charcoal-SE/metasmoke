@@ -213,12 +213,27 @@ class GithubController < ApplicationController
         return
       end
 
+      if not Dir.exists?("SmokeDetector")
+        `git clone https://github.com/Charcoal-SE/SmokeDetector`
+
+        File.write "SmokeDetector/.git/info/attributes", <<~END
+          bad_keywords.txt -text merge=union
+          blacklisted_usernames.txt -text merge=union
+          blacklisted_websites.txt -text merge=union
+          watched_keywords.txt -text merge=union
+        END
+      end
+
       if !Octokit.client.pull_merged?('Charcoal-SE/SmokeDetector', pr_num)
-        Octokit.client.merge_pull_request(
-          'Charcoal-SE/SmokeDetector',
-          pr_num,
-          '--autopull'
-        )
+        Dir.chdir("SmokeDetector") do
+          ref = pr[:head][:ref]
+
+          `git checkout master; git pull origin master`
+          `git fetch origin #{ref}`
+          `git merge origin/#{ref} --no-ff -m 'Merge pull request ##{pr_num} from Charcoal-SE/#{ref} --autopull'`
+          `git push origin master`
+        end
+
         message = "Merged SmokeDetector [##{pr_num}](https://github.com/Charcoal-SE/SmokeDetector/pull/#{pr_num})."
         ActionCable.server.broadcast('smokedetector_messages', message: message)
         render plain: "Merged ##{pr_num}"
