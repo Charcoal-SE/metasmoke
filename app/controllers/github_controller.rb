@@ -214,11 +214,11 @@ class GithubController < ApplicationController
       end
 
       unless Dir.exist?('SmokeDetector')
-        system "git clone git@github.com:Charcoal-SE/SmokeDetector"
+        system 'git clone git@github.com:Charcoal-SE/SmokeDetector'
 
         Dir.chdir('SmokeDetector') do
-          system "git config user.name metasmoke"
-          system "git", "config", "user.email", AppConfig['github']['username']
+          system 'git config user.name metasmoke'
+          system 'git', 'config', 'user.email', AppConfig['github']['username']
 
           File.write '.git/info/attributes', <<~END
             bad_keywords.txt -text merge=union
@@ -233,10 +233,10 @@ class GithubController < ApplicationController
         Dir.chdir('SmokeDetector') do
           ref = pr[:head][:ref]
 
-          system "git checkout master; git pull origin master"
-          system "git", "fetch", "origin", ref
-          system "git", "merge", "origin/#{ref}", "--no-ff", "-m", "Merge pull request ##{pr_num} from Charcoal-SE/#{ref} --autopull"
-          system "git push origin master"
+          system 'git checkout master; git pull origin master'
+          system 'git', 'fetch', 'origin', ref
+          system 'git', 'merge', "origin/#{ref}", '--no-ff', '-m', "Merge pull request ##{pr_num} from Charcoal-SE/#{ref} --autopull"
+          system 'git push origin master'
         end
 
         message = "Merged SmokeDetector [##{pr_num}](https://github.com/Charcoal-SE/SmokeDetector/pull/#{pr_num})."
