@@ -233,7 +233,7 @@ class GithubController < ApplicationController
         Dir.chdir('SmokeDetector') do
           ref = pr[:head][:ref]
 
-          system 'git checkout master; git pull origin master'
+          system 'git fetch origin master; git checkout -B master origin/master'
           system 'git', 'fetch', 'origin', ref
           system 'git', 'merge', "origin/#{ref}", '--no-ff', '-m', "Merge pull request ##{pr_num} from Charcoal-SE/#{ref} --autopull"
           system 'git push origin master'
