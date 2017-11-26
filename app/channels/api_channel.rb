@@ -22,7 +22,6 @@ class ApiChannel < ApplicationCable::Channel
         stream_from 'api_flag_logs'
         stream_from 'api_deletion_logs'
         stream_from 'api_statistics'
-        stream_from 'api_github_events'
       end
     else
       reject

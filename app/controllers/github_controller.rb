@@ -173,7 +173,7 @@ class GithubController < ApplicationController
     # See https://developer.github.com/v3/activity/events/types/#webhook-payload-example-26
     # for what’s in `params`
     ActionCable.server.broadcast 'smokedetector_messages', deploy_updated: params
-    ActionCable.server.broadcast 'api_github_events', deploy_updated: params
+    ApiChannel.broadcast_to 'api_deploy_update', event_type: 'update', event_class: 'Commit', object: params
   end
 
   def any_status_hook
