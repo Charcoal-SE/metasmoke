@@ -9,7 +9,7 @@ every 1.day do
   runner 'ReasonsHelper.calculate_weights_for_flagging'
 end
 
-every 1.day at: "3:30 pm" do
+every 1.day at: '3:30 pm' do
   runner 'SitesHelper.update_sites'
 end
 
