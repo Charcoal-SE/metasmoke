@@ -8,6 +8,8 @@ class GithubController < ApplicationController
   before_action :verify_github, except: [:update_deploy_to_master, :add_pullapprove_comment]
   before_action :check_if_smokedetector, only: [:add_pullapprove_comment]
 
+  @git_mutex = Mutex.new
+
   # Fires whenever a CI service finishes.
   def status_hook
     # We're not interested in PR statuses or branches other than deploy
@@ -230,13 +232,15 @@ class GithubController < ApplicationController
       end
 
       if !Octokit.client.pull_merged?('Charcoal-SE/SmokeDetector', pr_num)
-        Dir.chdir('SmokeDetector') do
-          ref = pr[:head][:ref]
+        @@git_mutex.synchronize do
+          Dir.chdir('SmokeDetector') do
+            ref = pr[:head][:ref]
 
-          system 'git fetch origin master; git checkout -B master origin/master'
-          system 'git', 'fetch', 'origin', ref
-          system 'git', 'merge', "origin/#{ref}", '--no-ff', '-m', "Merge pull request ##{pr_num} from Charcoal-SE/#{ref} --autopull"
-          system 'git push origin master'
+            system 'git fetch origin master; git checkout -B master origin/master'
+            system 'git', 'fetch', 'origin', ref
+            system 'git', 'merge', "origin/#{ref}", '--no-ff', '-m', "Merge pull request ##{pr_num} from Charcoal-SE/#{ref} --autopull"
+            system 'git push origin master'
+          end
         end
 
         message = "Merged SmokeDetector [##{pr_num}](https://github.com/Charcoal-SE/SmokeDetector/pull/#{pr_num})."
