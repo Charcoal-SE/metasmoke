@@ -7,8 +7,8 @@ class GithubController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :verify_github, except: [:update_deploy_to_master, :add_pullapprove_comment]
   before_action :check_if_smokedetector, only: [:add_pullapprove_comment]
-  
-  @@git_mutex = Mutex.new
+
+  @git_mutex = Mutex.new
 
   # Fires whenever a CI service finishes.
   def status_hook
