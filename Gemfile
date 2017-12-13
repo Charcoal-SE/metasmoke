@@ -41,6 +41,8 @@ gem 'groupdate', '~> 3.0.0'
 gem 'rubocop', '~> 0.48.1', require: false, group: :test
 gem 'simplecov', require: false, group: :test
 
+gem 'grape', '1.0.0'
+
 # gem 'puma_worker_killer'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

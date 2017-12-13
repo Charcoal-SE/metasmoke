@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class APIController < ApplicationController
-  before_action :verify_key, except: [:filter_generator, :api_docs, :filter_fields]
+  before_action :verify_key, except: [:filter_generator, :api_docs, :filter_fields, :calculate_filter]
   before_action :verify_trusted_key, only: [:regex_search]
   before_action :set_pagesize, except: [:filter_generator, :api_docs]
   before_action :verify_write_token, only: [:create_feedback, :report_post, :spam_flag, :add_domain_tag]
@@ -348,6 +348,11 @@ class APIController < ApplicationController
     render json: { success: true, items: results, more_url: api_domain_tags_url(domain) }
   end
 
+  def calculate_filter
+    filter = Filterator::V2.filter_from_fields(params[:fields])
+    render json: { filter: filter }
+  end
+
   private
 
   def verify_key
@@ -388,7 +393,7 @@ class APIController < ApplicationController
   end
 
   def select_fields(default = '')
-    Filterator.fields_from_string(params[:filter] || default)
+    Filterator::V1.fields_from_string(params[:filter] || default)
   end
 
   def verify_trusted_key
