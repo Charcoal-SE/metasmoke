@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module API
   class Base < Grape::API
     version 'v2.0', using: :accept_version_header
@@ -49,7 +51,7 @@ module API
         { items: paginated(col.select(fields(opts[:filter]))), has_more: more?(col, **opts) }
       end
 
-      def single_result(item, **opts)
+      def single_result(item, **_opts)
         { items: [item], has_more: false }
       end
     end

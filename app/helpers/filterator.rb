@@ -67,7 +67,7 @@ module Filterator
 
     def self.fields_from_filter(filter)
       as_int = filter.chars.map { |c| c.ord - 70 }.join.to_i
-      bits = as_int.to_s(2).rjust(AppConfig['api_field_mappings'].size, '0').chars.map { |c| c.to_i }
+      bits = as_int.to_s(2).rjust(AppConfig['api_field_mappings'].size, '0').chars.map(&:to_i)
       AppConfig['api_field_mappings'].zip(bits).map { |k, v| k if v == 1 }.compact - AppConfig['sensitive_fields']
     end
   end

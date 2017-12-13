@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module API
   class DeletionLogsAPI < API::Base
     prefix :deletion_logs
