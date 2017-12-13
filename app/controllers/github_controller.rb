@@ -239,7 +239,7 @@ class GithubController < ApplicationController
       end
 
       if !Octokit.client.pull_merged?('Charcoal-SE/SmokeDetector', pr_num)
-        @@git_mutex.synchronize do
+        @git_mutex.synchronize do
           Dir.chdir('SmokeDetector') do
             ref = pr[:head][:ref]
 
