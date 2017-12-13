@@ -9,6 +9,10 @@ every 1.day do
   runner 'ReasonsHelper.calculate_weights_for_flagging'
 end
 
+every 1.day at: '3:30 pm' do
+  runner 'SitesHelper.update_sites'
+end
+
 # Run moderator check about an hour before the spam waves.
 # We don't want to run it *during* the spam wave,
 # as that could cause us to get unrespected API backoffs.

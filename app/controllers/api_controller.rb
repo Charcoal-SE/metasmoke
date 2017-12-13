@@ -134,6 +134,13 @@ class APIController < ApplicationController
     render json: { items: results, has_more: has_more?(params[:page], results.count) }
   end
 
+  def all_reasons
+    filter = 'AAAAAAAAAAAAABgAAAAAAAA='
+    @reasons = Reason.all.select(select_fields(filter)).order(id: :desc)
+    results = @reasons.paginate(page: params[:page], per_page: @pagesize)
+    render json: { items: results, has_more: has_more?(params[:page], results.count) }
+  end
+
   def reason_posts
     filter = 'AAAAAAAAAAPHx4AAAAAAAUA='
     @posts = Post.joins(:posts_reasons).where(posts_reasons: { reason_id: params[:id] }).select(select_fields(filter)).order(id: :desc)
