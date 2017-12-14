@@ -11,7 +11,7 @@ module API
       requires :from, type: DateTime
       requires :to, type: DateTime
     end
-    get 'date_range' do
+    get 'between' do
       std_result Post.where('created_at > ?', params[:from]).where('created_at < ?', params[:to]).order(id: :desc),
                  filter: 'HKIFJIHNKLGNFNMFLOGIFLNLJLJ'
     end
@@ -20,8 +20,8 @@ module API
       requires :key, type: String
       requires :site, type: String
     end
-    get 'on_site' do
-      std_result Post.joins(:site).where(site: { site_domain: params[:site] }).order(id: :desc), filter: 'HKIFJIHNKLGNFNMFLOGIFLNLJLJ'
+    get 'site' do
+      std_result Post.joins(:site).where(sites: { site_domain: params[:site] }).order(id: :desc), filter: 'HKIFJIHNKLGNFNMFLOGIFLNLJLJ'
     end
 
     params do
@@ -29,24 +29,24 @@ module API
       requires :urls, type: String
     end
     get 'urls' do
-      std_result Post.where(post_link: params[:urls].split(';')).order(id: :desc), filter: 'HKIFJIHNKLGNFNMFLOGIFLNLJLJ'
+      std_result Post.where(link: params[:urls].split(',')).order(id: :desc), filter: 'HKIFJIHNKLGNFNMFLOGIFLNLJLJ'
     end
 
     params do
       requires :key, type: String
       requires :type, type: String
     end
-    get 'with_feedback' do
+    get 'feedback' do
       std_result Post.joins(:feedbacks).where(feedbacks: { feedback_type: params[:type] }).order(id: :desc),
                  filter: 'HKIFJIHNKLGNFNMFLOGIFLNLJLJ'
     end
 
-    get 'active' do
+    get 'undeleted' do
       std_result Post.where(deleted_at: nil).order(id: :desc), filter: 'HKIFJIHNKLGNFNMFLOGIFLNLJLJ'
     end
 
-    get 'ids/:ids' do
-      std_result Post.where(id: params[:ids].split(';')).order(id: :desc), filter: 'HKIFJIHNKLGNFNMFLOGIFLNLJLJ'
+    get ':ids' do
+      std_result Post.where(id: params[:ids].split(',')).order(id: :desc), filter: 'HKIFJIHNKLGNFNMFLOGIFLNLJLJ'
     end
   end
 end
