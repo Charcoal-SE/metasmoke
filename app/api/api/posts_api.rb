@@ -45,12 +45,71 @@ module API
       std_result Post.where(deleted_at: nil).order(id: :desc), filter: 'HKIFJIHNKLGNFNMFLOGIFLNLJLJ'
     end
 
+    before do
+      authenticate_user!
+      role :reviewer
+    end
+    params do
+      requires :key, type: String
+      requires :token, type: String
+      requires :url, type: String
+    end
+    post 'report' do
+      ActionCable.server.broadcast 'smokedetector_messages', report: { user: current_user.username, post_link: params[:url] }
+      status 202
+      { status: 'Accepted' }
+    end
+
     get ':ids' do
       std_result Post.where(id: params[:ids].split(',')).order(id: :desc), filter: 'HKIFJIHNKLGNFNMFLOGIFLNLJLJ'
     end
 
     get ':id/reasons' do
       std_result Post.find(params[:id]).reasons.order(id: :desc), filter: 'GGFLNFJLJJJHHKMIFOLOL'
+    end
+
+    get ':id/domains' do
+      std_result Post.find(params[:id]).spam_domains.order(id: :desc), filter: 'HN'
+    end
+
+    before do
+      authenticate_user!
+      role :reviewer
+    end
+    params do
+      requires :key, type: String
+      requires :token, type: String
+    end
+    post ':id/flag' do
+      post = Post.find params[:id]
+
+      if current_user.api_token.blank?
+        error!({
+            error_name: 'not_write_authenticated',
+            error_code: 409,
+            error_message: 'Current user is not write-authenticated.'
+        }, 409)
+      end
+
+      status, message = current_user.spam_flag(post, false)
+      FlagLog.create(
+          success: status,
+          error_message: status.present? ? nil : message,
+          is_dry_run: false,
+          flag_condition: nil,
+          user: @user,
+          post: @post,
+          backoff: status.present? ? message : 0,
+          site_id: @post.site_id,
+          is_auto: false,
+          api_key: @key
+      )
+      if status
+        { status: 'success', backoff: message }
+      else
+        status 500
+        { status: 'failed', message: message }
+      end
     end
   end
 end

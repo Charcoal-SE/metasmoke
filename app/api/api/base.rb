@@ -67,5 +67,7 @@ module API
     mount API::FeedbacksAPI => 'v2.0/feedbacks'
     mount API::PostsAPI => 'v2.0/posts'
     mount API::ReasonsAPI => 'v2.0/reasons'
+    mount API::SmokeDetectorsAPI => 'v2.0/smokeys'
+    mount API::SpamDomainsAPI => 'v2.0/domains'
   end
 end
