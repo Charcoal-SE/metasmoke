@@ -2,8 +2,6 @@
 
 module API
   class AnnouncementsAPI < API::Base
-    prefix :announcements
-
     get '/' do
       std_result Announcement.all.order(id: :desc), filter: 'HNLMH'
     end

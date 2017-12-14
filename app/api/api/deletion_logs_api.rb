@@ -2,8 +2,6 @@
 
 module API
   class DeletionLogsAPI < API::Base
-    prefix :deletion_logs
-
     get '/' do
       std_result DeletionLog.all.order(id: :desc), filter: 'OIFJKOKOMFJOJJGGGGFIHLLJOJHGOLHJGHFIH'
     end

@@ -2,8 +2,6 @@
 
 module API
   class Base < Grape::API
-    version 'v2.0', using: :accept_version_header
-    prefix :api
     format :json
 
     helpers do
@@ -60,12 +58,13 @@ module API
       authenticate_app!
     end
 
-    mount API::DebugAPI
-    mount API::AnnouncementsAPI
-    mount API::AppsAPI
-    mount API::CommitStatusesAPI
-    mount API::DeletionLogsAPI
-    mount API::DomainTagsAPI
-    mount API::FeedbacksAPI
+    mount API::DebugAPI => 'v2.0/debug'
+    mount API::AnnouncementsAPI => 'v2.0/announcements'
+    mount API::AppsAPI => 'v2.0/apps'
+    mount API::CommitStatusesAPI => 'v2.0/commits'
+    mount API::DeletionLogsAPI => 'v2.0/deletions'
+    mount API::DomainTagsAPI => 'v2.0/tags'
+    mount API::FeedbacksAPI => 'v2.0/feedbacks'
+    mount API::PostsAPI => 'v2.0/posts'
   end
 end

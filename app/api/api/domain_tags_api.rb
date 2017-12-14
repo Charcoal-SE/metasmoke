@@ -2,8 +2,6 @@
 
 module API
   class DomainTagsAPI < API::Base
-    prefix :domain_tags
-
     get '/' do
       std_result DomainTag.all.order(id: :desc), filter: 'NOL'
     end
