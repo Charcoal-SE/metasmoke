@@ -85,24 +85,24 @@ module API
 
       if current_user.api_token.blank?
         error!({
-            error_name: 'not_write_authenticated',
-            error_code: 409,
-            error_message: 'Current user is not write-authenticated.'
-        }, 409)
+                 error_name: 'not_write_authenticated',
+                 error_code: 409,
+                 error_message: 'Current user is not write-authenticated.'
+               }, 409)
       end
 
       status, message = current_user.spam_flag(post, false)
       FlagLog.create(
-          success: status,
-          error_message: status.present? ? nil : message,
-          is_dry_run: false,
-          flag_condition: nil,
-          user: @user,
-          post: @post,
-          backoff: status.present? ? message : 0,
-          site_id: @post.site_id,
-          is_auto: false,
-          api_key: @key
+        success: status,
+        error_message: status.present? ? nil : message,
+        is_dry_run: false,
+        flag_condition: nil,
+        user: @user,
+        post: @post,
+        backoff: status.present? ? message : 0,
+        site_id: @post.site_id,
+        is_auto: false,
+        api_key: @key
       )
       if status
         { status: 'success', backoff: message }
