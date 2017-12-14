@@ -48,5 +48,9 @@ module API
     get ':ids' do
       std_result Post.where(id: params[:ids].split(',')).order(id: :desc), filter: 'HKIFJIHNKLGNFNMFLOGIFLNLJLJ'
     end
+
+    get ':id/reasons' do
+      std_result Post.find(params[:id]).reasons.order(id: :desc), filter: 'GGFLNFJLJJJHHKMIFOLOL'
+    end
   end
 end

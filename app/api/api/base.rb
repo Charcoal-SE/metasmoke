@@ -66,5 +66,6 @@ module API
     mount API::DomainTagsAPI => 'v2.0/tags'
     mount API::FeedbacksAPI => 'v2.0/feedbacks'
     mount API::PostsAPI => 'v2.0/posts'
+    mount API::ReasonsAPI => 'v2.0/reasons'
   end
 end
