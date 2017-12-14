@@ -66,5 +66,6 @@ module API
     mount API::CommitStatusesAPI
     mount API::DeletionLogsAPI
     mount API::DomainTagsAPI
+    mount API::FeedbacksAPI
   end
 end

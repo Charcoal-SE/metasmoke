@@ -5,7 +5,7 @@ module API
     prefix :commit_statuses
 
     get '/' do
-      std_result CommitStatus.all.order(id: :desc), filter: 'GGLIFMJJOLIGGNFGINNMOFNIGGMMMJKIFGKFJ'
+      std_result CommitStatus.all.order(id: :desc), filter: 'GGOFONNHNJHHIHNJLHHGHGNGGGHLFGGGNNMJFFOL'
     end
   end
 end

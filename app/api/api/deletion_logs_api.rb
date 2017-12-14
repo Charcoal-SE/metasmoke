@@ -5,11 +5,11 @@ module API
     prefix :deletion_logs
 
     get '/' do
-      std_result DeletionLog.all.order(id: :desc), filter: 'OFNLKGOKFHJIKOJNIJOOHNILNKMLGIKGLN'
+      std_result DeletionLog.all.order(id: :desc), filter: 'OIFJKOKOMFJOJJGGGGFIHLLJOJHGOLHJGHFIH'
     end
 
     get '/post/:id' do
-      std_result DeletionLog.where(post_id: params[:id]).order(id: :desc), filter: 'OFNLKGOKFHJIKOJNIJOOHNILNKMLGIKGLN'
+      std_result DeletionLog.where(post_id: params[:id]).order(id: :desc), filter: 'OIFJKOKOMFJOJJGGGGFIHLLJOJHGOLHJGHFIH'
     end
   end
 end

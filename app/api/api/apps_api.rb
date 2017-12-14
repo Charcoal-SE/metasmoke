@@ -5,7 +5,7 @@ module API
     prefix :apps
 
     get '/' do
-      std_result APIKey.all.order(id: :desc), filter: 'MMIGHGKIMLJJIMHGNNONNMNMGFNFNJOMMIMLJHNFIH'
+      std_result APIKey.all.order(id: :desc), filter: 'MOGLMLJKJKJMNIMGHGKHJKGMOONLMOFGLNIIJLHIFJMLN'
     end
   end
 end
