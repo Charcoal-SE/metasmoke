@@ -98,10 +98,23 @@ class GithubController < ApplicationController
     usernames.each do |username|
       username = username[0]
 
-      num_tps = Post.where('body LIKE ?', "%#{username}%").where(is_tp: true).count
-      num_fps = Post.where('body LIKE ?', "%#{username}%").where(is_fp: true).count
-      num_naa = Post.where('body LIKE ?', "%#{username}%").where(is_naa: true).count
+      num_tps = Post.where('username LIKE ?', "%#{username}%").where(is_tp: true).count
+      num_fps = Post.where('username LIKE ?', "%#{username}%").where(is_fp: true).count
+      num_naa = Post.where('username LIKE ?', "%#{username}%").where(is_naa: true).count
+
       response_text += get_line username, num_tps, num_fps, num_naa
+    end
+
+    watches = text.scan(/<!-- METASMOKE-BLACKLIST-WATCH_KEYWORD (.*?) -->/)
+
+    watches.each do |watch|
+      watch = watch[0]
+
+      num_tps = Post.where('body LIKE ?', "%#{watch}%").where(is_tp: true).count
+      num_fps = Post.where('body LIKE ?', "%#{watch}%").where(is_fp: true).count
+      num_naa = Post.where('body LIKE ?', "%#{watch}%").where(is_naa: true).count
+
+      response_text += get_line watch, num_tps, num_fps, num_naa
     end
 
     Octokit.add_comment 'Charcoal-SE/SmokeDetector', pull_request[:number], response_text
