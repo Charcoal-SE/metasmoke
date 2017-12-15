@@ -59,7 +59,7 @@ module APIHelper
 
   def generator_table(cls)
     field_names = cls.column_names
-    raw(render 'api/filter_table', table_name: cls.table_name, cols: field_names)
+    raw(render('api/filter_table', table_name: cls.table_name, cols: field_names))
   end
 
   def filter_generator
