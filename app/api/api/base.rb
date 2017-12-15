@@ -69,7 +69,7 @@ module API
                 else
                   paginated(col.select(fields(opts[:filter])))
                 end
-        more = if opts[:countable].present? && !opts[:countable]
+        more = if !opts[:countable].nil? && !opts[:countable]
                  opts[:more]
                else
                  more?(col, **opts)
