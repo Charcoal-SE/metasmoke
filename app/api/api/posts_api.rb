@@ -45,21 +45,6 @@ module API
       std_result Post.where(deleted_at: nil).order(id: :desc), filter: FILTERS[:posts]
     end
 
-    before do
-      authenticate_user!
-      role :reviewer
-    end
-    params do
-      requires :key, type: String
-      requires :token, type: String
-      requires :url, type: String
-    end
-    post 'report' do
-      ActionCable.server.broadcast 'smokedetector_messages', report: { user: current_user.username, post_link: params[:url] }
-      status 202
-      { status: 'Accepted' }
-    end
-
     get ':ids' do
       std_result Post.where(id: params[:ids].split(',')).order(id: :desc), filter: FILTERS[:posts]
     end
@@ -72,10 +57,37 @@ module API
       std_result Post.find(params[:id]).spam_domains.order(id: :desc), filter: FILTERS[:domains]
     end
 
+    get ':id/flags' do
+      post = Post.find params[:id]
+      flag_data = {
+        id: post.id,
+        autoflagged: {
+          flagged: post.flag_logs.auto.successful.any?,
+          users: post.flag_logs.auto.successful.map { |u| { id: u.user.id, username: u.user.username } }
+        },
+        manual_flags: {
+          users: post.flag_logs.manual.successful.map { |u| { id: u.user.id, username: u.user.username } }
+        }
+      }
+      single_result flag_data
+    end
+
     before do
       authenticate_user!
       role :reviewer
     end
+
+    params do
+      requires :key, type: String
+      requires :token, type: String
+      requires :url, type: String
+    end
+    post 'report' do
+      ActionCable.server.broadcast 'smokedetector_messages', report: { user: current_user.username, post_link: params[:url] }
+      status 202
+      { status: 'Accepted' }
+    end
+
     params do
       requires :key, type: String
       requires :token, type: String

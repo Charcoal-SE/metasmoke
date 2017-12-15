@@ -16,7 +16,8 @@ module API
       posts: filter(Post.fields(:id, :title, :link, :site_id, :user_link, :username, :user_reputation)),
       reasons: filter(Reason.fields(:id, :reason_name, :weight)),
       smokeys: filter(SmokeDetector.fields(:id, :last_ping, :location, :user_id)),
-      domains: filter(SpamDomain.fields(:id, :domain, :whois))
+      domains: filter(SpamDomain.fields(:id, :domain, :whois)),
+      users: filter(User.fields(:id, :username))
     }.freeze
 
     format :json
@@ -63,7 +64,17 @@ module API
       end
 
       def std_result(col, **opts)
-        { items: paginated(col.select(fields(opts[:filter]))), has_more: more?(col, **opts) }
+        items = if !opts[:countable].nil? && !opts[:countable]
+                  col
+                else
+                  paginated(col.select(fields(opts[:filter])))
+                end
+        more = if opts[:countable].present? && !opts[:countable]
+                 opts[:more]
+               else
+                 more?(col, **opts)
+               end
+        { items: items, has_more: more }
       end
 
       def single_result(item, **_opts)
@@ -86,5 +97,6 @@ module API
     mount API::ReasonsAPI => 'v2.0/reasons'
     mount API::SmokeDetectorsAPI => 'v2.0/smokeys'
     mount API::SpamDomainsAPI => 'v2.0/domains'
+    mount API::UsersAPI => 'v2.0/users'
   end
 end
