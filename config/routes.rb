@@ -149,8 +149,9 @@ Rails.application.routes.draw do
 
   scope '/api' do
     root to: 'api#api_docs', as: :api_docs
-
     get  'filters', to: 'api#filter_generator'
+    post 'filters', to: 'api#calculate_filter'
+
     get  'filter_fields', to: 'api#filter_fields'
     get  'stats/last_week', to: 'api#spam_last_week'
     get  'stats/detailed_ttd', to: 'api#detailed_ttd'
@@ -272,4 +273,7 @@ Rails.application.routes.draw do
     get  'users/2fa/login', to: 'custom_sessions#verify_2fa'
     post 'users/2fa/login', to: 'custom_sessions#verify_code'
   end
+
+  # This should always be right at the end of this file, so that it doesn't override other routes.
+  mount API::Base => '/api'
 end

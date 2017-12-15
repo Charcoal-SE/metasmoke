@@ -158,7 +158,7 @@ ActiveRecord::Schema.define(version: 20171031033433) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "flags", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+  create_table "flags", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "reason", collation: "utf8_unicode_ci"
     t.string "user_id", collation: "utf8_unicode_ci"
     t.datetime "created_at", null: false
@@ -182,17 +182,17 @@ ActiveRecord::Schema.define(version: 20171031033433) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "posts", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "title", collation: "utf8mb4_unicode_ci"
-    t.text "body", limit: 16777215, collation: "utf8mb4_unicode_ci"
-    t.string "link", collation: "utf8mb4_unicode_ci"
+  create_table "posts", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.string "title"
+    t.text "body", limit: 16777215
+    t.string "link"
     t.datetime "post_creation_date"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "site_id"
-    t.string "user_link", collation: "utf8mb4_unicode_ci"
-    t.string "username", collation: "utf8mb4_unicode_ci"
-    t.text "why", limit: 16777215, collation: "utf8mb4_unicode_ci"
+    t.string "user_link"
+    t.string "username"
+    t.text "why", limit: 16777215
     t.integer "user_reputation"
     t.integer "score"
     t.integer "upvote_count"
@@ -223,7 +223,7 @@ ActiveRecord::Schema.define(version: 20171031033433) do
 
   create_table "reasons", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "reason_name", collation: "utf8_unicode_ci"
-    t.string "last_post_title", collation: "utf8_unicode_ci"
+    t.string "last_post_title", collation: "utf8mb4_unicode_ci"
     t.boolean "inactive", default: false
     t.integer "weight", default: 0
     t.integer "maximum_weight", limit: 1

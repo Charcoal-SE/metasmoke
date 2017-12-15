@@ -46,9 +46,11 @@ Metrics/LineLength:
 Metrics/ClassLength:
   Enabled: false
 Metrics/BlockLength:
+  Max: 30
   ExcludedMethods:
     - scope
     - configure
     - draw
     - define
     - test
+    - helpers
