@@ -3,19 +3,19 @@
 module API
   class FeedbacksAPI < API::Base
     get '/' do
-      std_result Feedback.all.order(id: :desc), filter: 'GNIFHNJLJHLIIKHLMIOFKLOOOOKLFKFFNINJ'
+      std_result Feedback.all.order(id: :desc), filter: FILTERS[:feedbacks]
     end
 
     get 'post/:id' do
-      std_result Feedback.where(post_id: params[:id]).order(id: :desc), filter: 'GNIFHNJLJHLIIKHLMIOFKLOOOOKLFKFFNINJ'
+      std_result Feedback.where(post_id: params[:id]).order(id: :desc), filter: FILTERS[:feedbacks]
     end
 
     get 'user/:id' do
-      std_result Feedback.where(user_id: params[:id]).order(id: :desc), filter: 'GNIFHNJLJHLIIKHLMIOFKLOOOOKLFKFFNINJ'
+      std_result Feedback.where(user_id: params[:id]).order(id: :desc), filter: FILTERS[:feedbacks]
     end
 
     get 'app/:id' do
-      std_result Feedback.where(api_key_id: params[:id]).order(id: :desc), filter: 'GNIFHNJLJHLIIKHLMIOFKLOOOOKLFKFFNINJ'
+      std_result Feedback.where(api_key_id: params[:id]).order(id: :desc), filter: FILTERS[:feedbacks]
     end
 
     before do
@@ -48,7 +48,7 @@ module API
           end
         end
 
-        std_result post.feedbacks.order(id: :desc), filter: 'GNIFHNJLJHLIIKHLMIOFKLOOOOKLFKFFNINJ'
+        std_result post.feedbacks.order(id: :desc), filter: FILTERS[:feedbacks]
       else
         error!({ name: 'persistence_fail', detail: 'Feedback object failed to save.' }, 500)
       end

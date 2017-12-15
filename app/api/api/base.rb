@@ -2,6 +2,23 @@
 
 module API
   class Base < Grape::API
+    def self.filter(fields)
+      Filterator::V2.filter_from_fields(fields)
+    end
+
+    FILTERS = {
+      announcements: filter(Announcement.fields(:id, :text, :expiry)),
+      apps: filter(APIKey.fields(:id, :app_name, :user_id, :github_link)),
+      commits: filter(CommitStatus.fields(:id, :commit_sha, :status)),
+      deletions: filter(DeletionLog.fields(:id, :post_id, :is_deleted)),
+      tags: filter(DomainTag.fields(:id, :name, :description)),
+      feedbacks: filter(Feedback.fields(:id, :feedback_type, :post_id, :user_id)),
+      posts: filter(Post.fields(:id, :title, :link, :site_id, :user_link, :username, :user_reputation)),
+      reasons: filter(Reason.fields(:id, :reason_name, :weight)),
+      smokeys: filter(SmokeDetector.fields(:id, :last_ping, :location, :user_id)),
+      domains: filter(SpamDomain.fields(:id, :domain, :whois))
+    }
+
     format :json
 
     helpers do

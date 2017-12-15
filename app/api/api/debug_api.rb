@@ -3,7 +3,7 @@
 module API
   class DebugAPI < API::Base
     get '/' do
-      { params: params, ts: DateTime.now }
+      { params: params, ts: DateTime.now, filters: FILTERS }
     end
   end
 end

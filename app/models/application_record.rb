@@ -31,4 +31,8 @@ class ApplicationRecord < ActiveRecord::Base
     query = "INSERT INTO #{join_table} (#{first_type}_id, #{second_type}_id) VALUES #{values};"
     connection.execute query
   end
+
+  def self.fields(*names)
+    names.map { |n| "#{table_name}.#{n}" }
+  end
 end

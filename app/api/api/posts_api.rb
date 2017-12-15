@@ -3,7 +3,7 @@
 module API
   class PostsAPI < API::Base
     get '/' do
-      std_result Post.all.order(id: :desc), filter: 'HKIFJIHNKLGNFNMFLOGIFLNLJLJ'
+      std_result Post.all.order(id: :desc), filter: FILTERS[:posts]
     end
 
     params do
@@ -13,7 +13,7 @@ module API
     end
     get 'between' do
       std_result Post.where('created_at > ?', params[:from]).where('created_at < ?', params[:to]).order(id: :desc),
-                 filter: 'HKIFJIHNKLGNFNMFLOGIFLNLJLJ'
+                 filter: FILTERS[:posts]
     end
 
     params do
@@ -21,7 +21,7 @@ module API
       requires :site, type: String
     end
     get 'site' do
-      std_result Post.joins(:site).where(sites: { site_domain: params[:site] }).order(id: :desc), filter: 'HKIFJIHNKLGNFNMFLOGIFLNLJLJ'
+      std_result Post.joins(:site).where(sites: { site_domain: params[:site] }).order(id: :desc), filter: FILTERS[:posts]
     end
 
     params do
@@ -29,7 +29,7 @@ module API
       requires :urls, type: String
     end
     get 'urls' do
-      std_result Post.where(link: params[:urls].split(',')).order(id: :desc), filter: 'HKIFJIHNKLGNFNMFLOGIFLNLJLJ'
+      std_result Post.where(link: params[:urls].split(',')).order(id: :desc), filter: FILTERS[:posts]
     end
 
     params do
@@ -38,11 +38,11 @@ module API
     end
     get 'feedback' do
       std_result Post.joins(:feedbacks).where(feedbacks: { feedback_type: params[:type] }).order(id: :desc),
-                 filter: 'HKIFJIHNKLGNFNMFLOGIFLNLJLJ'
+                 filter: FILTERS[:posts]
     end
 
     get 'undeleted' do
-      std_result Post.where(deleted_at: nil).order(id: :desc), filter: 'HKIFJIHNKLGNFNMFLOGIFLNLJLJ'
+      std_result Post.where(deleted_at: nil).order(id: :desc), filter: FILTERS[:posts]
     end
 
     before do
@@ -61,15 +61,15 @@ module API
     end
 
     get ':ids' do
-      std_result Post.where(id: params[:ids].split(',')).order(id: :desc), filter: 'HKIFJIHNKLGNFNMFLOGIFLNLJLJ'
+      std_result Post.where(id: params[:ids].split(',')).order(id: :desc), filter: FILTERS[:posts]
     end
 
     get ':id/reasons' do
-      std_result Post.find(params[:id]).reasons.order(id: :desc), filter: 'GGFLNFJLJJJHHKMIFOLOL'
+      std_result Post.find(params[:id]).reasons.order(id: :desc), filter: FILTERS[:reasons]
     end
 
     get ':id/domains' do
-      std_result Post.find(params[:id]).spam_domains.order(id: :desc), filter: 'HN'
+      std_result Post.find(params[:id]).spam_domains.order(id: :desc), filter: FILTERS[:domains]
     end
 
     before do

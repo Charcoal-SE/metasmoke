@@ -3,15 +3,15 @@
 module API
   class AnnouncementsAPI < API::Base
     get '/' do
-      std_result Announcement.all.order(id: :desc), filter: 'HNLMH'
+      std_result Announcement.all.order(id: :desc), filter: FILTERS[:announcements]
     end
 
     get 'active' do
-      std_result Announcement.where('expiry > ?', DateTime.now).order(id: :desc), filter: 'HNLMH'
+      std_result Announcement.where('expiry > ?', DateTime.now).order(id: :desc), filter: FILTERS[:announcements]
     end
 
     get 'expired' do
-      std_result Announcement.where('expiry < ?', DateTime.now).order(id: :desc), filter: 'HNLMH'
+      std_result Announcement.where('expiry < ?', DateTime.now).order(id: :desc), filter: FILTERS[:announcements]
     end
 
     before do

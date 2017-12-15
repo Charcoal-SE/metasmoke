@@ -3,7 +3,7 @@
 module API
   class SmokeDetectorsAPI < API::Base
     get '/' do
-      std_result SmokeDetector.all.order(id: :desc), filter: 'GFKKKIGGLHLOMMHN'
+      std_result SmokeDetector.all.order(id: :desc), filter: FILTERS[:smokeys]
     end
   end
 end
