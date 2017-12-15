@@ -56,4 +56,27 @@ module APIHelper
       resp.body
     end
   end
+
+  def generator_table(cls)
+    field_names = cls.column_names
+    raw(render 'api/filter_table', table_name: cls.table_name, cols: field_names)
+  end
+
+  def filter_generator
+    cols = [Announcement, APIKey, Audited::Audit, CommitStatus, DeletionLog, DomainTag, Feedback, FlagCondition, FlagLog, FlagSetting,
+            ModeratorSite, Post, Reason, Role, Site, SmokeDetector, SpamDomain, StackExchangeUser, Statistic, UserSiteSetting, User].map do |cls|
+      generator_table cls
+    end
+    raw(cols.each_slice(3).map do |g|
+      "<div class='row'>#{g.join("\n")}</div>"
+    end.join("\n"))
+  end
+
+  def self.filter_config
+    available = [Announcement, APIKey, Audited::Audit, CommitStatus, DeletionLog, DomainTag, Feedback, FlagCondition, FlagLog, FlagSetting,
+                 ModeratorSite, Post, Reason, Role, Site, SmokeDetector, SpamDomain, StackExchangeUser, Statistic, UserSiteSetting, User].map do |cls|
+      cls.column_names.map { |cn| "#{cls.table_name}.#{cn}" }
+    end.flatten - AppConfig['sensitive_fields']
+    available.to_yaml
+  end
 end

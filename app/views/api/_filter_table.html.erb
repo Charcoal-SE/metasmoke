@@ -1,0 +1,12 @@
+<div class="col-md-4">
+  <div class="panel panel-default" id="<%= table_name %>">
+    <div class="panel-heading">
+      <strong><code><%= table_name %></code></strong>
+    </div>
+    <div class="panel-body">
+      <% cols.each do |c| %>
+        <label><input type="checkbox" /> <code><%= table_name %>.<%= c %></code></label><br/>
+      <% end %>
+    </div>
+  </div>
+</div>
