@@ -104,9 +104,9 @@ class GithubController < ApplicationController
 
       response_text += get_line username, num_tps, num_fps, num_naa
     end
-    
+
     watches = text.scan(/<!-- METASMOKE-BLACKLIST-WATCH_KEYWORD (.*?) -->/)
-    
+
     watches.each do |watch|
       watch = watch[0]
 
