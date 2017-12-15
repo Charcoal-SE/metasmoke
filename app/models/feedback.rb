@@ -31,6 +31,10 @@ class Feedback < ApplicationRecord
     ActionCable.server.broadcast "posts_#{post_id}", feedback: FeedbacksController.render(locals: { feedback: self }, partial: 'feedback').html_safe
     feedback = FeedbacksController.render(locals: { feedback: self }, partial: 'feedback.json')
     ActionCable.server.broadcast 'api_feedback', feedback: JSON.parse(feedback)
+
+    if user_id.present? && user_name.nil?
+      update(user_name: user.username)
+    end
   end
 
   # Drop a user's earlier feedback if it's not invalidated
