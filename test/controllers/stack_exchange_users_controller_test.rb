@@ -11,6 +11,6 @@ class StackExchangeUsersControllerTest < ActionController::TestCase
     @user.update(still_alive: true)
 
     post :dead, params: { id: @user.id }
-    assert_response :success
+    assert_response 302 # 302 response because at least one diamond is required, which the test user doesn't have
   end
 end
