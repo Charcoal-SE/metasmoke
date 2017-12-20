@@ -41,7 +41,7 @@ module API
             ActionCable.server.broadcast 'smokedetector_messages', naa: { post_link: @post.link }
           rescue # rubocop:disable Lint/HandleExceptions
           end
-        elsif @feedback.is_negative?
+        elsif feedback.is_negative?
           begin
             ActionCable.server.broadcast 'smokedetector_messages', fp: { post_link: @post.link }
           rescue # rubocop:disable Lint/HandleExceptions
