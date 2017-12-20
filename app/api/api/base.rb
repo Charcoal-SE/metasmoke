@@ -18,7 +18,8 @@ module API
       smokeys: filter(SmokeDetector.fields(:id, :last_ping, :location, :user_id)),
       domains: filter(SpamDomain.fields(:id, :domain, :whois)),
       users: filter(User.fields(:id, :username)),
-      mods: filter(ModeratorSite.fields(:id, :user_id, :site_id))
+      mods: filter(ModeratorSite.fields(:id, :user_id, :site_id)),
+      sites: filter(Site.fields(:id, :site_name, :site_url))
     }.freeze
 
     format :json
@@ -99,5 +100,7 @@ module API
     mount API::SmokeDetectorsAPI => 'v2.0/smokeys'
     mount API::SpamDomainsAPI => 'v2.0/domains'
     mount API::UsersAPI => 'v2.0/users'
+    mount API::ModeratorSitesAPI => 'v2.0/mods'
+    mount API::SitesAPI => 'v2.0/sites'
   end
 end
