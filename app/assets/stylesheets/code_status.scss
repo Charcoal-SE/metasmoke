@@ -4,6 +4,10 @@
 
 .code-status {
 
+  details summary:focus {
+    outline: 0;
+  }
+
   .commit summary {
     font-size: 14px;
   }

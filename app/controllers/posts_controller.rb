@@ -8,12 +8,16 @@ class PostsController < ApplicationController
   before_action :verify_developer, only: [:reindex_feedback, :delete_post]
 
   def show
-    @post = Post.joins('LEFT JOIN `sites` ON `sites`.`id` = `posts`.`site_id`')
-                .joins(:reasons)
-                .select('posts.*, sites.site_logo, SUM(reasons.weight) AS reason_weight')
-                .find(params[:id])
-  rescue
-    @post = Post.find params[:id]
+    begin
+      @post = Post.joins('LEFT JOIN `sites` ON `sites`.`id` = `posts`.`site_id`')
+                  .joins(:reasons)
+                  .select('posts.*, sites.site_logo, SUM(reasons.weight) AS reason_weight')
+                  .find(params[:id])
+    rescue
+      @post = Post.find params[:id]
+    end
+
+    not_found if @post&.id.nil?
   end
 
   # Render bodies on-demand for fancy expanding rows

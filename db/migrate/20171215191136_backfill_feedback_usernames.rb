@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BackfillFeedbackUsernames < ActiveRecord::Migration[5.1]
   class Feedback < ApplicationRecord
   end

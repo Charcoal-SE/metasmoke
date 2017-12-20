@@ -1,5 +1,5 @@
 <h3>Check Your Privilege</h3>
-<p>The page you're trying to visit requires more privileges. You need to have the <strong><%= @role.name.humanize.titleize %></strong>
+<p>The page you're trying to visit requires more privileges. You need to have the <strong><%= @role&.name&.humanize&.titleize || params[:required] %></strong>
   role to view this page.</p>
 <% if user_signed_in? %>
   <p>You currently have the following roles: <%= current_user.roles.map(&:name).map { |x| x.humanize.titleize }.to_sentence %>.</p>
