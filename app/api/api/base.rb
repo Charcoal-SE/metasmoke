@@ -17,7 +17,8 @@ module API
       reasons: filter(Reason.fields(:id, :reason_name, :weight)),
       smokeys: filter(SmokeDetector.fields(:id, :last_ping, :location, :user_id)),
       domains: filter(SpamDomain.fields(:id, :domain, :whois)),
-      users: filter(User.fields(:id, :username))
+      users: filter(User.fields(:id, :username)),
+      mods: filter(ModeratorSite.fields(:id, :user_id, :site_id))
     }.freeze
 
     format :json
