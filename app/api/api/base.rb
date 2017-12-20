@@ -31,7 +31,7 @@ module API
 
       def authenticate_app!
         @key = APIKey.find_by(key: params[:key])
-        if @key.nil? && SmokeDetector.find_by access_token: params[:key]
+        if @key.nil? && SmokeDetector.find_by(access_token: params[:key])
           @key = APIKey.first
         end
         error!({ name: 'missing_key', detail: 'No key was provided or the provided key is invalid.' }, 403) unless @key.present?
