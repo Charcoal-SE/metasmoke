@@ -169,12 +169,10 @@ class FeedbacksControllerTest < ActionController::TestCase
     p = Post.last
     p.feedbacks.delete_all
 
-    user_id = User.last.id
-
-    f1 = p.feedbacks.create(user_id: user_id, feedback_type: 'tpu-')
+    f1 = p.feedbacks.create(user_id: User.first.id, feedback_type: 'tpu-')
 
     f1_other_user = f1.dup
-    f1_other_user.user_id = -12
+    f1_other_user.user_id = User.last.id
     f1_other_user.save
 
     assert p.feedbacks.count == 2
