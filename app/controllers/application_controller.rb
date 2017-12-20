@@ -75,4 +75,9 @@ class ApplicationController < ActionController::Base
     return if user_signed_in? && current_user.has_role?(:smoke_detector_runner)
     redirect_to missing_privileges_path(required: :smoke_detector_runner)
   end
+
+  def verify_at_least_one_diamond
+    return if user_signed_in? && current_user.moderator_sites.exists?
+    redirect_to missing_privileges_path(required: :at_least_one_diamond)
+  end
 end
