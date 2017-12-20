@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'redcarpet'
 
 renderer = Redcarpet::Render::HTML.new hard_wrap: true
