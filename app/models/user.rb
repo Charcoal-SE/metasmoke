@@ -146,7 +146,7 @@ class User < ApplicationRecord
 
     page = 1
     has_more = true
-    self.moderator_sites = []
+    new_moderator_sites = []
     auth_string = "key=#{AppConfig['stack_exchange']['key']}"
     while has_more
       params = "?page=#{page}&pagesize=100&filter=!6OrReH6NRZrmc&#{auth_string}"
@@ -159,12 +159,14 @@ class User < ApplicationRecord
       response['items'].each do |network_account|
         next unless network_account['user_type'] == 'moderator'
         domain = Addressable::URI.parse(network_account['site_url']).host
-        ModeratorSite.find_or_create_by(site_id: Site.find_by(site_domain: domain).id,
-                                        user_id: id)
+        new_moderator_sites << ModeratorSite.find_or_create_by(site_id: Site.find_by(site_domain: domain).id,
+                                                               user_id: id)
       end
 
       sleep response['backoff'].to_i if has_more && response.include?('backoff')
     end
+
+    self.moderator_sites = new_moderator_sites
 
     save!
   end
