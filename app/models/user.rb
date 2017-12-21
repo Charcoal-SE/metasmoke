@@ -142,15 +142,15 @@ class User < ApplicationRecord
   # Flagging
 
   def update_moderator_sites
-    return if api_token.nil?
+    return if stack_exchange_account_id.nil?
 
     page = 1
     has_more = true
     self.moderator_sites = []
-    auth_string = "key=#{AppConfig['stack_exchange']['key']}&access_token=#{api_token}"
+    auth_string = "key=#{AppConfig['stack_exchange']['key']}"
     while has_more
       params = "?page=#{page}&pagesize=100&filter=!6OrReH6NRZrmc&#{auth_string}"
-      url = 'https://api.stackexchange.com/2.2/me/associated' + params
+      url = "https://api.stackexchange.com/2.2/users/#{stack_exchange_account_id}/associated" + params
 
       response = JSON.parse(Net::HTTP.get_response(URI.parse(url)).body)
       has_more = response['has_more']

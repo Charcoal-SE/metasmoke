@@ -18,6 +18,6 @@ end
 # as that could cause us to get unrespected API backoffs.
 
 every 1.day, at: '2:00 am' do
-  runner 'User.where.not(encrypted_api_token: nil).each { |u| u.update_moderator_sites rescue nil }'
+  runner 'User.where.not(stack_exchange_account_id: nil).each { |u| u.update_moderator_sites }'
   runner 'FlagCondition.revalidate_all'
 end
