@@ -55,7 +55,7 @@ class FlaggingTest < ActionDispatch::IntegrationTest
   def setup_webmock
     WebMock.reset!
 
-    stub_request(:get, %r{https://api.stackexchange.com/2\.2/users/12345/associated})
+    stub_request(:get, %r{https://api.stackexchange.com/2\.2/users/123/associated})
       .to_return(status: 200, body: webmock_file('mod_sites_response'), headers: {})
 
     @single_rev_stub = stub_request(:get, %r{https://api.stackexchange.com/2\.2/posts/#{@stack_id}/revisions})
@@ -78,7 +78,7 @@ class FlaggingTest < ActionDispatch::IntegrationTest
   def setup_user_with_permissive_flag_settings(user)
     user.flags_enabled = true
     user.encrypted_api_token = SecureRandom.uuid
-    user.stack_exchange_account_id = 12345
+    user.stack_exchange_account_id = 123
     user.save!
 
     user.add_role :core
