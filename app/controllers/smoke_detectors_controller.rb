@@ -78,8 +78,8 @@ class SmokeDetectorsController < ApplicationController
 
   # Used by Helios to verify new tokens
   def check_token
-    found = SmokeDetector.where(access_token: params[:token]).exists?
-    render json: found
+    token = SmokeDetector.where(access_token: params[:token]).first
+    render json: { exists: token.present?, owner_name: token&.user&.username, created_at: token&.created_at, updated_at: token&.updated_at }
   end
 
   private
