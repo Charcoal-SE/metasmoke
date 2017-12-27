@@ -5,5 +5,8 @@ module API
     get '/' do
       std_result User.all.order(id: :desc), filter: FILTERS[:users]
     end
+    get '/with_role/:role' do
+      std_result User.with_role(params[:role]).order(id: :desc), filter: FILTERS[:users]
+    end
   end
 end
