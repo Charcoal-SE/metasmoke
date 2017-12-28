@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# This is what's known as a PSC migration: https://chat.stackexchange.com/transcript/message/41984495#41984495
 class ChangePrimaryKeyTypesWtfMySql < ActiveRecord::Migration[5.1]
   def change
     database = Rails.configuration.database_configuration[Rails.env]['database']
