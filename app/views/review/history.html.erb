@@ -27,3 +27,7 @@
     <% end %>
   </tbody>
 </table>
+
+<div class="text-center">
+  <%= will_paginate @results, renderer: BootstrapPagination::Rails %>
+</div>
