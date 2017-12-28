@@ -1,0 +1,101 @@
+<h3>User: <%= @user.username %></h3>
+<p class="text-muted">Created: <span title="<%= @user.created_at %>"><%= time_ago_in_words @user.created_at %> ago</span></p>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h5 class="panel-title">SE Auth</h5>
+      </div>
+      <div class="panel-body">
+        <p>
+          <strong>Read access (auth-only):</strong> <%= @user.stack_exchange_account_id.present? ? 'Yes' : 'No' %><br/>
+          <strong>Write access (auth+flags):</strong> <%= @user.encrypted_api_token.present? ? 'Yes' : 'No' %>
+        </p>
+        <p>
+          <strong>Account ID:</strong> <%= link_to @user.stack_exchange_account_id, "https://stackexchange.com/users/#{@user.stack_exchange_account_id}" %><br/>
+          <strong>SE chat ID:</strong> <%= link_to @user.stackexchange_chat_id, "https://chat.stackexchange.com/users/#{@user.stackexchange_chat_id}" %><br/>
+          <strong>SO chat ID:</strong> <%= link_to @user.stackoverflow_chat_id, "https://chat.stackoverflow.com/users/#{@user.stackoverflow_chat_id}" %><br/>
+          <strong>MSE chat ID:</strong> <%= link_to @user.meta_stackexchange_chat_id, "https://chat.meta.stackexchange.com/users/#{@user.meta_stackexchange_chat_id}" %>
+        </p>
+        <p>
+          <%= link_to 'Refresh chat IDs', update_user_chat_ids_path(@user), method: :post, class: 'btn btn-info' %>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h5 class="panel-title">Flagging</h5>
+      </div>
+      <div class="panel-body">
+        <p>
+          <strong>Enabled:</strong> <%= @user.flags_enabled? ? 'Yes' : 'No' %><br/>
+          <%= link_to 'User Overview', user_overview_path(user: @user.id) %>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h5 class="panel-title">Authentication</h5>
+      </div>
+      <div class="panel-body">
+        <p>
+          <strong>Email:</strong> <%= @user.email =~ /(metasmoke\.fake|se-oauth\.metasmoke)/ ? 'No' : 'Yes' %><br/>
+          <strong>SE:</strong> <%= @user.stack_exchange_account_id.present? ? 'Yes' : 'No' %><br/>
+          <strong>2FA:</strong> <%= @user.enabled_2fa? ? 'Yes' : 'No' %>
+        </p>
+        <p>
+          <%= link_to 'Send password reset email', send_password_reset_path(@user), method: :post, class: 'btn btn-info' %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h5 class="panel-title">Mod sites</h5>
+      </div>
+      <div class="panel-body">
+        <% if @user.moderator_sites.any? %>
+          <ul>
+            <% @user.moderator_sites.each do |s| %>
+              <li><%= s.site.site_name %></li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p><em>User is not a moderator.</em></p>
+        <% end %>
+        <p>
+          <%= link_to 'Refresh mod sites', update_mod_sites_path(@user), method: :post, class: 'btn btn-info' %>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h5 class="panel-title">Misc</h5>
+      </div>
+      <div class="panel-body">
+        <p>
+          <strong>Announcement emails:</strong>
+          <% if @user.announcement_emails? && @user.email =~ /(metasmoke\.fake|se-oauth\.metasmoke)/ %>
+            <span title="Emails enabled, but user has an SE OAuth or faked email address." data-toggle="tooltip" class="text-warning">
+              <span class="glyphicon glyphicon-exclamation-sign"></span> Enabled with issues
+            </span>
+          <% elsif @user.announcement_emails? %>
+            Yes
+          <% else %>
+            No
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

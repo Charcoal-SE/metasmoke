@@ -31,6 +31,11 @@ Rails.application.routes.draw do
     post 'update_email', to: 'users#update_email'
 
     get 'denied', to: 'users#missing_privileges', as: :missing_privileges
+
+    get ':id', to: 'users#show', as: :user
+    post ':id/update_ids', to: 'users#refresh_ids', as: :update_user_chat_ids
+    post ':id/reset_pass', to: 'users#send_password_reset', as: :send_password_reset
+    post ':id/update_mod_sites', to: 'users#update_mod_sites', as: :update_mod_sites
   end
 
   scope '/review' do
