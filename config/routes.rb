@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   scope '/review' do
     root to: 'review#index', as: :review
     post 'feedback', to: 'review#add_feedback', as: :review_feedback
+    post 'skip', to: 'review#skip', as: :review_skip
   end
 
   get 'spammers', to: 'stack_exchange_users#index'

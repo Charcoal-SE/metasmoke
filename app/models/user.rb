@@ -19,6 +19,7 @@ class User < ApplicationRecord
   has_many :flag_logs, dependent: :nullify
   has_many :smoke_detectors, dependent: :destroy
   has_many :moderator_sites
+  has_many :reviews, class_name: 'ReviewResult'
 
   # All accounts start with flagger role enabled
   after_create do

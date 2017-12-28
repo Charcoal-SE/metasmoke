@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171215191136) do
+ActiveRecord::Schema.define(version: 20171228175026) do
 
   create_table "announcements", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.text "text", collation: "latin1_swedish_ci"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20171215191136) do
     t.datetime "updated_at", null: false
     t.string "key"
     t.string "app_name"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.string "github_link"
     t.boolean "is_trusted"
     t.index ["user_id"], name: "index_api_keys_on_user_id"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 20171215191136) do
   create_table "api_tokens", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string "code"
     t.integer "api_key_id"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.string "token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -62,6 +62,60 @@ ActiveRecord::Schema.define(version: 20171215191136) do
     t.index ["created_at"], name: "index_audits_on_created_at"
     t.index ["request_uuid"], name: "index_audits_on_request_uuid", length: { request_uuid: 191 }
     t.index ["user_id", "user_type"], name: "user_index", length: { user_type: 191 }
+  end
+
+  create_table "blazer_audits", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id"
+    t.bigint "query_id"
+    t.text "statement"
+    t.string "data_source"
+    t.timestamp "created_at"
+    t.index ["query_id"], name: "index_blazer_audits_on_query_id"
+    t.index ["user_id"], name: "index_blazer_audits_on_user_id"
+  end
+
+  create_table "blazer_checks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "creator_id"
+    t.bigint "query_id"
+    t.string "state"
+    t.string "schedule"
+    t.text "emails"
+    t.string "check_type"
+    t.text "message"
+    t.timestamp "last_run_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_blazer_checks_on_creator_id"
+    t.index ["query_id"], name: "index_blazer_checks_on_query_id"
+  end
+
+  create_table "blazer_dashboard_queries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "dashboard_id"
+    t.bigint "query_id"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dashboard_id"], name: "index_blazer_dashboard_queries_on_dashboard_id"
+    t.index ["query_id"], name: "index_blazer_dashboard_queries_on_query_id"
+  end
+
+  create_table "blazer_dashboards", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "creator_id"
+    t.text "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_blazer_dashboards_on_creator_id"
+  end
+
+  create_table "blazer_queries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "creator_id"
+    t.string "name"
+    t.text "description"
+    t.text "statement"
+    t.string "data_source"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
   create_table "commit_statuses", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
@@ -94,7 +148,7 @@ ActiveRecord::Schema.define(version: 20171215191136) do
     t.integer "spam_domain_id", null: false
   end
 
-  create_table "feedbacks", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "feedbacks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string "message_link"
     t.string "user_name"
     t.string "user_link"
@@ -119,7 +173,7 @@ ActiveRecord::Schema.define(version: 20171215191136) do
     t.integer "min_weight"
     t.integer "max_poster_rep"
     t.integer "min_reason_count"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_flag_conditions_on_user_id"
@@ -134,8 +188,8 @@ ActiveRecord::Schema.define(version: 20171215191136) do
     t.boolean "success"
     t.text "error_message", collation: "latin1_swedish_ci"
     t.integer "flag_condition_id"
-    t.integer "user_id"
-    t.integer "post_id"
+    t.bigint "user_id"
+    t.bigint "post_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_dry_run"
@@ -164,7 +218,7 @@ ActiveRecord::Schema.define(version: 20171215191136) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_completed", default: false
-    t.integer "post_id"
+    t.bigint "post_id"
     t.index ["post_id"], name: "index_flags_on_post_id"
   end
 
@@ -182,7 +236,7 @@ ActiveRecord::Schema.define(version: 20171215191136) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "posts", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string "title", collation: "utf8mb4_unicode_ci"
     t.text "body", limit: 16777215, collation: "utf8mb4_unicode_ci"
     t.string "link", collation: "utf8mb4_unicode_ci"
@@ -229,6 +283,18 @@ ActiveRecord::Schema.define(version: 20171215191136) do
     t.integer "maximum_weight", limit: 1
   end
 
+  create_table "review_results", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "post_id"
+    t.bigint "user_id"
+    t.bigint "feedback_id"
+    t.string "result"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["feedback_id"], name: "index_review_results_on_feedback_id"
+    t.index ["post_id"], name: "index_review_results_on_post_id"
+    t.index ["user_id"], name: "index_review_results_on_user_id"
+  end
+
   create_table "roles", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string "name", collation: "utf8mb4_unicode_ci"
     t.string "resource_type", collation: "utf8mb4_unicode_ci"
@@ -265,7 +331,7 @@ ActiveRecord::Schema.define(version: 20171215191136) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "email_date"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.boolean "is_standby", default: false
     t.boolean "force_failover", default: false
     t.index ["user_id"], name: "index_smoke_detectors_on_user_id"
@@ -303,13 +369,13 @@ ActiveRecord::Schema.define(version: 20171215191136) do
   create_table "user_site_settings", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.integer "max_flags"
     t.integer "flags_used", default: 0
-    t.integer "user_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_user_site_settings_on_user_id"
   end
 
-  create_table "users", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.datetime "remember_created_at"
@@ -349,6 +415,9 @@ ActiveRecord::Schema.define(version: 20171215191136) do
   add_foreign_key "flag_logs", "sites"
   add_foreign_key "flag_logs", "users"
   add_foreign_key "flags", "posts"
+  add_foreign_key "review_results", "feedbacks"
+  add_foreign_key "review_results", "posts"
+  add_foreign_key "review_results", "users"
   add_foreign_key "smoke_detectors", "users"
   add_foreign_key "user_site_settings", "users"
 end

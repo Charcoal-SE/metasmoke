@@ -24,11 +24,16 @@
       <tr class="review-actions">
         <td>
           <div style="float:left">
-            <%= link_to "Spam / Abusive", review_feedback_path(post_id: post.id, feedback_type: "tpu"), :class => "feedback-button btn btn-sm btn-success", remote: true, method: :post, data: {:post_id => post.id} %>
-            <%= link_to "False Positive", review_feedback_path(post_id: post.id, feedback_type: "fp"), :class => "feedback-button btn btn-sm btn-danger", remote: true, method: :post, data: {:post_id => post.id}%>
-            <% if post.link.nil? or post.link.include? "/a/" %>
-              <%= link_to "NAA", review_feedback_path(post_id: post.id, feedback_type: "naa"), :class => "feedback-button btn btn-sm btn-warning", remote: true, method: :post, data: {:post_id => post.id}%>
+            <%= link_to 'Spam / Abusive', review_feedback_path(post_id: post.id, feedback_type: 'tpu'),
+                        class: 'feedback-button btn btn-sm btn-success', remote: true, method: :post, data: { post_id: post.id } %>
+            <%= link_to 'False Positive', review_feedback_path(post_id: post.id, feedback_type: 'fp'),
+                        class: 'feedback-button btn btn-sm btn-danger', remote: true, method: :post, data: { post_id: post.id } %>
+            <% if post.link.nil? or post.link.include? '/a/' %>
+              <%= link_to 'NAA', review_feedback_path(post_id: post.id, feedback_type: 'naa'), class: 'feedback-button btn btn-sm btn-warning',
+                          remote: true, method: :post, data: { post_id: post.id } %>
             <% end %>
+            <%= link_to 'Skip', review_skip_path(post_id: post.id), class: 'feedback-button btn btn-sm btn-info', remote: true, method: :post,
+                        data: { post_id: post.id } %>
           </div>
         </td>
       </tr>
