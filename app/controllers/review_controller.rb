@@ -2,7 +2,8 @@
 
 class ReviewController < ApplicationController
   before_action :authenticate_user!
-  before_action :verify_reviewer
+  before_action :verify_reviewer, except: [:delete_skip]
+  before_action :verify_admin, only: [:delete_skip]
   skip_before_action :verify_authenticity_token, only: [:add_feedback]
 
   def index
@@ -49,5 +50,17 @@ class ReviewController < ApplicationController
     post = Post.find params[:post_id]
     ReviewResult.create post: post, user: current_user, result: 'skip'
     render plain: 'success', status: 200
+  end
+
+  def history
+    @results = ReviewResult.all.order(id: :desc).paginate(page: params[:page], per_page: 100)
+    @posts = Post.where(id: @results.map(&:post_id)).includes_for_post_row
+    @sites = Site.where(id: @posts.map(&:site_id))
+  end
+
+  def delete_skip
+    ReviewResult.find(params[:result]).destroy!
+    flash[:success] = 'Removed review.'
+    redirect_to review_history_path
   end
 end

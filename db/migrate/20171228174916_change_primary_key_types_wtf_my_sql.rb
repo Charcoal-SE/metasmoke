@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangePrimaryKeyTypesWtfMySql < ActiveRecord::Migration[5.1]
   def change
     database = Rails.configuration.database_configuration[Rails.env]['database']
