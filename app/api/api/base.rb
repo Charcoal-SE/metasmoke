@@ -85,11 +85,19 @@ module API
       def single_result(item, **_opts)
         { items: [item], has_more: false }
       end
+
+      def render(template_name, **locals)
+        file = Rails.root.join 'app/views', template_name
+        template = File.read file
+        ERB.new(template).result(OpenStruct.new(locals).instance_eval { binding })
+      end
     end
 
     before do
       authenticate_app!
     end
+
+    content_type :atom, 'application/atom+xml'
 
     mount API::DebugAPI => 'v2.0/debug'
     mount API::AnnouncementsAPI => 'v2.0/announcements'

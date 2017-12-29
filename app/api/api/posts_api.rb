@@ -8,6 +8,25 @@ module API
 
     params do
       requires :key, type: String
+      optional :site, type: String
+    end
+    get 'search.atom' do
+      @posts = Post.all
+
+      if params[:site].present?
+        @posts = @posts.joins(:site).where(sites: { site_domain: params[:site] })
+      end
+
+      @posts = @posts.order(id: :desc)
+      @posts = paginated(@posts)
+
+      # noinspection RubyArgCount
+      content_type 'application/atom+xml'
+      render 'api/posts_rss.xml.erb', posts: @posts
+    end
+
+    params do
+      requires :key, type: String
       requires :from, type: DateTime
       requires :to, type: DateTime
     end
