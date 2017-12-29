@@ -11,7 +11,7 @@ gem 'awesome_print'
 
 gem 'aescrypt', '~> 2.0', '>= 2.0.2', github: 'Charcoal-SE/aescrypt'
 gem 'audited', '~> 4.4'
-gem 'devise'
+gem 'devise', git: 'https://github.com/plataformatec/devise'
 gem 'htmlentities', '~> 4.3', '>= 4.3.4'
 gem 'httparty'
 gem 'jwt'
@@ -46,7 +46,7 @@ gem 'grape', '1.0.0'
 # gem 'puma_worker_killer'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.1.4'
+gem 'rails', '~> 5.2.0.beta2'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use SCSS for stylesheets
