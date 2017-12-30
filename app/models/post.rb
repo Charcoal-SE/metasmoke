@@ -4,6 +4,7 @@ class Post < ApplicationRecord
   include Websocket
 
   validate :reject_recent_duplicates
+  serialize :tags, JSON
 
   has_and_belongs_to_many :reasons
   has_many :feedbacks, dependent: :destroy
