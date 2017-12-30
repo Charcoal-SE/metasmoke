@@ -5,4 +5,6 @@ class SpamDomain < ApplicationRecord
 
   has_and_belongs_to_many :posts
   has_and_belongs_to_many :domain_tags
+
+  validates :domain, uniqueness: true
 end
