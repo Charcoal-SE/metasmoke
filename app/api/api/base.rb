@@ -98,6 +98,7 @@ module API
     end
 
     content_type :atom, 'application/atom+xml'
+    content_type :rss, 'application/rss+xml'
 
     mount API::DebugAPI => 'v2.0/debug'
     mount API::AnnouncementsAPI => 'v2.0/announcements'

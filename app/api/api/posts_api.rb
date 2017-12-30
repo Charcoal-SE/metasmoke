@@ -40,7 +40,7 @@ module API
       @posts = paginated(@posts)
 
       # noinspection RubyArgCount
-      content_type 'application/atom+xml'
+      content_type 'application/rss+xml'
       render 'api/posts_rss.xml.erb', posts: @posts
     end
 
