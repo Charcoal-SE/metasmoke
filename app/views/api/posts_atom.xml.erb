@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title type="text">MS posts | Charcoal</title>
+  <link rel="self" href="https://metasmoke.erwaysoftware.com/api/v2.0/posts/search.atom" />
+  <link rel="alternate" href="https://metasmoke.erwaysoftware.com/search" />
+  <subtitle>Posts matching search criteria from metasmoke.</subtitle>
+  <updated><%= posts.first.created_at.iso8601 %></updated>
+  <id>https://metasmoke.erwaysoftware.com/api/v2.0/posts/search.atom</id>
+
+  <% posts.each do |p| %>
+    <entry>
+      <id>https://metasmoke.erwaysoftware.com/post/<%= p.id %></id>
+      <title type="text"><%= p.title %></title>
+      <author>
+        <name><%= p.stack_exchange_user&.username %></name>
+        <uri><%= p.site.site_url %>/users/<%= p.stack_exchange_user&.user_id %></uri>
+      </author>
+      <link rel="alternate" href="<%= p.link %>" />
+      <published><%= p.created_at.iso8601 %></published>
+      <updated><%= p.updated_at.iso8601 %></updated>
+      <summary type="html"><%= p.body.gsub('<', '&lt;').gsub('>', '&gt;') %></summary>
+    </entry>
+  <% end %>
+</feed>

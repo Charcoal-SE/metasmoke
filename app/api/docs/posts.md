@@ -152,3 +152,9 @@ Output format:
         "backoff": "10",
         "message": "failure reason"
     }
+---
+/api/v2.0/posts/search{.:format} | Get an RSS or Atom feed of posts matching certain criteria.
+
+`format` may be either `rss` or `atom`, e.g. `/api/v2.0/posts/search.rss`.
+Filters are not available on this route.
+Output format for RSS and Atom feeds is consistent with RSS and Atom standards, respectively.
