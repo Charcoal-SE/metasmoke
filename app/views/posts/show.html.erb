@@ -87,7 +87,7 @@
   <pre><%= @post.why %></pre>
 <% end %>
 
-<% if user_signed_in? && current_user.api_token.present? && !@post.is_fp && !@post.is_deleted? && Time.now - @post.created_at <= 1.hour %>
+<% if user_signed_in? && current_user.api_token.present? && !@post.is_fp && !@post.is_deleted? && Time.now - (@post.created_at || 1.day.ago) <= 1.hour %>
   <p>
     <%= link_to url_for(:controller => :posts, :action => :cast_spam_flag, :id => @post.id), :method => :post, :class => "text-danger" do %>
       <span class="glyphicon glyphicon-flag"></span> Spam flag

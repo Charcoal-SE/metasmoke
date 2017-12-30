@@ -246,6 +246,7 @@ class Post < ApplicationRecord
 
   def fetch_revision_count(post = nil)
     post ||= self
+    return unless post.site.present?
     params = "key=#{AppConfig['stack_exchange']['key']}&site=#{post.site.site_domain}&filter=!mggE4ZSiE7"
 
     url = "https://api.stackexchange.com/2.2/posts/#{post.stack_id}/revisions?#{params}"
