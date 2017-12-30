@@ -14,7 +14,12 @@ class SpamDomainsController < ApplicationController
                else
                  SpamDomain.all
                end.order(domain: :asc).paginate(page: params[:page], per_page: 100)
-    @counts = SpamDomain.where(id: @domains.map(&:id)).joins(:posts).group('spam_domains.id').count
+    @counts = {
+      all: @domains.joins(:posts).group('spam_domains.id').count,
+      tp: @domains.joins(:posts).where(posts: { is_tp: true }).group('spam_domains.id').count,
+      fp: @domains.joins(:posts).where(posts: { is_fp: true }).group('spam_domains.id').count,
+      naa: @domains.joins(:posts).where(posts: { is_naa: true }).group('spam_domains.id').count,
+    }
   end
 
   def create
