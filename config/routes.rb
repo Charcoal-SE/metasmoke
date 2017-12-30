@@ -71,6 +71,7 @@ Rails.application.routes.draw do
   get 'status', to: 'status#index', as: :status
   get 'status/code.json', to: 'code_status#api'
   get 'status/code', as: :code_status, to: 'code_status#index'
+  post 'status/kill', to: 'status#kill', as: :kill_smokey
 
   get 'smoke_detector/mine', to: 'smoke_detectors#mine'
   get 'smoke_detector/new', to: 'smoke_detectors#new'

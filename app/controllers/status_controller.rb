@@ -5,6 +5,7 @@ class StatusController < ApplicationController
 
   protect_from_forgery except: [:status_update]
   before_action :check_if_smokedetector, only: [:status_update]
+  before_action :verify_admin, only: [:kill]
 
   def index
     @statuses = SmokeDetector.order('last_ping DESC').all
@@ -39,5 +40,11 @@ class StatusController < ApplicationController
         end
       end
     end
+  end
+
+  def kill
+    ActionCable.server.broadcast 'smokedetector_messages', message: { everything_is_broken: true }.to_json
+    flash[:success] = 'Kill command sent. I hope you know what you\'re doing.'
+    redirect_to status_path
   end
 end

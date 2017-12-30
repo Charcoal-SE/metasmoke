@@ -6,13 +6,7 @@
   <tr>
     <th>Name</th>
     <th>Last Ping</th>
-    <%# This is ugly, but it's concise and performant. That's probably not a great excuse.
-    tl;dr: If there's a current_user, we map their roles to symbols then get the count
-    of the intersection of that array and [:code_admin, :admin]. If it's more than 0, we
-    assign it to a variable and the >0 check returns true %>
-    <% if (count = ((current_user&.roles&.map(&:name)&.map(&:to_sym) || []) & [:code_admin, :admin]).count) > 0 %>
-      <th colspan="<%= count %>"></th>
-    <% end %>
+    <th colspan="2">
   </tr>
 
   <% @statuses.each_with_index do |sd, index| %>
@@ -32,19 +26,19 @@
       <td class="status-<%= sd.status_color %> ping-cell" data-livestamp="<%= sd.last_ping.to_i %>" title="<%= sd.last_ping.to_s %>">
         <%= time_ago_in_words(sd.last_ping, include_seconds: true)%> ago
       </td>
-      <% if current_user&.has_role?(:admin) %>
-        <td>
+      <td>
+        <% if current_user&.has_role?(:admin) %>
           <%= link_to "De-authorize", url_for(:controller => :smoke_detectors, :action => :destroy, :id => sd.id), :class => "text-danger",
                 :data => {:confirm => "This will be logged, and cannot be undone. Sure?"}, :method => :delete %>
-        </td>
-      <% end %>
-      <% if current_user&.has_role?(:code_admin) %>
-        <td>
+        <% end %>
+      </td>
+      <td>
+        <% if current_user&.has_role?(:code_admin) %>
           <% if sd.is_standby and sd.last_ping > 3.minutes.ago %>
             <%= link_to "Failover", smoke_detector_force_failover_path(sd.id), class: "text-danger", :data => {:confirm => "This will take effect at the next ping, within a minute. Sure?"}, method: :post %>
           <% end %>
-        </td>
-      <% end %>
+        <% end %>
+      </td>
     </tr>
   <% end %>
 </table>
@@ -61,4 +55,14 @@
 
 <br />
 
-<%= link_to "Audits", url_for(:controller => :smoke_detectors, :action => :audits) %>
+<%= link_to "Audits", url_for(:controller => :smoke_detectors, :action => :audits) %><br/><br/>
+<% if current_user&.has_role?(:admin) %>
+  <div class="panel panel-danger">
+    <div class="panel-body">
+      <p><span class="text-danger"><strong>Warning:</strong></span> clicking this button will send a message on the Smokey-MS websocket that causes
+        <em>all</em> running SmokeDetector instances to die. This is useful in a select number of cases (rogue Smokeys, or unresponsive Smokeys),
+        <strong>but</strong> make sure someone is around to restart an instance.</p>
+      <%= link_to 'Kill all instances', kill_smokey_path, method: :post, class: 'btn btn-danger', data: { confirm: 'Are you REALLY sure?' } %>
+    </div>
+  </div>
+<% end %>
