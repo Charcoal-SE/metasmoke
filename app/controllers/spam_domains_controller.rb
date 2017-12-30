@@ -18,7 +18,7 @@ class SpamDomainsController < ApplicationController
       all: @domains.joins(:posts).group('spam_domains.id').count,
       tp: @domains.joins(:posts).where(posts: { is_tp: true }).group('spam_domains.id').count,
       fp: @domains.joins(:posts).where(posts: { is_fp: true }).group('spam_domains.id').count,
-      naa: @domains.joins(:posts).where(posts: { is_naa: true }).group('spam_domains.id').count,
+      naa: @domains.joins(:posts).where(posts: { is_naa: true }).group('spam_domains.id').count
     }
   end
 
