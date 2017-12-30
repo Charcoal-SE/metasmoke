@@ -3,7 +3,8 @@
 ---
 /api/v2.0/debug | Return debugging information for the API.
 
-No database queries are performed by this route; no tables are available. Not really intended for API consumer use, more for API developers.
+No database queries are performed by this route; no tables are available.
+Not really intended for API consumer use, more for API developers.
 Output format:
 
     {
@@ -25,4 +26,22 @@ Output format:
             "domains": "INJNHOFLOMHGL",
             "users": "JIKH"
         }
+    }
+---
+/api/v2.0/debug/filter | Decode a filter back to a list of fields.
+
+No database queries are performed by this route; no tables are available.
+Pass a filter as the `filter` parameter to receive a list of fields the filter contains.
+Output format:
+
+    {
+        "fields": [
+            "posts.id",
+            "posts.title",
+            "posts.link",
+            "posts.site_id",
+            "posts.user_link",
+            "posts.username",
+            "posts.user_reputation"
+        ]
     }
