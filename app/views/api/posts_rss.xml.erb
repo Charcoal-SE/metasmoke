@@ -5,7 +5,7 @@
   <link rel="self" href="https://metasmoke.erwaysoftware.com/api/v2.0/posts/search.atom" />
   <link rel="self" href="https://metasmoke.erwaysoftware.com/search" />
   <subtitle>Posts matching search criteria from metasmoke.</subtitle>
-  <updated><%= posts.first.created_at %></updated>
+  <updated><%= posts.first.created_at.iso8601 %></updated>
   <id>https://metasmoke.erwaysoftware.com/api/v2.0/posts/search.atom</id>
 
   <% posts.each do |p| %>
@@ -17,8 +17,8 @@
         <uri><%= p.site.site_url %>/users/<%= p.stack_exchange_user&.user_id %></uri>
       </author>
       <link rel="alternate" href="<%= p.link %>" />
-      <published><%= p.created_at %></published>
-      <updated><%= p.updated_at %></updated>
+      <published><%= p.created_at.iso8601 %></published>
+      <updated><%= p.updated_at.iso8601 %></updated>
       <summary type="html"><%= p.body.gsub('<', '&lt;').gsub('>', '&gt;') %></summary>
     </entry>
   <% end %>
