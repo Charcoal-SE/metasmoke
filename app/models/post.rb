@@ -272,7 +272,7 @@ class Post < ApplicationRecord
   def parse_domains
     hosts = (URI.extract(body || '') + URI.extract(title || '')).map do |x|
       begin
-        URI.parse(x).hostname
+        URI.parse(x).hostname.gsub(/www\./, '')
       rescue
         nil
       end

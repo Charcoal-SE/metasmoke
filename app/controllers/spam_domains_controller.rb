@@ -64,6 +64,6 @@ class SpamDomainsController < ApplicationController
   end
 
   def domain_params
-    params.require(:spam_domain).permit(:domain, :whois)
+    params.require(:spam_domain).permit(:whois)
   end
 end

@@ -2,7 +2,7 @@
 <%= form_for @domain, url: update_spam_domain_path do |f| %>
   <div class="field">
     <%= f.label :domain %><br/>
-    <%= f.text_field :domain, class: 'form-control' %>
+    <%= f.text_field :domain, class: 'form-control', disabled: true %>
   </div><br/>
 
   <div class="field">
