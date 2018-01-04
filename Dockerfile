@@ -19,7 +19,9 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
 
 WORKDIR /usr/src/app
 COPY . .
-RUN bundle install \
+ENV RUBYOPT="-KU -E utf-8:utf-8"
+RUN gem install bundler \
+    && bundle install \
     && ./createdb \
     && sed -i 's/^web:.*/& -b 0.0.0.0/' Procfile \
     && yarn install
