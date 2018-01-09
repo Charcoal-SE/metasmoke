@@ -3,6 +3,11 @@
   A list of all user accounts on the site, with useful links about them and their content.
 </p>
 
+<%= form_tag users_path, class: 'form-inline', method: :get do %>
+  <%= label_tag :filter, 'Username filter:' %>
+  <%= text_field_tag :filter, params[:filter], class: 'form-control input-sm' %>
+  <%= submit_tag 'Filter', class: 'btn btn-primary btn-sm' %>
+<% end %>
 <table class="table table-striped sortable-table">
   <thead>
     <tr>
