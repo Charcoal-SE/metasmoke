@@ -18,7 +18,12 @@
     <% @domains.each do |d| %>
       <tr>
         <td><code><%= d.domain %></code></td>
-        <td><%= @counts[d.id] || 0 %></td>
+        <td>
+          <%= @counts[:all][d.id] || 0 %>
+          (<span class="text-success" title="TP" data-toggle="tooltip"><%= @counts[:tp][d.id] || 0 %></span>,
+          <span class="text-danger" title="FP" data-toggle="tooltip"><%= @counts[:fp][d.id] || 0 %></span>,
+          <span class="text-warning" title="NAA" data-toggle="tooltip"><%= @counts[:naa][d.id] || 0 %></span>)
+        </td>
         <td><%= link_to 'Details', spam_domain_path(d) %></td>
         <% if user_signed_in? && current_user.has_role?(:core) %>
           <td><%= link_to 'Edit', edit_spam_domain_path(d) %></td>

@@ -19,6 +19,7 @@ class User < ApplicationRecord
   has_many :flag_logs, dependent: :nullify
   has_many :smoke_detectors, dependent: :destroy
   has_many :moderator_sites
+  has_many :reviews, class_name: 'ReviewResult'
 
   # All accounts start with flagger role enabled
   after_create do
@@ -142,15 +143,15 @@ class User < ApplicationRecord
   # Flagging
 
   def update_moderator_sites
-    return if api_token.nil?
+    return if stack_exchange_account_id.nil?
 
     page = 1
     has_more = true
-    self.moderator_sites = []
-    auth_string = "key=#{AppConfig['stack_exchange']['key']}&access_token=#{api_token}"
+    new_moderator_sites = []
+    auth_string = "key=#{AppConfig['stack_exchange']['key']}"
     while has_more
       params = "?page=#{page}&pagesize=100&filter=!6OrReH6NRZrmc&#{auth_string}"
-      url = 'https://api.stackexchange.com/2.2/me/associated' + params
+      url = "https://api.stackexchange.com/2.2/users/#{stack_exchange_account_id}/associated" + params
 
       response = JSON.parse(Net::HTTP.get_response(URI.parse(url)).body)
       has_more = response['has_more']
@@ -159,12 +160,14 @@ class User < ApplicationRecord
       response['items'].each do |network_account|
         next unless network_account['user_type'] == 'moderator'
         domain = Addressable::URI.parse(network_account['site_url']).host
-        ModeratorSite.find_or_create_by(site_id: Site.find_by(site_domain: domain).id,
-                                        user_id: id)
+        new_moderator_sites << ModeratorSite.find_or_create_by(site_id: Site.find_by(site_domain: domain).id,
+                                                               user_id: id)
       end
 
       sleep response['backoff'].to_i if has_more && response.include?('backoff')
     end
+
+    self.moderator_sites = new_moderator_sites
 
     save!
   end
@@ -216,5 +219,9 @@ class User < ApplicationRecord
       return true, (flag_response.include?('backoff') ? flag_response['backoff'] : 0)
     end
     # rubocop:enable Style/GuardClause
+  end
+
+  def moderator?
+    moderator_sites.any?
   end
 end

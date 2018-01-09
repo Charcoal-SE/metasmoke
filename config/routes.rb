@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  mount ActionCable.server => '/cable'
+
   root to: 'dashboard#new_dash', as: :dashboard
 
-  mount ActionCable.server => '/cable'
+  # Have to have this root route *without* the as: parameter, otherwise we get weirdness like #247
+  root to: 'dashboard#new_dash'
 
   scope '/authentication' do
     get 'status', to: 'authentication#status', as: :authentication_status
@@ -28,16 +31,24 @@ Rails.application.routes.draw do
     post 'update_email', to: 'users#update_email'
 
     get 'denied', to: 'users#missing_privileges', as: :missing_privileges
+
+    get ':id', to: 'users#show', as: :user, constraints: { id: /\d+/ }
+    post ':id/update_ids', to: 'users#refresh_ids', as: :update_user_chat_ids
+    post ':id/reset_pass', to: 'users#send_password_reset', as: :send_password_reset
+    post ':id/update_mod_sites', to: 'users#update_mod_sites', as: :update_mod_sites
   end
 
   scope '/review' do
     root to: 'review#index', as: :review
     post 'feedback', to: 'review#add_feedback', as: :review_feedback
+    post 'skip', to: 'review#skip', as: :review_skip
+    get 'history', to: 'review#history', as: :review_history
+    post 'unskip', to: 'review#delete_skip', as: :review_unskip
   end
 
   get 'spammers', to: 'stack_exchange_users#index'
-  get 'spammers/sites', to: 'stack_exchange_users#sites'
-  get 'spammers/site', to: 'stack_exchange_users#on_site'
+  get 'spammers/sites', to: 'stack_exchange_users#sites', as: :spammers_site_index
+  get 'spammers/site', to: 'stack_exchange_users#on_site', as: :spammers_on_site
   post 'spammers/site/:site/update', to: 'stack_exchange_users#update_data'
   post 'spammers/dead/:id', to: 'stack_exchange_users#dead'
   get 'spammers/:id', to: 'stack_exchange_users#show', as: :stack_exchange_user
@@ -60,6 +71,7 @@ Rails.application.routes.draw do
   get 'status', to: 'status#index', as: :status
   get 'status/code.json', to: 'code_status#api'
   get 'status/code', as: :code_status, to: 'code_status#index'
+  post 'status/kill', to: 'status#kill', as: :kill_smokey
 
   get 'smoke_detector/mine', to: 'smoke_detectors#mine'
   get 'smoke_detector/new', to: 'smoke_detectors#new'
@@ -69,6 +81,7 @@ Rails.application.routes.draw do
   delete 'smoke_detector/:id', to: 'smoke_detectors#destroy', as: :smoke_detector_delete
   post 'smoke_detector/:id/force_failover', to: 'smoke_detectors#force_failover', as: :smoke_detector_force_failover
   get 'smoke_detector/audits', to: 'smoke_detectors#audits'
+  get 'smoke_detector/check_token/:token', to: 'smoke_detectors#check_token'
   post 'statistics.json', to: 'statistics#create'
 
   get 'admin', to: 'admin#index'
@@ -145,9 +158,10 @@ Rails.application.routes.draw do
   end
 
   scope '/api' do
-    root to: 'api#api_docs'
-
+    root to: 'api#api_docs', as: :api_docs
     get  'filters', to: 'api#filter_generator'
+    post 'filters', to: 'api#calculate_filter'
+
     get  'filter_fields', to: 'api#filter_fields'
     get  'stats/last_week', to: 'api#spam_last_week'
     get  'stats/detailed_ttd', to: 'api#detailed_ttd'
@@ -165,16 +179,20 @@ Rails.application.routes.draw do
     get  'post/:id/feedback', to: 'api#post_feedback'
     get  'post/:id/reasons', to: 'api#post_reasons'
     get  'post/:id/valid_feedback', to: 'api#post_valid_feedback'
+    get  'reasons', to: 'api#all_reasons'
     get  'reasons/:ids', to: 'api#reasons'
     get  'reason/:id/posts', to: 'api#reason_posts'
     get  'blacklist', to: 'api#blacklisted_websites'
     get  'users', to: 'api#users'
     get  'users/code_privileged', to: 'api#users_with_code_privs'
+    get  'post/:id/domains', to: 'api#post_domains', as: :api_post_domains
+    get  'domains/:id/tags', to: 'api#domain_tags', as: :api_domain_tags
 
     post 'w/post/:id/feedback', to: 'api#create_feedback'
     post 'w/post/report', to: 'api#report_post'
     post 'w/post/:id/spam_flag', to: 'api#spam_flag'
     post 'w/post/:id/deleted', to: 'api#post_deleted'
+    post 'w/domains/:id/add_tag', to: 'api#add_domain_tag', as: :api_add_domain_tag
   end
 
   scope '/oauth' do
@@ -218,6 +236,7 @@ Rails.application.routes.draw do
     get 'logs/unflagged', to: 'flag_log#not_flagged', as: :unflagged_logs
     get 'users/:user_id/logs', to: 'flag_log#index', as: :flag_logs_by_user
     get 'users/overview', to: 'flag_conditions#user_overview', as: :user_overview
+    get 'users', to: 'users#flagging_enabled', as: :flagging_users
 
     scope '/audits' do
       get 'settings', to: 'flag_settings#audits', as: 'flag_settings_audits'
@@ -240,13 +259,15 @@ Rails.application.routes.draw do
 
   scope '/domains' do
     scope '/tags' do
-      root                to: 'domain_tags#index',    as: :domain_tags
-      post   'add',       to: 'domain_tags#add',      as: :add_domain_tag
-      post   'remove',    to: 'domain_tags#remove',   as: :remove_domain_tag
-      get    ':id/edit',  to: 'domain_tags#edit',     as: :edit_domain_tag
-      patch  ':id/edit',  to: 'domain_tags#update',   as: :update_domain_tag
-      get    ':id',       to: 'domain_tags#show',     as: :domain_tag
-      delete ':id',       to: 'domain_tags#destroy',  as: :destroy_domain_tag
+      root                to: 'domain_tags#index',           as: :domain_tags
+      post   'add',       to: 'domain_tags#add',             as: :add_domain_tag
+      post   'remove',    to: 'domain_tags#remove',          as: :remove_domain_tag
+      get    'mass',      to: 'domain_tags#mass_tagging',    as: :domain_tags_mass_tagging
+      post   'mass',      to: 'domain_tags#submit_mass_tag', as: :domain_tags_submit_tagging
+      get    ':id/edit',  to: 'domain_tags#edit',            as: :edit_domain_tag
+      patch  ':id/edit',  to: 'domain_tags#update',          as: :update_domain_tag
+      get    ':id',       to: 'domain_tags#show',            as: :domain_tag
+      delete ':id',       to: 'domain_tags#destroy',         as: :destroy_domain_tag
     end
 
     root                  to: 'spam_domains#index',   as: :spam_domains
@@ -262,4 +283,7 @@ Rails.application.routes.draw do
     get  'users/2fa/login', to: 'custom_sessions#verify_2fa'
     post 'users/2fa/login', to: 'custom_sessions#verify_code'
   end
+
+  # This should always be right at the end of this file, so that it doesn't override other routes.
+  mount API::Base => '/api'
 end

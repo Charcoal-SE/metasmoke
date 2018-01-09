@@ -10,6 +10,7 @@ AllCops:
     - 'vendor/bundle/**/*'
     - 'node_modules/**/*'
     - 'db/schema.rb' # auto-generated :(
+    - 'Capfile'
   TargetRubyVersion: 2.4
 
 Style/SymbolArray:
@@ -46,9 +47,11 @@ Metrics/LineLength:
 Metrics/ClassLength:
   Enabled: false
 Metrics/BlockLength:
+  Max: 30
   ExcludedMethods:
     - scope
     - configure
     - draw
     - define
     - test
+    - helpers

@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class APIController < ApplicationController
-  before_action :verify_key, except: [:filter_generator, :api_docs, :filter_fields]
+  before_action :verify_key, except: [:filter_generator, :api_docs, :filter_fields, :calculate_filter]
   before_action :verify_trusted_key, only: [:regex_search]
   before_action :set_pagesize, except: [:filter_generator, :api_docs]
-  before_action :verify_write_token, only: [:create_feedback, :report_post, :spam_flag]
-  skip_before_action :verify_authenticity_token, only: [:posts_by_url, :create_feedback, :report_post, :spam_flag, :post_deleted]
+  before_action :verify_write_token, only: [:create_feedback, :report_post, :spam_flag, :add_domain_tag]
+  skip_before_action :verify_authenticity_token, only: [:posts_by_url, :create_feedback, :report_post, :spam_flag, :post_deleted, :add_domain_tag]
 
   # Public routes
 
@@ -62,7 +62,7 @@ class APIController < ApplicationController
   def posts_by_site
     filter = 'AAAAAAAAAAPHx4AAAAAAAUA='
     @posts = Post.joins(:site)
-                 .where(sites: { site_url: params[:site] })
+                 .where(sites: { site_domain: params[:site] })
                  .select(select_fields(filter))
                  .order(id: :desc)
                  .includes(:feedbacks)
@@ -130,6 +130,13 @@ class APIController < ApplicationController
   def reasons
     filter = 'AAAAAAAAAAAAABgAAAAAAAA='
     @reasons = Reason.where(id: params[:ids].split(';')).select(select_fields(filter)).order(id: :desc)
+    results = @reasons.paginate(page: params[:page], per_page: @pagesize)
+    render json: { items: results, has_more: has_more?(params[:page], results.count) }
+  end
+
+  def all_reasons
+    filter = 'AAAAAAAAAAAAABgAAAAAAAA='
+    @reasons = Reason.all.select(select_fields(filter)).order(id: :desc)
     results = @reasons.paginate(page: params[:page], per_page: @pagesize)
     render json: { items: results, has_more: has_more?(params[:page], results.count) }
   end
@@ -328,6 +335,31 @@ class APIController < ApplicationController
     end
   end
 
+  def post_domains
+    post = Post.find params[:id]
+    results = post.spam_domains
+    render json: { items: results.paginate(page: params[:page], per_page: @pagesize), has_more: has_more?(params[:page], results.count) }
+  end
+
+  def domain_tags
+    domain = SpamDomain.find params[:id]
+    results = domain.domain_tags
+    render json: { items: results.paginate(page: params[:page], per_page: @pagesize), has_more: has_more?(params[:page], results.count) }
+  end
+
+  def add_domain_tag
+    domain = SpamDomain.find params[:id]
+    tag = DomainTag.find_or_create_by name: params[:tag]
+    domain.domain_tags << tag
+    results = domain.domain_tags.limit(@pagesize)
+    render json: { success: true, items: results, more_url: api_domain_tags_url(domain) }
+  end
+
+  def calculate_filter
+    filter = Filterator::V2.filter_from_fields(params[:fields])
+    render json: { filter: filter }
+  end
+
   private
 
   def verify_key
@@ -368,7 +400,7 @@ class APIController < ApplicationController
   end
 
   def select_fields(default = '')
-    Filterator.fields_from_string(params[:filter] || default)
+    Filterator::V1.fields_from_string(params[:filter] || default)
   end
 
   def verify_trusted_key

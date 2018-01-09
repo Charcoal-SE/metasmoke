@@ -4,6 +4,7 @@ class Post < ApplicationRecord
   include Websocket
 
   validate :reject_recent_duplicates
+  serialize :tags, JSON
 
   has_and_belongs_to_many :reasons
   has_many :feedbacks, dependent: :destroy
@@ -14,6 +15,7 @@ class Post < ApplicationRecord
   has_many :flag_logs, dependent: :destroy
   has_many :flags, dependent: :destroy
   has_and_belongs_to_many :spam_domains
+  has_many :reviews, class_name: 'ReviewResult'
 
   scope(:includes_for_post_row, -> { includes(:stack_exchange_user).includes(:reasons).includes(feedbacks: [:user, :api_key]) })
   scope(:without_feedback, -> { left_joins(:feedbacks).where(feedbacks: { post_id: nil }) })
@@ -30,6 +32,8 @@ class Post < ApplicationRecord
 
   # WARNING: This is *very* slow without a limit - use Post.undeleted.limit(n) where possible.
   scope(:undeleted, -> { left_joins(:deletion_logs).where(deletion_logs: { id: nil }) })
+
+  after_commit :parse_domains, on: :create
 
   after_create do
     ActionCable.server.broadcast 'posts_realtime', row: PostsController.render(locals: { post: Post.last }, partial: 'post').html_safe
@@ -179,6 +183,20 @@ class Post < ApplicationRecord
 
     save!
 
+    conflicting_revisions = Post.where(link: link)
+                                .where.not(id: id)
+                                .where('is_tp != ? or is_fp != ?', is_tp, is_fp)
+
+    if conflicting_revisions.count > 0
+      msg = "Conflicting feedback across revisions: [current](//metasmoke.erwaysoftware.com/post/#{id})"
+
+      conflicting_revisions.each_with_index do |post, i|
+        msg += ", [##{i + 1}](//metasmoke.erwaysoftware.com/post/#{post.id})"
+      end
+
+      SmokeDetector.send_message_to_charcoal msg
+    end
+
     if is_tp && is_fp
       SmokeDetector.send_message_to_charcoal "Conflicting feedback on [#{title}](//metasmoke.erwaysoftware.com/post/#{id})."
     end
@@ -228,6 +246,7 @@ class Post < ApplicationRecord
 
   def fetch_revision_count(post = nil)
     post ||= self
+    return unless post.site.present?
     params = "key=#{AppConfig['stack_exchange']['key']}&site=#{post.site.site_domain}&filter=!mggE4ZSiE7"
 
     url = "https://api.stackexchange.com/2.2/posts/#{post.stack_id}/revisions?#{params}"
@@ -252,9 +271,9 @@ class Post < ApplicationRecord
   end
 
   def parse_domains
-    hosts = URI.extract(body || '').map do |x|
+    hosts = (URI.extract(body || '') + URI.extract(title || '')).map do |x|
       begin
-        URI.parse(x).hostname
+        URI.parse(x).hostname.gsub(/www\./, '')
       rescue
         nil
       end

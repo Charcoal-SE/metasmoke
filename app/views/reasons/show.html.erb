@@ -1,4 +1,4 @@
-<h3><%= title @reason.reason_name %></h3>
+<h3><%= title @reason.reason_name %> <span class="text-muted">(<%= @reason.weight %>)</span></h3>
 
 <div class="col-md-6">
   <%= pie_chart reason_site_chart_path(@reason.id) %>

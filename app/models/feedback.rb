@@ -12,12 +12,13 @@ class Feedback < ApplicationRecord
   belongs_to :post
   belongs_to :user
   belongs_to :api_key
+  has_one :review, class_name: 'ReviewResult', required: false
 
   before_save :check_for_user_assoc
   before_save :check_for_dupe_feedback
 
-  after_save :send_to_chat
-  after_save :send_blacklist_request
+  after_create :send_to_chat
+  after_create :send_blacklist_request
 
   after_save do
     if update_post_feedback_cache # if post feedback cache was changed
@@ -31,6 +32,8 @@ class Feedback < ApplicationRecord
     ActionCable.server.broadcast "posts_#{post_id}", feedback: FeedbacksController.render(locals: { feedback: self }, partial: 'feedback').html_safe
     feedback = FeedbacksController.render(locals: { feedback: self }, partial: 'feedback.json')
     ActionCable.server.broadcast 'api_feedback', feedback: JSON.parse(feedback)
+
+    update(user_name: user.username) if user_id.present? && user_name.nil?
   end
 
   # Drop a user's earlier feedback if it's not invalidated

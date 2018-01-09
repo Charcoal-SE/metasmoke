@@ -8,6 +8,9 @@ class GithubController < ApplicationController
   before_action :verify_github, except: [:update_deploy_to_master, :add_pullapprove_comment]
   before_action :check_if_smokedetector, only: [:add_pullapprove_comment]
 
+  cattr_accessor :git_mutex
+  GithubController.git_mutex = Mutex.new
+
   # Fires whenever a CI service finishes.
   def status_hook
     # We're not interested in PR statuses or branches other than deploy
@@ -66,33 +69,52 @@ class GithubController < ApplicationController
 
     # Identify blacklist type and use appropriate search
 
-    domains = text.scan(/<!-- METASMOKE-BLACKLIST-WEBSITE (.*?) -->/)[0][0]
+    domains = text.scan(/<!-- METASMOKE-BLACKLIST-WEBSITE (.*?) -->/)
 
     domains.each do |domain|
-      num_tps = Post.where("body LIKE '%#{domain}%'").where(is_tp: true).count
-      num_fps = Post.where("body LIKE '%#{domain}%'").where(is_fp: true).count
-      num_naa = Post.where("body LIKE '%#{domain}%'").where(is_naa: true).count
+      domain = domain[0]
+
+      num_tps = Post.where('body LIKE ?', "%#{domain}%").where(is_tp: true).count
+      num_fps = Post.where('body LIKE ?', "%#{domain}%").where(is_fp: true).count
+      num_naa = Post.where('body LIKE ?', "%#{domain}%").where(is_naa: true).count
 
       response_text += get_line domain, num_tps, num_fps, num_naa
     end
 
-    keywords = text.scan(/<!-- METASMOKE-BLACKLIST-KEYWORD (.*?) -->/)[0][0]
+    keywords = text.scan(/<!-- METASMOKE-BLACKLIST-KEYWORD (.*?) -->/)
 
     keywords.each do |keyword|
-      num_tps = Post.where("body LIKE '%#{keyword}%'").where(is_tp: true).count
-      num_fps = Post.where("body LIKE '%#{keyword}%'").where(is_fp: true).count
-      num_naa = Post.where("body LIKE '%#{keyword}%'").where(is_naa: true).count
+      keyword = keyword[0]
+
+      num_tps = Post.where('body LIKE ?', "%#{keyword}%").where(is_tp: true).count
+      num_fps = Post.where('body LIKE ?', "%#{keyword}%").where(is_fp: true).count
+      num_naa = Post.where('body LIKE ?', "%#{keyword}%").where(is_naa: true).count
 
       response_text += get_line keyword, num_tps, num_fps, num_naa
     end
 
-    usernames = text.scan(/<!-- METASMOKE-BLACKLIST-USERNAME (.*?) -->/)[0][0]
+    usernames = text.scan(/<!-- METASMOKE-BLACKLIST-USERNAME (.*?) -->/)
 
     usernames.each do |username|
-      num_tps = Post.where("body LIKE '%#{username}%'").where(is_tp: true).count
-      num_fps = Post.where("body LIKE '%#{username}%'").where(is_fp: true).count
-      num_naa = Post.where("body LIKE '%#{username}%'").where(is_naa: true).count
+      username = username[0]
+
+      num_tps = Post.where('username LIKE ?', "%#{username}%").where(is_tp: true).count
+      num_fps = Post.where('username LIKE ?', "%#{username}%").where(is_fp: true).count
+      num_naa = Post.where('username LIKE ?', "%#{username}%").where(is_naa: true).count
+
       response_text += get_line username, num_tps, num_fps, num_naa
+    end
+
+    watches = text.scan(/<!-- METASMOKE-BLACKLIST-WATCH_KEYWORD (.*?) -->/)
+
+    watches.each do |watch|
+      watch = watch[0]
+
+      num_tps = Post.where('body LIKE ?', "%#{watch}%").where(is_tp: true).count
+      num_fps = Post.where('body LIKE ?', "%#{watch}%").where(is_fp: true).count
+      num_naa = Post.where('body LIKE ?', "%#{watch}%").where(is_naa: true).count
+
+      response_text += get_line watch, num_tps, num_fps, num_naa
     end
 
     Octokit.add_comment 'Charcoal-SE/SmokeDetector', pull_request[:number], response_text
@@ -173,6 +195,7 @@ class GithubController < ApplicationController
     # See https://developer.github.com/v3/activity/events/types/#webhook-payload-example-26
     # for what’s in `params`
     ActionCable.server.broadcast 'smokedetector_messages', deploy_updated: params
+    ApiChannel.broadcast_to 'ref_update', event_type: 'update', event_class: 'Ref', object: params
   end
 
   def any_status_hook
@@ -213,12 +236,34 @@ class GithubController < ApplicationController
         return
       end
 
+      unless Dir.exist?('SmokeDetector')
+        system 'git clone git@github.com:Charcoal-SE/SmokeDetector'
+
+        Dir.chdir('SmokeDetector') do
+          system 'git config user.name metasmoke'
+          system 'git', 'config', 'user.email', AppConfig['github']['username']
+
+          File.write '.git/info/attributes', <<~END
+            bad_keywords.txt -text merge=union
+            blacklisted_usernames.txt -text merge=union
+            blacklisted_websites.txt -text merge=union
+            watched_keywords.txt -text merge=union
+          END
+        end
+      end
+
       if !Octokit.client.pull_merged?('Charcoal-SE/SmokeDetector', pr_num)
-        Octokit.client.merge_pull_request(
-          'Charcoal-SE/SmokeDetector',
-          pr_num,
-          '--autopull'
-        )
+        GithubController.git_mutex.synchronize do
+          Dir.chdir('SmokeDetector') do
+            ref = pr[:head][:ref]
+
+            system 'git fetch origin master; git checkout -B master origin/master'
+            system 'git', 'fetch', 'origin', ref
+            system 'git', 'merge', "origin/#{ref}", '--no-ff', '-m', "Merge pull request ##{pr_num} from Charcoal-SE/#{ref} --autopull"
+            system 'git push origin master'
+          end
+        end
+
         message = "Merged SmokeDetector [##{pr_num}](https://github.com/Charcoal-SE/SmokeDetector/pull/#{pr_num})."
         ActionCable.server.broadcast('smokedetector_messages', message: message)
         render plain: "Merged ##{pr_num}"

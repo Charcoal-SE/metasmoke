@@ -39,3 +39,6 @@ config/deploy/*
 /public/packs
 /node_modules
 REVISION
+
+*.swp
+*.swo

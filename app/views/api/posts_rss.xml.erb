@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<rss xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="2.0">
+  <channel>
+    <title>MS posts | Charcoal</title>
+    <link>https://metasmoke.erwaysoftware.com/search</link>
+    <description>Posts matching search criteria from metasmoke.</description>
+    <copyright>Charcoal</copyright>
+    <lastBuildDate><%= posts.first.created_at.iso8601 %></lastBuildDate>
+    <generator>Rails</generator>
+    <managingEditor>smokey@charcoal-se.org</managingEditor>
+    <webMaster>smokey@charcoal-se.org</webMaster>
+    <meta xmlns="http://www.w3.org/1999/xhtml" name="robots" content="noindex" />
+    <% posts.each do |p| %>
+      <item>
+        <title><%= p.title %>></title>
+        <guid isPermaLink="true">https://metasmoke.erwaysoftware.com/post/<%= p.id %></guid>
+        <link>https://metasmoke.erwaysoftware.com/post/<%= p.id %></link>
+        <pubDate><%= p.created_at.iso8601 %></pubDate>
+        <description><![CDATA[<%= p.body %>]]></description>
+      </item>
+    <% end %>
+  </channel>
+</rss>

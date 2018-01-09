@@ -11,7 +11,7 @@ gem 'awesome_print'
 
 gem 'aescrypt', '~> 2.0', '>= 2.0.2', github: 'Charcoal-SE/aescrypt'
 gem 'audited', '~> 4.4'
-gem 'devise'
+gem 'devise', git: 'https://github.com/plataformatec/devise'
 gem 'htmlentities', '~> 4.3', '>= 4.3.4'
 gem 'httparty'
 gem 'jwt'
@@ -19,9 +19,9 @@ gem 'loofah'
 gem 'mysql2'
 gem 'octokit', '~> 4.0'
 gem 'puma'
-gem 'rack-cors', require: 'rack/cors'
+gem 'rack-cors', '~> 0.4', require: 'rack/cors'
 gem 'redcarpet'
-gem 'redis'
+gem 'redis', '~> 3.0'
 gem 'rolify'
 gem 'rotp'
 gem 'rqrcode'
@@ -41,10 +41,12 @@ gem 'groupdate', '~> 3.0.0'
 gem 'rubocop', '~> 0.48.1', require: false, group: :test
 gem 'simplecov', require: false, group: :test
 
+gem 'grape', '1.0.0'
+
 # gem 'puma_worker_killer'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.1.2'
+gem 'rails', '~> 5.2.0.beta2'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use SCSS for stylesheets

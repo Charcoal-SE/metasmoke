@@ -16,11 +16,35 @@
   </thead>
 
   <tbody>
-    <% @reasons.each do |reason| %>
-      <tr class="<%= "active text-muted inactive-reason" if reason.inactive %>">
-        <td><%= link_to reason.reason_name, "/reason/#{reason.id}" %></td>
+    <% @active_reasons.each do |reason| %>
+      <tr class="">
+        <td><%= link_to reason.reason_name, reason_path(reason) %></td>
         <td data-sort-value="<%= reason.post_count %>"><%= reason.post_count %></td>
-        <td><%= truncate((reason.last_post_title.nil? ? reason.posts.last.title : reason.last_post_title), :length => 40, :seperator => ' ') %></td>
+        <td><%= truncate((reason.last_post_title.nil? ? reason.posts.last.title : reason.last_post_title), length: 40, seperator: ' ') %></td>
+        <% cache(reason, skip_digest: true) do %>
+          <%= render 'reason_accuracy', reason: reason %>
+        <% end %>
+      </tr>
+    <% end %>
+ </tbody>
+</table>
+
+<table class="table sortable-table" style="margin-top:50px">
+  <thead>
+    <tr>
+      <th>Inactive Reason</th>
+      <th>Number caught</th>
+      <th class='no-sort'>Last caught</th>
+      <th>Accuracy</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @inactive_reasons.each do |reason| %>
+      <tr class="active text-muted inactive-reason">
+        <td><%= link_to reason.reason_name, reason_path(reason) %></td>
+        <td data-sort-value="<%= reason.post_count %>"><%= reason.post_count %></td>
+        <td><%= truncate((reason.last_post_title.nil? ? reason.posts.last.title : reason.last_post_title), length: 40, seperator: ' ') %></td>
         <% cache(reason, skip_digest: true) do %>
           <%= render 'reason_accuracy', reason: reason %>
         <% end %>

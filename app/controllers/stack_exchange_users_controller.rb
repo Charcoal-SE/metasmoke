@@ -2,6 +2,7 @@
 
 class StackExchangeUsersController < ApplicationController
   before_action :authenticate_user!, only: [:update_data]
+  before_action :verify_at_least_one_diamond, only: [:dead]
   before_action :set_stack_exchange_user, only: [:show]
 
   def index
@@ -38,7 +39,7 @@ class StackExchangeUsersController < ApplicationController
     if @user.update(still_alive: false)
       render plain: 'ok', status: :ok
     else
-      render plain: 'fail', status: :conflictt
+      render plain: 'fail', status: :conflict
     end
   end
 

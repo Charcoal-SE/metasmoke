@@ -2,6 +2,8 @@
 
 class UsersController < ApplicationController
   before_action :authenticate_user!, except: [:missing_privileges]
+  before_action :verify_developer, only: [:show, :refresh_ids, :send_password_reset, :update_mod_sites]
+  before_action :set_user, only: [:show, :refresh_ids, :send_password_reset, :update_mod_sites]
 
   def username; end
 
@@ -103,5 +105,35 @@ class UsersController < ApplicationController
 
   def missing_privileges
     @role = Role.find_by(name: params[:required])
+  end
+
+  def flagging_enabled
+    @users = User.where(flags_enabled: true).paginate(per_page: 100, page: params[:page])
+  end
+
+  def show; end
+
+  def refresh_ids
+    @user.update_chat_ids
+    flash[:success] = "Chat IDs refreshed for #{@user.username}."
+    redirect_to user_path(@user)
+  end
+
+  def send_password_reset
+    @user.send_reset_password_instructions
+    flash[:success] = "Reset email sent to #{@user.username}."
+    redirect_to user_path(@user)
+  end
+
+  def update_mod_sites
+    @user.update_moderator_sites
+    flash[:success] = "Refreshed mod sites list for #{@user.username}."
+    redirect_to user_path(@user)
+  end
+
+  private
+
+  def set_user
+    @user = User.find params[:id]
   end
 end

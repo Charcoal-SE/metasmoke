@@ -17,26 +17,31 @@ common: &common
   travis_ci:
     token: 'gibberish'
   api_field_mappings:
+    - announcements.id
+    - announcements.text
+    - announcements.expiry
+    - announcements.created_at
+    - announcements.updated_at
     - api_keys.id
     - api_keys.created_at
     - api_keys.updated_at
-    - api_keys.key
     - api_keys.app_name
     - api_keys.user_id
     - api_keys.github_link
-    - api_tokens.id
-    - api_tokens.code
-    - api_tokens.api_key_id
-    - api_tokens.user_id
-    - api_tokens.token
-    - api_tokens.created_at
-    - api_tokens.updated_at
-    - api_tokens.expiry
-    - blacklisted_websites.id
-    - blacklisted_websites.host
-    - blacklisted_websites.is_active
-    - blacklisted_websites.created_at
-    - blacklisted_websites.updated_at
+    - api_keys.is_trusted
+    - audits.id
+    - audits.auditable_id
+    - audits.auditable_type
+    - audits.associated_id
+    - audits.associated_type
+    - audits.user_id
+    - audits.user_type
+    - audits.username
+    - audits.action
+    - audits.audited_changes
+    - audits.version
+    - audits.comment
+    - audits.created_at
     - commit_statuses.id
     - commit_statuses.commit_sha
     - commit_statuses.status
@@ -49,6 +54,12 @@ common: &common
     - deletion_logs.is_deleted
     - deletion_logs.created_at
     - deletion_logs.updated_at
+    - deletion_logs.api_key_id
+    - domain_tags.id
+    - domain_tags.name
+    - domain_tags.description
+    - domain_tags.created_at
+    - domain_tags.updated_at
     - feedbacks.id
     - feedbacks.message_link
     - feedbacks.user_name
@@ -63,22 +74,39 @@ common: &common
     - feedbacks.chat_user_id
     - feedbacks.created_at
     - feedbacks.updated_at
-    - feedbacks.id # Used to be feedbacks.is_ignored. Keep this as a placeholder so we don't break filters
     - feedbacks.api_key_id
     - feedbacks.chat_host
-    - flags.id
-    - flags.reason
-    - flags.user_id
-    - flags.created_at
-    - flags.updated_at
-    - flags.is_completed
-    - flags.post_id
-    - deleted.deleted
-    - deleted.deleted
-    - deleted.deleted
-    - deleted.deleted
-    - deleted.deleted
-    - deleted.deleted
+    - flag_conditions.id
+    - flag_conditions.flags_enabled
+    - flag_conditions.min_weight
+    - flag_conditions.max_poster_rep
+    - flag_conditions.min_reason_count
+    - flag_conditions.user_id
+    - flag_conditions.created_at
+    - flag_conditions.updated_at
+    - flag_logs.id
+    - flag_logs.success
+    - flag_logs.error_message
+    - flag_logs.flag_condition_id
+    - flag_logs.user_id
+    - flag_logs.post_id
+    - flag_logs.created_at
+    - flag_logs.updated_at
+    - flag_logs.is_dry_run
+    - flag_logs.backoff
+    - flag_logs.site_id
+    - flag_logs.is_auto
+    - flag_logs.api_key_id
+    - flag_settings.id
+    - flag_settings.name
+    - flag_settings.value
+    - flag_settings.created_at
+    - flag_settings.updated_at
+    - moderator_sites.id
+    - moderator_sites.user_id
+    - moderator_sites.site_id
+    - moderator_sites.created_at
+    - moderator_sites.updated_at
     - posts.id
     - posts.title
     - posts.body
@@ -98,12 +126,16 @@ common: &common
     - posts.is_tp
     - posts.is_fp
     - posts.is_naa
-    - posts_reasons.reason_id
-    - posts_reasons.post_id
+    - posts.revision_count
+    - posts.deleted_at
+    - posts.smoke_detector_id
+    - posts.autoflagged
     - reasons.id
     - reasons.reason_name
     - reasons.last_post_title
     - reasons.inactive
+    - reasons.weight
+    - reasons.maximum_weight
     - roles.id
     - roles.name
     - roles.resource_type
@@ -117,14 +149,25 @@ common: &common
     - sites.site_domain
     - sites.created_at
     - sites.updated_at
+    - sites.flags_enabled
+    - sites.max_flags_per_post
+    - sites.is_child_meta
+    - sites.last_users_update
     - smoke_detectors.id
     - smoke_detectors.last_ping
     - smoke_detectors.name
     - smoke_detectors.location
-    - smoke_detectors.access_token
     - smoke_detectors.created_at
     - smoke_detectors.updated_at
     - smoke_detectors.email_date
+    - smoke_detectors.user_id
+    - smoke_detectors.is_standby
+    - smoke_detectors.force_failover
+    - spam_domains.id
+    - spam_domains.domain
+    - spam_domains.whois
+    - spam_domains.created_at
+    - spam_domains.updated_at
     - stack_exchange_users.id
     - stack_exchange_users.user_id
     - stack_exchange_users.username
@@ -136,15 +179,32 @@ common: &common
     - stack_exchange_users.created_at
     - stack_exchange_users.updated_at
     - stack_exchange_users.site_id
+    - statistics.id
+    - statistics.posts_scanned
+    - statistics.smoke_detector_id
+    - statistics.created_at
+    - statistics.updated_at
+    - statistics.api_quota
+    - statistics.post_scan_rate
+    - user_site_settings.id
+    - user_site_settings.max_flags
+    - user_site_settings.flags_used
+    - user_site_settings.user_id
+    - user_site_settings.created_at
+    - user_site_settings.updated_at
     - users.id
+    - users.remember_created_at
+    - users.created_at
+    - users.updated_at
     - users.username
     - users.stackexchange_chat_id
     - users.meta_stackexchange_chat_id
     - users.stackoverflow_chat_id
     - users.stack_exchange_account_id
-    - users_roles.user_id
-    - users_roles.role_id
-    - posts.deleted_at
+    - users.flags_enabled
+    - users.enabled_2fa
+    - users.announcement_emails
+    - users.oauth_created
   sensitive_fields:
     - api_keys.key
     - api_tokens.code

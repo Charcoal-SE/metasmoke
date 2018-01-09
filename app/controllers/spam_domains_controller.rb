@@ -10,11 +10,16 @@ class SpamDomainsController < ApplicationController
   def index
     @total = SpamDomain.count
     @domains = if params[:filter].present?
-                 SpamDomain.where("domain LIKE '%#{params[:filter]}%'")
+                 SpamDomain.where('domain LIKE ?', "%#{params[:filter]}%")
                else
                  SpamDomain.all
                end.order(domain: :asc).paginate(page: params[:page], per_page: 100)
-    @counts = SpamDomain.where(id: @domains.map(&:id)).joins(:posts).group('spam_domains.id').count
+    @counts = {
+      all: @domains.joins(:posts).group('spam_domains.id').count,
+      tp: @domains.joins(:posts).where(posts: { is_tp: true }).group('spam_domains.id').count,
+      fp: @domains.joins(:posts).where(posts: { is_fp: true }).group('spam_domains.id').count,
+      naa: @domains.joins(:posts).where(posts: { is_naa: true }).group('spam_domains.id').count
+    }
   end
 
   def create
@@ -31,7 +36,7 @@ class SpamDomainsController < ApplicationController
   def show
     @counts = { all: SpamDomain.where(id: params[:id]).joins(:posts).count,
                 tp: SpamDomain.where(id: params[:id]).joins(:posts).where(posts: { is_tp: true }).count }
-    @posts = @domain.posts.includes_for_post_row
+    @posts = @domain.posts.order(created_at: :desc).includes_for_post_row.paginate(page: params[:page], per_page: 100)
     @sites = Site.where(id: @posts.map(&:site_id))
   end
 
@@ -64,6 +69,6 @@ class SpamDomainsController < ApplicationController
   end
 
   def domain_params
-    params.require(:spam_domain).permit(:domain, :whois)
+    params.require(:spam_domain).permit(:whois)
   end
 end
