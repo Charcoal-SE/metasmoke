@@ -26,4 +26,15 @@ class DashboardController < ApplicationController
     @posts = @posts.order(id: :desc).paginate(per_page: 50, page: params[:page])
     @sites = Site.where(id: @posts.map(&:site_id))
   end
+
+  def db_dumps
+    @dumps = Dir.chdir(Rails.root.join('shared', 'dumps')) do
+      Dir.glob '*.sql.gz'
+    end
+  end
+
+  def download_dump
+    @dump = Rails.root.join('shared', 'dumps', params[:filename])
+    send_file @dump, type: 'application/octet-stream'
+  end
 end

@@ -8,6 +8,11 @@ Rails.application.routes.draw do
   # Have to have this root route *without* the as: parameter, otherwise we get weirdness like #247
   root to: 'dashboard#new_dash'
 
+  scope '/dumps' do
+    root to: 'dashboard#db_dumps', as: :dumps
+    get 'download', to: 'dashboard#download_dump', as: :download_dump
+  end
+
   scope '/authentication' do
     get 'status', to: 'authentication#status', as: :authentication_status
     get 'redirect_target', to: 'authentication#redirect_target'
