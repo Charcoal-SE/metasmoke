@@ -21,3 +21,7 @@ every 1.day, at: '2:00 am' do
   runner 'User.where.not(stack_exchange_account_id: nil).each { |u| u.update_moderator_sites }'
   runner 'FlagCondition.revalidate_all'
 end
+
+every 1.day, at: '2:10am' do
+  command Rails.root.join('dump', 'dump.sh').to_s
+end
