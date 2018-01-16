@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class DashboardController < ApplicationController
+  before_action :verify_developer, except: [:index, :new_dash]
+
   def index
     @inactive_reasons, @active_reasons = [true, false].map do |inactive|
       Reason.all.joins(:posts)
