@@ -34,7 +34,15 @@ class DashboardController < ApplicationController
   end
 
   def download_dump
+    valid = Dir.chdir(Rails.root.join('shared', 'dumps')) do
+      Dir.glob '*.sql.gz'
+    end
     @dump = Rails.root.join('shared', 'dumps', params[:filename])
-    send_file @dump, type: 'application/octet-stream'
+
+    if !valid.include? params[:filename]
+      render status: 401, layout: nil
+    else
+      send_file @dump, type: 'application/octet-stream'
+    end
   end
 end
