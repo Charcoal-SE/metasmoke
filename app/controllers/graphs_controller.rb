@@ -184,7 +184,9 @@ class GraphsController < ApplicationController
     range = 0..maxlen
     # BEHOLD. MAGIC.
     # Okay fine. Calculates accuracy for each weight 10-group, providing a value (0) for fps if it's not there, and clamping to 0.9..1.0.
-    acc_data = range.map { |i| [data[:tps][i][0], ([data[:tps][i][1].to_f / (data[:tps][i][1] + (data[:fps][i] || [0, 0])[1]), 0.90].max * 100).round(2)] }
+    acc_data = range.map do |i|
+      [data[:tps][i][0], ([data[:tps][i][1].to_f / (data[:tps][i][1] + (data[:fps][i] || [0, 0])[1]), 0.90].max * 100).round(2)]
+    end
 
     render json: [{ name: 'Accuracy', data: acc_data }]
   end
