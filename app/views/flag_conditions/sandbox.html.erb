@@ -3,3 +3,16 @@
   database - <span class="text-danger">please don't abuse it</span>.</p>
 
 <%= render 'form', :exclude_save => true %>
+
+<div class="row clearfix">
+  <div class="col-md-6">
+    <%= line_chart af_posts_path, library: { tooltip: { shared: true }, yAxis: { gridLineWidth: 1, minorGridLineWidth: 1, minRange: 100 },
+                                             xAxis: { gridLineWidth: 1, minorGridLineWidth: 1, minRange: 10 }, chart: { zoomType: 'xy' } },
+                   height: '500px', colors: ['#555', 'green'] %>
+  </div>
+  <div class="col-md-6">
+    <%= line_chart af_accuracy_path, library: { yAxis: { ceiling: 100, floor: 90, gridLineWidth: 1, minorGridLineWidth: 1, minRange: 1 },
+                                                xAxis: { gridLineWidth: 1, minorGridLineWidth: 1, minRange: 10 }, chart: { zoomType: 'xy' } },
+                   height: '500px', colors: ['gold'] %>
+  </div>
+</div>
