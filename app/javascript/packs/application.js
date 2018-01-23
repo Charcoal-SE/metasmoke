@@ -31,6 +31,7 @@ import '../review';
 import '../stack_exchange_users';
 import '../status';
 import '../user_site_settings';
+import '../graphs'
 
 import { onLoad } from '../util';
 

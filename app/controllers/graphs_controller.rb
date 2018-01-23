@@ -138,30 +138,6 @@ class GraphsController < ApplicationController
     ]
   end
 
-  def af_posts
-    data = Rails.cache.fetch :af_detail_data, expires_in: 1.hour do
-      total_query = ActiveRecord::Base.connection.execute File.read(Rails.root.join('lib/queries/post_counter.sql'))
-      tp_query = ActiveRecord::Base.connection.execute File.read(Rails.root.join('lib/queries/tp_counter.sql'))
-      fp_query = ActiveRecord::Base.connection.execute File.read(Rails.root.join('lib/queries/fp_counter.sql'))
-
-      total_counts = total_query.map(&:last)
-      totals = total_query.map.with_index { |e, i| [e[0], total_counts[i..-1].sum] }.select { |x| x[0] <= 400 }
-
-      tp_counts = tp_query.map(&:last)
-      tps = tp_query.map.with_index { |e, i| [e[0], tp_counts[i..-1].sum] }.select { |x| x[0] <= 400 }
-
-      fp_counts = fp_query.map(&:last)
-      fps = fp_query.map.with_index { |e, i| [e[0], fp_counts[i..-1].sum] }.select { |x| x[0] <= 400 }
-
-      { totals: totals, tps: tps, fps: fps }
-    end
-
-    render json: [
-      { name: 'Total posts', data: data[:totals] },
-      { name: 'TPs', data: data[:tps] }
-    ]
-  end
-
   def af_accuracy
     data = Rails.cache.fetch :af_detail_data, expires_in: 1.hour do
       total_query = ActiveRecord::Base.connection.execute File.read(Rails.root.join('lib/queries/post_counter.sql'))
@@ -188,7 +164,11 @@ class GraphsController < ApplicationController
       [data[:tps][i][0], ([data[:tps][i][1].to_f / (data[:tps][i][1] + (data[:fps][i] || [0, 0])[1]), 0.90].max * 100).round(2)]
     end
 
-    render json: [{ name: 'Accuracy', data: acc_data }]
+    render json: [
+      { name: 'Total posts', data: data[:totals] },
+      { name: 'TPs', data: data[:tps] },
+      { name: 'Accuracy', data: acc_data }
+    ]
   end
 
   private

@@ -71,7 +71,6 @@ Rails.application.routes.draw do
     get 'dttd', to: 'graphs#detailed_ttd'
     get 'monthly_ttd', to: 'graphs#monthly_ttd', as: :monthly_ttd_graph
     get 'reports', to: 'graphs#reports', as: :reports_graph
-    get 'af_posts', to: 'graphs#af_posts', as: :af_posts
     get 'af_accuracy', to: 'graphs#af_accuracy', as: :af_accuracy
   end
 
