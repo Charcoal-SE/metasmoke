@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :check_auth_required
 
   def check_if_smokedetector
     provided_key = params[:key]
@@ -79,5 +80,15 @@ class ApplicationController < ActionController::Base
   def verify_at_least_one_diamond
     return if user_signed_in? && current_user.moderator_sites.exists?
     redirect_to missing_privileges_path(required: :at_least_one_diamond)
+  end
+
+  private
+
+  def check_auth_required
+    if SiteSetting['require_auth_all_pages']
+      return if user_signed_in? || devise_controller? || (controller_name == 'users' && action_name == 'missing_privileges')
+      flash[:warning] = "You need to have an account to view metasmoke pages."
+      authenticate_user!
+    end
   end
 end
