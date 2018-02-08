@@ -1,0 +1,35 @@
+<h3>Site Settings</h3>
+<p>These control how the site works. Change rarely and with care.</p>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="text-muted">ID</th>
+      <th>Name</th>
+      <th>Value</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @settings.each do |s| %>
+      <tr>
+        <td class="text-muted"><%= s.id %></td>
+        <td><code><%= s.name %></code></td>
+        <td>
+          <% case s.value_type %>
+            <% when 'boolean' %>
+              <input type="checkbox" id="setting-<%= s.id %>" class="setting-checkbox" data-name="<%= s.name %>"
+                     <%= 'checked' if SiteSetting[s.name] %> />
+            <% else %>
+              <span class="editable-value" data-name="<%= s.name %>"><%= SiteSetting[s.name] %></span>
+          <% end %>
+        </td>
+        <td><%= link_to 'Delete', destroy_site_setting_path(s.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-danger' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= will_paginate @settings, renderer: BootstrapPagination::Rails %>
+</div>

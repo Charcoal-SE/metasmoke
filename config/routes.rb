@@ -119,6 +119,12 @@ Rails.application.routes.draw do
   delete 'admin/owner_revoke', to: 'api_keys#owner_revoke'
   post 'admin/keys/:id/trust', to: 'api_keys#update_trust'
 
+  scope '/admin/settings' do
+    root to: 'site_settings#index', as: :site_settings
+    post ':name', to: 'site_settings#update', as: :update_site_setting
+    delete ':id/delete', to: 'site_settings#destroy', as: :destroy_site_setting
+  end
+
   get 'posts', to: 'posts#index', as: :posts
   get 'posts/latest', to: 'posts#latest'
   get 'posts/by-url', to: 'posts#by_url'

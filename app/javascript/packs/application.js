@@ -32,6 +32,7 @@ import '../stack_exchange_users';
 import '../status';
 import '../user_site_settings';
 import '../graphs'
+import '../site_settings';
 
 import { onLoad } from '../util';
 
