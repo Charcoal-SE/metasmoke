@@ -85,10 +85,9 @@ class ApplicationController < ActionController::Base
   private
 
   def check_auth_required
-    if SiteSetting['require_auth_all_pages']
-      return if user_signed_in? || devise_controller? || (controller_name == 'users' && action_name == 'missing_privileges')
-      flash[:warning] = "You need to have an account to view metasmoke pages."
-      authenticate_user!
-    end
+    return unless SiteSetting['require_auth_all_pages']
+    return if user_signed_in? || devise_controller? || (controller_name == 'users' && action_name == 'missing_privileges')
+    flash[:warning] = 'You need to have an account to view metasmoke pages.'
+    authenticate_user!
   end
 end
