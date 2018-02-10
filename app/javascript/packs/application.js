@@ -97,11 +97,11 @@ onLoad(() => {
     if (showing) {
       const text = announcements.map((i, x) => $('p', x).text()).toArray().join(' ');
       localStorage.setItem('metasmoke-announcements-read', text);
-      $('.announcements').slideUp(500);
+      $('.announcements:not(body)').slideUp(500);
       collapser.text('Show announcements');
     } else {
       localStorage.removeItem('metasmoke-announcements-read');
-      $('.announcements').slideDown(500);
+      $('.announcements:not(body)').slideDown(500);
       collapser.text('Hide announcements');
     }
   });
@@ -112,7 +112,7 @@ onLoad(() => {
 
     const read = localStorage.getItem('metasmoke-announcements-read');
     if (read && read === text) {
-      $('.announcements').hide();
+      $('.announcements:not(body)').hide();
       $('.announcement-collapse').text('Show announcements');
     }
   })();
