@@ -67,7 +67,7 @@
                 <% end %>
                 <li role="separator" class="divider"></li>
                 <% if Announcement.current.count > 0 %>
-                  <%= nav_link AnnouncementsController, label: "Announcements <span class='badge'>#{Announcement.current.count}</span>" %>
+                  <%= nav_link AnnouncementsController, label: raw("Announcements <span class='badge'>#{Announcement.current.count}</span>") %>
                 <% else %>
                   <%= nav_link AnnouncementsController, label: 'Announcements' %>
                 <% end %>
