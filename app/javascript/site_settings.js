@@ -1,7 +1,10 @@
+import createDebug from 'debug';
 import { route } from './util';
 
+const debug = createDebug('ms:site_settings');
+
 route('/admin/settings', () => {
-  $('.setting-checkbox').on('change', async (ev) => {
+  $('.setting-checkbox').on('change', async ev => {
     const target = $(ev.target);
     const name = target.data('name');
     const checked = target.is(':checked');
@@ -12,31 +15,29 @@ route('/admin/settings', () => {
     try {
       const json = await resp.json();
       if (json.success) {
-        console.log('Changed :)');
+        debug('Changed :)');
+      } else {
+        debug('???');
       }
-      else {
-        console.log('???');
-      }
-    }
-    catch (ex) {
-      console.log('???', resp);
+    } catch (err) {
+      debug('???', resp);
     }
   });
 
-  $('.editable-value').on('click', (ev) => {
+  $('.editable-value').on('click', ev => {
     ev.stopPropagation();
     const value = $(ev.target).text();
     $(ev.target).html(`<input type="text" class="editing-value form-control input-sm" value="${value}" />`);
   });
 
-  $(document).on('click', (ev) => {
+  $(document).on('click', () => {
     $('.editing-value').each((i, e) => {
       const value = $(e).val();
       $(e).parent().text(value);
     });
   });
 
-  $(document).on('keypress', '.editing-value', async (ev) => {
+  $(document).on('keypress', '.editing-value', async ev => {
     if (ev.charCode === 13) {
       const name = $(ev.target).parent().data('name');
       const value = $(ev.target).val();
@@ -47,15 +48,13 @@ route('/admin/settings', () => {
       try {
         const json = await resp.json();
         if (json.success) {
-          console.log('Changed :)');
+          debug('Changed :)');
           $(document).click();
+        } else {
+          debug('???');
         }
-        else {
-          console.log('???');
-        }
-      }
-      catch (ex) {
-        console.log('???', resp);
+      } catch (err) {
+        debug('???', resp);
       }
     }
   });
