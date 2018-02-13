@@ -27,7 +27,7 @@ class Feedback < ApplicationRecord
 
         post.flag_logs.each do |flag|
           if flag.success && flag.user.username then
-            names << flag.user.username.tr(' ', '')
+            names << "@" + flag.user.username.tr(' ', '')
           end
         end
 
