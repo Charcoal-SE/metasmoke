@@ -38,43 +38,15 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def verify_developer
-    return if user_signed_in? && current_user.has_role?(:developer)
-    redirect_to missing_privileges_path(required: :developer)
-  end
-
-  def verify_admin
-    return if user_signed_in? && current_user.has_role?(:admin)
-    redirect_to missing_privileges_path(required: :admin)
-  end
-
-  def verify_code_admin
-    return if user_signed_in? && current_user.has_role?(:code_admin)
-    redirect_to missing_privileges_path(required: :code_admin)
-  end
-
-  def verify_flagger
-    return if user_signed_in? && current_user.has_role?(:flagger)
-    redirect_to missing_privileges_path(required: :flagger)
-  end
-
-  def verify_reviewer
-    return if user_signed_in? && current_user.has_role?(:reviewer)
-    redirect_to missing_privileges_path(required: :reviewer)
-  end
-
-  def verify_core
-    return if user_signed_in? && current_user.has_role?(:core)
-    redirect_to missing_privileges_path(required: :core)
+  Role.names.each do |rn|
+    define_method "verify_#{rn}" do
+      return if user_signed_in? && current_user.has_role?(rn)
+      redirect_to missing_privileges_path(required: rn)
+    end
   end
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:username])
-  end
-
-  def verify_smoke_detector_runner
-    return if user_signed_in? && current_user.has_role?(:smoke_detector_runner)
-    redirect_to missing_privileges_path(required: :smoke_detector_runner)
   end
 
   def verify_at_least_one_diamond
