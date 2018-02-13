@@ -23,16 +23,10 @@ class Feedback < ApplicationRecord
   after_save do
     if update_post_feedback_cache # if post feedback cache was changed
       if post.flagged? && post.is_fp
-        names = []
-
-        post.flag_logs.each do |flag|
-          if flag.success && flag.user.username then
-            names << "@" + flag.user.username.tr(' ', '')
-          end
-        end
+        names = post.flag_logs.successful.map { |flag| flag&.user&.username&.tr(' ', '') }.compact
 
         SmokeDetector.send_message_to_charcoal "fp feedback on autoflagged post: [#{post.title}](//metasmoke.erwaysoftware.com/post/#{post_id})" \
-                                               " (#{names.join " "})"
+                                               " (#{names.join ' '})"
       end
     end
   end
