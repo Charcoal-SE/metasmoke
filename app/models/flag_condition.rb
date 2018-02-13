@@ -33,7 +33,7 @@ class FlagCondition < ApplicationRecord
         fc.flags_enabled = false
         fc.save(validate: false)
         ActionCable.server.broadcast 'smokedetector_messages',
-                                     { message: "@#{fc.user&.username.tr(' ', '')} " +
+                                     { message: "@#{fc.user&.username&.tr(' ', '')} " +
                                                 "Your flag condition was disabled: #{failures.join(',')}" }
       end
     end
