@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_02_13_195244) do
+ActiveRecord::Schema.define(version: 2018_02_15_194802) do
 
   create_table "announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.text "text"
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 2018_02_13_195244) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "api_key_id"
+    t.integer "uncertainty"
     t.index ["post_id"], name: "post_id_ix"
   end
 
@@ -252,7 +253,7 @@ ActiveRecord::Schema.define(version: 2018_02_13_195244) do
     t.index ["name"], name: "index_roles_on_name", length: { name: 191 }
   end
 
-  create_table "site_settings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "site_settings", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "name"
     t.string "value"
     t.string "value_type"
