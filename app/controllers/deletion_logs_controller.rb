@@ -16,7 +16,7 @@ class DeletionLogsController < ApplicationController
       render plain: 'Error: No post found for link', status: 404
       return
     elsif post.deletion_logs.where(is_deleted: params[:deletion_log][:is_deleted])
-                            .where('uncertainty <= ?', params[:deletion_log][:uncertainty]).exists?
+              .where('uncertainty <= ?', params[:deletion_log][:uncertainty]).exists?
       render plain: 'Error: Deletion logs already exist', status: 409
       return
     end
