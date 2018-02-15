@@ -53,7 +53,7 @@ module API
 
       def trusted_key
         return if @key.is_trusted
-        error!({ name: 'untrusted_key', detail: 'The presented key is not trusted.' })
+        error!({ name: 'untrusted_key', detail: 'The presented key is not trusted.' }, 403)
       end
 
       def per_page
