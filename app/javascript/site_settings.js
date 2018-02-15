@@ -27,7 +27,8 @@ route('/admin/settings', () => {
   $('.editable-value').on('click', ev => {
     ev.stopPropagation();
     const value = $(ev.target).text();
-    $(ev.target).html(`<input type="text" class="editing-value form-control input-sm" value="${value}" />`);
+    const type = $(ev.target).data('type');
+    $(ev.target).html(`<input type="${type}" class="editing-value form-control input-sm" value="${value}" />`);
   });
 
   $(document).on('click', () => {

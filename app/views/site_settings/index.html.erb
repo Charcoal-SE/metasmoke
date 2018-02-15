@@ -20,8 +20,10 @@
             <% when 'boolean' %>
               <input type="checkbox" id="setting-<%= s.id %>" class="setting-checkbox" data-name="<%= s.name %>"
                      <%= 'checked' if SiteSetting[s.name] %> />
+            <% when 'number' %>
+              <span class="editable-value" data-type='number' data-name="<%= s.name %>"><%= SiteSetting[s.name] %></span>
             <% else %>
-              <span class="editable-value" data-name="<%= s.name %>"><%= SiteSetting[s.name] %></span>
+              <span class="editable-value" data-type='text' data-name="<%= s.name %>"><%= SiteSetting[s.name] %></span>
           <% end %>
         </td>
         <td><%= link_to 'Delete', destroy_site_setting_path(s.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-danger' %></td>

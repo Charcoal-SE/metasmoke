@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DashboardController < ApplicationController
-  before_action :verify_developer, except: [:index, :new_dash]
+  before_action :verify_developer, except: [:index, :new_dash, :spam_by_site]
 
   def index
     @inactive_reasons, @active_reasons = [true, false].map do |inactive|
