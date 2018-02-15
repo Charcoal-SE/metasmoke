@@ -51,6 +51,11 @@ module API
         error!({ name: 'unauthorized', detail: 'The authenticated user does not have the required permissions for this action.' }, 403)
       end
 
+      def trusted_key
+        return if @key.is_trusted
+        error!({ name: 'untrusted_key', detail: 'The presented key is not trusted.' })
+      end
+
       def per_page
         [(params[:per_page] || 10).to_i, 100].min
       end
