@@ -40,7 +40,7 @@ class Post < ApplicationRecord
     ActionCable.server.broadcast 'topbar', review: Post.without_feedback.count
   end
 
-  after_create do
+  after_commit on: :create do
     Rails.logger.warn "[autoflagging] #{self.id}: after_create begin"
 
     post = self
@@ -120,7 +120,7 @@ class Post < ApplicationRecord
     if post.flag_logs.where(success: true).empty?
       post.send_not_autoflagged
     else
-      post.update(autoflagged: true)
+      post.update_columns(autoflagged: true)
     end
   end
 
