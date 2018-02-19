@@ -45,9 +45,7 @@ class SearchController < ApplicationController
                        .paginate(page: params[:page], per_page: per_page)
                        .order('`posts`.`created_at` DESC')
 
-    if params[:option].nil?
-      @results = @results.includes(:reasons).includes(:feedbacks)
-    end
+    @results = @results.includes(:reasons).includes(:feedbacks) if params[:option].nil?
 
     if feedback.present?
       @results = @results.where(feedback => true)
@@ -76,6 +74,20 @@ class SearchController < ApplicationController
     when 'no'
       @results = @results.not_autoflagged
     end
+
+    post_type = case params[:post_type].try(:downcase).try(:[], 0)
+                when 'q'
+                  'questions'
+                when 'a'
+                  'a'
+                end
+
+    unmatched = @results.where.not("link like '%/questions/%' OR link like '%/a/%'")
+    @results =  if params[:post_type_include_unmatched]
+                  @results.where('link like ?', "%/#{post_type}/%").or(unmatched)
+                else
+                  @results.where('link like ?', "%/#{post_type}/%")
+                end
 
     respond_to do |format|
       format.html do
