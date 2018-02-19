@@ -77,6 +77,31 @@ class SearchController < ApplicationController
       @results = @results.not_autoflagged
     end
 
+    unmatched = @results.where("NOT( link like '%/q/%' OR link like '%/a/%' )")
+    case params[:post_type].try(:downcase).try(:[], 0)
+    when 'q'
+      @results = @results.where("link like ?", "%/q/%").or(unmatched)
+    when 'a'
+      @results = @results.where("link like ?", "%/a/%").or(unmatched)
+    end
+    # each do |r|
+    #   case r.link.to_s.downcase
+    #   when "/q/"
+    #     questions << r
+    #   when "/a/"
+    #     answers << r
+    #   else
+    #     other << r
+    #   end
+    # end
+
+    # case params[:post_type].try(:downcase).try(:[], 0)
+    # when 'q'
+    #   @results = questions + other
+    # when 'a'
+    #   @results = answers + other
+    # end
+
     respond_to do |format|
       format.html do
         @counts_by_accuracy_group = @results.group(:is_tp, :is_fp, :is_naa).count

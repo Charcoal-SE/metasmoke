@@ -40,6 +40,11 @@
   </div>
 
   <div class="form-group">
+    <%= label_tag :post_type %>
+    <%= select_tag :post_type, options_for_select(%i[question answer], params[:post_type]), class: "form-control", include_blank: "All" %>
+  </div>
+
+  <div class="form-group">
     <%= label_tag :feedback %>
     <%= select_tag :feedback, options_for_select(["true positive", "false positive", "NAA", "conflicted"], params[:feedback]), class: "form-control", include_blank: "All" %>
   </div>
