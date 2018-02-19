@@ -82,7 +82,7 @@ class SearchController < ApplicationController
                   'a'
                 end
 
-    unmatched = @results.where("NOT( link like '%/questions/%' OR link like '%/a/%' )")
+    unmatched = @results.where.not("link like '%/questions/%' OR link like '%/a/%'")
     @results =  if params[:post_type_include_unmatched]
                   @results.where('link like ?', "%/#{post_type}/%").or(unmatched)
                 else
