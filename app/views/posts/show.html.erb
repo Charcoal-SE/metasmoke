@@ -84,7 +84,7 @@
 <% end %>
 
 <% if @post.why.present? %>
-  <pre><%= @post.why %></pre>
+  <pre><%= render_links @post.why %></pre>
 <% end %>
 
 <% if user_signed_in? && current_user.api_token.present? && !@post.is_fp && !@post.is_deleted? && Time.now - (@post.created_at || 1.day.ago) <= 1.hour %>
