@@ -18,7 +18,11 @@ class DomainTagsController < ApplicationController
   def add
     @tag = DomainTag.find_or_create_by name: params[:tag_name]
     @domain = SpamDomain.find params[:domain_id]
-    @domain.domain_tags << @tag
+    if @domain.domain_tags.include? @tag
+      flash[:danger] = "This domain already has the tag '#{@tag.name}'"
+    else
+      @domain.domain_tags << @tag
+    end
     redirect_to spam_domain_path(@domain)
   end
 
