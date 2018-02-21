@@ -75,10 +75,15 @@ FlagSetting.create(
 Rails.application.eager_load!
 
 reasons = YAML.load_file(Rails.root.join('db/seeds/reasons.yml'))
-begin
+# begin
   reasons.each do |r|
-    Reason.create(**r)
+    r = r.map { |k, v| [k.to_sym, v] }.to_h
+    reason = Reason.create(**r, weight: rand(0..100))
+    reason.posts.create(
+      title: "This post would be caught by #{reason.reason_name}!",
+      body: "It wouldn't actually be caught. This is just being populated as sample data, so that you can better test :)"
+    )
   end
-rescue StandardError => e
-  puts "Got error #{e}. Continuing..."
-end
+# rescue StandardError => e
+#   puts "Got error #{e}. Continuing..."
+# end
