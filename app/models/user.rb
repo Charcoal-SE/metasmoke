@@ -227,7 +227,7 @@ class User < ApplicationRecord
 
   def self.update_core_users
     all.includes(:feedbacks).each do |u|
-      if u.feedbacks.where('created_at > ?', 1.month.ago).count >= SiteSetting['core_threshold']
+      if u.feedbacks.where('created_at > ?', SiteSetting['core_time_period'].days.ago).count >= SiteSetting['core_threshold']
         u.add_role(:core)
       else
         u.remove_role(:core)
