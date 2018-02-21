@@ -71,3 +71,14 @@ FlagSetting.create(
   name: 'dry_run',
   value: '1'
 )
+
+Rails.application.eager_load!
+
+reasons = YAML.load_file(Rails.root.join('db/seeds/reasons.yml'))
+begin
+  reasons.each do |r|
+    Reason.create(**r)
+  end
+rescue StandardError => e
+  puts "Got error #{e}. Continuing..."
+end
