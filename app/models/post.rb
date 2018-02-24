@@ -4,6 +4,8 @@ class Post < ApplicationRecord
   include Websocket
 
   validate :reject_recent_duplicates
+  validates_format_of :link, with: /\A\/\/(.*?)\/(questions|a)\/(\d+)\Z/
+
   serialize :tags, JSON
 
   has_and_belongs_to_many :reasons

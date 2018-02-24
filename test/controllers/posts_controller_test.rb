@@ -45,7 +45,7 @@ class PostsControllerTest < ActionController::TestCase
         post: {
           title: 'Test Post Title',
           body: 'Awesome Post Body',
-          link: '//stackoverflow.com/q/1',
+          link: '//stackoverflow.com/questions/1',
           username: 'Undo',
           user_reputation: 101,
           user_link: '//stackoverflow.com/users/1849664/undo',
@@ -61,7 +61,7 @@ class PostsControllerTest < ActionController::TestCase
       post: {
         title: 'blah blah blah',
         body: 'blah blah',
-        link: '//stackoverflow.com/q/1234',
+        link: '//stackoverflow.com/questions/1234',
         username: 'Undo',
         user_reputation: 101,
         user_link: '//stackoverflow.com/users/123',
@@ -75,7 +75,7 @@ class PostsControllerTest < ActionController::TestCase
         post: {
           title: 'blah blah blah',
           body: 'blah blah',
-          link: '//stackoverflow.com/q/1234',
+          link: '//stackoverflow.com/questions/1234',
           username: 'Undo',
           user_reputation: 101,
           user_link: '//stackoverflow.com/users/123',
@@ -93,7 +93,7 @@ class PostsControllerTest < ActionController::TestCase
       post: {
         title: 'blah blah blah',
         body: 'blah blah',
-        link: '//stackoverflow.com/q/1234',
+        link: '//stackoverflow.com/questions/1234',
         username: 'Undo',
         user_reputation: 101,
         user_link: '//stackoverflow.com/users/123',
@@ -107,7 +107,7 @@ class PostsControllerTest < ActionController::TestCase
         post: {
           title: 'blah blah blah',
           body: 'blah blah',
-          link: '//stackoverflow.com/q/1234',
+          link: '//stackoverflow.com/questions/1234',
           username: 'Undo',
           user_reputation: 101,
           user_link: '//stackoverflow.com/users/123',
@@ -124,7 +124,7 @@ class PostsControllerTest < ActionController::TestCase
         post: {
           title: 'Test Post Title',
           body: 'Awesome Post Body',
-          link: '//stackoverflow.com/q/1',
+          link: '//stackoverflow.com/questions/1',
           username: 'Undo',
           user_reputation: 101,
           user_link: '//stackoverflow.com/users/1849664/undo',
