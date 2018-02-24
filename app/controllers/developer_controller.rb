@@ -11,10 +11,16 @@ class DeveloperController < ApplicationController
   end
 
   def production_log
-    @log = `tail -n 1000 log/production.log`
-    @log.gsub!(/\e\[([;\d]+)?m/, '')
-    @log.gsub!(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/, '')
-    @log.gsub!(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i, '')
+    @log = if params[:grep].present?
+             `grep -E '#{params[:grep]}' -C #{params[:context]} --color=never`
+           else
+             `tail -n 1000 log/production.log`
+           end
+
+    # Don't modify frozen strings
+    @log.gsub(/\e\[([;\d]+)?m/, '') # Terminal color codes
+    @log.gsub(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/, '') # IPs
+    @log.gsub(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i, '') # Emails
   end
 
   def blank_page
