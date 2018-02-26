@@ -73,6 +73,6 @@ FlagSetting.create(
 )
 
 FlagSetting.create(
-      name: 'five_flag_experiment_threshold',
-      value: '10000'
+  name: 'five_flag_experiment_threshold',
+  value: '10000'
 )

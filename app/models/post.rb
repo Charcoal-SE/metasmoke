@@ -93,7 +93,7 @@ class Post < ApplicationRecord
       Rails.logger.warn "[autoflagging] #{id}: lottery begin"
       max_flags = [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
 
-      if post.reasons.pluck(:weight).reduce(:+) > FlagSetting['five_flag_experiment_threshold'].to_i && post.site.max_flags_per_post == 3
+      if post.reasons.pluck(:weight).reduce(:+) > (FlagSetting['five_flag_experiment_threshold'] || 100_000).to_i && post.site.max_flags_per_post == 3
         Rails.logger.warn "[autoflagging] #{id}: Five flag timing experiment began"
         max_flags = rand(1..5)
         Rails.logger.warn "[autoflagging] #{id}: Five flag timing experiment chose flag count: #{max_flags}"
