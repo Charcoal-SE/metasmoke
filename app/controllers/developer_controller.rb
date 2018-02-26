@@ -12,7 +12,7 @@ class DeveloperController < ApplicationController
 
   def production_log
     @log = if params[:grep].present?
-             `grep -E '#{params[:grep]}' -C #{params[:context]} --color=never`
+             `tail -n 10000 log/production.log | grep -E '#{params[:grep]}' -C #{params[:context]} --color=never`
            else
              `tail -n 1000 log/production.log`
            end
