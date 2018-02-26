@@ -71,3 +71,8 @@ FlagSetting.create(
   name: 'dry_run',
   value: '1'
 )
+
+FlagSetting.create(
+      name: 'five_flag_experiment_threshold',
+      value: '10000'
+)
