@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_02_21_052119) do
+ActiveRecord::Schema.define(version: 2018_02_26_010129) do
 
   create_table "announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.text "text"
