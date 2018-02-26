@@ -35,4 +35,8 @@ class ApplicationRecord < ActiveRecord::Base
   def self.fields(*names)
     names.map { |n| "#{table_name}.#{n}" }
   end
+
+  def self.full_dump
+    `#{Rails.root}/dump/dump.sh`
+  end
 end
