@@ -224,4 +224,17 @@ class User < ApplicationRecord
   def moderator?
     moderator_sites.any?
   end
+
+  def self.update_core_users
+    logger.info 'Started update_core_users task'
+    all.includes(:feedbacks).each do |u|
+      if u.feedbacks.where('created_at > ?', SiteSetting['core_time_period'].days.ago).count >= SiteSetting['core_threshold']
+        logger.info "#{u.username} above core threshold, applying"
+        u.add_role(:core)
+      else
+        logger.info "#{u.username} below core threshold, dropping"
+        u.remove_role(:core)
+      end
+    end
+  end
 end

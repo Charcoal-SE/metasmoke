@@ -72,6 +72,11 @@ FlagSetting.create(
   value: '1'
 )
 
+FlagSetting.create(
+  name: 'five_flag_experiment_threshold',
+  value: '10000'
+)
+
 Rails.application.eager_load!
 
 reasons = YAML.load_file(Rails.root.join('db/seeds/reasons.yml'))
