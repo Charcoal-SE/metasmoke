@@ -6,7 +6,7 @@ filename=dump_metasmoke-$timestamp.sql.gz
 username=$1
 password=$2
 
-echo "CREATE DATABASE dump_metasmoke" | mysql -u $username --password=$password
+echo "CREATE DATABASE dump_metasmoke;" | mysql -u $username --password=$password
 mysqldump -u $username --password=$password metasmoke | mysql -u $username --password=$password dump_metasmoke;
 mysql -u $username --password=$password dump_metasmoke < $METASMOKE_ROOT/current/dump/redact.sql
 mysqldump -u $username --password=$password dump_metasmoke | gzip > $METASMOKE_ROOT/shared/dumps/$filename
