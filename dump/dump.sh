@@ -8,9 +8,9 @@ password=$2
 
 echo "CREATE DATABASE dump_metasmoke" | mysql -u $username --password=$password
 mysqldump -u $username --password=$password metasmoke | mysql -u $username --password=$password dump_metasmoke;
-mysql -u $username --pasword=$password dump_metasmoke < $METASMOKE_ROOT/current/dump/redact.sql
-mysqldump -u $username --pasword=$password dump_metasmoke | gzip > $METASMOKE_ROOT/shared/dumps/$filename
-echo "DROP DATABASE dump_metasmoke;" | mysql -u $username --pasword=$password
+mysql -u $username --password=$password dump_metasmoke < $METASMOKE_ROOT/current/dump/redact.sql
+mysqldump -u $username --password=$password dump_metasmoke | gzip > $METASMOKE_ROOT/shared/dumps/$filename
+echo "DROP DATABASE dump_metasmoke;" | mysql -u $username --password=$password
 
 # Remove old dumps
 ls -d $METASMOKE_ROOT/shared/dumps/* | grep -v $filename | xargs rm
