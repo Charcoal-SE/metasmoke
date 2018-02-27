@@ -30,13 +30,13 @@ class DashboardController < ApplicationController
   end
 
   def db_dumps
-    @dumps = Dir.chdir(Rails.root.join('shared', 'dumps')) do
+    @dumps = Dir.chdir(Rails.root.join('dumps')) do
       Dir.glob '*.sql.gz'
     end
   end
 
   def download_dump
-    valid = Dir.chdir(Rails.root.join('shared', 'dumps')) do
+    valid = Dir.chdir(Rails.root.join('dumps')) do
       Dir.glob '*.sql.gz'
     end
     @dump = Rails.root.join('shared', 'dumps', params[:filename])
