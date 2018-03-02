@@ -36,17 +36,17 @@ class DashboardController < ApplicationController
 
     @all_posts = @posts.where(site_id: @site.id)
 
-    case params[:tab]
-    when 'autoflagged'
-      @posts = @all_posts.where(autoflagged: true)
-    when 'deleted'
-      @posts = @all_posts.where.not(deleted_at: nil)
-    when 'undeleted'
-      @posts = @all_posts.where(deleted_at: nil)
-    else
-      @posts = @all_posts
-    end
-    
+    @posts = case params[:tab]
+             when 'autoflagged'
+               @all_posts.where(autoflagged: true)
+             when 'deleted'
+               @all_posts.where.not(deleted_at: nil)
+             when 'undeleted'
+               @all_posts.where(deleted_at: nil)
+             else
+               @all_posts
+             end
+
     @flags = FlagLog.where(site: @site)
 
     @posts = @posts.order(id: :desc).paginate(per_page: 50, page: params[:page])
