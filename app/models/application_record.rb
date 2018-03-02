@@ -37,8 +37,8 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   def self.full_dump
-    username = Rails.configuration.database_configuration[Rails.env]["username"]
-    password = Rails.configuration.database_configuration[Rails.env]["password"]
+    username = Rails.configuration.database_configuration[Rails.env]['username']
+    password = Rails.configuration.database_configuration[Rails.env]['password']
     `#{Rails.root}/dump/dump.sh "#{username}" "#{password}"`
   end
 end

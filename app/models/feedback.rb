@@ -25,8 +25,8 @@ class Feedback < ApplicationRecord
       if post.flagged? && post.is_fp
         names = post.flag_logs.successful.joins(:user).where.not(users: { username: nil }).map { |flag| '@' + flag.user.username.tr(' ', '') }
 
-        SmokeDetector.send_message_to_charcoal "fp feedback on autoflagged post: [#{post.title}](//metasmoke.erwaysoftware.com/post/#{post_id})" \
-                                               " (#{names.join ' '})"
+        SmokeDetector.send_message_to_charcoal "fp feedback on autoflagged post: [#{post.title}](#{post.link}) [MS]" \
+                                               "(//metasmoke.erwaysoftware.com/post/#{post_id}) (#{names.join ' '})"
       end
     end
   end
