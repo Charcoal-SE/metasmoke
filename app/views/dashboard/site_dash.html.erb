@@ -1,4 +1,4 @@
-<h3><%= @site.site_name %> Dashboard</h3>
+<h3><%= link_to (image_tag @site.site_logo, size: "20"), @site.site_url %> <%= @site.site_name %>: Dashboard</h3>
 <% graph_months = params[:months].to_i || 3 %>
 <div class="filters">
   <%= form_tag :site_dash, method: :get, class: 'form-inline' do %>
@@ -11,7 +11,14 @@
     <%= submit_tag 'Apply', class: 'btn btn-primary' %>
   <% end %>
 </div>
-<br>
+
+<p>
+  There have been <strong><%= @flags.count %> attempts</strong> to cast flags automatically on <%= @site.site_name %>.<br/>
+  <strong><%= @flags.successful.count %></strong> successful and <strong><%= @flags.failed.count %></strong> failed;
+  <strong><%= @flags.successful.tp.count %></strong> (<%= ((@flags.successful.tp.count.to_f / @flags.successful.count) * 100).round(2) %>%) TP and
+  <strong><%= @flags.successful.fp.count %></strong> (<%= ((@flags.successful.fp.count.to_f / @flags.successful.count) * 100).round(2) %>%) FP.
+</p>
+
 <h4 class='text-center'>All Time Totals</h4>
 <table class="table">
   <tr>
@@ -31,15 +38,24 @@
     <td class="text-danger"><%= @all_posts.where(autoflagged:true, is_fp: true).count %></td>
   </tr>
 </table>
-<div class="col-md-6">
-  <h4>Reports <small>daily, last <%= graph_months == 1 ? 'month' : "#{graph_months} months" %></small></h4>
-  <%= line_chart reports_graph_path(months: graph_months, site_id: params[:site_id]), colors: ['#444', '#0a0', '#a00'] %>
+<div class="row">
+  <div class="col-md-3">
+    <div style='height:170px'>
+      <%= pie_chart report_counts_graph_path(months: graph_months, site_id: params[:site_id]), colors: ['#444', '#0a0', '#a00'], height: '170px' %>
+    </div>
+    <div style='height:170px'>
+      <%= pie_chart flagging_results_graph_path(months: graph_months, site_id: params[:site_id]), colors: ['#444', '#0a0', '#a00'], height: '170px' %>
+    </div>
+  </div>
+  <div class="col-md-5">
+    <h4><%= link_to (image_tag @site.site_logo, size: "20"), @site.site_url %> Reports <small>daily, last <%= graph_months == 1 ? 'month' : "#{graph_months} months" %></small></h4>
+    <%= line_chart reports_graph_path(months: graph_months, site_id: params[:site_id]), colors: ['#444', '#0a0', '#a00'] %>
+  </div>
+  <div class="col-md-4">
+    <h4><%= link_to (image_tag @site.site_logo, size: "20"), @site.site_url %> Time to deletion <small>daily, last <%= graph_months == 1 ? 'month' : "#{graph_months} months" %></small></h4>
+    <%= line_chart monthly_ttd_graph_path(months: graph_months, site_id: params[:site_id]), colors: ['#444'] %>
+  </div>
 </div>
-<div class="col-md-6">
-  <h4>Time to deletion <small>daily, last <%= graph_months == 1 ? 'month' : "#{graph_months} months" %></small></h4>
-  <%= line_chart monthly_ttd_graph_path(months: graph_months, site_id: params[:site_id]), colors: ['#444'] %>
-</div>
-
 <ul class="nav nav-tabs">
   <li class="<%= "active" if params[:tab].to_s.empty? %>">
     <%= link_to "All", tab(nil) %>

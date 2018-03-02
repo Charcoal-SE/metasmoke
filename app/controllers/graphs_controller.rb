@@ -59,12 +59,24 @@ class GraphsController < ApplicationController
   end
 
   def flagging_results
-    data = cached_query :flagging_results_graph do
-      [
-        ['Fail', FlagLog.auto.where(success: false).count],
-        ['Dry run', FlagLog.auto.where(success: true, is_dry_run: true).count],
-        ['Success', FlagLog.auto.where(success: true, is_dry_run: false).count]
+    if params[:months].present? || params[:site_id].present?
+      @flags = FlagLog.auto
+      @flags = @flags.where('flag_logs.created_at > ?', params[:months].to_i.months.ago || 3.months.ago) if params[:months].present?
+      @flags = @flags.where(site_id: params[:site_id]) if params[:site_id].present?
+      data = [
+        ['Fail', @flags.where(success: false).count],
+        ['Dry run', @flags.where(success: true, is_dry_run: true).count],
+        ['Success (tp)', @flags.where(success: true, is_dry_run: false).tp.count],
+        ['Success (fp)', @flags.where(success: true, is_dry_run: false).fp.count]
       ]
+    else
+      data = cached_query :flagging_results_graph do
+        [
+          ['Fail', FlagLog.auto.where(success: false).count],
+          ['Dry run', FlagLog.auto.where(success: true, is_dry_run: true).count],
+          ['Success', FlagLog.auto.where(success: true, is_dry_run: false).count]
+        ]
+      end
     end
     render json: data
   end
@@ -145,6 +157,16 @@ class GraphsController < ApplicationController
       { name: 'All', data: @posts.group_by_day(:created_at).count },
       { name: 'TP', data: @posts.where(is_tp: true).group_by_day(:created_at).count },
       { name: 'FP', data: @posts.where(is_fp: true).group_by_day(:created_at).count }
+    ]
+  end
+
+  def report_counts
+    @posts = Post.where('created_at > ?', params[:months].to_i.months.ago || 3.months.ago)
+    @posts = @posts.where(site_id: params[:site_id]) if params[:site_id].present?
+    render json: [
+      ['NAA', @posts.where(is_naa: true).count],
+      ['TP', @posts.where(is_tp: true).count],
+      ['FP', @posts.where(is_fp: true).count]
     ]
   end
 

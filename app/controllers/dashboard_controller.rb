@@ -46,6 +46,8 @@ class DashboardController < ApplicationController
     else
       @posts = @all_posts
     end
+    
+    @flags = FlagLog.where(site: @site)
 
     @posts = @posts.order(id: :desc).paginate(per_page: 50, page: params[:page])
   end
