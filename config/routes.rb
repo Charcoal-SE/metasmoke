@@ -290,6 +290,8 @@ Rails.application.routes.draw do
     delete ':id',         to: 'spam_domains#destroy', as: :destroy_spam_domain
   end
 
+  get 'sites/dash', to: 'dashboard#site_dash', as: :site_dash
+
   devise_for :users, controllers: { sessions: 'custom_sessions' }
   devise_scope :user do
     get  'users/2fa/login', to: 'custom_sessions#verify_2fa'

@@ -91,14 +91,15 @@ class GraphsController < ApplicationController
   end
 
   def detailed_ttd
-    no_flags = Post.group_by_hour_of_day('`posts`.`created_at`')
+    @posts = params[:site_id].present? ? Post.where(site_id: params[:site_id]) : Post.all
+    no_flags = @posts.group_by_hour_of_day('`posts`.`created_at`')
                    .select('AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion')
                    .joins(:deletion_logs)
                    .where(is_tp: true)
                    .where('`posts`.`created_at` < ?', Date.new(2017, 1, 1))
                    .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600').relation.each_with_index
                    .map { |a, i| [i, a.time_to_deletion.round(0)] }
-    one_flag = Post.group_by_hour_of_day('`posts`.`created_at`')
+    one_flag = @posts.group_by_hour_of_day('`posts`.`created_at`')
                    .select('AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion')
                    .joins(:deletion_logs)
                    .where(is_tp: true)
@@ -106,7 +107,7 @@ class GraphsController < ApplicationController
                    .where('`posts`.`created_at` < ?', Date.new(2017, 2, 14))
                    .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600').relation.each_with_index
                    .map { |a, i| [i, a.time_to_deletion.round(0)] }
-    three_flags = Post.group_by_hour_of_day('`posts`.`created_at`')
+    three_flags = @posts.group_by_hour_of_day('`posts`.`created_at`')
                       .select('AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion')
                       .joins(:deletion_logs)
                       .where(is_tp: true)
@@ -121,20 +122,29 @@ class GraphsController < ApplicationController
   end
 
   def monthly_ttd
-    data = cached_query :monthly_ttd_graph do
-      Post.group_by_day('`posts`.`created_at`').joins(:deletion_logs)
+    if params[:site_id].present?
+      data = Post.where(site_id: params[:site_id]).group_by_day('`posts`.`created_at`').joins(:deletion_logs)
           .where(is_tp: true).where('`posts`.`created_at` > ?', (params[:months].try(:to_i) || 3).months.ago.to_date)
           .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`) <= 3600')
           .average('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`)')
+    else
+      data = cached_query :monthly_ttd_graph do
+        Post.group_by_day('`posts`.`created_at`').joins(:deletion_logs)
+            .where(is_tp: true).where('`posts`.`created_at` > ?', (params[:months].try(:to_i) || 3).months.ago.to_date)
+            .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`) <= 3600')
+            .average('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`)')
+      end
     end
     render json: data
   end
 
   def reports
+    @posts = Post.where('created_at > ?', params[:months].to_i.months.ago || 3.months.ago)
+    @posts = @posts.where(site_id: params[:site_id]) if params[:site_id].present?
     render json: [
-      { name: 'All', data: Post.where('created_at > ?', 3.months.ago).group_by_day(:created_at).count },
-      { name: 'TP', data: Post.tp.where('created_at > ?', 3.months.ago).group_by_day(:created_at).count },
-      { name: 'FP', data: Post.fp.where('created_at > ?', 3.months.ago).group_by_day(:created_at).count }
+      { name: 'All', data: @posts.group_by_day(:created_at).count },
+      { name: 'TP', data: @posts.where(is_tp: true).group_by_day(:created_at).count },
+      { name: 'FP', data: @posts.where(is_fp: true).group_by_day(:created_at).count }
     ]
   end
 

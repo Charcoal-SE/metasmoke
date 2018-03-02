@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DashboardController < ApplicationController
-  before_action :verify_developer, except: [:index, :new_dash, :spam_by_site]
+  before_action :verify_developer, except: [:index, :new_dash, :spam_by_site, :site_dash]
 
   def index
     @inactive_reasons, @active_reasons = [true, false].map do |inactive|
@@ -27,6 +27,27 @@ class DashboardController < ApplicationController
 
     @posts = @posts.order(id: :desc).paginate(per_page: 50, page: params[:page])
     @sites = Site.where(id: @posts.map(&:site_id))
+  end
+
+  def site_dash
+    @posts = Post.includes_for_post_row
+    params[:site_id] = Site.first.id unless params[:site_id].present?
+    @site = Site.find(params[:site_id])
+
+    @all_posts = @posts.where(site_id: @site.id)
+
+    case params[:tab]
+    when 'autoflagged'
+      @posts = @all_posts.where(autoflagged: true)
+    when 'deleted'
+      @posts = @all_posts.where.not(deleted_at: nil)
+    when 'undeleted'
+      @posts = @all_posts.where(deleted_at: nil)
+    else
+      @posts = @all_posts
+    end
+
+    @posts = @posts.order(id: :desc).paginate(per_page: 50, page: params[:page])
   end
 
   def db_dumps
