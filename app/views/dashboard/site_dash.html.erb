@@ -64,7 +64,7 @@
 <ul class="nav nav-tabs">
   <% @tabs.each do |tab, posts| %>
   <li class="<%= "active" if tab.downcase == @active_tab %>">
-    <%= link_to "#{tab} (#{posts.count})", tab(tab.downcase) %>
+    <%= link_to "#{tab} (#{posts.count})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: tab.downcase)) %>
   </li>
   <% end %>
 </ul>
@@ -74,7 +74,7 @@
 <% else %>
   <table class="table">
     <% @posts.each do |p| %>
-      <%= render 'posts/post', post: p %>
+      <%= render 'posts/post', post: p, creation_date: true, deletion_date: true %>
     <% end %>
   </table>
 <% end %>
