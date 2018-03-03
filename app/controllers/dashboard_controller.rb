@@ -50,7 +50,7 @@ class DashboardController < ApplicationController
 
     @posts = @tabs.map { |k, v| [k.downcase, v] }.to_h[params[:tab]&.downcase] || @tabs['All']
 
-    @flags = FlagLog.where(site: @site).where('`flag_logs`.`created_at` >= ?', @months)
+    @flags = FlagLog.where(site: @site).where('`flag_logs`.`created_at` >= ?', @months).auto
 
     @posts = @posts.order(id: :desc).paginate(per_page: 50, page: params[:page])
   end
