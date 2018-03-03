@@ -34,20 +34,23 @@ class DashboardController < ApplicationController
     params[:site_id] = Site.first.id unless params[:site_id].present?
     @site = Site.find(params[:site_id])
 
+    @months = params[:months].to_s.empty? ? 3 : params[:months].to_i
+    @months_string = @months <= 1 ? 'month' : "#{@months} months"
+
     @all_posts = @posts.where(site_id: @site.id)
 
-    @posts = case params[:tab]
-             when 'autoflagged'
-               @all_posts.where(autoflagged: true)
-             when 'deleted'
-               @all_posts.where.not(deleted_at: nil)
-             when 'undeleted'
-               @all_posts.where(deleted_at: nil)
-             else
-               @all_posts
-             end
+    @tabs = {
+      'All' => @all_posts,
+      'Autoflagged' => @all_posts.where(autoflagged: true),
+      'Deleted' => @all_posts.where.not(deleted_at: nil),
+      'Undeleted' => @all_posts.where(deleted_at: nil)
+    }
 
-    @flags = FlagLog.where(site: @site)
+    @active_tab = @tabs.keys.map(&:downcase).include?(params[:tab]&.downcase) ? params[:tab]&.downcase : 'all'
+
+    @posts = @tabs.map { |k, v| [k.downcase, v] }.to_h[params[:tab]&.downcase] || @tabs['All']
+
+    @flags = FlagLog.where(site: @site).where('`flag_logs`.`created_at` >= ?', @months)
 
     @posts = @posts.order(id: :desc).paginate(per_page: 50, page: params[:page])
   end
