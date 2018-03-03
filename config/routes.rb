@@ -70,6 +70,7 @@ Rails.application.routes.draw do
     get 'ttd', to: 'graphs#time_to_deletion'
     get 'dttd', to: 'graphs#detailed_ttd'
     get 'report_counts', to: 'graphs#report_counts', as: :report_counts_graph
+    get 'reason_counts', to: 'graphs#reason_counts', as: :reason_counts_graph
     get 'monthly_ttd', to: 'graphs#monthly_ttd', as: :monthly_ttd_graph
     get 'reports', to: 'graphs#reports', as: :reports_graph
     get 'af_accuracy', to: 'graphs#af_accuracy', as: :af_accuracy

@@ -14,6 +14,18 @@ class GraphsController < ApplicationController
     render json: data
   end
 
+  def reason_counts
+    @posts = Post.where('created_at > ?', params[:months].to_i.months.ago || 3.months.ago)
+    @posts = @posts.where(site_id: params[:site_id]) if params[:site_id].present?
+    # render json: Reason.all.map { |r| [r.reason_name, @posts.group(:reasons).count]}
+    puts "Start it"
+    reasons = Reason.all.includes(:posts)
+    puts "Reasons gotten"
+    @posts.load
+    render json: reasons.map { |r| [r.reason_name, (r.posts & @posts).count] }.sort_by { |name, count| count }
+    puts "End it"
+  end
+
   def reports_by_site
     @posts = if params[:timeframe] == 'all'
                Post.all
