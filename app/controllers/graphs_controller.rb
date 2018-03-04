@@ -17,7 +17,7 @@ class GraphsController < ApplicationController
   def reason_counts
     render json: Reason.joins(:posts)
       .where('posts.created_at >= ?', (params[:months] || 3).to_i.months.ago)
-      .where(params[:site_id].present? ? { posts: { site_id: 1 } } : {})
+      .where(params[:site_id].present? ? { posts: { site_id: params[:site_id] } } : {})
       .group(:reason_name)
       .count
       .sort_by(&:last)
@@ -156,6 +156,7 @@ class GraphsController < ApplicationController
                    .average('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `posts`.`deleted_at`)')
              end
            end
+    data = data.map { |k, v| [k, v.round(params[:round].to_i)] } if params[:round]
     render json: data
   end
 
