@@ -15,8 +15,8 @@
 <p>
   There have been <strong><%= @flags.count %> attempts</strong> to cast flags automatically on <%= @site.site_name %> in the last <%= @months_string %>.<br/>
   We were able to cast automatic flags <strong><%= @flags.successful.count %></strong> times (<%= ((@flags.successful.count.to_f / @flags.count) * 100).round(2) %>%) and we were unable to cast automatic flags <strong><%= @flags.failed.count %></strong> times (<%= ((@flags.failed.count.to_f / @flags.count) * 100).round(2) %>%).<br/>
-  The flags were <strong><%= @flags.successful.tp.count %></strong> (<%= ((@flags.successful.tp.count.to_f / @flags.successful.count) * 100).round(2) %>%) TPs and
-  <strong><%= @flags.successful.fp.count %></strong> (<%= ((@flags.successful.fp.count.to_f / @flags.successful.count) * 100).round(2) %>%) FPs.<br/>
+  The flags were <strong><%= @flags.successful.tp.count %></strong> (<%= ((@flags.successful.tp.count.to_f / @flags.successful.count) * 100).round(2) %>%) true positives (TPs) and
+  <strong><%= @flags.successful.fp.count %></strong> (<%= ((@flags.successful.fp.count.to_f / @flags.successful.count) * 100).round(2) %>%) false positives (FPs).<br/>
   The posts were <strong><%= @all_posts.autoflagged.tp.count %></strong> (<%= ((@all_posts.autoflagged.tp.count.to_f / @all_posts.autoflagged.count) * 100).round(2) %>%) TPs and
   <strong><%= @all_posts.autoflagged.fp.count %></strong> (<%= ((@all_posts.autoflagged.fp.count.to_f / @all_posts.autoflagged.count) * 100).round(2) %>%) FPs.<br/>
 </p>
