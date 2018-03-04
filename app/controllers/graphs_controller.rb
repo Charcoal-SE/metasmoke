@@ -70,7 +70,7 @@ class GraphsController < ApplicationController
   def flagging_results
     if params[:months].present? || params[:site_id].present?
       @flags = FlagLog.auto
-      @flags = @flags.where('flag_logs.created_at > ?', params[:months].to_i.months.ago || 3.months.ago) if params[:months].present?
+      @flags = @flags.where('flag_logs.created_at > ?', (params[:months] || 3).to_i.months.ago) if params[:months].present?
       @flags = @flags.where(site_id: params[:site_id]) if params[:site_id].present?
       data = [
         ['Fail', @flags.where(success: false).count],
@@ -160,7 +160,7 @@ class GraphsController < ApplicationController
   end
 
   def reports
-    @posts = Post.where('created_at > ?', params[:months].to_s.empty? ? 3.months.ago : params[:months].to_i.months.ago)
+    @posts = Post.where('created_at > ?', (params[:months] || 3).to_i.months.ago)
     @posts = @posts.where(site_id: params[:site_id]) if params[:site_id].present?
     render json: [
       { name: 'All', data: @posts.group_by_day(:created_at).count },
@@ -170,7 +170,7 @@ class GraphsController < ApplicationController
   end
 
   def report_counts
-    @posts = Post.where('created_at > ?', params[:months].to_i.months.ago || 3.months.ago)
+    @posts = Post.where('created_at > ?', (params[:months] || 3).to_i.months.ago)
     @posts = @posts.where(site_id: params[:site_id]) if params[:site_id].present?
     render json: [
       ['NAA', @posts.where(is_naa: true).count],
