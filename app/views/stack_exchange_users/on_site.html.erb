@@ -12,7 +12,11 @@
       <th>Site ID</th>
       <th>Post Count</th>
       <th>Reputation</th>
-      <th colspan="2"></th>
+      <% if verify_at_least_one_diamond %>
+        <th colspan="2"></th>
+      <% elsif user_logged_in? %>
+        <th></th>
+      <% end %>
     </tr>
   </thead>
   <tbody>
@@ -22,8 +26,12 @@
         <td><%= link_to "#{u.user_id} (#{u.username})", "#{@site.site_url}/users/#{u.user_id}" %></td>
         <td><%= (u.question_count || 0) + (u.answer_count || 0) %></td>
         <td><%= u.reputation %></td>
-        <td><a href="#" class="not-spammer" data-uid="<%= u.id %>">Not a spammer</a></td>
-        <td><a href="#" class="not-spammer" data-uid="<%= u.id %>">Nuked</a></td>
+        <% if user_logged_in? %>
+          <td><a href="#" class="not-spammer" data-uid="<%= u.id %>">Not a spammer</a></td>
+        <% end %>
+        <% if verify_at_least_one_diamond %>
+          <td><a href="#" class="not-spammer" data-uid="<%= u.id %>">Nuked</a></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

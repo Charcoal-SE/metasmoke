@@ -67,14 +67,59 @@
     <%= link_to "#{tab} (#{posts.count})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: tab.downcase)) %>
   </li>
   <% end %>
+  <li class="<%= "active" if params[:tab]&.downcase == "spammers" %>">
+    <%= link_to "Spammers (#{@spammers.length})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: 'spammers')) %>
+  </li>
 </ul>
 
-<% if @posts.count == 0 %>
-  <p>No spam here! Try another filter.</p>
-<% else %>
-  <table class="table">
-    <% @posts.each do |p| %>
-      <%= render 'posts/post', post: p, creation_date: true, deletion_date: true %>
-    <% end %>
+<% if @active_tab == 'spammers' %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th class="text-muted">MS ID</th>
+        <th>Site ID</th>
+        <th>Post Count</th>
+        <th>Reputation</th>
+        <% if verify_at_least_one_diamond %>
+        <th colspan="2"></th>
+        <% elsif user_logged_in? %>
+        <th></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @spammers_page.each do |u| %>
+        <tr>
+          <td class="text-muted"><%= link_to u.id, url_for(:controller => :stack_exchange_users, :action => :show, :id => u.id) %></td>
+          <td><%= link_to "#{u.user_id} (#{u.username})", "#{@site.site_url}/users/#{u.user_id}" %></td>
+          <td><%= (u.question_count || 0) + (u.answer_count || 0) %></td>
+          <td><%= u.reputation %></td>
+          <% if user_logged_in? %>
+            <td><a href="#" class="not-spammer" data-uid="<%= u.id %>">Not a spammer</a></td>
+          <% end %>
+          <% if verify_at_least_one_diamond %>
+            <td><a href="#" class="not-spammer" data-uid="<%= u.id %>">Nuked</a></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
   </table>
+
+  <div class="text-center">
+    <%= will_paginate @spammers_page, renderer: BootstrapPagination::Rails %>
+  </div>
+<% else %>
+  <% if @posts.count == 0 %>
+    <p>No spam here! Try another filter.</p>
+  <% else %>
+    <table class="table">
+      <% @posts.each do |p| %>
+        <%= render 'posts/post', post: p, creation_date: true, deletion_date: true %>
+      <% end %>
+    </table>
+  <% end %>
+
+  <div class="text-center">
+    <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
+  </div>
 <% end %>
