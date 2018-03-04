@@ -67,14 +67,55 @@
     <%= link_to "#{tab} (#{posts.count})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: tab.downcase)) %>
   </li>
   <% end %>
+  <li class="<%= "active" if params[:tab]&.downcase == "spammers" %>">
+    <%= link_to "Spammers (#{@spammers.length})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: 'spammers')) %>
+  </li>
+  <% if user_signed_in? && current_user.moderator_sites.exists? %>
+    <li class="<%= "active" if params[:tab]&.downcase == "autoflaggers" %>">
+      <%= link_to "Autoflaggers (#{@autoflaggers.length})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: 'autoflaggers')) %>
+    </li>
+  <% end %>
 </ul>
 
-<% if @posts.count == 0 %>
-  <p>No spam here! Try another filter.</p>
-<% else %>
-  <table class="table">
-    <% @posts.each do |p| %>
-      <%= render 'posts/post', post: p, creation_date: true, deletion_date: true %>
-    <% end %>
+<% if @active_tab == 'spammers' %>
+  <%= render 'stack_exchange_users/table', users: @spammers_page %>
+<% elsif @active_tab == 'autoflaggers' && user_signed_in? && current_user.moderator_sites.exists? %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>SE Username</th>
+        <th>Flags Cast</th>
+        <th>Accuracy</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @autoflaggers.each do |u| %>
+        <tr>
+          <td><%= link_to u.username, "https://stackexchange.com/users/#{u.stack_exchange_account_id}" %></td>
+          <td><%= u.flag_logs.auto.successful.count %></td>
+          <td><%= u.flag_logs.auto.successful.tp.count %> / <%= u.flag_logs.auto.successful.count %> (<%= ((u.flag_logs.auto.successful.tp.count.to_f / u.flag_logs.auto.successful.count)*100).round(2) %>%)</td>
+        </tr>
+      <% end %>
+    </tbody>
   </table>
+
+  <div class="text-center">
+    <%= will_paginate @spammers_page, renderer: BootstrapPagination::Rails %>
+  </div>
+<% elsif @active_tab == 'autoflaggers' %>
+  <h2>Oops! You aren't suppose to be here. Go away.</h2>
+<% else %>
+  <% if @posts.count == 0 %>
+    <p>No spam here! Try another filter.</p>
+  <% else %>
+    <table class="table">
+      <% @posts.each do |p| %>
+        <%= render 'posts/post', post: p, creation_date: true, deletion_date: true, show_autoflaggers: (user_signed_in? && current_user.moderator_sites.exists?), show_autoflagged: (user_signed_in? && current_user.moderator_sites.exists? && !%w[autoflagged].include?(@active_tab)) %>
+      <% end %>
+    </table>
+  <% end %>
+
+  <div class="text-center">
+    <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
+  </div>
 <% end %>

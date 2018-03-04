@@ -3,6 +3,8 @@
 <% preload_post_body = expand_post || (false if preload_post_body.nil?) %>
 <% creation_date = false if creation_date.nil? %>
 <% deletion_date = false if deletion_date.nil? %>
+<% show_autoflagged = false if show_autoflagged.nil? %>
+<% show_autoflaggers = show_autoflagged if show_autoflaggers.nil? %>
 <% @sites = [post.site] if @sites.nil? %>
 
 <% if wrap_in_tr %>
@@ -14,6 +16,10 @@
     <% end %>
 
     <%= link_to post.title, "/post/" + post.id.to_s %>&#x202D;
+
+    <% if show_autoflagged && post.flagged? %>
+      <span class="glyphicon glyphicon-flag text-danger" title="This post was autoflagged"></span>
+    <% end %>
 
     <% if not post.feedbacks.empty? %>
       <strong>
@@ -59,6 +65,13 @@
               <%= post.reasons.map(&:reason_name).join(", ") %>
             </span>
           </p>
+          <% if show_autoflaggers && post.flagged? %>
+            <p>Autoflagged by:&nbsp;
+              <% post.flaggers.each do |flagger| %>
+                <%= link_to flagger.username, "https://stackexchange.com/users/#{flagger.stack_exchange_account_id}" %>&nbsp;&nbsp;
+              <% end %>
+            </p>
+          <% end %>
         <% end %>
       </div>
     <% end %>

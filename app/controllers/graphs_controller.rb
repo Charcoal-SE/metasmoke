@@ -160,7 +160,7 @@ class GraphsController < ApplicationController
   end
 
   def reports
-    @posts = Post.where('created_at > ?', params[:months].to_i.months.ago || 3.months.ago)
+    @posts = Post.where('created_at > ?', params[:months].to_s.empty? ? 3.months.ago : params[:months].to_i.months.ago)
     @posts = @posts.where(site_id: params[:site_id]) if params[:site_id].present?
     render json: [
       { name: 'All', data: @posts.group_by_day(:created_at).count },
