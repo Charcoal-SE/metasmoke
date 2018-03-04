@@ -59,10 +59,12 @@ class DashboardController < ApplicationController
 
     @spammers_page = @spammers.paginate(per_page: 50, page: params[:page])
 
-    @autoflaggers = User.joins(:flag_logs)
+    @autoflaggers = User.joins(:flag_logs, flag_logs: [:post])
                         .where(flag_logs: { site: @site, success: true, is_auto: true })
-                        .group(:user_id)
-                        .order(Arel.sql('COUNT(flag_logs.id) DESC'))
+                        .group(Arel.sql('users.id'))
+                        .order(Arel.sql('COUNT(DISTINCT flag_logs.id) DESC'))
+                        .select(Arel.sql('users.stack_exchange_account_id, users.username, COUNT(DISTINCT flag_logs.id) AS total_flags,'\
+                                         'COUNT(DISTINCT IF(posts.is_tp = 1, flag_logs.id, NULL)) AS tp_flags'))
 
     @autoflaggers_page = @autoflaggers.paginate(per_page: 50, page: params[:page])
 

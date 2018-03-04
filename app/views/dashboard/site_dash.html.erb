@@ -8,7 +8,7 @@
     <%= number_field_tag :months, @months, min: 1, class: 'form-control' %>
     months
     <%= hidden_field_tag :tab, params[:tab] %>
-    <%= submit_tag 'Apply', class: 'btn btn-primary' %>
+    <%= submit_tag 'Apply', class: 'btn btn-primary', name: nil %>
   <% end %>
 </div>
 <br>
@@ -70,7 +70,7 @@
   <li class="<%= "active" if params[:tab]&.downcase == "spammers" %>">
     <%= link_to "Spammers (#{@spammers.length})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: 'spammers')) %>
   </li>
-  <% if user_signed_in? && current_user.moderator_sites.exists? %>
+  <% if user_signed_in? && (current_user.moderator_sites.exists? || current_user.has_role?(:admin)) %>
     <li class="<%= "active" if params[:tab]&.downcase == "autoflaggers" %>">
       <%= link_to "Autoflaggers (#{@autoflaggers.length})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: 'autoflaggers')) %>
     </li>
@@ -79,7 +79,7 @@
 
 <% if @active_tab == 'spammers' %>
   <%= render 'stack_exchange_users/table', users: @spammers_page %>
-<% elsif @active_tab == 'autoflaggers' && user_signed_in? && current_user.moderator_sites.exists? %>
+<% elsif @active_tab == 'autoflaggers' && user_signed_in? && (current_user.moderator_sites.exists? || current_user.has_role?(:admin)) %>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -92,8 +92,8 @@
       <% @autoflaggers.each do |u| %>
         <tr>
           <td><%= link_to u.username, "https://stackexchange.com/users/#{u.stack_exchange_account_id}" %></td>
-          <td><%= u.flag_logs.auto.successful.count %></td>
-          <td><%= u.flag_logs.auto.successful.tp.count %> / <%= u.flag_logs.auto.successful.count %> (<%= ((u.flag_logs.auto.successful.tp.count.to_f / u.flag_logs.auto.successful.count)*100).round(2) %>%)</td>
+          <td><%= u.total_flags %></td>
+          <td><%= u.tp_flags %> / <%= u.total_flags %> (<%= ((u.tp_flags.to_f / u.total_flags)*100).round(2) %>%)</td>
         </tr>
       <% end %>
     </tbody>
