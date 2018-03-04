@@ -59,7 +59,10 @@ class DashboardController < ApplicationController
 
     @spammers_page = @spammers.paginate(per_page: 50, page: params[:page])
 
-    @autoflaggers = User.joins(:flag_logs).where(flag_logs: {site: @site, success: true, is_auto: true}).group(:user_id).order('COUNT(flag_logs.id) DESC')
+    @autoflaggers = User.joins(:flag_logs)
+                        .where(flag_logs: { site: @site, success: true, is_auto: true })
+                        .group(:user_id)
+                        .order('COUNT(flag_logs.id) DESC')
 
     @autoflaggers_page = @autoflaggers.paginate(per_page: 50, page: params[:page])
 

@@ -110,7 +110,7 @@
   <% else %>
     <table class="table">
       <% @posts.each do |p| %>
-        <%= render 'posts/post', post: p, creation_date: true, deletion_date: true %>
+        <%= render 'posts/post', post: p, creation_date: true, deletion_date: true, show_autoflaggers: (user_signed_in? && current_user.moderator_sites.exists?), show_autoflagged: (user_signed_in? && current_user.moderator_sites.exists? && !%w[autoflagged].include?(@active_tab)) %>
       <% end %>
     </table>
   <% end %>
