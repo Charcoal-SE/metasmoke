@@ -68,7 +68,7 @@ class DashboardController < ApplicationController
 
     @autoflaggers_page = @autoflaggers.paginate(per_page: 50, page: params[:page])
 
-    @delimiter = ' '
+    @delimiter = "\u2005".encode('utf-8')
 
     @posts_timescaled = @posts.where('posts.created_at >= ?', @months.months.ago)
     @posts = @posts.order(id: :desc).paginate(per_page: 50, page: params[:page])
