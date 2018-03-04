@@ -15,10 +15,10 @@ class SpamDomainsController < ApplicationController
                  SpamDomain.all
                end.order(domain: :asc).paginate(page: params[:page], per_page: 100)
     @counts = {
-      all: @domains.joins(:posts).group('spam_domains.id').count,
-      tp: @domains.joins(:posts).where(posts: { is_tp: true }).group('spam_domains.id').count,
-      fp: @domains.joins(:posts).where(posts: { is_fp: true }).group('spam_domains.id').count,
-      naa: @domains.joins(:posts).where(posts: { is_naa: true }).group('spam_domains.id').count
+      all: @domains.joins(:posts).group(Arel.sql('spam_domains.id')).count,
+      tp: @domains.joins(:posts).where(posts: { is_tp: true }).group(Arel.sql('spam_domains.id')).count,
+      fp: @domains.joins(:posts).where(posts: { is_fp: true }).group(Arel.sql('spam_domains.id')).count,
+      naa: @domains.joins(:posts).where(posts: { is_naa: true }).group(Arel.sql('spam_domains.id')).count
     }
   end
 

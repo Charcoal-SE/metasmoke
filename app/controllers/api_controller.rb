@@ -210,19 +210,19 @@ class APIController < ApplicationController
 
   def spam_last_week
     render json: Site.joins(:posts).where(posts: { is_tp: true, created_at: 1.week.ago.to_date..Date.today })
-      .group('sites.site_name').count
+      .group(Arel.sql('sites.site_name')).count
   end
 
   def detailed_ttd
     no_flags = Post.group_by_hour_of_day('`posts`.`created_at`')
-                   .select('AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion')
+                   .select(Arel.sql('AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion'))
                    .joins(:deletion_logs)
                    .where(is_tp: true)
                    .where('`posts`.`created_at` < ?', Date.new(2017, 1, 1))
                    .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600').relation.each_with_index
                    .map { |a, i| [i, a.time_to_deletion.round(0)] }
     one_flag = Post.group_by_hour_of_day('`posts`.`created_at`')
-                   .select('AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion')
+                   .select(Arel.sql('AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion'))
                    .joins(:deletion_logs)
                    .where(is_tp: true)
                    .where('`posts`.`created_at` >= ?', Date.new(2017, 1, 1))
@@ -230,7 +230,7 @@ class APIController < ApplicationController
                    .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600').relation.each_with_index
                    .map { |a, i| [i, a.time_to_deletion.round(0)] }
     three_flags = Post.group_by_hour_of_day('`posts`.`created_at`')
-                      .select('AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion')
+                      .select(Arel.sql('AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion'))
                       .joins(:deletion_logs)
                       .where(is_tp: true)
                       .where('`posts`.`created_at` >= ?', Date.new(2017, 2, 14))

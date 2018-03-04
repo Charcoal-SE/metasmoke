@@ -7,9 +7,9 @@ class DashboardController < ApplicationController
     @inactive_reasons, @active_reasons = [true, false].map do |inactive|
       Reason.all.joins(:posts)
             .where('reasons.inactive = ?', inactive)
-            .group('reasons.id')
+            .group(Arel.sql('reasons.id'))
             .select('reasons.*, count(\'posts.*\') as post_count')
-            .order('post_count DESC')
+            .order(Arel.sql('post_count DESC'))
             .to_a
     end
     @reasons = Reason.all

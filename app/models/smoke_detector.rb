@@ -33,7 +33,7 @@ class SmokeDetector < ApplicationRecord
   end
 
   def self.status_color
-    SmokeDetector.select('last_ping').order('last_ping DESC').first.status_color
+    SmokeDetector.select(Arel.sql('last_ping')).order(Arel.sql('last_ping DESC')).first.status_color
   end
 
   def status_color
@@ -47,7 +47,7 @@ class SmokeDetector < ApplicationRecord
   end
 
   def self.check_smokey_status
-    smoke_detector = SmokeDetector.order('last_ping DESC').first
+    smoke_detector = SmokeDetector.order(Arel.sql('last_ping DESC')).first
 
     return unless smoke_detector.last_ping < 3.minutes.ago && (smoke_detector.email_date || 1.week.ago) < smoke_detector.last_ping
     HairOnFireMailer.smokey_down_email(smoke_detector).deliver_now

@@ -43,7 +43,7 @@ class SearchController < ApplicationController
                               " AND IFNULL(why, '') #{why_operation} :why",
                               username: username, title: title, body: body, why: why)
                        .paginate(page: params[:page], per_page: per_page)
-                       .order('`posts`.`created_at` DESC')
+                       .order(Arel.sql('`posts`.`created_at` DESC'))
 
     @results = @results.includes(:reasons).includes(:feedbacks) if params[:option].nil?
 

@@ -47,7 +47,7 @@ class FlagCondition < ApplicationRecord
 
   def posts
     Post.joins(:reasons)
-        .group('posts.id')
+        .group(Arel.sql('posts.id'))
         .where('posts.user_reputation <= ?', max_poster_rep)
         .where(site_id: site_ids)
         .having('count(reasons.id) >= ?', min_reason_count)
