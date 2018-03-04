@@ -5,38 +5,4 @@
 <p class="text-muted">Data last updated: <%= @site.last_users_update.present? ? time_ago_in_words(@site.last_users_update) + ' ago' : "Never" %>
   &mdash; <%= link_to "Update now", url_for(:controller => :stack_exchange_users, :action => :update_data, :site => @site.id), :method => :post %></p>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th class="text-muted">MS ID</th>
-      <th>Site ID</th>
-      <th>Post Count</th>
-      <th>Reputation</th>
-      <% if verify_at_least_one_diamond %>
-        <th colspan="2"></th>
-      <% elsif user_logged_in? %>
-        <th></th>
-      <% end %>
-    </tr>
-  </thead>
-  <tbody>
-    <% @users.each do |u| %>
-      <tr>
-        <td class="text-muted"><%= link_to u.id, url_for(:controller => :stack_exchange_users, :action => :show, :id => u.id) %></td>
-        <td><%= link_to "#{u.user_id} (#{u.username})", "#{@site.site_url}/users/#{u.user_id}" %></td>
-        <td><%= (u.question_count || 0) + (u.answer_count || 0) %></td>
-        <td><%= u.reputation %></td>
-        <% if user_logged_in? %>
-          <td><a href="#" class="not-spammer" data-uid="<%= u.id %>">Not a spammer</a></td>
-        <% end %>
-        <% if verify_at_least_one_diamond %>
-          <td><a href="#" class="not-spammer" data-uid="<%= u.id %>">Nuked</a></td>
-        <% end %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<div class="text-center">
-  <%= will_paginate @users, renderer: BootstrapPagination::Rails %>
-</div>
+<%= render 'table', users: @users %>

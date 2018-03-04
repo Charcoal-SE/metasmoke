@@ -1,0 +1,35 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="text-muted">MS ID</th>
+      <th>Site ID</th>
+      <th>Post Count</th>
+      <th>Reputation</th>
+      <% if user_signed_in? && current_user.moderator_sites.exists? %>
+        <th colspan="2"></th>
+      <% elsif user_signed_in? %>
+        <th></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% users.each do |u| %>
+      <tr>
+        <td class="text-muted"><%= link_to u.id, url_for(:controller => :stack_exchange_users, :action => :show, :id => u.id) %></td>
+        <td><%= link_to "#{u.user_id} (#{u.username})", "#{@site.site_url}/users/#{u.user_id}" %></td>
+        <td><%= (u.question_count || 0) + (u.answer_count || 0) %></td>
+        <td><%= u.reputation %></td>
+        <% if user_signed_in? %>
+          <td><a href="#" class="not-spammer" data-uid="<%= u.id %>">Not a spammer</a></td>
+        <% end %>
+        <% if user_signed_in? && current_user.moderator_sites.exists? %>
+          <td><a href="#" class="not-spammer" data-uid="<%= u.id %>">Nuked</a></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= will_paginate users, renderer: BootstrapPagination::Rails %>
+</div>

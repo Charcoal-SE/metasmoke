@@ -45,7 +45,7 @@ class DashboardController < ApplicationController
       'Deleted' => @all_posts.where.not(deleted_at: nil),
       'Undeleted' => @all_posts.where(deleted_at: nil)
     }
-    special_tabs = %w[Spammers]
+    special_tabs = %w[Spammers Autoflaggers]
     @active_tab = (@tabs.keys + special_tabs).map(&:downcase).include?(params[:tab]&.downcase) ? params[:tab]&.downcase : 'all'
 
     @posts = @tabs.map { |k, v| [k.downcase, v] }.to_h[params[:tab]&.downcase] || @tabs['All']
@@ -58,6 +58,10 @@ class DashboardController < ApplicationController
                                      ', stack_exchange_users.reputation DESC')
 
     @spammers_page = @spammers.paginate(per_page: 50, page: params[:page])
+
+    @autoflaggers = User.joins(:flag_logs).where(flag_logs: {site: @site, success: true, is_auto: true}).group(:user_id).order('COUNT(flag_logs.id) DESC')
+
+    @autoflaggers_page = @autoflaggers.paginate(per_page: 50, page: params[:page])
 
     @posts = @posts.order(id: :desc).paginate(per_page: 50, page: params[:page])
   end
