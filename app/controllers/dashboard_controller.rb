@@ -31,7 +31,7 @@ class DashboardController < ApplicationController
 
   def site_dash
     @posts = Post.includes_for_post_row.includes(:flag_logs)
-    params[:site_id] = Site.first.id unless params[:site_id].present?
+    params[:site_id] = Site.first.id if params[:site_id].blank?
     @site = Site.find(params[:site_id])
 
     @months = params[:months].to_s.empty? ? 3 : params[:months].to_i
@@ -53,9 +53,8 @@ class DashboardController < ApplicationController
     @flags = FlagLog.where(site: @site).where('`flag_logs`.`created_at` >= ?', @months).auto
 
     @spammers = StackExchangeUser.joins(:feedbacks).where(site: @site, still_alive: true)
-                                 .where("feedbacks.feedback_type LIKE '%t%'").group('stack_exchange_users.id')
-                                 .order(Arel.sql('(stack_exchange_users.question_count + stack_exchange_users.answer_count) DESC'\
-                                                 ', stack_exchange_users.reputation DESC'))
+                                 .where("feedbacks.feedback_type LIKE 't%'").group('stack_exchange_users.id')
+                                 .order(Arel.sql('stack_exchange_users.reputation DESC'))
 
     @spammers_page = @spammers.paginate(per_page: 50, page: params[:page])
 

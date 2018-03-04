@@ -4,7 +4,7 @@ class Post < ApplicationRecord
   include Websocket
 
   validate :reject_recent_duplicates
-  validates_format_of :link, with: %r{\A\/\/(.*?)\/(questions|a)\/(\d+)\Z}
+  validates :link, format: { with: %r{\A\/\/(.*?)\/(questions|a)\/(\d+)\Z} }
 
   serialize :tags, JSON
 
@@ -276,7 +276,7 @@ class Post < ApplicationRecord
   def fetch_revision_count(post = nil)
     Rails.logger.warn "[autoflagging] #{id}: fetch_revision_count begin"
     post ||= self
-    return unless post.site.present?
+    return if post.site.blank?
     Rails.logger.warn "[autoflagging] #{id}: site was present"
     params = "key=#{AppConfig['stack_exchange']['key']}&site=#{post.site.site_domain}&filter=!mggE4ZSiE7"
 

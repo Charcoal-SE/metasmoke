@@ -24,6 +24,7 @@
 <div class="row">
   <% height = '150px' %>
   <div class='col-md-3'>
+    <h4><%= link_to (image_tag @site.site_logo, size: "20"), @site.site_url %> Post types caught</h4>
     <%= pie_chart report_counts_graph_path(months: @months, site_id: @site.id), colors: ['#444', '#0a0', '#a00'], height: height %>
   </div>
   <div class='col-md-9'>
@@ -33,6 +34,7 @@
 </div>
 <div class="row">
   <div class='col-md-5'>
+    <h4><%= link_to (image_tag @site.site_logo, size: "20"), @site.site_url %> Most common reasons</h4>
     <%= pie_chart reason_counts_graph_path(months: @months, site_id: @site.id), height: height %>
   </div>
   <div class='col-md-7'>
@@ -41,7 +43,7 @@
   </div>
 </div>
 
-<h4 class='text-center'>All Time Summary and Posts</h4>
+<h4>All Time Summary and Posts</h4>
 <table class="table">
   <tr>
     <th><b>Posts Caught:</b></th>
