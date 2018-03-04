@@ -24,7 +24,7 @@ class FlagLogController < ApplicationController
       @applicable_flag_logs = @individual_user ? @individual_user.flag_logs.where(auto: false) : FlagLog.manual
     end
 
-    @flag_logs = @applicable_flag_logs.order('flag_logs.created_at DESC, flag_logs.id DESC')
+    @flag_logs = @applicable_flag_logs.order(Arel.sql('flag_logs.created_at DESC, flag_logs.id DESC'))
                                       .includes(post: [feedbacks: [:user, :api_key]])
                                       .includes(post: [:reasons])
                                       .includes(:user)
@@ -35,7 +35,7 @@ class FlagLogController < ApplicationController
   def by_post
     @individual_post = Post.find(params[:id])
     @flag_logs = @individual_post.flag_logs.where(is_auto: true)
-                                 .order('created_at DESC, id DESC')
+                                 .order(Arel.sql('created_at DESC, id DESC'))
                                  .includes(post: [feedbacks: [:user, :api_key]])
                                  .includes(post: [:reasons])
                                  .includes(:user)

@@ -154,7 +154,7 @@ class FlagConditionsController < ApplicationController
                end
 
     posts = Post.joins(:reasons)
-                .group('posts.id')
+                .group(Arel.sql('posts.id'))
                 .where('posts.user_reputation <= ?', @condition.max_poster_rep)
                 .where(site_id: site_ids)
                 .having('count(reasons.id) >= ?', @condition.min_reason_count)
@@ -165,7 +165,7 @@ class FlagConditionsController < ApplicationController
     @false_positive_count = post_feedback_results.count(false)
     @true_positive_count = post_feedback_results.count(true)
 
-    @posts = posts.includes(feedbacks: [:user]).order('posts.id DESC').paginate(page: params[:page], per_page: 100)
+    @posts = posts.includes(feedbacks: [:user]).order(Arel.sql('posts.id DESC')).paginate(page: params[:page], per_page: 100)
     @sites = Site.where(id: @posts.map(&:site_id)).to_a
   end
 end

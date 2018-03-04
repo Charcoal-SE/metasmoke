@@ -12,7 +12,7 @@ class StackExchangeUsersController < ApplicationController
                               .where('feedbacks.feedback_type LIKE \'%t%\'')
                               .includes(:site)
                               .group(:user_id)
-                              .order('created_at DESC')
+                              .order(Arel.sql('created_at DESC'))
                               .first(100)
   end
 
@@ -23,7 +23,7 @@ class StackExchangeUsersController < ApplicationController
   def on_site
     @site = Site.find params[:site]
     @users = StackExchangeUser.joins(:feedbacks).where(site: @site, still_alive: true)
-                              .where("feedbacks.feedback_type LIKE '%t%'").group('stack_exchange_users.id')
+                              .where("feedbacks.feedback_type LIKE '%t%'").group(Arel.sql('stack_exchange_users.id'))
                               .order('(stack_exchange_users.question_count + stack_exchange_users.answer_count) DESC'\
                                      ', stack_exchange_users.reputation DESC')
                               .paginate(page: params[:page], per_page: 100)
@@ -71,7 +71,7 @@ class StackExchangeUsersController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_stack_exchange_user
-    @user = StackExchangeUser.joins(:site).select('stack_exchange_users.*, sites.site_logo').find(params[:id])
+    @user = StackExchangeUser.joins(:site).select(Arel.sql('stack_exchange_users.*, sites.site_logo')).find(params[:id])
   rescue
     @user = StackExchangeUser.find(params[:id])
   end

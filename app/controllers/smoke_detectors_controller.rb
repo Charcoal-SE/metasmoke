@@ -31,7 +31,7 @@ class SmokeDetectorsController < ApplicationController
   def audits
     @audits = Audited::Audit.where(auditable_type: 'SmokeDetector')
                             .includes(:auditable, :user)
-                            .order('created_at DESC')
+                            .order(Arel.sql('created_at DESC'))
                             .paginate(page: params[:page], per_page: 100)
   end
 

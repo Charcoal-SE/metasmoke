@@ -11,8 +11,8 @@ class FlaggingTest < ActionDispatch::IntegrationTest
 
     # Pick a couple of random main sites
 
-    @site = Site.mains.where(max_flags_per_post: 3).order('RAND()').last
-    @limited_site = Site.mains.where(max_flags_per_post: 1).order('RAND()').last
+    @site = Site.mains.where(max_flags_per_post: 3).order(Arel.sql('RAND()')).last
+    @limited_site = Site.mains.where(max_flags_per_post: 1).order(Arel.sql('RAND()')).last
 
     setup_posts
     setup_webmock

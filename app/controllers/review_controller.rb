@@ -17,7 +17,7 @@ class ReviewController < ApplicationController
     @posts = @posts.left_joins(:feedbacks)
                    .where(feedbacks: { post_id: nil })
                    .where.not(id: reviewed)
-                   .order('`posts`.`created_at` DESC')
+                   .order(Arel.sql('`posts`.`created_at` DESC'))
                    .paginate(page: params[:page], per_page: 100)
     @sites = Site.where(id: @posts.map(&:site_id)).to_a
   end

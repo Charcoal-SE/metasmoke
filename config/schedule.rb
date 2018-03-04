@@ -24,5 +24,5 @@ every 1.day, at: '2:00 am' do
 end
 
 every 1.day, at: '2:10am' do
-  command 'dump/dump.sh'
+  runner 'ApplicationRecord.full_dump'
 end

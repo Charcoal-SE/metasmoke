@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_02_15_194802) do
+ActiveRecord::Schema.define(version: 2018_03_04_041911) do
 
   create_table "announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.text "text"
@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 2018_02_15_194802) do
     t.index ["associated_id", "associated_type"], name: "associated_index", length: { associated_type: 191 }
     t.index ["auditable_id", "auditable_type"], name: "auditable_index", length: { auditable_type: 191 }
     t.index ["created_at"], name: "index_audits_on_created_at"
-    t.index ["request_uuid"], name: "index_audits_on_request_uuid", length: { request_uuid: 191 }
+    t.index ["request_uuid"], name: "index_audits_on_request_uuid", length: 191
     t.index ["user_id", "user_type"], name: "user_index", length: { user_type: 191 }
   end
 
@@ -112,7 +112,7 @@ ActiveRecord::Schema.define(version: 2018_02_15_194802) do
     t.integer "api_key_id"
     t.string "chat_host", collation: "utf8_unicode_ci"
     t.index ["post_id"], name: "index_feedbacks_on_post_id"
-    t.index ["user_name"], name: "by_user_name", length: { user_name: 5 }
+    t.index ["user_name"], name: "by_user_name", length: 5
   end
 
   create_table "flag_conditions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -207,8 +207,9 @@ ActiveRecord::Schema.define(version: 2018_02_15_194802) do
     t.integer "smoke_detector_id"
     t.boolean "autoflagged", default: false
     t.string "tags"
+    t.index ["autoflagged"], name: "index_posts_on_autoflagged"
     t.index ["created_at"], name: "index_posts_on_created_at"
-    t.index ["link"], name: "index_posts_on_link", length: { link: 191 }
+    t.index ["link"], name: "index_posts_on_link", length: 191
   end
 
   create_table "posts_reasons", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -250,7 +251,7 @@ ActiveRecord::Schema.define(version: 2018_02_15_194802) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", length: { name: 191, resource_type: 191 }
-    t.index ["name"], name: "index_roles_on_name", length: { name: 191 }
+    t.index ["name"], name: "index_roles_on_name", length: 191
   end
 
   create_table "site_settings", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|

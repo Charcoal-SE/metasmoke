@@ -8,7 +8,7 @@ class ReasonsController < ApplicationController
                     .includes(:reasons, :feedbacks)
                     .includes(feedbacks: [:user, :api_key])
                     .paginate(page: params[:page], per_page: 100)
-                    .order('created_at DESC')
+                    .order(Arel.sql('created_at DESC'))
 
     case params[:filter]
     when 'tp'

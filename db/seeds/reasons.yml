@@ -1,0 +1,166 @@
+---
+- reason_name: Manually reported question
+  inactive: false
+- reason_name: Bad keyword in body
+  inactive: false
+- reason_name: Email in answer
+  inactive: false
+- reason_name: Korean character in title
+  inactive: false
+- reason_name: Bad keyword in title
+  inactive: false
+- reason_name: Pattern-matching website in answer
+  inactive: false
+- reason_name: Link at end of body
+  inactive: false
+- reason_name: Manually reported answer
+  inactive: false
+- reason_name: Offensive title detected
+  inactive: false
+- reason_name: Repeating characters in body
+  inactive: false
+- reason_name: Pattern-matching website in title
+  inactive: false
+- reason_name: Blacklisted website in body
+  inactive: false
+- reason_name: Few unique characters in answer
+  inactive: false
+- reason_name: Bad keyword in answer
+  inactive: false
+- reason_name: Email in body
+  inactive: false
+- reason_name: Repeating words in answer
+  inactive: false
+- reason_name: URL in title
+  inactive: false
+- reason_name: Offensive body detected
+  inactive: false
+- reason_name: Repeating words in body
+  inactive: false
+- reason_name: Offensive answer detected
+  inactive: false
+- reason_name: Pattern-matching website in body
+  inactive: false
+- reason_name: Blacklisted website in answer
+  inactive: false
+- reason_name: Bad keyword in username
+  inactive: false
+- reason_name: Phone number detected in title
+  inactive: false
+- reason_name: Blacklisted user
+  inactive: false
+- reason_name: Few unique characters in body
+  inactive: false
+- reason_name: Url-only title
+  inactive: false
+- reason_name: Repeating characters in answer
+  inactive: false
+- reason_name: Repeating characters in title
+  inactive: false
+- reason_name: Chinese character in title
+  inactive: false
+- reason_name: Title has only one unique char
+  inactive: false
+- reason_name: Blacklisted website in title
+  inactive: false
+- reason_name: Numbers-only title
+  inactive: false
+- reason_name: Hindi character in title
+  inactive: false
+- reason_name: Non-latin link in answer
+  inactive: false
+- reason_name: Shortened url in answer
+  inactive: false
+- reason_name: Link at end of answer
+  inactive: false
+- reason_name: Link following arrow in body
+  inactive: false
+- reason_name: Link following arrow in title
+  inactive: false
+- reason_name: Bad keyword with email in answer
+  inactive: false
+- reason_name: Bad keyword with email in body
+  inactive: false
+- reason_name: Bad keyword with email in title
+  inactive: false
+- reason_name: Phone number detected in answer
+  inactive: false
+- reason_name: Phone number detected in body
+  inactive: false
+- reason_name: Mostly non-latin answer
+  inactive: false
+- reason_name: Blacklisted username
+  inactive: false
+- reason_name: Mostly non-latin title
+  inactive: false
+- reason_name: Mostly non-latin body
+  inactive: false
+- reason_name: Messaging number in body
+  inactive: false
+- reason_name: Linked punctuation in answer
+  inactive: false
+- reason_name: Shortened url in body
+  inactive: false
+- reason_name: Bad keyword with a link in answer
+  inactive: false
+- reason_name: Messaging number in answer
+  inactive: false
+- reason_name: No whitespace in answer
+  inactive: false
+- reason_name: Bad keyword in link text in answer
+  inactive: false
+- reason_name: Bad keyword in link text in body
+  inactive: false
+- reason_name: No whitespace in body
+  inactive: false
+- reason_name: Repeated url at end of long post
+  inactive: false
+- reason_name: One-character link in body
+  inactive: false
+- reason_name: Username similar to website in answer
+  inactive: false
+- reason_name: Pattern-matching product name in body
+  inactive: false
+- reason_name: Pattern-matching product name in title
+  inactive: false
+- reason_name: Mostly dots in body
+  inactive: false
+- reason_name: Mostly dots in title
+  inactive: false
+- reason_name: Mostly dots in answer
+  inactive: false
+- reason_name: Bad pattern in url body
+  inactive: false
+- reason_name: Bad pattern in url answer
+  inactive: false
+- reason_name: Pattern-matching title
+  inactive: false
+- reason_name: Potentially bad keyword in body
+  inactive: false
+- reason_name: Potentially bad keyword in title
+  inactive: false
+- reason_name: Potentially bad keyword in answer
+  inactive: false
+- reason_name: Potentially bad keyword in username
+  inactive: false
+- reason_name: Single character over used in post
+  inactive: false
+- reason_name: Pattern-matching email in answer
+  inactive: false
+- reason_name: Pattern-matching email in body
+  inactive: false
+- reason_name: Bad ns for domain in body
+  inactive: false
+- reason_name: Bad ns for domain in title
+  inactive: false
+- reason_name: Bad ns for domain in answer
+  inactive: false
+- reason_name: Misleading link
+  inactive: false
+- reason_name: Title ends with comma
+  inactive: false
+- reason_name: Pattern-matching email in title
+  inactive: false
+- reason_name: Title starts and ends with a forward slash
+  inactive: false
+# cmd: File.write('db/seeds/resons.yml', Reason.where.not(inactive:true).map { |r| r.attributes.tap {|i| %w[last_post_title id weight maximum_weight].each { |n| i.delete(n) }} }.to_yaml)

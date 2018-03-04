@@ -8,22 +8,24 @@
     <%= number_field_tag :months, @months, min: 1, class: 'form-control' %>
     months
     <%= hidden_field_tag :tab, params[:tab] %>
-    <%= submit_tag 'Apply', class: 'btn btn-primary' %>
+    <%= submit_tag 'Apply', class: 'btn btn-primary', name: nil %>
   <% end %>
 </div>
-<br>
+<br/>
+<h4>Stats</h4>
 <p>
   There have been <strong><%= @flags.count %> attempts</strong> to cast flags automatically on <%= @site.site_name %> in the last <%= @months_string %>.<br/>
   We were able to cast automatic flags <strong><%= @flags.successful.count %></strong> times (<%= ((@flags.successful.count.to_f / @flags.count) * 100).round(2) %>%) and we were unable to cast automatic flags <strong><%= @flags.failed.count %></strong> times (<%= ((@flags.failed.count.to_f / @flags.count) * 100).round(2) %>%).<br/>
-  The flags were <strong><%= @flags.successful.tp.count %></strong> (<%= ((@flags.successful.tp.count.to_f / @flags.successful.count) * 100).round(2) %>%) TPs and
-  <strong><%= @flags.successful.fp.count %></strong> (<%= ((@flags.successful.fp.count.to_f / @flags.successful.count) * 100).round(2) %>%) FPs.<br/>
-  The posts were <strong><%= @all_posts.autoflagged.tp.count %></strong> (<%= ((@all_posts.autoflagged.tp.count.to_f / @all_posts.autoflagged.count) * 100).round(2) %>%) TPs and
-  <strong><%= @all_posts.autoflagged.fp.count %></strong> (<%= ((@all_posts.autoflagged.fp.count.to_f / @all_posts.autoflagged.count) * 100).round(2) %>%) FPs.<br/>
+  The flags were <strong><%= @flags.successful.tp.count %></strong> (<%= ((@flags.successful.tp.count.to_f / @flags.successful.count) * 100).round(2) %>%) true positives (TPs) and
+  <strong><%= @flags.successful.fp.count %></strong> (<%= ((@flags.successful.fp.count.to_f / @flags.successful.count) * 100).round(2) %>%) false positives (FPs).<br/>
+  The posts were <strong><%= @posts_timescaled.autoflagged.tp.count %></strong> (<%= ((@posts_timescaled.autoflagged.tp.count.to_f / @posts_timescaled.autoflagged.count) * 100).round(2) %>%) TPs and
+  <strong><%= @posts_timescaled.autoflagged.fp.count %></strong> (<%= ((@posts_timescaled.autoflagged.fp.count.to_f / @posts_timescaled.autoflagged.count) * 100).round(2) %>%) FPs.<br/>
 </p>
 
 <div class="row">
   <% height = '150px' %>
   <div class='col-md-3'>
+    <h4><%= link_to (image_tag @site.site_logo, size: "20"), @site.site_url %> Post types caught</h4>
     <%= pie_chart report_counts_graph_path(months: @months, site_id: @site.id), colors: ['#444', '#0a0', '#a00'], height: height %>
   </div>
   <div class='col-md-9'>
@@ -33,6 +35,7 @@
 </div>
 <div class="row">
   <div class='col-md-5'>
+    <h4><%= link_to (image_tag @site.site_logo, size: "20"), @site.site_url %> Most common reasons</h4>
     <%= pie_chart reason_counts_graph_path(months: @months, site_id: @site.id), height: height %>
   </div>
   <div class='col-md-7'>
@@ -40,8 +43,8 @@
     <%= line_chart monthly_ttd_graph_path(months: @months, site_id: @site.id), colors: ['#444'], height: height %>
   </div>
 </div>
-
-<h4 class='text-center'>All Time Summary and Posts</h4>
+<br/>
+<h4>All Time Summary and Posts</h4>
 <table class="table">
   <tr>
     <th><b>Posts Caught:</b></th>
@@ -70,7 +73,7 @@
   <li class="<%= "active" if params[:tab]&.downcase == "spammers" %>">
     <%= link_to "Spammers (#{@spammers.length})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: 'spammers')) %>
   </li>
-  <% if user_signed_in? && current_user.moderator_sites.exists? %>
+  <% if user_signed_in? && (current_user.moderator_sites.exists? || current_user.has_role?(:admin)) %>
     <li class="<%= "active" if params[:tab]&.downcase == "autoflaggers" %>">
       <%= link_to "Autoflaggers (#{@autoflaggers.length})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: 'autoflaggers')) %>
     </li>
@@ -79,7 +82,7 @@
 
 <% if @active_tab == 'spammers' %>
   <%= render 'stack_exchange_users/table', users: @spammers_page %>
-<% elsif @active_tab == 'autoflaggers' && user_signed_in? && current_user.moderator_sites.exists? %>
+<% elsif @active_tab == 'autoflaggers' && user_signed_in? && (current_user.moderator_sites.exists? || current_user.has_role?(:admin)) %>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -92,8 +95,8 @@
       <% @autoflaggers.each do |u| %>
         <tr>
           <td><%= link_to u.username, "https://stackexchange.com/users/#{u.stack_exchange_account_id}" %></td>
-          <td><%= u.flag_logs.auto.successful.count %></td>
-          <td><%= u.flag_logs.auto.successful.tp.count %> / <%= u.flag_logs.auto.successful.count %> (<%= ((u.flag_logs.auto.successful.tp.count.to_f / u.flag_logs.auto.successful.count)*100).round(2) %>%)</td>
+          <td><%= u.total_flags %></td>
+          <td><%= u.tp_flags %> / <%= u.total_flags %> (<%= ((u.tp_flags.to_f / u.total_flags)*100).round(2) %>%)</td>
         </tr>
       <% end %>
     </tbody>

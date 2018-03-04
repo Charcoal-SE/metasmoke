@@ -11,7 +11,7 @@ class PostsController < ApplicationController
     begin
       @post = Post.joins('LEFT JOIN `sites` ON `sites`.`id` = `posts`.`site_id`')
                   .joins(:reasons)
-                  .select('posts.*, sites.site_logo, SUM(reasons.weight) AS reason_weight')
+                  .select(Arel.sql('posts.*, sites.site_logo, SUM(reasons.weight) AS reason_weight'))
                   .find(params[:id])
     rescue
       @post = Post.find params[:id]
@@ -27,7 +27,7 @@ class PostsController < ApplicationController
   end
 
   def latest
-    redirect_to url_for(controller: :posts, action: :show, id: Post.select('id').last.id.to_s)
+    redirect_to url_for(controller: :posts, action: :show, id: Post.select(Arel.sql('id')).last.id.to_s)
   end
 
   def by_url
@@ -46,7 +46,7 @@ class PostsController < ApplicationController
 
   def recentpostsapi
     posts = Rails.cache.fetch('last-posts', expires_in: 30.seconds) do
-      Post.joins(:site).select('posts.id, posts.title, posts.link, posts.created_at, sites.site_logo').order(:created_at).last(100)
+      Post.joins(:site).select(Arel.sql('posts.id, posts.title, posts.link, posts.created_at, sites.site_logo')).order(:created_at).last(100)
     end
 
     posts.each do |p|
@@ -70,7 +70,7 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all.includes_for_post_row.paginate(page: params[:page], per_page: 100).order('created_at DESC')
+    @posts = Post.all.includes_for_post_row.paginate(page: params[:page], per_page: 100).order(Arel.sql('created_at DESC'))
 
     @posts = @posts.where(deleted_at: nil) if params[:filter] == 'undeleted'
 

@@ -9,8 +9,8 @@ class AdminController < ApplicationController
     @feedbacks = Feedback.unscoped
                          .joins('inner join posts on feedbacks.post_id = posts.id')
                          .where(is_invalidated: true)
-                         .select('posts.title, feedbacks.*')
-                         .order('feedbacks.invalidated_at DESC')
+                         .select(Arel.sql('posts.title, feedbacks.*'))
+                         .order(Arel.sql('feedbacks.invalidated_at DESC'))
                          .paginate(page: params[:page], per_page: 100)
 
     @users = User.where(id: @feedbacks.pluck(:invalidated_by)).map { |u| [u.id, u] }.to_h
@@ -21,7 +21,7 @@ class AdminController < ApplicationController
     @feedback = Feedback.unscoped
                         .joins('inner join posts on feedbacks.post_id = posts.id')
                         .where(user_id: @user.id)
-                        .select('posts.title, feedbacks.*')
+                        .select(Arel.sql('posts.title, feedbacks.*'))
     @sources = ['metasmoke']
 
     @sources << 'Stack Overflow chat' if @user.stackoverflow_chat_id.present?
@@ -32,7 +32,7 @@ class AdminController < ApplicationController
       @sources << 'Meta Stack Exchange chat'
     end
 
-    @feedback = @feedback.order('feedbacks.id DESC').paginate(page: params[:page], per_page: 100)
+    @feedback = @feedback.order(Arel.sql('feedbacks.id DESC')).paginate(page: params[:page], per_page: 100)
     @feedback_count = @feedback.count
     @invalid_count = @feedback.where(is_invalidated: true).count
     @feedback_count_today = @feedback.where('feedbacks.updated_at > ?', Date.today).count

@@ -16,7 +16,7 @@ class GraphsController < ApplicationController
 
   def reason_counts
     render json: Reason.joins(:posts)
-      .where('posts.created_at >= ?', params[:months].to_i.months.ago || 3.months.ago)
+      .where('posts.created_at >= ?', (params[:months] || 3).to_i.months.ago)
       .where(params[:site_id].present? ? { posts: { site_id: 1 } } : {})
       .group(:reason_name)
       .count
@@ -70,7 +70,7 @@ class GraphsController < ApplicationController
   def flagging_results
     if params[:months].present? || params[:site_id].present?
       @flags = FlagLog.auto
-      @flags = @flags.where('flag_logs.created_at > ?', params[:months].to_i.months.ago || 3.months.ago) if params[:months].present?
+      @flags = @flags.where('flag_logs.created_at > ?', (params[:months] || 3).to_i.months.ago) if params[:months].present?
       @flags = @flags.where(site_id: params[:site_id]) if params[:site_id].present?
       data = [
         ['Fail', @flags.where(success: false).count],
@@ -114,14 +114,14 @@ class GraphsController < ApplicationController
   def detailed_ttd
     @posts = params[:site_id].present? ? Post.where(site_id: params[:site_id]) : Post.all
     no_flags = @posts.group_by_hour_of_day('`posts`.`created_at`')
-                     .select('AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion')
+                     .select(Arel.sql('AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion'))
                      .joins(:deletion_logs)
                      .where(is_tp: true)
                      .where('`posts`.`created_at` < ?', Date.new(2017, 1, 1))
                      .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600').relation.each_with_index
                      .map { |a, i| [i, a.time_to_deletion.round(0)] }
     one_flag = @posts.group_by_hour_of_day('`posts`.`created_at`')
-                     .select('AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion')
+                     .select(Arel.sql('AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion'))
                      .joins(:deletion_logs)
                      .where(is_tp: true)
                      .where('`posts`.`created_at` >= ?', Date.new(2017, 1, 1))
@@ -129,7 +129,7 @@ class GraphsController < ApplicationController
                      .where('TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`) <= 3600').relation.each_with_index
                      .map { |a, i| [i, a.time_to_deletion.round(0)] }
     three_flags = @posts.group_by_hour_of_day('`posts`.`created_at`')
-                        .select('AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion')
+                        .select(Arel.sql('AVG(TIMESTAMPDIFF(SECOND, `posts`.`created_at`, `deletion_logs`.`created_at`)) as time_to_deletion'))
                         .joins(:deletion_logs)
                         .where(is_tp: true)
                         .where('`posts`.`created_at` >= ?', Date.new(2017, 2, 14))
@@ -160,7 +160,7 @@ class GraphsController < ApplicationController
   end
 
   def reports
-    @posts = Post.where('created_at > ?', params[:months].to_s.empty? ? 3.months.ago : params[:months].to_i.months.ago)
+    @posts = Post.where('created_at > ?', (params[:months] || 3).to_i.months.ago)
     @posts = @posts.where(site_id: params[:site_id]) if params[:site_id].present?
     render json: [
       { name: 'All', data: @posts.group_by_day(:created_at).count },
@@ -170,7 +170,7 @@ class GraphsController < ApplicationController
   end
 
   def report_counts
-    @posts = Post.where('created_at > ?', params[:months].to_i.months.ago || 3.months.ago)
+    @posts = Post.where('created_at > ?', (params[:months] || 3).to_i.months.ago)
     @posts = @posts.where(site_id: params[:site_id]) if params[:site_id].present?
     render json: [
       ['NAA', @posts.where(is_naa: true).count],
