@@ -7,25 +7,25 @@
     over the last
     <%= number_field_tag :months, @months, min: 1, class: 'form-control' %>
     months
-    <%= hidden_field_tag :tab, params[:tab] %>
+    <%= hidden_field_tag :tab, @active_tab %>
     <%= submit_tag 'Apply', class: 'btn btn-primary', name: nil %>
   <% end %>
 </div>
 <br/>
-<h4>Stats</h4>
+<h3>Stats (last <%= @months_string %>)</h3>
 <p>
-  There have been <strong><%= @flags.count %> attempts</strong> to cast flags automatically on <%= @site.site_name %> in the last <%= @months_string %>.<br/>
-  We were able to cast automatic flags <strong><%= @flags.successful.count %></strong> times (<%= ((@flags.successful.count.to_f / @flags.count) * 100).round(2) %>%) and we were unable to cast automatic flags <strong><%= @flags.failed.count %></strong> times (<%= ((@flags.failed.count.to_f / @flags.count) * 100).round(2) %>%).<br/>
-  The flags were <strong><%= @flags.successful.tp.count %></strong> (<%= ((@flags.successful.tp.count.to_f / @flags.successful.count) * 100).round(2) %>%) true positives (TPs) and
-  <strong><%= @flags.successful.fp.count %></strong> (<%= ((@flags.successful.fp.count.to_f / @flags.successful.count) * 100).round(2) %>%) false positives (FPs).<br/>
-  The posts were <strong><%= @posts_timescaled.autoflagged.tp.count %></strong> (<%= ((@posts_timescaled.autoflagged.tp.count.to_f / @posts_timescaled.autoflagged.count) * 100).round(2) %>%) TPs and
-  <strong><%= @posts_timescaled.autoflagged.fp.count %></strong> (<%= ((@posts_timescaled.autoflagged.fp.count.to_f / @posts_timescaled.autoflagged.count) * 100).round(2) %>%) FPs.<br/>
+  There have been <strong><%= number_with_delimiter @flags.count, delimiter: @delimiter %> attempts</strong> to cast flags automatically on <%= @site.site_name %> in the last <%= @months_string %>.<br/>
+  We were able to cast automatic flags <strong><%= number_with_delimiter @flags.successful.count, delimiter: @delimiter %></strong> times (<%= ((@flags.successful.count.to_f / @flags.count) * 100).round(2) %>%) and we were unable to cast automatic flags <strong><%= number_with_delimiter @flags.failed.count, delimiter: @delimiter %></strong> times (<%= ((@flags.failed.count.to_f / @flags.count) * 100).round(2) %>%).<br/>
+  The flags were <strong><%= number_with_delimiter @flags.successful.tp.count, delimiter: @delimiter %></strong> (<%= ((@flags.successful.tp.count.to_f / @flags.successful.count) * 100).round(2) %>%) true positives (TPs) and
+  <strong><%=  number_with_delimiter @flags.successful.fp.count, delimiter: @delimiter %></strong> (<%= ((@flags.successful.fp.count.to_f / @flags.successful.count) * 100).round(2) %>%) false positives (FPs).<br/>
+  The posts were <strong><%= number_with_delimiter @posts_timescaled.autoflagged.tp.count, delimiter: @delimiter %></strong> (<%= ((@posts_timescaled.autoflagged.tp.count.to_f / @posts_timescaled.autoflagged.count) * 100).round(2) %>%) TPs and
+  <strong><%= number_with_delimiter @posts_timescaled.autoflagged.fp.count, delimiter: @delimiter %></strong> (<%= ((@posts_timescaled.autoflagged.fp.count.to_f / @posts_timescaled.autoflagged.count) * 100).round(2) %>%) FPs.<br/>
 </p>
 
 <div class="row">
   <% height = '150px' %>
   <div class='col-md-3'>
-    <h4><%= link_to (image_tag @site.site_logo, size: "20"), @site.site_url %> Post types caught</h4>
+    <h4><%= link_to (image_tag @site.site_logo, size: "20"), @site.site_url %> Reports <small>last <%= @months_string %></small></h4>
     <%= pie_chart report_counts_graph_path(months: @months, site_id: @site.id), colors: ['#444', '#0a0', '#a00'], height: height %>
   </div>
   <div class='col-md-9'>
@@ -35,17 +35,17 @@
 </div>
 <div class="row">
   <div class='col-md-5'>
-    <h4><%= link_to (image_tag @site.site_logo, size: "20"), @site.site_url %> Most common reasons</h4>
+    <h4><%= link_to (image_tag @site.site_logo, size: "20"), @site.site_url %> Reasons <small>post count, last <%= @months_string %></small></h4>
     <%= pie_chart reason_counts_graph_path(months: @months, site_id: @site.id), height: height %>
   </div>
   <div class='col-md-7'>
     <h4><%= link_to (image_tag @site.site_logo, size: "20"), @site.site_url %> Time to deletion <small>daily, last <%= @months_string %></small></h4>
-    <%= line_chart monthly_ttd_graph_path(months: @months, site_id: @site.id), colors: ['#444'], height: height %>
+    <%= line_chart monthly_ttd_graph_path(months: @months, site_id: @site.id, round: 0), colors: ['#444'], height: height %>
   </div>
 </div>
-<br/>
-<h4>All Time Summary and Posts</h4>
-<table class="table">
+<hr>
+<h3>Summary and Posts (All Time)</h3>
+<table class="table no-top-border">
   <tr>
     <th><b>Posts Caught:</b></th>
     <th><b>True Positives:</b></th>
@@ -55,27 +55,27 @@
     <th><b>Autoflagged False Positives:</b></th>
   </tr>
   <tr>
-    <td class="text-info"><%= @all_posts.count %></td>
-    <td class="text-success"><%= @all_posts.where(is_tp:true).count %></td>
-    <td class="text-danger"><%= @all_posts.where(is_fp:true).count %></td>
-    <td class="text-warning"><%= @all_posts.where(is_naa:true).count %></td>
-    <td class="text-success"><%= @all_posts.where(autoflagged:true).count %></td>
-    <td class="text-danger"><%= @all_posts.where(autoflagged:true, is_fp: true).count %></td>
+    <td class="text-info"><%= number_with_delimiter @all_posts.count, delimiter: @delimiter %></td>
+    <td class="text-success"><%= number_with_delimiter @all_posts.where(is_tp:true).count, delimiter: @delimiter %></td>
+    <td class="text-danger"><%= number_with_delimiter @all_posts.where(is_fp:true).count, delimiter: @delimiter %></td>
+    <td class="text-warning"><%= number_with_delimiter @all_posts.where(is_naa:true).count, delimiter: @delimiter %></td>
+    <td class="text-success"><%= number_with_delimiter @all_posts.where(autoflagged:true).count, delimiter: @delimiter %></td>
+    <td class="text-danger"><%= number_with_delimiter @all_posts.where(autoflagged:true, is_fp: true).count, delimiter: @delimiter %></td>
   </tr>
 </table>
 
 <ul class="nav nav-tabs">
   <% @tabs.each do |tab, posts| %>
   <li class="<%= "active" if tab.downcase == @active_tab %>">
-    <%= link_to "#{tab} (#{posts.count})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: tab.downcase)) %>
+    <%= link_to "#{tab} (#{number_with_delimiter(posts.count, delimiter: @delimiter)})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: tab.downcase)) %>
   </li>
   <% end %>
-  <li class="<%= "active" if params[:tab]&.downcase == "spammers" %>">
-    <%= link_to "Spammers (#{@spammers.length})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: 'spammers')) %>
+  <li class="<%= "active" if @active_tab.downcase == "spammers" %>">
+    <%= link_to "Spammers (#{number_with_delimiter(@spammers.length, delimiter: @delimiter)})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: 'spammers')) %>
   </li>
   <% if user_signed_in? && (current_user.moderator_sites.exists? || current_user.has_role?(:admin)) %>
-    <li class="<%= "active" if params[:tab]&.downcase == "autoflaggers" %>">
-      <%= link_to "Autoflaggers (#{@autoflaggers.length})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: 'autoflaggers')) %>
+    <li class="<%= "active" if @active_tab.downcase == "autoflaggers" %>">
+      <%= link_to "Autoflaggers (#{number_with_delimiter(@autoflaggers.length, delimiter: @delimiter)})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: 'autoflaggers')) %>
     </li>
   <% end %>
 </ul>
@@ -83,37 +83,14 @@
 <% if @active_tab == 'spammers' %>
   <%= render 'stack_exchange_users/table', users: @spammers_page %>
 <% elsif @active_tab == 'autoflaggers' && user_signed_in? && (current_user.moderator_sites.exists? || current_user.has_role?(:admin)) %>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>SE Username</th>
-        <th>Flags Cast</th>
-        <th>Accuracy</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @autoflaggers.each do |u| %>
-        <tr>
-          <td><%= link_to u.username, "https://stackexchange.com/users/#{u.stack_exchange_account_id}" %></td>
-          <td><%= u.total_flags %></td>
-          <td><%= u.tp_flags %> / <%= u.total_flags %> (<%= ((u.tp_flags.to_f / u.total_flags)*100).round(2) %>%)</td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-  <div class="text-center">
-    <%= will_paginate @spammers_page, renderer: BootstrapPagination::Rails %>
-  </div>
-<% elsif @active_tab == 'autoflaggers' %>
-  <h2>Oops! You aren't suppose to be here. Go away.</h2>
+  <%= render 'users/table', users: @autoflaggers_page %>
 <% else %>
   <% if @posts.count == 0 %>
     <p>No spam here! Try another filter.</p>
   <% else %>
     <table class="table">
       <% @posts.each do |p| %>
-        <%= render 'posts/post', post: p, creation_date: true, deletion_date: true, show_autoflaggers: (user_signed_in? && current_user.moderator_sites.exists?), show_autoflagged: (user_signed_in? && current_user.moderator_sites.exists? && !%w[autoflagged].include?(@active_tab)) %>
+        <%= render 'posts/post', post: p, deletion_date: true, show_autoflaggers: (user_signed_in? && current_user.moderator_sites.exists?), show_autoflagged: (user_signed_in? && current_user.moderator_sites.exists? && !%w[autoflagged].include?(@active_tab)) %>
       <% end %>
     </table>
   <% end %>

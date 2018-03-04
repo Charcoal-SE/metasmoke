@@ -1,7 +1,6 @@
 <% wrap_in_tr = true if wrap_in_tr.nil? %>
 <% expand_post = false if expand_post.nil? %>
 <% preload_post_body = expand_post || (false if preload_post_body.nil?) %>
-<% creation_date = false if creation_date.nil? %>
 <% deletion_date = false if deletion_date.nil? %>
 <% show_autoflagged = false if show_autoflagged.nil? %>
 <% show_autoflaggers = show_autoflagged if show_autoflaggers.nil? %>
@@ -34,12 +33,8 @@
       (<%= post.reasons.map(&:weight).reduce(:+) %>)
     </span>
 
-    <% if creation_date %>
-      <span>(posted <%= time_ago_in_words(post.created_at, include_seconds: true) %> ago)</span>
-    <% end %>
-
     <% if deletion_date && post.deleted_at %>
-      <span class='text-danger'>(deleted <%= time_ago_in_words(post.deleted_at, include_seconds: true) %> ago)</span>
+      <span class='text-danger'>(deleted <%= distance_of_time_in_words(post.created_at, post.deleted_at, include_seconds: true) %> after creation)</span>
     <% end %>
 
     <span class="text-muted" style="float:right">

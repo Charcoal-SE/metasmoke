@@ -52,9 +52,10 @@ class DashboardController < ApplicationController
 
     @flags = FlagLog.where(site: @site).where('`flag_logs`.`created_at` >= ?', @months.months.ago).auto
 
-    @spammers = StackExchangeUser.joins(:feedbacks).where(site: @site, still_alive: true)
+    @spammers = StackExchangeUser.joins(:feedbacks).includes(:posts).where(site: @site, still_alive: true)
                                  .where("feedbacks.feedback_type LIKE 't%'").group('stack_exchange_users.id')
-                                 .order(Arel.sql('stack_exchange_users.reputation DESC'))
+                                 .order('COUNT(posts.stack_exchange_user_id) DESC')
+    # .order(Arel.sql('stack_exchange_users.reputation DESC'))
 
     @spammers_page = @spammers.paginate(per_page: 50, page: params[:page])
 
@@ -66,6 +67,8 @@ class DashboardController < ApplicationController
                                          'COUNT(DISTINCT IF(posts.is_tp = 1, flag_logs.id, NULL)) AS tp_flags'))
 
     @autoflaggers_page = @autoflaggers.paginate(per_page: 50, page: params[:page])
+
+    @delimiter = ' '
 
     @posts_timescaled = @posts.where('posts.created_at >= ?', @months.months.ago)
     @posts = @posts.order(id: :desc).paginate(per_page: 50, page: params[:page])
