@@ -17,7 +17,7 @@
         <td class="text-muted"><%= link_to u.id, url_for(:controller => :stack_exchange_users, :action => :show, :id => u.id) %></td>
         <td><%= link_to "#{u.user_id} (#{u.username})", "#{@site.site_url}/users/#{u.user_id}" %></td>
         <td><%= u.reputation %></td>
-        <% if user_signed_in? %>
+        <% if user_signed_in? && current_user.moderator_sites.exists? %>
           <td><a href="#" class="not-spammer" data-uid="<%= u.id %>">Not a spammer</a></td>
         <% end %>
         <% if user_signed_in? && current_user.moderator_sites.exists? %>
