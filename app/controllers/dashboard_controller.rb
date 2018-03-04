@@ -50,7 +50,7 @@ class DashboardController < ApplicationController
 
     @posts = @tabs.map { |k, v| [k.downcase, v] }.to_h[params[:tab]&.downcase] || @tabs['All']
 
-    @flags = FlagLog.where(site: @site).where('`flag_logs`.`created_at` >= ?', @months).auto
+    @flags = FlagLog.where(site: @site).where('`flag_logs`.`created_at` >= ?', @months.months.ago).auto
 
     @spammers = StackExchangeUser.joins(:feedbacks).where(site: @site, still_alive: true)
                                  .where("feedbacks.feedback_type LIKE 't%'").group('stack_exchange_users.id')

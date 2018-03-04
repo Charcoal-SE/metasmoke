@@ -12,6 +12,7 @@
   <% end %>
 </div>
 <br>
+<h4>Stats</h4>
 <p>
   There have been <strong><%= @flags.count %> attempts</strong> to cast flags automatically on <%= @site.site_name %> in the last <%= @months_string %>.<br/>
   We were able to cast automatic flags <strong><%= @flags.successful.count %></strong> times (<%= ((@flags.successful.count.to_f / @flags.count) * 100).round(2) %>%) and we were unable to cast automatic flags <strong><%= @flags.failed.count %></strong> times (<%= ((@flags.failed.count.to_f / @flags.count) * 100).round(2) %>%).<br/>
