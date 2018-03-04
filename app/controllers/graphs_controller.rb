@@ -16,7 +16,7 @@ class GraphsController < ApplicationController
 
   def reason_counts
     render json: Reason.joins(:posts)
-      .where('posts.created_at >= ?', params[:months].to_i.months.ago || 3.months.ago)
+      .where('posts.created_at >= ?', (params[:months] || 3).to_i.months.ago)
       .where(params[:site_id].present? ? { posts: { site_id: 1 } } : {})
       .group(:reason_name)
       .count

@@ -30,7 +30,7 @@ class DashboardController < ApplicationController
   end
 
   def site_dash
-    @posts = Post.includes_for_post_row
+    @posts = Post.includes_for_post_row.includes(:flag_logs)
     params[:site_id] = Site.first.id unless params[:site_id].present?
     @site = Site.find(params[:site_id])
 
