@@ -54,15 +54,15 @@ class DashboardController < ApplicationController
 
     @spammers = StackExchangeUser.joins(:feedbacks).where(site: @site, still_alive: true)
                                  .where("feedbacks.feedback_type LIKE '%t%'").group('stack_exchange_users.id')
-                                 .order('(stack_exchange_users.question_count + stack_exchange_users.answer_count) DESC'\
-                                     ', stack_exchange_users.reputation DESC')
+                                 .order(Arel.sql('(stack_exchange_users.question_count + stack_exchange_users.answer_count) DESC'\
+                                                 ', stack_exchange_users.reputation DESC'))
 
     @spammers_page = @spammers.paginate(per_page: 50, page: params[:page])
 
     @autoflaggers = User.joins(:flag_logs)
                         .where(flag_logs: { site: @site, success: true, is_auto: true })
                         .group(:user_id)
-                        .order('COUNT(flag_logs.id) DESC')
+                        .order(Arel.sql('COUNT(flag_logs.id) DESC'))
 
     @autoflaggers_page = @autoflaggers.paginate(per_page: 50, page: params[:page])
 
