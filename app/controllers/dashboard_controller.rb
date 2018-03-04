@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DashboardController < ApplicationController
-  before_action :verify_developer, except: [:index, :new_dash, :spam_by_site]
+  before_action :verify_developer, only: [:db_dumps, :download_dump]
 
   def index
     @inactive_reasons, @active_reasons = [true, false].map do |inactive|
@@ -27,6 +27,32 @@ class DashboardController < ApplicationController
 
     @posts = @posts.order(id: :desc).paginate(per_page: 50, page: params[:page])
     @sites = Site.where(id: @posts.map(&:site_id))
+  end
+
+  def site_dash
+    @posts = Post.includes_for_post_row
+    params[:site_id] = Site.first.id unless params[:site_id].present?
+    @site = Site.find(params[:site_id])
+
+    @months = params[:months].to_s.empty? ? 3 : params[:months].to_i
+    @months_string = @months <= 1 ? 'month' : "#{@months} months"
+
+    @all_posts = @posts.where(site_id: @site.id)
+
+    @tabs = {
+      'All' => @all_posts,
+      'Autoflagged' => @all_posts.where(autoflagged: true),
+      'Deleted' => @all_posts.where.not(deleted_at: nil),
+      'Undeleted' => @all_posts.where(deleted_at: nil)
+    }
+
+    @active_tab = @tabs.keys.map(&:downcase).include?(params[:tab]&.downcase) ? params[:tab]&.downcase : 'all'
+
+    @posts = @tabs.map { |k, v| [k.downcase, v] }.to_h[params[:tab]&.downcase] || @tabs['All']
+
+    @flags = FlagLog.where(site: @site).where('`flag_logs`.`created_at` >= ?', @months).auto
+
+    @posts = @posts.order(id: :desc).paginate(per_page: 50, page: params[:page])
   end
 
   def db_dumps

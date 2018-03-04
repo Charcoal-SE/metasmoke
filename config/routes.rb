@@ -62,13 +62,15 @@ Rails.application.routes.draw do
 
   scope '/graphs' do
     root to: 'graphs#index', as: :graphs
-    get 'flagging_results', to: 'graphs#flagging_results'
+    get 'flagging_results', to: 'graphs#flagging_results', as: :flagging_results_graph
     get 'flagging_timeline', to: 'graphs#flagging_timeline', as: :flagging_timeline_graph
     get 'reports_hours', to: 'graphs#reports_by_hour', as: :reports_by_hour_graph
     get 'reports_sites', to: 'graphs#reports_by_site'
     get 'reports_hod', to: 'graphs#reports_by_hour_of_day'
     get 'ttd', to: 'graphs#time_to_deletion'
     get 'dttd', to: 'graphs#detailed_ttd'
+    get 'report_counts', to: 'graphs#report_counts', as: :report_counts_graph
+    get 'reason_counts', to: 'graphs#reason_counts', as: :reason_counts_graph
     get 'monthly_ttd', to: 'graphs#monthly_ttd', as: :monthly_ttd_graph
     get 'reports', to: 'graphs#reports', as: :reports_graph
     get 'af_accuracy', to: 'graphs#af_accuracy', as: :af_accuracy
@@ -289,6 +291,8 @@ Rails.application.routes.draw do
     get    ':id',         to: 'spam_domains#show',    as: :spam_domain
     delete ':id',         to: 'spam_domains#destroy', as: :destroy_spam_domain
   end
+
+  get 'sites/dash', to: 'dashboard#site_dash', as: :site_dash
 
   devise_for :users, controllers: { sessions: 'custom_sessions' }
   devise_scope :user do
