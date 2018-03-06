@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_04_041911) do
+ActiveRecord::Schema.define(version: 2018_03_06_094807) do
 
   create_table "announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.text "text"
@@ -207,8 +207,13 @@ ActiveRecord::Schema.define(version: 2018_03_04_041911) do
     t.integer "smoke_detector_id"
     t.boolean "autoflagged", default: false
     t.string "tags"
+    t.integer "feedbacks_count"
     t.index ["autoflagged"], name: "index_posts_on_autoflagged"
     t.index ["created_at"], name: "index_posts_on_created_at"
+    t.index ["feedbacks_count"], name: "index_posts_on_feedbacks_count"
+    t.index ["is_fp"], name: "index_posts_on_is_fp"
+    t.index ["is_naa"], name: "index_posts_on_is_naa"
+    t.index ["is_tp"], name: "index_posts_on_is_tp"
     t.index ["link"], name: "index_posts_on_link", length: 191
   end
 

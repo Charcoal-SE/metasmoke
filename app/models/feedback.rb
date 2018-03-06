@@ -9,7 +9,7 @@ class Feedback < ApplicationRecord
   scope(:via_api, -> { unscoped.where.not(api_key: nil) })
   scope(:today, -> { where('created_at > ?', Date.today) })
 
-  belongs_to :post
+  belongs_to :post, counter_cache: true
   belongs_to :user
   belongs_to :api_key
   has_one :review, class_name: 'ReviewResult', required: false
