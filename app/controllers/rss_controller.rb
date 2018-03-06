@@ -1,15 +1,15 @@
+# frozen_string_literal: true
+
 class RSSController < ApplicationController
   def autoflagged
     @posts = Post.order('created_at DESC').paginate(page: params[:page], per_page: 50)
-    if params[:site].present?
-      @posts = @posts.where(site: params[:site])
-    end
+    @posts = @posts.where(site: params[:site]) if params[:site].present?
     if params[:deleted].present?
-      if params[:deleted].downcase == 'true' || params[:deleted] == '1'
-        @posts = @posts.where.not(deleted_at: nil)
-      else
-        @posts = @posts.where(deleted_at: nil)
-      end
+      @posts = if params[:deleted].casecmp('true') == 0 || params[:deleted] == '1'
+                 @posts.where.not(deleted_at: nil)
+               else
+                 @posts.where(deleted_at: nil)
+               end
     end
     if params[:from_date].present?
       @posts = @posts.where('`posts`.`created_at` > ?', DateTime.strptime(params[:from_date], '%s'))
@@ -22,7 +22,7 @@ class RSSController < ApplicationController
     end
     respond_to do |format|
       format.html
-      format.rss { render :layout => false }
+      format.rss { render layout: false }
     end
   end
 end
