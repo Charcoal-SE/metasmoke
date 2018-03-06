@@ -111,6 +111,7 @@ class SearchController < ApplicationController
       format.json do
         render json: @results
       end
+      format.rss { render :search, layout: false }
     end
   end
 end
