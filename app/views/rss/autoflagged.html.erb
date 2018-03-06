@@ -1,0 +1,7 @@
+<h1>Autoflagged Posts</h1>
+
+<%= render 'posts/table', posts: @posts %>
+
+<div class="text-center">
+  <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
+</div>
