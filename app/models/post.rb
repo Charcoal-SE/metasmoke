@@ -20,10 +20,9 @@ class Post < ApplicationRecord
   has_many :reviews, class_name: 'ReviewResult', dependent: :destroy
 
   scope(:includes_for_post_row, -> { includes(:stack_exchange_user).includes(:reasons).includes(feedbacks: [:user, :api_key]) })
-  scope(:without_feedback, -> { left_joins(:feedbacks).where(feedbacks: { post_id: nil }) })
+  scope(:without_feedback, -> { where(feedbacks_count: 0) })
 
   scope(:autoflagged, -> { where(autoflagged: true) })
-
   scope(:not_autoflagged, -> { where(autoflagged: false) })
 
   scope(:today, -> { where('created_at > ?', Date.today) })
@@ -32,8 +31,7 @@ class Post < ApplicationRecord
   scope(:fp, -> { where(is_fp: true) })
   scope(:naa, -> { where(is_naa: true) })
 
-  # WARNING: This is *very* slow without a limit - use Post.undeleted.limit(n) where possible.
-  scope(:undeleted, -> { left_joins(:deletion_logs).where(deletion_logs: { id: nil }) })
+  scope(:undeleted, -> { where(deleted_at: nil) })
 
   after_commit :parse_domains, on: :create
 
