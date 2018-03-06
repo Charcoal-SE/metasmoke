@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddFeedbacksCountToPosts < ActiveRecord::Migration[5.2]
   def change
     add_column :posts, :feedbacks_count, :integer

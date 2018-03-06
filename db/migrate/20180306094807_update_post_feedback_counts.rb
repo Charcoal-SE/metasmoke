@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UpdatePostFeedbackCounts < ActiveRecord::Migration[5.2]
   def change
     counts = Post.left_joins(:feedbacks).group(Arel.sql('posts.id')).count
