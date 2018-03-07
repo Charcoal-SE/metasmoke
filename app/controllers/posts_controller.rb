@@ -157,6 +157,9 @@ class PostsController < ApplicationController
     if current_user.api_token.blank?
       flash[:warning] = 'You must be write-authenticated to cast a spam flag.'
       redirect_to(authentication_status_path) && return
+    elsif !current_user.has_role?(:reviewer)
+      flash[:danger] = 'You do not have the required privileges to cast a spam flag through metasmoke.'
+      redirect_to url_for(controller: :posts, action: :show, id: params[:id]) && return
     end
 
     result, message = current_user.spam_flag(@post, false)
