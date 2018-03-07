@@ -21,6 +21,7 @@ class Post < ApplicationRecord
 
   scope(:includes_for_post_row, -> { includes(:stack_exchange_user).includes(:reasons).includes(feedbacks: [:user, :api_key]) })
   scope(:without_feedback, -> { where(feedbacks_count: 0) })
+  scope(:unreviewed, -> { where('feedbacks_count < 2') })
 
   scope(:autoflagged, -> { where(autoflagged: true) })
   scope(:not_autoflagged, -> { where(autoflagged: false) })

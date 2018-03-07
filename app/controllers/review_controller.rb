@@ -8,17 +8,13 @@ class ReviewController < ApplicationController
 
   def index
     @posts = if params[:reason].present?
-               Post.joins(:posts_reasons).where(posts_reasons: { reason_id: params[:reason] }).includes_for_post_row
+               Post.unreviewed.joins(:posts_reasons).where(posts_reasons: { reason_id: params[:reason] }).includes_for_post_row
              else
-               Post.all.includes_for_post_row
+               Post.unreviewed.includes_for_post_row
              end
 
-    reviewed = ReviewResult.where(user: current_user).map(&:post_id)
-    @posts = @posts.left_joins(:feedbacks)
-                   .where(feedbacks: { post_id: nil })
-                   .where.not(id: reviewed)
-                   .order(Arel.sql('`posts`.`created_at` DESC'))
-                   .paginate(page: params[:page], per_page: 100)
+    @posts = @posts.left_joins(:reviews).where('review_results.user_id IS NULL OR review_results.user_id != ?', current_user.id)
+                   .order(Arel.sql('posts.created_at DESC')).paginate(page: params[:page], per_page: 100)
     @sites = Site.where(id: @posts.map(&:site_id)).to_a
   end
 

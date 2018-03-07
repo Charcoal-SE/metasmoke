@@ -50,7 +50,7 @@
             <%= nav_link SearchController %>
             <% if user_signed_in? %>
               <%= nav_link ReviewController do %>
-                <% review_items = Post.without_feedback.count %>
+                <% review_items = Post.unreviewed.count %>
                 <%# badge hides itself if it doesn’t have contents. %>
                 <span class="reviews-count badge"><% if review_items > 0 %><%= review_items %><% end %></span>
               <% end %>
