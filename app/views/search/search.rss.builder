@@ -10,7 +10,7 @@ xml.rss version: '2.0' do
       xml.item do
         xml.title post.title
         xml.description post.body
-        xml.pubDate post.created_at.to_s(:rfc822)
+        xml.pubDate post.created_at.iso8601
         xml.link url_for(controller: 'posts', action: 'show', id: post.id)
         xml.link url_for(controller: 'posts', action: 'show', id: post.id)
       end
