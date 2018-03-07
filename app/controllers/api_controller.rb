@@ -121,6 +121,9 @@ class APIController < ApplicationController
     if params[:to_date].present?
       @posts = @posts.where('`posts`.`created_at` < ?', DateTime.strptime(params[:to_date], '%s'))
     end
+    if params[:autoflagged].present?
+      @posts = @posts.where(autoflagged: params[:autoflagged])
+    end
     results = @posts.select(select_fields(filter)).order(id: :desc).paginate(page: params[:page], per_page: @pagesize)
     render json: { items: results, has_more: has_more?(params[:page], results.count) }
   end
