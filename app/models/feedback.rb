@@ -12,7 +12,7 @@ class Feedback < ApplicationRecord
   belongs_to :post, counter_cache: true
   belongs_to :user
   belongs_to :api_key
-  has_one :review, class_name: 'ReviewResult', required: false
+  has_one :review, class_name: 'ReviewResult', required: false, dependent: :destroy
 
   before_save :check_for_user_assoc
   before_save :check_for_dupe_feedback
@@ -48,9 +48,9 @@ class Feedback < ApplicationRecord
     num_deleted = post.feedbacks.where(user_id: user_id)
                       .where('created_at > ?', 24.hours.ago)
                       .where.not(id: id)
-                      .delete_all
+                      .destroy_all
 
-    post.reload.update_feedback_cache if num_deleted > 0
+    post.reload.update_feedback_cache unless num_deleted.empty?
   end
 
   def is_positive? # rubocop:disable Style/PredicateName
