@@ -247,6 +247,7 @@ class User < ApplicationRecord
     end
   end
 
+  # rubocop:disable Style/PredicateName
   def has_pinned_role?(role)
     UsersRole.where(user: self, role: Role.find_by(name: role), pinned: true).exists?
   end
