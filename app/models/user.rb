@@ -233,8 +233,21 @@ class User < ApplicationRecord
         u.add_role(:core)
       else
         logger.info "#{u.username} below core threshold, dropping"
-        u.remove_role(:core)
+        u.remove_role(:core) unless u.has_pinned_role?(:core)
       end
     end
+  end
+
+  def add_pinned_role(name)
+    role = Role.find_by name: name
+    if UsersRole.where(user: self, role: role).exists?
+      UsersRole.where(user: self, role: role).order(:user_id).last.update(pinned: true)
+    else
+      UsersRole.create(user: self, role: role, pinned: true)
+    end
+  end
+
+  def has_pinned_role?(role)
+    UsersRole.where(user: self, role: Role.find_by(name: role), pinned: true).exists?
   end
 end

@@ -22,6 +22,26 @@ onLoad(() => {
       }
     });
   });
+
+  $('input.pin-checkbox').change(function () {
+    const $this = $(this);
+    $this.disabled = true;
+    $.ajax({
+      type: 'put',
+      data: {
+        permitted: $this.is(':checked'),
+        pinned: true,
+        user_id: $this.data('user-id'),
+        role: $this.data('role')
+      },
+      dataType: 'json',
+      url: '/admin/permissions/update',
+      success() {
+        $this.disabled = false;
+      }
+    });
+  });
+
   $('input.trust-checkbox').change(function () {
     const $this = $(this);
     $this.disabled = true;
