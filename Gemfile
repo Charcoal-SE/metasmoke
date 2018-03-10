@@ -31,9 +31,6 @@ gem 'whenever', require: false
 gem 'will_paginate', github: 'Undo1/will_paginate'
 gem 'will_paginate-bootstrap', github: 'Charcoal-SE/will_paginate-bootstrap'
 
-gem 'griddler'
-gem 'griddler-ses', git: 'https://github.com/jdurand/griddler-ses.git'
-
 gem 'flamegraph'
 gem 'rack-mini-profiler'
 gem 'stackprof'
