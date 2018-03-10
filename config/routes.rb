@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  post 'channels/receive_email'
+  mount_griddler('/channels/receive_email')
   mount ActionCable.server => '/cable'
 
   root to: 'dashboard#new_dash', as: :dashboard
