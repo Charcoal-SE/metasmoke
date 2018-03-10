@@ -31,6 +31,15 @@ GIT
     will_paginate (3.1.5)
 
 GIT
+  remote: https://github.com/jdurand/griddler-ses.git
+  revision: 888cee904cc6159d1f392f055d74f95299bbc427
+  specs:
+    griddler-ses (1.0.3)
+      griddler
+      mail
+      sns_endpoint
+
+GIT
   remote: https://github.com/plataformatec/devise
   revision: 135d898e0e955bfeb539611cf0f575d244275b22
   specs:
@@ -175,10 +184,6 @@ GEM
     griddler (1.4.0)
       htmlentities
       rails (>= 3.2.0)
-    griddler-ses (1.0.3)
-      griddler
-      mail
-      sns_endpoint
     groupdate (3.0.2)
       activesupport (>= 3)
     hashdiff (0.3.7)
@@ -419,7 +424,7 @@ DEPENDENCIES
   foreman
   grape (= 1.0.0)
   griddler
-  griddler-ses
+  griddler-ses!
   groupdate (~> 3.0.0)
   htmlentities (~> 4.3, >= 4.3.4)
   httparty
