@@ -1,0 +1,7 @@
+<p>
+  <span class="report-reasons">
+    <%= raw(post.reasons.map do |reason| %>
+      <% link_to reason.reason_name, reason_path(reason) %>
+    <% end.join(", ")) %>
+  </span>
+</p>
