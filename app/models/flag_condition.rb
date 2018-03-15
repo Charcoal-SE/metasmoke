@@ -29,8 +29,12 @@ class FlagCondition < ApplicationRecord
   def self.revalidate_all
     FlagCondition.where(flags_enabled: true).find_each do |fc|
       unless fc.validate
+        failures = fc.errors.full_messages
         fc.flags_enabled = false
-        fc.save!
+        fc.save(validate: false)
+        ActionCable.server.broadcast 'smokedetector_messages',
+                                     message: "@#{fc.user&.username&.tr(' ', '')} " \
+                                                "Your flag condition was disabled: #{failures.join(',')}"
       end
     end
   end
@@ -43,7 +47,7 @@ class FlagCondition < ApplicationRecord
 
   def posts
     Post.joins(:reasons)
-        .group('posts.id')
+        .group(Arel.sql('posts.id'))
         .where('posts.user_reputation <= ?', max_poster_rep)
         .where(site_id: site_ids)
         .having('count(reasons.id) >= ?', min_reason_count)

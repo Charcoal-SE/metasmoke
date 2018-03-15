@@ -1,12 +1,18 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  post 'channels/receive_email'
   mount ActionCable.server => '/cable'
 
   root to: 'dashboard#new_dash', as: :dashboard
 
   # Have to have this root route *without* the as: parameter, otherwise we get weirdness like #247
   root to: 'dashboard#new_dash'
+
+  scope '/dumps' do
+    root to: 'dashboard#db_dumps', as: :dumps
+    get 'download', to: 'dashboard#download_dump', as: :download_dump
+  end
 
   scope '/authentication' do
     get 'status', to: 'authentication#status', as: :authentication_status
@@ -57,15 +63,18 @@ Rails.application.routes.draw do
 
   scope '/graphs' do
     root to: 'graphs#index', as: :graphs
-    get 'flagging_results', to: 'graphs#flagging_results'
+    get 'flagging_results', to: 'graphs#flagging_results', as: :flagging_results_graph
     get 'flagging_timeline', to: 'graphs#flagging_timeline', as: :flagging_timeline_graph
     get 'reports_hours', to: 'graphs#reports_by_hour', as: :reports_by_hour_graph
     get 'reports_sites', to: 'graphs#reports_by_site'
     get 'reports_hod', to: 'graphs#reports_by_hour_of_day'
     get 'ttd', to: 'graphs#time_to_deletion'
     get 'dttd', to: 'graphs#detailed_ttd'
+    get 'report_counts', to: 'graphs#report_counts', as: :report_counts_graph
+    get 'reason_counts', to: 'graphs#reason_counts', as: :reason_counts_graph
     get 'monthly_ttd', to: 'graphs#monthly_ttd', as: :monthly_ttd_graph
     get 'reports', to: 'graphs#reports', as: :reports_graph
+    get 'af_accuracy', to: 'graphs#af_accuracy', as: :af_accuracy
   end
 
   get 'status', to: 'status#index', as: :status
@@ -112,6 +121,12 @@ Rails.application.routes.draw do
   delete 'admin/revoke_write', to: 'api_keys#revoke_write_tokens'
   delete 'admin/owner_revoke', to: 'api_keys#owner_revoke'
   post 'admin/keys/:id/trust', to: 'api_keys#update_trust'
+
+  scope '/admin/settings' do
+    root to: 'site_settings#index', as: :site_settings
+    post ':name', to: 'site_settings#update', as: :update_site_setting
+    delete ':id/delete', to: 'site_settings#destroy', as: :destroy_site_setting
+  end
 
   get 'posts', to: 'posts#index', as: :posts
   get 'posts/latest', to: 'posts#latest'
@@ -276,6 +291,12 @@ Rails.application.routes.draw do
     patch  ':id/edit',    to: 'spam_domains#update',  as: :update_spam_domain
     get    ':id',         to: 'spam_domains#show',    as: :spam_domain
     delete ':id',         to: 'spam_domains#destroy', as: :destroy_spam_domain
+  end
+
+  get 'sites/dash', to: 'dashboard#site_dash', as: :site_dash
+
+  scope 'rss' do
+    get 'autoflagged', to: 'rss#autoflagged'
   end
 
   devise_for :users, controllers: { sessions: 'custom_sessions' }

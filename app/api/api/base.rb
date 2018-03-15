@@ -34,12 +34,12 @@ module API
         if @key.nil? && SmokeDetector.find_by(access_token: params[:key])
           @key = APIKey.first
         end
-        error!({ name: 'missing_key', detail: 'No key was provided or the provided key is invalid.' }, 403) unless @key.present?
+        error!({ name: 'missing_key', detail: 'No key was provided or the provided key is invalid.' }, 403) if @key.blank?
       end
 
       def authenticate_user!
         @token = @key.api_tokens.find_by token: params[:token]
-        error!({ name: 'missing_token', detail: 'No token was provided or the provided token is invalid.' }, 401) unless @token.present?
+        error!({ name: 'missing_token', detail: 'No token was provided or the provided token is invalid.' }, 401) if @token.blank?
       end
 
       def fields(default)
@@ -49,6 +49,11 @@ module API
       def role(*names)
         return if current_user.has_any_role?(*names)
         error!({ name: 'unauthorized', detail: 'The authenticated user does not have the required permissions for this action.' }, 403)
+      end
+
+      def trusted_key
+        return if @key.is_trusted
+        error!({ name: 'untrusted_key', detail: 'The presented key is not trusted.' }, 403)
       end
 
       def per_page

@@ -12,13 +12,17 @@ class DomainTagsController < ApplicationController
             else
               DomainTag.all
             end.order(name: :asc).paginate(page: params[:page], per_page: 100)
-    @counts = DomainTag.where(id: @tags.map(&:id)).joins(:spam_domains).group('domain_tags.id').count
+    @counts = DomainTag.where(id: @tags.map(&:id)).joins(:spam_domains).group(Arel.sql('domain_tags.id')).count
   end
 
   def add
     @tag = DomainTag.find_or_create_by name: params[:tag_name]
     @domain = SpamDomain.find params[:domain_id]
-    @domain.domain_tags << @tag
+    if @domain.domain_tags.include? @tag
+      flash[:danger] = "This domain already has the tag '#{@tag.name}'"
+    else
+      @domain.domain_tags << @tag
+    end
     redirect_to spam_domain_path(@domain)
   end
 
@@ -30,7 +34,7 @@ class DomainTagsController < ApplicationController
 
   def show
     @domains = @tag.spam_domains.paginate(page: params[:page], per_page: 100)
-    @counts = SpamDomain.where(id: @domains.map(&:id)).joins(:posts).group('spam_domains.id').count
+    @counts = SpamDomain.where(id: @domains.map(&:id)).joins(:posts).group(Arel.sql('spam_domains.id')).count
   end
 
   def edit; end
@@ -61,7 +65,7 @@ class DomainTagsController < ApplicationController
                else
                  SpamDomain.all
                end.paginate(page: params[:page], per_page: 100)
-    @counts = SpamDomain.where(id: @domains.map(&:id)).joins(:posts).group('spam_domains.id').count
+    @counts = SpamDomain.where(id: @domains.map(&:id)).joins(:posts).group(Arel.sql('spam_domains.id')).count
     @taggable = params[:filter].present?
   end
 

@@ -50,7 +50,7 @@
             <%= nav_link SearchController %>
             <% if user_signed_in? %>
               <%= nav_link ReviewController do %>
-                <% review_items = Post.without_feedback.count %>
+                <% review_items = Post.unreviewed.count %>
                 <%# badge hides itself if it doesn’t have contents. %>
                 <span class="reviews-count badge"><% if review_items > 0 %><%= review_items %><% end %></span>
               <% end %>
@@ -61,12 +61,15 @@
                 <%= nav_link AdminController, label: 'User Data', action: :users %>
                 <%= nav_link AdminController, label: 'Invalidated Feedback', action: :recently_invalidated %>
                 <%= nav_link AdminController, label: 'Feedback via API', action: :api_feedback %>
+                <%= nav_link DashboardController, label: 'Database Dumps', action: :db_dumps %>
                 <% if current_user.moderator? %>
                   <%= nav_link StackExchangeUsersController, label: 'Spammers', action: :sites %>
                 <% end %>
                 <li role="separator" class="divider"></li>
                 <% if Announcement.current.count > 0 %>
-                  <%= nav_link AnnouncementsController, label: "Announcements <span class='badge'>#{Announcement.current.count}</span>" %>
+                  <%= nav_link AnnouncementsController, label: 'Announcements' do %>
+                    <span class="badge"><%= Announcement.current.count %></span>
+                  <% end %>
                 <% else %>
                   <%= nav_link AnnouncementsController, label: 'Announcements' %>
                 <% end %>

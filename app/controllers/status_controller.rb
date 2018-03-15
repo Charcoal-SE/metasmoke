@@ -8,7 +8,7 @@ class StatusController < ApplicationController
   before_action :verify_admin, only: [:kill]
 
   def index
-    @statuses = SmokeDetector.order('last_ping DESC').all
+    @statuses = SmokeDetector.order(Arel.sql('last_ping DESC')).all
   end
 
   def status_update

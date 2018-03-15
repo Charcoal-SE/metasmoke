@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :check_auth_required
 
   def check_if_smokedetector
     provided_key = params[:key]
@@ -37,47 +38,28 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def verify_developer
-    return if user_signed_in? && current_user.has_role?(:developer)
-    redirect_to missing_privileges_path(required: :developer)
-  end
-
-  def verify_admin
-    return if user_signed_in? && current_user.has_role?(:admin)
-    redirect_to missing_privileges_path(required: :admin)
-  end
-
-  def verify_code_admin
-    return if user_signed_in? && current_user.has_role?(:code_admin)
-    redirect_to missing_privileges_path(required: :code_admin)
-  end
-
-  def verify_flagger
-    return if user_signed_in? && current_user.has_role?(:flagger)
-    redirect_to missing_privileges_path(required: :flagger)
-  end
-
-  def verify_reviewer
-    return if user_signed_in? && current_user.has_role?(:reviewer)
-    redirect_to missing_privileges_path(required: :reviewer)
-  end
-
-  def verify_core
-    return if user_signed_in? && current_user.has_role?(:core)
-    redirect_to missing_privileges_path(required: :core)
+  Role.names.each do |rn|
+    define_method "verify_#{rn}" do
+      return if user_signed_in? && current_user.has_role?(rn)
+      redirect_to missing_privileges_path(required: rn)
+    end
   end
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:username])
   end
 
-  def verify_smoke_detector_runner
-    return if user_signed_in? && current_user.has_role?(:smoke_detector_runner)
-    redirect_to missing_privileges_path(required: :smoke_detector_runner)
-  end
-
   def verify_at_least_one_diamond
     return if user_signed_in? && current_user.moderator_sites.exists?
     redirect_to missing_privileges_path(required: :at_least_one_diamond)
+  end
+
+  private
+
+  def check_auth_required
+    return unless SiteSetting['require_auth_all_pages']
+    return if user_signed_in? || devise_controller? || (controller_name == 'users' && action_name == 'missing_privileges')
+    flash[:warning] = 'You need to have an account to view metasmoke pages.'
+    authenticate_user!
   end
 end

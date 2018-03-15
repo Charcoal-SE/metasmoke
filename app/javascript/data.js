@@ -75,6 +75,16 @@ const preloadDataTypes = function () {
   }
 };
 
+const appendResults = (results, $resultBody) => {
+  for (let i = 1; i < results.length; i++) {
+    const $row = $('<tr>');
+    for (let m = 0; m < results[i].length; m++) {
+      $row.append($('<td>').text(results[i][m]));
+    }
+    $resultBody.append($row);
+  }
+};
+
 const renderResults = (err, results) => {
   if (err) {
     debug('failed:', err);
@@ -106,13 +116,7 @@ const renderResults = (err, results) => {
       }
 
       if (results.length >= 2) {
-        for (let i = 1; i < results.length; i++) {
-          const $row = $('<tr>');
-          for (let m = 0; m < results[i].length; m++) {
-            $row.append($('<td>').text(results[i][m]));
-          }
-          $resultBody.append($row);
-        }
+        appendResults(results, $resultBody);
       }
     }
 

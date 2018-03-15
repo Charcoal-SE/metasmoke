@@ -16,7 +16,7 @@
         <name><%= p.stack_exchange_user&.username %></name>
         <uri><%= p.site.site_url %>/users/<%= p.stack_exchange_user&.user_id %></uri>
       </author>
-      <link rel="alternate" href="<%= p.link %>" />
+      <link rel="alternate" href="https://metasmoke.erwaysoftware.com/post/<%= p.id %>" />
       <published><%= p.created_at.iso8601 %></published>
       <updated><%= p.updated_at.iso8601 %></updated>
       <summary type="html"><%= p.body.gsub('<', '&lt;').gsub('>', '&gt;') %></summary>

@@ -224,4 +224,31 @@ class User < ApplicationRecord
   def moderator?
     moderator_sites.any?
   end
+
+  def self.update_core_users
+    logger.info 'Started update_core_users task'
+    all.includes(:feedbacks).each do |u|
+      if u.feedbacks.where('created_at > ?', SiteSetting['core_time_period'].days.ago).count >= SiteSetting['core_threshold']
+        logger.info "#{u.username} above core threshold, applying"
+        u.add_role(:core)
+      else
+        logger.info "#{u.username} below core threshold, dropping"
+        u.remove_role(:core) unless u.has_pinned_role?(:core)
+      end
+    end
+  end
+
+  def add_pinned_role(name)
+    role = Role.find_by name: name
+    if UsersRole.where(user: self, role: role).exists?
+      UsersRole.where(user: self, role: role).order(:user_id).last.update(pinned: true)
+    else
+      UsersRole.create(user: self, role: role, pinned: true)
+    end
+  end
+
+  # rubocop:disable Style/PredicateName
+  def has_pinned_role?(role)
+    UsersRole.where(user: self, role: Role.find_by(name: role), pinned: true).exists?
+  end
 end

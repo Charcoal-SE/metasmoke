@@ -11,13 +11,7 @@
   </li>
 </ul>
 
-<table class="table" id="posts-index-table">
-  <tbody>
-    <% @posts.each do |post| %>
-      <%= render "post", :post => post %>
-    <% end %>
-  </tbody>
-</table>
+<%= render 'table', posts: @posts %>
 
 <div class="text-center">
   <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>

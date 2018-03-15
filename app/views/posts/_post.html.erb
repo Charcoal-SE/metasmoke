@@ -1,6 +1,9 @@
 <% wrap_in_tr = true if wrap_in_tr.nil? %>
 <% expand_post = false if expand_post.nil? %>
 <% preload_post_body = expand_post || (false if preload_post_body.nil?) %>
+<% deletion_date = false if deletion_date.nil? %>
+<% show_autoflagged = false if show_autoflagged.nil? %>
+<% show_autoflaggers = show_autoflagged if show_autoflaggers.nil? %>
 <% @sites = [post.site] if @sites.nil? %>
 
 <% if wrap_in_tr %>
@@ -12,6 +15,10 @@
     <% end %>
 
     <%= link_to post.title, "/post/" + post.id.to_s %>&#x202D;
+
+    <% if show_autoflagged && post.flagged? %>
+      <span class="glyphicon glyphicon-flag text-danger" title="This post was autoflagged"></span>
+    <% end %>
 
     <% if not post.feedbacks.empty? %>
       <strong>
@@ -26,6 +33,10 @@
       (<%= post.reasons.map(&:weight).reduce(:+) %>)
     </span>
 
+    <% if deletion_date && post.deleted_at %>
+      <span class='text-danger'>(deleted <%= distance_of_time_in_words(post.created_at, post.deleted_at, include_seconds: true) %> after creation)</span>
+    <% end %>
+
     <span class="text-muted" style="float:right">
       <% unless post.created_at.nil? %>
         <span data-livestamp="<%= post.created_at.to_i %>" title="<%= post.created_at %>"></span>
@@ -35,7 +46,7 @@
         by <%= link_to post.username, url_for(:controller => :stack_exchange_users, :action => :show, :id => post.stack_exchange_user.id) %>&#x202D;
       <% end %>
 
-      <% if post.site.present? %>
+      <% if post.site.present? && @sites.find { |x| x.id == post.site_id }.present? %>
         <%= link_to (image_tag @sites.find { |x| x.id == post.site_id }.site_logo, size: "20"), post.link %>
       <% end %>
     </span>
@@ -49,6 +60,13 @@
               <%= post.reasons.map(&:reason_name).join(", ") %>
             </span>
           </p>
+          <% if show_autoflaggers && post.flagged? %>
+            <p>Autoflagged by:&nbsp;
+              <% post.flaggers.each do |flagger| %>
+                <%= link_to flagger.username, "https://stackexchange.com/users/#{flagger.stack_exchange_account_id}" %>&nbsp;&nbsp;
+              <% end %>
+            </p>
+          <% end %>
         <% end %>
       </div>
     <% end %>

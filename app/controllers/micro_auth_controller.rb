@@ -29,7 +29,7 @@ class MicroAuthController < ApplicationController
   def authorized
     @token = APIToken.find params[:token_id]
     return if current_user.has_role?(:developer) || current_user == @token.user
-    raise ActionController::RoutingError, 'https://www.youtube.com/watch?v=6_b7RDuLwcI'
+    redirect_to 'https://www.youtube.com/watch?v=oHg5SJYRHA0'
   end
 
   def reject; end

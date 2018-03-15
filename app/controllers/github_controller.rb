@@ -261,6 +261,8 @@ class GithubController < ApplicationController
             system 'git', 'fetch', 'origin', ref
             system 'git', 'merge', "origin/#{ref}", '--no-ff', '-m', "Merge pull request ##{pr_num} from Charcoal-SE/#{ref} --autopull"
             system 'git push origin master'
+            system 'git', 'push', 'origin', '--delete', ref
+            system 'git', 'branch', '-D', ref
           end
         end
 

@@ -31,6 +31,8 @@ import '../review';
 import '../stack_exchange_users';
 import '../status';
 import '../user_site_settings';
+import '../graphs';
+import '../site_settings';
 
 import { onLoad } from '../util';
 
@@ -95,11 +97,11 @@ onLoad(() => {
     if (showing) {
       const text = announcements.map((i, x) => $('p', x).text()).toArray().join(' ');
       localStorage.setItem('metasmoke-announcements-read', text);
-      $('.announcements').slideUp(500);
+      $('.announcements:not(body)').slideUp(500);
       collapser.text('Show announcements');
     } else {
       localStorage.removeItem('metasmoke-announcements-read');
-      $('.announcements').slideDown(500);
+      $('.announcements:not(body)').slideDown(500);
       collapser.text('Hide announcements');
     }
   });
@@ -110,7 +112,7 @@ onLoad(() => {
 
     const read = localStorage.getItem('metasmoke-announcements-read');
     if (read && read === text) {
-      $('.announcements').hide();
+      $('.announcements:not(body)').hide();
       $('.announcement-collapse').text('Show announcements');
     }
   })();

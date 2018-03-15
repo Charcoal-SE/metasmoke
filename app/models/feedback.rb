@@ -9,10 +9,10 @@ class Feedback < ApplicationRecord
   scope(:via_api, -> { unscoped.where.not(api_key: nil) })
   scope(:today, -> { where('created_at > ?', Date.today) })
 
-  belongs_to :post
+  belongs_to :post, counter_cache: true
   belongs_to :user
   belongs_to :api_key
-  has_one :review, class_name: 'ReviewResult', required: false
+  has_one :review, class_name: 'ReviewResult', required: false, dependent: :destroy
 
   before_save :check_for_user_assoc
   before_save :check_for_dupe_feedback
@@ -22,8 +22,11 @@ class Feedback < ApplicationRecord
 
   after_save do
     if update_post_feedback_cache # if post feedback cache was changed
-      if post.flagged? && post.is_fp
-        SmokeDetector.send_message_to_charcoal "fp feedback on autoflagged post: [#{post.title}](//metasmoke.erwaysoftware.com/post/#{post_id})"
+      if post.flagged? && !post.is_tp
+        names = post.flag_logs.successful.joins(:user).where.not(users: { username: nil }).map { |flag| '@' + flag.user.username.tr(' ', '') }
+
+        SmokeDetector.send_message_to_charcoal "fp feedback on autoflagged post: [#{post.title}](#{post.link}) [MS]" \
+                                               "(//metasmoke.erwaysoftware.com/post/#{post_id}) (#{names.join ' '})"
       end
     end
   end
@@ -45,9 +48,9 @@ class Feedback < ApplicationRecord
     num_deleted = post.feedbacks.where(user_id: user_id)
                       .where('created_at > ?', 24.hours.ago)
                       .where.not(id: id)
-                      .delete_all
+                      .destroy_all
 
-    post.reload.update_feedback_cache if num_deleted > 0
+    post.reload.update_feedback_cache unless num_deleted.empty?
   end
 
   def is_positive? # rubocop:disable Style/PredicateName

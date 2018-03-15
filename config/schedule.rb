@@ -9,7 +9,7 @@ every 1.day do
   runner 'ReasonsHelper.calculate_weights_for_flagging'
 end
 
-every 1.day at: '3:30 pm' do
+every 1.day at: '6:00 pm' do
   runner 'SitesHelper.update_sites'
 end
 
@@ -20,4 +20,9 @@ end
 every 1.day, at: '2:00 am' do
   runner 'User.where.not(stack_exchange_account_id: nil).each { |u| u.update_moderator_sites }'
   runner 'FlagCondition.revalidate_all'
+  runner 'User.update_core_users'
+end
+
+every 1.day, at: '2:10am' do
+  runner 'ApplicationRecord.full_dump'
 end

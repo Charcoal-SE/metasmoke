@@ -1,0 +1,12 @@
+<h3>Database Dumps</h3>
+<p>What follows is a list of sanitized metasmoke database dumps. Click a filename to download it.</p>
+
+<table class="table">
+  <tbody>
+    <% @dumps.each do |d| %>
+      <tr>
+        <td><%= link_to d, download_dump_path(filename: d) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

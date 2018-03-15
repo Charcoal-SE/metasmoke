@@ -1,0 +1,41 @@
+<% post_counts = false if post_counts.nil? %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="text-muted">MS ID</th>
+      <th>Site ID</th>
+      <% if post_counts %>
+        <th>Post Count</th>
+      <% end %>
+      <th>Reputation</th>
+      <% if user_signed_in? && current_user.moderator_sites.exists? %>
+        <th colspan="2"></th>
+      <% elsif user_signed_in? %>
+        <th></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% users.each do |u| %>
+      <tr>
+        <td class="text-muted"><%= link_to u.id, url_for(:controller => :stack_exchange_users, :action => :show, :id => u.id) %></td>
+        <td><%= link_to "#{u.user_id} (#{u.username})", "#{@site.site_url}/users/#{u.user_id}" %></td>
+        <% if post_counts %>
+          <td><%= u.posts.count %></td>
+        <% end %>
+        <td><%= u.reputation %></td>
+        <% if user_signed_in? && current_user.moderator_sites.exists? %>
+          <td><a href="#" class="not-spammer" data-uid="<%= u.id %>">Not a spammer</a></td>
+        <% end %>
+        <% if user_signed_in? && current_user.moderator_sites.exists? %>
+          <td><a href="#" class="not-spammer" data-uid="<%= u.id %>">Nuked</a></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= will_paginate users, renderer: BootstrapPagination::Rails %>
+</div>
