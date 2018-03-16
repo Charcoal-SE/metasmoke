@@ -4,7 +4,7 @@ FROM ruby:2.5
 
 # The base image ruby:2.3 is Debian Jessie
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-    && printf 'deb http://dl.yarnpkg.com/debian/ stable main' \
+    && printf 'deb http://dl.yarnpkg.com/debian/ stable main\n' \
        >/etc/apt/sources.list.d/yarn.list \
     && curl -sL https://deb.nodesource.com/setup_6.x | bash \
     && : '# ^ the above includes apt-get update' \
@@ -13,7 +13,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
        | debconf-set-selections \
     && : '# allow mysql server to start, see comment in policy-rd.d' \
     && sed -i 's/^exit 101/exit 0/' /usr/sbin/policy-rc.d \
-    && apt-get install -y mysql-server mysql-client libmysqlclient-dev \
+    && apt-get install -y mysql-server mysql-client default-libmysqlclient-dev \
        nodejs yarn redis-server \
     && rm -rf /var/lib/apt/lists/*
 
