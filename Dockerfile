@@ -3,7 +3,8 @@ FROM ruby:2.5
 ######## FIXME: hardcoded password "password" everywhere
 
 # The base image ruby:2.3 is Debian Jessie
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg \
+       | gpg --dearmor > /etc/apt/trusted.gpg.d/yarn.gpg \
     && printf 'deb http://dl.yarnpkg.com/debian/ stable main\n' \
        >/etc/apt/sources.list.d/yarn.list \
     && curl -sL https://deb.nodesource.com/setup_6.x | bash \
