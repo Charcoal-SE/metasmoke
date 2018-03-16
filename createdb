@@ -38,3 +38,10 @@ cp config/config.sample.yml config/config.yml
 rails db:create
 rails db:schema:load
 rails db:seed
+
+rails c <<\____
+User.create!(
+  username: 'metasmoke', email: 'metasmoke@localhost', password: 'password')
+User.first.add_role(:admin)
+User.first.add_role(:developer)
+____
