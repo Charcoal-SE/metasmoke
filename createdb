@@ -39,9 +39,10 @@ rails db:create
 rails db:schema:load
 rails db:seed
 
+######## FIXME: yet another hard-coded, easily guessable password
 rails c <<\____
-User.create!(
+u = User.create(
   username: 'metasmoke', email: 'metasmoke@localhost', password: 'password')
-User.first.add_role(:admin)
-User.first.add_role(:developer)
+u.add_role(:admin)
+u.add_role(:developer)
 ____
