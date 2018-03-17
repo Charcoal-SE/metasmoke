@@ -85,6 +85,7 @@ class GithubController < ApplicationController
 
     keywords.each do |keyword|
       keyword = keyword[0]
+      keyword.gsub! '\W', '[ -]'
 
       num_tps = Post.where('body LIKE ?', "%#{keyword}%").where(is_tp: true).count
       num_fps = Post.where('body LIKE ?', "%#{keyword}%").where(is_fp: true).count
@@ -97,6 +98,7 @@ class GithubController < ApplicationController
 
     usernames.each do |username|
       username = username[0]
+      username.gsub! '\W', '[ -]'
 
       num_tps = Post.where('username LIKE ?', "%#{username}%").where(is_tp: true).count
       num_fps = Post.where('username LIKE ?', "%#{username}%").where(is_fp: true).count
@@ -109,6 +111,7 @@ class GithubController < ApplicationController
 
     watches.each do |watch|
       watch = watch[0]
+      watch.gsub! '\W', '[ -]'
 
       num_tps = Post.where('body LIKE ?', "%#{watch}%").where(is_tp: true).count
       num_fps = Post.where('body LIKE ?', "%#{watch}%").where(is_fp: true).count
@@ -123,7 +126,7 @@ class GithubController < ApplicationController
   end
 
   def get_line(thing, num_tps, num_fps, num_naa)
-    response_text  = "#{thing} has been seen in #{num_tps} true #{'positive'.pluralize(num_tps)}"
+    response_text  = "`#{thing}` has been seen in #{num_tps} true #{'positive'.pluralize(num_tps)}"
     response_text += ", #{num_fps} false #{'positive'.pluralize(num_fps)}"
     response_text += ", and #{num_naa} #{'NAA'.pluralize(num_naa)}."
     response_text + "\n\n"
