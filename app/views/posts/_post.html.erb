@@ -55,11 +55,7 @@
       <div data-postid="<%= post.id %>" class="post-body" style="<%= "display: none;" unless expand_post.present? and expand_post %>">
         <% if preload_post_body %>
           <pre class="post-body-pre-block"><%= post.body %></pre>
-          <p>
-            <span class="report-reasons">
-              <%= post.reasons.map(&:reason_name).join(", ") %>
-            </span>
-          </p>
+          <%= render 'reasons', post: post %>
           <% if show_autoflaggers && post.flagged? %>
             <p>Autoflagged by:&nbsp;
               <% post.flaggers.each do |flagger| %>
