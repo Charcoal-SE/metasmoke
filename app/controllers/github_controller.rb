@@ -73,6 +73,7 @@ class GithubController < ApplicationController
 
     domains.each do |domain|
       domain = domain[0]
+      domain.gsub! '\W', '[^A-Za-z0-9]'
 
       num_tps = Post.where('body LIKE ?', "%#{domain}%").where(is_tp: true).count
       num_fps = Post.where('body LIKE ?', "%#{domain}%").where(is_fp: true).count
@@ -85,7 +86,7 @@ class GithubController < ApplicationController
 
     keywords.each do |keyword|
       keyword = keyword[0]
-      keyword.gsub! '\W', '[ -]'
+      keyword.gsub! '\W', '[^A-Za-z0-9]'
 
       num_tps = Post.where('body LIKE ?', "%#{keyword}%").where(is_tp: true).count
       num_fps = Post.where('body LIKE ?', "%#{keyword}%").where(is_fp: true).count
@@ -98,7 +99,7 @@ class GithubController < ApplicationController
 
     usernames.each do |username|
       username = username[0]
-      username.gsub! '\W', '[ -]'
+      username.gsub! '\W', '[^A-Za-z0-9]'
 
       num_tps = Post.where('username LIKE ?', "%#{username}%").where(is_tp: true).count
       num_fps = Post.where('username LIKE ?', "%#{username}%").where(is_fp: true).count
@@ -111,7 +112,7 @@ class GithubController < ApplicationController
 
     watches.each do |watch|
       watch = watch[0]
-      watch.gsub! '\W', '[ -]'
+      watch.gsub! '\W', '[^A-Za-z0-9]'
 
       num_tps = Post.where('body LIKE ?', "%#{watch}%").where(is_tp: true).count
       num_fps = Post.where('body LIKE ?', "%#{watch}%").where(is_fp: true).count
