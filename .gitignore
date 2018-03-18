@@ -17,7 +17,6 @@
 /tmp
 config/secrets.html
 config/secrets.yml
-config/config.yml
 config/database.yml
 
 Gemfile.lock    # we need the Gemfile, but not the .lock
