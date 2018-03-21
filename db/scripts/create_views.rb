@@ -12,7 +12,7 @@ EXCLUDE_COLUMNS = {
 tables = ActiveRecord::Base.connection.tables
 queries = []
 
-queries << "CREATE USER metasmoke_blazer@localhost IDENTIFIED BY 'zFpc8tw7CdAuXizX';"
+queries << "CREATE USER IF NOT EXISTS metasmoke_blazer@localhost IDENTIFIED BY 'zFpc8tw7CdAuXizX';"
 
 tables.each do |t|
   next if EXCLUDE_TABLES.include? t
