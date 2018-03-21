@@ -1,11 +1,13 @@
-EXCLUDE_TABLES = %w[ar_internal_metadata flags github_tokens schema_migrations]
+# frozen_string_literal: true
+
+EXCLUDE_TABLES = %w[ar_internal_metadata flags github_tokens schema_migrations].freeze
 EXCLUDE_COLUMNS = {
   'api_keys' => ['key'],
-  'api_tokens' => ['code', 'token'],
+  'api_tokens' => %w[code token],
   'audits' => ['remote_address'],
   'smoke_detectors' => ['access_token'],
-  'users' => ['email', 'encrypted_password', 'reset_password_token', 'encrypted_api_token', 'two_factor_token', 'enabled_2fa', 'salt', 'iv']
-}
+  'users' => %w[email encrypted_password reset_password_token encrypted_api_token two_factor_token enabled_2fa salt iv]
+}.freeze
 
 tables = ActiveRecord::Base.connection.tables
 queries = []
