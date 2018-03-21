@@ -10,14 +10,18 @@ data_sources:
       slow_threshold: 5
 
     smart_variables:
-      # zone_id: "SELECT id, name FROM zones ORDER BY name ASC"
-      # period: ["day", "week", "month"]
-      # status: {0: "Active", 1: "Archived"}
+      reason_id: "SELECT id, reason_name FROM p_reasons ORDER BY id ASC"
+      user_id: "SELECT id, username FROM p_users ORDER BY id ASC"
+      api_key_id: "SELECT id, app_name FROM p_api_keys ORDER BY id ASC"
+      site_id: "SELECT id, site_name FROM p_sites ORDER BY id ASC"
 
     linked_columns:
       # user_id: "/admin/users/{value}"
 
     smart_columns:
-      # user_id: "SELECT id, name FROM users WHERE id IN {value}"
+      reason_id: "SELECT id, reason_name FROM p_reasons WHERE id IN {value}"
+      user_id: "SELECT id, username FROM p_users WHERE id IN {value}"
+      api_key_id: "SELECT id, app_name FROM p_api_keys WHERE id IN {value}"
+      site_id: "SELECT id, site_name FROM p_sites WHERE id IN {value}"
 
 audit: true
