@@ -26,6 +26,7 @@ set :linked_files, fetch(:linked_files, ['config/database.yml']).push(
   'config/database.yml',
   'config/secrets.yml',
   'config/config.yml',
+  'config/blazer.yml',
   'config/ms-ci.pem'
 )
 
