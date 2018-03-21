@@ -18,6 +18,7 @@
 config/secrets.html
 config/config.yml
 config/database.yml
+config/blazer.yml
 
 Gemfile.lock    # we need the Gemfile, but not the .lock
 

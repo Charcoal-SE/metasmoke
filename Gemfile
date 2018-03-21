@@ -15,7 +15,7 @@ gem 'devise', git: 'https://github.com/plataformatec/devise'
 gem 'htmlentities', '~> 4.3', '>= 4.3.4'
 gem 'httparty'
 gem 'jwt'
-gem 'loofah'
+gem 'loofah', '~> 2.2.1'
 gem 'mysql2'
 gem 'octokit', '~> 4.0'
 gem 'puma'
@@ -41,6 +41,7 @@ gem 'groupdate', '~> 3.0.0'
 gem 'rubocop', '~> 0.48.1', require: false, group: :test
 gem 'simplecov', require: false, group: :test
 
+gem 'blazer', '1.8.2'
 gem 'grape', '1.0.0'
 
 # gem 'puma_worker_killer'

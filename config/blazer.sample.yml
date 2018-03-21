@@ -1,0 +1,27 @@
+# see https://github.com/ankane/blazer for more info
+
+data_sources:
+  main:
+    url: mysql2://metasmoke_blazer:zFpc8tw7CdAuXizX@localhost:3306/metasmoke_dev
+    timeout: 10
+    cache:
+      mode: slow
+      expires_in: 60
+      slow_threshold: 5
+
+    smart_variables:
+      reason_id: "SELECT id, reason_name FROM p_reasons ORDER BY id ASC"
+      user_id: "SELECT id, username FROM p_users ORDER BY id ASC"
+      api_key_id: "SELECT id, app_name FROM p_api_keys ORDER BY id ASC"
+      site_id: "SELECT id, site_name FROM p_sites ORDER BY id ASC"
+
+    linked_columns:
+      # user_id: "/admin/users/{value}"
+
+    smart_columns:
+      reason_id: "SELECT id, reason_name FROM p_reasons WHERE id IN {value}"
+      user_id: "SELECT id, username FROM p_users WHERE id IN {value}"
+      api_key_id: "SELECT id, app_name FROM p_api_keys WHERE id IN {value}"
+      site_id: "SELECT id, site_name FROM p_sites WHERE id IN {value}"
+
+audit: true
