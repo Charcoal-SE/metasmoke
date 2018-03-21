@@ -270,6 +270,10 @@ Rails.application.routes.draw do
     root             to: 'data#index',        as: :data_explorer
     get  'retrieve', to: 'data#retrieve',     as: :data_retrieve
     get  'schema',   to: 'data#table_schema', as: :data_schema
+
+    authenticate :user, -> (user) { user.has_role?(:core) } do
+      mount Blazer::Engine, at: 'sql'
+    end
   end
 
   scope '/domains' do
