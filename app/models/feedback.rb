@@ -29,9 +29,7 @@ class Feedback < ApplicationRecord
                                                "(//metasmoke.erwaysoftware.com/post/#{post_id}) (#{names.join ' '})"
       end
 
-      if post.is_fp
-        post.stack_exchange_user.unblacklist_user
-      end
+      post.stack_exchange_user.unblacklist_user if post.is_fp
     end
   end
 
