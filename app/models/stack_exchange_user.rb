@@ -22,4 +22,10 @@ class StackExchangeUser < ApplicationRecord
       post: post.link
     }
   end
+
+  def unblacklist_user
+    ActionCable.server.broadcast 'smokedetector_messages', unblacklist: {
+      uid: user_id.to_s
+    }
+  end
 end
