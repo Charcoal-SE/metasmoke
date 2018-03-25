@@ -226,10 +226,6 @@ class Post < ApplicationRecord
       SmokeDetector.send_message_to_charcoal "**fp on autoflagged post**: #{title}](//metasmoke.erwaysoftware.com/post/#{id})"
     end
 
-    if is_fp_changed? && is_fp
-      @stack_exchange_user.unblacklist_for_post(self)
-    end
-
     if is_feedback_changed
       ActionCable.server.broadcast 'topbar', review: Post.without_feedback.count
     end
