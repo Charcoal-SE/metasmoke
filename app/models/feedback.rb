@@ -28,8 +28,9 @@ class Feedback < ApplicationRecord
         SmokeDetector.send_message_to_charcoal "fp feedback on autoflagged post: [#{post.title}](#{post.link}) [MS]" \
                                                "(//metasmoke.erwaysoftware.com/post/#{post_id}) (#{names.join ' '})"
       end
+
       if post.is_fp
-        post.stack_exchange_user.unblacklist_for_post(post)
+        post.stack_exchange_user.unblacklist_user
       end
     end
   end
