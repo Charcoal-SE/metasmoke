@@ -104,15 +104,24 @@ Output format:
                     "users": [
                         {
                             "id": 14,
-                            "username": "ProgramFOX"
+                            "username": "ProgramFOX",
+                            "stackexchange_chat_id": 123456,
+                            "stackoverflow_chat_id": 123456,
+                            "meta_chat_id": 123456
                         },
                         {
                             "id": 42,
-                            "username": "QPaysTaxes"
+                            "username": "QPaysTaxes",
+                            "stackexchange_chat_id": 123456,
+                            "stackoverflow_chat_id": 123456,
+                            "meta_chat_id": 123456
                         },
                         {
                             "id": 226,
-                            "username": "guiniveretoo"
+                            "username": "guiniveretoo",
+                            "stackexchange_chat_id": 123456,
+                            "stackoverflow_chat_id": 123456,
+                            "meta_chat_id": 123456
                         }
                     ]
                 },
@@ -120,7 +129,10 @@ Output format:
                     "users": [
                         {
                             "id": 7,
-                            "username": "ArtOfCode"
+                            "username": "ArtOfCode",
+                            "stackexchange_chat_id": 123456,
+                            "stackoverflow_chat_id": 123456,
+                            "meta_chat_id": 123456
                         }
                     ]
                 }
