@@ -12,7 +12,11 @@ module SearchHelper
                   end
       regex_support = {
         '\w' => '[a-zA-Z0-9_]',
-        '\W' => '[^a-zA-Z0-9_]'
+        '\W' => '[^a-zA-Z0-9_]',
+        '\s' => '[\r\n\t\f\v ]',
+        '\S' => '[^\r\n\t\f\v ]',
+        '\d' => '[0-9]',
+        '\D' => '[^0-9]'
       }
       regex_support.each { |k, v| input = input.gsub(k, v) }
     else
