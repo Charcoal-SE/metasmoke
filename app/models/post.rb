@@ -20,8 +20,8 @@ class Post < ApplicationRecord
   has_many :reviews, class_name: 'ReviewResult', dependent: :destroy
 
   scope(:includes_for_post_row, -> { includes(:stack_exchange_user).includes(:reasons).includes(feedbacks: [:user, :api_key]) })
-  scope(:without_feedback, -> { where(feedbacks_count: 0) })
-  scope(:unreviewed, -> { where('feedbacks_count < 2') })
+  scope(:without_feedback, -> { where(feedbacks_count: 0).or(where(feedbacks_count: nil)) })
+  scope(:unreviewed, -> { where('feedbacks_count < 2 or feedbacks_count is null') })
 
   scope(:autoflagged, -> { where(autoflagged: true) })
   scope(:not_autoflagged, -> { where(autoflagged: false) })
