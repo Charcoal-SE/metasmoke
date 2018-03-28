@@ -27,12 +27,8 @@ class ReviewController < ApplicationController
       return
     end
 
-    f = Feedback.new
-    f.user = current_user
-    f.post = post
-    f.feedback_type = params[:feedback_type]
-    f.save!
-
+    Feedback.where(user: current_user, post: post).destroy_all
+    f = Feedback.create(user: current_user, post: post, feedback_type: params[:feedback_type])
     ReviewResult.create(post: post, user: current_user, feedback: f, result: params[:feedback_type])
 
     post.reasons.each do |reason|
