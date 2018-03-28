@@ -48,7 +48,7 @@ class FeedbacksControllerTest < ActionController::TestCase
 
     delete :delete, params: { id: f_id }
 
-    assert_equal Feedback.unscoped.find(f_id).invalidated_by, user.id
+    assert_equal Feedback.unscoped.find(f_id).invalidated_by, user
   end
 
   test 'should require smokedetector key to create feedback' do
