@@ -10,6 +10,11 @@ module SearchHelper
                   else
                     false
                   end
+      regex_support = {
+        '\w' => '[a-zA-Z0-9_]',
+        '\W' => '[^a-zA-Z0-9_]'
+      }
+      regex_support.each { |k, v| input = input.gsub(k, v) }
     else
       operation = 'LIKE'
       input = '%' + input + '%'
