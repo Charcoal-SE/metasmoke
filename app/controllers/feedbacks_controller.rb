@@ -30,10 +30,11 @@ class FeedbacksController < ApplicationController
       expire_fragment(reason)
     end
 
-    f.is_invalidated = true
-    f.invalidated_by = current_user.id
-    f.invalidated_at = DateTime.now
-    f.save!
+    if f.user == current_user && f.created_at >= 10.minutes.ago
+      f.destroy
+    else
+      f.update(is_invalidated: true, invalidated_by: current_user, invalidated_at: DateTime.now)
+    end
 
     redirect_to clear_post_feedback_path(f.post_id)
   end

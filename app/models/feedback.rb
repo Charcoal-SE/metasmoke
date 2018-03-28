@@ -11,6 +11,7 @@ class Feedback < ApplicationRecord
 
   belongs_to :post, counter_cache: true
   belongs_to :user
+  belongs_to :invalidated_by, class_name: 'User', foreign_key: 'invalidated_by'
   belongs_to :api_key
   has_one :review, class_name: 'ReviewResult', required: false, dependent: :destroy
 
