@@ -22,6 +22,18 @@
   <% end %>
 </h4>
 
+<p>
+  <strong>Add feedback:</strong>
+  <%= link_to raw('&#x2713'), review_feedback_path(post_id: @post.id, feedback_type: 'tpu'),
+              class: 'feedback-button on-post text-success', remote: true, method: :post, data: { post_id: @post.id } %>
+  <%= link_to raw('&#x2717'), review_feedback_path(post_id: @post.id, feedback_type: 'fp'),
+              class: 'feedback-button on-post text-danger', remote: true, method: :post, data: { post_id: @post.id } %>
+  <% if @post.link.nil? or @post.link.include? '/a/' %>
+      <%= link_to raw('&#x1f4a9'), review_feedback_path(post_id: @post.id, feedback_type: 'naa'), class: 'feedback-button on-post text-warning',
+                  remote: true, method: :post, data: { post_id: @post.id } %>
+  <% end %>
+</p>
+
 <% unless @post.body.nil? %>
   <div data-postid="<%= @post.id.to_s %>" class="post-body">
     <hr>

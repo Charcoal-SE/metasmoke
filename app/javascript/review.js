@@ -1,6 +1,8 @@
 $(() => {
-  $(document).on('ajax:success', 'a[data-remote]', e => {
-    $('.post-cell-' + e.target.dataset.postId).remove();
-    e.target.closest('tr').remove();
+  $(document).on('ajax:success', 'a.feedback-button[data-remote]', e => {
+    if (!$(e.target).hasClass('on-post')) {
+      $('.post-cell-' + e.target.dataset.postId).remove();
+      e.target.closest('tr').remove();
+    }
   });
 });
