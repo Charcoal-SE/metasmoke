@@ -101,14 +101,14 @@ module API
         id: post.id,
         autoflagged: {
           flagged: post.flag_logs.auto.successful.any?,
-          users: post.flag_logs.auto.successful.includes(:users).map do |u|
+          users: post.flag_logs.auto.successful.includes(:user).map do |u|
             user = u.user
             { id: user.id, username: user.username, stackexchange_chat_id: user.stackexchange_chat_id,
               stackoverflow_chat_id: user.stackoverflow_chat_id, meta_chat_id: user.meta_stackexchange_chat_id }
           end
         },
         manual_flags: {
-          users: post.flag_logs.manual.successful.includes(:users).map do |u|
+          users: post.flag_logs.manual.successful.includes(:user).map do |u|
             user = u.user
             { id: user.id, username: user.username, stackexchange_chat_id: user.stackexchange_chat_id,
               stackoverflow_chat_id: user.stackoverflow_chat_id, meta_chat_id: user.meta_stackexchange_chat_id }
