@@ -13,7 +13,7 @@ class SpamDomainsController < ApplicationController
                  SpamDomain.where('domain LIKE ?', "%#{params[:filter]}%")
                else
                  SpamDomain.all
-               end.order(domain: :asc).paginate(page: params[:page], per_page: 100)
+               end.includes(:domain_tags).order(domain: :asc).paginate(page: params[:page], per_page: 100)
     @counts = {
       all: @domains.joins(:posts).group(Arel.sql('spam_domains.id')).count,
       tp: @domains.joins(:posts).where(posts: { is_tp: true }).group(Arel.sql('spam_domains.id')).count,
