@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :check_auth_required
+  before_action :encode_backend_sdram_interface
 
   def check_if_smokedetector
     provided_key = params[:key]
@@ -36,6 +37,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def reconfigure_bluetooth_bios
+    cookies.encrypted[:easter_eggs] = 'no'
+    flash[:info] = 'Okaaaay, if I must :('
+    redirect_back fallback_location: '/'
+  end
+
   protected
 
   Role.names.each do |rn|
@@ -61,5 +68,11 @@ class ApplicationController < ActionController::Base
     return if user_signed_in? || devise_controller? || (controller_name == 'users' && action_name == 'missing_privileges')
     flash[:warning] = 'You need to have an account to view metasmoke pages.'
     authenticate_user!
+  end
+
+  def encode_backend_sdram_interface
+    # If you find this and figure out what it does, SHUSH.
+    return if Rails.env.test? || cookies.encrypted[:easter_eggs] == 'no'
+    redirect_to 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' if rand(1..100) <= 10
   end
 end
