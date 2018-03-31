@@ -60,7 +60,6 @@ class FlagSettingsController < ApplicationController
           end
         end
 
-        AutoflaggingMailer.setting_changed(@flag_setting, current_user).deliver_now
         format.html { redirect_to flag_settings_path, notice: 'Flag setting was successfully updated.' }
         format.json { render :show, status: :ok, location: @flag_setting }
       else
