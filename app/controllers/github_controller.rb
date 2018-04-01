@@ -75,9 +75,9 @@ class GithubController < ApplicationController
       domain = domain[0]
       domain.gsub! '\W', '[^A-Za-z0-9]'
 
-      num_tps = Post.where('body REGEXP ?', "#{domain}").where(is_tp: true).count
-      num_fps = Post.where('body REGEXP ?', "#{domain}").where(is_fp: true).count
-      num_naa = Post.where('body REGEXP ?', "#{domain}").where(is_naa: true).count
+      num_tps = Post.where('body REGEXP ?', domain).where(is_tp: true).count
+      num_fps = Post.where('body REGEXP ?', domain).where(is_fp: true).count
+      num_naa = Post.where('body REGEXP ?', domain).where(is_naa: true).count
 
       response_text += get_line domain, num_tps, num_fps, num_naa
     end
@@ -88,9 +88,9 @@ class GithubController < ApplicationController
       keyword = keyword[0]
       keyword.gsub! '\W', '[^A-Za-z0-9]'
 
-      num_tps = Post.where('body REGEXP ?', "#{keyword}").where(is_tp: true).count
-      num_fps = Post.where('body REGEXP ?', "#{keyword}").where(is_fp: true).count
-      num_naa = Post.where('body REGEXP ?', "#{keyword}").where(is_naa: true).count
+      num_tps = Post.where('body REGEXP ?', keyword).where(is_tp: true).count
+      num_fps = Post.where('body REGEXP ?', keyword).where(is_fp: true).count
+      num_naa = Post.where('body REGEXP ?', keyword).where(is_naa: true).count
 
       response_text += get_line keyword, num_tps, num_fps, num_naa
     end
@@ -101,9 +101,9 @@ class GithubController < ApplicationController
       username = username[0]
       username.gsub! '\W', '[^A-Za-z0-9]'
 
-      num_tps = Post.where('username REGEXP ?', "#{username}").where(is_tp: true).count
-      num_fps = Post.where('username REGEXP ?', "#{username}").where(is_fp: true).count
-      num_naa = Post.where('username REGEXP ?', "#{username}").where(is_naa: true).count
+      num_tps = Post.where('username REGEXP ?', username).where(is_tp: true).count
+      num_fps = Post.where('username REGEXP ?', username).where(is_fp: true).count
+      num_naa = Post.where('username REGEXP ?', username).where(is_naa: true).count
 
       response_text += get_line username, num_tps, num_fps, num_naa
     end
@@ -114,9 +114,9 @@ class GithubController < ApplicationController
       watch = watch[0]
       watch.gsub! '\W', '[^A-Za-z0-9]'
 
-      num_tps = Post.where('body REGEXP ?', "#{watch}").where(is_tp: true).count
-      num_fps = Post.where('body REGEXP ?', "#{watch}").where(is_fp: true).count
-      num_naa = Post.where('body REGEXP ?', "#{watch}").where(is_naa: true).count
+      num_tps = Post.where('body REGEXP ?', watch).where(is_tp: true).count
+      num_fps = Post.where('body REGEXP ?', watch).where(is_fp: true).count
+      num_naa = Post.where('body REGEXP ?', watch).where(is_naa: true).count
 
       response_text += get_line watch, num_tps, num_fps, num_naa
     end
