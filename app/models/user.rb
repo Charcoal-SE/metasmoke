@@ -253,6 +253,6 @@ class User < ApplicationRecord
   end
 
   def can_use_regex_search?
-    has_role? :reviewer || moderator_sites.any?
+    (has_role? :reviewer) || moderator_sites.any?
   end
 end
