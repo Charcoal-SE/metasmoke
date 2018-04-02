@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 module SearchHelper
-  def self.parse_search_params(params, symbol, user_signed_in)
+  def self.parse_search_params(params, symbol, user)
     input = params[symbol] || ''
 
     if params[is_regex?(symbol)]
-      operation = if user_signed_in
+      operation = if user != nil and user.can_use_regex_search? 
                     params[is_inverse_regex?(symbol)] ? 'NOT REGEXP' : 'REGEXP'
                   else
                     false

@@ -10,7 +10,7 @@ class SearchController < ApplicationController
     body, body_operation,
     why, why_operation,
     username, username_operation = [:title, :body, :why, :username].map do |s|
-      SearchHelper.parse_search_params(params, s, user_signed_in?)
+      SearchHelper.parse_search_params(params, s, current_user)
     end.flatten
 
     if [title_operation, body_operation, why_operation, username_operation].any?(&:!)
