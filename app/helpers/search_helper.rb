@@ -5,7 +5,7 @@ module SearchHelper
     input = params[symbol] || ''
 
     if params[is_regex?(symbol)]
-      operation = if user != nil and user.can_use_regex_search? 
+      operation = if !user.nil? && user.can_use_regex_search?
                     params[is_inverse_regex?(symbol)] ? 'NOT REGEXP' : 'REGEXP'
                   else
                     false
