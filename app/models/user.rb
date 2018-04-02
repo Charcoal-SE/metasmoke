@@ -251,4 +251,8 @@ class User < ApplicationRecord
   def has_pinned_role?(role)
     UsersRole.where(user: self, role: Role.find_by(name: role), pinned: true).exists?
   end
+
+  def can_use_regex_search?
+    (has_role? :reviewer) || moderator_sites.any?
+  end
 end
