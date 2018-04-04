@@ -5,16 +5,16 @@ import { onLoad } from './util';
 const debug = createDebug('ms:admin');
 
 onLoad(() => {
-  var nukeUserConfirmed = false;
+  let nukeUserConfirmed = false;
 
   $('a.nuke-user-link').click(function (e) {
     e.preventDefault();
 
     const $this = $(this);
     if (!nukeUserConfirmed) {
-      nukeUserConfirmed = window.confirm("Are you sure?  This will permanently destroy '" + $this.data('username') + "' and all associated records.  " + 
-                                         "Note that you will not be prompted for confirmation to nuke another user until you refresh the page.");
-      if (!nukeUserConfirmed) return;
+      nukeUserConfirmed = window.confirm('Are you sure?  This will permanently destroy \'' + $this.data('username') + '\' and all associated records.  ' +
+                                         'Note that you will not be prompted for confirmation to nuke another user until you refresh the page.');
+      if (!nukeUserConfirmed) { return; }
     }
     $.ajax({
       type: 'delete',
