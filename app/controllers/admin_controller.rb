@@ -2,6 +2,7 @@
 
 class AdminController < ApplicationController
   before_action :verify_admin, except: [:user_feedback, :api_feedback, :users, :recently_invalidated, :index]
+  before_action :verify_developer, only: :destroy_user
 
   def index; end
 
