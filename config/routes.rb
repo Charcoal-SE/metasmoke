@@ -106,6 +106,7 @@ Rails.application.routes.draw do
   delete 'admin/destroy_ignored/:id', to: 'admin#destroy_ignored'
   get 'admin/permissions'
   put 'admin/permissions/update', to: 'admin#update_permissions'
+  delete 'admin/permissions/:user_id', to: 'admin#destroy_user'
 
   get 'admin/invalidate_tokens', to: 'authentication#invalidate_tokens'
   post 'admin/invalidate_tokens', to: 'authentication#send_invalidations'

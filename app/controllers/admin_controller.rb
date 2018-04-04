@@ -2,6 +2,7 @@
 
 class AdminController < ApplicationController
   before_action :verify_admin, except: [:user_feedback, :api_feedback, :users, :recently_invalidated, :index]
+  before_action :verify_developer, only: :destroy_user
 
   def index; end
 
@@ -94,6 +95,11 @@ class AdminController < ApplicationController
       User.find(params[:user_id]).remove_role params[:role]
     end
 
+    render plain: 'success', status: :accepted
+  end
+
+  def destroy_user
+    User.find(params[:user_id]).destroy
     render plain: 'success', status: :accepted
   end
 end

@@ -13,6 +13,9 @@
     <% @roles.map {|r| r.to_s.humanize.titlecase }.each do |role_name| %>
       <th><%= role_name %></th>
     <% end %>
+    <% if current_user&.has_role?(:developer) %>
+     <th></th>
+    <% end %>
   <tr>
 
   <% @users.each do |user| %>
@@ -32,6 +35,9 @@
             <% end %>
           </label>
         </td>
+      <% end %>
+      <% if current_user&.has_role?(:developer) %>
+        <td><%= link_to "Nuke", 'javascript:void(0);', class: 'text-danger nuke-user-link', data: { :user_id => user.id, :username => user.username } %></td>
       <% end %>
     </tr>
   <% end %>
