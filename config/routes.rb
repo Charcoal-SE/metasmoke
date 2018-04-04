@@ -304,7 +304,7 @@ Rails.application.routes.draw do
     get 'autoflagged', to: 'rss#autoflagged'
   end
 
-  devise_for :users, controllers: { sessions: 'custom_sessions' }
+  devise_for :users, controllers: { sessions: 'custom_sessions', registrations: 'custom_registrations' }
   devise_scope :user do
     get  'users/2fa/login', to: 'custom_sessions#verify_2fa'
     post 'users/2fa/login', to: 'custom_sessions#verify_code'

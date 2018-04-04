@@ -32,7 +32,9 @@ class User < ApplicationRecord
                 "New metasmoke user '#{username}' created"
               end
 
-    SmokeDetector.send_message_to_charcoal message
+    if SiteSetting['new_account_messages_enabled']
+      SmokeDetector.send_message_to_charcoal message
+    end
   end
 
   before_save do

@@ -7,7 +7,7 @@ class SiteSetting < ApplicationRecord
     inst = find_by name: key
     case inst&.value_type
     when 'boolean'
-      !inst&.value&.to_i == 0
+      inst&.value&.to_i == 1
     when 'number'
       inst&.value&.to_i
     else

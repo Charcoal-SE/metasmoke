@@ -113,7 +113,7 @@
             <% if user_signed_in? %>
               <%= nav_dropdown label: current_user.username || current_user.email do %>
                 <%= nav_link CustomSessionsController, label: 'Sign Out', action: :destroy, link_attrs: { method: 'delete' } %>
-                <%= nav_link Devise::RegistrationsController, label: 'Account Settings', action: :edit %>
+                <%= nav_link CustomRegistrationsController, label: 'Account Settings', action: :edit %>
                 <%= nav_link UsersController, action: :apps %>
                 <% if current_user.has_role? :smoke_detector_runner %>
                   <%= nav_link SmokeDetectorsController, label: 'My SmokeDetectors', action: :mine %>
@@ -122,7 +122,7 @@
               <% end %>
             <% else %>
               <%= nav_link CustomSessionsController, label: 'sign in', action: :new %>
-              <%= nav_link Devise::RegistrationsController, label: 'sign up', action: :new %>
+              <%= nav_link CustomRegistrationsController, label: 'sign up', action: :new %>
             <% end %>
             <% if CurrentCommit.present? %>
               <%= nav_link CodeStatusController, label: '', attrs: {
