@@ -96,4 +96,9 @@ class AdminController < ApplicationController
 
     render plain: 'success', status: :accepted
   end
+
+  def destroy_user
+    User.find(params[:user_id]).destroy
+    render plain: 'success', status: :accepted
+  end
 end

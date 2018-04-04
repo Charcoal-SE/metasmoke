@@ -13,6 +13,7 @@
     <% @roles.map {|r| r.to_s.humanize.titlecase }.each do |role_name| %>
       <th><%= role_name %></th>
     <% end %>
+    <th></th>
   <tr>
 
   <% @users.each do |user| %>
@@ -33,6 +34,7 @@
           </label>
         </td>
       <% end %>
+      <td><%= link_to "Nuke", 'javascript:void(0);', class: 'text-danger nuke-user-link', data: { :user_id => user.id, :username => user.username } %></td>
     </tr>
   <% end %>
 </table>
