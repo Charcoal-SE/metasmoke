@@ -25,8 +25,7 @@
           <% end %>
         </td>
         <td><%= time_ago_in_words(f.invalidated_at) + " ago" if f.invalidated_at %></td>
-        <% user = @users[f.invalidated_by] if f.invalidated_by %></td>
-        <td><%= user.username || user.email if user %></td>
+        <td><%= f.invalidated_by&.username %></td>
       </tr>
     <% end %>
   </tbody>

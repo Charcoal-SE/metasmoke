@@ -7,14 +7,12 @@ class AdminController < ApplicationController
   def index; end
 
   def recently_invalidated
-    @feedbacks = Feedback.unscoped
+    @feedbacks = Feedback.unscoped.includes(:invalidated_by)
                          .joins('inner join posts on feedbacks.post_id = posts.id')
                          .where(is_invalidated: true)
                          .select(Arel.sql('posts.title, feedbacks.*'))
                          .order(Arel.sql('feedbacks.invalidated_at DESC'))
                          .paginate(page: params[:page], per_page: 100)
-
-    @users = User.where(id: @feedbacks.pluck(:invalidated_by)).map { |u| [u.id, u] }.to_h
   end
 
   def user_feedback
