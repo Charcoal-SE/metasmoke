@@ -2,7 +2,7 @@
 
 class FlagConditionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :verify_admin, only: [:full_list, :user_overview]
+  before_action :verify_admin, only: [:full_list, :user_overview, :validate_user]
   before_action :set_condition, only: [:edit, :update, :destroy, :enable]
   before_action :verify_authorized, only: [:edit, :update, :destroy, :enable]
   before_action :check_registration_status, only: [:new]
@@ -123,6 +123,15 @@ class FlagConditionsController < ApplicationController
     @conditions = FlagCondition.where(user: @user)
     @preferences = UserSiteSetting.where(user: @user)
     @logs = FlagLog.where(user: @user)
+  end
+
+  def validate_user
+    @user = User.find params[:user]
+    Thread.new do
+      FlagCondition.validate_for_user @user, current_user
+    end
+    flash[:info] = 'Validation launched in background.'
+    redirect_back fallback_location: root_path
   end
 
   private

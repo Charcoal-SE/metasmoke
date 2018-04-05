@@ -77,3 +77,5 @@
     <% end %>
   </tbody>
 </table>
+
+<%= link_to 'Validate all conditions', flag_conditions_validate_user_path(user: params[:user]), class: 'btn btn-warning', method: :post %>

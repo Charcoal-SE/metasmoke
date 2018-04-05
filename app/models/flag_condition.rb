@@ -39,6 +39,20 @@ class FlagCondition < ApplicationRecord
     end
   end
 
+  def self.validate_for_user(user, disabler)
+    conditions = FlagCondition.where(user: user, flags_enabled: true)
+    posts = conditions.map(&:posts).flatten.uniq
+    tp_count = posts.select(&:is_tp).size
+    accuracy = tp_count.to_f * 100 / posts.size
+
+    return unless accuracy < FlagSetting['min_accuracy'].to_f
+    conditions.update_all(flags_enabled: false)
+    user = conditions.first.user&.username&.tr(' ', '')
+    admin = disabler.username&.tr(' ', '')
+    SmokeDetector.send_message_to_charcoal "@#{user} Your flag conditions were manually disabled by @#{admin}: " \
+                                           "Total accuracy must be >= #{FlagSetting['min_accuracy']}%."
+  end
+
   def validate!(post)
     post.reasons.pluck(:weight).reduce(:+) >= min_weight &&
       post.stack_exchange_user.reputation <= max_poster_rep &&

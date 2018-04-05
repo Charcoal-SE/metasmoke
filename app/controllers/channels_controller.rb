@@ -4,6 +4,7 @@ class ChannelsController < ApplicationController
   before_action :authenticate_user!, except: [:receive_email]
   skip_before_action :verify_authenticity_token, only: [:receive_email]
 
+  # rubocop:disable Style/AccessorMethodName
   def get_email_address
     if current_user.channels_user.present?
       @secret = current_user.channels_user.secret
@@ -13,16 +14,15 @@ class ChannelsController < ApplicationController
     else
       @secret = nil
       used = ChannelsUser.all.map(&:secret)
-      while @secret == nil
+      while @secret.nil?
         attempt = SecureRandom.hex 18
-        unless used.include? attempt
-          @secret = attempt
-        end
+        @secret = attempt unless used.include? attempt
       end
 
       ChannelsUser.create user: current_user, secret: @secret
     end
   end
+  # rubocop:enable Style/AccessorMethodName
 
   def show_link
     if current_user.channels_user.present?

@@ -242,6 +242,7 @@ Rails.application.routes.draw do
     get 'conditions/sandbox', to: 'flag_conditions#sandbox'
     resources :flag_conditions, path: '/conditions', except: [:show]
     patch 'conditions/:id/enable', to: 'flag_conditions#enable', as: :flag_conditions_enable
+    post 'conditions/validate_user', to: 'flag_conditions#validate_user', as: :flag_conditions_validate_user
 
     get 'preferences/user/:user', to: 'user_site_settings#for_user'
     post 'preferences/enable', to: 'user_site_settings#enable_flagging'
