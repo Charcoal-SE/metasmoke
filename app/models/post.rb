@@ -215,11 +215,11 @@ class Post < ApplicationRecord
         msg += ", [##{i + 1}](//metasmoke.erwaysoftware.com/post/#{post.id})"
       end
 
-      SmokeDetector.send_message_to_charcoal msg
+      # SmokeDetector.send_message_to_charcoal msg
     end
 
     if is_tp && is_fp
-      SmokeDetector.send_message_to_charcoal "Conflicting feedback on [#{title}](//metasmoke.erwaysoftware.com/post/#{id})."
+      # SmokeDetector.send_message_to_charcoal "Conflicting feedback on [#{title}](//metasmoke.erwaysoftware.com/post/#{id})."
     end
 
     if is_fp_changed? && is_fp && flagged?
