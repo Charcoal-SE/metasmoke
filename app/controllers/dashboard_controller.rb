@@ -4,7 +4,7 @@ class DashboardController < ApplicationController
   before_action :verify_core, only: [:db_dumps, :download_dump]
 
   def funride
-    redirect_to '/magic/funride', status: :moved_permanently
+    redirect_to 'https://speed.hetzner.de/10GB.bin', status: :moved_permanently
   end
 
   def index
