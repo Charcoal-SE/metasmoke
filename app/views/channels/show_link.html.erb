@@ -1,0 +1,9 @@
+<h1>Channels: Join link</h1>
+<p>Once you've entered your <code>channel-verify</code> email address into the Channel's join page, Stack Overflow
+  will send it a verification email. That email will be picked up by metasmoke, and the link from it will show up here.</p>
+
+<% if @channels_user.link.present? %>
+  <h3><%= link_to 'Join Channel', @channels_user.link %></h3>
+<% else %>
+  <p>We haven't received the email yet. Check back in a few minutes.</p>
+<% end %>

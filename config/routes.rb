@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  post 'channels/receive_email'
   mount ActionCable.server => '/cable'
 
   root to: 'dashboard#new_dash', as: :dashboard
@@ -302,6 +301,12 @@ Rails.application.routes.draw do
 
   scope 'rss' do
     get 'autoflagged', to: 'rss#autoflagged'
+  end
+
+  scope 'channels' do
+    post 'receive_email', to: 'channels#receive_email',     as: :channels_receive_email
+    get  'email',         to: 'channels#get_email_address', as: :channels_email
+    get  'link',          to: 'channels#show_link',         as: :channels_link
   end
 
   devise_for :users, controllers: { sessions: 'custom_sessions', registrations: 'custom_registrations' }

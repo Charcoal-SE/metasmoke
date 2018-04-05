@@ -21,6 +21,8 @@ class User < ApplicationRecord
   has_many :moderator_sites
   has_many :reviews, class_name: 'ReviewResult'
 
+  has_one :channels_user, required: false
+
   # All accounts start with flagger role enabled
   after_create do
     add_role :flagger

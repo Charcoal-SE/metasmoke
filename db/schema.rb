@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_04_180721) do
+ActiveRecord::Schema.define(version: 2018_04_05_094916) do
 
   create_table "announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.text "text"
@@ -116,6 +116,15 @@ ActiveRecord::Schema.define(version: 2018_04_04_180721) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
+  end
+
+  create_table "channels_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "secret"
+    t.string "link"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_channels_users_on_user_id"
   end
 
   create_table "commit_statuses", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -425,6 +434,7 @@ ActiveRecord::Schema.define(version: 2018_04_04_180721) do
   add_foreign_key "api_keys", "users"
   add_foreign_key "api_tokens", "api_keys"
   add_foreign_key "api_tokens", "users"
+  add_foreign_key "channels_users", "users"
   add_foreign_key "flag_conditions", "users"
   add_foreign_key "flag_logs", "api_keys"
   add_foreign_key "flag_logs", "flag_conditions"
