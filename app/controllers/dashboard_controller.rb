@@ -10,6 +10,7 @@ class DashboardController < ApplicationController
   def index
     if params[:id].present?
       redirect_to '/magic/funride', status: :moved_permanently
+      return
     end
 
     @inactive_reasons, @active_reasons = [true, false].map do |inactive|
