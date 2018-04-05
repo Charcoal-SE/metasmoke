@@ -4,6 +4,7 @@ class DashboardController < ApplicationController
   before_action :verify_core, only: [:db_dumps, :download_dump]
 
   def funride
+    response.cache_control = 'public, max-age=86400'
     redirect_to 'https://speed.hetzner.de/10GB.bin', status: :moved_permanently
   end
 
