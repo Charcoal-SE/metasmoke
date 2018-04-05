@@ -8,6 +8,10 @@ Rails.application.routes.draw do
   # Have to have this root route *without* the as: parameter, otherwise we get weirdness like #247
   root to: 'dashboard#new_dash'
 
+  scope '/magic' do
+    get 'funride', to: 'dashboard#funride'
+  end
+
   scope '/dumps' do
     root to: 'dashboard#db_dumps', as: :dumps
     get 'download', to: 'dashboard#download_dump', as: :download_dump

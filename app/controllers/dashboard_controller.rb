@@ -3,7 +3,15 @@
 class DashboardController < ApplicationController
   before_action :verify_core, only: [:db_dumps, :download_dump]
 
+  def funride
+    redirect_to '/magic/funride', status: :moved_permanently
+  end
+
   def index
+    if params[:id].present?
+      redirect_to '/magic/funride', status: :moved_permanently
+    end
+
     @inactive_reasons, @active_reasons = [true, false].map do |inactive|
       Reason.all.joins(:posts)
             .where('reasons.inactive = ?', inactive)
