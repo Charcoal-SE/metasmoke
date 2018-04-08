@@ -25,9 +25,7 @@ class User < ApplicationRecord
 
   # All accounts start with flagger role enabled
   after_create do
-    if SiteSetting['auto_flagger_role']
-      add_role :flagger
-    end
+    add_role :flagger if SiteSetting['auto_flagger_role']
 
     message = case stack_exchange_account_id.present?
               when true
