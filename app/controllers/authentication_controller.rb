@@ -65,6 +65,10 @@ class AuthenticationController < ApplicationController
       flash[:warning] = 'Registration is currently disabled.'
       redirect_to root_path
       return
+    elsif Rails.cache.read("deleted_user_#{access_token_info['account_id']}").present?
+      flash[:warning] = 'You may not recreate your account yet as you have recently deleted it.'
+      redirect_to root_path
+      return
     else
       user = User.new(stack_exchange_account_id: access_token_info['account_id'],
                       email: "#{access_token_info['account_id']}@se-oauth.metasmoke")

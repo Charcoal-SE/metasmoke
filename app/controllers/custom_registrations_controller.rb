@@ -12,4 +12,12 @@ class CustomRegistrationsController < Devise::RegistrationsController
       redirect_back fallback_location: root_path
     end
   end
+
+  def destroy
+    if @user.stack_exchange_account_id.present?
+      Rails.cache.write("deleted_user_#{@user.stack_exchange_account_id}", '1', expires_in: 1.hour)
+    end
+
+    super
+  end
 end
