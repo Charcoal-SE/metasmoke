@@ -50,7 +50,7 @@ class AuthenticationController < ApplicationController
 
   def login_redirect_target
     if user_signed_in?
-      flash[:error] = "You're already signed in."
+      flash[:danger] = "You're already signed in."
       redirect_to(root_path) && return
     end
 
@@ -61,6 +61,10 @@ class AuthenticationController < ApplicationController
 
     if user.present?
       flash[:success] = "Successfully logged in as #{user.username}"
+    elsif !SiteSetting['registration_enabled']
+      flash[:warning] = 'Registration is currently disabled.'
+      redirect_to root_path
+      return
     else
       user = User.new(stack_exchange_account_id: access_token_info['account_id'],
                       email: "#{access_token_info['account_id']}@se-oauth.metasmoke")

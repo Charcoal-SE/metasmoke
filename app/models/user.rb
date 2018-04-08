@@ -21,11 +21,13 @@ class User < ApplicationRecord
   has_many :moderator_sites
   has_many :reviews, class_name: 'ReviewResult'
 
-  has_one :channels_user, required: false
+  has_one :channels_user, required: false, dependent: :destroy
 
   # All accounts start with flagger role enabled
   after_create do
-    add_role :flagger
+    if SiteSetting['auto_flagger_role']
+      add_role :flagger
+    end
 
     message = case stack_exchange_account_id.present?
               when true
