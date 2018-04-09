@@ -62,21 +62,21 @@ class User < ApplicationRecord
     return if stack_exchange_account_id.nil?
 
     begin
-      res = Net::HTTP.get_response(URI.parse("http://chat.stackexchange.com/accounts/#{stack_exchange_account_id}"))
+      res = Net::HTTP.get_response(URI.parse("https://chat.stackexchange.com/accounts/#{stack_exchange_account_id}"))
       self.stackexchange_chat_id = res['location'].scan(%r{/users/(\d*)/})[0][0]
     rescue
       puts 'Probably no c.SE ID'
     end
 
     begin
-      res = Net::HTTP.get_response(URI.parse("http://chat.stackoverflow.com/accounts/#{stack_exchange_account_id}"))
+      res = Net::HTTP.get_response(URI.parse("https://chat.stackoverflow.com/accounts/#{stack_exchange_account_id}"))
       self.stackoverflow_chat_id = res['location'].scan(%r{/users/(\d*)/})[0][0]
     rescue
       puts 'Probably no c.SO ID'
     end
 
     begin
-      res = Net::HTTP.get_response(URI.parse("http://chat.meta.stackexchange.com/accounts/#{stack_exchange_account_id}"))
+      res = Net::HTTP.get_response(URI.parse("https://chat.meta.stackexchange.com/accounts/#{stack_exchange_account_id}"))
       self.meta_stackexchange_chat_id = res['location'].scan(%r{/users/(\d*)/})[0][0]
     rescue
       puts 'Probably no c.mSE ID'
