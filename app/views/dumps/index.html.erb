@@ -1,0 +1,17 @@
+<h1>Dumps</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>File</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @dumps.each do |dump| %>
+      <tr>
+        <td><%= link_to dump.file_file_name, dump %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

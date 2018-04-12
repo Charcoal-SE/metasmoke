@@ -54,4 +54,14 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
   config.action_cable.disable_request_forgery_protection = true
+
+  config.paperclip_defaults = {
+    storage: :s3,
+    s3_credentials: {
+      bucket: 'erwaysoftware.metasmokedumps',
+      access_key_id: AppConfig['aws']['access_token'],
+      secret_access_key: AppConfig['aws']['secret_token']
+    },
+    s3_region: 'us-east-2'
+  }
 end

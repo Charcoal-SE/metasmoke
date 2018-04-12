@@ -61,7 +61,7 @@
                 <%= nav_link AdminController, label: 'User Data', action: :users %>
                 <%= nav_link AdminController, label: 'Invalidated Feedback', action: :recently_invalidated %>
                 <%= nav_link AdminController, label: 'Feedback via API', action: :api_feedback %>
-                <%= nav_link DashboardController, label: 'Database Dumps', action: :db_dumps %>
+                <%= nav_link DumpsController, label: 'Database Dumps', action: :index %>
                 <% if current_user.moderator? %>
                   <%= nav_link StackExchangeUsersController, label: 'Spammers', action: :sites %>
                 <% end %>

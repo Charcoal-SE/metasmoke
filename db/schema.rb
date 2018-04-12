@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_08_210824) do
+ActiveRecord::Schema.define(version: 2018_04_12_144542) do
 
   create_table "announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.text "text"
@@ -156,6 +156,15 @@ ActiveRecord::Schema.define(version: 2018_04_08_210824) do
   create_table "domain_tags_spam_domains", primary_key: ["domain_tag_id", "spam_domain_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "domain_tag_id", default: 0, null: false
     t.integer "spam_domain_id", default: 0, null: false
+  end
+
+  create_table "dumps", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "file_file_name"
+    t.string "file_content_type"
+    t.integer "file_file_size"
+    t.datetime "file_updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "feedbacks", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|

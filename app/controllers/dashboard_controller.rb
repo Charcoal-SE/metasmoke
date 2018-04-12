@@ -83,23 +83,4 @@ class DashboardController < ApplicationController
     @posts_timescaled = @posts.where('posts.created_at >= ?', @months.months.ago)
     @posts = @posts.order(id: :desc).paginate(per_page: 50, page: params[:page])
   end
-
-  def db_dumps
-    @dumps = Dir.chdir(Rails.root.join('dumps')) do
-      Dir.glob '*.sql.gz'
-    end
-  end
-
-  def download_dump
-    valid = Dir.chdir(Rails.root.join('dumps')) do
-      Dir.glob '*.sql.gz'
-    end
-    @dump = Rails.root.join('dumps', params[:filename])
-
-    if !valid.include? params[:filename]
-      render status: 401, layout: nil
-    else
-      send_file @dump, type: 'application/octet-stream'
-    end
-  end
 end

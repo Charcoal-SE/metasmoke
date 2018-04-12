@@ -40,5 +40,8 @@ class ApplicationRecord < ActiveRecord::Base
     username = Rails.configuration.database_configuration[Rails.env]['username']
     password = Rails.configuration.database_configuration[Rails.env]['password']
     `#{Rails.root}/dump/dump.sh "#{username}" "#{password}"`
+
+    Dump.destroy_all!
+    Dump.create file: File.open(Dir.glob('dumps/*')[0])
   end
 end

@@ -4,6 +4,9 @@ common: &common
   ses_smtp_credentials: # email
     username: 'xxx'
     password: 'yyy'
+  aws:
+    access_token: ''
+    secret_token: ''
   github:
     secret_token: 'xxyyzz' # the webhook token
     access_token: 'deadbeef' # or username & password, if you prefer

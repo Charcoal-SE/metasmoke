@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :dumps
   mount ActionCable.server => '/cable'
 
   root to: 'dashboard#new_dash', as: :dashboard
@@ -10,11 +11,6 @@ Rails.application.routes.draw do
 
   scope '/magic' do
     get 'funride', to: 'dashboard#funride'
-  end
-
-  scope '/dumps' do
-    root to: 'dashboard#db_dumps', as: :dumps
-    get 'download', to: 'dashboard#download_dump', as: :download_dump
   end
 
   scope '/authentication' do
