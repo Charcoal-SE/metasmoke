@@ -124,7 +124,8 @@ onLoad(() => {
   $('.body-is-regex').click(ev => {
     if ($(ev.target).is(':checked')) {
       $('.body-precursor').attr('disabled', false);
-    } else {
+    }
+    else {
       $('.body-precursor').attr('disabled', 'disabled');
     }
   });

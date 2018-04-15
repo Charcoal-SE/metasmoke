@@ -105,12 +105,12 @@ class SearchController < ApplicationController
     end.to_h
 
     case params[:feedback_filter]
-    when 'tp'
-      @results = @results.where(is_tp: true)
-    when 'fp'
-      @results = @results.where(is_fp: true)
-    when 'naa'
-      @results = @results.where(is_naa: true)
+      when 'tp'
+        @results = @results.where(is_tp: true)
+      when 'fp'
+        @results = @results.where(is_fp: true)
+      when 'naa'
+        @results = @results.where(is_naa: true)
     end
 
     respond_to do |format|
