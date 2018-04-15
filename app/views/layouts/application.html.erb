@@ -74,7 +74,8 @@
                   <%= nav_link AnnouncementsController, label: 'Announcements' %>
                 <% end %>
                 <% if current_user.try(:has_role?, :core) %>
-                  <%= nav_link DataController, label: 'Data Explorer' %>
+                  <%= nav_link DataController, label: 'JS Data Explorer' %>
+                  <%= nav_link nil, path: '/data/sql', label: 'SQL Data Explorer' %>
                 <% end %>
                 <%= nav_link SpamDomainsController, label: 'Spam Domains' %>
                 <%= nav_link DomainTagsController, label: 'Domain Tags' %>

@@ -32,12 +32,14 @@ module ApplicationHelper
         controller: "/#{controller_name}"
       }.merge(options.select { |key| allowed_keys.include? key })
        .merge(options[:params] || {}))
+    elsif options[:path].present?
+      url = options[:path]
     else
       url = '#'
     end
 
     options[:label] = options[:label].to_s
-    options[:label] = options[:label].titleize.sub 'Smoke Detector', 'SmokeDetector' unless @current_dropdown_is_active.nil?
+    options[:label] = options[:label].sub 'Smoke Detector', 'SmokeDetector' unless @current_dropdown_is_active.nil?
 
     link = if block_given?
              link_to(url, options[:link_attrs]) { h(options[:label]) + ' ' + capture(&block) }
