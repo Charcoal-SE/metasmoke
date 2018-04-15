@@ -120,4 +120,13 @@ onLoad(() => {
   $('.form-submit').click(ev => {
     $(ev.target).parent().submit();
   });
+
+  $('.body-is-regex').click(ev => {
+    if ($(ev.target).is(':checked')) {
+      $('.body-precursor').attr('disabled', false);
+    }
+    else {
+      $('.body-precursor').attr('disabled', 'disabled');
+    }
+  });
 });

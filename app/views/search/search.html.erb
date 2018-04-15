@@ -12,10 +12,10 @@
   <div class="form-group">
     <%= label_tag :body %>
     <% if current_user&.can_use_regex_search? %>
-      <%= check_box_tag :body_is_regex, 1, params[:body_is_regex] %> <span class="text-muted">regex</span>
-      <%= check_box_tag :body_is_inverse_regex, 1, params[:body_is_inverse_regex] %> <span class="text-muted">invert</span>
+      <%= check_box_tag :body_is_regex, 1, params[:body_is_regex], class: 'body-is-regex' %> <span class="text-muted">regex</span>
+      <%= text_field_tag :body_precursor, params[:body_precursor], placeholder: 'Precursor match', class: 'form-control body-precursor', disabled: params[:body_is_regex] != '1' %>
     <% end %>
-    <%= text_field_tag :body, params[:body], placeholder: "*", class: "form-control" %>
+    <%= text_field_tag :body, params[:body], placeholder: 'Search term', class: "form-control" %>
   </div>
   <div class="form-group">
     <%= label_tag :username %>
@@ -83,7 +83,7 @@
 <% if @results.present? %>
   <ul class="nav nav-tabs">
     <li role="presentation" class="<%= "active" if params[:option].nil? and (params[:feedback_filter].nil? or params[:feedback_filter] == 'all') %>">
-      <%= link_to "Results (#{@counts_by_accuracy_group.values.sum})", search_path(request.query_parameters.merge!({:option => nil, feedback_filter: nil})) %>
+      <%= link_to "Results (#{@results_count})", search_path(request.query_parameters.merge!({:option => nil, feedback_filter: nil})) %>
     </li>
     <li class="<%= 'active' if params[:feedback_filter] == 'tp' %>">
       <%= link_to "True positives (#{@counts_by_feedback[:is_tp]})", search_path(request.query_parameters.to_h.merge!({option: nil, feedback_filter: "tp"})) %>
