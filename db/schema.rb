@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_18_210552) do
+ActiveRecord::Schema.define(version: 2018_04_18_222734) do
 
   create_table "announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.text "text"
@@ -280,6 +280,7 @@ ActiveRecord::Schema.define(version: 2018_04_18_210552) do
     t.boolean "autoflagged", default: false
     t.string "tags"
     t.integer "feedbacks_count"
+    t.bigint "native_id"
     t.index ["autoflagged"], name: "index_posts_on_autoflagged"
     t.index ["created_at"], name: "index_posts_on_created_at"
     t.index ["feedbacks_count"], name: "index_posts_on_feedbacks_count"
