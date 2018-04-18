@@ -13,6 +13,8 @@ class AddNativeIdToPosts < ActiveRecord::Migration[5.2]
     native_id_values = native_ids.map { |n| "(#{n[0]}, #{n[1]})" }.join(', ')
     sql = "INSERT INTO posts (id, native_id) VALUES #{native_id_values} ON DUPLICATE KEY UPDATE native_id = VALUES(native_id);"
 
-    ActiveRecord::Base.connection.execute sql
+    if native_ids.size >= 1
+      ActiveRecord::Base.connection.execute sql
+    end
   end
 end
