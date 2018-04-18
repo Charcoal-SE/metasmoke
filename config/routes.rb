@@ -131,6 +131,7 @@ Rails.application.routes.draw do
   get 'posts', to: 'posts#index', as: :posts
   get 'posts/latest', to: 'posts#latest'
   get 'posts/by-url', to: 'posts#by_url'
+  get 'posts/uid/:api_param/:native_id', to: 'posts#by_uid'
   get 'posts/by-site', to: 'dashboard#spam_by_site', as: :spam_by_site
   post 'posts/needs_admin', to: 'posts#needs_admin'
   get 'post/:id/feedback/clear', to: 'feedbacks#clear', as: :clear_post_feedback

@@ -44,6 +44,22 @@ class PostsController < ApplicationController
     end
   end
 
+  def by_uid
+    @posts = Post.joins(:site).where(sites: { api_parameter: params[:api_param] }, posts: { native_id: params[:native_id] })
+    count = @posts.count
+
+    if count < 1
+      flash[:danger] = "Post not found for #{params[:api_param]}/#{params[:native_id]}. "\
+                       'It may have been reported during a period of metasmoke downtime.'
+      redirect_to posts_path
+    elsif count == 1
+      redirect_to url_for(controller: :posts, action: :show, id: @posts.first.id)
+    else
+      flash.now[:info] = 'Multiple records were found for this URL; pick the one you meant from this list.'
+      render action: :by_url
+    end
+  end
+
   def recentpostsapi
     posts = Rails.cache.fetch('last-posts', expires_in: 30.seconds) do
       Post.joins(:site).select(Arel.sql('posts.id, posts.title, posts.link, posts.created_at, sites.site_logo')).order(:created_at).last(100)
