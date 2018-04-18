@@ -36,6 +36,11 @@ class Post < ApplicationRecord
 
   after_commit :parse_domains, on: :create
 
+  after_commit on: :create do
+    match = %r{\/(?:q(?:uestions)?|a(?:nswers)?)\/(\d+)}.match(link)
+    update(native_id: match[1]) if match
+  end
+
   after_create do
     ActionCable.server.broadcast 'posts_realtime', row: PostsController.render(locals: { post: Post.last }, partial: 'post').html_safe
     ActionCable.server.broadcast 'topbar', review: Post.without_feedback.count
