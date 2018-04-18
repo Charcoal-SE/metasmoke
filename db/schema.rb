@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_12_144542) do
+ActiveRecord::Schema.define(version: 2018_04_18_210552) do
 
   create_table "announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.text "text"
@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 2018_04_12_144542) do
     t.index ["user_id", "user_type"], name: "user_index", length: { user_type: 191 }
   end
 
-  create_table "blazer_audits", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "blazer_audits", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "query_id"
     t.text "statement"
@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(version: 2018_04_12_144542) do
     t.index ["user_id"], name: "index_blazer_audits_on_user_id"
   end
 
-  create_table "blazer_checks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "blazer_checks", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "creator_id"
     t.bigint "query_id"
     t.string "state"
@@ -89,7 +89,7 @@ ActiveRecord::Schema.define(version: 2018_04_12_144542) do
     t.index ["query_id"], name: "index_blazer_checks_on_query_id"
   end
 
-  create_table "blazer_dashboard_queries", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "blazer_dashboard_queries", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "dashboard_id"
     t.bigint "query_id"
     t.integer "position"
@@ -99,7 +99,7 @@ ActiveRecord::Schema.define(version: 2018_04_12_144542) do
     t.index ["query_id"], name: "index_blazer_dashboard_queries_on_query_id"
   end
 
-  create_table "blazer_dashboards", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "blazer_dashboards", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "creator_id"
     t.text "name"
     t.datetime "created_at", null: false
@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(version: 2018_04_12_144542) do
     t.index ["creator_id"], name: "index_blazer_dashboards_on_creator_id"
   end
 
-  create_table "blazer_queries", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "blazer_queries", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "creator_id"
     t.string "name"
     t.text "description"
@@ -118,7 +118,7 @@ ActiveRecord::Schema.define(version: 2018_04_12_144542) do
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
-  create_table "channels_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "channels_users", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "user_id"
     t.string "secret"
     t.string "link"
@@ -158,7 +158,7 @@ ActiveRecord::Schema.define(version: 2018_04_12_144542) do
     t.integer "spam_domain_id", default: 0, null: false
   end
 
-  create_table "dumps", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "dumps", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "file_file_name"
     t.string "file_content_type"
     t.integer "file_file_size"
@@ -350,6 +350,7 @@ ActiveRecord::Schema.define(version: 2018_04_12_144542) do
     t.integer "max_flags_per_post", default: 1
     t.boolean "is_child_meta"
     t.datetime "last_users_update"
+    t.string "api_parameter"
   end
 
   create_table "sites_user_site_settings", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
