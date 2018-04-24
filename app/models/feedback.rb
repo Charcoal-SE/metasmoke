@@ -28,10 +28,9 @@ class Feedback < ApplicationRecord
         names = flags.map { |flag| '@' + flag.user.username.tr(' ', '') }
 
         flags.each do |flag|
-          if flag.user.present?
-            Thread.new do
-              FlagCondition.validate_for_user(flag.user, User.find(-1))
-            end
+          next unless flag.user.present?
+          Thread.new do
+            FlagCondition.validate_for_user(flag.user, User.find(-1))
           end
         end
 
