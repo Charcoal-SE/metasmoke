@@ -52,6 +52,12 @@ Looks for the absence of a DeletionLog record with `is_deleted: true` on the pos
 Available tables: `posts`.
 Output format: identical to `/posts`.
 ---
+/api/v2.0/posts/uid/:api_param/:native_id | Get a post by its API site parameter and SE-native ID.
+
+Finds posts on the site specified by `:api_param` with the post ID specified in `:native_id`, and returns them.
+Available tables: `posts`.
+Output format: identical to `/posts`.
+---
 /api/v2.0/posts/:ids | List posts by their IDs
 
 `ids` is a **comma** separated list of post IDs to return.
