@@ -27,4 +27,34 @@ module SitesHelper
       s.save!
     end
   end
+
+  # Not actually intended to be used in prod code, just there as a console helper.
+  def self.do_site_rename(old_name, new_name)
+    old_site = Site.find_by site_name: old_name
+    new_site = Site.find_by site_name: new_name
+    puts "Old: ##{old_site.id} '#{old_site.site_name}'; new: ##{new_site.id} '#{new_site.site_name}'"
+
+    puts 'Remapping Posts...'
+    Post.where(site_id: old_site.id).update_all(site_id: new_site.id)
+
+    puts 'Remapping StackExchangeUsers...'
+    StackExchangeUser.where(site_id: old_site.id).update_all(site_id: new_site.id)
+
+    puts 'Remapping FlagLogs...'
+    FlagLog.where(site_id: old_site.id).update_all(site_id: new_site.id)
+
+    puts 'Removing ModeratorSites...'
+    ModeratorSite.where(site_id: old_site.id).delete_all
+
+    puts 'Remapping HABTM_FlagConditions...'
+    ActiveRecord::Base.connection.execute "UPDATE flag_conditions_sites SET site_id = #{new_site.id} WHERE site_id = #{old_site.id};"
+
+    puts 'Remapping HABTM_UserSiteSettings...'
+    ActiveRecord::Base.connection.execute "UPDATE sites_user_site_settings SET site_id = #{new_site.id} WHERE site_id = #{old_site.id};"
+
+    puts 'Removing Site...'
+    old_site.destroy
+
+    puts 'Done'
+  end
 end
