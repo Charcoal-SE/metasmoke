@@ -61,26 +61,18 @@ class User < ApplicationRecord
   def update_chat_ids
     return if stack_exchange_account_id.nil?
 
-    begin
-      res = Net::HTTP.get_response(URI.parse("https://chat.stackexchange.com/accounts/#{stack_exchange_account_id}"))
-      self.stackexchange_chat_id = res['location'].scan(%r{/users/(\d*)/})[0][0]
-    rescue
-      puts 'Probably no c.SE ID'
-    end
+    ids = [[:stackexchange_chat_id, 'stackexchange.com'], [:stackoverflow_chat_id, 'stackoverflow.com'],
+           [:meta_stackexchange_chat_id, 'meta.stackexchange.com']].map do |s|
+      res = Net::HTTP.get_response(URI.parse("https://chat.#{s[1]}/accounts/#{stack_exchange_account_id}"))
+      begin
+        chat_id = res['location'].scan(%r{/users/(\d+)/})[0][0]
+      rescue
+        chat_id = nil
+      end
+      [s[0], chat_id]
+    end.to_h
 
-    begin
-      res = Net::HTTP.get_response(URI.parse("https://chat.stackoverflow.com/accounts/#{stack_exchange_account_id}"))
-      self.stackoverflow_chat_id = res['location'].scan(%r{/users/(\d*)/})[0][0]
-    rescue
-      puts 'Probably no c.SO ID'
-    end
-
-    begin
-      res = Net::HTTP.get_response(URI.parse("https://chat.meta.stackexchange.com/accounts/#{stack_exchange_account_id}"))
-      self.meta_stackexchange_chat_id = res['location'].scan(%r{/users/(\d*)/})[0][0]
-    rescue
-      puts 'Probably no c.mSE ID'
-    end
+    update ids
   end
 
   def get_username(readonly_api_token = nil)
