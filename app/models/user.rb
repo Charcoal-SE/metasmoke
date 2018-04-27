@@ -221,19 +221,6 @@ class User < ApplicationRecord
     moderator_sites.any?
   end
 
-  def self.update_core_users
-    logger.info 'Started update_core_users task'
-    all.each do |u|
-      if u.feedbacks.where('created_at > ?', SiteSetting['core_time_period'].days.ago).count >= SiteSetting['core_threshold']
-        logger.info "#{u.username} above core threshold, applying"
-        u.add_role(:core)
-      else
-        logger.info "#{u.username} below core threshold, dropping"
-        u.remove_role(:core) unless u.has_pinned_role?(:core)
-      end
-    end
-  end
-
   def add_pinned_role(name)
     role = Role.find_by name: name
     if UsersRole.where(user: self, role: role).exists?
