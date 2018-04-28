@@ -1,5 +1,5 @@
 SELECT
-  (COUNT(DISTINCT IF(t.is_tp, t.id, NULL)) / COUNT(DISTINCT t.id)) * 100 AS accuracy
+  (1 - (COUNT(DISTINCT IF(t.is_fp OR t.is_naa, t.id, NULL)) / COUNT(DISTINCT t.id))) * 100 AS accuracy
 FROM (
   SELECT
     DISTINCT x.id,
