@@ -14,6 +14,7 @@ data_sources:
       user_id: "SELECT id, username FROM p_users ORDER BY id ASC"
       api_key_id: "SELECT id, app_name FROM p_api_keys ORDER BY id ASC"
       site_id: "SELECT id, site_name FROM p_sites ORDER BY id ASC"
+      domain_tag_id: "SELECT id, name FROM p_domain_tags ORDER BY id ASC"
 
     linked_columns:
       # user_id: "/admin/users/{value}"
@@ -23,5 +24,6 @@ data_sources:
       user_id: "SELECT id, username FROM p_users WHERE id IN {value}"
       api_key_id: "SELECT id, app_name FROM p_api_keys WHERE id IN {value}"
       site_id: "SELECT id, site_name FROM p_sites WHERE id IN {value}"
+      domain_tag_id: "SELECT id, name FROM p_domain_tags WHERE id IN {value}"
 
 audit: true
