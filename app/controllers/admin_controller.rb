@@ -59,7 +59,7 @@ class AdminController < ApplicationController
                User.where('username LIKE ?', "%#{params[:filter]}%")
              else
                User.all
-             end.includes(:roles).paginate(page: params[:page], per_page: 50)
+             end.includes(:roles).paginate(page: params[:page], per_page: 1000)
   end
 
   def api_feedback
