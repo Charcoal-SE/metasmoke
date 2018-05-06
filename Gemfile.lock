@@ -129,6 +129,8 @@ GEM
     capistrano-bundler (1.3.0)
       capistrano (~> 3.1)
       sshkit (~> 1.2)
+    capistrano-locally (0.2.5)
+      capistrano (~> 3.0)
     capistrano-passenger (0.2.0)
       capistrano (~> 3.0)
     capistrano-rails (1.3.1)
@@ -424,6 +426,7 @@ DEPENDENCIES
   capistrano
   capistrano-bundler
   capistrano-faster-assets!
+  capistrano-locally
   capistrano-passenger
   capistrano-rails
   capistrano-rvm

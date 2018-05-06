@@ -82,6 +82,7 @@ gem 'capistrano-rails'
 gem 'capistrano-rvm'
 gem 'capistrano-secrets-yml'
 gem 'capistrano-upload-config'
+gem 'capistrano-locally', require: false
 
 group :development do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

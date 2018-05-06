@@ -26,6 +26,7 @@ require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
 require 'capistrano/passenger'
 require 'whenever/capistrano'
+require 'capistrano/locally'
 
 require 'capistrano/scm/git'
 install_plugin Capistrano::SCM::Git
