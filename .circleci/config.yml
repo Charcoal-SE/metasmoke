@@ -56,7 +56,6 @@ jobs:
           RACK_ENV: test
     - run: bundle exec rake test:prepare
     - run: bundle exec rake db:migrate
-    - run: mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
     - run: npm test
     - run: bundle exec rubocop -D
     - run:
