@@ -7,13 +7,19 @@ onLoad(() => {
     $(ev.target).remove();
   });
 
-  $('.comment-edit').click(ev => {
+  $('.comment-edit').click(async ev => {
     ev.preventDefault();
 
     const $comment = $(ev.target).parents('.post-comment');
     const $body = $comment.find('.panel-body');
-    const text = $body.text().trim();
     const id = $comment.data('cid');
+
+    const resp = await fetch(`/comments/${id}`, {
+      credentials: 'include'
+    });
+    const json = await resp.json();
+    const text = json.text;
+
     $body.html(`<form method="POST" action="/comments/${id}/edit">
         <div class="field">
             <textarea name="text" rows="3" cols="100" placeholder="Useful information about this post that others might need..."
