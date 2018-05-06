@@ -213,7 +213,7 @@ class APIController < ApplicationController
 
   def spam_last_week
     render json: Site.joins(:posts).where(posts: { is_tp: true, created_at: 1.week.ago.to_date..Date.today })
-      .group(Arel.sql('sites.site_name')).count
+                     .group(Arel.sql('sites.site_name')).count
   end
 
   def detailed_ttd
