@@ -46,6 +46,7 @@ jobs:
           adapter: mysql2
           database: metasmoke_test
           username: ubuntu
+          password: ubuntu
           host: 127.0.0.1
         ' > config/database.yml
     - run:
