@@ -11,14 +11,12 @@ jobs:
 
     docker:
     - image: circleci/ruby:2.5-node
+    - image: circleci/node:10
     - image: circleci/mysql:5.7.22
 
     steps:
     - checkout
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
-    - run:
-        working_directory: ~/Charcoal-SE/metasmoke
-        command: nvm install node && nvm alias default node
     - run: cp config/config.sample.yml config/config.yml
     - restore_cache:
         keys:
