@@ -1,0 +1,74 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/Charcoal-SE/metasmoke
+    parallelism: 1
+    shell: /bin/bash --login
+
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+
+    docker:
+    - image: circleci/ruby:2.5-node
+    - image: circleci/mysql:5.7.22
+
+    steps:
+    - checkout
+    - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+    - run:
+        working_directory: ~/Charcoal-SE/metasmoke
+        command: rm -f Charcoal-SE/metasmoke/.rvmrc; echo ruby-2.4.1 > Charcoal-SE/metasmoke/.ruby-version; rvm use ruby-2.4.1 --default
+    - run:
+        working_directory: ~/Charcoal-SE/metasmoke
+        command: nvm install node && nvm alias default node
+    - run: cp config/config.sample.yml config/config.yml
+    - restore_cache:
+        keys:
+        - v1-dep-{{ .Branch }}-
+        - v1-dep-master-
+        - v1-dep-
+    - run: if [ -z "${NODE_ENV:-}" ]; then export NODE_ENV=test; fi
+    - run: export PATH="~/Charcoal-SE/metasmoke/node_modules/.bin:$PATH"
+    - run: npm install
+    - run: echo -e "export RAILS_ENV=test\nexport RACK_ENV=test" >> $BASH_ENV
+    - run: 'bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+        --jobs=4 --retry=3 '
+    - run: curl -o- -L https://yarnpkg.com/install.sh | bash
+    - save_cache:
+        key: v1-dep-{{ .Branch }}-{{ epoch }}
+        paths:
+        - vendor/bundle
+        - ~/.bundle
+        - ./node_modules
+    - run: |-
+        mkdir -p config && echo 'test:
+          adapter: mysql2
+          database: circle_ruby_test
+          username: ubuntu
+          host: localhost
+        ' > config/database.yml
+    - run:
+        command: bundle exec rake db:create db:schema:load --trace
+        environment:
+          RAILS_ENV: test
+          RACK_ENV: test
+    - run: bundle exec rake test:prepare
+    - run: bundle exec rake db:migrate
+    - run: mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
+    - run: npm test
+    - run: bundle exec rubocop -D
+    - run:
+        command: bundle exec rake test
+        environment:
+          RAILS_ENV: test
+          RACK_ENV: test
+
+    - store_test_results:
+        path: /tmp/circleci-test-results
+    - store_artifacts:
+        path: /tmp/circleci-artifacts
+    - store_artifacts:
+        path: coverage
+    - store_artifacts:
+        path: /tmp/circleci-test-results
