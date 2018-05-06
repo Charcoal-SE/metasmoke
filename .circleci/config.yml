@@ -45,7 +45,7 @@ jobs:
         mkdir -p config && echo 'test:
           adapter: mysql2
           database: metasmoke_test
-          username: ubuntu
+          username: root
           password: ubuntu
           host: 127.0.0.1
         ' > config/database.yml
