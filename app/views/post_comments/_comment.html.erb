@@ -14,6 +14,6 @@
     <% end %>
   </div>
   <div class="panel-body">
-    <%= comment.text %>
+    <%= raw(sanitize(PostCommentsController.renderer.render(comment.text), scrubber: PostComment.scrubber)) %>
   </div>
 </div>

@@ -318,8 +318,9 @@ Rails.application.routes.draw do
   end
 
   scope 'comments' do
-    post 'new', to: 'post_comments#create', as: :create_comment
-    post ':id/edit', to: 'post_comments#update', as: :edit_comment
+    post 'new',          to: 'post_comments#create',  as: :create_comment
+    get  ':id',          to: 'post_comments#text',    as: :comment_text
+    post ':id/edit',     to: 'post_comments#update',  as: :edit_comment
     delete ':id/delete', to: 'post_comments#destroy', as: :delete_comment
   end
 

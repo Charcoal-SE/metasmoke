@@ -20,8 +20,10 @@ module API
       requires :chat_host, type: String
     end
     post 'post/:id' do
-      id_field = { 'chat.stackexchange.com' => :stackexchange_chat_id, 'chat.stackoverflow.com' => :stackoverflow_chat_id,
-                   'chat.meta.stackexchange.com' => :meta_stackexchange_chat_id }[params[:chat_host]]
+      id_field = { 'stackexchange.com' => :stackexchange_chat_id, 'stackoverflow.com' => :stackoverflow_chat_id,
+                   'meta.stackexchange.com' => :meta_stackexchange_chat_id }[params[:chat_host]]
+      error!({ name: 'bad_parameter', detail: 'chat_host is unrecognized' }, 400) if id_field.nil?
+
       user = User.find_by(id_field => params[:chat_user_id]) || User.find(-1)
       comment = PostComment.create(user: user, post_id: params[:id], text: params[:text])
 
