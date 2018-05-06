@@ -14,7 +14,10 @@ jobs:
     - image: circleci/node:10
     - image: circleci/mysql:5.7.22
       environment:
-        - MYSQL_ROOT_HOST=%
+        MYSQL_ROOT_HOST: %
+        MYSQL_USER: ubuntu
+        MYSQL_ROOT_PASSWORD: ubuntu
+        MYSQL_DATABASE: metasmoke_test
 
     steps:
     - checkout
@@ -41,9 +44,9 @@ jobs:
     - run: |-
         mkdir -p config && echo 'test:
           adapter: mysql2
-          database: circle_ruby_test
+          database: metasmoke_test
           username: ubuntu
-          host: localhost
+          host: 127.0.0.1
         ' > config/database.yml
     - run:
         command: bundle exec rake db:create db:schema:load --trace
