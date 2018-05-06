@@ -18,6 +18,7 @@ class Post < ApplicationRecord
   has_many :flags, dependent: :destroy
   has_and_belongs_to_many :spam_domains
   has_many :reviews, class_name: 'ReviewResult', dependent: :destroy
+  has_many :comments, class_name: 'PostComment', dependent: :destroy
 
   scope(:includes_for_post_row, -> { includes(:stack_exchange_user).includes(:reasons).includes(feedbacks: [:user, :api_key]) })
   scope(:without_feedback, -> { where(feedbacks_count: 0).or(where(feedbacks_count: nil)) })

@@ -137,7 +137,7 @@ Rails.application.routes.draw do
   get 'post/:id/feedback/clear', to: 'feedbacks#clear', as: :clear_post_feedback
   delete 'feedback/:id/delete', to: 'feedbacks#delete', as: :delete_feedback
 
-  get 'post/:id', to: 'posts#show'
+  get 'post/:id', to: 'posts#show', as: :post
   get 'post/:id/body', to: 'posts#body'
   get 'post/:id/feedbacks.json', to: 'posts#feedbacksapi'
   get 'post/:id/flag_logs', to: 'flag_log#by_post', as: :post_flag_logs
@@ -315,6 +315,12 @@ Rails.application.routes.draw do
   devise_scope :user do
     get  'users/2fa/login', to: 'custom_sessions#verify_2fa'
     post 'users/2fa/login', to: 'custom_sessions#verify_code'
+  end
+
+  scope 'comments' do
+    post 'new', to: 'post_comments#create', as: :create_comment
+    post ':id/edit', to: 'post_comments#update', as: :edit_comment
+    delete ':id/delete', to: 'post_comments#destroy', as: :delete_comment
   end
 
   # This should always be right at the end of this file, so that it doesn't override other routes.

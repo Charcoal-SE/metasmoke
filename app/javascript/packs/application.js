@@ -33,6 +33,7 @@ import '../status';
 import '../user_site_settings';
 import '../graphs';
 import '../site_settings';
+import '../comments';
 
 import { onLoad } from '../util';
 

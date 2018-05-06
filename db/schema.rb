@@ -10,31 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_27_155343) do
+ActiveRecord::Schema.define(version: 2018_05_05_230302) do
 
-  create_table "announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
-    t.text "text"
+  create_table "announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.text "text", collation: "latin1_swedish_ci"
     t.datetime "expiry"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "api_keys", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "api_keys", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "key", collation: "utf8_unicode_ci"
-    t.string "app_name", collation: "utf8_unicode_ci"
+    t.string "key"
+    t.string "app_name"
     t.bigint "user_id"
-    t.string "github_link", collation: "utf8_unicode_ci"
+    t.string "github_link"
     t.boolean "is_trusted"
     t.index ["user_id"], name: "index_api_keys_on_user_id"
   end
 
-  create_table "api_tokens", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
-    t.string "code", collation: "utf8_unicode_ci"
+  create_table "api_tokens", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "code"
     t.integer "api_key_id"
     t.bigint "user_id"
-    t.string "token", collation: "utf8_unicode_ci"
+    t.string "token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "expiry"
@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
     t.index ["user_id"], name: "index_api_tokens_on_user_id"
   end
 
-  create_table "audits", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "audits", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "auditable_id"
     t.string "auditable_type", collation: "utf8mb4_bin"
     t.integer "associated_id"
@@ -67,8 +67,8 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
   create_table "blazer_audits", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "query_id"
-    t.text "statement", collation: "utf8_general_ci"
-    t.string "data_source", collation: "utf8_general_ci"
+    t.text "statement", collation: "latin1_swedish_ci"
+    t.string "data_source", collation: "latin1_swedish_ci"
     t.timestamp "created_at"
     t.index ["query_id"], name: "index_blazer_audits_on_query_id"
     t.index ["user_id"], name: "index_blazer_audits_on_user_id"
@@ -77,11 +77,11 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
   create_table "blazer_checks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.bigint "creator_id"
     t.bigint "query_id"
-    t.string "state", collation: "utf8_general_ci"
-    t.string "schedule", collation: "utf8_general_ci"
-    t.text "emails", collation: "utf8_general_ci"
-    t.string "check_type", collation: "utf8_general_ci"
-    t.text "message", collation: "utf8_general_ci"
+    t.string "state", collation: "latin1_swedish_ci"
+    t.string "schedule", collation: "latin1_swedish_ci"
+    t.text "emails", collation: "latin1_swedish_ci"
+    t.string "check_type", collation: "latin1_swedish_ci"
+    t.text "message", collation: "latin1_swedish_ci"
     t.timestamp "last_run_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
 
   create_table "blazer_dashboards", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.bigint "creator_id"
-    t.text "name", collation: "utf8_general_ci"
+    t.text "name", collation: "latin1_swedish_ci"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_blazer_dashboards_on_creator_id"
@@ -109,10 +109,10 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
 
   create_table "blazer_queries", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.bigint "creator_id"
-    t.string "name", collation: "utf8_general_ci"
-    t.text "description", collation: "utf8_general_ci"
-    t.text "statement", collation: "utf8_general_ci"
-    t.string "data_source", collation: "utf8_general_ci"
+    t.string "name", collation: "latin1_swedish_ci"
+    t.text "description", collation: "latin1_swedish_ci"
+    t.text "statement", collation: "latin1_swedish_ci"
+    t.string "data_source", collation: "latin1_swedish_ci"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
@@ -120,23 +120,23 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
 
   create_table "channels_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.bigint "user_id"
-    t.string "secret"
-    t.string "link"
+    t.string "secret", collation: "latin1_swedish_ci"
+    t.string "link", collation: "latin1_swedish_ci"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_channels_users_on_user_id"
   end
 
-  create_table "commit_statuses", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
-    t.string "commit_sha", collation: "utf8_unicode_ci"
-    t.string "status", collation: "utf8_unicode_ci"
-    t.string "commit_message", collation: "utf8_unicode_ci"
+  create_table "commit_statuses", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "commit_sha"
+    t.string "status"
+    t.string "commit_message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "ci_url", collation: "utf8_unicode_ci"
+    t.string "ci_url"
   end
 
-  create_table "deletion_logs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "deletion_logs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "post_id"
     t.boolean "is_deleted"
     t.datetime "created_at", null: false
@@ -146,34 +146,34 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
     t.index ["post_id"], name: "post_id_ix"
   end
 
-  create_table "domain_tags", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
-    t.string "name"
-    t.text "description"
+  create_table "domain_tags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "name", collation: "latin1_swedish_ci"
+    t.text "description", collation: "latin1_swedish_ci"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "domain_tags_spam_domains", primary_key: ["domain_tag_id", "spam_domain_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "domain_tags_spam_domains", primary_key: ["domain_tag_id", "spam_domain_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "domain_tag_id", default: 0, null: false
     t.integer "spam_domain_id", default: 0, null: false
   end
 
   create_table "dumps", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
-    t.string "file_file_name"
-    t.string "file_content_type"
+    t.string "file_file_name", collation: "latin1_swedish_ci"
+    t.string "file_content_type", collation: "latin1_swedish_ci"
     t.integer "file_file_size"
     t.datetime "file_updated_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "feedbacks", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
-    t.string "message_link", collation: "utf8_unicode_ci"
-    t.string "user_name", collation: "utf8_unicode_ci"
-    t.string "user_link", collation: "utf8_unicode_ci"
-    t.string "feedback_type", collation: "utf8_unicode_ci"
+  create_table "feedbacks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "message_link"
+    t.string "user_name"
+    t.string "user_link"
+    t.string "feedback_type"
     t.integer "post_id"
-    t.string "post_link", collation: "utf8_unicode_ci"
+    t.string "post_link"
     t.integer "user_id"
     t.boolean "is_invalidated", default: false
     t.integer "invalidated_by"
@@ -182,12 +182,12 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "api_key_id"
-    t.string "chat_host", collation: "utf8_unicode_ci"
+    t.string "chat_host"
     t.index ["post_id"], name: "index_feedbacks_on_post_id"
     t.index ["user_name"], name: "by_user_name", length: 5
   end
 
-  create_table "flag_conditions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "flag_conditions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.boolean "flags_enabled", default: true
     t.integer "min_weight"
     t.integer "max_poster_rep"
@@ -198,14 +198,14 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
     t.index ["user_id"], name: "index_flag_conditions_on_user_id"
   end
 
-  create_table "flag_conditions_sites", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "flag_conditions_sites", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "flag_condition_id"
     t.integer "site_id"
   end
 
-  create_table "flag_logs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "flag_logs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.boolean "success"
-    t.text "error_message"
+    t.text "error_message", collation: "latin1_swedish_ci"
     t.integer "flag_condition_id"
     t.bigint "user_id"
     t.bigint "post_id"
@@ -224,16 +224,16 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
     t.index ["user_id"], name: "index_flag_logs_on_user_id"
   end
 
-  create_table "flag_settings", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "flag_settings", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "name", collation: "utf8mb4_bin"
     t.string "value", collation: "utf8mb4_bin"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "flags", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
-    t.string "reason", collation: "utf8_unicode_ci"
-    t.string "user_id", collation: "utf8_unicode_ci"
+  create_table "flags", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "reason"
+    t.string "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_completed", default: false
@@ -241,21 +241,31 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
     t.index ["post_id"], name: "index_flags_on_post_id"
   end
 
-  create_table "github_tokens", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "github_tokens", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "token", collation: "utf8mb4_bin"
     t.datetime "expires"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "moderator_sites", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "moderator_sites", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "user_id"
     t.integer "site_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "posts", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "post_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "post_id"
+    t.bigint "user_id"
+    t.text "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_post_comments_on_post_id"
+    t.index ["user_id"], name: "index_post_comments_on_user_id"
+  end
+
+  create_table "posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "title", collation: "utf8mb4_unicode_ci"
     t.text "body", limit: 16777215, collation: "utf8mb4_unicode_ci"
     t.string "link", collation: "utf8mb4_unicode_ci"
@@ -278,7 +288,7 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
     t.datetime "deleted_at"
     t.integer "smoke_detector_id"
     t.boolean "autoflagged", default: false
-    t.string "tags"
+    t.string "tags", collation: "latin1_swedish_ci"
     t.integer "feedbacks_count"
     t.bigint "native_id"
     t.index ["autoflagged"], name: "index_posts_on_autoflagged"
@@ -290,31 +300,31 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
     t.index ["link"], name: "index_posts_on_link", length: 191
   end
 
-  create_table "posts_reasons", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "posts_reasons", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "reason_id"
     t.integer "post_id"
     t.index ["post_id"], name: "index_posts_reasons_on_post_id"
     t.index ["reason_id"], name: "index_posts_reasons_on_reason_id"
   end
 
-  create_table "posts_spam_domains", primary_key: ["post_id", "spam_domain_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "posts_spam_domains", primary_key: ["post_id", "spam_domain_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "post_id", default: 0, null: false
     t.integer "spam_domain_id", default: 0, null: false
   end
 
-  create_table "reasons", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
-    t.string "reason_name", collation: "utf8_unicode_ci"
+  create_table "reasons", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "reason_name"
     t.string "last_post_title", collation: "utf8mb4_unicode_ci"
     t.boolean "inactive", default: false
     t.integer "weight", default: 0
     t.integer "maximum_weight", limit: 1
   end
 
-  create_table "review_results", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "review_results", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.bigint "post_id"
     t.bigint "user_id"
     t.bigint "feedback_id"
-    t.string "result"
+    t.string "result", collation: "latin1_swedish_ci"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["feedback_id"], name: "index_review_results_on_feedback_id"
@@ -322,7 +332,7 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
     t.index ["user_id"], name: "index_review_results_on_user_id"
   end
 
-  create_table "roles", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "roles", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "name", collation: "utf8mb4_unicode_ci"
     t.string "resource_type", collation: "utf8mb4_unicode_ci"
     t.integer "resource_id"
@@ -332,15 +342,15 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
     t.index ["name"], name: "index_roles_on_name", length: 191
   end
 
-  create_table "site_settings", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
-    t.string "name"
-    t.string "value"
-    t.string "value_type"
+  create_table "site_settings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "name", collation: "latin1_swedish_ci"
+    t.string "value", collation: "latin1_swedish_ci"
+    t.string "value_type", collation: "latin1_swedish_ci"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "sites", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "sites", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "site_name", collation: "utf8mb4_bin"
     t.string "site_url", collation: "utf8mb4_bin"
     t.string "site_logo", collation: "utf8mb4_bin"
@@ -351,15 +361,15 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
     t.integer "max_flags_per_post", default: 1
     t.boolean "is_child_meta"
     t.datetime "last_users_update"
-    t.string "api_parameter"
+    t.string "api_parameter", collation: "latin1_swedish_ci"
   end
 
-  create_table "sites_user_site_settings", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "sites_user_site_settings", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "site_id"
     t.integer "user_site_setting_id"
   end
 
-  create_table "smoke_detectors", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "smoke_detectors", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.datetime "last_ping"
     t.string "name", collation: "utf8mb4_unicode_ci"
     t.string "location", collation: "utf8mb4_unicode_ci"
@@ -373,14 +383,14 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
     t.index ["user_id"], name: "index_smoke_detectors_on_user_id"
   end
 
-  create_table "spam_domains", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
-    t.string "domain"
-    t.text "whois"
+  create_table "spam_domains", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "domain", collation: "latin1_swedish_ci"
+    t.text "whois", collation: "latin1_swedish_ci"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "stack_exchange_users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "stack_exchange_users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "user_id"
     t.string "username", collation: "utf8mb4_unicode_ci"
     t.datetime "last_api_update"
@@ -393,7 +403,7 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
     t.integer "site_id"
   end
 
-  create_table "statistics", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "statistics", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "posts_scanned"
     t.integer "smoke_detector_id"
     t.datetime "created_at", null: false
@@ -402,7 +412,7 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
     t.float "post_scan_rate"
   end
 
-  create_table "user_site_settings", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "user_site_settings", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "max_flags"
     t.integer "flags_used", default: 0
     t.bigint "user_id"
@@ -411,22 +421,22 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
     t.index ["user_id"], name: "index_user_site_settings_on_user_id"
   end
 
-  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
-    t.string "email", default: "", null: false, collation: "utf8_unicode_ci"
-    t.string "encrypted_password", default: "", null: false, collation: "utf8_unicode_ci"
+  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
     t.datetime "remember_created_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "reset_password_token", collation: "utf8_unicode_ci"
+    t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
-    t.string "username", collation: "utf8_unicode_ci"
+    t.string "username"
     t.integer "stackexchange_chat_id"
     t.integer "meta_stackexchange_chat_id"
     t.integer "stackoverflow_chat_id"
     t.integer "stack_exchange_account_id"
     t.boolean "flags_enabled", default: false
-    t.string "encrypted_api_token"
-    t.string "two_factor_token"
+    t.string "encrypted_api_token", collation: "latin1_swedish_ci"
+    t.string "two_factor_token", collation: "latin1_swedish_ci"
     t.boolean "enabled_2fa"
     t.binary "salt"
     t.binary "iv"
@@ -435,7 +445,7 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  create_table "users_roles", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "users_roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "user_id"
     t.integer "role_id"
     t.boolean "pinned", default: false
@@ -453,6 +463,8 @@ ActiveRecord::Schema.define(version: 2018_04_27_155343) do
   add_foreign_key "flag_logs", "sites"
   add_foreign_key "flag_logs", "users"
   add_foreign_key "flags", "posts"
+  add_foreign_key "post_comments", "posts"
+  add_foreign_key "post_comments", "users"
   add_foreign_key "review_results", "feedbacks"
   add_foreign_key "review_results", "posts"
   add_foreign_key "review_results", "users"
