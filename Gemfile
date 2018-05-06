@@ -74,8 +74,14 @@ gem 'jbuilder', '~> 2.0'
 # Use Unicorn as the app server
 # gem 'unicorn'
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+gem 'capistrano'
+gem 'capistrano-bundler'
+gem 'capistrano-faster-assets', github: 'Charcoal-SE/capistrano-faster-assets'
+gem 'capistrano-passenger'
+gem 'capistrano-rails'
+gem 'capistrano-rvm'
+gem 'capistrano-secrets-yml'
+gem 'capistrano-upload-config'
 
 group :development do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -96,15 +102,6 @@ group :development do
 
   # Export fixtures from local database
   gem 'db_fixtures_dump', github: 'Undo1/db_fixtures_dump'
-
-  gem 'capistrano'
-  gem 'capistrano-bundler'
-  gem 'capistrano-faster-assets', github: 'Charcoal-SE/capistrano-faster-assets'
-  gem 'capistrano-passenger'
-  gem 'capistrano-rails'
-  gem 'capistrano-rvm'
-  gem 'capistrano-secrets-yml'
-  gem 'capistrano-upload-config'
 
   # for the RailsPanel Chrome extension
   # https://chrome.google.com/webstore/detail/railspanel/gjpfobpafnhjhbajcjgccbbdofdckggg
