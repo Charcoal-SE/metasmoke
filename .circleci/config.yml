@@ -13,6 +13,8 @@ jobs:
     - image: circleci/ruby:2.5-node
     - image: circleci/node:10
     - image: circleci/mysql:5.7.22
+      environment:
+        - MYSQL_ROOT_HOST=%
 
     steps:
     - checkout
