@@ -31,7 +31,7 @@ class AdminController < ApplicationController
       @sources << 'Meta Stack Exchange chat'
     end
 
-    @feedback = @feedback.order(Arel.sql('feedbacks.id DESC')).paginate(page: params[:page], per_page: 100)
+    @feedback = @feedback.order(Arel.sql('feedbacks.id DESC')).paginate(page: params[:page], per_page: 1000)
     @feedback_count = @feedback.count
     @invalid_count = @feedback.where(is_invalidated: true).count
     @feedback_count_today = @feedback.where('feedbacks.updated_at > ?', Date.today).count
