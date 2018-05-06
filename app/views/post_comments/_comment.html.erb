@@ -2,14 +2,16 @@
   <div class="panel-heading">
     <strong><%= comment.user.username %></strong>
     <span title="<%= comment.created_at %>"><%= time_ago_in_words comment.created_at %> ago</span>
-    <span class="comment-control">
-      <a href="#" class="comment-edit"><span class="glyphicon glyphicon-pencil"></span></a>
-    </span>
-    <span class="comment-control">
-      <%= link_to delete_comment_path(comment.id), method: :delete do %>
-        <span class="glyphicon glyphicon-remove"></span>
-      <% end %>
-    </span>
+    <% if current_user == comment.user || current_user&.has_role?(:admin) %>
+      <span class="comment-control">
+        <a href="#" class="comment-edit"><span class="glyphicon glyphicon-pencil"></span></a>
+      </span>
+      <span class="comment-control">
+        <%= link_to delete_comment_path(comment.id), method: :delete do %>
+          <span class="glyphicon glyphicon-remove"></span>
+        <% end %>
+      </span>
+    <% end %>
   </div>
   <div class="panel-body">
     <%= comment.text %>
