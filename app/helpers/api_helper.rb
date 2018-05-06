@@ -63,8 +63,9 @@ module APIHelper
   end
 
   def filter_generator
-    cols = [Announcement, APIKey, Audited::Audit, CommitStatus, DeletionLog, DomainTag, Feedback, FlagCondition, FlagLog, FlagSetting,
-            ModeratorSite, Post, Reason, Role, Site, SmokeDetector, SpamDomain, StackExchangeUser, Statistic, UserSiteSetting, User].map do |cls|
+    cols = [Announcement, APIKey, Audited::Audit, CommitStatus, DeletionLog, DomainTag, Feedback, FlagCondition, FlagLog,
+            FlagSetting, ModeratorSite, Post, Reason, Role, Site, SmokeDetector, SpamDomain, StackExchangeUser, Statistic,
+            UserSiteSetting, User, PostComment].map do |cls|
       generator_table cls
     end
     raw(cols.each_slice(3).map do |g|
@@ -73,8 +74,9 @@ module APIHelper
   end
 
   def self.filter_config
-    available = [Announcement, APIKey, Audited::Audit, CommitStatus, DeletionLog, DomainTag, Feedback, FlagCondition, FlagLog, FlagSetting,
-                 ModeratorSite, Post, Reason, Role, Site, SmokeDetector, SpamDomain, StackExchangeUser, Statistic, UserSiteSetting, User].map do |cls|
+    available = [Announcement, APIKey, Audited::Audit, CommitStatus, DeletionLog, DomainTag, Feedback, FlagCondition, FlagLog,
+                 FlagSetting, ModeratorSite, Post, Reason, Role, Site, SmokeDetector, SpamDomain, StackExchangeUser, Statistic,
+                 UserSiteSetting, User, PostComment].map do |cls|
       cls.column_names.map { |cn| "#{cls.table_name}.#{cn}" }
     end.flatten - AppConfig['sensitive_fields']
     available.to_yaml

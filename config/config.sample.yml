@@ -208,6 +208,12 @@ common: &common
     - users.enabled_2fa
     - users.announcement_emails
     - users.oauth_created
+    - post_comments.id
+    - post_comments.post_id
+    - post_comments.user_id
+    - post_comments.text
+    - post_comments.created_at
+    - post_comments.updated_at
   sensitive_fields:
     - api_keys.key
     - api_tokens.code

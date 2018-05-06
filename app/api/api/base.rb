@@ -19,7 +19,8 @@ module API
       domains: filter(SpamDomain.fields(:id, :domain, :whois)),
       users: filter(User.fields(:id, :username)),
       mods: filter(ModeratorSite.fields(:id, :user_id, :site_id)),
-      sites: filter(Site.fields(:id, :site_name, :site_url))
+      sites: filter(Site.fields(:id, :site_name, :site_url)),
+      comments: filter(PostComment.fields(:id, :user_id, :text))
     }.freeze
 
     format :json
@@ -40,6 +41,12 @@ module API
       def authenticate_user!
         @token = @key.api_tokens.find_by token: params[:token]
         error!({ name: 'missing_token', detail: 'No token was provided or the provided token is invalid.' }, 401) if @token.blank?
+      end
+
+      def authenticate_smokey!
+        return if SmokeDetector.find_by(access_token: params[:key]).present?
+        error!({ name: 'insufficient_authorization', detail: 'The requested action requires a higher level of authorization than '\
+                 'the key provides.' }, 401)
       end
 
       def fields(default)
@@ -119,5 +126,6 @@ module API
     mount API::UsersAPI => 'v2.0/users'
     mount API::ModeratorSitesAPI => 'v2.0/mods'
     mount API::SitesAPI => 'v2.0/sites'
+    mount API::CommentsAPI => 'v2.0/comments'
   end
 end
