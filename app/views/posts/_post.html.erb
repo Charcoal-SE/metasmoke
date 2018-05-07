@@ -37,7 +37,13 @@
       <span class='text-danger'>(deleted <%= distance_of_time_in_words(post.created_at, post.deleted_at, include_seconds: true) %> after creation)</span>
     <% end %>
 
-    <span class="text-muted" style="float:right">
+    <% if post.comments.any? %>
+      <span class="comment-hint text-muted" title="<%= pluralize(post.comments.count, 'comment') %>">
+        <span class="glyphicon glyphicon-comment"></span> &times;<%= post.comments.count %>
+      </span>
+    <% end %>
+
+    <span class="text-muted post-row-right">
       <% unless post.created_at.nil? %>
         <span data-livestamp="<%= post.created_at.to_i %>" title="<%= post.created_at %>"></span>
       <% end %>
