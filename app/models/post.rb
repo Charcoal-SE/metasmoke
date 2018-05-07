@@ -20,8 +20,10 @@ class Post < ApplicationRecord
   has_many :reviews, class_name: 'ReviewResult', dependent: :destroy
   has_many :comments, class_name: 'PostComment', dependent: :destroy
 
-  scope(:includes_for_post_row, -> { includes(:stack_exchange_user).includes(:reasons)
-                                         .includes(feedbacks: [:user, :api_key]).includes(:comments) })
+  scope(:includes_for_post_row, lambda do
+    includes(:stack_exchange_user).includes(:reasons)
+           .includes(feedbacks: [:user, :api_key]).includes(:comments)
+  end)
   scope(:without_feedback, -> { where(feedbacks_count: 0).or(where(feedbacks_count: nil)) })
   scope(:unreviewed, -> { where('feedbacks_count < 2 or feedbacks_count is null') })
 
