@@ -9,6 +9,7 @@ class Post < ApplicationRecord
   serialize :tags, JSON
 
   has_and_belongs_to_many :reasons
+  has_and_belongs_to_many :post_tags, class_name: 'DomainTag'
   has_many :feedbacks, dependent: :destroy
   has_many :deletion_logs, dependent: :destroy
   belongs_to :site

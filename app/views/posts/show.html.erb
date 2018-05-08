@@ -36,6 +36,30 @@
   </p>
 <% end %>
 
+<div class="clearfix domain-tag-list">
+  <p class="pull-left">
+    <% if @post.post_tags.any? %>
+      Tagged with:
+      <% @post.post_tags.each do |t| %>
+        <%= render 'domain_tags/post_tag', tag: t, post: @post %>
+      <% end %>
+    <% else %>
+      <em>No tags.</em>
+    <% end %>
+  </p>
+
+  <%= form_tag add_post_tag_path, method: :post, class: 'form-inline pull-left add-post-tag' do %>
+    <%= hidden_field_tag :post_id, @post.id %>
+    <%= text_field_tag :tag_name, '', class: 'form-control input-sm', list: 'tag_list' %>
+    <datalist id="tag_list">
+      <% DomainTag.all.each do |t| %>
+        <option value="<%= t.name %>"></option>
+      <% end %>
+    </datalist>
+    <%= submit_tag 'Add', class: 'btn btn-primary btn-sm' %>
+  <% end %>
+</div>
+
 <% unless @post.body.nil? %>
   <div data-postid="<%= @post.id.to_s %>" class="post-body">
     <hr>

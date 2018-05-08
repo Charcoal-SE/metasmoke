@@ -19,11 +19,22 @@ class DomainTagsController < ApplicationController
     @tag = DomainTag.find_or_create_by name: params[:tag_name]
     @domain = SpamDomain.find params[:domain_id]
     if @domain.domain_tags.include? @tag
-      flash[:danger] = "This domain already has the tag '#{@tag.name}'"
+      flash[:danger] = "This domain already has the tag '#{@tag.name}'."
     else
       @domain.domain_tags << @tag
     end
     redirect_to spam_domain_path(@domain)
+  end
+
+  def add_post
+    @tag = DomainTag.find_or_create_by name: params[:tag_name]
+    @post = Post.find params[:post_id]
+    if @post.post_tags.include? @tag
+      flash[:danger] = "This post already has the tag '#{@tag.name}'."
+    else
+      @post.post_tags << @tag
+    end
+    redirect_to post_path(@post)
   end
 
   def remove
@@ -32,9 +43,20 @@ class DomainTagsController < ApplicationController
     redirect_to spam_domain_path(@domain)
   end
 
+  def remove_post
+    @post = Post.find params[:post_id]
+    @post.post_tags.delete(DomainTag.find_by(name: params[:tag_name]))
+    redirect_back fallback_location: post_path(@post)
+  end
+
   def show
-    @domains = @tag.spam_domains.paginate(page: params[:page], per_page: 100)
-    @counts = SpamDomain.where(id: @domains.map(&:id)).joins(:posts).group(Arel.sql('spam_domains.id')).count
+    if params[:what] == 'posts'
+      @posts = @tag.posts.includes_for_post_row.paginate(page: params[:page], per_page: 100)
+      @sites = Site.where(id: @posts.map(&:site_id))
+    else
+      @domains = @tag.spam_domains.paginate(page: params[:page], per_page: 100)
+      @counts = SpamDomain.where(id: @domains.map(&:id)).joins(:posts).group(Arel.sql('spam_domains.id')).count
+    end
   end
 
   def edit; end

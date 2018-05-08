@@ -1,0 +1,13 @@
+<% post ||= nil %>
+<div class="label label-info tag-label">
+  <%= link_to domain_tag_path(tag), class: 'domain-tag' do %>
+    #<%= tag.name %>
+  <% end %>
+  <% unless post.nil? %>
+    <%= form_tag remove_post_tag_path, method: :post do %>
+      <%= hidden_field_tag :post_id, post.id %>
+      <%= hidden_field_tag :tag_name, tag.name %>
+      <span class="text-danger form-submit">&times;</span>
+    <% end %>
+  <% end %>
+</div>

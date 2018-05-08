@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_06_005815) do
+ActiveRecord::Schema.define(version: 2018_05_08_193221) do
 
   create_table "announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.text "text", collation: "latin1_swedish_ci"
@@ -151,6 +151,11 @@ ActiveRecord::Schema.define(version: 2018_05_06_005815) do
     t.text "description", collation: "latin1_swedish_ci"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "domain_tags_posts", primary_key: ["domain_tag_id", "post_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "domain_tag_id", null: false
+    t.bigint "post_id", null: false
   end
 
   create_table "domain_tags_spam_domains", primary_key: ["domain_tag_id", "spam_domain_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
