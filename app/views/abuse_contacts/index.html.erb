@@ -1,0 +1,12 @@
+<h1>Abuse Contacts</h1>
+<p>People or sites to contact to report abuse of their or our services.</p>
+
+<% @contacts.in_groups_of(4).map(&:compact).each do |g| %>
+  <div class="row">
+    <% g.each do |c| %>
+      <%= render 'contact', contact: c %>
+    <% end %>
+  </div>
+<% end %>
+
+<%= will_paginate @contacts, renderer: BootstrapPagination::Rails %>

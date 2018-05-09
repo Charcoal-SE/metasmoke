@@ -326,6 +326,17 @@ Rails.application.routes.draw do
     delete ':id/delete', to: 'post_comments#destroy', as: :delete_comment
   end
 
+  scope 'abuse' do
+    scope 'contacts' do
+      root               to: 'abuse_contacts#index',   as: :abuse_contacts
+      post   'new',      to: 'abuse_contacts#create',  as: :create_abuse_contact
+      get    ':id',      to: 'abuse_contacts#show',    as: :abuse_contact
+      get    ':id/edit', to: 'abuse_contacts#edit',    as: :edit_abuse_contact
+      patch  ':id/edit', to: 'abuse_contacts#update',  as: :update_abuse_contact
+      delete ':id',      to: 'abuse_contacts#destroy', as: :destroy_abuse_contact
+    end
+  end
+
   # This should always be right at the end of this file, so that it doesn't override other routes.
   mount API::Base => '/api'
 end
