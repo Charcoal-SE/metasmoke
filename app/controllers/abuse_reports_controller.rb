@@ -44,6 +44,16 @@ class AbuseReportsController < ApplicationController
     redirect_back fallback_location: abuse_report_path(@report)
   end
 
+  def update_status
+    status = AbuseReportStatus.find params[:status_id]
+    if @report.update status: status
+      flash[:success] = 'Updated status.'
+    else
+      flash[:danger] = 'Failed to update status.'
+    end
+    redirect_back fallback_location: abuse_report_path(@report)
+  end
+
   def destroy
     if @report.destroy
       flash[:success] = 'Removed report.'

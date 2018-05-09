@@ -14,6 +14,13 @@
     &middot;
     <%= link_to 'Delete', destroy_abuse_report_path(@report), class: 'text-danger', method: :delete, data: { confirm: 'Are you sure?' } %>
   <% end %></p>
+
+  <%= form_tag update_abuse_report_status_path(@report), class: 'form-inline' do %>
+    <%= label_tag :status_id, 'Update report status:' %>
+    <%= select_tag :status_id, options_from_collection_for_select(AbuseReportStatus.all, 'id', 'name'), include_blank: true,
+                   class: 'form-control input-sm' %>
+    <%= submit_tag 'Update', class: 'btn btn-success btn-sm' %>
+  <% end %><br/>
 <% end %>
 
 <div class="panel panel-info">

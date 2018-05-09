@@ -346,12 +346,13 @@ Rails.application.routes.draw do
     end
 
     scope 'reports' do
-      root               to: 'abuse_reports#index',   as: :abuse_reports
-      get    'new',      to: 'abuse_reports#new',     as: :new_abuse_report
-      post   'new',      to: 'abuse_reports#create',  as: :create_abuse_report
-      get    ':id',      to: 'abuse_reports#show',    as: :abuse_report
-      patch  ':id/edit', to: 'abuse_reports#update',  as: :update_abuse_report
-      delete ':id',      to: 'abuse_reports#destroy', as: :destroy_abuse_report
+      root                 to: 'abuse_reports#index',         as: :abuse_reports
+      get    'new',        to: 'abuse_reports#new',           as: :new_abuse_report
+      post   'new',        to: 'abuse_reports#create',        as: :create_abuse_report
+      get    ':id',        to: 'abuse_reports#show',          as: :abuse_report
+      patch  ':id/edit',   to: 'abuse_reports#update',        as: :update_abuse_report
+      post   ':id/status', to: 'abuse_reports#update_status', as: :update_abuse_report_status
+      delete ':id',        to: 'abuse_reports#destroy',       as: :destroy_abuse_report
     end
   end
 
