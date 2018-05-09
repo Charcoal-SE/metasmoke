@@ -4,6 +4,9 @@ class AbuseReportsController < ApplicationController
   before_action :verify_core
   before_action :set_report, except: [:index, :new, :create]
   before_action :verify_access, except: [:index, :new, :create]
+  before_action :verify_admin, only: [:destroy]
+
+  def index; end
 
   def new; end
 
@@ -15,6 +18,27 @@ class AbuseReportsController < ApplicationController
     else
       flash[:danger] = 'Failed to open new report.'
       redirect_to new_abuse_report_path(reportable_type: @report.reportable_type, reportable_id: @report.reportable_id)
+    end
+  end
+
+  def show; end
+
+  def update
+    if @report.update report_params
+      flash[:success] = 'Updated report.'
+    else
+      flash[:danger] = 'Failed to update report.'
+    end
+    redirect_back fallback_location: abuse_report_path(@report)
+  end
+
+  def destroy
+    if @report.destroy
+      flash[:success] = 'Removed report.'
+      redirect_to abuse_reports_path
+    else
+      flash[:danger] = 'Failed to remove report.'
+      redirect_to abuse_report_path(@report)
     end
   end
 

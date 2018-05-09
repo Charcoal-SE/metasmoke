@@ -350,7 +350,6 @@ Rails.application.routes.draw do
       get    'new',      to: 'abuse_reports#new',     as: :new_abuse_report
       post   'new',      to: 'abuse_reports#create',  as: :create_abuse_report
       get    ':id',      to: 'abuse_reports#show',    as: :abuse_report
-      get    ':id/edit', to: 'abuse_reports#edit',    as: :edit_abuse_report
       patch  ':id/edit', to: 'abuse_reports#update',  as: :update_abuse_report
       delete ':id',      to: 'abuse_reports#destroy', as: :destroy_abuse_report
     end
