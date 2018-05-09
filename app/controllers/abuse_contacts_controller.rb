@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AbuseContactsController < ApplicationController
   before_action :verify_core, except: [:index, :show]
   before_action :set_contact, except: [:index, :create]

@@ -1,0 +1,22 @@
+// Place all the styles related to the AbuseReportStatuses controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.report-status {
+  font-size: 120% !important;
+  padding: 0.5em !important;
+  margin: 1em 1em;
+  vertical-align: middle !important;
+
+  &.nl {
+    margin-left: 0;
+  }
+
+  a, a:visited, a:hover, a:active {
+    color: inherit;
+  }
+}
+
+.status-row {
+  margin: 2em 0;
+}

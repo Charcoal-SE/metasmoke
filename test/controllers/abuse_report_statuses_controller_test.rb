@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class AbuseContactsControllerTest < ActionDispatch::IntegrationTest
+class AbuseReportStatusesControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end

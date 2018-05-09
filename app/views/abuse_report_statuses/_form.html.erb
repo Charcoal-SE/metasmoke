@@ -1,0 +1,25 @@
+<%= form_for status, url: url do |f| %>
+  <div class="field">
+    <%= f.label :name do %>
+      <span class="glyphicon glyphicon-pencil"></span> Name *
+    <% end %><br/>
+    <%= f.text_field :name, class: 'form-control' %>
+  </div><br/>
+  <div class="field">
+    <%= f.label :icon do %>
+      <span class="glyphicon glyphicon-th"></span> Icon *
+    <% end %>
+    <span class="small text-muted">Valid glyphicon class, without the <code>glyphicon-</code> prefix.</span><br/>
+    <%= f.text_field :icon, class: 'form-control' %>
+  </div><br/>
+  <div class="field">
+    <%= f.label :color do %>
+      <span class="glyphicon glyphicon-tint"></span> Color *
+    <% end %>
+    <span class="small text-muted">Bootstrap contextual color class (i.e. info or success, etc)</span><br/>
+    <%= f.text_field :color, class: 'form-control' %>
+  </div><br/>
+  <div class="actions">
+    <%= f.submit 'Save Status', class: 'btn btn-success' %>
+  </div>
+<% end %>
