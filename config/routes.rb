@@ -344,6 +344,16 @@ Rails.application.routes.draw do
       patch  ':id/edit', to: 'abuse_report_statuses#update',  as: :update_abuse_status
       delete ':id',      to: 'abuse_report_statuses#destroy', as: :destroy_abuse_status
     end
+
+    scope 'reports' do
+      root               to: 'abuse_reports#index',   as: :abuse_reports
+      get    'new',      to: 'abuse_reports#new',     as: :new_abuse_report
+      post   'new',      to: 'abuse_reports#create',  as: :create_abuse_report
+      get    ':id',      to: 'abuse_reports#show',    as: :abuse_report
+      get    ':id/edit', to: 'abuse_reports#edit',    as: :edit_abuse_report
+      patch  ':id/edit', to: 'abuse_reports#update',  as: :update_abuse_report
+      delete ':id',      to: 'abuse_reports#destroy', as: :destroy_abuse_report
+    end
   end
 
   # This should always be right at the end of this file, so that it doesn't override other routes.

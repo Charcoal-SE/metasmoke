@@ -6,11 +6,11 @@ class AbuseReport < ApplicationRecord
   belongs_to :contact, class_name: 'AbuseContact', foreign_key: 'abuse_contact_id'
   belongs_to :status, class_name: 'AbuseReportStatus', foreign_key: 'abuse_report_status_id'
 
-  validates :reportable_type, presence: true, inclusion: { in: [SpamDomain, Post] }
+  validates :reportable_type, presence: true, inclusion: { in: %w[SpamDomain Post] }
 
   before_validation do
     unless status.present?
-      self.status = AbuseReportStatus[AbuseReportStatus.DEFAULT_STATUS]
+      self.status = AbuseReportStatus[AbuseReportStatus::DEFAULT_STATUS]
     end
   end
 end

@@ -1,0 +1,4 @@
+<h1>New Abuse Report</h1>
+
+<%= render 'form', report: AbuseReport.new(reportable_type: params[:reportable_type], reportable_id: params[:reportable_id]),
+           url: create_abuse_report_path %>

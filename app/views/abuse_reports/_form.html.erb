@@ -1,0 +1,53 @@
+<%= form_for report, url: url do |f| %>
+  <div class="field row">
+    <div class="col-md-4">
+      <%= f.label :reportable_type do %>
+        <span class="glyphicon glyphicon-question-sign"></span> What are you reporting? *
+      <% end %><br/>
+      <%= f.select :reportable_type, options_for_select([['Domain', 'Domain'], ['Post', 'Post']], report.reportable_type),
+                   { include_blank: true }, { class: 'form-control' } %>
+    </div>
+    <div class="col-md-8">
+      <%= f.label :reportable_id, raw('&nbsp;') %><br/>
+      <div class="input-group">
+        <span class="input-group-addon">#</span>
+        <%= f.number_field :reportable_id, class: 'form-control' %>
+      </div>
+    </div>
+  </div><br/>
+  <div class="field">
+    <%= f.label :abuse_contact_id do %>
+      <span class="glyphicon glyphicon-user"></span> Who are you reporting it to? *
+    <% end %>
+    <span class="small text-muted">Not listed? <a href="#" data-toggle="modal" data-target="#create-contact-modal">Create it now.</a></span>
+    <br/>
+    <%= f.select :abuse_contact_id, options_for_select(AbuseContact.all.map { |ac| [ac.name, ac.id] }, report.abuse_contact_id),
+                 { include_blank: true }, { class: 'form-control selectpicker',
+                                            data: { live_search: true, actions_box: true, dropup_auto: false } } %>
+  </div><br/>
+  <div class="field">
+    <%= f.label :details do %>
+      <span class="glyphicon glyphicon-align-center"></span> Any more details you want to add?
+    <% end %>
+    <span class="small text-muted">Optional; Markdown supported. If you're sending the report via email you may want to
+    include its text here.</span><br/>
+    <%= f.text_area :details, rows: 7, cols: 100, class: 'form-control' %>
+  </div><br/>
+  <div class="actions">
+    <%= f.submit 'Save Report', class: 'btn btn-success' %>
+  </div>
+<% end %>
+
+<div class="modal fade" id="create-contact-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">New Abuse Contact</h4>
+      </div>
+      <div class="modal-body">
+        <%= render 'abuse_contacts/form', contact: AbuseContact.new, url: create_abuse_contact_path %>
+      </div>
+    </div>
+  </div>
+</div>

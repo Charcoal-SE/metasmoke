@@ -18,9 +18,11 @@ class AbuseContactsController < ApplicationController
   def create
     @contact = AbuseContact.new contact_params
     if @contact.save
-      render json: { success: true, object: @contact.as_json }
+      flash[:success] = 'Created contact.'
+      redirect_back fallback_location: abuse_contact_path(@contact)
     else
-      render json: { success: false }, status: 500
+      flash[:danger] = 'Failed to create contact.'
+      redirect_back fallback_location: abuse_contacts_path
     end
   end
 
