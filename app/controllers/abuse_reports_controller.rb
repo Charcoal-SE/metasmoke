@@ -6,7 +6,19 @@ class AbuseReportsController < ApplicationController
   before_action :verify_access, except: [:index, :new, :create]
   before_action :verify_admin, only: [:destroy]
 
-  def index; end
+  def index
+    case params[:filter]
+    when 'closed'
+      ids = [AbuseReportStatus['Closed: Successful'].id, AbuseReportStatus['Closed: Unsuccessful'].id]
+      @reports = AbuseReport.where(abuse_report_status_id: ids).paginate(page: params[:page], per_page: 90)
+    when 'stale'
+      @reports = AbuseReport.where(status: AbuseReportStatus['Stale']).paginate(page: params[:page], per_page: 90)
+    when 'open'
+      @reports = AbuseReport.where(status: AbuseReportStatus['Open']).paginate(page: params[:page], per_page: 90)
+    else
+      @reports = AbuseReport.where(status: AbuseReportStatus['Open']).paginate(page: params[:page], per_page: 90)
+    end
+  end
 
   def new; end
 

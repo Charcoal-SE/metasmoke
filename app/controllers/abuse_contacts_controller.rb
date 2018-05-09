@@ -26,7 +26,9 @@ class AbuseContactsController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @reports = @contact.reports.includes(:status, :contact, :user)
+  end
 
   def edit; end
 

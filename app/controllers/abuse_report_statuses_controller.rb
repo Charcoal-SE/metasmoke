@@ -20,7 +20,9 @@ class AbuseReportStatusesController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @reports = @status.reports.includes(:contact, :status, :user)
+  end
 
   def edit; end
 

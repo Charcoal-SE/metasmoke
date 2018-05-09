@@ -3,3 +3,12 @@
 <p><span class="glyphicon glyphicon-link"></span> <%= link_to @contact.link, @contact.link %></p>
 
 <%= raw(sanitize(AbuseContactsController.renderer.render(@contact.details), scrubber: Announcement.scrubber)) %>
+
+<h3>Reports to this contact</h3>
+<% @reports.in_groups_of(3).map(&:compact).each do |g| %>
+  <div class="row">
+    <% g.each do |r| %>
+      <%= render 'abuse_reports/report', report: r %>
+    <% end %>
+  </div>
+<% end %>
