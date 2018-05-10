@@ -16,4 +16,14 @@ class AbuseReport < ApplicationRecord
       self.status = AbuseReportStatus[AbuseReportStatus::DEFAULT_STATUS]
     end
   end
+
+  def self.update_stale_reports
+    stale_status = AbuseReportStatus['Stale']
+    open_status = AbuseReportStatus['Open']
+
+    AbuseReport.where(status: open_status).each do |ar|
+      last_update = (ar.comments.map(&:created_at) + [ar.created_at]).max
+      ar.update(status: stale_status) if last_update <= 2.weeks.ago
+    end
+  end
 end
