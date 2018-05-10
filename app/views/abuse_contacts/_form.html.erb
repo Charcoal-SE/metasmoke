@@ -1,0 +1,32 @@
+<%= form_for contact, url: url do |f| %>
+  <div class="field">
+    <%= f.label :name do %>
+      <span class="glyphicon glyphicon-pencil"></span> Name *
+    <% end %><br/>
+    <%= f.text_field :name, class: 'form-control' %>
+  </div><br/>
+  <div class="field">
+    <%= f.label :email do %>
+      <span class="glyphicon glyphicon-envelope"></span> Email
+    <% end %>
+    <span class="small text-muted">Optional</span><br/>
+    <%= f.email_field :email, class: 'form-control' %>
+  </div><br/>
+  <div class="field">
+    <%= f.label :link do %>
+      <span class="glyphicon glyphicon-link"></span> Link
+    <% end %>
+    <span class="small text-muted">Optional</span><br/>
+    <%= f.url_field :link, class: 'form-control' %>
+  </div><br/>
+  <div class="field">
+    <%= f.label :details do %>
+      <span class="glyphicon glyphicon-align-center"></span> Details
+    <% end %>
+    <span class="small text-muted">Markdown allowed</span><br/>
+    <%= f.text_area :details, rows: 5, cols: 100, class: 'form-control' %>
+  </div><br/>
+  <div class="actions">
+    <%= f.submit 'Save Contact', class: 'btn btn-success' %>
+  </div>
+<% end %>

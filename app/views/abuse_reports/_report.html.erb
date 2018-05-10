@@ -1,0 +1,19 @@
+<div class="col-md-4">
+  <div class="panel panel-default abuse-report">
+    <div class="panel-body">
+      <h3>
+        <%= render 'abuse_report_statuses/status', status: report.status, nl: true %>
+        <%= link_to abuse_report_path(report) do %>
+          #<%= report.id %>
+        <% end %>
+      </h3>
+      <p>
+        Reported to
+        <strong><%= link_to report.contact.name, abuse_contact_path(report.contact) %></strong>
+        by
+        <strong><%= report.user.username %></strong>
+        <%= time_ago_in_words report.created_at %> ago
+      </p>
+    </div>
+  </div>
+</div>

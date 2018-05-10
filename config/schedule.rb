@@ -20,6 +20,7 @@ end
 every 1.day, at: '2:00 am' do
   runner 'User.where.not(stack_exchange_account_id: nil).each { |u| u.update_moderator_sites }'
   runner 'FlagCondition.revalidate_all'
+  runner 'AbuseReport.update_stale_reports'
 end
 
 every 1.day, at: '2:10am' do

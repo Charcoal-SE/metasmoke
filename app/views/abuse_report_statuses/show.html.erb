@@ -1,0 +1,9 @@
+<h1>Reports with status <%= render 'status', status: @status, nl: true %></h1>
+
+<% @reports.in_groups_of(3).map(&:compact).each do |g| %>
+  <div class="row">
+    <% g.each do |r| %>
+      <%= render 'abuse_reports/report', report: r %>
+    <% end %>
+  </div>
+<% end %>

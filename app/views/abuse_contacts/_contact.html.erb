@@ -1,0 +1,9 @@
+<div class="col-md-3">
+  <div class="panel panel-default abuse-contact">
+    <div class="panel-body">
+      <h3><%= link_to contact.name, abuse_contact_path(contact) %></h3>
+      <p><span class="glyphicon glyphicon-envelope"></span> <%= contact.email %></p>
+      <p><span class="glyphicon glyphicon-link"></span> <%= link_to contact.link, contact.link %></p>
+    </div>
+  </div>
+</div>

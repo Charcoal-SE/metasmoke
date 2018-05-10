@@ -1,0 +1,74 @@
+<h1 class="report-title">
+  <%= render 'abuse_report_statuses/status', status: @report.status, nl: true %>
+  <span class="text-muted">#<%= @report.id %>:</span>
+  <% if @report.reportable_type == 'Domain' %>
+    <%= @report.reportable.domain %>
+  <% elsif @report.reportable_type == 'Post' %>
+    <%= @report.reportable.title %>
+  <% end %>
+</h1>
+
+<% if current_user == @report.user || current_user&.has_role?(:admin) %>
+  <p><a href="#" data-toggle="modal" data-target="#edit-report-modal">Edit</a>
+  <% if current_user&.has_role?(:admin) %>
+    &middot;
+    <%= link_to 'Delete', destroy_abuse_report_path(@report), class: 'text-danger', method: :delete, data: { confirm: 'Are you sure?' } %>
+  <% end %></p>
+
+  <%= form_tag update_abuse_report_status_path(@report), class: 'form-inline' do %>
+    <%= label_tag :status_id, 'Update report status:' %>
+    <%= select_tag :status_id, options_from_collection_for_select(AbuseReportStatus.all, 'id', 'name'), include_blank: true,
+                   class: 'form-control input-sm' %>
+    <%= submit_tag 'Update', class: 'btn btn-success btn-sm' %>
+  <% end %><br/>
+<% end %>
+
+<div class="panel panel-info">
+  <div class="panel-heading">
+    Reported to <strong><%= link_to @report.contact.name, abuse_contact_path(@report.contact) %></strong>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Opened by <strong><%= @report.user.username %></strong> <%= time_ago_in_words @report.created_at %> ago
+  </div>
+  <div class="panel-body">
+    <%= raw(sanitize(AbuseContactsController.renderer.render(@report.details), scrubber: Announcement.scrubber)) %>
+  </div>
+</div>
+
+<% @report.comments.each do |c| %>
+    <%= render 'abuse_comments/comment', comment: c %>
+<% end %>
+
+<p><a href="#" class="new-comment"><span class="glyphicon glyphicon-plus"></span> Add a comment</a></p>
+
+<div class="add-comment">
+  <%= form_for AbuseComment.new, url: create_abuse_comment_path do |f| %>
+    <%= f.hidden_field :abuse_report_id, value: @report.id %>
+    <div class="field">
+      <%= f.text_area :text, rows: 3, cols: 100, placeholder: 'Useful information about this report that others might need...',
+                      class: 'form-control' %>
+    </div>
+    <div class="actions">
+      <%= f.submit 'Add Comment', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>
+
+<!-- - -->
+
+<div class="modal fade" id="edit-report-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        Edit Report
+      </div>
+      <div class="modal-body">
+        <%= render 'form', report: @report, url: update_abuse_report_path(@report) %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,4 @@
+<h1>Edit Contact: <%= @contact.name %></h1>
+<p>Use the form below to add or modify this contact's details.</p>
+
+<%= render 'form', contact: @contact, url: update_abuse_contact_path(@contact) %>

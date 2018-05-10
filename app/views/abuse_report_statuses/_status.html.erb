@@ -1,0 +1,5 @@
+<% nl ||= false %>
+<span class="label label-<%= status.color %> report-status <%= 'nl' if nl %>">
+  <span class="glyphicon glyphicon-<%= status.icon %>"></span>
+  <%= link_to status.name, abuse_status_path(status) %>
+</span>

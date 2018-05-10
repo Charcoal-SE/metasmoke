@@ -326,6 +326,43 @@ Rails.application.routes.draw do
     delete ':id/delete', to: 'post_comments#destroy', as: :delete_comment
   end
 
+  scope 'abuse' do
+    scope 'contacts' do
+      root               to: 'abuse_contacts#index',   as: :abuse_contacts
+      post   'new',      to: 'abuse_contacts#create',  as: :create_abuse_contact
+      get    ':id',      to: 'abuse_contacts#show',    as: :abuse_contact
+      get    ':id/edit', to: 'abuse_contacts#edit',    as: :edit_abuse_contact
+      patch  ':id/edit', to: 'abuse_contacts#update',  as: :update_abuse_contact
+      delete ':id',      to: 'abuse_contacts#destroy', as: :destroy_abuse_contact
+    end
+
+    scope 'statuses' do
+      root               to: 'abuse_report_statuses#index',   as: :abuse_statuses
+      post   'new',      to: 'abuse_report_statuses#create',  as: :create_abuse_status
+      get    ':id',      to: 'abuse_report_statuses#show',    as: :abuse_status
+      get    ':id/edit', to: 'abuse_report_statuses#edit',    as: :edit_abuse_status
+      patch  ':id/edit', to: 'abuse_report_statuses#update',  as: :update_abuse_status
+      delete ':id',      to: 'abuse_report_statuses#destroy', as: :destroy_abuse_status
+    end
+
+    scope 'reports' do
+      root                 to: 'abuse_reports#index',         as: :abuse_reports
+      get    'new',        to: 'abuse_reports#new',           as: :new_abuse_report
+      post   'new',        to: 'abuse_reports#create',        as: :create_abuse_report
+      get    ':id',        to: 'abuse_reports#show',          as: :abuse_report
+      patch  ':id/edit',   to: 'abuse_reports#update',        as: :update_abuse_report
+      post   ':id/status', to: 'abuse_reports#update_status', as: :update_abuse_report_status
+      delete ':id',        to: 'abuse_reports#destroy',       as: :destroy_abuse_report
+    end
+
+    scope 'comments' do
+      post   'new',        to: 'abuse_comments#create',  as: :create_abuse_comment
+      get    ':id',        to: 'abuse_comments#text',    as: :comment_abuse_text
+      post   ':id/edit',   to: 'abuse_comments#update',  as: :edit_abuse_comment
+      delete ':id/delete', to: 'abuse_comments#destroy', as: :delete_abuse_comment
+    end
+  end
+
   # This should always be right at the end of this file, so that it doesn't override other routes.
   mount API::Base => '/api'
 end

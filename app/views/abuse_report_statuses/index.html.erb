@@ -1,0 +1,29 @@
+<h1>Report Statuses</h1>
+<p>These are the statuses that are shown to users as options when they're updating their abuse reports. You shouldn't need to change
+them.</p>
+
+<% @statuses.each do |s| %>
+  <div class="status-row">
+    <%= render 'status', status: s %>
+    <%= link_to 'Edit', edit_abuse_status_path(s) %> &middot;
+    <%= link_to 'Delete', destroy_abuse_status_path(s), class: 'text-danger', method: :delete, data: { confirm: 'Are you sure?' } %>
+  </div>
+<% end %>
+
+<a href="#" data-toggle="modal" data-target="#new-status-modal">
+  <span class="glyphicon glyphicon-plus"></span> New report status
+</a>
+
+<div class="modal fade" id="new-status-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">New Report Status</h4>
+      </div>
+      <div class="modal-body">
+        <%= render 'form', status: AbuseReportStatus.new, url: create_abuse_status_path %>
+      </div>
+    </div>
+  </div>
+</div>

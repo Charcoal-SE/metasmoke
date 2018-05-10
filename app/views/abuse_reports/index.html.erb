@@ -1,0 +1,18 @@
+<h1>Abuse Reports</h1>
+<p>One giant list of all the abuse reports, ever.</p>
+
+<ul class="nav nav-tabs">
+  <li class="<%= 'active' if params[:filter] == 'open' || params[:filter].nil? %>"><%= link_to 'Open', abuse_reports_path(filter: 'open') %></li>
+  <li class="<%= 'active' if params[:filter] == 'stale' %>"><%= link_to 'Stale', abuse_reports_path(filter: 'stale') %></li>
+  <li class="<%= 'active' if params[:filter] == 'closed' %>"><%= link_to 'Closed', abuse_reports_path(filter: 'closed') %></li>
+</ul>
+
+<% @reports.in_groups_of(3).map(&:compact).each do |g| %>
+  <div class="row">
+    <% g.each do |r| %>
+      <%= render 'report', report: r %>
+    <% end %>
+  </div>
+<% end %>
+
+<%= will_paginate @reports, renderer: BootstrapPagination::Rails %>

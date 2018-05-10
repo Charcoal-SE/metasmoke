@@ -1,0 +1,15 @@
+// Place all the styles related to the AbuseReports controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.report-title {
+  margin-bottom: 0.6em;
+}
+
+.abuse-report {
+  margin: 1em;
+
+  h3 {
+    margin-top: 5px;
+  }
+}
