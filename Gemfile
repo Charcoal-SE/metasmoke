@@ -33,6 +33,9 @@ gem 'whenever', require: false
 gem 'will_paginate', github: 'Undo1/will_paginate'
 gem 'will_paginate-bootstrap', github: 'Charcoal-SE/will_paginate-bootstrap'
 
+gem 'mechanize'
+gem 'graphql'
+
 gem 'flamegraph'
 gem 'rack-mini-profiler'
 gem 'stackprof'
@@ -113,3 +116,5 @@ group :test do
   gem 'rails-controller-testing'
   gem 'webmock'
 end
+
+gem 'graphiql-rails', group: :development
