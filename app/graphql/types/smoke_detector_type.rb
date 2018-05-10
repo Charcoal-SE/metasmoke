@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 Types::SmokeDetectorType = GraphQL::ObjectType.define do
-  name "SmokeDetector"
+  name 'SmokeDetector'
   field :last_ping, Types::DateTimeType
   field :name, types.String
   field :location, types.String

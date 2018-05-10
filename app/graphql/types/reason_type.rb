@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 Types::ReasonType = GraphQL::ObjectType.define do
-  name "Reason"
+  name 'Reason'
   field :reason_name, types.String
   field :last_post_title, types.String
   field :inactive, types.Boolean

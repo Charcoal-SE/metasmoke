@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 Types::StackExchangeUserType = GraphQL::ObjectType.define do
-  name "StackExchangeUser"
+  name 'StackExchangeUser'
   field :user_id, types.Int
   field :username, types.String
   field :last_api_update, Types::DateTimeType

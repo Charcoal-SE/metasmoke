@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 Types::AnnouncementType = GraphQL::ObjectType.define do
-  name "Announcement"
+  name 'Announcement'
   field :text, types.String
   field :expiry, Types::DateTimeType
 

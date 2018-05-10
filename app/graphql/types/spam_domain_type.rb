@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 Types::SpamDomainType = GraphQL::ObjectType.define do
-  name "SpamDomain"
+  name 'SpamDomain'
   field :domain, types.String
   field :whois, types.String
   field :posts, types[Types::PostType]

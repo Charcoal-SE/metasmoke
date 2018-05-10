@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 Types::SiteType = GraphQL::ObjectType.define do
-  name "Site"
+  name 'Site'
   field :site_name, types.String
   field :site_url, types.String
   field :site_logo, types.String

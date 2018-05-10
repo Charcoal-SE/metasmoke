@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 Types::UserType = GraphQL::ObjectType.define do
-  name "User"
+  name 'User'
   field :username, types.String
   field :stackexchange_chat_id, types.Int
   field :meta_stackexchange_chat_id, types.Int

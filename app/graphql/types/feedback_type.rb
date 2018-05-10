@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 Types::FeedbackType = GraphQL::ObjectType.define do
-  name "Feedback"
+  name 'Feedback'
   field :message_link, types.String
   field :user_name, types.String
   field :user_link, types.String

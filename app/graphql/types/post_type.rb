@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 Types::PostType = GraphQL::ObjectType.define do
-  name "Post"
+  name 'Post'
   field :title, types.String
   field :body, types.String
   field :link, types.String

@@ -114,5 +114,5 @@ group :test do
   gem 'webmock'
 end
 
-gem 'graphql'
 gem 'graphiql-rails', group: :development
+gem 'graphql'

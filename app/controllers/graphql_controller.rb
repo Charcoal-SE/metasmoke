@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GraphqlController < ApplicationController
   def execute
     variables = ensure_hash(params[:variables])
@@ -10,7 +12,7 @@ class GraphqlController < ApplicationController
     @results = MetasmokeSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     respond_to do |format|
       format.json { render json: @results }
-      format.html { @results = JSON.pretty_generate(@results.to_hash)}
+      format.html { @results = JSON.pretty_generate(@results.to_hash) }
     end
   end
 

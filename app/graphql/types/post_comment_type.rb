@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 Types::PostCommentType = GraphQL::ObjectType.define do
-  name "PostComment"
+  name 'PostComment'
   field :text, types.String
   field :user, Types::UserType
   field :post, Types::PostType
