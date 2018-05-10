@@ -34,6 +34,14 @@
   <% end %>
 </div>
 
+<% if current_user&.has_role?(:core) %>
+  <p>
+    <%= link_to new_abuse_report_path(reportable_type: 'Domain', reportable_id: @domain.id) do %>
+      <span class="glyphicon glyphicon-file"></span> Create Abuse Report
+    <% end %>
+  </p>
+<% end %>
+
 <p>This domain has been seen in <%= pluralize @counts[:all], 'post' %>, <%= @counts[:tp] %> TP.</p>
 
 <% if @domain.whois.present? %>

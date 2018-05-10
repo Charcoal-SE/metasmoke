@@ -135,6 +135,14 @@
   </p>
 <% end %>
 
+<% if current_user&.has_role?(:core) %>
+  <p>
+    <%= link_to new_abuse_report_path(reportable_type: 'Post', reportable_id: @post.id) do %>
+      <span class="glyphicon glyphicon-file"></span> Create Abuse Report
+    <% end %>
+  </p>
+<% end %>
+
 <hr/>
 
 <p>Contains domains:</p>
