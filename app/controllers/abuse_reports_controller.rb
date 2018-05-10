@@ -3,7 +3,7 @@
 class AbuseReportsController < ApplicationController
   before_action :verify_core
   before_action :set_report, except: [:index, :new, :create]
-  before_action :verify_access, except: [:index, :new, :create]
+  before_action :verify_access, except: [:index, :new, :create, :show]
   before_action :verify_admin, only: [:destroy]
 
   def index
