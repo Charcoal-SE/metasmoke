@@ -8,9 +8,6 @@ class GithubController < ApplicationController
   before_action :verify_github, except: [:update_deploy_to_master, :add_pullapprove_comment]
   before_action :check_if_smokedetector, only: [:add_pullapprove_comment]
 
-  cattr_accessor :git_mutex
-  GithubController.git_mutex = Mutex.new
-
   # Fires whenever a CI service finishes.
   def status_hook
     # We're not interested in PR statuses or branches other than deploy
@@ -257,7 +254,9 @@ class GithubController < ApplicationController
       end
 
       if !Octokit.client.pull_merged?('Charcoal-SE/SmokeDetector', pr_num)
-        GithubController.git_mutex.synchronize do
+        File.open('SmokeDetector/.git/info/attributes', File::RDWR) do |f|
+          f.flock(File::LOCK_EX)
+
           Dir.chdir('SmokeDetector') do
             ref = pr[:head][:ref]
 
