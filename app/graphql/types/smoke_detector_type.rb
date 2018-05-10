@@ -7,8 +7,9 @@ Types::SmokeDetectorType = GraphQL::ObjectType.define do
   field :location, types.String
   field :is_standby, types.Boolean
   field :force_failover, types.Boolean
+  field :user, Types::UserType
 
   field :created_at, Types::DateTimeType
   field :updated_at, Types::DateTimeType
-  field :id, types.Int
+  field :id, types.ID
 end

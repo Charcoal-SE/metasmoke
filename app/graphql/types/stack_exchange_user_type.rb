@@ -9,10 +9,10 @@ Types::StackExchangeUserType = GraphQL::ObjectType.define do
   field :answer_count, types.Int
   field :question_count, types.Int
   field :reputation, types.Int
-  field :site, types[Types::SiteType]
+  field :site, Types::SiteType
   field :posts, types[Types::PostType]
 
   field :created_at, Types::DateTimeType
   field :updated_at, Types::DateTimeType
-  field :id, types.Int
+  field :id, types.ID
 end

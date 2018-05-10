@@ -7,6 +7,9 @@ Types::UserType = GraphQL::ObjectType.define do
   field :meta_stackexchange_chat_id, types.Int
   field :stackoverflow_chat_id, types.Int
   field :stack_exchange_account_id, types.Int
+  field :feedbacks, types[Types::FeedbackType]
+  field :post_comments, types[Types::PostCommentType]
+  field :smoke_detectors, types[Types::SmokeDetectorType]
 
-  field :id, types.Int
+  field :id, types.ID
 end
