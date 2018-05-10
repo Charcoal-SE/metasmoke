@@ -1,0 +1,7 @@
+<%= form_tag graphql_path, method: :post do %>
+  <div class='form-group'>
+    <%= label_tag :query, "Query GraphQL:" %>
+    <%= text_area_tag :query, '', class: 'form-control', placeholder: "Try out the new GraphQL interface!" %>
+  </div>
+  <%= submit_tag "Query!", class: 'btn btn-primary' %>
+<% end %>

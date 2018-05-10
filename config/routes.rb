@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  if Rails.env.development?
+    mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/graphql'
+  end
+
   resources :dumps
   mount ActionCable.server => '/cable'
 
@@ -209,6 +213,9 @@ Rails.application.routes.draw do
     post 'w/post/:id/spam_flag', to: 'api#spam_flag'
     post 'w/post/:id/deleted', to: 'api#post_deleted'
     post 'w/domains/:id/add_tag', to: 'api#add_domain_tag', as: :api_add_domain_tag
+
+    post '/graphql', to: 'graphql#execute', as: :graphql
+    get '/graphql', to: 'graphql#query', as: :query_graphql
   end
 
   scope '/oauth' do
