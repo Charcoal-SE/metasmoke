@@ -44,7 +44,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     type Types::StackExchangeUserType
     argument :id, !types.ID
     description 'Find a Announcement by ID'
-    resolve ->(_obj, args, _ctx) { Announcement.whre(args) }
+    resolve ->(_obj, args, _ctx) { Announcement.where(args) }
   end
 
   field :reason do
