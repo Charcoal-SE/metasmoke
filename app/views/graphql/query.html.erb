@@ -5,3 +5,13 @@
   </div>
   <%= submit_tag "Query!", class: 'btn btn-primary' %>
 <% end %>
+
+<h2>Here are some example queries:</h2>
+<h4>Introspection:</h4>
+<pre><code class='json'><%= "{ __type(name: \"Post\") { fields { name type {name kind ofType { name kind } } } kind } }" %></code></pre>
+
+
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
