@@ -4,7 +4,7 @@
       <%= f.label :reportable_type do %>
         <span class="glyphicon glyphicon-question-sign"></span> What are you reporting? *
       <% end %><br/>
-      <%= f.select :reportable_type, options_for_select([['Domain', 'Domain'], ['Post', 'Post']], report.reportable_type),
+      <%= f.select :reportable_type, options_for_select([['SpamDomain', 'SpamDomain'], ['Post', 'Post']], report.reportable_type),
                    { include_blank: true }, { class: 'form-control' } %>
     </div>
     <div class="col-md-8">
