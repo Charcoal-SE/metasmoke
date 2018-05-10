@@ -38,6 +38,25 @@
   </div>
 </div>
 
+<% @report.comments.each do |c| %>
+    <%= render 'abuse_comments/comment', comment: c %>
+<% end %>
+
+<p><a href="#" class="new-comment"><span class="glyphicon glyphicon-plus"></span> Add a comment</a></p>
+
+<div class="add-comment">
+  <%= form_for AbuseComment.new, url: create_abuse_comment_path do |f| %>
+    <%= f.hidden_field :abuse_report_id, value: @report.id %>
+    <div class="field">
+      <%= f.text_area :text, rows: 3, cols: 100, placeholder: 'Useful information about this report that others might need...',
+                      class: 'form-control' %>
+    </div>
+    <div class="actions">
+      <%= f.submit 'Add Comment', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>
+
 <!-- - -->
 
 <div class="modal fade" id="edit-report-modal">

@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_09_182605) do
+ActiveRecord::Schema.define(version: 2018_05_10_000945) do
+
+  create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "abuse_report_id"
+    t.text "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["abuse_report_id"], name: "index_abuse_comments_on_abuse_report_id"
+    t.index ["user_id"], name: "index_abuse_comments_on_user_id"
+  end
 
   create_table "abuse_contacts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -489,6 +499,8 @@ ActiveRecord::Schema.define(version: 2018_05_09_182605) do
     t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
   end
 
+  add_foreign_key "abuse_comments", "abuse_reports"
+  add_foreign_key "abuse_comments", "users"
   add_foreign_key "abuse_reports", "abuse_contacts"
   add_foreign_key "abuse_reports", "abuse_report_statuses"
   add_foreign_key "abuse_reports", "users"

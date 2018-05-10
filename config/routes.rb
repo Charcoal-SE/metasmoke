@@ -354,6 +354,13 @@ Rails.application.routes.draw do
       post   ':id/status', to: 'abuse_reports#update_status', as: :update_abuse_report_status
       delete ':id',        to: 'abuse_reports#destroy',       as: :destroy_abuse_report
     end
+
+    scope 'comments' do
+      post   'new',        to: 'abuse_comments#create',  as: :create_abuse_comment
+      get    ':id',        to: 'abuse_comments#text',    as: :comment_abuse_text
+      post   ':id/edit',   to: 'abuse_comments#update',  as: :edit_abuse_comment
+      delete ':id/delete', to: 'abuse_comments#destroy', as: :delete_abuse_comment
+    end
   end
 
   # This should always be right at the end of this file, so that it doesn't override other routes.

@@ -45,8 +45,12 @@ class AbuseReportsController < ApplicationController
   end
 
   def update_status
+    old_status = @report.status.name
     status = AbuseReportStatus.find params[:status_id]
+    new_status = status.name
     if @report.update status: status
+      AbuseComment.create user: User.find(-1), report: @report,
+                          text: "**#{current_user.username}** updated the status from **#{old_status}** to **#{new_status}**"
       flash[:success] = 'Updated status.'
     else
       flash[:danger] = 'Failed to update status.'
@@ -75,6 +79,7 @@ class AbuseReportsController < ApplicationController
   end
 
   def verify_access
-    current_user == @report.user || current_user&.has_role?(:admin)
+    return if current_user == @report.user || current_user&.has_role?(:admin)
+    not_found
   end
 end

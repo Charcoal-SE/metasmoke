@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class AbuseReportStatus < ApplicationRecord
+  include Websocket
+
   has_many :reports, class_name: 'AbuseReport', dependent: :nullify
 
   DEFAULT_STATUS = 'Open'
