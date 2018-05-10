@@ -8,6 +8,7 @@ class AbuseCommentsController < ApplicationController
 
   def create
     @comment = AbuseComment.new comment_params.merge(user: current_user)
+    @comment.text = @comment.text.gsub(/#(\d+)/, '[#\1](https://metasmoke.erwaysoftware.com/abuse/reports/\1)')
     flash[:danger] = 'Failed to post your comment.' unless @comment.save
     redirect_to abuse_report_path(@comment.abuse_report_id)
   end
