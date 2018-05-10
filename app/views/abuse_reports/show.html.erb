@@ -1,7 +1,7 @@
 <h1 class="report-title">
   <%= render 'abuse_report_statuses/status', status: @report.status, nl: true %>
   <span class="text-muted">#<%= @report.id %>:</span>
-  <% if @report.reportable_type == 'Domain' %>
+  <% if @report.reportable_type == 'SpamDomain' %>
     <%= @report.reportable.domain %>
   <% elsif @report.reportable_type == 'Post' %>
     <%= @report.reportable.title %>
