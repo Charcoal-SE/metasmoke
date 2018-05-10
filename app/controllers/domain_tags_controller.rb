@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class DomainTagsController < ApplicationController
-  before_action :authenticate_user!, only: [:add, :remove, :edit, :update, :destroy]
-  before_action :verify_core, only: [:add, :remove, :edit, :update]
+  before_action :authenticate_user!, only: [:add, :remove, :edit, :update, :destroy, :add_post, :remove_post]
+  before_action :verify_core, only: [:add, :remove, :edit, :update, :add_post, :remove_post]
   before_action :verify_admin, only: [:destroy]
   before_action :set_domain_tag, only: [:show, :edit, :update, :destroy]
 

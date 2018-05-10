@@ -48,15 +48,17 @@
     <% end %>
   </p>
 
-  <%= form_tag add_post_tag_path, method: :post, class: 'form-inline pull-left add-post-tag' do %>
-    <%= hidden_field_tag :post_id, @post.id %>
-    <%= text_field_tag :tag_name, '', class: 'form-control input-sm', list: 'tag_list' %>
-    <datalist id="tag_list">
-      <% DomainTag.all.each do |t| %>
-        <option value="<%= t.name %>"></option>
-      <% end %>
-    </datalist>
-    <%= submit_tag 'Add', class: 'btn btn-primary btn-sm' %>
+  <% if current_user&.has_role?(:core) %>
+    <%= form_tag add_post_tag_path, method: :post, class: 'form-inline pull-left add-post-tag' do %>
+      <%= hidden_field_tag :post_id, @post.id %>
+      <%= text_field_tag :tag_name, '', class: 'form-control input-sm', list: 'tag_list' %>
+      <datalist id="tag_list">
+        <% DomainTag.all.each do |t| %>
+          <option value="<%= t.name %>"></option>
+        <% end %>
+      </datalist>
+      <%= submit_tag 'Add', class: 'btn btn-primary btn-sm' %>
+    <% end %>
   <% end %>
 </div>
 
