@@ -8,5 +8,5 @@ Types::PostCommentType = GraphQL::ObjectType.define do
 
   field :created_at, Types::DateTimeType
   field :updated_at, Types::DateTimeType
-  field :id, types.Int
+  field :id, types.ID
 end

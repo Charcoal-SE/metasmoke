@@ -15,13 +15,13 @@ Types::PostType = GraphQL::ObjectType.define do
   field :downvote_count, types.Int
   field :score, types.Int
   field :feedbacks, types[Types::FeedbackType]
-  field :stack_exchange_user, types[Types::StackExchangeUserType]
+  field :stack_exchange_user, Types::StackExchangeUserType
   field :is_tp, types.Boolean
   field :is_fp, types.Boolean
   field :is_naa, types.Boolean
   field :revision_count, types.Int
   field :deleted_at, Types::DateTimeType
-  field :smoke_detector, types[Types::SmokeDetectorType]
+  field :smoke_detector, Types::SmokeDetectorType
   field :autoflagged, types.Boolean
   field :tags, types.String
   field :feedbacks_count, types.Int
@@ -31,5 +31,5 @@ Types::PostType = GraphQL::ObjectType.define do
 
   field :created_at, Types::DateTimeType
   field :updated_at, Types::DateTimeType
-  field :id, types.Int
+  field :id, types.ID
 end

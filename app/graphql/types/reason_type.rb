@@ -9,5 +9,5 @@ Types::ReasonType = GraphQL::ObjectType.define do
   field :maximum_weight, types.Int
   field :posts, types[Types::PostType]
 
-  field :id, types.Int
+  field :id, types.ID
 end
