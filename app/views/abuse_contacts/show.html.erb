@@ -2,6 +2,16 @@
 <p><span class="glyphicon glyphicon-envelope"></span> <%= @contact.email %></p>
 <p><span class="glyphicon glyphicon-link"></span> <%= link_to @contact.link, @contact.link %></p>
 
+<% if current_user&.has_role?(:core) %>
+  <p>
+    <%= link_to 'Edit', edit_abuse_contact_path(@contact) %>
+    <% if current_user&.has_role?(:admin) %>
+      &middot;
+      <%= link_to 'Delete', destroy_abuse_contact_path(@contact), method: :delete, class: 'text-danger', data: { confirm: 'Are you sure?' } %>
+    <% end %>
+  </p>
+<% end %>
+
 <%= raw(sanitize(AbuseContactsController.renderer.render(@contact.details), scrubber: Announcement.scrubber)) %>
 
 <h3>Reports to this contact</h3>
