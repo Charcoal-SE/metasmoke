@@ -5,6 +5,8 @@
     <%= @report.reportable.domain %>
   <% elsif @report.reportable_type == 'Post' %>
     <%= @report.reportable.title %>
+  <% elsif @report.reportable_type == 'DomainTag' %>
+    <code>#<%= @report.reportable.name %></code>
   <% end %>
 </h1>
 
@@ -30,6 +32,12 @@
     <%= submit_tag 'Update', class: 'btn btn-success btn-sm' %>
   <% end %><br/>
 <% end %>
+
+<p>
+  <%= link_to @reportable_path do %>
+    <span class="glyphicon glyphicon-paperclip"></span> Go to reported item
+  <% end %>
+</p>
 
 <div class="panel panel-info">
   <div class="panel-heading">

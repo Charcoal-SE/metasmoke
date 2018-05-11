@@ -9,7 +9,7 @@ class AbuseReport < ApplicationRecord
   belongs_to :status, class_name: 'AbuseReportStatus', foreign_key: 'abuse_report_status_id'
   has_many :comments, class_name: 'AbuseComment', dependent: :destroy
 
-  validates :reportable_type, presence: true, inclusion: { in: %w[SpamDomain Post] }
+  validates :reportable_type, presence: true, inclusion: { in: %w[SpamDomain Post DomainTag] }
 
   before_validation do
     unless status.present?

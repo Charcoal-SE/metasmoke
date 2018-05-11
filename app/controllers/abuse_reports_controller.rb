@@ -33,10 +33,21 @@ class AbuseReportsController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @reportable_path = {
+      'DomainTag' => domain_tag_path(@report.reportable),
+      'Post' => post_path(@report.reportable),
+      'SpamDomain' => spam_domain_path(@report.reportable)
+    }[@report.reportable_type]
+  end
 
   def public_link
     @report = AbuseReport.find_by_uuid params[:uuid]
+    @reportable_path = {
+      'DomainTag' => domain_tag_path(@report.reportable),
+      'Post' => post_path(@report.reportable),
+      'SpamDomain' => spam_domain_path(@report.reportable)
+    }[@report.reportable_type]
     render :show
   end
 
