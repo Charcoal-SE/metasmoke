@@ -10,11 +10,11 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :id, types.ID
     argument :uid, types.ID
     argument :site, types.String
-    resolve ->(_obj, args, _ctx) do
+    resolve lambda(_obj, args, _ctx) do
       if args['link'] || args['links']
         Post.find(link: args['link'])
       elsif args['uid'] && args['site']
-        Post.includes(:site).find_by(sites: {api_parameter: args['site']}, native_id: args['uid'])
+        Post.includes(:site).find_by(sites: { api_parameter: args['site'] }, native_id: args['uid'])
       elsif args['id']
         Post.find(args['id'])
       else
@@ -32,40 +32,29 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :first, types.Int
     argument :offset, types.Int, default_value: 0
     description 'Find a Post by ID'
-    resolve ->(_obj, args, _ctx) do
+    resolve lambda(_obj, args, _ctx) do
       posts = Post.all
-      if args['links']
-        posts = posts.where(link: args['links'])
-      end
+      posts = posts.where(link: args['links']) if args['links']
       if args['uids']
-        all_sites = Site.all.select(:id, :api_parameter).map { |site| [site.id, site.api_parameter]}
+        all_sites = Site.all.select(:id, :api_parameter).map { |site| [site.id, site.api_parameter] }
         uids = args['uids'].map do |uid|
           site, native_id = uid.split(':')
-          site_id = all_sites.select { |site_id, api_parameter| api_parameter == site }[0][0]
+          site_id = all_sites.select { |_site_id, api_parameter| api_parameter == site }[0][0]
           [site_id, native_id].map(&:to_i)
         end
         all_permutations = posts.where(site_id: uids.map(&:first), native_id: uids.map(&:last))
-        puts uids.to_s
         posts = uids.map do |site_id, native_id|
           all_permutations.select do |post|
-            puts post.inspect
-            puts "SiteID: #{site_id} NativeID: #{native_id}"
             post.site_id == site_id && post.native_id == native_id
           end.first
         end
         posts = Post.where(id: posts.map(&:id))
       end
-      if args['ids']
-        posts = posts.find(args['ids'])
-      end
+      posts = posts.find(args['ids']) if args['ids']
       return GraphQL::ExecutionError.new("You can't use 'last' and 'first' together") if args['first'] && args['last']
-      if args['first']
-        posts = posts.offset(args['offset']).first(args['first'])
-      end
-      if args['last']
-        posts = posts.reverse_order.offset(args['offset']).first(args['last'])
-      end
-      post = posts.limit(100) if post.respond_to? :limit
+      posts = posts.offset(args['offset']).first(args['first']) if args['first']
+      posts = posts.reverse_order.offset(args['offset']).first(args['last']) if args['last']
+      posts = posts.limit(100) if post.respond_to? :limit
       Array(posts)
     end
   end

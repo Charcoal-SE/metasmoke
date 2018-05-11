@@ -55,3 +55,4 @@ Metrics/BlockLength:
     - define
     - test
     - helpers
+    - field
