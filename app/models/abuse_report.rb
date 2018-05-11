@@ -15,6 +15,8 @@ class AbuseReport < ApplicationRecord
     unless status.present?
       self.status = AbuseReportStatus[AbuseReportStatus::DEFAULT_STATUS]
     end
+
+    self.uuid = SecureRandom.uuid unless uuid.present?
   end
 
   def self.update_stale_reports

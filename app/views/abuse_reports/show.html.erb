@@ -9,11 +9,19 @@
 </h1>
 
 <% if current_user == @report.user || current_user&.has_role?(:admin) %>
-  <p><a href="#" data-toggle="modal" data-target="#edit-report-modal">Edit</a>
-  <% if current_user&.has_role?(:admin) %>
-    &middot;
-    <%= link_to 'Delete', destroy_abuse_report_path(@report), class: 'text-danger', method: :delete, data: { confirm: 'Are you sure?' } %>
-  <% end %></p>
+  <p>
+    <a href="#" data-toggle="modal" data-target="#edit-report-modal">Edit</a>
+    <% if current_user&.has_role?(:admin) %>
+      &middot;
+      <%= link_to 'Delete', destroy_abuse_report_path(@report), class: 'text-danger', method: :delete, data: { confirm: 'Are you sure?' } %>
+    <% end %>
+  </p>
+
+  <p>
+    <a href="#" data-toggle="modal" data-target="#report-share-link">
+      <span class="glyphicon glyphicon-link"></span> Get shareable link
+    </a>
+  </p>
 
   <%= form_tag update_abuse_report_status_path(@report), class: 'form-inline' do %>
     <%= label_tag :status_id, 'Update report status:' %>
@@ -42,7 +50,9 @@
     <%= render 'abuse_comments/comment', comment: c %>
 <% end %>
 
-<p><a href="#" class="new-comment"><span class="glyphicon glyphicon-plus"></span> Add a comment</a></p>
+<% if current_user&.has_role?(:core) %>
+  <p><a href="#" class="new-comment"><span class="glyphicon glyphicon-plus"></span> Add a comment</a></p>
+<% end %>
 
 <div class="add-comment">
   <%= form_for AbuseComment.new, url: create_abuse_comment_path do |f| %>
@@ -64,10 +74,28 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        Edit Report
+        <h4 class="modal-title">Edit Report</h4>
       </div>
       <div class="modal-body">
         <%= render 'form', report: @report, url: update_abuse_report_path(@report) %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="report-share-link">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Public Shareable Link</h4>
+      </div>
+      <div class="modal-body">
+        <label for="public-link"><span class="glyphicon glyphicon-link"></span> Link</label><br/>
+        <input id="public-link" class="form-control" type="text" value="<%= shared_abuse_report_url(@report.uuid) %>" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
       </div>
     </div>
   </div>
