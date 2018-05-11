@@ -1,11 +1,5 @@
 # frozen_string_literal: true
 
-UIDInput = GraphQL::InputObjectType.define do
-  name "UID"
-  argument :site, types.String
-  argument :id, types.ID
-end
-
 Types::QueryType = GraphQL::ObjectType.define do
   name 'Query'
   # Add root-level fields here.
