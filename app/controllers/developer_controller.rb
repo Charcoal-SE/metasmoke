@@ -23,6 +23,14 @@ class DeveloperController < ApplicationController
     @log.gsub(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i, '') # Emails
   end
 
+  def deploy
+    message = "[ [metasmoke-deploy](//travis-ci.org/Undo1/metasmoke-deploy) ] deploy started by #{current_user.username}"
+    SmokeDetector.send_message_to_charcoal(message)
+
+    Travis::Repository.find('Undo1/metasmoke-deploy').last_build.restart
+    redirect_to 'https://travis-ci.org/Undo1/metasmoke-deploy'
+  end
+
   def blank_page
     render layout: false
   end

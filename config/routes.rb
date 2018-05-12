@@ -230,6 +230,7 @@ Rails.application.routes.draw do
     get 'blank', to: 'developer#blank_page', as: :dev_blank
     get 'websockets', to: 'developer#websocket_test'
     post 'websockets', to: 'developer#send_websocket_test'
+    post 'deploy', to: 'developer#deploy', as: :developer_deploy
   end
 
   # flagging
@@ -350,13 +351,14 @@ Rails.application.routes.draw do
     end
 
     scope 'reports' do
-      root                 to: 'abuse_reports#index',         as: :abuse_reports
-      get    'new',        to: 'abuse_reports#new',           as: :new_abuse_report
-      post   'new',        to: 'abuse_reports#create',        as: :create_abuse_report
-      get    ':id',        to: 'abuse_reports#show',          as: :abuse_report
-      patch  ':id/edit',   to: 'abuse_reports#update',        as: :update_abuse_report
-      post   ':id/status', to: 'abuse_reports#update_status', as: :update_abuse_report_status
-      delete ':id',        to: 'abuse_reports#destroy',       as: :destroy_abuse_report
+      root                   to: 'abuse_reports#index',         as: :abuse_reports
+      get    'new',          to: 'abuse_reports#new',           as: :new_abuse_report
+      post   'new',          to: 'abuse_reports#create',        as: :create_abuse_report
+      get    'shared/:uuid', to: 'abuse_reports#public_link',   as: :shared_abuse_report
+      get    ':id',          to: 'abuse_reports#show',          as: :abuse_report
+      patch  ':id/edit',     to: 'abuse_reports#update',        as: :update_abuse_report
+      post   ':id/status',   to: 'abuse_reports#update_status', as: :update_abuse_report_status
+      delete ':id',          to: 'abuse_reports#destroy',       as: :destroy_abuse_report
     end
 
     scope 'comments' do

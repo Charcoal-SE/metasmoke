@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class AbuseReportsController < ApplicationController
-  before_action :verify_core
-  before_action :set_report, except: [:index, :new, :create]
-  before_action :verify_access, except: [:index, :new, :create]
+  before_action :verify_core, except: [:public_link]
+  before_action :set_report, except: [:index, :new, :create, :public_link]
+  before_action :verify_access, except: [:index, :new, :create, :show, :public_link]
   before_action :verify_admin, only: [:destroy]
 
   def index
@@ -33,7 +33,23 @@ class AbuseReportsController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @reportable_path = {
+      'DomainTag' => domain_tag_path(@report.reportable),
+      'Post' => post_path(@report.reportable),
+      'SpamDomain' => spam_domain_path(@report.reportable)
+    }[@report.reportable_type]
+  end
+
+  def public_link
+    @report = AbuseReport.find_by_uuid params[:uuid]
+    @reportable_path = {
+      'DomainTag' => domain_tag_path(@report.reportable),
+      'Post' => post_path(@report.reportable),
+      'SpamDomain' => spam_domain_path(@report.reportable)
+    }[@report.reportable_type]
+    render :show
+  end
 
   def update
     if @report.update report_params
