@@ -10,6 +10,7 @@ Types::UserType = GraphQL::ObjectType.define do
   field :feedbacks, types[Types::FeedbackType]
   field :post_comments, types[Types::PostCommentType]
   field :smoke_detectors, types[Types::SmokeDetectorType]
+  field :flag_logs, types[Types::FlagLogType]
 
   field :id, types.ID
 end

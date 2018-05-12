@@ -12,6 +12,8 @@ Types::SiteType = GraphQL::ObjectType.define do
   field :last_users_update, Types::DateTimeType
   field :post, types[Types::PostType]
   field :stack_exchange_users, types[Types::StackExchangeUserType]
+  field :flag_logs, types[Types::FlagLogType]
+  field :flag_conditions, types[Types::FlagConditionType]
 
   field :created_at, Types::DateTimeType
   field :updated_at, Types::DateTimeType
