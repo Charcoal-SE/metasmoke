@@ -29,6 +29,8 @@ Style/NumericPredicate:
   Enabled: true
 Style/AsciiComments:
   Enabled: false
+Style/Lambda:
+  EnforcedStyle: literal
 
 # Want to refactor some stuff? Remove these.
 Metrics/AbcSize:
@@ -55,3 +57,4 @@ Metrics/BlockLength:
     - define
     - test
     - helpers
+    - field

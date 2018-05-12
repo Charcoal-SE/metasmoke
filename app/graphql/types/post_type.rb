@@ -6,7 +6,7 @@ Types::PostType = GraphQL::ObjectType.define do
   field :body, types.String
   field :link, types.String
   field :post_creation_date, Types::DateTimeType
-  field :site, types[Types::SiteType]
+  field :site, Types::SiteType
   field :user_link, types.String
   field :username, types.String
   field :why, types.String
@@ -28,6 +28,7 @@ Types::PostType = GraphQL::ObjectType.define do
   field :native_id, types.Int
   field :reasons, types[Types::ReasonType]
   field :spam_domains, types[Types::SpamDomainType]
+  field :flag_logs, types[Types::FlagLogType]
 
   field :created_at, Types::DateTimeType
   field :updated_at, Types::DateTimeType
