@@ -88,7 +88,7 @@ Types::QueryType = GraphQL::ObjectType.define do
   end
 
   def gen_fields(*names)
-    names.flatten.each {|name| gen_field(name)}
+    names.flatten.each { |name| gen_field(name) }
   end
 
   gen_fields %w[feedback smoke_detector site stack_exchange_user announcement

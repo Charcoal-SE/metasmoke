@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 Types::FlagLogType = GraphQL::ObjectType.define do
-  name "FlagLog"
+  name 'FlagLog'
   field :success, types.Boolean
   field :error_message, types.String
   field :is_dry_run, types.Boolean

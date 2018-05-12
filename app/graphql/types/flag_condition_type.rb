@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 Types::FlagConditionType = GraphQL::ObjectType.define do
-  name "FlagCondition"
+  name 'FlagCondition'
   field :flags_enabled, types.Boolean
   field :min_weight, types.Int
   field :max_poster_rep, types.Int
