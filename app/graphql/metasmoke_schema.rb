@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 MetasmokeSchema = GraphQL::Schema.define do
+  max_depth 5
+  max_complexity 12
   # mutation(Types::MutationType)
   query(Types::QueryType)
 end

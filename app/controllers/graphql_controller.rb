@@ -7,9 +7,13 @@ class GraphqlController < ApplicationController
     operation_name = params[:operationName]
     context = {
       # Query context goes here, for example:
-      # current_user: current_user,
+      current_user: current_user
     }
-    @results = MetasmokeSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+    query_params = {variables: variables, context: context, operation_name: operation_name}
+    if user_signed_in? && current_user.has_role?(:core)
+      query_params.merge!({max_depth: 8, max_complexity:20})
+    end
+    @results = MetasmokeSchema.execute(query, **query_params)
     respond_to do |format|
       format.json { render json: @results }
       format.html { @results = JSON.pretty_generate(@results.to_hash) }
