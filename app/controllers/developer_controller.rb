@@ -24,10 +24,11 @@ class DeveloperController < ApplicationController
   end
 
   def deploy
-    SmokeDetector.send_message_to_charcoal("[ [metasmoke-deploy](//travis-ci.org/Undo1/metasmoke-deploy) ] deploy started by #{current_user.username}")
-    Travis::Repository.find('Undo1/metasmoke-deploy').last_build.restart
+    message = "[ [metasmoke-deploy](//travis-ci.org/Undo1/metasmoke-deploy) ] deploy started by #{current_user.username}"
+    SmokeDetector.send_message_to_charcoal(message)
 
-    redirect_to "https://travis-ci.org/Undo1/metasmoke-deploy"
+    Travis::Repository.find('Undo1/metasmoke-deploy').last_build.restart
+    redirect_to 'https://travis-ci.org/Undo1/metasmoke-deploy'
   end
 
   def blank_page
