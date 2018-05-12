@@ -7,9 +7,33 @@
 <% end %>
 
 <h2>Here are some example queries:</h2>
-<h4>Introspection:</h4>
-<pre><code class='json'><%= "{ __type(name: \"Post\") { fields { name type {name kind ofType { name kind } } } kind } }" %></code></pre>
 
+<style>
+.pre-scrollable {
+  min-height: 340px;
+}
+</style>
+<h4>Introspection:</h4>
+<div class='row'>
+<pre class='col-xs-6 pre-scrollable'><code class='json'><%= query = "{
+  __type(name: \"Post\") {
+    kind
+    fields {
+      name
+      type {
+        name
+        kind
+        ofType {
+          name
+          kind
+        }
+      }
+    }
+  }
+}" %></code></pre>
+
+<pre class='col-xs-6 pre-scrollable'><code class='json'><%= JSON.pretty_generate(MetasmokeSchema.execute(query).to_hash) %></pre></code>
+</div>
 
 <link rel="stylesheet"
       href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">

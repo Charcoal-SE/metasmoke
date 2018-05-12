@@ -23,13 +23,16 @@ Types::QueryType = GraphQL::ObjectType.define do
         Post.last
       end
     end
+    complexity ->(_ctx, _args, child_complexity) do
+      25 * (child_complexity > 1 ? child_complexity : 1)
+    end
   end
 
   field :posts do
     type types[Types::PostType]
     argument :ids, types[types.ID], 'A list of Metasmoke IDs'
     argument :uids, types[types.String], "A list of on-site id and site name pairs, e.g. ['stackunderflow:12345', 'superloser:54321']"
-    argument :links, types[types.String], 'A list of links to posts'
+    argument :urls, types[types.String], 'A list of urls to posts, of the form //sitename.stackexchange.com/a/id or /questions/id'
     argument :last, types.Int, "Last n items from selection. Can be used in conjunction with any other options except 'first'"
     argument :first, types.Int, "First n items from selection. Can be used in conjunction with any other options except 'last'"
     argument :offset, types.Int, 'Number of items to offset by. Offset counted from start unless ' \
@@ -37,7 +40,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     description 'Find Posts, with a maximum of 100 to be returned'
     resolve ->(_obj, args, _ctx) do
       posts = Post.all
-      posts = posts.where(link: args['links']) if args['links']
+      posts = posts.where(link: args['urls']) if args['urls']
       if args['uids']
         all_sites = Site.all.select(:id, :api_parameter).map { |site| [site.id, site.api_parameter] }
         uids = args['uids'].map do |uid|
@@ -60,6 +63,16 @@ Types::QueryType = GraphQL::ObjectType.define do
       posts = posts.limit(100) if posts.respond_to? :limit
       Array(posts)
     end
+    complexity ->(_ctx, args, child_complexity) do
+      base = 1
+      children = 1
+      children *= (args['last'] || args['first'] || 1)
+      base *= args['uids'].length * 2 if args['uids']
+      children *= args['uids'].length if args['uids']
+      children *= args['ids'].length if args['ids']
+      children *= args['urls'].length if args['urls']
+      (base * 25) + children * (child_complexity > 1 ? child_complexity : 1)
+    end
   end
 
   # deletion_logs domain_tags flag_logs moderator_sites
@@ -74,6 +87,10 @@ Types::QueryType = GraphQL::ObjectType.define do
       description "Find one #{ar_class}"
       resolve ->(_obj, args, _ctx) do
         ar_class.find(args['id']) if args['id']
+      end
+      complexity ->(_ctx, _args, child_complexity) do
+        base = 1
+        (base * 25) + (child_complexity > 1 ? child_complexity : 1)
       end
     end
 
@@ -93,6 +110,13 @@ Types::QueryType = GraphQL::ObjectType.define do
         things = things.reverse_order.offset(args['offset']).first(args['last']) if args['last']
         things = things.limit(200) if things.respond_to? :limit
         Array(things)
+      end
+      complexity ->(_ctx, args, child_complexity) do
+        children = 1
+        base = 1
+        children *= args['ids'].length if args['ids']
+        children *= (args['last'] || args['first'] || 1)
+        (base * 25) + children * (child_complexity > 1 ? child_complexity : 1)
       end
     end
   end

@@ -10,7 +10,7 @@ Types::SiteType = GraphQL::ObjectType.define do
   field :max_flags_per_post, types.Int
   field :is_child_meta, types.Boolean
   field :last_users_update, Types::DateTimeType
-  field :post, types[Types::PostType]
+  field :posts, types[Types::PostType]
   field :stack_exchange_users, types[Types::StackExchangeUserType]
   field :flag_logs, types[Types::FlagLogType]
   field :flag_conditions, types[Types::FlagConditionType]
