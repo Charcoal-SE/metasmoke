@@ -212,7 +212,7 @@ Rails.application.routes.draw do
 
     post '/graphql', to: 'graphql#execute', as: :graphql
     get '/graphql', to: 'graphql#query', as: :query_graphql
-    mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/api/graphql'
+    mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/api/graphql', query_params: true
   end
 
   scope '/oauth' do

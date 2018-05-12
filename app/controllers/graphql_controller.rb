@@ -11,7 +11,7 @@ class GraphqlController < ApplicationController
     }
     query_params = {variables: variables, context: context, operation_name: operation_name}
     if user_signed_in? && current_user.has_role?(:core)
-      query_params.merge!({max_depth: 8, max_complexity:20})
+      # query_params.merge!({max_depth: 8, max_complexity:20})
     end
     @results = MetasmokeSchema.execute(query, **query_params)
     respond_to do |format|

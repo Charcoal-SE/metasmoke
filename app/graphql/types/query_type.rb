@@ -23,6 +23,9 @@ Types::QueryType = GraphQL::ObjectType.define do
         Post.last
       end
     end
+    complexity ->(_ctx, args, child_complexity) do
+      25 * (child_complexity > 1 ? child_complexity : 1)
+    end
   end
 
   field :posts do
@@ -60,6 +63,16 @@ Types::QueryType = GraphQL::ObjectType.define do
       posts = posts.limit(100) if posts.respond_to? :limit
       Array(posts)
     end
+    complexity ->(_ctx, args, child_complexity) do
+      base = 1
+      children = 1
+      children *= (args['last'] || args['first'] || 1)
+      base *= args['uids'].length*2 if args['uids']
+      children *= args['uids'].length if args['uids']
+      children *= args['ids'].length if args['ids']
+      children *= args['urls'].length if args['urls']
+      (base * 25) + children*(child_complexity > 1 ? child_complexity : 1)
+    end
   end
 
   # deletion_logs domain_tags flag_logs moderator_sites
@@ -74,6 +87,10 @@ Types::QueryType = GraphQL::ObjectType.define do
       description "Find one #{ar_class}"
       resolve ->(_obj, args, _ctx) do
         ar_class.find(args['id']) if args['id']
+      end
+      complexity ->(_ctx, args, child_complexity) do
+        base = 1
+        (base * 25) + (child_complexity > 1 ? child_complexity : 1)
       end
     end
 
@@ -93,6 +110,13 @@ Types::QueryType = GraphQL::ObjectType.define do
         things = things.reverse_order.offset(args['offset']).first(args['last']) if args['last']
         things = things.limit(200) if things.respond_to? :limit
         Array(things)
+      end
+      complexity ->(_ctx, args, child_complexity) do
+        children = 1
+        base = 1
+        children *= args['ids'].length if args['ids']
+        children *= (args['last'] || args['first'] || 1)
+        (base * 25) + children*(child_complexity > 1 ? child_complexity : 1)
       end
     end
   end
