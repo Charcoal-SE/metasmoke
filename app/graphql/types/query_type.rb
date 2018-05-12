@@ -70,7 +70,7 @@ Types::QueryType = GraphQL::ObjectType.define do
 
     field name.to_sym do
       type graphql_type
-      argument :id, types.ID
+      argument :id, types.ID, "Get one #{ar_class} by id"
       description "Find one #{ar_class}"
       resolve ->(_obj, args, _ctx) do
         ar_class.find(args['id']) if args['id']
@@ -78,11 +78,21 @@ Types::QueryType = GraphQL::ObjectType.define do
     end
 
     field name.pluralize.to_sym do
-      type graphql_type
-      argument :ids, types[types.ID]
-      description "Find multiple #{ar_class.to_s.pluralize}"
+      type types[graphql_type]
+      argument :ids, types[types.ID], 'A list of Metasmoke IDs'
+      argument :last, types.Int, "Last n items from selection. Can be used in conjunction with any other options except 'first'"
+      argument :first, types.Int, "First n items from selection. Can be used in conjunction with any other options except 'last'"
+      argument :offset, types.Int, 'Number of items to offset by. Offset counted from start unless ' \
+                                   "the 'last' option is used, in which case offset is counted from the end.", default_value: 0
+      description "Find multiple #{ar_class.to_s.pluralize}. Maximum of 200 returned."
       resolve ->(_obj, args, _ctx) do
-        ar_class.find(args['ids']) if args['ids']
+        things = ar_class.all
+        things = things.where(id: args['ids']) if args['ids']
+        return GraphQL::ExecutionError.new("You can't use 'last' and 'first' together") if args['first'] && args['last']
+        things = things.offset(args['offset']).first(args['first']) if args['first']
+        things = things.reverse_order.offset(args['offset']).first(args['last']) if args['last']
+        things = things.limit(200) if things.respond_to? :limit
+        Array(things)
       end
     end
   end
