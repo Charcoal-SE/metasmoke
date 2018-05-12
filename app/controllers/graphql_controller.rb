@@ -9,7 +9,7 @@ class GraphqlController < ApplicationController
       # Query context goes here, for example:
       current_user: current_user
     }
-    query_params = {variables: variables, context: context, operation_name: operation_name}
+    query_params = { variables: variables, context: context, operation_name: operation_name }
     if user_signed_in? && current_user.has_role?(:core)
       # query_params.merge!({max_depth: 8, max_complexity:20})
     end
