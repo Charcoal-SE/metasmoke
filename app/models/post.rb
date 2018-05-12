@@ -21,7 +21,7 @@ class Post < ApplicationRecord
   has_many :reviews, class_name: 'ReviewResult', dependent: :destroy
   has_many :comments, class_name: 'PostComment', dependent: :destroy
 
-  scope(:includes_for_post_row, lambda do
+  scope(:includes_for_post_row, -> do
     includes(:stack_exchange_user).includes(:reasons)
            .includes(feedbacks: [:user, :api_key]).includes(:comments)
   end)
