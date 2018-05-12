@@ -10,8 +10,10 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :id, types.ID
     argument :uid, types.ID
     argument :site, types.String
+    argument :link, types.String
     resolve lambda(_obj, args, _ctx) do
-      if args['link'] || args['links']
+      return GraphQL::ExecutionError.new('Invalid argument grouping') if [['uid', 'site'], ['id'], ['link']].include? args
+      if args['link']
         Post.find(link: args['link'])
       elsif args['uid'] && args['site']
         Post.includes(:site).find_by(sites: { api_parameter: args['site'] }, native_id: args['uid'])
@@ -25,13 +27,13 @@ Types::QueryType = GraphQL::ObjectType.define do
 
   field :posts do
     type types[Types::PostType]
-    argument :ids, types[types.ID]
-    argument :uids, types[types.String]
-    argument :links, types[types.String]
-    argument :last, types.Int
-    argument :first, types.Int
-    argument :offset, types.Int, default_value: 0
-    description 'Find a Post by ID'
+    argument :ids, types[types.ID], "A list of Metasmoke IDs"
+    argument :uids, types[types.String], "A list of on-site id and site name pairs, e.g. ['stackunderflow:12345', 'superloser:54321']"
+    argument :links, types[types.String], "A list of links to posts"
+    argument :last, types.Int, "Last n items from selection. Can be used in conjunction with any other options except 'first'"
+    argument :first, types.Int, "First n items from selection. Can be used in conjunction with any other options except 'last'"
+    argument :offset, types.Int, "Number of items to offset by. Offset counted from start unless the 'last' option is used, in which case offset is counted from the end.", default_value: 0
+    description 'Find Posts, with a maximum of 100 to be returned'
     resolve lambda(_obj, args, _ctx) do
       posts = Post.all
       posts = posts.where(link: args['links']) if args['links']
