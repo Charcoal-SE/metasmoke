@@ -230,6 +230,7 @@ Rails.application.routes.draw do
     get 'blank', to: 'developer#blank_page', as: :dev_blank
     get 'websockets', to: 'developer#websocket_test'
     post 'websockets', to: 'developer#send_websocket_test'
+    post 'deploy', to: 'developer#deploy', as: :developer_deploy
   end
 
   # flagging

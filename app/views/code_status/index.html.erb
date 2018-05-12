@@ -8,9 +8,25 @@
   "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"
 %>
 
-<details open><summary class="h3">Revision <code><%= CurrentCommit.first(7) %></code></summary>
+<details open><summary class="h3">Revision <code><%= CurrentCommit&.first(7) %></code></summary>
   <div>
-    <p><%= link_to 'This commit', "https://github.com/Charcoal-SE/metasmoke/commit/#{CurrentCommit}" %> is <span class="fill-status">… commits ahead, … commits behind</span> the <code><%= link_to "...", "", class: "fill-branch" %></code> branch. <%= link_to " diff", "#", id: "toggle-compare-diff", class: "diff-toggle" %> | <%= link_to " commit diff", "#", id: "toggle-commit-diff", class: "diff-toggle" %></p>
+    <p>
+      <%= link_to 'This commit', "https://github.com/Charcoal-SE/metasmoke/commit/#{CurrentCommit}" %>
+      is
+      <span class="fill-status">… commits ahead, … commits behind</span>
+      the
+      <code>
+        <%= link_to "...", "", class: "fill-branch" %>
+      </code>
+      branch.
+      <%= link_to " diff", "#", id: "toggle-compare-diff", class: "diff-toggle" %>
+      |
+      <%= link_to " commit diff", "#", id: "toggle-commit-diff", class: "diff-toggle" %>
+      <% if current_user&.has_role?(:developer) %>
+        |
+        <%= link_to "Trigger deploy", developer_deploy_path, method: :post, data: { confirm: "Sure you want to deploy master?" }, class: "text-danger" %>
+      <% end %>
+  </p>
     <blockquote class="commit">
       <details><summary>Loading commit info…</summary>
         <pre></pre>
