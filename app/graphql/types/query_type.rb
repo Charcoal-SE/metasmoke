@@ -29,7 +29,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     type types[Types::PostType]
     argument :ids, types[types.ID], 'A list of Metasmoke IDs'
     argument :uids, types[types.String], "A list of on-site id and site name pairs, e.g. ['stackunderflow:12345', 'superloser:54321']"
-    argument :links, types[types.String], 'A list of links to posts'
+    argument :urls, types[types.String], 'A list of urls to posts, of the form //sitename.stackexchange.com/a/id or /questions/id'
     argument :last, types.Int, "Last n items from selection. Can be used in conjunction with any other options except 'first'"
     argument :first, types.Int, "First n items from selection. Can be used in conjunction with any other options except 'last'"
     argument :offset, types.Int, 'Number of items to offset by. Offset counted from start unless ' \
@@ -37,7 +37,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     description 'Find Posts, with a maximum of 100 to be returned'
     resolve ->(_obj, args, _ctx) do
       posts = Post.all
-      posts = posts.where(link: args['links']) if args['links']
+      posts = posts.where(link: args['urls']) if args['urls']
       if args['uids']
         all_sites = Site.all.select(:id, :api_parameter).map { |site| [site.id, site.api_parameter] }
         uids = args['uids'].map do |uid|
