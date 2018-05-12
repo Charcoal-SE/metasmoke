@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :check_auth_required
 
+  before_action do
+    Rack::MiniProfiler.authorize_request if current_user&.has_role?(:developer)
+  end
+
   def check_if_smokedetector
     provided_key = params[:key]
 
