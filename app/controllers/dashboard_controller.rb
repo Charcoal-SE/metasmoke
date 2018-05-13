@@ -14,7 +14,7 @@ class DashboardController < ApplicationController
       return
     end
 
-    @inactive_reasons, @active_reasons = Rails.cache.fetch "reasons_index", expires_in: 3.hours do
+    @inactive_reasons, @active_reasons = Rails.cache.fetch 'reasons_index', expires_in: 3.hours do
       [true, false].map do |inactive|
         Reason.all.joins(:posts)
               .where('reasons.inactive = ?', inactive)
