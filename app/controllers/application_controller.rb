@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :check_auth_required
 
   before_action do
-    Rack::MiniProfiler.authorize_request if current_user&.has_role?(:developer)
+    Rack::MiniProfiler.authorize_request if current_user&.has_role?(:core)
   end
 
   def check_if_smokedetector
