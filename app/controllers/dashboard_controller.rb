@@ -14,13 +14,15 @@ class DashboardController < ApplicationController
       return
     end
 
-    @inactive_reasons, @active_reasons = [true, false].map do |inactive|
-      Reason.all.joins(:posts)
-            .where('reasons.inactive = ?', inactive)
-            .group(Arel.sql('reasons.id'))
-            .select('reasons.*, count(\'posts.*\') as post_count')
-            .order(Arel.sql('post_count DESC'))
-            .to_a
+    @inactive_reasons, @active_reasons = Rails.cache.fetch 'reasons_index', expires_in: 3.hours do
+      [true, false].map do |inactive|
+        Reason.all.joins(:posts)
+              .where('reasons.inactive = ?', inactive)
+              .group(Arel.sql('reasons.id'))
+              .select('reasons.*, count(\'posts.*\') as post_count')
+              .order(Arel.sql('post_count DESC'))
+              .to_a
+      end
     end
     @reasons = Reason.all
     @posts = Post.all
