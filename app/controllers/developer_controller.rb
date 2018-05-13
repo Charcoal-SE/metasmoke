@@ -31,6 +31,10 @@ class DeveloperController < ApplicationController
     redirect_to 'https://travis-ci.org/Undo1/metasmoke-deploy'
   end
 
+  def query_times_log
+    send_file 'log/query_times.log'
+  end
+
   def blank_page
     render layout: false
   end
