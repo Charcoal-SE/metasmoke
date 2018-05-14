@@ -1,6 +1,6 @@
-<% tp = reason.tp_percentage * 100 %>
-<% naa = reason.both_percentage * 100 %>
-<% fp = reason.fp_percentage * 100 %>
+<% tp ||= reason.tp_percentage * 100 %>
+<% naa ||= reason.both_percentage * 100 %>
+<% fp ||= reason.fp_percentage * 100 %>
 <% empty = 100 - (tp + fp + naa) %>
 <td width="30%" data-sort-value="<%= tp.round %>">
   <div class="progress" style="height:15px; margin-bottom:0px" title="TP: <%= tp.round(2) %>&#013;NAA/Both: <%= naa.round(2) %>&#013;FP: <%= fp.round(2) %>&#013;None: <%= empty.round(2) %>">

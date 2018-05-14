@@ -14,14 +14,17 @@ class DashboardController < ApplicationController
       return
     end
 
-    @inactive_reasons, @active_reasons = Rails.cache.fetch 'reasons_index', expires_in: 3.hours do
+    @inactive_reasons, @active_reasons = Rails.cache.fetch 'reasons_index', expires_in: 6.hours do
       [true, false].map do |inactive|
-        Reason.all.joins(:posts)
-              .where('reasons.inactive = ?', inactive)
-              .group(Arel.sql('reasons.id'))
-              .select('reasons.*, count(\'posts.*\') as post_count')
-              .order(Arel.sql('post_count DESC'))
-              .to_a
+        results = Reason.all.joins(:posts)
+                        .where(reasons: { inactive: inactive })
+                        .group(Arel.sql('reasons.id'))
+                        .select(Arel.sql('reasons.*, COUNT(DISTINCT posts.id) AS post_count, COUNT(DISTINCT IF(posts.is_tp AND NOT posts.is_fp AND '\
+                                         'NOT posts.is_naa, posts.id, NULL)) AS tp_count, COUNT(DISTINCT IF(posts.is_fp AND NOT posts.is_tp AND '\
+                                         'NOT posts.is_naa, posts.id, NULL)) AS fp_count, COUNT(DISTINCT IF(posts.is_naa OR (posts.is_tp AND '\
+                                         'posts.is_fp), posts.id, NULL)) AS naa_count'))
+                        .order(Arel.sql('post_count DESC'))
+        { results: results, counts: results.map { |r| [r.id, { total: r.post_count, tp: r.tp_count, fp: r.fp_count, naa: r.naa_count }] }.to_h }
       end
     end
     @reasons = Reason.all
