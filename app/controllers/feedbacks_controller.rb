@@ -26,10 +26,6 @@ class FeedbacksController < ApplicationController
 
     raise ActionController::RoutingError, 'Not Found' unless verify_access(f)
 
-    f.post.reasons.each do |reason|
-      expire_fragment(reason)
-    end
-
     if f.user == current_user && f.created_at >= 10.minutes.ago
       f.destroy
     else
