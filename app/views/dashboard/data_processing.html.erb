@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-8 col-md-offset-2 clearfix">
+  <div class="col-md-10 col-md-offset-1 clearfix">
     <h1>Data Processing</h1>
     <p class="lead">
       This document outlines what data are collected from users as part of normal operation on metasmoke. It contains the rationale for the collection
@@ -13,6 +13,7 @@
           <th>Source</th>
           <th>Rationale</th>
           <th>Retention Period</th>
+          <th>Who has access?</th>
         </tr>
       </thead>
       <tbody>
@@ -21,24 +22,35 @@
           <td>Stack Exchange users; metasmoke users</td>
           <td>Used to publicly identify your account without revealing more identifying information to a wider audience.</td>
           <td>Lifetime of your account (metasmoke users); unlimited (Stack Exchange users)</td>
+          <td>Public</td>
         </tr>
         <tr>
           <td>Email addresses</td>
           <td>metasmoke users registered without OAuth</td>
           <td>Used as a primary unique identifier for your account, necessary for logging in.</td>
           <td>Lifetime of your account</td>
+          <td>Server host (Undo)</td>
         </tr>
         <tr>
           <td>IP addresses</td>
           <td>metasmoke users</td>
           <td>Certain actions create a permanent record of the action for auditing purposes, including the source IP address.</td>
           <td>Unlimited</td>
+          <td>Developers (Undo, ArtOfCode)</td>
         </tr>
         <tr>
           <td>Stack Exchange post content</td>
           <td>Stack Exchange users</td>
           <td>Recorded for use in analysis of spam. These do not usually contain PII unless included by the user.</td>
           <td>Unlimited</td>
+          <td>Public</td>
+        </tr>
+        <tr>
+          <td>SmokeDetector feedback</td>
+          <td>SmokeDetector privileged users</td>
+          <td>SmokeDetector feedback is associated with a metasmoke user and used for analysing spam.</td>
+          <td>Unlimited</td>
+          <td>Public</td>
         </tr>
       </tbody>
     </table>

@@ -244,8 +244,6 @@ class User < ApplicationRecord
   private
 
   def gdpr_bollocks
-    if eu_resident && !privacy_accepted
-      errors.add(:privacy_accepted, "must be agreed to if you're an EU resident")
-    end
+    errors.add(:privacy_accepted, "must be agreed to if you're an EU resident") unless !eu_resident || privacy_accepted
   end
 end
