@@ -1,6 +1,9 @@
 <div class="panel panel-primary post-comment" data-cid="<%= comment.id %>">
   <div class="panel-heading">
     <strong><%= comment.user.username %></strong>
+    <% if feedback %>
+      <span style="<%= "font-weight:normal" if feedback.is_naa? %>" data-toggle="tooltip" data-placement="top" title="<%= (feedback.user.present? || feedback.api_key_id.present?) ? "#{feedback.user.try(:username)} (From #{feedback.api_key.try(:app_name) || "Review"})" : feedback.user_name %>: <%= feedback.feedback_type %>" class="text-white">(<%= element_symbol_for_feedback(feedback).html_safe %>)</span>
+    <% end %>
     <span title="<%= comment.created_at %>"><%= time_ago_in_words comment.created_at %> ago</span>
     <% if current_user == comment.user || current_user&.has_role?(:admin) %>
       <span class="comment-control">
@@ -17,3 +20,17 @@
     <%= raw(sanitize(PostCommentsController.renderer.render(comment.text), scrubber: PostComment.scrubber)) %>
   </div>
 </div>
+
+<!--
+
+background-color: rgba(255,255,255,0.7);
+
+padding: 1px;
+
+border-radius: 3px;
+
+box-shadow: 0px 0px 2px 2px rgba(255,255,255,0.7);
+
+font-weight: bold;
+
+-->
