@@ -370,6 +370,11 @@ Rails.application.routes.draw do
     end
   end
 
+  scope 'privacy' do
+    root              to: 'dashboard#privacy',         as: :data_privacy
+    get 'processing', to: 'dashboard#data_processing', as: :data_processing
+  end
+
   # This should always be right at the end of this file, so that it doesn't override other routes.
   mount API::Base => '/api'
 end

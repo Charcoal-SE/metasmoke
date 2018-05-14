@@ -23,6 +23,8 @@ class User < ApplicationRecord
 
   has_one :channels_user, required: false, dependent: :destroy
 
+  validate :gdpr_bollocks
+
   # All accounts start with flagger role enabled
   after_create do
     add_role :flagger if SiteSetting['auto_flagger_role']
@@ -237,5 +239,13 @@ class User < ApplicationRecord
 
   def can_use_regex_search?
     (has_role? :reviewer) || moderator_sites.any?
+  end
+
+  private
+
+  def gdpr_bollocks
+    if eu_resident && !privacy_accepted
+      errors.add(:privacy_accepted, "must be agreed to if you're an EU resident")
+    end
   end
 end

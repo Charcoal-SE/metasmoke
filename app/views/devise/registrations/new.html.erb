@@ -34,6 +34,16 @@
           <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control" %>
         </div>
 
+        <div class="field form-group">
+          <%= f.check_box :eu_resident %>
+          <%= f.label :eu_resident, 'I am an EU resident' %><br/>
+
+          <%= f.check_box :privacy_accepted %>
+          <%= f.label :privacy_accepted do %>
+            I have read and accept the <%= link_to 'Privacy Statement', data_privacy_path %>
+          <% end %>
+        </div>
+
         <div class="actions">
           <%= f.submit "Sign up", class: "btn btn-primary" %>
         </div>
