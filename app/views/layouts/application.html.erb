@@ -153,7 +153,7 @@
       </div>
 
       <% flash.each do |key, value| %>
-        <% if %w[primary secondary success danger warning info light dark].include? key.to_s %>
+        <% if %w[primary secondary success danger warning info light dark message alert].include? key.to_s %>
           <div class="alert alert-<%= key %>"><%= value %></div>
         <% end %>
       <% end %>
