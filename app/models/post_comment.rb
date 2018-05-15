@@ -25,7 +25,7 @@ class PostComment < ApplicationRecord
   end
 
   def remove_feedbacks
-    _feedback_type, comment = text.scan(/(fp|tp|why)\W*(.*)/i).flatten
+    _feedback_type, comment = text.scan(/(fp|tp|why)?\W*(.*)/i).flatten
     self.text = comment.to_s
   end
 end
