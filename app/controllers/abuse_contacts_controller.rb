@@ -19,6 +19,7 @@ class AbuseContactsController < ApplicationController
     @contact = AbuseContact.new contact_params
     if @contact.save
       flash[:success] = 'Created contact.'
+      flash[:abuse_contact_id] = @contact.id
       redirect_back fallback_location: abuse_contact_path(@contact)
     else
       flash[:danger] = 'Failed to create contact.'

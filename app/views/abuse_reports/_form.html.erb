@@ -22,7 +22,7 @@
     <% end %>
     <span class="small text-muted">Not listed? <a href="#" data-toggle="modal" data-target="#create-contact-modal">Create it now.</a></span>
     <br/>
-    <%= f.select :abuse_contact_id, options_for_select(AbuseContact.all.map { |ac| [ac.name, ac.id] }, report.abuse_contact_id),
+    <%= f.select :abuse_contact_id, options_for_select(AbuseContact.all.map { |ac| [ac.name, ac.id] }, report.abuse_contact_id || flash[:abuse_contact_id]),
                  { include_blank: true }, { class: 'form-control selectpicker',
                                             data: { live_search: true, actions_box: true, dropup_auto: false } } %>
   </div><br/>
