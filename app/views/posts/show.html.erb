@@ -157,7 +157,7 @@
 <% end %>
 
 <% @post.comments.each do |c| %>
-  <%= render 'post_comments/comment', comment: c, feedback: @post.feedbacks.to_a.filter { |f| f.user_id == c.user_id } %>
+  <%= render 'post_comments/comment', comment: c, feedback: @post.feedbacks.to_a.select { |f| f.user_id == c.user_id }[0] %>
 <% end %>
 
 <p><a href="#" class="new-comment"><span class="glyphicon glyphicon-plus"></span> Add a comment</a></p>

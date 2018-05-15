@@ -1,4 +1,4 @@
-<% feedback ||= comment.post.feedbacks.to_a.filter { |f| f.user_id == comment.user_id } %>
+<% feedback ||= comment.post.feedbacks.to_a.select { |f| f.user_id == comment.user_id }[0] %>
 <div class="panel panel-primary post-comment" data-cid="<%= comment.id %>">
   <div class="panel-heading">
     <strong><%= comment.user.username %></strong>
