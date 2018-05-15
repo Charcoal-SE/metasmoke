@@ -18,14 +18,7 @@ class PostComment < ApplicationRecord
   belongs_to :post
   belongs_to :user
 
-  before_create :remove_feedbacks
-
   def self.scrubber
     CommentScrubber.new
-  end
-
-  def remove_feedbacks
-    _feedback_type, comment = text.scan(/(fp|tp|why)?\W*(.*)/i).flatten
-    self.text = comment.to_s
   end
 end
