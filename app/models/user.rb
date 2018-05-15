@@ -118,7 +118,7 @@ class User < ApplicationRecord
     encryption_key = AppConfig['stack_exchange']['token_aes_key']
     begin
       return AESCrypt.decrypt(encrypted_api_token, encryption_key, salt, iv)
-    rescue OpenSSL::Cipher::CipherError
+    rescue OpenSSL::Cipher::CipherError, ArgumentError
       # Since dev environments don't have the proper keys to perform
       # decryption on a prod data dump, we allow this error in dev
       return encrypted_api_token if Rails.env.development? || Rails.env.test?
