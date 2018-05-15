@@ -11,6 +11,7 @@ class PostsController < ApplicationController
     begin
       @post = Post.joins('LEFT JOIN `sites` ON `sites`.`id` = `posts`.`site_id`')
                   .joins(:reasons)
+                  .includes(:feedbacks)
                   .select(Arel.sql('posts.*, sites.site_logo, SUM(reasons.weight) AS reason_weight'))
                   .find(params[:id])
     rescue
