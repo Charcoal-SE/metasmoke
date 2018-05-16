@@ -21,14 +21,16 @@ class ReviewQueuesController < ApplicationController
   end
 
   def submit
-    render json: { status: 'invalid' }, status: 400 unless @queue.responses.map { |r| r[1] }.include? params[:response]
+    render json: { status: 'invalid' }, status: 400 unless (@queue.responses.map { |r| r[1] } + ['skip']).include? params[:response]
     @item = ReviewItem.find params[:item_id]
 
     ReviewResult.create user: current_user, result: params[:response], item: @item
 
-    @item.reviewable.custom_review_action(@queue, @item, current_user, params[:response]) if @item.reviewable.respond_to? :custom_review_action
-    if @item.reviewable.respond_to?(:should_dq?) && @item.reviewable.should_dq?(@queue)
-      @item.update(completed: true)
+    unless params[:response] == 'skip'
+      @item.reviewable.custom_review_action(@queue, @item, current_user, params[:response]) if @item.reviewable.respond_to? :custom_review_action
+      if @item.reviewable.respond_to?(:should_dq?) && @item.reviewable.should_dq?(@queue)
+        @item.update(completed: true)
+      end
     end
 
     render json: { status: 'ok' }

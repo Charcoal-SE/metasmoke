@@ -4,5 +4,7 @@
       <%= link_to r[0], submit_review_path(name: queue.name, item_id: item.id, response: r[1]), class: 'btn btn-primary review-submit-link',
                   method: :post, remote: true %>
     <% end %>
+    <%= link_to 'Skip', submit_review_path(name: queue.name, item_id: item.id, response: 'skip'), class: 'btn btn-primary review-submit-link',
+                method: :post, remote: true %>
   </div>
 </div>

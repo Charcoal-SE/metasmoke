@@ -42,8 +42,6 @@ class Post < ApplicationRecord
   after_commit do
     if review_item.present? && should_dq?(ReviewQueue['posts'])
       review_item.update(completed: true)
-    elsif !review_item.present?
-      ReviewItem.create(reviewable: self, queue: ReviewQueue['posts'], completed: false)
     end
   end
 

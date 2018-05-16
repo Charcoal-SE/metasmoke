@@ -103,6 +103,8 @@ class PostsController < ApplicationController
     @post.smoke_detector = @smoke_detector
     @post.site = Site.find_by(site_domain: URI.parse(@post.link).host)
 
+    ReviewItem.create(reviewable: @post, queue: ReviewQueue['posts'], completed: false)
+
     params['post']['reasons'].each do |r|
       reason = Reason.find_or_create_by(reason_name: r.split('(').first.strip.humanize)
 
