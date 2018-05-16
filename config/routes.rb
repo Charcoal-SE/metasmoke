@@ -43,14 +43,6 @@ Rails.application.routes.draw do
     post ':id/update_mod_sites', to: 'users#update_mod_sites', as: :update_mod_sites
   end
 
-  scope '/review' do
-    root to: 'review#index', as: :review
-    post 'feedback', to: 'review#add_feedback', as: :review_feedback
-    post 'skip', to: 'review#skip', as: :review_skip
-    get 'history', to: 'review#history', as: :review_history
-    post 'unskip', to: 'review#delete_skip', as: :review_unskip
-  end
-
   get 'spammers', to: 'stack_exchange_users#index'
   get 'spammers/sites', to: 'stack_exchange_users#sites', as: :spammers_site_index
   get 'spammers/site', to: 'stack_exchange_users#on_site', as: :spammers_on_site
@@ -373,6 +365,13 @@ Rails.application.routes.draw do
   scope 'privacy' do
     root              to: 'dashboard#privacy',         as: :data_privacy
     get 'processing', to: 'dashboard#data_processing', as: :data_processing
+  end
+
+  scope 'review' do
+    root to: 'review_queues#index', as: :review_queues
+    get ':name', to: 'review_queues#queue', as: :review_queue
+    get ':name/next', to: 'review_queues#next_item', as: :next_review_item
+    post ':name/:item_id', to: 'review_queues#submit', as: :submit_review
   end
 
   # This should always be right at the end of this file, so that it doesn't override other routes.

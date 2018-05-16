@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_15_234932) do
+ActiveRecord::Schema.define(version: 2018_05_16_201733) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "user_id"
@@ -374,6 +374,7 @@ ActiveRecord::Schema.define(version: 2018_05_15_234932) do
     t.bigint "reviewable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "completed"
     t.index ["review_queue_id"], name: "index_review_items_on_review_queue_id"
     t.index ["reviewable_type", "reviewable_id"], name: "index_review_items_on_reviewable_type_and_reviewable_id"
   end
@@ -382,9 +383,9 @@ ActiveRecord::Schema.define(version: 2018_05_15_234932) do
     t.string "name"
     t.string "privileges"
     t.text "responses"
-    t.integer "reviews_per_item"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "description"
   end
 
   create_table "review_results", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|

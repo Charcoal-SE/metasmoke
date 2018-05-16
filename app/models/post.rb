@@ -18,7 +18,7 @@ class Post < ApplicationRecord
   has_many :flag_logs, dependent: :destroy
   has_many :flags, dependent: :destroy
   has_and_belongs_to_many :spam_domains
-  has_many :reviews, class_name: 'ReviewResult', dependent: :destroy
+  has_one :review_item, as: :reviewable
   has_many :comments, class_name: 'PostComment', dependent: :destroy
 
   scope(:includes_for_post_row, -> do
@@ -38,6 +38,14 @@ class Post < ApplicationRecord
   scope(:naa, -> { where(is_naa: true) })
 
   scope(:undeleted, -> { where(deleted_at: nil) })
+
+  after_commit do
+    if review_item.present? && should_dq?(ReviewQueue['posts'])
+      review_item.update(completed: true)
+    elsif !review_item.present?
+      ReviewItem.create(reviewable: self, queue: ReviewQueue['posts'], completed: false)
+    end
+  end
 
   after_commit :parse_domains, on: :create
 
@@ -317,6 +325,19 @@ class Post < ApplicationRecord
       next if h.length >= 255
       domain = SpamDomain.find_or_create_by domain: h
       domain.posts << self unless domain.posts.include? self
+    end
+  end
+
+  def custom_review_action(_queue, _item, user, response)
+    feedbacks.create(user: user, feedback_type: response)
+  end
+
+  def should_dq?(queue)
+    case queue.name
+    when 'posts'
+      feedbacks.count >= 2
+    else
+      false
     end
   end
 end

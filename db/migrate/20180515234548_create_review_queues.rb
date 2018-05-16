@@ -6,7 +6,6 @@ class CreateReviewQueues < ActiveRecord::Migration[5.2]
       t.string :name
       t.string :privileges
       t.text :responses
-      t.integer :reviews_per_item
 
       t.timestamps
     end
