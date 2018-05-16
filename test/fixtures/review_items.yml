@@ -3,5 +3,5 @@
 one:
   queue: posts
   reviewable_type: Post
-  reviewable_id: <%= Post.last.id %>
+  reviewable_id: 23653
   completed: false
