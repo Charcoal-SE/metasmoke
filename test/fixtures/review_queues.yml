@@ -1,0 +1,6 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+posts:
+  name: posts
+  privileges: reviewer
+  responses: '[["True Positive", "tp"]]'

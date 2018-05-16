@@ -1,0 +1,8 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <% @queue.responses.each do |r| %>
+      <%= link_to r[0], submit_review_path(name: queue.name, item_id: item.id, response: r[1]), class: 'btn btn-primary review-submit-link',
+                  method: :post, remote: true %>
+    <% end %>
+  </div>
+</div>

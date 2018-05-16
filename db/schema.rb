@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_14_202421) do
+ActiveRecord::Schema.define(version: 2018_05_16_201733) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "user_id"
@@ -368,15 +368,33 @@ ActiveRecord::Schema.define(version: 2018_05_14_202421) do
     t.integer "maximum_weight", limit: 1
   end
 
+  create_table "review_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "review_queue_id"
+    t.string "reviewable_type"
+    t.bigint "reviewable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "completed"
+    t.index ["review_queue_id"], name: "index_review_items_on_review_queue_id"
+    t.index ["reviewable_type", "reviewable_id"], name: "index_review_items_on_reviewable_type_and_reviewable_id"
+  end
+
+  create_table "review_queues", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.string "privileges"
+    t.text "responses"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "description"
+  end
+
   create_table "review_results", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
-    t.bigint "post_id"
     t.bigint "user_id"
-    t.bigint "feedback_id"
     t.string "result"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["feedback_id"], name: "index_review_results_on_feedback_id"
-    t.index ["post_id"], name: "index_review_results_on_post_id"
+    t.bigint "review_item_id"
+    t.index ["review_item_id"], name: "index_review_results_on_review_item_id"
     t.index ["user_id"], name: "index_review_results_on_user_id"
   end
 
@@ -520,8 +538,7 @@ ActiveRecord::Schema.define(version: 2018_05_14_202421) do
   add_foreign_key "flags", "posts"
   add_foreign_key "post_comments", "posts"
   add_foreign_key "post_comments", "users"
-  add_foreign_key "review_results", "feedbacks"
-  add_foreign_key "review_results", "posts"
+  add_foreign_key "review_items", "review_queues"
   add_foreign_key "review_results", "users"
   add_foreign_key "smoke_detectors", "users"
   add_foreign_key "user_site_settings", "users"

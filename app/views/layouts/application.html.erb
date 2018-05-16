@@ -49,8 +49,8 @@
             <%= nav_link GraphsController %>
             <%= nav_link SearchController %>
             <% if user_signed_in? %>
-              <%= nav_link ReviewController do %>
-                <% review_items = Post.unreviewed.count %>
+              <%= nav_link ReviewQueuesController, label: 'review' do %>
+                <% review_items = ReviewItem.active.count %>
                 <%# badge hides itself if it doesn’t have contents. %>
                 <span class="reviews-count badge"><% unless review_items == 0 || !current_user.has_role?(:reviewer) %><%= review_items %><% end %></span>
               <% end %>

@@ -25,12 +25,12 @@
 <% if user_signed_in? && current_user.has_role?(:reviewer) %>
   <p>
     <strong>Add feedback:</strong>
-    <%= link_to raw('&#x2713'), review_feedback_path(post_id: @post.id, feedback_type: 'tpu'),
+    <%= link_to raw('&#x2713'), post_feedback_path(post_id: @post.id, feedback_type: 'tp'),
                 class: 'feedback-button on-post text-success', remote: true, method: :post, data: { post_id: @post.id } %>
-    <%= link_to raw('&#x2717'), review_feedback_path(post_id: @post.id, feedback_type: 'fp'),
+    <%= link_to raw('&#x2717'), post_feedback_path(post_id: @post.id, feedback_type: 'fp'),
                 class: 'feedback-button on-post text-danger', remote: true, method: :post, data: { post_id: @post.id } %>
     <% if @post.link.nil? or @post.link.include? '/a/' %>
-        <%= link_to raw('&#x1f4a9'), review_feedback_path(post_id: @post.id, feedback_type: 'naa'), class: 'feedback-button on-post text-warning',
+        <%= link_to raw('&#x1f4a9'), post_feedback_path(post_id: @post.id, feedback_type: 'naa'), class: 'feedback-button on-post text-warning',
                     remote: true, method: :post, data: { post_id: @post.id } %>
     <% end %>
   </p>
