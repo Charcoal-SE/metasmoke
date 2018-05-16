@@ -137,6 +137,7 @@ Rails.application.routes.draw do
   post 'post/:id/index_feedback', to: 'posts#reindex_feedback'
   post 'post/:id/spam_flag', to: 'posts#cast_spam_flag'
   post 'post/:id/delete', to: 'posts#delete_post', as: :dev_delete_post
+  post 'post/:post_id/feedback', to: 'posts#feedback', as: :post_feedback
 
   get 'users', to: 'stack_exchange_users#index'
 

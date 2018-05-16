@@ -6,6 +6,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:needs_admin, :feedbacksapi, :reindex_feedback, :cast_spam_flag, :delete_post]
   before_action :authenticate_user!, only: [:reindex_feedback, :cast_spam_flag]
   before_action :verify_developer, only: [:reindex_feedback, :delete_post]
+  before_action :verify_reviewer, only: [:feedback]
 
   def show
     begin
@@ -200,6 +201,11 @@ class PostsController < ApplicationController
       flash[:danger] = "Spam flag not cast: #{message}"
     end
     redirect_to url_for(controller: :posts, action: :show, id: params[:id])
+  end
+
+  def feedback
+    @post = Post.find params[:post_id]
+    @post.feedbacks.create user: current_user, feedback_type: params[:feedback_type]
   end
 
   private

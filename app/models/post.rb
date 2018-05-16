@@ -56,7 +56,7 @@ class Post < ApplicationRecord
 
   after_create do
     ActionCable.server.broadcast 'posts_realtime', row: PostsController.render(locals: { post: Post.last }, partial: 'post').html_safe
-    ActionCable.server.broadcast 'topbar', review: Post.without_feedback.count
+    ActionCable.server.broadcast 'topbar', review: ReviewItem.active.count
   end
 
   after_commit on: :create do
@@ -245,7 +245,7 @@ class Post < ApplicationRecord
     end
 
     if is_feedback_changed
-      ActionCable.server.broadcast 'topbar', review: Post.without_feedback.count
+      ActionCable.server.broadcast 'topbar', review: ReviewItem.active.count
     end
 
     is_feedback_changed
