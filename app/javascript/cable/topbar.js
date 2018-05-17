@@ -35,7 +35,8 @@ $(() => {
     let status = 'critical';
     if (ago < 90e3) {
       status = 'good';
-    } else if (ago < 3 * 60e3) {
+    }
+    else if (ago < 3 * 60e3) {
       status = 'warning';
     }
     $('.navbar-toggle').removeClass('status-good status-warning status-critical')

@@ -17,7 +17,8 @@ onLoad(() => {
       if (data === 'ok') {
         const $tr = $(this).parent().parent();
         $tr.fadeOut(200, () => $tr.remove());
-      } else {
+      }
+      else {
         debug('something went wrong: update returned', data);
       }
     }).fail(jqXHR => debug('something went wrong: update failed:', jqXHR.status, jqXHR.responseText, '\n', jqXHR));

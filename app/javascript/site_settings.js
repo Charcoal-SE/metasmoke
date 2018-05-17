@@ -16,10 +16,12 @@ route('/admin/settings', () => {
       const json = await resp.json();
       if (json.success) {
         debug('Changed :)');
-      } else {
+      }
+      else {
         debug('???');
       }
-    } catch (err) {
+    }
+    catch (err) {
       debug('???', resp);
     }
   });
@@ -51,10 +53,12 @@ route('/admin/settings', () => {
         if (json.success) {
           debug('Changed :)');
           $(document).click();
-        } else {
+        }
+        else {
           debug('???');
         }
-      } catch (err) {
+      }
+      catch (err) {
         debug('???', resp);
       }
     }

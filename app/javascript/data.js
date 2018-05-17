@@ -121,7 +121,8 @@ const renderResults = (err, results) => {
     }
 
     $('.js-script-error').popover('hide').fadeOut();
-  } catch (err) {
+  }
+  catch (err) {
     $('.js-script-error').attr('data-content', err.stack).fadeIn();
   }
 };
@@ -190,7 +191,8 @@ route('/data', async () => {
     if (theme === themes.dark) {
       theme = themes.light;
       $('.js-theme-toggle').text('🌙');
-    } else {
+    }
+    else {
       theme = themes.dark;
       $('.js-theme-toggle').text('☀️');
     }
@@ -240,7 +242,8 @@ route('/data', async () => {
     try {
       // eslint-disable-next-line no-eval
       results = eval(editor.getValue())(store);
-    } catch (err) {
+    }
+    catch (err) {
       error = err;
     }
 

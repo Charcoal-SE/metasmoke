@@ -12,7 +12,8 @@ $(document).on('turbolinks:load', () => {
     if (route.pathisRe ? pathname.match(route.path) : route.path === pathname) {
       route.enter.call(null, pathname);
       route.current = true;
-    } else if (route.current) {
+    }
+    else if (route.current) {
       route.current = false;
       route.exit.call(null, pathname);
     }

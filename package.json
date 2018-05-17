@@ -47,7 +47,8 @@
           ]
         }
       ],
-      "no-console": "error"
+      "no-console": "error",
+      "brace-style": ["error", "stroustrup"]
     }
   },
   "dependencies": {

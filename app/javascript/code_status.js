@@ -51,7 +51,8 @@ route('/status/code', () => {
     if (other.join('').length > 0) {
       $('.commit summary').html(escapedMessge);
       $('.commit pre').html(escapedDetails);
-    } else {
+    }
+    else {
       $('.commit').html(escapedMessge);
     }
   }).fail(debug);

@@ -100,7 +100,8 @@ onLoad(() => {
       localStorage.setItem('metasmoke-announcements-read', text);
       $('.announcements:not(body)').slideUp(500);
       collapser.text('Show announcements');
-    } else {
+    }
+    else {
       localStorage.removeItem('metasmoke-announcements-read');
       $('.announcements:not(body)').slideDown(500);
       collapser.text('Hide announcements');

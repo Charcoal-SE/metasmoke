@@ -8,7 +8,8 @@ $(() => {
   $(document).on('click', '.show-post-body', function () {
     if ($(this).data('postloaded')) {
       togglePostBodyVisible(this);
-    } else {
+    }
+    else {
       // If we need to lazy-load the post body from the server
       // This is criminally ugly
       $(this).parent().children('div.post-body:first').load(`/post/${$(this).data('postid')}/body`, () => {
@@ -37,7 +38,8 @@ function togglePostBodyVisible(row) {
   $(`.post-body[data-postid="${$(row).data('postid')}"]`).toggle();
   if ($(row).text() === '►') {
     $(row).text('▼');
-  } else if ($(row).text() === '▼') {
+  }
+  else if ($(row).text() === '▼') {
     $(row).text('►');
   }
 }
