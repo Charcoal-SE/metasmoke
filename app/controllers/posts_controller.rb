@@ -127,9 +127,7 @@ class PostsController < ApplicationController
     rescue # rubocop:disable Lint/HandleExceptions
     end
 
-    Thread.new do
-      less_important_things(@post)
-    end
+    less_important_things(@post)
 
     respond_to do |format|
       if @post.save
