@@ -63,6 +63,13 @@ class Feedback < ApplicationRecord
     post.reload.update_feedback_cache unless num_deleted.empty?
   end
 
+  # Keep this block last to make sure any corrections or deletions have been made before we check count
+  after_create do
+    if post.feedbacks.count >= 2 && post.review_item&.completed == false
+      post.review_item.update(completed: true)
+    end
+  end
+
   def is_positive? # rubocop:disable Style/PredicateName
     feedback_type.include? 't'
   end
