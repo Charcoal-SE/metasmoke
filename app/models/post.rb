@@ -22,7 +22,7 @@ class Post < ApplicationRecord
   has_many :comments, class_name: 'PostComment', dependent: :destroy
 
   scope(:includes_for_post_row, -> do
-    includes(:stack_exchange_user).includes(:reasons)
+    includes(:stack_exchange_user).includes(:reasons).includes(:site)
            .includes(feedbacks: [:user, :api_key]).includes(:comments)
   end)
   scope(:without_feedback, -> { where(feedbacks_count: 0).or(where(feedbacks_count: nil)) })

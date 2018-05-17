@@ -6,7 +6,7 @@ class ReviewItem < ApplicationRecord
   belongs_to :reviewable, polymorphic: true
   has_many :results, class_name: 'ReviewResult'
 
-  validates :reviewable_type, inclusion: { in: ['Post'] }
+  validates :reviewable_type, inclusion: { in: %w[Post SpamDomain] }
 
   scope(:active, -> { where(completed: false) })
   scope(:completed, -> { where(completed: true) })

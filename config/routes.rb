@@ -282,6 +282,7 @@ Rails.application.routes.draw do
       root                  to: 'domain_tags#index',           as: :domain_tags
       post   'add',         to: 'domain_tags#add',             as: :add_domain_tag
       post   'add_post',    to: 'domain_tags#add_post',        as: :add_post_tag
+      post   'add_review',  to: 'domain_tags#add_review',      as: :review_add_tag
       post   'remove',      to: 'domain_tags#remove',          as: :remove_domain_tag
       post   'remove_post', to: 'domain_tags#remove_post',     as: :remove_post_tag
       get    'mass',        to: 'domain_tags#mass_tagging',    as: :domain_tags_mass_tagging

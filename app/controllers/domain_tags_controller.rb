@@ -26,6 +26,13 @@ class DomainTagsController < ApplicationController
     redirect_to spam_domain_path(@domain)
   end
 
+  def add_review
+    @tag = DomainTag.find_or_create_by name: params[:tag_name]
+    @domain = SpamDomain.find params[:domain_id]
+    @domain.domain_tags << @tag unless @domain.domain_tags.include? @tag
+    render 'domain_tags/_tag', locals: { tag: @tag, domain: @domain }, layout: nil
+  end
+
   def add_post
     @tag = DomainTag.find_or_create_by name: params[:tag_name]
     @post = Post.find params[:post_id]

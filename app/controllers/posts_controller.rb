@@ -127,10 +127,8 @@ class PostsController < ApplicationController
     rescue # rubocop:disable Lint/HandleExceptions
     end
 
-    ri = ReviewItem.new(reviewable: @post, queue: ReviewQueue['posts'], completed: false)
-    ri_success = ri.save
-    unless ri_success
-      Rails.logger.warn "[post-create] review item create failed: #{ri.errors.full_messages.join(', ')}"
+    Thread.new do
+      less_important_things(@post)
     end
 
     respond_to do |format|
@@ -210,7 +208,7 @@ class PostsController < ApplicationController
   end
 
   def feedback
-    not_found unless ['tp', 'fp', 'naa'].include? params[:feedback_type]
+    not_found unless %w[tp fp naa].include? params[:feedback_type]
     @post = Post.find params[:post_id]
     @post.feedbacks.create user: current_user, feedback_type: params[:feedback_type]
   end
@@ -227,5 +225,12 @@ class PostsController < ApplicationController
     permitted = %w[title body link post_creation_date reasons username user_link why user_reputation score upvote_count downvote_count]
     params.require(:post)
           .permit(*permitted)
+  end
+
+  def less_important_things(post)
+    ri = ReviewItem.new(reviewable: post, queue: ReviewQueue['posts'], completed: false)
+    ri_success = ri.save
+    return if ri_success
+    Rails.logger.warn "[post-create] review item create failed: #{ri.errors.full_messages.join(', ')}"
   end
 end
