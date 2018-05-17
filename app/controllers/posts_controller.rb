@@ -210,6 +210,7 @@ class PostsController < ApplicationController
   end
 
   def feedback
+    not_found unless ['tp', 'fp', 'naa'].include? params[:feedback_type]
     @post = Post.find params[:post_id]
     @post.feedbacks.create user: current_user, feedback_type: params[:feedback_type]
   end
