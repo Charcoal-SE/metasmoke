@@ -103,8 +103,6 @@ class PostsController < ApplicationController
     @post.smoke_detector = @smoke_detector
     @post.site = Site.find_by(site_domain: URI.parse(@post.link).host)
 
-    ReviewItem.create(reviewable: @post, queue: ReviewQueue['posts'], completed: false)
-
     params['post']['reasons'].each do |r|
       reason = Reason.find_or_create_by(reason_name: r.split('(').first.strip.humanize)
 
@@ -127,6 +125,12 @@ class PostsController < ApplicationController
 
       @post.stack_exchange_user = se_user
     rescue # rubocop:disable Lint/HandleExceptions
+    end
+
+    ri = ReviewItem.new(reviewable: @post, queue: ReviewQueue['posts'], completed: false)
+    ri_success = ri.save
+    unless ri_success
+      Rails.logger.warn "[post-create] review item create failed: #{ri.errors.full_messages.join(', ')}"
     end
 
     respond_to do |format|
