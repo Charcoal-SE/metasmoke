@@ -29,7 +29,7 @@ class ReviewQueuesController < ApplicationController
     @item = ReviewItem.find params[:item_id]
 
     # Prevent the same item from being reviewed after it is completed, or twice by the same user.
-    if (@item.completed && ReviewResult.where(item: item).where.not(result: "skip").exists?) ||
+    if (@item.completed && ReviewResult.where(item: item).where.not(result: 'skip').exists?) ||
        ReviewResult.where(user: current_user, item: @item).where.not(result: 'skip').exists?
 
       render json: { status: 'duplicate' }, status: 409
