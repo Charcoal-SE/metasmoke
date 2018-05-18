@@ -29,10 +29,11 @@ class ReviewQueuesController < ApplicationController
     @item = ReviewItem.find params[:item_id]
 
     # Prevent the same item from being reviewed twice by the same user.
-    if (@item.completed and ReviewResult.exists?(item: @item)) or
-       ReviewResult.where(user: current_user, item: @item).where.not(result: "skip").exists?
-        render json: { status: 'duplicate' }, status: 409
-        return
+    if (@item.completed && ReviewResult.exists?(item: @item)) ||
+      ReviewResult.where(user: current_user, item: @item).where.not(result: 'skip').exists?
+
+      render json: { status: 'duplicate' }, status: 409
+      return
     end
 
     ReviewResult.create user: current_user, result: params[:response], item: @item
@@ -49,11 +50,11 @@ class ReviewQueuesController < ApplicationController
 
   def item
     @item = ReviewItem.find(params[:item_id])
-    render "queue.html.erb"
+    render 'queue.html.erb'
   end
 
   def reviews
-    @all = params[:all] == "1"
+    @all = params[:all] == '1'
 
     @reviews =
       if @all
@@ -61,8 +62,8 @@ class ReviewQueuesController < ApplicationController
       else
         ReviewResult.where(user: current_user)
       end
-        .joins(:item).where(review_items: { review_queue_id: @queue.id }, review_results: { user: current_user })
-        .order(created_at: :desc).paginate(page: params[:page], per_page: 100)
+      .joins(:item).where(review_items: { review_queue_id: @queue.id }, review_results: { user: current_user })
+      .order(created_at: :desc).paginate(page: params[:page], per_page: 100)
   end
 
   private
