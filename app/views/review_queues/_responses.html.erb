@@ -1,7 +1,7 @@
 <div class="panel panel-default">
   <div class="panel-body">
     <% if (item.completed and ReviewResult.exists?(item: item)) or
-        ReviewResult.where(user: current_user, item: @item).where.not(result: "skip").exists? %>
+        ReviewResult.where(user: current_user, item: item).where.not(result: "skip").exists? %>
     <h5>
       <% if item.completed %>
         Review completed.
@@ -9,7 +9,7 @@
         You have already reviewed this item.  It needs more reviews from other users to be completed.
       <% end %>
     </h5>
-    <% ReviewResult.where(item: @item).each do |result| %>
+    <% ReviewResult.where(item: item).each do |result| %>
       <b><%= result.user.username %></b>
       <span
         data-livestamp="<%= result.created_at.to_i %>"
@@ -22,7 +22,7 @@
 
     <%= link_to 'Next', 'javascript:void(0)', class: 'btn btn-primary review-next-link' %>
     <% else %>
-      <% @queue.responses.each do |r| %>
+      <% queue.responses.each do |r| %>
         <%= link_to r[0], submit_review_path(name: queue.name, item_id: item.id, response: r[1]), class: 'btn btn-primary review-submit-link',
                     method: :post, remote: true %>
       <% end %>
