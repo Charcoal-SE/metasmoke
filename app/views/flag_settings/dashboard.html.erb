@@ -105,8 +105,11 @@
   </ul>
 
   <h5><strong>User views</strong></h5>
-  <%= form_tag url_for(:controller => :flag_conditions, :action => :user_overview), :method => 'GET' do %>
-    <%= select_tag 'user', options_for_select(User.all.map{|u| [u.try(:username), u.id]}), {:class => 'form-control selectpicker', 'data-live-search' => true, 'data-actions-box' => true, 'data-dropup-auto' => false} %><br/>
+  <%= form_tag url_for(:controller => :flag_conditions, :action => :user_overview), method: 'GET', class: 'form-inline' do %>
+    <div class="field">
+      <%= select_tag 'user', options_for_select(User.all.map{|u| [u.try(:username), u.id]}),
+                     { class: 'form-control selectpicker', 'data-live-search' => true, 'data-actions-box' => true, 'data-dropup-auto' => false} %>
+    </div><br/>
     <%= submit_tag 'View', :class => 'btn btn-primary' %>
   <% end %>
 <% end %>
