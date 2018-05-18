@@ -36,7 +36,7 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
   });
 });
 
-route('/review/untagged-domains', () => {
+route(/\/review\/untagged-domains(\/\d*)?/, () => {
   $(document).on('ajax:success', '.review-add-domain-tag', (e, data) => {
     const $noTags = $('.no-tags');
     if ($noTags.length > 0) {
