@@ -21,7 +21,9 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
     $('.review-item-container').html(html);
   };
 
-  if (!hasItemID) loadNextPost();
+  if (!hasItemID) {
+    loadNextPost();
+  }
 
   $(document).on('ajax:success', '.review-submit-link', () => {
     $('.review-item-container').text('Loading...');
