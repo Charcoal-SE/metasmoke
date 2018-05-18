@@ -13,6 +13,10 @@ class SpamDomain < ApplicationRecord
     domain_tags.count > 0
   end
 
+  def review_item_name
+    domain
+  end
+
   private
 
   def setup_review(*_args)

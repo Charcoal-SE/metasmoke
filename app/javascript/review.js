@@ -9,18 +9,28 @@ $(() => {
   });
 });
 
-route(/\/review\/\w+/i, async () => {
+route(/\/review\/[\w-]+\/?\d*$/i, async () => {
+  const queuePath = (/(\/review\/[\w-]+)\/?\d*$/i).exec(location.pathname)[1];
+  const hasItemID = location.pathname.match(/\/review\/[\w-]+\/?\d+$/i);
+
   const loadNextPost = async () => {
-    const response = await fetch(location.pathname + '/next', {
+    const response = await fetch(queuePath + '/next', {
       credentials: 'include'
     });
     const html = await response.text();
     $('.review-item-container').html(html);
   };
 
-  loadNextPost();
+  if (!hasItemID) {
+    loadNextPost();
+  }
 
   $(document).on('ajax:success', '.review-submit-link', () => {
+    $('.review-item-container').text('Loading...');
+    loadNextPost();
+  });
+
+  $(document).on('click', '.review-next-link', () => {
     $('.review-item-container').text('Loading...');
     loadNextPost();
   });

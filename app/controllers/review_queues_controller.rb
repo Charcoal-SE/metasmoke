@@ -21,8 +21,20 @@ class ReviewQueuesController < ApplicationController
   end
 
   def submit
-    render json: { status: 'invalid' }, status: 400 unless (@queue.responses.map { |r| r[1] } + ['skip']).include? params[:response]
+    unless (@queue.responses.map { |r| r[1] } + ['skip']).include? params[:response]
+      render json: { status: 'invalid' }, status: 400
+      return
+    end
+
     @item = ReviewItem.find params[:item_id]
+
+    # Prevent the same item from being reviewed twice by the same user.
+    if (@item.completed && ReviewResult.exists?(item: @item)) ||
+       ReviewResult.where(user: current_user, item: @item).where.not(result: 'skip').exists?
+
+      render json: { status: 'duplicate' }, status: 409
+      return
+    end
 
     ReviewResult.create user: current_user, result: params[:response], item: @item
 
@@ -34,6 +46,24 @@ class ReviewQueuesController < ApplicationController
     end
 
     render json: { status: 'ok' }
+  end
+
+  def item
+    @item = ReviewItem.find(params[:item_id])
+    render :queue
+  end
+
+  def reviews
+    @all = params[:all] == '1'
+
+    @reviews =
+      if @all
+        ReviewResult
+      else
+        ReviewResult.where(user: current_user)
+      end
+      .all.joins(:item).where(review_items: { review_queue_id: @queue.id })
+      .order(created_at: :desc).paginate(page: params[:page], per_page: 100)
   end
 
   private
