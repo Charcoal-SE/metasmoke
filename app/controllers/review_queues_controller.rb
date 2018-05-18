@@ -50,7 +50,7 @@ class ReviewQueuesController < ApplicationController
 
   def item
     @item = ReviewItem.find(params[:item_id])
-    render 'queue.html.erb'
+    render :queue
   end
 
   def reviews
@@ -62,7 +62,7 @@ class ReviewQueuesController < ApplicationController
       else
         ReviewResult.where(user: current_user)
       end
-      .joins(:item).where(review_items: { review_queue_id: @queue.id }, review_results: { user: current_user })
+      .all.joins(:item).where(review_items: { review_queue_id: @queue.id })
       .order(created_at: :desc).paginate(page: params[:page], per_page: 100)
   end
 

@@ -16,7 +16,7 @@
     <% @reviews.each do |review| %>
       <tr>
         <% if @all %> <td><%= review.user.username %></td> <% end %>
-        <td><%= link_to review.item.reviewable.review_item_name, controller: :review_queues, action: :item, item_id: review.item.id %></td>
+        <td><%= link_to review.item.reviewable.review_item_name, review_item_path(@queue.name, review.item) %></td>
         <td><%= review.result.titleize %></td>
       </tr>
     <% end %>
