@@ -2,25 +2,26 @@
   <div class="panel-body">
     <% if (item.completed and ReviewResult.where(item: item).where.not(result: "skip").exists?) or
         ReviewResult.where(user: current_user, item: item).where.not(result: "skip").exists? %>
-    <h5>
-      <% if item.completed %>
-        Review completed.
-      <% else %>
-        You have already reviewed this item.  It needs more reviews from other users to be completed.
-      <% end %>
-    </h5>
-    <% ReviewResult.where(item: item).each do |result| %>
-      <b><%= result.user.username %></b>
-      <span
-        data-livestamp="<%= result.created_at.to_i %>"
-        title="<%= result.created_at.to_s %>"
-        > <%= time_ago_in_words(result.created_at.to_s) %>
-      </span>
-      ago: <b><%= result.result.titleize %></b>
-      <br/>
-    <% end %>
+      <h5>
+        <% if item.completed %>
+          Review completed.
+        <% else %>
+          You have already reviewed this item.  It needs more reviews from other users to be completed.
+        <% end %>
+      </h5>
 
-    <%= link_to 'Next', 'javascript:void(0)', class: 'btn btn-primary review-next-link' %>
+      <p>
+        <% item.results.each do |result| %>
+          <b><%= result.user.username %></b>
+          <span data-livestamp="<%= result.created_at.to_i %>" title="<%= result.created_at.to_s %>">
+            <%= time_ago_in_words(result.created_at.to_s) %>
+          </span>
+          ago: <b><%= result.result == 'skip' ? 'Skip' : queue.responses.to_h[result.result] %></b>
+          <br/>
+        <% end %>
+      </p>
+
+      <%= link_to 'Next', 'javascript:void(0)', class: 'btn btn-primary review-next-link' %>
     <% else %>
       <% queue.responses.each do |r| %>
         <%= link_to r[0], submit_review_path(name: queue.name, item_id: item.id, response: r[1]), class: 'btn btn-primary review-submit-link',
