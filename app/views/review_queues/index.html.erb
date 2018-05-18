@@ -8,6 +8,7 @@
         <span class="badge"><%= q.items.active.count if q.items.active.count > 0 %></span>
       </h4>
       <p><%= q.description %></p>
+      <%= link_to 'Review History', controller: :review_queues, action: :reviews, name: q.name %>
     </div>
   </div>
 <% end %>

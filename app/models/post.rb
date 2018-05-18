@@ -338,4 +338,8 @@ class Post < ApplicationRecord
       false
     end
   end
+
+  def review_item_name
+    title
+  end
 end

@@ -374,6 +374,8 @@ Rails.application.routes.draw do
     get ':name', to: 'review_queues#queue', as: :review_queue
     get ':name/next', to: 'review_queues#next_item', as: :next_review_item
     post ':name/:item_id', to: 'review_queues#submit', as: :submit_review
+    get ':name/history', to: 'review_queues#reviews', as: :list_reviews
+    get ':name/:item_id', to: 'review_queues#item', as: :review_item
   end
 
   # This should always be right at the end of this file, so that it doesn't override other routes.

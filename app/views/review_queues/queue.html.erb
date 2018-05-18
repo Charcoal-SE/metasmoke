@@ -2,5 +2,9 @@
 <p><%= @queue.description %></p>
 
 <div class="review-item-container">
-  Loading...
+  <% if @item %>
+    <%= render "#{@item.reviewable_type.underscore.pluralize}/review_item.html.erb", queue: @queue, item: @item, layout: nil %>
+  <% else %>
+    Loading...
+  <% end %>
 </div>

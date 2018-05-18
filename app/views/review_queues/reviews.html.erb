@@ -1,0 +1,27 @@
+<h1>Review history for <%= @queue.name.titleize %> </h1>
+
+<% if @all %>
+  <%= link_to 'mine', all: 0 %> | <b>all</b>
+<% else %>
+  <b>mine</b> | <%= link_to 'all', all: 1 %>
+<% end %>
+
+<table class="table">
+  <tr>
+    <% if @all %> <th>User</th> <% end %>
+    <th>Task</th>
+    <th>Result</th>
+  </tr>
+
+    <% @reviews.each do |review| %>
+      <tr>
+        <% if @all %> <td><%= review.user.username %></td> <% end %>
+        <td><%= link_to review.item.reviewable.review_item_name, controller: :review_queues, action: :item, item_id: review.item.id %></td>
+        <td><%= review.result.titleize %></td>
+      </tr>
+    <% end %>
+</table>
+
+<div class="text-center">
+  <%= will_paginate @reviews, renderer: BootstrapPagination::Rails %>
+</div>
