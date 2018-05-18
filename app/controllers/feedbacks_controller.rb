@@ -26,7 +26,7 @@ class FeedbacksController < ApplicationController
 
     raise ActionController::RoutingError, 'Not Found' unless verify_access(f)
 
-    if f.user == current_user && f.created_at >= 10.minutes.ago
+    if f.user == current_user && f.created_at.present? && f.created_at >= 10.minutes.ago
       f.destroy
     else
       f.update(is_invalidated: true, invalidated_by: current_user, invalidated_at: DateTime.now)
