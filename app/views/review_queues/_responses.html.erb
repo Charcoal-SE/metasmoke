@@ -15,8 +15,8 @@
           <b><%= result.user.username %></b>
           <span data-livestamp="<%= result.created_at.to_i %>" title="<%= result.created_at.to_s %>">
             <%= time_ago_in_words(result.created_at.to_s) %>
-          </span>
-          ago: <b><%= result.result == 'skip' ? 'Skip' : queue.responses.to_h[result.result] %></b>
+          </span>:
+          <b><%= result.result == 'skip' ? 'Skip' : queue.responses.map(&:reverse).to_h[result.result] %></b>
           <br/>
         <% end %>
       </p>
