@@ -107,6 +107,12 @@ class Post < ApplicationRecord
 
       Rails.logger.warn "[autoflagging] #{id}: lottery begin"
       max_flags = [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
+
+      # Send the first flag with Smokey's account; shows up nicely in the flag queue / timeline
+      # At this stage, we know that at least one user has a matching flag_condition (thus 99.x% accuracy)
+
+      max_flags -= post.send_autoflag(User.smokey, dry_run, nil)
+
       core_count = (max_flags / 2.0).ceil
       other_count = max_flags - core_count
 
