@@ -11,6 +11,7 @@ AllCops:
     - 'node_modules/**/*'
     - 'db/schema.rb' # auto-generated :(
     - 'Capfile'
+    - 'config/routes.rb'
   TargetRubyVersion: 2.4
 
 Style/SymbolArray:
