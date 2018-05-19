@@ -18,7 +18,7 @@ Rails.application.routes.draw do
 
   resources :dumps
 
-  get  'sites/dash', to: 'dashboard#site_dash', as: :site_dash
+  get    'sites/dash',          to: 'dashboard#site_dash',     as: :site_dash
 
   get    'search',              to: 'search#index'
   get    'reasons',             to: 'dashboard#index',         as: :reasons
@@ -89,7 +89,7 @@ Rails.application.routes.draw do
     get    'api_feedback',         to: 'admin#api_feedback'
     get    'flagged',              to: 'admin#flagged'
     post   'clear_flag',           to: 'admin#clear_flag'
-    get    'users',                to: 'admin#users'
+    get    'users',                to: 'admin#users',                       as: :user_data
     get    'permissions',          to: 'admin#permissions',                 as: :permissions
     put    'permissions/update',   to: 'admin#update_permissions'
     delete 'permissions/:user_id', to: 'admin#destroy_user'
@@ -144,7 +144,7 @@ Rails.application.routes.draw do
     get  'reasons/:ids',            to: 'api#reasons'
     get  'reason/:id/posts',        to: 'api#reason_posts'
     get  'blacklist',               to: 'api#blacklisted_websites'
-    get  'users',                   to: 'api#users'
+    get  'users',                   to: 'api#users',                 as: :api_users
     get  'users/code_privileged',   to: 'api#users_with_code_privs'
     get  'post/:id/domains',        to: 'api#post_domains',          as: :api_post_domains
     get  'domains/:id/tags',        to: 'api#domain_tags',           as: :api_domain_tags
@@ -155,9 +155,9 @@ Rails.application.routes.draw do
     post 'w/post/:id/deleted',      to: 'api#post_deleted'
     post 'w/domains/:id/add_tag',   to: 'api#add_domain_tag',        as: :api_add_domain_tag
 
-    post 'graphql',                 to: 'graphql#execute', as: :graphql
-    get 'graphql',                  to: 'graphql#query',   as: :query_graphql
-    mount GraphiQL::Rails::Engine,  at: '/graphiql',       graphql_path: '/api/graphql', query_params: true
+    post 'graphql',                 to: 'graphql#execute',           as: :graphql
+    get 'graphql',                  to: 'graphql#query',             as: :query_graphql
+    mount GraphiQL::Rails::Engine,  at: '/graphiql',                 graphql_path: '/api/graphql', query_params: true
   end
 
   scope 'authentication' do
@@ -190,16 +190,16 @@ Rails.application.routes.draw do
   end
 
   scope 'dev' do
-    post 'update_sites', to: 'developer#update_sites', as: :dev_update_sites
-    get 'prod_log', to: 'developer#production_log', as: :dev_prod_log
-    get 'query_time_log', to: 'developer#query_times_log', as: :dev_query_times_log
-    get 'blank', to: 'developer#blank_page', as: :dev_blank
-    get 'websockets', to: 'developer#websocket_test'
-    post 'websockets', to: 'developer#send_websocket_test'
-    post 'deploy', to: 'developer#deploy', as: :developer_deploy
-    get 'impersonate/stop', to: 'developers#change_back', as: :stop_impersonating
-    post 'impersonate/stop', to: 'developers#verify_elevation', as: :verify_elevation
-    post 'impersonate/:id', to: 'developers#change_users', as: :impersonate
+    post 'update_sites',     to: 'developer#update_sites',        as: :dev_update_sites
+    get  'prod_log',         to: 'developer#production_log',      as: :dev_prod_log
+    get  'query_time_log',   to: 'developer#query_times_log',     as: :dev_query_times_log
+    get  'blank',            to: 'developer#blank_page',          as: :dev_blank
+    get  'websockets',       to: 'developer#websocket_test'
+    post 'websockets',       to: 'developer#send_websocket_test'
+    post 'deploy',           to: 'developer#deploy',              as: :developer_deploy
+    get  'impersonate/stop', to: 'developers#change_back',        as: :stop_impersonating
+    post 'impersonate/stop', to: 'developers#verify_elevation',   as: :verify_elevation
+    post 'impersonate/:id',  to: 'developers#change_users',       as: :impersonate
   end
 
   scope 'domains' do
