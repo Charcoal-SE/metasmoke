@@ -11,6 +11,7 @@ class ReviewQueuesController < ApplicationController
   def queue; end
 
   def next_item
+    response.cache_control = 'max-age=0, private, must-revalidate, no-store'
     unreviewed = ReviewItem.unreviewed_by(@queue, current_user)
     if unreviewed.empty?
       render plain: "You've reviewed all available items!"
