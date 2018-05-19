@@ -15,6 +15,9 @@
       <th>Username</th>
       <th>Roles</th>
       <th class="no-sort"></th>
+      <% if current_user&.has_role?(:developer) %>
+        <th colspan="2"></th>
+      <% end %>
     </tr>
   </thead>
   <tbody>
@@ -24,6 +27,10 @@
         <td><%= link_to_if user.stack_exchange_account_id.present?, sanitize(user.username), "//stackexchange.com/users/#{user.stack_exchange_account_id}" %></td>
         <td><%= user.roles.map(&:name).map{|n| n.humanize.downcase}.to_sentence.capitalize %></td>
         <td><%= link_to "Feedback", admin_user_feedback_path(:user_id => user.id) %></td>
+        <% if current_user&.has_role(:developer) %>
+          <td><%= link_to 'Developer', user_path(user) %></td>
+          <td><%= link_to 'Impersonate', impersonate_path(user), method: :post, class: 'text-warning' %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

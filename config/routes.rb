@@ -225,6 +225,9 @@ Rails.application.routes.draw do
     get 'websockets', to: 'developer#websocket_test'
     post 'websockets', to: 'developer#send_websocket_test'
     post 'deploy', to: 'developer#deploy', as: :developer_deploy
+    get 'impersonate/stop', to: 'developers#change_back', as: :stop_impersonating
+    post 'impersonate/stop', to: 'developers#verify_elevation', as: :verify_elevation
+    post 'impersonate/:id', to: 'developers#change_users', as: :impersonate
   end
 
   # flagging

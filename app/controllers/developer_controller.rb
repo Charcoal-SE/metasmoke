@@ -2,7 +2,8 @@
 
 class DeveloperController < ApplicationController
   before_action :authenticate_user!, except: [:blank_page]
-  before_action :verify_developer, except: [:blank_page]
+  before_action :verify_developer, except: [:blank_page, :change_back, :verify_elevation]
+  before_action :check_impersonating, only: [:change_back, :verify_elevation]
 
   def update_sites
     SitesHelper.update_sites
@@ -45,5 +46,36 @@ class DeveloperController < ApplicationController
     ActionCable.server.broadcast params[:channel], JSON.parse(params[:content])
     flash[:info] = 'Queued for broadcast.'
     redirect_to url_for(controller: :developer, action: :websocket_test)
+  end
+
+  def change_users
+    dev_id = current_user.id
+    @user = User.find params[:id]
+    sign_in @user
+    session[:impersonator_id] = dev_id
+    flash[:success] = "You are now impersonating #{@user.username}."
+    redirect_to root_path
+  end
+
+  def change_back
+    @impersonator = User.find session[:impersonator_id]
+  end
+
+  def verify_elevation
+    impersonator = User.find session[:impersonator_id]
+    if impersonator&.valid_password? params[:password]
+      session.delete :impersonator_id
+      sign_in impersonator
+      redirect_to root_path
+    else
+      flash[:danger] = 'Incorrect password.'
+      render :change_back
+    end
+  end
+
+  private
+
+  def check_impersonating
+    require_developer unless session[:impersonator_id].present?
   end
 end
