@@ -90,7 +90,7 @@ Rails.application.routes.draw do
     get    'flagged',              to: 'admin#flagged'
     post   'clear_flag',           to: 'admin#clear_flag'
     get    'users',                to: 'admin#users',                       as: :user_data
-    get    'permissions',          to: 'admin#permissions',                 as: :permissions
+    get    'permissions',          to: 'admin#permissions',                 as: :admin_permissions
     put    'permissions/update',   to: 'admin#update_permissions'
     delete 'permissions/:user_id', to: 'admin#destroy_user'
 
