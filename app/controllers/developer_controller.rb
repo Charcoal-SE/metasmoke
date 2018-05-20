@@ -62,10 +62,10 @@ class DeveloperController < ApplicationController
   end
 
   def verify_elevation
-    impersonator = User.find session[:impersonator_id]
-    if impersonator&.valid_password? params[:password]
+    @impersonator = User.find session[:impersonator_id]
+    if @impersonator&.valid_password? params[:password]
       session.delete :impersonator_id
-      sign_in impersonator
+      sign_in @impersonator
       redirect_to root_path
     else
       flash[:danger] = 'Incorrect password.'
