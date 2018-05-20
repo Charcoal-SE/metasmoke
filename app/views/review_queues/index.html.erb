@@ -7,7 +7,13 @@
         <%= link_to q.name.titleize, review_queue_path(q.name) %>
         <span class="badge"><%= q.items.active.count if q.items.active.count > 0 %></span>
       </h4>
-      <p><%= q.description %></p>
+      <p>
+        <% if current_user&.has_role(q.privileges) %>
+          <%= q.description %>
+        <% else %>
+          <span class="text-danger">You don't have the required permissions to use this queue.</span>
+        <% end %>
+      </p>
       <%= link_to 'Review History', review_history_path(q.name) %>
     </div>
   </div>
