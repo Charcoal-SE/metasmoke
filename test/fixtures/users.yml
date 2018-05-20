@@ -51,6 +51,7 @@ approved_user:
       name: Etc/UTC
     time: *5
   roles: reviewer, flagger
+  stack_exchange_account_id: 4606062
 
 unapproved_user:
   email: unapproved@user.com
