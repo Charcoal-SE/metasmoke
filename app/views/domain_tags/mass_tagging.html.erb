@@ -48,7 +48,7 @@
     <%= hidden_field_tag :filter, params[:filter] %>
     <%= text_field_tag :tag, '', class: 'form-control input-sm', list: 'tag_list' %>
     <datalist id="tag_list">
-      <% DomainTag.all.each do |t| %>
+      <% DomainTag.all.order(name: :asc).each do |t| %>
           <option value="<%= t.name %>"></option>
       <% end %>
     </datalist>
