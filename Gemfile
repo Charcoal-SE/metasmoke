@@ -110,7 +110,6 @@ group :development do
 end
 
 group :test do
-  gem 'byebug'
   gem 'rails-controller-testing'
   gem 'webmock'
 end
