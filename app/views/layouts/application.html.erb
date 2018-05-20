@@ -118,11 +118,14 @@
               <%= nav_dropdown label: current_user.username || current_user.email do %>
                 <%= nav_link CustomSessionsController, label: 'Sign Out', action: :destroy, link_attrs: { method: 'delete' } %>
                 <%= nav_link CustomRegistrationsController, label: 'Account Settings', action: :edit %>
-                <%= nav_link UsersController, action: :apps %>
+                <%= nav_link UsersController, action: :apps, label: 'Apps' %>
                 <% if current_user.has_role? :smoke_detector_runner %>
                   <%= nav_link SmokeDetectorsController, label: 'My SmokeDetectors', action: :mine %>
                 <% end %>
                 <%= nav_link AdminController, label: 'My Feedback', params: { user_id: current_user.id }, action: :user_feedback %>
+                <% if session[:impersonator_id].present? %>
+                  <%= nav_link DeveloperController, action: :change_back, label: 'Stop impersonating' %>
+                <% end %>
               <% end %>
             <% else %>
               <%= nav_link CustomSessionsController, label: 'sign in', action: :new %>

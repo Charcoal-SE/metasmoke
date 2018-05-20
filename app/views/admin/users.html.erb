@@ -16,7 +16,7 @@
       <th>Roles</th>
       <th class="no-sort"></th>
       <% if current_user&.has_role?(:developer) %>
-        <th colspan="2"></th>
+        <th colspan="2" class="no-sort"></th>
       <% end %>
     </tr>
   </thead>
@@ -28,7 +28,7 @@
         <td><%= user.roles.map(&:name).map{|n| n.humanize.downcase}.to_sentence.capitalize %></td>
         <td><%= link_to "Feedback", admin_user_feedback_path(:user_id => user.id) %></td>
         <% if current_user&.has_role?(:developer) %>
-          <td><%= link_to 'Developer', user_path(user) %></td>
+          <td><%= link_to 'Developer', dev_user_path(user) %></td>
           <td><%= link_to 'Impersonate', impersonate_path(user), method: :post, class: 'text-warning' %></td>
         <% end %>
       </tr>

@@ -116,19 +116,19 @@ class UsersController < ApplicationController
   def refresh_ids
     @user.update_chat_ids
     flash[:success] = "Chat IDs refreshed for #{@user.username}."
-    redirect_to user_path(@user)
+    redirect_to dev_user_path(@user)
   end
 
   def send_password_reset
     @user.send_reset_password_instructions
     flash[:success] = "Reset email sent to #{@user.username}."
-    redirect_to user_path(@user)
+    redirect_to dev_user_path(@user)
   end
 
   def update_mod_sites
     @user.update_moderator_sites
     flash[:success] = "Refreshed mod sites list for #{@user.username}."
-    redirect_to user_path(@user)
+    redirect_to dev_user_path(@user)
   end
 
   private

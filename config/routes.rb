@@ -197,9 +197,9 @@ Rails.application.routes.draw do
     get  'websockets',       to: 'developer#websocket_test'
     post 'websockets',       to: 'developer#send_websocket_test'
     post 'deploy',           to: 'developer#deploy',              as: :developer_deploy
-    get  'impersonate/stop', to: 'developers#change_back',        as: :stop_impersonating
-    post 'impersonate/stop', to: 'developers#verify_elevation',   as: :verify_elevation
-    post 'impersonate/:id',  to: 'developers#change_users',       as: :impersonate
+    get  'impersonate/stop', to: 'developer#change_back',        as: :stop_impersonating
+    post 'impersonate/stop', to: 'developer#verify_elevation',   as: :verify_elevation
+    post 'impersonate/:id',  to: 'developer#change_users',       as: :impersonate
   end
 
   scope 'domains' do
@@ -349,9 +349,9 @@ Rails.application.routes.draw do
   end
 
   scope 'smoke_detector' do
-    get    'mine',               to: 'smoke_detectors#mine'
-    get    'new',                to: 'smoke_detectors#new'
-    post   'create',             to: 'smoke_detectors#create'
+    get    'mine',               to: 'smoke_detectors#mine',           as: :smoke_detector_mine
+    get    'new',                to: 'smoke_detectors#new',            as: :smoke_detector_new
+    post   'create',             to: 'smoke_detectors#create',         as: :smoke_detector_create
     post   ':id/token_regen',    to: 'smoke_detectors#token_regen',    as: :smoke_detector_token_regen
     get    ':id/statistics',     to: 'statistics#index',               as: :smoke_detector_statistics
     delete ':id',                to: 'smoke_detectors#destroy',        as: :smoke_detector_delete
@@ -396,7 +396,7 @@ Rails.application.routes.draw do
 
     get    'denied',               to: 'users#missing_privileges',  as: :missing_privileges
 
-    get    ':id',                  to: 'users#show',                as: :user, constraints: { id: /\d+/ }
+    get    ':id',                  to: 'users#show',                as: :dev_user, constraints: { id: /-?\d+/ }
     post   ':id/update_ids',       to: 'users#refresh_ids',         as: :update_user_chat_ids
     post   ':id/reset_pass',       to: 'users#send_password_reset', as: :send_password_reset
     post   ':id/update_mod_sites', to: 'users#update_mod_sites',    as: :update_mod_sites
