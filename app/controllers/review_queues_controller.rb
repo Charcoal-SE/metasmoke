@@ -3,6 +3,7 @@
 class ReviewQueuesController < ApplicationController
   before_action :set_queue, except: [:index]
   before_action :verify_permissions, except: [:index]
+  before_action :verify_developer, only: [:recheck_items]
 
   def index
     @queues = ReviewQueue.all.includes(:items)
@@ -65,6 +66,16 @@ class ReviewQueuesController < ApplicationController
       end
       .all.joins(:item).where(review_items: { review_queue_id: @queue.id })
       .order(created_at: :desc).paginate(page: params[:page], per_page: 100)
+  end
+
+  def recheck_items
+    Thread.new do
+      @queue.items.each do |i|
+        i.update(completed: true) if i.should_dq?
+      end
+    end
+    flash[:info] = 'Checking started in background.'
+    redirect_back fallback_location: review_queues_path
   end
 
   private

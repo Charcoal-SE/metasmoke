@@ -1,5 +1,11 @@
 <h1>Review history for <%= @queue.name.titleize %> </h1>
 
+<% if current_user&.has_role?(:developer) %>
+  <p>
+    <%= link_to 'Recheck items', recheck_queue_items_path(name: @queue.name), class: 'text-danger', method: :post %>
+  </p>
+<% end %>
+
 <ul class="nav nav-tabs">
   <li class="<%= 'active' if @all %>"><%= link_to 'All', all: 1 %></li>
   <li class="<%= 'active' unless @all %>"><%= link_to 'Mine', all: 0 %></li>
