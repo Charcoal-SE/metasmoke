@@ -371,9 +371,9 @@ Rails.application.routes.draw do
 
   scope 'status' do
     root                     to: 'status#index',      as: :status
-    get  'status/code.json', to: 'code_status#api'
-    get  'status/code',      to: 'code_status#index', as: :code_status
-    post 'status/kill',      to: 'status#kill',       as: :kill_smokey
+    get  'code.json', to: 'code_status#api'
+    get  'code',      to: 'code_status#index', as: :code_status
+    post 'kill',      to: 'status#kill',       as: :kill_smokey
   end
 
   scope 'users' do
