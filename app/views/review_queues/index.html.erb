@@ -8,7 +8,7 @@
         <span class="badge"><%= q.items.active.count if q.items.active.count > 0 %></span>
       </h4>
       <p>
-        <% if current_user&.has_role(q.privileges) %>
+        <% if current_user&.has_role?(q.privileges) %>
           <%= q.description %>
         <% else %>
           <span class="text-danger">You don't have the required permissions to use this queue.</span>
