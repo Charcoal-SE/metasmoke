@@ -50,7 +50,7 @@ class User < ApplicationRecord
 
   def self.smokey
     # Return the account matching SmokeDetector
-    User.where(stack_exchange_account_id: 4606062).first
+    User.where(stack_exchange_account_id: 4606062).first #rubocop:disable Style/NumericLiterals
   end
 
   def active_for_authentication?
