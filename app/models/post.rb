@@ -107,6 +107,12 @@ class Post < ApplicationRecord
 
       Rails.logger.warn "[autoflagging] #{id}: lottery begin"
       max_flags = [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
+
+      # Send the first flag with Smokey's account; shows up nicely in the flag queue / timeline
+      # At this stage, we know that at least one user has a matching flag_condition (thus 99.x% accuracy)
+
+      max_flags -= post.send_autoflag(User.smokey, dry_run, nil) unless User.smokey.nil?
+
       core_count = (max_flags / 2.0).ceil
       other_count = max_flags - core_count
 
@@ -144,7 +150,7 @@ class Post < ApplicationRecord
   def send_autoflag(user, dry_run, condition)
     Rails.logger.warn "[autoflagging] #{id}: send_autoflag begin: #{user.username}"
     user_site_flag_count = user.flag_logs.where(site: site, success: true, is_dry_run: false).where(created_at: Date.today..Time.now).count
-    return 0 if user_site_flag_count >= user.user_site_settings.includes(:sites).where(sites: { id: site.id }).minimum(:max_flags)
+    return 0 if user_site_flag_count >= (user.user_site_settings.includes(:sites).where(sites: { id: site.id }).minimum(:max_flags) || -1)
     Rails.logger.warn "[autoflagging] #{id}: has enough flags"
     last_log = FlagLog.auto.where(user: user).last
     if last_log.try(:backoff).present? && (last_log.created_at + last_log.backoff.seconds > Time.now)

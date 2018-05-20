@@ -9,14 +9,14 @@ module SitesHelper
     return unless sites.count > 100 # all is not well; bail
     sites.each do |site|
       uri = URI.parse(site['site_url'])
-      print "#{uri.host} "
+      print "#{uri.host} " unless Rails.env.test?
       s = Site.find_or_initialize_by(site_domain: uri.host)
 
       if s.new_record?
-        puts "[\x1b[1m\x1b[36mnew\x1b[0m]"
-        SmokeDetector.send_message_to_charcoal "New site [#{site['name']}](#{site['site_url']}) launched!"
+        puts "[\x1b[1m\x1b[36mnew\x1b[0m]" unless Rails.env.test?
+        SmokeDetector.send_message_to_charcoal "New site [#{site['name']}](#{site['site_url']}) launched!" unless Rails.env.test?
       else
-        puts "[\x1b[32mok\x1b[0m]"
+        puts "[\x1b[32mok\x1b[0m]" unless Rails.env.test?
       end
 
       s.api_parameter = site['api_site_parameter']
