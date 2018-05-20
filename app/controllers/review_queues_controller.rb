@@ -70,8 +70,8 @@ class ReviewQueuesController < ApplicationController
 
   def recheck_items
     Thread.new do
-      @queue.items.each do |i|
-        i.update(completed: true) if i.should_dq?
+      @queue.items.includes(:reviewable).each do |i|
+        i.update(completed: true) if i.reviewable.should_dq?(@queue)
       end
     end
     flash[:info] = 'Checking started in background.'
