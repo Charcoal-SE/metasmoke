@@ -33,8 +33,10 @@ class Feedback < ApplicationRecord
           end
         end
 
-        SmokeDetector.send_message_to_charcoal "fp feedback on autoflagged post: [#{post.title}](#{post.link}) [MS]" \
-                                               "(//metasmoke.erwaysoftware.com/post/#{post_id}) (#{names.join ' '})"
+        message = "fp feedback on autoflagged post: [#{post.title}](#{post.link}) [MS]" \
+                  "(//metasmoke.erwaysoftware.com/post/#{post_id}) (#{names.join ' '})"
+        SmokeDetector.send_message_to_charcoal message
+        ActionCable.server.broadcast 'smokedetector_messages', autoflag_fp: { message: message, site: post.site.site_domain }
       end
 
       post.stack_exchange_user&.unblacklist_user if post.is_fp
