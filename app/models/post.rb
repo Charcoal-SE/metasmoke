@@ -122,10 +122,10 @@ class Post < ApplicationRecord
           min_weight: post.reasons.sum(&:weight)
         )
 
-        accuracy = fake_flag_condition.accuracy # Decimal number, like 0.998
+        accuracy = fake_flag_condition.accuracy # Decimal number, like 99.8
 
         # If the accuracy is higher than all 6 thresholds (indicating 6 flags), index will be null
-        scaled_max = scaled_maxes.index { |n| n.to_f > accuracy * 100 } || FlagSetting['max_flags'].to_i
+        scaled_max = scaled_maxes.index { |n| n.to_f > accuracy } || FlagSetting['max_flags'].to_i
       else
         scaled_max = FlagSetting['max_flags'].to_i
       end
