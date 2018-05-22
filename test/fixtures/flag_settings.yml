@@ -15,3 +15,7 @@ max_flags:
 dry_run:
   name: dry_run
   value: 0
+
+scaled_max_flags:
+  name: scaled_max_flags
+  value: 0,0,0,99.9,99.99,101
