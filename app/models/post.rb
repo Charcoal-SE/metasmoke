@@ -116,7 +116,7 @@ class Post < ApplicationRecord
       if !scaled_maxes.nil? && scaled_maxes.count == 6
         # Check historical accuracy
         fake_flag_condition = FlagCondition.new(
-          sites: Site.all,
+          sites: Site.mains,
           max_poster_rep: post.user_reputation,
           min_reason_count: 1,
           min_weight: post.reasons.sum(&:weight)
