@@ -15,7 +15,7 @@ class ReviewQueuesController < ApplicationController
     response.cache_control = 'max-age=0, private, must-revalidate, no-store'
     unreviewed = ReviewItem.unreviewed_by(@queue, current_user)
 
-    while unreviewed.reviewable.nil?
+    while !unreviewed.empty? && unreviewed.first.reviewable.nil?
       unreviewed.update(completed: true)
       unreviewed = ReviewItem.unreviewed_by(@queue, current_user)
     end
