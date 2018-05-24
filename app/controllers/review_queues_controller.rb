@@ -16,7 +16,7 @@ class ReviewQueuesController < ApplicationController
     unreviewed = ReviewItem.unreviewed_by(@queue, current_user)
 
     while !unreviewed.empty? && unreviewed.first.reviewable.nil?
-      unreviewed.update(completed: true)
+      unreviewed.first.update(completed: true)
       unreviewed = ReviewItem.unreviewed_by(@queue, current_user)
     end
 
