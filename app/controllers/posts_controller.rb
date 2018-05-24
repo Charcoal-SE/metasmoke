@@ -131,6 +131,17 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
+        # Start autoflagging
+        Rails.logger.warn "[autoflagging] #{@post.id}: post.save succeeded"
+
+        Thread.new do
+          Rails.logger.warn "[autoflagging] #{@post.id}: thread begin"
+          # Trying to autoflag in a different thread while in test
+          # can cause race conditions and segfaults. This is bad,
+          # so we completely suppress the issue and just don't do that.
+          @post.autoflag unless Rails.env.test?
+        end
+
         format.json { render status: :created, plain: 'OK' }
       else
         format.json { render json: @post.errors, status: :unprocessable_entity }

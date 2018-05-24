@@ -57,19 +57,6 @@ class Post < ApplicationRecord
     ActionCable.server.broadcast 'topbar', review: ReviewItem.active.count
   end
 
-  after_commit on: :create do
-    Rails.logger.warn "[autoflagging] #{id}: after_create begin"
-
-    post = self
-    Thread.new do
-      Rails.logger.warn "[autoflagging] #{post.id}: thread begin"
-      # Trying to autoflag in a different thread while in test
-      # can cause race conditions and segfaults. This is bad,
-      # so we completely suppress the issue and just don't do that.
-      post.autoflag unless Rails.env.test?
-    end
-  end
-
   def autoflag
     Rails.logger.warn "[autoflagging] #{id}: Post#autoflag begin"
     return 'Duplicate post' unless Post.where(link: link).count == 1
