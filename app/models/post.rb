@@ -106,7 +106,31 @@ class Post < ApplicationRecord
       end
 
       Rails.logger.warn "[autoflagging] #{id}: lottery begin"
-      max_flags = [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i].min
+
+      # Defined by the scaled_max_flags FlagSetting
+      # scaled_max_flags = 0,0,0,99.9,99.99,101 would always allow 3 flags,
+      # 4 flags on 99.9% accuracy, and 5 flags on 99.99% accuracy.
+      # 101% means six flags is never allowed
+      scaled_maxes = FlagSetting['scaled_max_flags']&.split(',')
+      Rails.logger.warn "[autoflagging] #{id}: scaled maxes: #{scaled_maxes}"
+      if !scaled_maxes.nil? && scaled_maxes.count == 6
+        # Check historical accuracy
+        fake_flag_condition = FlagCondition.new(
+          sites: Site.mains,
+          max_poster_rep: post.user_reputation,
+          min_reason_count: 1,
+          min_weight: post.reasons.sum(&:weight)
+        )
+
+        accuracy = fake_flag_condition.accuracy # Decimal number, like 99.8
+
+        # If the accuracy is higher than all 6 thresholds (indicating 6 flags), index will be null
+        scaled_max = scaled_maxes.index { |n| n.to_f > accuracy } || FlagSetting['max_flags'].to_i
+      else
+        scaled_max = FlagSetting['max_flags'].to_i
+      end
+
+      max_flags = [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i, scaled_max].min
 
       # Send the first flag with Smokey's account; shows up nicely in the flag queue / timeline
       # At this stage, we know that at least one user has a matching flag_condition (thus 99.x% accuracy)

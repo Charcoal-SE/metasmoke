@@ -231,4 +231,11 @@ class FlaggingTest < ActionDispatch::IntegrationTest
     assert_requested @flag_options_stub, at_least_times: 1
     assert_not_requested @flag_submit_stub
   end
+
+  test 'should respect scaled max flag setting' do
+    FlagSetting.find_by(name: 'scaled_max_flags').update(value: '0,100,100,100,100,100')
+
+    @post.autoflag
+    assert_requested @flag_submit_stub, times: 1
+  end
 end
