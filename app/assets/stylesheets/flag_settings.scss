@@ -1,3 +1,13 @@
 // Place all the styles related to the FlagSettings controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.unsaved-changes {
+  position: fixed;
+  bottom: 0;
+  z-index: 100;
+
+  p {
+    padding: 0.75em 1.25em;
+  }
+}

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class FlagSettingsController < ApplicationController
-  protect_from_forgery except: [:smokey_disable_flagging]
+  protect_from_forgery except: [:smokey_disable_flagging, :update_site_settings]
   before_action :set_flag_setting, only: [:edit, :update]
   before_action :verify_admin, except: [:index, :audits, :smokey_disable_flagging, :dashboard, :by_site]
   before_action :authenticate_user!, except: [:index, :audits, :smokey_disable_flagging, :dashboard, :by_site]
@@ -89,9 +89,29 @@ class FlagSettingsController < ApplicationController
     if params[:site].present?
       @site = Site.find params[:site]
       @flags = FlagLog.where(site: @site)
-      @posts = Post.includes_for_post_row.where(id: @flags.where.not(post_id: nil).map(&:post_id)).paginate(per_page: 50, page: params[:page])
+      @posts = Post.includes_for_post_row.where(id: @flags.where.not(post_id: nil).map(&:post_id))
+                   .paginate(per_page: 50, page: params[:page])
     end
     @sites = Site.mains.order(site_name: :asc)
+  end
+
+  def site_settings
+    @sites = Site.mains.order(site_name: :asc)
+    @json = JSON.dump(@sites.map { |s| [s.id, { flags_enabled: s.flags_enabled,
+                                                max_flags: s.max_flags_per_post,
+                                                name: s.site_name, domain: s.site_domain }] }.to_h)
+  end
+
+  def update_site_settings
+    updata = params[:data]
+    updata.each do |k, v|
+      next unless v['changed'].present? && v['changed'] == true
+      params = {}
+      params[:flags_enabled] = v['flags_enabled'] if v['flags_enabled'].present?
+      params[:max_flags_per_post] = v['max_flags'] if v['max_flags'].present?
+      Site.find(k).update(params)
+    end
+    head :no_content
   end
 
   private

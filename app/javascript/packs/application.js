@@ -26,6 +26,7 @@ import '../api';
 import '../code_status';
 import '../data';
 import '../flag_conditions';
+import '../flag_settings';
 import '../reasons';
 import '../review';
 import '../stack_exchange_users';

@@ -1,0 +1,38 @@
+<h1>Site Flagging Settings</h1>
+<p>Contains settings for each site for autoflagging. Lets you configure enabled/disabled state and max flags.</p>
+
+<input type="text" class="form-control input-sm site-search" placeholder="Filter..." /><br/>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Site</th>
+      <th>Flags enabled</th>
+      <th>Max flags per post</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @sites.each do |s| %>
+      <tr data-sid="<%= s.id %>">
+        <td><%= HTMLEntities.new.decode s.site_name %></td>
+        <td><input type="checkbox" <%= 'checked' if s.flags_enabled %> /></td>
+        <td><input type="number" class="form-control input-sm" min="0" max="6" value="<%= s.max_flags_per_post %>" /></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="panel panel-warning unsaved-changes">
+  <div class="panel-body clearfix">
+    <p class="text-warning pull-left">
+      <strong>You have unsaved changes.</strong> Click the Save button to persist them to the database.
+    </p>
+    <span class="pull-right">
+      <a href="#" class="save-changes btn btn-warning">Save</a>
+    </span>
+  </div>
+</div>
+
+<script>
+  window.flagging_settings = <%= raw(@json) %>;
+</script>
