@@ -97,9 +97,11 @@ class FlagSettingsController < ApplicationController
 
   def site_settings
     @sites = Site.mains.order(site_name: :asc)
-    @json = JSON.dump(@sites.map { |s| [s.id, { flags_enabled: s.flags_enabled,
-                                                max_flags: s.max_flags_per_post,
-                                                name: s.site_name, domain: s.site_domain }] }.to_h)
+    @json = JSON.dump(@sites.map do |s|
+      [s.id, { flags_enabled: s.flags_enabled,
+               max_flags: s.max_flags_per_post,
+               name: s.site_name, domain: s.site_domain }]
+    end.to_h)
   end
 
   def update_site_settings
