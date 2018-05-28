@@ -22,7 +22,7 @@ module SearchHelper
       regex_support.each { |k, v| input = input.gsub(k, v) }
     else
       operation = 'LIKE'
-      input = '%' + input + '%'
+      input = '%' + ActiveRecord::Base.sanitize_sql_like(input) + '%'
     end
 
     [input, operation]
