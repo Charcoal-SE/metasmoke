@@ -25,7 +25,3 @@ and the `--rm -it` options are just one common way of keeping things sane.
 
 ### License
 Metasmoke is a pretty niche project, and we don't expect many people to make use of the entire thing as a whole. However, if you want to use the code, go right ahead - metasmoke is licensed under CC0. A small attribution is appreciated, but entirely non-compulsory.
-
-### Reference
-
- - [Code coverage](https://circleci.com/api/v1/project/Charcoal-SE/metasmoke/latest/artifacts/0/home/ubuntu/metasmoke/coverage/index.html)
