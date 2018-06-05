@@ -10,16 +10,7 @@ module SearchHelper
                   else
                     false
                   end
-      regex_support = {
-        '\w' => '[a-zA-Z0-9_]',
-        '\W' => '[^a-zA-Z0-9_]',
-        '\s' => '[\r\n\t\f\v ]',
-        '\S' => '[^\r\n\t\f\v ]',
-        '\d' => '[0-9]',
-        '\D' => '[^0-9]',
-        '(?:' => '('
-      }
-      regex_support.each { |k, v| input = input.gsub(k, v) }
+      input = regex_support input
     else
       operation = 'LIKE'
       input = '%' + ActiveRecord::Base.sanitize_sql_like(input) + '%'
@@ -34,5 +25,20 @@ module SearchHelper
 
   def self.is_inverse_regex?(symbol) # rubocop:disable Style/PredicateName
     (symbol.to_s + '_is_inverse_regex').to_sym
+  end
+
+  def self.regex_support(text)
+    {
+      '\w' => '[a-zA-Z0-9_]',
+      '\W' => '[^a-zA-Z0-9_]',
+      '\s' => '[\r\n\t\f\v ]',
+      '\S' => '[^\r\n\t\f\v ]',
+      '\d' => '[0-9]',
+      '\D' => '[^0-9]',
+      '(?:' => '('
+    }.each do |k, v|
+      text = text.gsub k, v
+    end
+    text
   end
 end
