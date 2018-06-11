@@ -1,6 +1,7 @@
 <% wrap_in_tr = true if wrap_in_tr.nil? %>
 <% expand_post = false if expand_post.nil? %>
 <% preload_post_body = expand_post || (false if preload_post_body.nil?) %>
+<% hide_feedbacks = false if hide_feedbacks.nil? %>
 <% deletion_date = false if deletion_date.nil? %>
 <% show_autoflagged = false if show_autoflagged.nil? %>
 <% show_autoflaggers = show_autoflagged if show_autoflaggers.nil? %>
@@ -20,7 +21,7 @@
       <span class="glyphicon glyphicon-flag text-danger" title="This post was autoflagged"></span>
     <% end %>
 
-    <% if not post.feedbacks.empty? %>
+    <% unless post.feedbacks.empty? or hide_feedbacks %>
       <strong>
          <% post.feedbacks.each do |feedback| %>
            <% next if (feedback.is_positive? and feedback.is_negative?) or (not feedback.is_positive? and not feedback.is_negative? and not feedback.is_naa?) %>
