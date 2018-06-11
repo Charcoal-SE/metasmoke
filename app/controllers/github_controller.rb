@@ -69,12 +69,11 @@ class GithubController < ApplicationController
     domains = text.scan(/<!-- METASMOKE-BLACKLIST-WEBSITE (.*?) -->/)
 
     domains.each do |domain|
-      domain = domain[0]
-      domain.gsub! '\W', '[^A-Za-z0-9]'
+      domain = SearchHelper.regex_support domain[0]
 
-      num_tps = Post.where('body REGEXP ?', domain.to_s).where(is_tp: true).count
-      num_fps = Post.where('body REGEXP ?', domain.to_s).where(is_fp: true).count
-      num_naa = Post.where('body REGEXP ?', domain.to_s).where(is_naa: true).count
+      num_tps = Post.where('body REGEXP ?', domain).where(is_tp: true).count
+      num_fps = Post.where('body REGEXP ?', domain).where(is_fp: true).count
+      num_naa = Post.where('body REGEXP ?', domain).where(is_naa: true).count
 
       response_text += get_line domain, num_tps, num_fps, num_naa
     end
@@ -82,12 +81,11 @@ class GithubController < ApplicationController
     keywords = text.scan(/<!-- METASMOKE-BLACKLIST-KEYWORD (.*?) -->/)
 
     keywords.each do |keyword|
-      keyword = keyword[0]
-      keyword.gsub! '\W', '[^A-Za-z0-9]'
+      keyword = SearchHelper.regex_support keyword[0]
 
-      num_tps = Post.where('body REGEXP ?', keyword.to_s).where(is_tp: true).count
-      num_fps = Post.where('body REGEXP ?', keyword.to_s).where(is_fp: true).count
-      num_naa = Post.where('body REGEXP ?', keyword.to_s).where(is_naa: true).count
+      num_tps = Post.where('body REGEXP ?', keyword).where(is_tp: true).count
+      num_fps = Post.where('body REGEXP ?', keyword).where(is_fp: true).count
+      num_naa = Post.where('body REGEXP ?', keyword).where(is_naa: true).count
 
       response_text += get_line keyword, num_tps, num_fps, num_naa
     end
@@ -95,12 +93,11 @@ class GithubController < ApplicationController
     usernames = text.scan(/<!-- METASMOKE-BLACKLIST-USERNAME (.*?) -->/)
 
     usernames.each do |username|
-      username = username[0]
-      username.gsub! '\W', '[^A-Za-z0-9]'
+      username = SearchHelper.regex_support username[0]
 
-      num_tps = Post.where('username REGEXP ?', username.to_s).where(is_tp: true).count
-      num_fps = Post.where('username REGEXP ?', username.to_s).where(is_fp: true).count
-      num_naa = Post.where('username REGEXP ?', username.to_s).where(is_naa: true).count
+      num_tps = Post.where('username REGEXP ?', username).where(is_tp: true).count
+      num_fps = Post.where('username REGEXP ?', username).where(is_fp: true).count
+      num_naa = Post.where('username REGEXP ?', username).where(is_naa: true).count
 
       response_text += get_line username, num_tps, num_fps, num_naa
     end
@@ -108,12 +105,11 @@ class GithubController < ApplicationController
     watches = text.scan(/<!-- METASMOKE-BLACKLIST-WATCH_KEYWORD (.*?) -->/)
 
     watches.each do |watch|
-      watch = watch[0]
-      watch.gsub! '\W', '[^A-Za-z0-9]'
+      watch = SearchHelper.regex_support watch[0]
 
-      num_tps = Post.where('body REGEXP ?', watch.to_s).where(is_tp: true).count
-      num_fps = Post.where('body REGEXP ?', watch.to_s).where(is_fp: true).count
-      num_naa = Post.where('body REGEXP ?', watch.to_s).where(is_naa: true).count
+      num_tps = Post.where('body REGEXP ?', watch).where(is_tp: true).count
+      num_fps = Post.where('body REGEXP ?', watch).where(is_fp: true).count
+      num_naa = Post.where('body REGEXP ?', watch).where(is_naa: true).count
 
       response_text += get_line watch, num_tps, num_fps, num_naa
     end
