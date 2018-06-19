@@ -20,6 +20,11 @@ class Feedback < ApplicationRecord
   after_create :send_to_chat
   after_create :send_blacklist_request
 
+  VALID_TYPES = %w[tp tpu fp fpu naa rude ignore]
+                .map { |f| [f, "#{f}-"] }.flatten
+
+  validates :feedback_type, inclusion: { in: VALID_TYPES }
+
   after_save do
     if update_post_feedback_cache # if post feedback cache was changed
       if post.flagged? && !post.is_tp
