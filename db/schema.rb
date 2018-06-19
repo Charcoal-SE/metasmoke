@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2018_06_19_005644) do
 
-  create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "abuse_report_id"
     t.text "text"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2018_06_19_005644) do
     t.index ["user_id"], name: "index_abuse_comments_on_user_id"
   end
 
-  create_table "abuse_contacts", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "abuse_contacts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.string "link"
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 2018_06_19_005644) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "abuse_report_statuses", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "abuse_report_statuses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 2018_06_19_005644) do
     t.string "color"
   end
 
-  create_table "abuse_reports", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "abuse_reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.bigint "user_id"
     t.string "reportable_type"
     t.bigint "reportable_id"
@@ -196,7 +196,7 @@ ActiveRecord::Schema.define(version: 2018_06_19_005644) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "domain_tags_posts", primary_key: ["domain_tag_id", "post_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "domain_tags_posts", primary_key: ["domain_tag_id", "post_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.bigint "domain_tag_id", null: false
     t.bigint "post_id", null: false
   end
@@ -304,7 +304,7 @@ ActiveRecord::Schema.define(version: 2018_06_19_005644) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "post_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "post_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.bigint "post_id"
     t.bigint "user_id"
     t.text "text"
@@ -369,7 +369,7 @@ ActiveRecord::Schema.define(version: 2018_06_19_005644) do
     t.integer "maximum_weight", limit: 1
   end
 
-  create_table "review_items", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "review_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.bigint "review_queue_id"
     t.string "reviewable_type"
     t.bigint "reviewable_id"
@@ -380,7 +380,7 @@ ActiveRecord::Schema.define(version: 2018_06_19_005644) do
     t.index ["reviewable_type", "reviewable_id"], name: "index_review_items_on_reviewable_type_and_reviewable_id"
   end
 
-  create_table "review_queues", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "review_queues", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "name"
     t.string "privileges"
     t.text "responses"
