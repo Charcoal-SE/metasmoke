@@ -450,7 +450,7 @@ ActiveRecord::Schema.define(version: 2018_06_19_005644) do
     t.index ["user_id"], name: "index_smoke_detectors_on_user_id"
   end
 
-  create_table "spam_domains", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "spam_domains", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.string "domain"
     t.text "whois"
     t.datetime "created_at", null: false
