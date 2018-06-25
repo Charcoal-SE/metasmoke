@@ -1,22 +1,5 @@
 # frozen_string_literal: true
 
-# - - - - - - - - - - - - - - - - -  WARNING  - - - - - - - - - - - - - - - - -
-# This entire file is a hack. Use anything defined or written here at your own
-# risk. While Rails' internal routes structure is complicated, it's like that
-# for a reason - because it's useful internally and it's not meant to be used
-# by consumer code.
-#
-# So I went ahead and used it. Of course.
-#
-# This code:
-#  (a) works tenuously at best
-#  (b) doesn't follow best practices
-#  (c) will almost certainly break horribly at the first sign of a change in
-#      Rails itself
-#  (d) is highly experimental and should probably never be used, etc, etc.
-#
-# Consider yourself warned.
-
 class SensibleRoute
   attr_reader :path, :url_details, :parameters, :verb
 
@@ -25,19 +8,58 @@ class SensibleRoute
 
     formatter = rt.path.build_formatter
     parts = []
+    matcher = []
 
+    # Yes, this is a hack. Yes, it will probably break. No, it's not 'temporary'.
     internal = formatter.instance_variable_get :@parts
     internal.each do |part|
       if part.is_a? String
         parts << part
+        matcher << part
       elsif part.is_a? ActionDispatch::Journey::Format::Parameter
         parts << ":#{part.name}"
         @parameters << part.name
+        if rt.requirements[part.name.to_sym]
+          matcher << rt.requirements[part.name.to_sym]
+        else
+          matcher << '[^/]+'
+        end
       end
     end
 
     @path = parts.join
     @url_details = rt.requirements
     @verb = rt.verb
+    @regex = Regexp.new "^#{matcher.join}$"
+  end
+
+  def match?(path)
+    @regex.match?(path)
+  end
+end
+
+class SensibleRouteCollection
+  def initialize
+    @routes = []
+  end
+
+  def add(new)
+    @routes << new
+  end
+
+  def match_for(path)
+    @routes.select { |rt| rt.match?(path) }.first
+  end
+end
+
+module Rails
+  cache.delete :sensible_routes
+
+  def self.sensible_routes
+    Rails.cache.fetch :sensible_routes do
+      routes = SensibleRouteCollection.new
+      Rails.application.routes.routes.to_a.each { |r| routes.add(SensibleRoute.new(r)) }
+      return routes
+    end
   end
 end

@@ -44,10 +44,4 @@ class ApplicationRecord < ActiveRecord::Base
     Dump.destroy_all
     Dump.create file: File.open(Dir.glob('dumps/*')[0])
   end
-
-  def self.sensible_routes
-    Rails.cache.fetch :sensible_routes do
-      Rails.application.routes.routes.to_a.map { |r| SensibleRoute.new(r) }
-    end
-  end
 end
