@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FixInvalidFeedbacksV2 < ActiveRecord::Migration[5.2]
   def up
     fixed_feedbacks = 0
@@ -25,11 +27,10 @@ class FixInvalidFeedbacksV2 < ActiveRecord::Migration[5.2]
                             else; 'invalid'
                             end
       puts "#{feedback.legacy_feedback_type}\t#{normalized_feedback}"
-      if feedback.feedback_type != normalized_feedback
-        # Skip validation
-        feedback.update_columns(feedback_type: normalized_feedback)
-        fixed_feedbacks += 1
-      end
+      next unless feedback.feedback_type != normalized_feedback
+      # Skip validation
+      feedback.update_columns(feedback_type: normalized_feedback)
+      fixed_feedbacks += 1
     end
     puts "Fixed #{fixed_feedbacks} feedbacks"
   end
