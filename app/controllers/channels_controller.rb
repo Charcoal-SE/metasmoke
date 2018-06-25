@@ -37,7 +37,7 @@ class ChannelsController < ApplicationController
     message = JSON.parse(JSON.parse(request.raw_post)['Message'])
 
     user = message['mail']['destination'][0].split('@')[0]
-    text = Base64.decode64(message['content']).gsub('=\r\n', '').gsub('3D', '')
+    text = Base64.decode64(message['content']).gsub("=\r\n", '').gsub('3D', '')
     link = text.scan(%r{(https:\/\/stackoverflow.com\/c\/charcoal\/join\/confirmation\?token=[a-z0-9-]{36})})[0][0]
 
     ChannelsUser.find_by(secret: user).update(link: link)

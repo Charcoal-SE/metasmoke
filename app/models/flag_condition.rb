@@ -14,9 +14,6 @@ class FlagCondition < ApplicationRecord
   def accuracy_and_post_count
     return unless flags_enabled
     post_feedback_results = posts.pluck(:is_tp)
-    true_positive_count = post_feedback_results.count(true)
-
-    accuracy = true_positive_count.to_f * 100 / post_feedback_results.count.to_f
 
     if accuracy < FlagSetting['min_accuracy'].to_f
       errors.add(:accuracy, "must be over #{number_to_percentage(FlagSetting['min_accuracy'].to_f, precision: 2)}")
@@ -24,6 +21,13 @@ class FlagCondition < ApplicationRecord
 
     return unless post_feedback_results.count < FlagSetting['min_post_count'].to_i
     errors.add(:post_count, "must be over  #{FlagSetting['min_post_count']}")
+  end
+
+  def accuracy
+    post_feedback_results = posts.pluck(:is_tp)
+    true_positive_count = post_feedback_results.count(true)
+
+    true_positive_count.to_f * 100 / post_feedback_results.count.to_f
   end
 
   def self.revalidate_all

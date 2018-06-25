@@ -235,9 +235,12 @@ Rails.application.routes.draw do
     resources :flag_conditions,       path: 'conditions',  except: [:show]
     resources :user_site_settings,    path: 'preferences', except: [:show]
 
+    get   'settings/sites',           to: 'flag_settings#site_settings',        as: :flagging_site_settings
+    post  'settings/sites',           to: 'flag_settings#update_site_settings', as: :update_flagging_site_settings
+
     post  'smokey_disable',           to: 'flag_settings#smokey_disable_flagging'
 
-    get   'by-site',                  to: 'flag_settings#by_site',         as: :flagging_by_site
+    get   'by-site',                  to: 'flag_settings#by_site',              as: :flagging_by_site
 
     get   'ocs',                      to: 'flag_conditions#one_click_setup'
     post  'run_ocs',                  to: 'flag_conditions#run_ocs'
@@ -246,17 +249,17 @@ Rails.application.routes.draw do
     get   'conditions/preview',       to: 'flag_conditions#preview'
     get   'conditions/sandbox',       to: 'flag_conditions#sandbox'
 
-    patch 'conditions/:id/enable',    to: 'flag_conditions#enable',        as: :flag_conditions_enable
-    post  'conditions/validate_user', to: 'flag_conditions#validate_user', as: :flag_conditions_validate_user
+    patch 'conditions/:id/enable',    to: 'flag_conditions#enable',             as: :flag_conditions_enable
+    post  'conditions/validate_user', to: 'flag_conditions#validate_user',      as: :flag_conditions_validate_user
 
     get   'preferences/user/:user',   to: 'user_site_settings#for_user'
     post  'preferences/enable',       to: 'user_site_settings#enable_flagging'
 
-    get   'logs',                     to: 'flag_log#index',                as: :flag_logs
-    get   'logs/unflagged',           to: 'flag_log#not_flagged',          as: :unflagged_logs
-    get   'users/:user_id/logs',      to: 'flag_log#index',                as: :flag_logs_by_user
-    get   'users/overview',           to: 'flag_conditions#user_overview', as: :user_overview
-    get   'users',                    to: 'users#flagging_enabled',        as: :flagging_users
+    get   'logs',                     to: 'flag_log#index',                     as: :flag_logs
+    get   'logs/unflagged',           to: 'flag_log#not_flagged',               as: :unflagged_logs
+    get   'users/:user_id/logs',      to: 'flag_log#index',                     as: :flag_logs_by_user
+    get   'users/overview',           to: 'flag_conditions#user_overview',      as: :user_overview
+    get   'users',                    to: 'users#flagging_enabled',             as: :flagging_users
   end
 
   scope 'github' do

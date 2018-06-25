@@ -6,7 +6,7 @@ EXCLUDE_COLUMNS = {
   'api_tokens' => %w[code token],
   'audits' => ['remote_address'],
   'smoke_detectors' => ['access_token'],
-  'users' => %w[email encrypted_password reset_password_token encrypted_api_token two_factor_token enabled_2fa salt iv]
+  'users' => %w[email encrypted_password reset_password_token encrypted_api_token two_factor_token enabled_2fa salt iv eu_resident privacy_accepted]
 }.freeze
 
 tables = ActiveRecord::Base.connection.tables

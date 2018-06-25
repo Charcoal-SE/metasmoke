@@ -9,5 +9,6 @@ logger.formatter = proc do |_severity, datetime, _progname, msg|
 end
 
 ActiveSupport::Notifications.subscribe('process_action.action_controller') do |**info|
+  MetricsUpdateJob.perform_later info[:path], info[:db_runtime] unless info[:path].nil? || info[:db_runtime].nil?
   logger.info info if SiteSetting['log_query_timings']
 end

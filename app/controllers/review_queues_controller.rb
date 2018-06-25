@@ -14,11 +14,18 @@ class ReviewQueuesController < ApplicationController
   def next_item
     response.cache_control = 'max-age=0, private, must-revalidate, no-store'
     unreviewed = ReviewItem.unreviewed_by(@queue, current_user)
+
+    while !unreviewed.empty? && unreviewed.first.reviewable.nil?
+      unreviewed.first.update(completed: true)
+      unreviewed = ReviewItem.unreviewed_by(@queue, current_user)
+    end
+
     if unreviewed.empty?
       render plain: "You've reviewed all available items!"
     else
       item = unreviewed.first
-      render "#{item.reviewable_type.underscore.pluralize}/_review_item.html.erb", locals: { queue: @queue, item: item }, layout: nil
+      render "#{item.reviewable_type.underscore.pluralize}/_review_item.html.erb",
+             locals: { queue: @queue, item: item }, layout: nil
     end
   end
 
