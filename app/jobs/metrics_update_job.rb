@@ -27,9 +27,9 @@ class MetricsUpdateJob < ApplicationJob
   def perform(path, db_runtime)
     normalized_path = PATH_NORMALS.select do |pattern, result|
       pattern.match?(path) || result
-    end.first
+    end.first[1]
     normalized_path = path if normalized_path.nil?
-    query = QueryAverages.find_or_create_by(path: normalized_path)
+    query = QueryAverage.find_or_create_by(path: normalized_path)
     query.average = (query.average * query.counter + db_runtime) / (query.counter += 1)
     query.save
   end

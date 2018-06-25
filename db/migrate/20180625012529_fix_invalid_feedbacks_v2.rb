@@ -36,6 +36,6 @@ class FixInvalidFeedbacksV2 < ActiveRecord::Migration[5.2]
   end
 
   def down
-    # raise ActiveRecord::IrreversibleMigration
+    raise ActiveRecord::IrreversibleMigration
   end
 end
