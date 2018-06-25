@@ -19,11 +19,11 @@ class SensibleRoute
       elsif part.is_a? ActionDispatch::Journey::Format::Parameter
         parts << ":#{part.name}"
         @parameters << part.name
-        if rt.requirements[part.name.to_sym]
-          matcher << rt.requirements[part.name.to_sym]
-        else
-          matcher << '[^/]+'
-        end
+        matcher << if rt.requirements[part.name.to_sym]
+                     rt.requirements[part.name.to_sym]
+                   else
+                     '[^/]+'
+                   end
       end
     end
 
