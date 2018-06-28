@@ -3,7 +3,7 @@
 class AbuseReportStatusesController < ApplicationController
   before_action :verify_core, except: [:index, :show]
   before_action :set_status, except: [:index, :create]
-  before_action :verify_admin, only: [:edit, :update, :destroy]
+  before_action :verify_admin, only: destroy
 
   def index
     @statuses = AbuseReportStatus.all
