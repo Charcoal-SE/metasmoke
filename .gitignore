@@ -24,6 +24,7 @@ Gemfile.lock    # we need the Gemfile, but not the .lock
 
 db_import.sql
 db_import_*.sql
+dump_metasmoke*.sql
 
 # IDE-specific config files
 .idea/*

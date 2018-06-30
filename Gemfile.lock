@@ -347,6 +347,8 @@ GEM
     sawyer (0.8.1)
       addressable (>= 2.3.5, < 2.6)
       faraday (~> 0.8, < 1.0)
+    sensible_routes (0.0.4)
+      rails (~> 5)
     simplecov (0.16.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -468,6 +470,7 @@ DEPENDENCIES
   rqrcode
   rubocop (~> 0.48.1)
   sass-rails
+  sensible_routes (~> 0.0)
   simplecov
   spring
   sqlite3
@@ -483,4 +486,4 @@ DEPENDENCIES
   will_paginate-bootstrap!
 
 BUNDLED WITH
-   1.16.1
+   1.16.2
