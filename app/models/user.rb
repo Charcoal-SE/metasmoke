@@ -208,7 +208,7 @@ class User < ApplicationRecord
     end
 
     spam_flag_option = flag_options.select do |fo|
-      ['spam', 'contenido no deseado', 'スパム', 'спам'].include? fo['title']
+      ['spam', 'contenido no deseado', 'スパム', 'спам'].any? { |itnl_title| fo['title'].include? itnl_title }
     end.first
 
     return false, 'Spam flag option not present' if spam_flag_option.blank?
