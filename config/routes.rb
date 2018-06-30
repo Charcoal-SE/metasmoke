@@ -24,6 +24,8 @@ Rails.application.routes.draw do
   get    'reasons',             to: 'dashboard#index',         as: :reasons
   get    'flagging',            to: 'flag_settings#dashboard', as: :flagging
 
+  get    'query_times',         to: 'dashboard#query_times',   as: :query_times
+
   post   'statistics.json',     to: 'statistics#create'
   post   'feedbacks.json',      to: 'feedbacks#create'
   post   'posts.json',          to: 'posts#create'

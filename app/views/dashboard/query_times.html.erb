@@ -1,0 +1,20 @@
+<h3>Query Time Averages</h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Path</th>
+      <th>Average Runtime</th>
+      <th>Hits</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @query_times.each do |qt| %>
+      <tr>
+        <td><%= qt.path %></td>
+        <td><%= qt.average.round(2) %></td>
+        <td><%= qt.counter %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

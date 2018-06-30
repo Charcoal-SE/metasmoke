@@ -44,6 +44,10 @@ class DashboardController < ApplicationController
     @sites = Site.where(id: @posts.map(&:site_id))
   end
 
+  def query_times
+    @query_times = params[:count].present? ? QueryAverage.all.order(counter: :desc) : QueryAverage.all.order(average: :desc)
+  end
+
   def site_dash
     @posts = Post.includes_for_post_row.includes(:flag_logs)
     params[:site_id] = Site.first.id if params[:site_id].blank?
