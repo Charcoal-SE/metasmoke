@@ -14,11 +14,7 @@
                     data: { confirm: 'Are you sure?' }, class: 'text-danger' %>
     <% end %>
   </p>
-  <p>
-    <%= link_to new_abuse_report_path(reportable_type: 'DomainTag', reportable_id: @tag.id) do %>
-      <span class="glyphicon glyphicon-file"></span> Create Abuse Report
-    <% end %>
-  </p>
+  <%= render 'abuse_report/list', item: @tag %>
 <% end %>
 
 <ul class="nav nav-tabs">

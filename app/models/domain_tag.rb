@@ -5,4 +5,5 @@ class DomainTag < ApplicationRecord
 
   has_and_belongs_to_many :spam_domains
   has_and_belongs_to_many :posts
+  has_many :abuse_reports, as: :reportable
 end

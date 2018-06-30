@@ -20,6 +20,7 @@ class Post < ApplicationRecord
   has_and_belongs_to_many :spam_domains
   has_one :review_item, as: :reviewable
   has_many :comments, class_name: 'PostComment', dependent: :destroy
+  has_many :abuse_reports, as: :reportable
 
   scope(:includes_for_post_row, -> do
     includes(:stack_exchange_user).includes(:reasons).includes(:site)
