@@ -1,19 +1,21 @@
 <h3>Query Time Averages</h3>
 
-<table class="table table-striped">
+<table class="table table-striped sortable-table">
   <thead>
     <tr>
       <th>Path</th>
       <th>Average Runtime</th>
       <th>Hits</th>
+      <th>DB Time Spent on Route</th>
     </tr>
   </thead>
   <tbody>
     <% @query_times.each do |qt| %>
       <tr>
         <td><%= qt.path %></td>
-        <td><%= qt.average.round(2) %></td>
-        <td><%= qt.counter %></td>
+        <td data-sort-value="<%= (qt.average * 100).to_i %>"><%= qt.average.round(2) %></td>
+        <td data-sort-value="<%= qt.counter %>"><%= qt.counter %></td>
+        <td data-sort-value="<%= (qt.counter * qt.average * 100).to_i %>"><%= (qt.counter * qt.average).round(2) %></td>
       </tr>
     <% end %>
   </tbody>
