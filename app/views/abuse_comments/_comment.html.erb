@@ -10,7 +10,7 @@
     <div class="panel-heading">
       <strong><%= comment.user.username %></strong>
       <span title="<%= comment.created_at %>"><%= time_ago_in_words comment.created_at %> ago</span>
-      <% if current_user == comment.user || current_user&.has_role?(:admin) %>
+      <% if current_user == comment.user || current_user&.has_role?(:core) %>
         <span class="comment-control">
           <a href="#" class="comment-edit"><span class="glyphicon glyphicon-pencil"></span></a>
         </span>
