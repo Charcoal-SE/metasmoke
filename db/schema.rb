@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_25_021859) do
+ActiveRecord::Schema.define(version: 2018_07_03_110501) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "user_id"
@@ -297,6 +297,23 @@ ActiveRecord::Schema.define(version: 2018_06_25_021859) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "list_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "list_type_id"
+    t.bigint "user_id"
+    t.text "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["list_type_id"], name: "index_list_items_on_list_type_id"
+    t.index ["user_id"], name: "index_list_items_on_user_id"
+  end
+
+  create_table "list_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "moderator_sites", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
     t.integer "site_id"
@@ -543,6 +560,8 @@ ActiveRecord::Schema.define(version: 2018_06_25_021859) do
   add_foreign_key "flag_logs", "sites"
   add_foreign_key "flag_logs", "users"
   add_foreign_key "flags", "posts"
+  add_foreign_key "list_items", "list_types"
+  add_foreign_key "list_items", "users"
   add_foreign_key "post_comments", "posts"
   add_foreign_key "post_comments", "users"
   add_foreign_key "review_items", "review_queues"

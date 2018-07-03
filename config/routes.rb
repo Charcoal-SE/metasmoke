@@ -292,6 +292,15 @@ Rails.application.routes.draw do
     get 'af_accuracy',       to: 'graphs#af_accuracy',            as: :af_accuracy
   end
 
+  scope 'lists' do
+    scope 'types' do
+      root          to: 'list_types#index',   as: :list_types
+      post   'new', to: 'list_types#create',  as: :create_list_type
+      patch  ':id', to: 'list_types#update',  as: :update_list_type
+      delete ':id', to: 'list_types#destroy', as: :destroy_list_type
+    end
+  end
+
   scope 'magic' do
     get 'funride', to: 'dashboard#funride'
   end

@@ -1,0 +1,66 @@
+<h1>List Types</h1>
+<p>These are the various types of data that Smokey uses to run. If you don't know what this is, run away now and
+  leave it to someone who does - Bad Things can happen here.</p>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="text-muted">ID</th>
+      <th>Name</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @list_types.each do |lt| %>
+      <tr>
+        <td class="text-muted"><%= lt.id %></td>
+        <td><%= lt.name %></td>
+        <td>
+          <a href="#" data-toggle="modal" data-target="#edit-lt-<%= lt.id %>"><span class="glyphicon glyphicon-pencil"></span></a>
+          <%= link_to destroy_list_type_path(lt), method: :delete, class: 'text-danger',
+                      data: { confirm: 'Are you REALLY sure? Very Bad Things could happen if you\'re not.' } do %>
+            <span class="glyphicon glyphicon-remove"></span>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% @list_types.each do |lt| %>
+  <div class="modal fade" id="edit-lt-<%= lt.id %>">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Edit List Type</h4>
+        </div>
+        <div class="modal-body">
+          <%= form_for lt, url: update_list_type_path(lt) do |f| %>
+            <div class="field">
+              <%= f.label :name do %>
+                <span class="glyphicon glyphicon-question-sign"></span> Name
+              <% end %><br/>
+              <%= f.text_field :name, class: 'form-control' %>
+            </div><br/>
+
+            <div class="field">
+              <%= f.label :description do %>
+                <span class="glyphicon glyphicon-comment"></span> Description
+              <% end %><br/>
+              <%= f.text_area :description, rows: 5, cols: 100, class: 'form-control' %>
+            </div><br/>
+
+            <div class="clearfix">
+              <div class="actions pull-right">
+                <button type="submit" class="btn btn-primary">
+                  <span class="glyphicon glyphicon-save"></span> Update
+                </button>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,2 @@
+class ListType < ApplicationRecord
+end

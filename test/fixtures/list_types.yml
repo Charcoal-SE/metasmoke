@@ -1,0 +1,3 @@
+notifications:
+  name: Notifications
+  description: User pings for specific message types in specific rooms.
