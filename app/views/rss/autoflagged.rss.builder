@@ -27,7 +27,7 @@ xml.rss version: '2.0' do
 
     @posts.each do |post|
       xml.item do
-        xml.title post.title
+        xml.title post.deleted_at.nil? ? post.title : "[deletd] #{post.title}"
         xml.description post.body
         xml.link url_for(controller: 'posts', action: 'show', id: post.id, only_path: false)
         # category
