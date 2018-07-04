@@ -23,6 +23,7 @@ class RSSController < ApplicationController
     respond_to do |format|
       format.html
       format.rss { render layout: false }
+      format.xml { render 'autoflagged.rss', layout: false }
     end
   end
 end
