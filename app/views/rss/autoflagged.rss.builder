@@ -11,9 +11,9 @@ xml.rss version: '2.0' do
     # docs
     xml.language 'en-us'
     xml.lastBuildDate DateTime.now.strftime('%a, %-d %b %Y %T %z')
-    xml.managingEditor 'admin@charcoalhq.org'
+    xml.managingEditor 'smokey@charcoal-se.org'
     xml.pubDate DateTime.now.strftime('%a, %-d %b %Y %T %z')
-    xml.webMaster 'webmaster@charcoalhq.org'
+    xml.webMaster 'smokey@charcoal-se.org'
     xml.generator 'Ruby on Rails XML generator'
 
     xml.image do
