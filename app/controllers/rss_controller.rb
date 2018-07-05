@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class RSSController < ApplicationController
-  def autoflagged
+  def deleted
     # Wait 10 minutes to see if it's been deleted
     @posts = Post.all
     @posts = @posts.where('created_at < ?', 10.minutes.ago) unless params[:nowait]
@@ -38,7 +38,7 @@ class RSSController < ApplicationController
     respond_to do |format|
       format.html
       format.rss { render layout: false }
-      format.xml { render 'autoflagged.rss', layout: false }
+      format.xml { render 'deleted.rss', layout: false }
     end
   end
 end

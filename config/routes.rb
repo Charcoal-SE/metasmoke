@@ -351,7 +351,7 @@ Rails.application.routes.draw do
   end
 
   scope 'rss' do
-    get 'autoflagged', to: 'rss#autoflagged'
+    get 'v1/deleted', to: 'rss#deleted', as: :rss
   end
 
   scope 'smoke_detector' do

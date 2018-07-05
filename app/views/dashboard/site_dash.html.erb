@@ -64,6 +64,16 @@
   </tr>
 </table>
 
+<div class="alert alert-info">
+  <strong>RSS</strong>
+
+  <p>Use the below link as an RSS feed of all posts that were <strong>autoflagged then deleted</strong>. There's a few minutes of delay, but it's useful for watching what's happening on your site. It's safe to use this in your private mod chat room.</p>
+  <br />
+  <code>
+    <%= url_for(controller: 'rss', action: 'deleted', site: @site.id, format: :xml, only_path: false) %>
+  </code>
+</div>
+
 <ul class="nav nav-tabs">
   <% @tabs.each do |tab, posts| %>
   <li class="<%= "active" if tab.downcase == @active_tab %>">
