@@ -1,3 +1,8 @@
 notifications:
-  name: Notifications
+  name: notifications
   description: User pings for specific message types in specific rooms.
+
+blacklist:
+  name: blacklist
+  description: Blacklist of some sort, requiring permissions for testing.
+  permissions: code_admin

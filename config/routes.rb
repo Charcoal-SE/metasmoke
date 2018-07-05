@@ -299,6 +299,11 @@ Rails.application.routes.draw do
       patch  ':id', to: 'list_types#update',  as: :update_list_type
       delete ':id', to: 'list_types#destroy', as: :destroy_list_type
     end
+
+    scope 'items' do
+      post 'new',   to: 'list_items#create',  as: :create_list_item
+      get ':list',  to: 'list_items#list',    as: :list_list_items
+    end
   end
 
   scope 'magic' do
