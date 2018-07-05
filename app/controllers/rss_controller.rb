@@ -3,9 +3,9 @@
 class RSSController < ApplicationController
   def autoflagged
     # Wait 10 minutes to see if it's been deleted
-    @posts = Post.last(1000)
+    @posts = Post.all
     @posts = @posts.where('created_at < ?', 10.minutes.ago) unless params[:nowait]
-    @posts.order('created_at DESC').paginate(page: params[:page], per_page: 50)
+    @posts = @posts.order('created_at DESC').paginate(page: params[:page], per_page: 50)
     @posts = @posts.where(site: params[:site]) if params[:site].present?
     # Default to deleted: true
     if params[:deleted].present? && !params[:deleted] == 'nil'
