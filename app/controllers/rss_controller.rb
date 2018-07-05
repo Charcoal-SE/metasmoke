@@ -7,22 +7,25 @@ class RSSController < ApplicationController
     @posts = @posts.where('created_at < ?', 10.minutes.ago) unless params[:nowait]
     @posts = @posts.order('created_at DESC').paginate(page: params[:page], per_page: 50)
     @posts = @posts.where(site: params[:site]) if params[:site].present?
+
     # Default to deleted: true
-    if params[:deleted].present? && !params[:deleted] == 'nil'
-      @posts = if params[:deleted].casecmp('true') == 0 || params[:deleted] == '1'
+    @posts = if params[:deleted].present? && !params[:deleted] == 'nil'
+               if params[:deleted].casecmp('true') == 0 || params[:deleted] == '1'
                  @posts.where.not(deleted_at: nil)
                else
                  @posts.where(deleted_at: nil)
                end
-    else
-      @posts = @posts.where.not(deleted_at: nil)
-    end
+             else
+               @posts.where.not(deleted_at: nil)
+             end
+
     # Default to autoflagged: true
-    if params[:autoflagged].present? && !params[:autoflagged] == 'nil'
-      @posts = @posts.where(autoflagged: params[:autoflagged])
-    else
-      @posts = @posts.where(autoflagged:true)
-    end
+    @posts = if params[:autoflagged].present? && !params[:autoflagged] == 'nil'
+               @posts.where(autoflagged: params[:autoflagged])
+             else
+               @posts = @posts.where(autoflagged: true)
+             end
+
     if params[:from_date].present?
       @posts = @posts.where('`posts`.`created_at` > ?', DateTime.strptime(params[:from_date], '%s'))
     end
