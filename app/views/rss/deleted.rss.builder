@@ -3,8 +3,8 @@
 xml.instruct! :xml, version: '1.0'
 xml.rss version: '2.0' do
   xml.channel do
-    xml.title 'Deleted Autoflagged Posts'
-    xml.description 'Posts which have been deleted with autoflags by Charcoal HQ'
+    xml.title 'CharcoalHQ'
+    xml.description 'Posts which have been caught by Charcoal HQ'
     xml.link root_url
     # category
     xml.copyright 'Copyright 2018 CharcoalHQ'
@@ -18,16 +18,19 @@ xml.rss version: '2.0' do
 
     xml.image do
       xml.url 'https://charcoal-se.org/assets/images/charcoal.png'
-      xml.title 'Autoflagged Posts'
+      xml.title 'CharcoalHQ'
       xml.link root_url
-      xml.description 'Posts which have been autoflagged by Charcoal HQ'
+      xml.description 'Posts which have been caught by Charcoal HQ'
       xml.width 516
       xml.height 516
     end
 
     @posts.each do |post|
       xml.item do
-        xml.title post.deleted_at.nil? ? post.title : "[deleted] #{post.title}"
+        tags = []
+        tags.push 'deleted' unless post.deleted_at.nil?
+        tags.push 'autoflagged' if post.autoflagged
+        xml.title "[#{tags.join('] [')}] #{post.title}"
         xml.description post.body
         xml.link url_for(controller: 'posts', action: 'show', id: post.id, only_path: false)
         # category

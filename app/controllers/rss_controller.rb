@@ -8,9 +8,12 @@ class RSSController < ApplicationController
     @posts = @posts.order('created_at DESC').paginate(page: params[:page], per_page: 50)
     @posts = @posts.where(site: params[:site]) if params[:site].present?
 
-    # Default to deleted: true
-    @posts = if params[:deleted].present? && !params[:deleted] == 'nil'
-               if params[:deleted].casecmp('true') == 0 || params[:deleted] == '1'
+    @tags = []
+
+    # If 'deleted' is passed, check if 'true'. If it's not passed, treat it as true.
+    @posts = if params[:deleted].present?
+               case params[:deleted].downcase
+               when 'true'
                  @posts.where.not(deleted_at: nil)
                else
                  @posts.where(deleted_at: nil)
@@ -19,11 +22,16 @@ class RSSController < ApplicationController
                @posts.where.not(deleted_at: nil)
              end
 
-    # Default to autoflagged: true
-    @posts = if params[:autoflagged].present? && !params[:autoflagged] == 'nil'
-               @posts.where(autoflagged: params[:autoflagged])
+    # If 'autoflagged' is passed, check if 'true'. If it's not passed, treat it as true.
+    @posts = if params[:autoflagged].present?
+               case params[:autoflagged].downcase
+               when 'true'
+                 @posts.where(autoflagged: params[:autoflagged])
+               else
+                 @posts.where(autoflagged: true)
+               end
              else
-               @posts = @posts.where(autoflagged: true)
+               @posts.where(autoflagged: true)
              end
 
     if params[:from_date].present?
