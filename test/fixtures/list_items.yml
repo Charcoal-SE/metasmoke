@@ -1,11 +1,9 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+notif_ui_created:
+  list_type: notifications
+  user: approved_user
+  data: '{"room": 11540, "host": "stackexchange.com", "site": "stackoverflow.com", "user": 121520}'
 
-one:
-  list_type: one
-  user: one
-  data: MyText
-
-two:
-  list_type: two
-  user: two
-  data: MyText
+notif_api_created:
+  list_type: notifications
+  smoke_detector: smoke_detector_1
+  data: '{"room": 11540, "host": "stackexchange.com", "site": "stackoverflow.com", "user": 121520}'

@@ -18,8 +18,9 @@ class User < ApplicationRecord
   has_many :flag_conditions, dependent: :destroy
   has_many :flag_logs, dependent: :nullify
   has_many :smoke_detectors, dependent: :destroy
-  has_many :moderator_sites
+  has_many :moderator_sites, dependent: :destroy
   has_many :reviews, class_name: 'ReviewResult'
+  has_many :list_items, dependent: :nullify
 
   has_one :channels_user, required: false, dependent: :destroy
 

@@ -8,6 +8,7 @@ class SmokeDetector < ApplicationRecord
   belongs_to :user
   has_many :statistics
   has_many :posts
+  has_many :list_items, dependent: :nullify
 
   scope(:active, -> { where('last_ping > ?', 3.minutes.ago) })
 
