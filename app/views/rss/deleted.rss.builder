@@ -31,11 +31,11 @@ xml.rss version: '2.0' do
         tags.push 'deleted' unless post.deleted_at.nil?
         tags.push 'autoflagged' if post.autoflagged
         xml.title "[#{tags.join('] [')}] #{post.title}"
-        if params[:prefix_user] == 'true'
-          xml.description "#{link_to post.stack_exchange_user.username, post.stack_exchange_user.stack_link} #{post.body}"
-        else
-          xml.description post.body
-        end
+        params[:prefix_user] = 'true' if params[:fullbody] == 'false' && !params[:prefix_user].present?
+        description = ''
+        description = "#{link_to post.stack_exchange_user.username, post.stack_exchange_user.stack_link} #{description}" if params[:prefix_user] == 'true'
+        description = "#{description} #{post.body}" unless params[:fullbody] == 'false'
+        xml.description description
         case params[:link_type].to_s.downcase
         when 'user'
           xml.link post.stack_exchange_user.stack_link
