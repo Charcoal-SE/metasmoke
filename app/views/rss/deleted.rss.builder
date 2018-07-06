@@ -36,7 +36,7 @@ xml.rss version: '2.0' do
         else
           xml.description post.body
         end
-        case params[:link_type].downcase
+        case params[:link_type].to_s.downcase
         when 'user'
           xml.link post.stack_exchange_user.stack_link
         when 'onsite'
