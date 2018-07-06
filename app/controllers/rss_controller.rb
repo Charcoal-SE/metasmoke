@@ -16,7 +16,7 @@ class RSSController < ApplicationController
                when 'true'
                  @posts.where.not(deleted_at: nil)
                when 'any'
-                 # Do nothing
+                 @posts
                else
                  @posts.where(deleted_at: nil)
                end
@@ -30,7 +30,7 @@ class RSSController < ApplicationController
                when 'true'
                  @posts.where(autoflagged: params[:autoflagged])
                when 'any'
-                 # Do nothing
+                 @posts
                else
                  @posts.where(autoflagged: true)
                end
