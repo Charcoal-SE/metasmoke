@@ -60,7 +60,7 @@ jobs:
     - run: npm test
     - run: bundle exec rubocop -D
     - run:
-        command: bundle exec rake test
+        command: bundle exec rails test --verbose
         environment:
           RAILS_ENV: test
           RACK_ENV: test
