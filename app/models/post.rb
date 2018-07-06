@@ -226,10 +226,10 @@ class Post < ApplicationRecord
 
   def update_feedback_cache
     feedbacks = self.feedbacks.to_a
-    
-    self.is_tp = feedbacks.any? &:is_positive?
-    self.is_fp = feedbacks.any? &:is_negative?
-    self.is_naa = feedbacks.any? &:is_naa?
+
+    self.is_tp = feedbacks.any?(&:is_positive?)
+    self.is_fp = feedbacks.any?(&:is_negative?)
+    self.is_naa = feedbacks.any?(&:is_naa?)
 
     is_feedback_changed = is_tp_changed? || is_fp_changed? || is_naa_changed?
 
