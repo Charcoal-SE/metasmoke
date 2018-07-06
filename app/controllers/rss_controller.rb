@@ -15,6 +15,8 @@ class RSSController < ApplicationController
                case params[:deleted].downcase
                when 'true'
                  @posts.where.not(deleted_at: nil)
+               when 'any'
+                 # Do nothing
                else
                  @posts.where(deleted_at: nil)
                end
@@ -27,6 +29,8 @@ class RSSController < ApplicationController
                case params[:autoflagged].downcase
                when 'true'
                  @posts.where(autoflagged: params[:autoflagged])
+               when 'any'
+                 # Do nothing
                else
                  @posts.where(autoflagged: true)
                end
