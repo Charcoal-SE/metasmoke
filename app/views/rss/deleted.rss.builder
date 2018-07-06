@@ -31,8 +31,19 @@ xml.rss version: '2.0' do
         tags.push 'deleted' unless post.deleted_at.nil?
         tags.push 'autoflagged' if post.autoflagged
         xml.title "[#{tags.join('] [')}] #{post.title}"
-        xml.description post.body
-        xml.link url_for(controller: 'posts', action: 'show', id: post.id, only_path: false)
+        if params[:prefix_user] == 'true'
+          xml.description "#{link_to post.stack_exchange_user.username, post.stack_exchange_user.stack_link} #{post.body}"
+        else
+          xml.description post.body
+        end
+        case params[:link_type].downcase
+        when 'user'
+          xml.link post.stack_exchange_user.stack_link
+        when 'onsite'
+          xml.link post.link
+        else
+          xml.link url_for(controller: 'posts', action: 'show', id: post.id, only_path: false)
+        end
         # category
         # comments
         xml.pubDate post.created_at.strftime('%a, %-d %b %Y %T %z')
