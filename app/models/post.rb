@@ -227,6 +227,7 @@ class Post < ApplicationRecord
   def update_feedback_cache
     self.is_tp = false
     self.is_fp = false
+    self.is_naa = false
 
     feedbacks = self.feedbacks.to_a
 
