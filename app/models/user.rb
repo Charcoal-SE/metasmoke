@@ -201,7 +201,7 @@ class User < ApplicationRecord
         else
           return false, 'Flag options not present'
         end
-          # rubocop:enable Style/GuardClause
+        # rubocop:enable Style/GuardClause
       rescue
         return false, 'Flag options not present'
       end
