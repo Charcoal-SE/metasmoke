@@ -158,11 +158,12 @@ Output format:
         "status": "Accepted"
     }
 ---
-/api/v2.0/posts/:id/flag | [W] Cast a spam flag on a post.
+/api/v2.0/posts/:id/flag | [W] Cast a flag on a post.
 
 **Write route**. Requires a POST request and valid write token.
 Available tables: N/A. No database information is returned from this request.
 `backoff` will only be set on successful requests. `message` will only be set on failed requests.
+Specify the `flag_type` param to choose your flag type: either `spam` (default) or `abusive` for an R/A flag.
 Output format:
 
     {
