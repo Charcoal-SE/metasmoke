@@ -154,7 +154,8 @@ module API
                }, 409)
       end
 
-      status, message = current_user.spam_flag(post, false)
+      flag_type = params[:flag_type].present? ? params[:flag_type] : :spam
+      status, message = current_user.flag(flag_type, post, false)
       FlagLog.create(
         success: status,
         error_message: status.present? ? nil : message,

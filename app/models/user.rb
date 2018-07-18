@@ -175,7 +175,7 @@ class User < ApplicationRecord
     save!
   end
 
-  def spam_flag(post, dry_run = false)
+  def flag(flag_type, post, dry_run = false)
     if moderator_sites.pluck(:site_id).include? post.site_id
       return false, 'User is a moderator on this site'
     end
@@ -201,19 +201,25 @@ class User < ApplicationRecord
         else
           return false, 'Flag options not present'
         end
-        # rubocop:enable Style/GuardClause
+          # rubocop:enable Style/GuardClause
       rescue
         return false, 'Flag options not present'
       end
     end
 
-    spam_flag_option = flag_options.select do |fo|
-      ['spam', 'contenido no deseado', 'スパム', 'спам'].include? fo['title']
+    flag_option = flag_options.select do |fo|
+      if flag_type.to_sym == :spam
+        ['spam', 'contenido no deseado', 'スパム', 'спам'].include? fo['title']
+      elsif flag_type.to_sym == :abusive
+        ['rude or abusive', 'rude ou abusivo', 'irrespetuoso o abusivo', '失礼又は暴言', 'невежливый или оскорбительный'].include? fo['title']
+      else
+        return false, "Unrecognized flag type #{flag_type} specified in call to User#flag"
+      end
     end.first
 
-    return false, 'Spam flag option not present' if spam_flag_option.blank?
+    return false, 'Flag option not present' if flag_option.blank?
 
-    request_params = { 'option_id' => spam_flag_option['option_id'], 'site' => site.site_domain }.merge auth_dict
+    request_params = { 'option_id' => flag_option['option_id'], 'site' => site.site_domain }.merge auth_dict
     return true, 0 if dry_run
     uri = URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/add")
     flag_response = JSON.parse(Net::HTTP.post_form(uri, request_params).body)
@@ -224,6 +230,14 @@ class User < ApplicationRecord
       return true, (flag_response.include?('backoff') ? flag_response['backoff'] : 0)
     end
     # rubocop:enable Style/GuardClause
+  end
+
+  def spam_flag(post, dry_run = false)
+    flag :spam, post, dry_run
+  end
+
+  def abusive_flag(post, dry_run = false)
+    flag :abusive, post, dry_run
   end
 
   def moderator?
