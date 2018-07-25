@@ -178,7 +178,7 @@ class Post < ApplicationRecord
 
     unless [
       'Flag options not present',
-      'Spam flag option not present',
+      'Flag option not present',
       'You do not have permission to flag this post',
       'No account on this site.',
       'User is a moderator on this site'
