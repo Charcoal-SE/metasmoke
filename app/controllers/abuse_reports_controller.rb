@@ -28,7 +28,7 @@ class AbuseReportsController < ApplicationController
       flash[:success] = "Opened new abuse report ##{@report.id}."
       redirect_to abuse_report_path(@report)
     else
-      flash[:danger] = 'Failed to open new report.'
+      flash[:danger] = "Failed to open new report:\n#{@report.errors.full_messages.join("\n")}"
       redirect_to new_abuse_report_path(reportable_type: @report.reportable_type, reportable_id: @report.reportable_id)
     end
   end
