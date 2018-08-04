@@ -27,7 +27,7 @@ gem 'redis', '~> 3.0'
 gem 'rolify'
 gem 'rotp'
 gem 'rqrcode'
-gem 'sensible_routes', '~> 0.1'
+gem 'sensible_routes', '~> 0.1.2'
 gem 'travis'
 gem 'webpacker', '~> 2.0'
 gem 'whenever', require: false
