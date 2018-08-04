@@ -35,6 +35,7 @@ module SearchHelper
       '\S' => '[^\r\n\t\f\v ]',
       '\d' => '[0-9]',
       '\D' => '[^0-9]',
+      '\b' => '(^|[[:<:]]|[[:>:]]|$)',
       '(?:' => '('
     }.each do |k, v|
       text = text.gsub k, v
