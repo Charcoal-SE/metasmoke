@@ -4,7 +4,7 @@ class Post < ApplicationRecord
   include Websocket
 
   validate :reject_recent_duplicates
-  validates :link, format: { with: %r{\A\/\/(.*?)\/(questions|a)\/(\d+)\Z} }
+  validates :link, format: { with: %r{\A\/\/(.*?)\/(questions|a)\/(\d+)\Z} }, allow_blank: true
 
   serialize :tags, JSON
 
