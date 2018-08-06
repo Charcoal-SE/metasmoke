@@ -86,7 +86,7 @@ class FlagConditionsController < ApplicationController
 
     if params[:filter].present? && !params[:filter].empty?
       if params[:filter] == 'fps'
-        @posts = @posts.where(is_tp: false)
+        @posts = @posts.where('posts.is_fp = TRUE OR posts.is_naa = TRUE')
       elsif params[:filter] == 'tps'
         @posts = @posts.where(is_tp: true)
       end
@@ -169,10 +169,8 @@ class FlagConditionsController < ApplicationController
                 .having('count(reasons.id) >= ?', @condition.min_reason_count)
                 .having('sum(reasons.weight) >= ?', @condition.min_weight)
 
-    post_feedback_results = posts.pluck(:is_tp)
-
-    @false_positive_count = post_feedback_results.count(false)
-    @true_positive_count = post_feedback_results.count(true)
+    @false_positive_count = posts.where('posts.is_fp = TRUE OR posts.is_naa = TRUE').count
+    @true_positive_count = posts.where('posts.is_tp = TRUE').count
 
     @posts = posts.includes(feedbacks: [:user]).order(Arel.sql('posts.id DESC')).paginate(page: params[:page], per_page: 100)
     @sites = Site.where(id: @posts.map(&:site_id)).to_a
