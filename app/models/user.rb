@@ -216,7 +216,7 @@ class User < ApplicationRecord
         ['not an answer', 'não é uma resposta', 'no es una respuesta', '回答になっていません', 'не является ответом'].include? fo['title']
       elsif flag_type.to_sym == :vlq
         ['very low quality', 'qualidade muito baixa', 'muy baja calidad', '品質が低すぎる',
-        'необходимо удалить из-за проблем с качеством'].include? fo['title']
+         'необходимо удалить из-за проблем с качеством'].include? fo['title']
       else
         return false, "Unrecognized flag type #{flag_type} specified in call to User#flag"
       end
