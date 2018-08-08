@@ -212,6 +212,11 @@ class User < ApplicationRecord
         ['spam', 'contenido no deseado', 'スパム', 'спам'].include? fo['title']
       elsif flag_type.to_sym == :abusive
         ['rude or abusive', 'rude ou abusivo', 'irrespetuoso o abusivo', '失礼又は暴言', 'невежливый или оскорбительный'].include? fo['title']
+      elsif flag_type.to_sym == :naa
+        ['not an answer', 'não é uma resposta', 'no es una respuesta', '回答になっていません', 'не является ответом'].include? fo['title']
+      elsif flag_type.to_sym == :vlq
+        ['very low quality', 'qualidade muito baixa', 'muy baja calidad', '品質が低すぎる',
+         'необходимо удалить из-за проблем с качеством'].include? fo['title']
       else
         return false, "Unrecognized flag type #{flag_type} specified in call to User#flag"
       end
@@ -238,6 +243,14 @@ class User < ApplicationRecord
 
   def abusive_flag(post, dry_run = false)
     flag :abusive, post, dry_run
+  end
+
+  def naa_flag(post, dry_run = false)
+    flag :naa, post, dry_run
+  end
+
+  def vlq_flag(post, dry_run = false)
+    flag :vlq, post, dry_run
   end
 
   def moderator?

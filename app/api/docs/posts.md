@@ -163,7 +163,7 @@ Output format:
 **Write route**. Requires a POST request and valid write token.
 Available tables: N/A. No database information is returned from this request.
 `backoff` will only be set on successful requests. `message` will only be set on failed requests.
-Specify the `flag_type` param to choose your flag type: either `spam` (default) or `abusive` for an R/A flag.
+Specify the `flag_type` param to choose your flag type: any of `spam` (default), `abusive` for an R/A flag, `naa`, or `vlq`.
 Output format:
 
     {
