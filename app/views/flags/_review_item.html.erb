@@ -1,0 +1,11 @@
+<div class="review-item">
+  <%= render 'review_queues/responses', queue: queue, item: item %>
+  <p>
+    <strong>Reason:</strong>
+    <%= item.reviewable.reason %>
+    <% if item.reviewable.user.present? %>
+        &mdash; <strong><%= item.reviewable.user.username %></strong>
+    <% end %>
+  </p>
+  <%= render 'posts/post', post: item.reviewable.post, expand_post: true, preload_post_body: true, show_autoflagged: true, show_autoflaggers: true %>
+</div>
