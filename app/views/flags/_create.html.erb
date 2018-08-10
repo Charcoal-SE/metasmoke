@@ -10,7 +10,7 @@
         <%= form_for Flag.new, url: admin_flag_post_path(post), remote: true do |f| %>
           <div class="field">
             <%= f.label :reason, 'Why does this post need admin attention?' %><br/>
-            <%= f.text_area :reason, rows: 3, cols: 80, class: 'form-control' %>
+            <%= f.text_area :reason, rows: 3, cols: 80, class: 'form-control', autofocus: true %>
           </div><br/>
 
           <div class="clearfix">

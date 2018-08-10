@@ -49,10 +49,17 @@
             <%= nav_link GraphsController %>
             <%= nav_link SearchController %>
             <% if user_signed_in? %>
-              <%= nav_link ReviewQueuesController, label: 'review' do %>
-                <% review_items = ReviewItem.active.count %>
-                <%# badge hides itself if it doesn’t have contents. %>
-                <span class="reviews-count badge"><% unless review_items == 0 || !current_user.has_role?(:reviewer) %><%= review_items %><% end %></span>
+              <% q_counts = ReviewQueue.joins(:items).where(review_items: { completed: false }).group(Arel.sql('review_queues.id')).count %>
+              <% total_count = q_counts.map { |_k, v| v }.sum %>
+              <% label = raw("review <span class='reviews-count badge'>#{total_count != 0 && current_user&.has_role?(:reviewer) ? total_count : nil}</span>") %>
+              <%= nav_dropdown ReviewQueuesController, label: label do %>
+                <% ReviewQueue.all.each do |rq| %>
+                  <li>
+                    <%= link_to review_queue_path(rq.name) do %>
+                      <%= rq.name.titleize %> <span class="badge"><%= q_counts[rq.id] %></span>
+                    <% end %>
+                  </li>
+                <% end %>
               <% end %>
             <% end %>
             <%= nav_link FlagSettingsController, action: :dashboard, label: 'flagging', active: [FlagConditionsController, FlagLogController] %>
@@ -85,7 +92,6 @@
                   <li role="separator" class="divider"></li>
                   <%= nav_link AdminController, label: 'User Permissions', action: :permissions %>
                   <%= nav_link APIKeysController, label: 'API Keys' %>
-                  <%= nav_link AdminController, label: 'Admin Report Queue', action: :flagged %>
                   <%= nav_link SiteSettingsController, label: 'Website Configuration' %>
                 <% end %>
                 <% if current_user.has_role? :developer %>
