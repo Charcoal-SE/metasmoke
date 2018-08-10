@@ -37,23 +37,6 @@ class AdminController < ApplicationController
     @feedback_count_today = @feedback.where('feedbacks.updated_at > ?', Date.today).count
   end
 
-  def flagged
-    @flags = Flag.where(is_completed: false)
-    @sites = Site.all.to_a
-    @users = User.where(id: @flags.pluck(:user_id))
-  end
-
-  def clear_flag
-    f = Flag.find params[:id]
-    f.is_completed = true
-
-    if f.save
-      render plain: 'OK'
-    else
-      render plain: 'Save failed.', status: :internal_server_error
-    end
-  end
-
   def users
     @users = if params[:filter].present?
                User.where('username LIKE ?', "%#{params[:filter]}%")

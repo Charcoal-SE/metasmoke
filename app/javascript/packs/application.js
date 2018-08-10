@@ -69,27 +69,6 @@ onLoad(() => {
     });
   });
 
-  $('.admin-report-done').click(function (ev) {
-    ev.preventDefault();
-    $.ajax({
-      type: 'POST',
-      url: '/admin/clear_flag',
-      data: {
-        id: $(this).data('flag-id')
-      },
-      target: $(this)
-    }).done(function (data) {
-      if (data === 'OK') {
-        window.alert('Marked done.');
-        $(this.target).parent().parent().siblings().addBack().siblings('.flag-' + $(this.target).data('flag-id')).first().prev().remove();
-        $(this.target).parents('tr').remove();
-      }
-    }).fail(jqXHR => {
-      window.alert('Failed to mark done: status ' + jqXHR.status);
-      debug('flag completion failed:', jqXHR.responseText, 'status:', jqXHR.status, '\n', jqXHR);
-    });
-  });
-
   $('.announcement-collapse').click(ev => {
     ev.preventDefault();
 
