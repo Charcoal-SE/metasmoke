@@ -1,0 +1,25 @@
+<div class="modal fade" id="admin-report-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Admin report</h4>
+      </div>
+      <div class="modal-body">
+        <p>Something wrong with this record? Describe the issue here to notify admins of the problem so that they can resolve it.</p>
+        <%= form_for Flag.new, url: admin_flag_post_path(post), remote: true do |f| %>
+          <div class="field">
+            <%= f.label :reason, 'Why does this post need admin attention?' %><br/>
+            <%= f.text_area :reason, rows: 3, cols: 80, class: 'form-control' %>
+          </div><br/>
+
+          <div class="clearfix">
+            <div class="pull-right">
+              <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-alert"></span> Report</button>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

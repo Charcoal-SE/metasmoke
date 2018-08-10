@@ -82,4 +82,9 @@ onLoad(() => {
       }
     });
   });
+
+  $('#admin-report-modal form').on('ajax:success', (ev) => {
+    const $target = $(ev.target);
+    $target.parents('.modal').modal('hide');
+  });
 });

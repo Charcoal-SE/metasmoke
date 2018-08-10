@@ -18,9 +18,14 @@
         <%= link_to "(clear)", clear_post_feedback_path(@post) %>
       </small>
     <% end %>
-    <small><a data-post-id="<%= @post.id %>" href="#" class="admin-report" data-no-turbolinks=true>(needs admin)</a></small>
   <% end %>
 </h4>
+
+<% if user_signed_in? %>
+  <p><a href="#" data-toggle="modal" data-target="#admin-report-modal" class="text-warning">
+    <span data-toggle="tooltip" title="Request admin attention on this post"><span class="glyphicon glyphicon-alert"></span> Something not right?</span>
+  </a></p>
+<% end %>
 
 <% if user_signed_in? && current_user.has_role?(:reviewer) %>
   <p>
@@ -183,3 +188,5 @@
     </div>
   </div>
 <% end %>
+
+<%= render 'flags/create', post: @post %>

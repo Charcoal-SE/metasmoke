@@ -316,6 +316,7 @@ Rails.application.routes.draw do
     post ':id/delete',            to: 'posts#delete_post',          as: :dev_delete_post
     post ':post_id/feedback',     to: 'posts#feedback',             as: :post_feedback
     get  ':id/feedback/clear',    to: 'feedbacks#clear',            as: :clear_post_feedback
+    post ':id/admin_flag',        to: 'posts#needs_admin',          as: :admin_flag_post
   end
 
   scope 'posts' do
@@ -324,7 +325,6 @@ Rails.application.routes.draw do
     get  'by-url',                    to: 'posts#by_url'
     get  'uid/:api_param/:native_id', to: 'posts#by_uid',           constraints: { api_param: %r{[^\/]+} }
     get  'by-site',                   to: 'dashboard#spam_by_site', as: :spam_by_site
-    post 'needs_admin',               to: 'posts#needs_admin'
     get  'recent.json',               to: 'posts#recentpostsapi'
     post 'add_feedback',              to: 'review#add_feedback'
   end

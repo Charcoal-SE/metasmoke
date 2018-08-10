@@ -151,7 +151,7 @@ class PostsController < ApplicationController
 
   def needs_admin
     flag = Flag.new
-    flag.reason = params[:reason]
+    flag.reason = params[:flag][:reason]
     flag.user_id = current_user.id unless current_user.nil?
     flag.post = @post
     flag.is_completed = false
