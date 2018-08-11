@@ -8,12 +8,12 @@
       <% end %>
     <% end.join(', ')) %>
     &nbsp;&nbsp;|&nbsp;&nbsp;
-    <%= link_to new_abuse_report_path(reportable_type: 'DomainTag', reportable_id: item.id), class: 'text-muted' do %>
+    <%= link_to new_abuse_report_path(reportable_type: item.class.to_s, reportable_id: item.id), class: 'text-muted' do %>
       <span class="glyphicon glyphicon-file"></span> Create Abuse Report
     <% end %>
   </p>
 <% else %>
-  <%= link_to new_abuse_report_path(reportable_type: 'DomainTag', reportable_id: item.id) do %>
+  <%= link_to new_abuse_report_path(reportable_type: item.class.to_s, reportable_id: item.id) do %>
     <span class="glyphicon glyphicon-file"></span> Create Abuse Report
   <% end %>
 <% end %>
