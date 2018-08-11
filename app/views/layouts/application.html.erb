@@ -48,12 +48,13 @@
             <li class='<%= (controller.class == DashboardController && controller.action_name == :index) ? "active" : "" %>'><%= link_to "reasons", reasons_path %></li>
             <%= nav_link GraphsController %>
             <%= nav_link SearchController %>
-            <% if user_signed_in? %>
+            <% if user_signed_in? && current_user.has_role?("reviewer") %>
               <% q_counts = ReviewQueue.joins(:items).where(review_items: { completed: false }).group(Arel.sql('review_queues.id')).count %>
               <% total_count = q_counts.map { |_k, v| v }.sum %>
               <% label = raw("review <span class='reviews-count badge'>#{total_count != 0 && current_user&.has_role?(:reviewer) ? total_count : nil}</span>") %>
               <%= nav_dropdown ReviewQueuesController, label: label do %>
                 <% ReviewQueue.all.each do |rq| %>
+                  <% next unless current_user.roles.map(&:name).any? { |role| rq.privileges.include? role } %>
                   <li>
                     <%= link_to review_queue_path(rq.name) do %>
                       <%= rq.name.titleize %> <span class="badge"><%= q_counts[rq.id] %></span>
