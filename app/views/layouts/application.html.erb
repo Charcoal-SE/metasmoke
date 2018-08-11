@@ -54,7 +54,7 @@
               <% label = raw("review <span class='reviews-count badge'>#{total_count != 0 && current_user&.has_role?(:reviewer) ? total_count : nil}</span>") %>
               <%= nav_dropdown ReviewQueuesController, label: label do %>
                 <% ReviewQueue.all.each do |rq| %>
-                  <% next unless current_user.roles.map(&:name).any? { |role| rq.privileges.include? role } %>
+                  <% next unless current_user.has_role?(rq.privileges) %>
                   <li>
                     <%= link_to review_queue_path(rq.name) do %>
                       <%= rq.name.titleize %> <span class="badge"><%= q_counts[rq.id] %></span>
