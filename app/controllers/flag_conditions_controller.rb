@@ -172,6 +172,14 @@ class FlagConditionsController < ApplicationController
     @false_positive_count = posts.where('posts.is_fp = TRUE OR posts.is_naa = TRUE').count
     @true_positive_count = posts.where('posts.is_tp = TRUE').count
 
+    post_feedback_results = posts.pluck(:is_tp, :is_fp, :is_naa)
+    @false_positive_count = post_feedback_results.count do |rec|
+      rec[1] || rec[2]
+    end
+    @true_positive_count = post_feedback_results.count do |rec|
+      rec[0]
+    end
+
     @posts = posts.includes(feedbacks: [:user]).order(Arel.sql('posts.id DESC')).paginate(page: params[:page], per_page: 100)
     @sites = Site.where(id: @posts.map(&:site_id)).to_a
   end
