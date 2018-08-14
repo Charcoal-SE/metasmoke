@@ -169,9 +169,6 @@ class FlagConditionsController < ApplicationController
                 .having('count(reasons.id) >= ?', @condition.min_reason_count)
                 .having('sum(reasons.weight) >= ?', @condition.min_weight)
 
-    @false_positive_count = posts.where('posts.is_fp = TRUE OR posts.is_naa = TRUE').count
-    @true_positive_count = posts.where('posts.is_tp = TRUE').count
-
     post_feedback_results = posts.pluck(:is_tp, :is_fp, :is_naa)
     @false_positive_count = post_feedback_results.count do |rec|
       rec[1] || rec[2]
