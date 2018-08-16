@@ -35,6 +35,10 @@ class FlagConditionsController < ApplicationController
     @condition.sites = params[:flag_condition][:sites].map { |i| Site.find i.to_i if i.present? }.compact
 
     if @condition.save
+      Thread.new do
+        FlagCondition.validate_for_user(current_user, User.find(-1))
+      end
+      
       flash[:success] = 'Created a new flagging condition.'
       redirect_to url_for(controller: :flag_conditions, action: :index)
     else
@@ -64,6 +68,10 @@ class FlagConditionsController < ApplicationController
   def update
     @condition.sites = params[:flag_condition][:sites].map { |i| Site.find i.to_i if i.present? }.compact
     if @condition.update(condition_params)
+      Thread.new do
+        FlagCondition.validate_for_user(current_user, User.find(-1))
+      end
+
       flash[:success] = 'Updated your flagging condition.'
       redirect_to url_for(controller: :flag_conditions, action: :index)
     else

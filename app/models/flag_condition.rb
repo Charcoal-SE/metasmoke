@@ -43,11 +43,15 @@ class FlagCondition < ApplicationRecord
     end
   end
 
-  def self.validate_for_user(user, disabler)
+  def self.overall_accuracy(user)
     query = File.read(Rails.root.join('lib/queries/overall_accuracy.sql'))
     sanitized = ActiveRecord::Base.sanitize_sql([query, user_id: user.id])
     result = ActiveRecord::Base.connection.execute sanitized
-    accuracy = result.to_a[0][0]
+    result.to_a[0][0]
+  end
+
+  def self.validate_for_user(user, disabler)
+    accuracy = overall_accuracy user
 
     return unless accuracy.present? && accuracy < FlagSetting['min_accuracy'].to_f
     user.flag_conditions.update_all(flags_enabled: false)
