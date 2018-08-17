@@ -31,7 +31,7 @@ module API
       post = Post.find params[:id]
       feedback = Feedback.new user: current_user, post: post, api_key: @key, feedback_type: params[:type]
 
-      if post.is_question? && feedback.is_naa?
+      if post.question? && feedback.is_naa?
         error!({ name: 'illegal', detail: 'NAA feedback is not allowed on questions.' }, 400)
       end
 

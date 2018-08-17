@@ -1,4 +1,4 @@
 <div class="review-item">
-  <%= render 'review_queues/responses', queue: queue, item: item, exclude_responses: item.reviewable.is_question? ? [['NAA', 'naa']] : [] %>
+  <%= render 'review_queues/responses', queue: queue, item: item, exclude_responses: item.reviewable.question? ? [['NAA', 'naa']] : [] %>
   <%= render 'posts/post', post: item.reviewable, expand_post: true, hide_feedbacks: true %>
 </div>

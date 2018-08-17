@@ -38,7 +38,7 @@ class FlagConditionsController < ApplicationController
       Thread.new do
         FlagCondition.validate_for_user(current_user, User.find(-1))
       end
-      
+
       flash[:success] = 'Created a new flagging condition.'
       redirect_to url_for(controller: :flag_conditions, action: :index)
     else

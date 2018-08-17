@@ -185,7 +185,7 @@ class User < ApplicationRecord
     auth_dict = { 'key' => AppConfig['stack_exchange']['key'], 'access_token' => api_token }
     auth_string = "key=#{AppConfig['stack_exchange']['key']}&access_token=#{api_token}"
 
-    path = post.is_answer? ? 'answers' : 'questions'
+    path = post.answer? ? 'answers' : 'questions'
     site = post.site
 
     # Try to get flag options

@@ -32,6 +32,8 @@ Style/AsciiComments:
   Enabled: false
 Style/Lambda:
   EnforcedStyle: literal
+Style/ClassAndModuleChildren:
+  Enabled: false
 
 # Want to refactor some stuff? Remove these.
 Metrics/AbcSize:
@@ -49,6 +51,8 @@ Metrics/LineLength:
   Max: 150
 Metrics/ClassLength:
   Enabled: false
+Metrics/ModuleLength:
+  Enabled: false
 Metrics/BlockLength:
   Max: 30
   ExcludedMethods:
@@ -59,6 +63,7 @@ Metrics/BlockLength:
     - test
     - helpers
     - field
+    - included
   Exclude:
     - db/migrate/*.rb
     - 'app/views/**/*.builder'
