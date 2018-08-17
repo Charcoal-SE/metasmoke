@@ -209,6 +209,19 @@ class Post < ApplicationRecord
     Rails.logger.warn "[autoflagging] #{id}: broadcast"
   end
 
+  def eligible_flaggers
+    conditions = self.site.flag_conditions.where(flags_enabled: true)
+    available_user_ids = {}
+    conditions.each do |condition|
+      if condition.validate!(self)
+        available_user_ids[condition.user_id] = condition
+      end
+    end
+
+    uids = self.site.user_site_settings.where(user_id: available_user_ids.keys).map(&:user_id)
+    User.where(id: uids, flags_enabled: true).where.not(encrypted_api_token: nil)
+  end
+
   def reject_recent_duplicates
     # If a different SmokeDetector has reported the same post in the last 5 minutes, reject it
 

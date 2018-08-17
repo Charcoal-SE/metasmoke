@@ -45,17 +45,7 @@ class FlagLogController < ApplicationController
   end
 
   def eligible_flaggers
-    @individual_post = Post.find(params[:id])
-    conditions = @individual_post.site.flag_conditions.where(flags_enabled: true)
-    available_user_ids = {}
-    conditions.each do |condition|
-      if condition.validate!(@individual_post)
-        available_user_ids[condition.user.id] = condition
-      end
-    end
-
-    uids = @individual_post.site.user_site_settings.where(user_id: available_user_ids.keys).map(&:user_id)
-    @eligible_users = User.where(id: uids, flags_enabled: true).where.not(encrypted_api_token: nil)
+    @eligible_users = Post.find(params[:id]).eligible_flaggers
   end
 
   def not_flagged

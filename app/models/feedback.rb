@@ -28,13 +28,10 @@ class Feedback < ApplicationRecord
   after_save do
     if update_post_feedback_cache # if post feedback cache was changed
       if post.flagged? && !post.is_tp
-        flags = post.flag_logs.successful.where.not(user_id: -1).includes(:user)
-        names = flags.map { |flag| '@' + flag.user.username.tr(' ', '') }
-
-        flags.each do |flag|
-          next unless flag.user.present?
+        sys = User.find(-1)
+        post.eligible_flaggers.each do |u|
           Thread.new do
-            FlagCondition.validate_for_user(flag.user, User.find(-1))
+            FlagCondition.validate_for_user(u, sys)
           end
         end
 
