@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+  <ShortName>metasmoke</ShortName>
+  <Description>Searches the content of all post bodies in metasmoke.</Description>
+  <Url type="text/html" template="https://metasmoke.erwaysoftware.com/search?body={searchTerms}"/>
+  <Image height="32" width="32" type="image/vnd.microsoft.icon">https://metasmoke.erwaysoftware.com/favicon.ico</Image>
+  <LongName>metasmoke post bodies search</LongName>
+  <SyndicationRight>limited</SyndicationRight>
+  <moz:SearchForm>https://metasmoke.erwaysoftware.com/search</moz:SearchForm>
+</OpenSearchDescription>
