@@ -4,7 +4,8 @@ class ConflictingFeedbackJob < ApplicationJob
   queue_as :default
 
   def perform
-    conflicted = Post.where('is_tp = 1 AND (is_fp = 1 OR is_naa = 1)').includes(:feedbacks).map do |p|
+    conflicted = Post.where('created_at <= ?', 1.day.ago).where('is_tp = 1 AND (is_fp = 1 OR is_naa = 1)')
+                     .includes(:feedbacks).map do |p|
       feedback_classes = p.feedbacks.map { |f| f.feedback_type[0] }
       unique_classes = feedback_classes.uniq
       feedback_counts = unique_classes.map { |fc| [fc, feedback_classes.count(fc)] }.to_h
