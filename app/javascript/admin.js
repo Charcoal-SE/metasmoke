@@ -74,7 +74,7 @@ onLoad(() => {
       },
       dataType: 'json',
       url: `/admin/keys/${$this.data('key-id')}/trust`,
-      success: data => {
+      success: (data) => {
         if (data !== 'OK') {
           debug('toggle failed:', data);
         }
