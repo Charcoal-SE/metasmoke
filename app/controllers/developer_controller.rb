@@ -73,6 +73,12 @@ class DeveloperController < ApplicationController
     end
   end
 
+  def run_fcrs
+    ConflictingFeedbackJob.perform_later
+    flash[:success] = 'ConflictingFeedbackJob triggered.'
+    redirect_back fallback_location: root_path
+  end
+
   private
 
   def check_impersonating
