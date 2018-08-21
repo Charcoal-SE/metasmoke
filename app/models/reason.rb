@@ -11,13 +11,13 @@ class Reason < ApplicationRecord
 
     count = posts.where(is_tp: true, is_fp: false).count
 
-    (count.to_f / fast_post_count.to_f).to_f
+    count.to_f / fast_post_count.to_f
   end
 
   def fp_percentage
     count = posts.where(is_fp: true, is_tp: false).count
 
-    (count.to_f / fast_post_count.to_f).to_f
+    count.to_f / fast_post_count.to_f
   end
 
   def both_percentage
@@ -26,7 +26,7 @@ class Reason < ApplicationRecord
                   .where(is_tp: false, is_fp: false)
                   .where.not(feedbacks: { post_id: nil }).count
 
-    (count.to_f / fast_post_count.to_f).to_f
+    count.to_f / fast_post_count.to_f
   end
 
   # Attempt to use cached post_count if it's available (included in the dashboard/index query)

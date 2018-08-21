@@ -38,7 +38,7 @@
       <span class='text-danger'>(deleted <%= distance_of_time_in_words(post.created_at, post.deleted_at, include_seconds: true) %> after creation)</span>
     <% end %>
 
-    <% if post.comments.any? %>
+    <% if post.comments.any? and not hide_feedbacks %>
       <span class="comment-hint text-muted" title="<%= pluralize(post.comments.count, 'comment') %>">
         <span class="glyphicon glyphicon-comment"></span> &times;<%= post.comments.count %>
       </span>
