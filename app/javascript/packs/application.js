@@ -36,7 +36,7 @@ import '../graphs';
 import '../site_settings';
 import '../comments';
 
-import { onLoad } from '../util';
+import { onLoad, installSelectpickers } from '../util';
 
 onLoad(() => {
   $('[data-toggle="tooltip"]').tooltip();
@@ -44,7 +44,7 @@ onLoad(() => {
 
   $('.sortable-table').tablesort();
 
-  $('.selectpicker').selectpicker();
+  installSelectpickers();
 
   $('.admin-report').click(function (ev) {
     ev.preventDefault();

@@ -22,15 +22,11 @@
     <% end %>
   </p>
 
-  <%= form_tag add_domain_tag_path, method: :post, class: 'form-inline pull-left add-domain-tag' do %>
+  <%= form_tag add_domain_tag_path, method: :post, class: 'form-inline add-domain-tag' do %>
     <%= hidden_field_tag :domain_id, @domain.id %>
-    <%= text_field_tag :tag_name, '', class: 'form-control input-sm', list: 'tag_list' %>
-    <datalist id="tag_list">
-      <% DomainTag.all.order(name: :asc).each do |t| %>
-        <option value="<%= t.name %>"></option>
-      <% end %>
-    </datalist>
-    <%= submit_tag 'Add', class: 'btn btn-primary btn-sm' %>
+    <%= select_tag :tag_name, options_for_select(DomainTag.all.map { |dt| [dt.name, dt.name, { 'data-subtext' => dt.description&.truncate(100) }] }),
+                   class: 'selectpicker', include_blank: true %>
+    <%= submit_tag 'Add', class: 'btn btn-primary' %>
   <% end %>
 </div>
 

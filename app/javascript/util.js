@@ -43,3 +43,33 @@ export function route(path, enter, exit = () => {}) {
 export function onLoad(cb) {
   $(document).on('turbolinks:load', cb);
 }
+
+export function installSelectpickers() {
+  $('.selectpicker').selectpicker({
+    dropupAuto: true,
+    liveSearch: true,
+    liveSearchNormalize: true,
+    showSubtext: true,
+    noneResultsText: 'No results matched {0}. Hit Enter to create it.'
+  });
+
+  // Selectpicker "extension": custom input. If there are no options matching the live search,
+  // create a new one, add it to the list, and select it.
+  $('.bs-searchbox input[type="text"]').on('keydown', ev => {
+    const tgt = $(ev.target);
+    const list = tgt.parents('.dropdown-menu');
+
+    // User hit Enter and there were no results found for the given input
+    if (ev.keyCode === 13 && list.find('li.no-results').length > 0) {
+      ev.preventDefault();
+
+      const select = tgt.parents('div.bootstrap-select').find('select');
+      const input = tgt.val();
+      const option = $(`<option value="${input}">${input}</option>`);
+      option.appendTo(select);
+      select.selectpicker('refresh')
+      .selectpicker('val', input)
+      .selectpicker('toggle');
+    }
+  });
+}
