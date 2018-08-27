@@ -16,7 +16,7 @@ module ReasonsHelper
   def self.calculate_weights_for_flagging
     Reason.all.each do |reason|
       if reason.posts.count > 20
-        reason.update(weight: [reason.tp_percentage * 100, reason.maximum_weight].compact.min)
+        reason.update(weight: [(reason.tp_percentage * 100).round, reason.maximum_weight].compact.min)
       else
         reason.update(weight: 0)
       end
