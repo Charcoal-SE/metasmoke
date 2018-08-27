@@ -46,29 +46,6 @@ onLoad(() => {
 
   installSelectpickers();
 
-  $('.admin-report').click(function (ev) {
-    ev.preventDefault();
-    const reason = window.prompt('Why does this post need admin attention?');
-    if (reason === null) {
-      return;
-    }
-    $.ajax({
-      type: 'POST',
-      url: '/posts/needs_admin',
-      data: {
-        id: $(this).data('post-id'),
-        reason
-      }
-    }).done(data => {
-      if (data === 'OK') {
-        window.alert('Post successfully reported for admin attention.');
-      }
-    }).fail(jqXHR => {
-      window.alert('Post was not reported: status ' + jqXHR.status);
-      debug('report failed:', jqXHR.responseText, 'status:', jqXHR.status, '\n', jqXHR);
-    });
-  });
-
   $('.announcement-collapse').click(ev => {
     ev.preventDefault();
 
@@ -101,5 +78,17 @@ onLoad(() => {
 
   $('.form-submit').click(ev => {
     $(ev.target).parent().submit();
+  });
+
+  const formParameterCleanups = [];
+
+  $(document).on('submit', 'form', (ev) => {
+    const tgt = $(ev.target);
+    if (formParameterCleanups.indexOf(tgt[0]) === -1) {
+      ev.preventDefault();
+      $(tgt.find(':input').toArray().filter(e => $(e).val() === "")).attr('disabled', true);
+      formParameterCleanups.push(tgt[0]);
+      tgt.submit();
+    }
   });
 });
