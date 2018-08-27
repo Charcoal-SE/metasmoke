@@ -1,7 +1,5 @@
 <table class="table" id="posts-index-table">
   <tbody>
-    <% posts.each do |post| %>
-      <%= render "posts/post", :post => post %>
-    <% end %>
+    <%= render partial: 'posts/post', collection: posts, cached: true %>
   </tbody>
 </table>
