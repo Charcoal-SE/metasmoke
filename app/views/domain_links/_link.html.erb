@@ -24,4 +24,8 @@
       </div>
     </div>
   <% end %>
+
+  <span class="pull-right">
+    <%= link_to 'Delete', destroy_domain_link_path(link), method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-danger' %>
+  </span>
 </div>

@@ -57,6 +57,10 @@ class SpamDomainsController < ApplicationController
     end
   end
 
+  def query
+    render json: SpamDomain.where('domain LIKE ?', "%#{params[:q]}%").map { |d| { value: d.id, text: d.domain } }
+  end
+
   private
 
   def set_spam_domain

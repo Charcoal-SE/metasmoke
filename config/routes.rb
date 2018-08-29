@@ -221,8 +221,15 @@ Rails.application.routes.draw do
       delete ':id',         to: 'domain_tags#destroy',         as: :destroy_domain_tag
     end
 
+    scope 'links' do
+      post   'create',    to: 'domain_links#create',  as: :create_domain_link
+      patch  'update',    to: 'domain_links#update',  as: :update_domain_link
+      delete ':id',       to: 'domain_links#destroy', as: :destroy_domain_link
+    end
+
     root                  to: 'spam_domains#index',   as: :spam_domains
     post   'create.json', to: 'spam_domains#create',  as: :create_spam_domain
+    get    'query.json',  to: 'spam_domains#query',   as: :spam_domains_query
     get    ':id/edit',    to: 'spam_domains#edit',    as: :edit_spam_domain
     patch  ':id/edit',    to: 'spam_domains#update',  as: :update_spam_domain
     get    ':id',         to: 'spam_domains#show',    as: :spam_domain

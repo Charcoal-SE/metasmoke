@@ -7,7 +7,8 @@ class DomainLinksController < ApplicationController
   def create
     @link = DomainLink.new link_params.merge(creator: current_user)
     if @link.save
-      render partial: 'domain_links/link', link: @link, domain: @link.left
+      Rails.cache.delete :domain_link_types
+      render partial: 'domain_links/link', locals: { link: @link, domain: @link.left }
     else
       render json: { success: false }, status: 500
     end
@@ -15,7 +16,7 @@ class DomainLinksController < ApplicationController
 
   def update
     if @link.update link_params
-      render partial: 'domain_links/link', link: @link, domain: @link.left
+      render partial: 'domain_links/link', locals: { link: @link, domain: @link.left }
     else
       render json: { success: false }, status: 500
     end
@@ -23,9 +24,10 @@ class DomainLinksController < ApplicationController
 
   def destroy
     if @link.destroy
-      head :no_content
+      redirect_back fallback_location: root_path
     else
-      render json: { success: false }, status: 500
+      flash[:danger] = 'Failed to remove link.'
+      redirect_back fallback_location: @link.left
     end
   end
 

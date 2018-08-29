@@ -72,4 +72,48 @@ export function installSelectpickers() {
       .selectpicker('toggle');
     }
   });
+
+  // Another extension: AJAX data sources. Add data-remote-source to a .selectpicker to activate this.
+  // Will send a request to that route with ?q=user-text-here
+  const sendSearchRequest = async (source, target) => {
+    target = $(target);
+    const input = target.val();
+    const response = await fetch(`${source}?q=${encodeURIComponent(input)}`);
+    const data = await response.json();
+
+    const options = data.map(i => `<option value="${i.value}">${i.text}</option>`);
+    const select = target.parents('div.bootstrap-select').find('select');
+    select.empty();
+    $('<option value></option>').appendTo(select);
+    options.forEach(o => $(o).appendTo(select));
+    select.selectpicker('refresh');
+  };
+
+  let timeout;
+
+  $('.selectpicker[data-remote-source]').each((i, e) => {
+    const source = $(e).data('remote-source');
+
+    $(e).selectpicker({
+      dropupAuto: true,
+      liveSearch: true,
+      liveSearchNormalize: true,
+      showSubtext: true,
+      noneResultsText: 'No results matched your search or you need to enter more characters to search with.'
+    });
+
+    $(e).parent().find('.bs-searchbox input[type="text"]').on('keydown', ev => {
+      if ($(ev.target).val().length < 2) {
+        return;
+      }
+
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+
+      timeout = setTimeout(function () {
+        sendSearchRequest(source, ev.target);
+      }, 200);
+    });
+  });
 }
