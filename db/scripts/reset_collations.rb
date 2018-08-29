@@ -10,13 +10,13 @@ tables_columns = ActiveRecord::Base.connection.tables.map { |t| [t, ActiveRecord
 
 tables_columns.each do |t, cs|
   puts t
-  puts "  CONVERT TO CHARACTER SET utf8mb4..."
+  puts '  CONVERT TO CHARACTER SET utf8mb4...'
   ActiveRecord::Base.connection.execute "ALTER TABLE `#{t}` CONVERT TO CHARACTER SET utf8mb4;"
 
-  puts "  ALTER DEFAULT CHARSET/COLLATE..."
+  puts '  ALTER DEFAULT CHARSET/COLLATE...'
   ActiveRecord::Base.connection.execute "ALTER TABLE `#{t}` DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 
-  puts "  ALTER MODIFY..."
+  puts '  ALTER MODIFY...'
   cs.select { |c| [:string, :text].include? c.type }.each do |c|
     puts "    #{c.name}"
     ActiveRecord::Base.connection.execute "ALTER TABLE `#{t}` MODIFY `#{c.name}` #{c.sql_type} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"

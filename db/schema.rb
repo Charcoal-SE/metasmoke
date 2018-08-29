@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_29_115105) do
+ActiveRecord::Schema.define(version: 2018_08_29_130618) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id"
@@ -187,6 +187,19 @@ ActiveRecord::Schema.define(version: 2018_08_29_115105) do
     t.integer "api_key_id"
     t.integer "uncertainty"
     t.index ["post_id"], name: "post_id_ix"
+  end
+
+  create_table "domain_links", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "left_id"
+    t.bigint "right_id"
+    t.string "link_type"
+    t.text "comments"
+    t.bigint "creator_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_domain_links_on_creator_id"
+    t.index ["left_id"], name: "index_domain_links_on_left_id"
+    t.index ["right_id"], name: "index_domain_links_on_right_id"
   end
 
   create_table "domain_tags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
@@ -538,6 +551,9 @@ ActiveRecord::Schema.define(version: 2018_08_29_115105) do
   add_foreign_key "api_tokens", "api_keys"
   add_foreign_key "api_tokens", "users"
   add_foreign_key "channels_users", "users"
+  add_foreign_key "domain_links", "spam_domains", column: "left_id"
+  add_foreign_key "domain_links", "spam_domains", column: "right_id"
+  add_foreign_key "domain_links", "users", column: "creator_id"
   add_foreign_key "flag_conditions", "users"
   add_foreign_key "flag_logs", "api_keys"
   add_foreign_key "flag_logs", "flag_conditions"

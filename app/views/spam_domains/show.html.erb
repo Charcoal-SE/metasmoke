@@ -32,15 +32,24 @@
 
 <% if current_user&.has_role?(:core) %>
   <%= render 'abuse_reports/list', item: @domain %>
-<% end %>
+<% end %><br/>
 
 <p>This domain has been seen in <%= pluralize @counts[:all], 'post' %>, <%= @counts[:tp] %> TP.</p>
 
 <% if @domain.whois.present? %>
-  <pre><code><%= @domain.whois %></code></pre>
+  <pre><code><%= @domain.whois %></code></pre><br/>
 <% else %>
-    <p><em>No whois data available.</em></p>
+  <p><em>No whois data available.</em></p>
 <% end %>
+
+<% if @domain.links.any? %>
+  <h4>Linked domains</h4>
+  <% @domain.links.each do |l| %>
+    <%= render 'domain_links/link', link: l, domain: @domain %>
+  <% end %>
+<% end %>
+
+<h4>Posts</h4>
 
 <table class="table">
   <tbody>

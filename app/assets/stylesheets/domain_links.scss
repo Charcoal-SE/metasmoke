@@ -1,0 +1,19 @@
+// Place all the styles related to the DomainLinks controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.domain-link {
+  padding: 0.5em 0;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+
+  & + .domain-link {
+    border-top: 0;
+  }
+
+  blockquote {
+    border-left: 4px solid #ddd;
+    padding-left: 1em;
+    font-size: 1em;
+  }
+}
