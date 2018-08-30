@@ -16,9 +16,6 @@ import Turbolinks from 'turbolinks';
 import '../turbolinks_prefetch.coffee'; // The original is in coffee.
 Turbolinks.start();
 
-import createDebug from 'debug';
-const debug = createDebug('ms:app');
-
 import '../cable';
 
 import '../admin';
@@ -83,11 +80,11 @@ onLoad(() => {
 
   const formParameterCleanups = [];
 
-  $(document).on('submit', 'form', (ev) => {
+  $(document).on('submit', 'form', ev => {
     const tgt = $(ev.target);
     if (formParameterCleanups.indexOf(tgt[0]) === -1) {
       ev.preventDefault();
-      $(tgt.find(':input').toArray().filter(e => $(e).val() === "")).attr('disabled', true);
+      $(tgt.find(':input').toArray().filter(e => $(e).val() === '')).attr('disabled', true);
       formParameterCleanups.push(tgt[0]);
       tgt.submit();
     }

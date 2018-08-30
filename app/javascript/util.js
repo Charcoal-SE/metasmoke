@@ -111,7 +111,7 @@ export function installSelectpickers() {
         clearTimeout(timeout);
       }
 
-      timeout = setTimeout(function () {
+      timeout = setTimeout(() => {
         sendSearchRequest(source, ev.target);
       }, 200);
     });
