@@ -21,6 +21,13 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
     $('.review-item-container').html(html);
 
     installSelectpickers();
+
+    if (queuePath.includes('untagged-domains')) {
+      var a = document.getElementsByName('tag_name');
+      for (var i = 0; i < a.length; i++) {
+        Taggify.taggify_element(a[i]);
+      }
+    }
   };
 
   if (!hasItemID) {
@@ -40,14 +47,11 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
 
 route(/\/review\/untagged-domains(\/\d*)?/, () => {
   $(document).on('ajax:success', '.review-add-domain-tag', (e, data) => {
-    const $noTags = $('.no-tags');
-    if ($noTags.length > 0) {
-      $noTags.remove();
-      $('.domain-tag-list p').html('Tagged with: ' + data);
-    }
-    else {
-      $('.domain-tag-list p').append(data);
-    }
-    $(e.target).find('select').selectpicker('val', null);
+    var a = document.getElementById('tag_name');
+    var form = $(a.parentElement.parentElement);
+    form.find('input[type=submit]').addClass('btn-success');
+    form.on('change', function() {
+      form.find('input[type=submit]').removeClass('btn-success');
+    });
   });
 });

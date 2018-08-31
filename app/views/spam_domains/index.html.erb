@@ -18,7 +18,7 @@
   <tbody>
     <% @domains.each do |d| %>
       <tr>
-        <td><code><%= d.domain %></code></td>
+        <td><code><%= URI.unescape(d.domain) %></code></td>
         <td>
           <%= d.post_counts[:all] || 0 %>
           (<span class="text-success" title="TP" data-toggle="tooltip"><%= d.post_counts[:tp] || 0 %></span>,

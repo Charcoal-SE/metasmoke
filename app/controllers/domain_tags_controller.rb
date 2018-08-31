@@ -25,9 +25,10 @@ class DomainTagsController < ApplicationController
   end
 
   def add_review
-    @tag = DomainTag.find_or_create_by name: params[:tag_name]
     @domain = SpamDomain.find params[:domain_id]
-    @domain.domain_tags << @tag unless @domain.domain_tags.include? @tag
+    @domain.domain_tags = params[:tag_name].map do |tag_name|
+      DomainTag.find_or_create_by name: tag_name
+    end
     render 'domain_tags/_tag', locals: { tag: @tag, domain: @domain }, layout: nil
   end
 

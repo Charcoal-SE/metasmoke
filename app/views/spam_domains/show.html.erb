@@ -1,4 +1,4 @@
-<h1>Domain: <code><%= @domain.domain %></code></h1>
+<h1>Domain: <code><%= URI.unescape(@domain.domain) %></code></h1>
 <% if user_signed_in? && (current_user.has_role?(:core) || current_user.has_role?(:admin)) %>
   <p>
     <% if current_user.has_role?(:core) %>
