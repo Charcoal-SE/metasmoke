@@ -100,7 +100,6 @@ jobs:
         paths:
         - vendor/bundle
         - ~/.bundle
-        - ./node_modules
     - run: |-
         mkdir -p config && echo 'test:
           adapter: mysql2
