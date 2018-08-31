@@ -14,12 +14,12 @@ jobs:
     - run: export PATH="~/Charcoal-SE/metasmoke/node_modules/.bin:$PATH"
     - restore_cache:
         keys:
-        - v1-dep-js-{{ .Branch }}-
-        - v1-dep-js-master-
-        - v1-dep-js-
+        - v1-dep-node-{{ .Branch }}-
+        - v1-dep-node-master-
+        - v1-dep-node-
     - run: npm install
     - save_cache:
-        key: v1-dep-js-{{ .Branch }}-{{ epoch }}
+        key: v1-dep-node-{{ .Branch }}-{{ epoch }}
         paths:
         - ./node_modules
     - run: echo -e "export RAILS_ENV=test\nexport RACK_ENV=test" >> $BASH_ENV
@@ -51,13 +51,13 @@ jobs:
     - run: cp config/config.sample.yml config/config.yml
     - restore_cache:
         keys:
-        - v1-dep-rubocop-{{ .Branch }}-
-        - v1-dep-rubocop-master-
-        - v1-dep-rubocop-
+        - v1-dep-bundle-{{ .Branch }}-
+        - v1-dep-bundle-master-
+        - v1-dep-bundle-
     - run: 'bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
         --jobs=4 --retry=3 '
     - save_cache:
-        key: v1-dep-rubocop-{{ .Branch }}-{{ epoch }}
+        key: v1-dep-bundle-{{ .Branch }}-{{ epoch }}
         paths:
         - vendor/bundle
         - ~/.bundle
@@ -87,21 +87,49 @@ jobs:
     - checkout
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
     - run: cp config/config.sample.yml config/config.yml
+    - run: echo -e "export RAILS_ENV=test\nexport RACK_ENV=test" >> $BASH_ENV
+
+    # Bundler
     - restore_cache:
         keys:
-        - v1-dep-{{ .Branch }}-
-        - v1-dep-master-
-        - v1-dep-
-    - run: echo -e "export RAILS_ENV=test\nexport RACK_ENV=test" >> $BASH_ENV
+        - v1-dep-bundle-{{ .Branch }}-
+        - v1-dep-bundle-master
+        - v1-dep-bundle
     - run: 'bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
         --jobs=4 --retry=3 '
-    - run: npm install
     - save_cache:
-        key: v1-dep-{{ .Branch }}-{{ epoch }}
+        key: v1-dep-bundle-{{ .Branch }}-{{ epoch }}
         paths:
         - vendor/bundle
         - ~/.bundle
+
+    # Node deps
+    - restore_cache:
+        keys:
+        - v1-dep-node-{{ .Branch }}-
+        - v1-dep-node-master
+        - v1-dep-node-
+    - run: npm install
+    - save_cache:
+        key: v1-dep-node-{{ .Branch }}-{{ epoch }}
+        paths:
         - ./node_modules
+
+    # Assets
+    - restore_cache:
+        keys:
+        - v1-dep-assets-{{ .Branch }}-
+        - v1-dep-assets-master
+        - v1-dep-assets-
+    # Supposedly this speeds up tests
+    - run: rails assets:precompile
+    - save_cache:
+        key: v1-dep-assets-{{ .Branch }}-{{ epoch }}
+        paths:
+        - ./public/assets
+        - ./tmp/cache/assets/sprockets
+
+    # Run tests
     - run: |-
         mkdir -p config && echo 'test:
           adapter: mysql2
