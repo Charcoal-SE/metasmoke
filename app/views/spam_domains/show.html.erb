@@ -24,8 +24,10 @@
 </div>
 
 <script>
-  const a = document.getElementsByClassName('add-domain-tag')[0].children[3];
+$(document).on('turbolinks:load', function() {
+  var a = document.getElementsByClassName('add-domain-tag')[0].children[3];
   Taggify.taggify_element(a);
+});
 </script>
 
 <% if current_user&.has_role?(:core) %>
