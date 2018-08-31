@@ -101,9 +101,9 @@ Rails.application.configure do
   config.paperclip_defaults = {
     storage: :s3,
     s3_credentials: {
-      bucket: 'erwaysoftware.metasmokedumps',
-      access_key_id: AppConfig['aws']['access_token'],
-      secret_access_key: AppConfig['aws']['secret_token']
+      # bucket: 'erwaysoftware.metasmokedumps',
+      # access_key_id: AppConfig['aws']['access_token'],
+      # secret_access_key: AppConfig['aws']['secret_token']
     },
     s3_region: 'us-east-2'
   }
