@@ -88,6 +88,14 @@ jobs:
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
     - run: cp config/config.sample.yml config/config.yml
     - run: echo -e "export RAILS_ENV=test\nexport RACK_ENV=test" >> $BASH_ENV
+    - run: |-
+        mkdir -p config && echo 'test:
+          adapter: mysql2
+          database: metasmoke_test
+          username: root
+          password: ubuntu
+          host: 127.0.0.1
+        ' > config/database.yml
 
     # Bundler
     - restore_cache:
@@ -115,36 +123,12 @@ jobs:
         paths:
         - ./node_modules
 
-    # Assets
-    - restore_cache:
-        keys:
-        - v1-dep-assets-{{ .Branch }}-
-        - v1-dep-assets-master
-        - v1-dep-assets-
-    # Supposedly this speeds up tests
-    - run: rails assets:precompile
-    - save_cache:
-        key: v1-dep-assets-{{ .Branch }}-{{ epoch }}
-        paths:
-        - ./public/assets
-        - ./tmp/cache/assets/sprockets
-
     # Run tests
-    - run: |-
-        mkdir -p config && echo 'test:
-          adapter: mysql2
-          database: metasmoke_test
-          username: root
-          password: ubuntu
-          host: 127.0.0.1
-        ' > config/database.yml
     - run:
-        command: bundle exec rake db:create db:schema:load --trace
+        command: bundle exec rake db:create db:schema:load db:test:prepare db:migrate --trace
         environment:
           RAILS_ENV: test
           RACK_ENV: test
-    - run: bundle exec rake test:prepare
-    - run: bundle exec rake db:migrate
     - run:
         command: bundle exec rails test --verbose
         environment:
