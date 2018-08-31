@@ -189,9 +189,7 @@ class PostsController < ApplicationController
                             user_id: current_user.id,
                             post_id: @post.id)
 
-    unless feedback.save
-      flash[:danger] = 'Unable to save feedback. Ping Undo.'
-    end
+    feedback.save || flash[:danger] = 'Unable to save feedback. Ping Undo.'
 
     if current_user.api_token.blank?
       flash[:warning] = 'You must be write-authenticated to cast a spam flag.'
