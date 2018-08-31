@@ -7,7 +7,6 @@ class SpamDomainsControllerTest < ActionController::TestCase
     get :index
     assert_not_nil assigns(:total)
     assert_not_nil assigns(:domains)
-    assert_not_nil assigns(:counts)
     assert_response :success
   end
 

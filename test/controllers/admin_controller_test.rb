@@ -9,19 +9,6 @@ class AdminControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test 'should require admin privileges to view page' do
-    [:flagged].each do |path|
-      sign_out :user
-
-      get path
-      assert_redirected_to missing_privileges_path(required: :admin)
-
-      sign_in users(:approved_user)
-      get path
-      assert_redirected_to missing_privileges_path(required: :admin)
-    end
-  end
-
   test 'should get invalidated page' do
     sign_in users(:admin_user)
 
