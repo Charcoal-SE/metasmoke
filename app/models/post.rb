@@ -150,6 +150,7 @@ class Post < ApplicationRecord
       next if h.length >= 255
       domain = SpamDomain.find_or_create_by domain: h
       domain.posts << self unless domain.posts.include? self
+      Rails.cache.delete "spam_domain_post_counts_##{domain.id}"
     end
   end
 end

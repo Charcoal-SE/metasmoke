@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  left_id: 
+  right_id: 
+  link_type: MyString
+  comments: MyText
+  creator: 
+
+two:
+  left_id: 
+  right_id: 
+  link_type: MyString
+  comments: MyText
+  creator: 

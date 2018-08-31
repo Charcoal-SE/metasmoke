@@ -1,4 +1,4 @@
-<h3>Domain: <code><%= @domain.domain %></code></h3>
+<h1>Domain: <code><%= @domain.domain %></code></h1>
 <% if user_signed_in? && (current_user.has_role?(:core) || current_user.has_role?(:admin)) %>
   <p>
     <% if current_user.has_role?(:core) %>
@@ -10,23 +10,12 @@
     <% end %>
   </p>
 <% end %>
-<div class="clearfix domain-tag-list">
-  <p class="pull-left">
-    <% if @domain.domain_tags.any? %>
-      Tagged with:
-      <% @domain.domain_tags.each do |t| %>
-        <%= render 'domain_tags/tag', tag: t, domain: @domain %>
-      <% end %>
-    <% else %>
-      <em>No tags.</em>
-    <% end %>
-  </p>
-
+<div class="clearfix domain-tag-list row">
   <%= form_tag add_domain_tag_path, method: :post, class: 'form-inline pull-left add-domain-tag' do %>
     <%= hidden_field_tag :domain_id, @domain.id %>
-    <%= text_field_tag :tag_name, '', class: 'form-control input-sm', list: 'tag_list' %>
+    <%= text_field_tag :tag_name, '', class: 'form-control input-sm', 'taggify-datalist': 'tag_list', 'taggify-initial-tags': @domain.domain_tags.map(&:name).join(',') %>
     <datalist id="tag_list">
-      <% DomainTag.all.order(name: :asc).each do |t| %>
+      <% DomainTag.all.each do |t| %>
         <option value="<%= t.name %>"></option>
       <% end %>
     </datalist>
@@ -34,17 +23,31 @@
   <% end %>
 </div>
 
+<script>
+  const a = document.getElementsByClassName('add-domain-tag')[0].children[3];
+  Taggify.taggify_element(a);
+</script>
+
 <% if current_user&.has_role?(:core) %>
   <%= render 'abuse_reports/list', item: @domain %>
 <% end %>
 
-<p>This domain has been seen in <%= pluralize @counts[:all], 'post' %>, <%= @counts[:tp] %> TP.</p>
-
 <% if @domain.whois.present? %>
-  <pre><code><%= @domain.whois %></code></pre>
+  <pre><code><%= @domain.whois %></code></pre><br/>
 <% else %>
-    <p><em>No whois data available.</em></p>
+  <p><em>No whois data available.</em></p>
 <% end %>
+
+<h3>Linked domains</h3>
+<p><a href="#" data-toggle="modal" data-target="#new-link-modal">Link a domain</a></p>
+<div class="domain-links-list">
+  <% @domain.links.each do |l| %>
+    <%= render 'domain_links/link', link: l, domain: @domain %>
+  <% end %>
+</div>
+
+<h3>Posts</h3>
+<p>This domain has been seen in <%= pluralize @counts[:all], 'post' %>, <%= @counts[:tp] %> TP.</p>
 
 <table class="table">
   <tbody>
@@ -55,3 +58,42 @@
 </table>
 
 <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
+
+<div class="modal fade" id="new-link-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">New Domain Link</h4>
+      </div>
+      <div class="modal-body">
+        <%= form_for DomainLink.new, url: create_domain_link_path, remote: true, class: 'domain-link-form' do |f| %>
+          <%= f.hidden_field :left_id, value: @domain.id %>
+
+          <div class="field">
+            <%= f.label :right_id, 'Linked domain' %><br/>
+            <%= f.select :right_id, [], { include_blank: true }, class: 'form-control selectpicker',
+                         data: { remote_source: spam_domains_query_path, none_selected_text: 'Start typing to search for domains...' } %>
+          </div><br/>
+
+          <div class="field">
+            <%= f.label :link_type, 'Why are these linked?' %><br/>
+            <%= f.select :link_type, options_for_select(DomainLink.link_types.map { |lt| [lt, lt] }), { include_blank: true },
+                         class: 'form-control selectpicker', data: { none_selected_text: 'Pick an existing reason or type your own' } %>
+          </div><br/>
+
+          <div class="field">
+            <%= f.label :comments, 'Additional comments' %><br/>
+            <%= f.text_area :comments, rows: 5, cols: 100, placeholder: 'Expand on details here if necessary', class: 'form-control' %>
+          </div><br/>
+
+          <div class="clearfix">
+            <div class="pull-right actions">
+              <%= f.submit 'Link', class: 'btn btn-success' %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

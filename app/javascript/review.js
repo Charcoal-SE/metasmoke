@@ -1,4 +1,4 @@
-import { route } from './util';
+import { route, installSelectpickers } from './util';
 
 $(() => {
   $(document).on('ajax:success', 'a.feedback-button[data-remote]', e => {
@@ -19,6 +19,8 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
     });
     const html = await response.text();
     $('.review-item-container').html(html);
+
+    installSelectpickers();
   };
 
   if (!hasItemID) {
@@ -37,17 +39,6 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
 });
 
 route(/\/review\/untagged-domains(\/\d*)?/, () => {
-  $(document).on('click', '.review-add-domain-tag input[type=submit]', ev => {
-    const tags = $(ev.target).parent().find('#tag_list').children('option').map((i, e) => $(e).val());
-    const requested = $(ev.target).parent().find('.tag-name').val();
-    if (tags.toArray().indexOf(requested) === -1) {
-      const ok = confirm(`${requested} doesn't exist yet. Sure you want to create it?`);
-      if (!ok) {
-        return false;
-      }
-    }
-  });
-
   $(document).on('ajax:success', '.review-add-domain-tag', (e, data) => {
     const $noTags = $('.no-tags');
     if ($noTags.length > 0) {
@@ -57,6 +48,6 @@ route(/\/review\/untagged-domains(\/\d*)?/, () => {
     else {
       $('.domain-tag-list p').append(data);
     }
-    $(e.target).find('input[type=text]').val('');
+    $(e.target).find('select').selectpicker('val', null);
   });
 });

@@ -14,12 +14,7 @@ class SpamDomainsController < ApplicationController
                else
                  SpamDomain.all
                end.includes(:domain_tags).order(domain: :asc).paginate(page: params[:page], per_page: 100)
-    @counts = {
-      all: @domains.joins(:posts).group(Arel.sql('spam_domains.id')).count,
-      tp: @domains.joins(:posts).where(posts: { is_tp: true }).group(Arel.sql('spam_domains.id')).count,
-      fp: @domains.joins(:posts).where(posts: { is_fp: true }).group(Arel.sql('spam_domains.id')).count,
-      naa: @domains.joins(:posts).where(posts: { is_naa: true }).group(Arel.sql('spam_domains.id')).count
-    }
+    SpamDomain.preload_post_counts(@domains)
   end
 
   def create
@@ -60,6 +55,10 @@ class SpamDomainsController < ApplicationController
       flash[:danger] = 'Failed to remove domain.'
       render :show
     end
+  end
+
+  def query
+    render json: SpamDomain.where('domain LIKE ?', "%#{params[:q]}%").map { |d| { value: d.id, text: d.domain } }
   end
 
   private

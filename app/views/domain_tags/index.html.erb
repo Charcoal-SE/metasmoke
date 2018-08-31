@@ -16,7 +16,7 @@
   <tbody>
     <% @tags.each do |t| %>
       <tr>
-        <td><span class="label label-info">#<%= t.name %></span></td>
+        <td><span class="label label-info">#<%= t.name %></span> <span class="text-muted"><%= t.description&.truncate(100) %></span></td>
         <td><%= @counts[t.id] || 0 %></td>
         <td><%= link_to 'Details', domain_tag_path(t) %></td>
         <% if user_signed_in? && current_user.has_role?(:core) %>

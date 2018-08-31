@@ -1,0 +1,31 @@
+<div class="domain-link">
+  <% linked_domain = link.left == domain ? link.right : link.left %>
+  <strong><%= link_to linked_domain.domain, spam_domain_path(linked_domain) %></strong>
+  <span class="text-muted"><%= link.link_type %></span>
+  <% if link.comments.present? %>
+    <a href="#" data-toggle="modal" data-target="#link-modal-<%= link.id %>" class="text-warning">
+      <span class="glyphicon glyphicon-comment"></span>
+    </a>
+
+    <div class="modal fade" id="link-modal-<%= link.id %>">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Domain Link Details</h4>
+          </div>
+          <div class="modal-body">
+            <p>This domain (<%= domain.domain %>) is linked to <strong><%= link_to linked_domain.domain, spam_domain_path(linked_domain) %></strong>
+              <span class="text-muted">(<%= link.link_type %>)</span>.</p>
+            <p>Linked by <strong><%= link.creator.username %></strong> <%= time_ago_in_words(link.created_at) %> ago, with these comments:</p>
+            <blockquote><%= link.comments %></blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <span class="pull-right">
+    <%= link_to 'Delete', destroy_domain_link_path(link), method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-danger' %>
+  </span>
+</div>

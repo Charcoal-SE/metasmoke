@@ -13,7 +13,7 @@
     <% end %>
   </p>
 <% else %>
-  <%= link_to new_abuse_report_path(reportable_type: item.class.to_s, reportable_id: item.id) do %>
+  <p><%= link_to new_abuse_report_path(reportable_type: item.class.to_s, reportable_id: item.id) do %>
     <span class="glyphicon glyphicon-file"></span> Create Abuse Report
-  <% end %>
+  <% end %></p>
 <% end %>
