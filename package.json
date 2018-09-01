@@ -62,7 +62,7 @@
     "livestamp": "github:mattbradley/livestampjs#7572242",
     "moment": "^2.18.1",
     "turbolinks": "^5.0.3",
-    "tagging": "thesecretmaster/tagging#master"
+    "tagging": "github:thesecretmaster/tagging#master"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",

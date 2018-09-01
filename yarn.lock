@@ -5624,9 +5624,9 @@ table@^3.7.8:
     slice-ansi "0.0.4"
     string-width "^2.0.0"
 
-tagging@thesecretmaster/tagging#master:
+"tagging@github:thesecretmaster/tagging#master":
   version "0.0.4-a"
-  resolved "https://codeload.github.com/thesecretmaster/tagging/tar.gz/c61875b301682f3c83386912d95d285df31ade91"
+  resolved "https://codeload.github.com/thesecretmaster/tagging/tar.gz/97a3c20bd485851490f96355545eaa1ed42241ed"
   dependencies:
     css-loader ">0.0.0"
     style-loader ">0.0.0"
