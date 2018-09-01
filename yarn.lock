@@ -5624,9 +5624,9 @@ table@^3.7.8:
     slice-ansi "0.0.4"
     string-width "^2.0.0"
 
-tagging@^0.0.4-a:
+tagging@thesecretmaster/tagging#master:
   version "0.0.4-a"
-  resolved "https://registry.yarnpkg.com/tagging/-/tagging-0.0.4-a.tgz#9e2cd9095827a0868dc68b26c783027ef9135a41"
+  resolved "https://codeload.github.com/thesecretmaster/tagging/tar.gz/c61875b301682f3c83386912d95d285df31ade91"
   dependencies:
     css-loader ">0.0.0"
     style-loader ">0.0.0"

@@ -23,9 +23,14 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
     installSelectpickers();
 
     if (queuePath.includes('untagged-domains')) {
-      var a = document.getElementsByName('tag_name');
-      for (var i = 0; i < a.length; i++) {
+      let a = document.getElementsByName('tag_name');
+      for (let i = 0; i < a.length; i++) {
         Taggify.taggify_element(a[i]);
+        a[i].parentElement.addEventListener('tag_change', function() {
+          let form = $(this.parentElement);
+          let submit_btn = form.find('input[type=submit]');
+          submit_btn.removeClass('btn-success');
+        });
       }
     }
   };
@@ -46,12 +51,18 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
 });
 
 route(/\/review\/untagged-domains(\/\d*)?/, () => {
-  $(document).on('ajax:success', '.review-add-domain-tag', (e, data) => {
-    var a = document.getElementById('tag_name');
-    var form = $(a.parentElement.parentElement);
-    form.find('input[type=submit]').addClass('btn-success');
-    form.on('change', function() {
-      form.find('input[type=submit]').removeClass('btn-success');
-    });
+  $(document).on('ajax:success', '.review-add-domain-tag', (e) => {
+    let a = document.getElementById('tag_name');
+    a.removeAttribute('disabled');
+    let form = $(a.parentElement.parentElement);
+    let submit_btn = form.find('input[type=submit]');
+    submit_btn.addClass('btn-success');
+  });
+  $(document).on('ajax:failure', '.review-add-domain-tag', (e) => {
+    let a = document.getElementById('tag_name');
+    a.removeAttribute('disabled');
+    let form = $(a.parentElement.parentElement);
+    let submit_btn = form.find('input[type=submit]');
+    submit_btn.addClass('btn-danger');
   });
 });

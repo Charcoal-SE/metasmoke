@@ -27,9 +27,14 @@ class DomainTagsController < ApplicationController
   def add_review
     @domain = SpamDomain.find params[:domain_id]
     @domain.domain_tags = params[:tag_name].map do |tag_name|
-      DomainTag.find_or_create_by name: tag_name
+      dt = DomainTag.find_or_create_by name: tag_name
+      @domain.domain_tags.map(&:id).include?(dt.id) ? nil : dt
+    end.reject(&:nil?)
+    if @domain.save
+      render json: { status: 200, message: "Successfully updated tags" }, status: 200
+    else
+      render text: "Failed to update tags", status: 500
     end
-    render 'domain_tags/_tag', locals: { tag: @tag, domain: @domain }, layout: nil
   end
 
   def add_post
