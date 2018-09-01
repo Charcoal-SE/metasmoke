@@ -53,7 +53,7 @@ GIT
 
 GIT
   remote: https://github.com/thesecretmaster/capistrano-yarn
-  revision: 8e832e697ae6017bf7791044926d9a848144fae4
+  revision: 0eb8291a84d69701bc0cb34a6e26e261689ad4a5
   specs:
     capistrano-yarn (2.0.2)
       capistrano (~> 3.0)
