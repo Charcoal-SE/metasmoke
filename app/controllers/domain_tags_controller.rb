@@ -59,7 +59,9 @@ class DomainTagsController < ApplicationController
       @posts = @tag.posts.includes_for_post_row.paginate(page: params[:page], per_page: 100)
       @sites = Site.where(id: @posts.map(&:site_id))
     else
-      @domains = @tag.spam_domains.paginate(page: params[:page], per_page: 100)
+      @domains = @tag.spam_domains
+      puts @domains
+      @domains = @domains.paginate(page: params[:page], per_page: 100)
       @counts = SpamDomain.where(id: @domains.map(&:id)).joins(:posts).group(Arel.sql('spam_domains.id')).count
     end
   end
