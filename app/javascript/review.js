@@ -30,6 +30,7 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
           const form = $(this.parentElement);
           const submitBtn = form.find('input[type=submit]');
           submitBtn.removeClass('btn-success');
+          submitBtn.removeClass('btn-danger');
         });
       }
     }

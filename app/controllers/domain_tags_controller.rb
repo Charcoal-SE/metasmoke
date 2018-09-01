@@ -33,7 +33,7 @@ class DomainTagsController < ApplicationController
     if @domain.save
       render json: { status: 200, message: 'Successfully updated tags' }, status: 200
     else
-      render text: 'Failed to update tags', status: 500
+      render json: { status: 500, message: 'Failed to update tags' }, status: 500
     end
   end
 
