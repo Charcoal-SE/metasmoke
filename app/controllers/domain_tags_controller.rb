@@ -31,9 +31,9 @@ class DomainTagsController < ApplicationController
       @domain.domain_tags.map(&:id).include?(dt.id) ? nil : dt
     end.reject(&:nil?)
     if @domain.save
-      render json: { status: 200, message: "Successfully updated tags" }, status: 200
+      render json: { status: 200, message: 'Successfully updated tags' }, status: 200
     else
-      render text: "Failed to update tags", status: 500
+      render text: 'Failed to update tags', status: 500
     end
   end
 

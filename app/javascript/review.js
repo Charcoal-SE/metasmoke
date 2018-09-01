@@ -23,13 +23,13 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
     installSelectpickers();
 
     if (queuePath.includes('untagged-domains')) {
-      let a = document.getElementsByName('tag_name');
-      for (let i = 0; i < a.length; i++) {
-        Taggify.taggify_element(a[i]);
-        a[i].parentElement.addEventListener('tag_change', function() {
-          let form = $(this.parentElement);
-          let submit_btn = form.find('input[type=submit]');
-          submit_btn.removeClass('btn-success');
+      const taggify_inputs = document.getElementsByName('tag_name');
+      for (let i = 0; i < taggify_inputs.length; i++) {
+        Taggify.taggify_element(taggify_inputs[i]);
+        taggify_inputs[i].parentElement.addEventListener('tag_change', function () {
+          const form = $(this.parentElement);
+          const submitBtn = form.find('input[type=submit]');
+          submitBtn.removeClass('btn-success');
         });
       }
     }
@@ -51,18 +51,18 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
 });
 
 route(/\/review\/untagged-domains(\/\d*)?/, () => {
-  $(document).on('ajax:success', '.review-add-domain-tag', (e) => {
-    let a = document.getElementById('tag_name');
-    a.removeAttribute('disabled');
-    let form = $(a.parentElement.parentElement);
-    let submit_btn = form.find('input[type=submit]');
-    submit_btn.addClass('btn-success');
+  $(document).on('ajax:success', '.review-add-domain-tag', () => {
+    const taggify_input = document.getElementById('tag_name');
+    taggify_input.removeAttribute('disabled');
+    const form = $(taggify_input.parentElement.parentElement);
+    const submitBtn = form.find('input[type=submit]');
+    submitBtn.addClass('btn-success');
   });
-  $(document).on('ajax:failure', '.review-add-domain-tag', (e) => {
-    let a = document.getElementById('tag_name');
-    a.removeAttribute('disabled');
-    let form = $(a.parentElement.parentElement);
-    let submit_btn = form.find('input[type=submit]');
-    submit_btn.addClass('btn-danger');
+  $(document).on('ajax:failure', '.review-add-domain-tag', () => {
+    const taggify_input = document.getElementById('tag_name');
+    taggify_input.removeAttribute('disabled');
+    const form = $(taggify_input.parentElement.parentElement);
+    const submitBtn = form.find('input[type=submit]');
+    submitBtn.addClass('btn-danger');
   });
 });
