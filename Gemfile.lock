@@ -51,13 +51,6 @@ GIT
       responders
       warden (~> 1.2.3)
 
-GIT
-  remote: https://github.com/thesecretmaster/capistrano-yarn
-  revision: 0eb8291a84d69701bc0cb34a6e26e261689ad4a5
-  specs:
-    capistrano-yarn (2.0.2)
-      capistrano (~> 3.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -145,6 +138,8 @@ GEM
       sshkit (~> 1.2)
     capistrano-locally (0.2.5)
       capistrano (~> 3.0)
+    capistrano-npm (1.0.2)
+      capistrano (>= 3.0.0)
     capistrano-passenger (0.2.0)
       capistrano (~> 3.0)
     capistrano-rails (1.4.0)
@@ -447,12 +442,12 @@ DEPENDENCIES
   capistrano-bundler
   capistrano-faster-assets!
   capistrano-locally
+  capistrano-npm
   capistrano-passenger
   capistrano-rails
   capistrano-rvm
   capistrano-secrets-yml
   capistrano-upload-config
-  capistrano-yarn!
   chartkick
   coffee-rails (~> 4.2.0)
   db_fixtures_dump!

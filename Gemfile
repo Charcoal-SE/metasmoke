@@ -84,7 +84,8 @@ gem 'capistrano-rails'
 gem 'capistrano-rvm'
 gem 'capistrano-secrets-yml'
 gem 'capistrano-upload-config'
-gem 'capistrano-yarn', git: 'https://github.com/thesecretmaster/capistrano-yarn'
+# gem 'capistrano-yarn', git: 'https://github.com/thesecretmaster/capistrano-yarn'
+gem 'capistrano-npm'
 
 group :development do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
