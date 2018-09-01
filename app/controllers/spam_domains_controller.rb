@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SpamDomainsController < ApplicationController
-  before_action :check_if_smokedetector, only: [:create]
+  before_action :check_if_smokedetector, only: [:create_from_post]
   before_action :authenticate_user!, only: [:edit, :update, :destroy]
   before_action :verify_core, only: [:edit, :update]
   before_action :verify_admin, only: [:destroy]
@@ -17,7 +17,7 @@ class SpamDomainsController < ApplicationController
     SpamDomain.preload_post_counts(@domains)
   end
 
-  def create
+  def create_from_post
     @post = Post.find params[:post_id]
     domains = params[:domains]
     domains.each do |d|
@@ -37,8 +37,19 @@ class SpamDomainsController < ApplicationController
 
   def edit; end
 
+  def new
+    @domain = SpamDomain.new
+  end
+
+  def create
+    @domain = SpamDomain.new domain_params
+    @domain.save
+
+    redirect_to action: :show, id: @domain.id
+  end
+
   def update
-    if @domain.update domain_params
+    if @domain.update domain_params.tap { |d| d.delete(:domain) }
       flash[:success] = 'Updated successfully.'
       redirect_to spam_domain_path(@domain)
     else
@@ -68,6 +79,6 @@ class SpamDomainsController < ApplicationController
   end
 
   def domain_params
-    params.require(:spam_domain).permit(:whois)
+    params.require(:spam_domain).permit(:whois, :domain)
   end
 end
