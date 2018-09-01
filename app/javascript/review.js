@@ -23,10 +23,10 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
     installSelectpickers();
 
     if (queuePath.includes('untagged-domains')) {
-      const taggify_inputs = document.getElementsByName('tag_name');
-      for (let i = 0; i < taggify_inputs.length; i++) {
-        Taggify.taggify_element(taggify_inputs[i]);
-        taggify_inputs[i].parentElement.addEventListener('tag_change', function () {
+      const taggifyInputs = document.getElementsByName('tag_name');
+      for (let i = 0; i < taggifyInputs.length; i++) {
+        window.Taggify.taggify_element(taggifyInputs[i]);
+        taggifyInputs[i].parentElement.addEventListener('tag_change', function () {
           const form = $(this.parentElement);
           const submitBtn = form.find('input[type=submit]');
           submitBtn.removeClass('btn-success');
@@ -52,16 +52,16 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
 
 route(/\/review\/untagged-domains(\/\d*)?/, () => {
   $(document).on('ajax:success', '.review-add-domain-tag', () => {
-    const taggify_input = document.getElementById('tag_name');
-    taggify_input.removeAttribute('disabled');
-    const form = $(taggify_input.parentElement.parentElement);
+    const taggifyInput = document.getElementById('tag_name');
+    taggifyInput.removeAttribute('disabled');
+    const form = $(taggifyInput.parentElement.parentElement);
     const submitBtn = form.find('input[type=submit]');
     submitBtn.addClass('btn-success');
   });
   $(document).on('ajax:failure', '.review-add-domain-tag', () => {
-    const taggify_input = document.getElementById('tag_name');
-    taggify_input.removeAttribute('disabled');
-    const form = $(taggify_input.parentElement.parentElement);
+    const taggifyInput = document.getElementById('tag_name');
+    taggifyInput.removeAttribute('disabled');
+    const form = $(taggifyInput.parentElement.parentElement);
     const submitBtn = form.find('input[type=submit]');
     submitBtn.addClass('btn-danger');
   });
