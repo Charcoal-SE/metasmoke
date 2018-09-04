@@ -212,7 +212,7 @@ class GithubController < ApplicationController
         redis.incr "sucessful_ci_count/#{sha}"
         redis.expire "sucessful_ci_count/#{sha}", 600
         return unless redis.get "sucessful_ci_count/#{sha}" == 3
-        content = 'ci/circleci'
+        context = 'ci/circleci'
       else
         redis.set "sucessful_ci_count/#{sha}", 0
         redis.expire "sucessful_ci_count/#{sha}", 600
