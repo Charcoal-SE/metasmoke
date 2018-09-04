@@ -28,16 +28,16 @@ class DeveloperController < ApplicationController
     message = "[ [metasmoke-deploy](//travis-ci.org/Undo1/metasmoke-deploy) ] deploy started by #{current_user.username}"
     SmokeDetector.send_message_to_charcoal(message)
 
-    HTTParty.post("https://api.travis-ci.org/repo/19152912/requests", headers: {
-      'Content-Type' => 'application/json',
-      'Accept' => 'application/json',
-      'Travis-API-Version' => '3',
-      'Authorization' => "token #{AppConfig["travis"]["token"]}"
-    }, body: {
-      request: {
-        branch: 'master'
-      }
-    }.to_json)
+    HTTParty.post('https://api.travis-ci.org/repo/19152912/requests', headers: {
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json',
+                    'Travis-API-Version' => '3',
+                    'Authorization' => "token #{AppConfig['travis']['token']}"
+                  }, body: {
+                    request: {
+                      branch: 'master'
+                    }
+                  }.to_json)
 
     redirect_to 'https://travis-ci.org/Undo1/metasmoke-deploy'
   end

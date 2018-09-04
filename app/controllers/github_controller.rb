@@ -209,14 +209,14 @@ class GithubController < ApplicationController
     if context.start_with? 'ci/circleci'
       logger = Logger.new(File.join(Rails.root, 'log/circleci.log'))
       redis = Redis.new
-      logger.info "================= BEFORE ================="
+      logger.info '================= BEFORE ================='
       logger.info redis
       logger.info "Context: #{context}"
       logger.info "State: #{state}"
       logger.info "SHA: #{sha}"
       logger.info "TTL: #{redis.ttl "sucessful_ci_count/#{sha}"}"
       logger.info "Value: #{redis.get "sucessful_ci_count/#{sha}"}"
-      logger.info "=========================================="
+      logger.info '=========================================='
       if state == 'success'
         logger.info "Incrimenting sucessful_ci_count/#{sha}"
         redis.incr "sucessful_ci_count/#{sha}"
