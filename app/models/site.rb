@@ -10,6 +10,6 @@ class Site < ApplicationRecord
   has_and_belongs_to_many :user_site_settings
   has_and_belongs_to_many :flag_conditions
 
-  scope(:mains, -> { where(is_child_meta: false) })
-  scope(:metas, -> { where(is_child_meta: true) })
+  scope(:mains, -> { where(is_child_meta: false, closed: false) })
+  scope(:metas, -> { where(is_child_meta: true, closed: false) })
 end
