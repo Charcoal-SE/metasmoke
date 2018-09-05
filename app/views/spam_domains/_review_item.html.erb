@@ -18,7 +18,7 @@
     <%= text_field_tag :tag_name, '', class: 'form-control input-sm', 'taggify-datalist': 'tag_list', 'taggify-initial-tags': domain.domain_tags.map(&:name).join(',') %>
     <datalist id="tag_list">
       <% DomainTag.all.each do |t| %>
-        <option value="<%= t.name %>"></option>
+        <option value="<%= t.name %>"><%= t.description %></option>
       <% end %>
     </datalist>
     <%= submit_tag 'Add', class: 'btn btn-primary' %>
