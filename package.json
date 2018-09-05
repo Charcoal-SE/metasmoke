@@ -64,8 +64,7 @@
     "jquery-ujs": "^1.2.2",
     "livestamp": "github:mattbradley/livestampjs#7572242",
     "moment": "^2.18.1",
-    "turbolinks": "^5.0.3",
-    "tagging": "^0.0.4-a"
+    "turbolinks": "^5.0.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",

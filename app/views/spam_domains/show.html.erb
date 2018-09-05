@@ -10,25 +10,25 @@
     <% end %>
   </p>
 <% end %>
-<div class="clearfix domain-tag-list row">
-  <%= form_tag add_domain_tag_path, method: :post, class: 'form-inline pull-left add-domain-tag' do %>
-    <%= hidden_field_tag :domain_id, @domain.id %>
-    <%= text_field_tag :tag_name, '', class: 'form-control input-sm', 'taggify-datalist': 'tag_list', 'taggify-initial-tags': @domain.domain_tags.map(&:name).join(',') %>
-    <datalist id="tag_list">
-      <% DomainTag.all.each do |t| %>
-        <option value="<%= t.name %>"></option>
+<div class="clearfix domain-tag-list">
+  <p class="pull-left">
+    <% if @domain.domain_tags.any? %>
+      Tagged with:
+      <% @domain.domain_tags.each do |t| %>
+        <%= render 'domain_tags/tag', tag: t, domain: @domain %>
       <% end %>
-    </datalist>
-    <%= submit_tag 'Add', class: 'btn btn-primary btn-sm' %>
+    <% else %>
+      <em>No tags.</em>
+    <% end %>
+  </p>
+
+  <%= form_tag add_domain_tag_path, method: :post, class: 'form-inline add-domain-tag' do %>
+    <%= hidden_field_tag :domain_id, @domain.id %>
+    <%= select_tag :tag_name, options_for_select(DomainTag.all.map { |dt| [dt.name, dt.name, { 'data-subtext' => dt.description&.truncate(100) }] }),
+                   class: 'selectpicker', include_blank: true %>
+    <%= submit_tag 'Add', class: 'btn btn-primary' %>
   <% end %>
 </div>
-
-<script>
-$(document).on('turbolinks:load', function() {
-  var a = document.getElementsByClassName('add-domain-tag')[0].children[3];
-  Taggify.taggify_element(a);
-});
-</script>
 
 <% if current_user&.has_role?(:core) %>
   <%= render 'abuse_reports/list', item: @domain %>
