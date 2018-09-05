@@ -220,8 +220,9 @@ class GithubController < ApplicationController
       if state == 'success'
         logger.info "Incrimenting sucessful_ci_count/#{sha}"
         redis.incr "sucessful_ci_count/#{sha}"
-        redis.expire "sucessful_ci_count/#{sha}", 600
-        return unless redis.get "sucessful_ci_count/#{sha}" == 3
+        redis.expire "sucessful_ci_count/#{sha}", 1200
+        logger.info "Value: #{redis.get "sucessful_ci_count/#{sha}"}"
+        return unless redis.get("sucessful_ci_count/#{sha}").to_i == 3
         context = 'ci/circleci'
       else
         logger.info "Resetting sucessful_ci_count/#{sha}"
