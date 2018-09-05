@@ -35,6 +35,7 @@ class Feedback < ApplicationRecord
           end
         end
 
+        names = post.eligible_flaggers.map { |u| "@#{u.username.tr(' ', '')}" }
         message = "fp feedback on autoflagged post: [#{post.title}](#{post.link}) [MS]" \
                   "(//metasmoke.erwaysoftware.com/post/#{post_id}) (#{names.join ' '})"
         ActionCable.server.broadcast 'smokedetector_messages', autoflag_fp: { message: message, site: post.site.site_domain }

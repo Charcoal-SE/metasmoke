@@ -206,6 +206,19 @@ class GithubController < ApplicationController
 
     return if state == 'pending' || (state == 'success' && context == 'github/pages')
 
+    if context.start_with? 'ci/circleci'
+      redis = Redis.new
+      if state == 'success'
+        redis.incr "successful_ci_count/#{sha}"
+        redis.expire "successful_ci_count/#{sha}", 1200
+        return unless redis.get("successful_ci_count/#{sha}").to_i == 3
+        context = 'ci/circleci'
+      else
+        redis.set "successful_ci_count/#{sha}", 0
+        redis.expire "successful_ci_count/#{sha}", 1200
+      end
+    end
+
     message = "[ [#{repo.sub('Charcoal-SE/', '')}](#{link}) ]"
     message += " #{context} "
     message += if target.present?

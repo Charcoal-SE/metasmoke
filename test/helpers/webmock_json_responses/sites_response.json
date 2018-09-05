@@ -1,1999 +1,2296 @@
 {
-  "items": [
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/stackoverflow\/img\/favicon.ico",
-      "site_url": "http:\/\/stackoverflow.com",
-      "name": "Stack Overflow",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/serverfault\/img\/favicon.ico",
-      "site_url": "http:\/\/serverfault.com",
-      "name": "Server Fault",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/superuser\/img\/favicon.ico",
-      "site_url": "https:\/\/superuser.com",
-      "name": "Super User",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/meta.stackexchange.com\/content\/Sites\/stackexchangemeta\/img\/favicon.ico",
-      "site_url": "https:\/\/meta.stackexchange.com",
-      "name": "Meta Stack Exchange",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/webapps\/img\/favicon.ico",
-      "site_url": "http:\/\/webapps.stackexchange.com",
-      "name": "Web Applications",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/webappsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/webapps.meta.stackexchange.com",
-      "name": "Web Applications Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/gaming\/img\/favicon.ico",
-      "site_url": "http:\/\/gaming.stackexchange.com",
-      "name": "Arqade",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/gamingmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/gaming.meta.stackexchange.com",
-      "name": "Arqade Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/webmasters\/img\/favicon.ico",
-      "site_url": "http:\/\/webmasters.stackexchange.com",
-      "name": "Webmasters",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/webmastersmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/webmasters.meta.stackexchange.com",
-      "name": "Webmasters Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/cooking\/img\/favicon.ico",
-      "site_url": "http:\/\/cooking.stackexchange.com",
-      "name": "Seasoned Advice",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/cookingmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/cooking.meta.stackexchange.com",
-      "name": "Seasoned Advice Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/gamedev\/img\/favicon.ico",
-      "site_url": "http:\/\/gamedev.stackexchange.com",
-      "name": "Game Development",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/gamedevmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/gamedev.meta.stackexchange.com",
-      "name": "Game Development Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/photo\/img\/favicon.ico",
-      "site_url": "http:\/\/photo.stackexchange.com",
-      "name": "Photography",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/photometa\/img\/favicon.ico",
-      "site_url": "https:\/\/photo.meta.stackexchange.com",
-      "name": "Photography Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/stats\/img\/favicon.ico",
-      "site_url": "http:\/\/stats.stackexchange.com",
-      "name": "Cross Validated",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/statsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/stats.meta.stackexchange.com",
-      "name": "Cross Validated Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/math\/img\/favicon.ico",
-      "site_url": "http:\/\/math.stackexchange.com",
-      "name": "Mathematics",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/mathmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/math.meta.stackexchange.com",
-      "name": "Mathematics Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/diy\/img\/favicon.ico",
-      "site_url": "http:\/\/diy.stackexchange.com",
-      "name": "Home Improvement",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/diymeta\/img\/favicon.ico",
-      "site_url": "https:\/\/diy.meta.stackexchange.com",
-      "name": "Home Improvement Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/superusermeta\/img\/favicon.ico",
-      "site_url": "https:\/\/meta.superuser.com",
-      "name": "Meta Super User",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/serverfaultmeta\/img\/favicon.ico",
-      "site_url": "http:\/\/meta.serverfault.com",
-      "name": "Meta Server Fault",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/gis\/img\/favicon.ico",
-      "site_url": "http:\/\/gis.stackexchange.com",
-      "name": "Geographic Information Systems",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/gismeta\/img\/favicon.ico",
-      "site_url": "https:\/\/gis.meta.stackexchange.com",
-      "name": "Geographic Information Systems Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/tex\/img\/favicon.ico",
-      "site_url": "http:\/\/tex.stackexchange.com",
-      "name": "TeX - LaTeX",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/texmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/tex.meta.stackexchange.com",
-      "name": "TeX - LaTeX Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/askubuntu\/img\/favicon.ico",
-      "site_url": "http:\/\/askubuntu.com",
-      "name": "Ask Ubuntu",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/askubuntumeta\/img\/favicon.ico",
-      "site_url": "http:\/\/meta.askubuntu.com",
-      "name": "Ask Ubuntu Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/money\/img\/favicon.ico",
-      "site_url": "http:\/\/money.stackexchange.com",
-      "name": "Personal Finance &amp; Money",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/moneymeta\/img\/favicon.ico",
-      "site_url": "https:\/\/money.meta.stackexchange.com",
-      "name": "Personal Finance &amp; Money Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/english\/img\/favicon.ico",
-      "site_url": "http:\/\/english.stackexchange.com",
-      "name": "English Language &amp; Usage",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/englishmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/english.meta.stackexchange.com",
-      "name": "English Language &amp; Usage Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/stackapps\/img\/favicon.ico",
-      "site_url": "http:\/\/stackapps.com",
-      "name": "Stack Apps",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/ux\/img\/favicon.ico",
-      "site_url": "http:\/\/ux.stackexchange.com",
-      "name": "User Experience",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/uxmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/ux.meta.stackexchange.com",
-      "name": "User Experience Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/unix\/img\/favicon.ico",
-      "site_url": "http:\/\/unix.stackexchange.com",
-      "name": "Unix &amp; Linux",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/unixmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/unix.meta.stackexchange.com",
-      "name": "Unix &amp; Linux Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/wordpress\/img\/favicon.ico",
-      "site_url": "http:\/\/wordpress.stackexchange.com",
-      "name": "WordPress Development",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/wordpressmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/wordpress.meta.stackexchange.com",
-      "name": "WordPress Development Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/cstheory\/img\/favicon.ico",
-      "site_url": "http:\/\/cstheory.stackexchange.com",
-      "name": "Theoretical Computer Science",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/cstheorymeta\/img\/favicon.ico",
-      "site_url": "https:\/\/cstheory.meta.stackexchange.com",
-      "name": "Theoretical Computer Science Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/apple\/img\/favicon.ico",
-      "site_url": "http:\/\/apple.stackexchange.com",
-      "name": "Ask Different",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/applemeta\/img\/favicon.ico",
-      "site_url": "https:\/\/apple.meta.stackexchange.com",
-      "name": "Ask Different Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/rpg\/img\/favicon.ico",
-      "site_url": "http:\/\/rpg.stackexchange.com",
-      "name": "Role-playing Games",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/rpgmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/rpg.meta.stackexchange.com",
-      "name": "Role-playing Games Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/bicycles\/img\/favicon.ico",
-      "site_url": "http:\/\/bicycles.stackexchange.com",
-      "name": "Bicycles",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/bicyclesmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/bicycles.meta.stackexchange.com",
-      "name": "Bicycles Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/softwareengineering\/img\/favicon.ico",
-      "site_url": "http:\/\/softwareengineering.stackexchange.com",
-      "name": "Software Engineering",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/softwareengineeringmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/softwareengineering.meta.stackexchange.com",
-      "name": "Software Engineering Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/electronics\/img\/favicon.ico",
-      "site_url": "http:\/\/electronics.stackexchange.com",
-      "name": "Electrical Engineering",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/electronicsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/electronics.meta.stackexchange.com",
-      "name": "Electrical Engineering Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/android\/img\/favicon.ico",
-      "site_url": "http:\/\/android.stackexchange.com",
-      "name": "Android Enthusiasts",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/androidmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/android.meta.stackexchange.com",
-      "name": "Android Enthusiasts Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/boardgames\/img\/favicon.ico",
-      "site_url": "http:\/\/boardgames.stackexchange.com",
-      "name": "Board &amp; Card Games",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/boardgamesmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/boardgames.meta.stackexchange.com",
-      "name": "Board &amp; Card Games Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/physics\/img\/favicon.ico",
-      "site_url": "http:\/\/physics.stackexchange.com",
-      "name": "Physics",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/physicsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/physics.meta.stackexchange.com",
-      "name": "Physics Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/homebrew\/img\/favicon.ico",
-      "site_url": "http:\/\/homebrew.stackexchange.com",
-      "name": "Homebrewing",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/homebrewmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/homebrew.meta.stackexchange.com",
-      "name": "Homebrewing Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/security\/img\/favicon.ico",
-      "site_url": "https:\/\/security.stackexchange.com",
-      "name": "Information Security",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/securitymeta\/img\/favicon.ico",
-      "site_url": "https:\/\/security.meta.stackexchange.com",
-      "name": "Information Security Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/writers\/img\/favicon.ico",
-      "site_url": "http:\/\/writers.stackexchange.com",
-      "name": "Writers",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/writersmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/writers.meta.stackexchange.com",
-      "name": "Writers Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/avp\/img\/favicon.ico",
-      "site_url": "http:\/\/video.stackexchange.com",
-      "name": "Video Production",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/avpmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/video.meta.stackexchange.com",
-      "name": "Video Production Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/graphicdesign\/img\/favicon.ico",
-      "site_url": "http:\/\/graphicdesign.stackexchange.com",
-      "name": "Graphic Design",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/graphicdesignmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/graphicdesign.meta.stackexchange.com",
-      "name": "Graphic Design Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/dba\/img\/favicon.ico",
-      "site_url": "http:\/\/dba.stackexchange.com",
-      "name": "Database Administrators",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/dbameta\/img\/favicon.ico",
-      "site_url": "https:\/\/dba.meta.stackexchange.com",
-      "name": "Database Administrators Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/scifi\/img\/favicon.ico",
-      "site_url": "http:\/\/scifi.stackexchange.com",
-      "name": "Science Fiction &amp; Fantasy",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/scifimeta\/img\/favicon.ico",
-      "site_url": "https:\/\/scifi.meta.stackexchange.com",
-      "name": "Science Fiction &amp; Fantasy Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/codereview\/img\/favicon.ico",
-      "site_url": "http:\/\/codereview.stackexchange.com",
-      "name": "Code Review",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/codereviewmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/codereview.meta.stackexchange.com",
-      "name": "Code Review Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/codegolf\/img\/favicon.ico",
-      "site_url": "http:\/\/codegolf.stackexchange.com",
-      "name": "Programming Puzzles &amp; Code Golf",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/codegolfmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/codegolf.meta.stackexchange.com",
-      "name": "Programming Puzzles &amp; Code Golf Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/quant\/img\/favicon.ico",
-      "site_url": "http:\/\/quant.stackexchange.com",
-      "name": "Quantitative Finance",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/quantmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/quant.meta.stackexchange.com",
-      "name": "Quantitative Finance Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/pm\/img\/favicon.ico",
-      "site_url": "http:\/\/pm.stackexchange.com",
-      "name": "Project Management",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/pmmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/pm.meta.stackexchange.com",
-      "name": "Project Management Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/skeptics\/img\/favicon.ico",
-      "site_url": "http:\/\/skeptics.stackexchange.com",
-      "name": "Skeptics",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/skepticsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/skeptics.meta.stackexchange.com",
-      "name": "Skeptics Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/fitness\/img\/favicon.ico",
-      "site_url": "http:\/\/fitness.stackexchange.com",
-      "name": "Physical Fitness",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/fitnessmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/fitness.meta.stackexchange.com",
-      "name": "Physical Fitness Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/drupal\/img\/favicon.ico",
-      "site_url": "http:\/\/drupal.stackexchange.com",
-      "name": "Drupal Answers",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/drupalmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/drupal.meta.stackexchange.com",
-      "name": "Drupal Answers Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/mechanics\/img\/favicon.ico",
-      "site_url": "http:\/\/mechanics.stackexchange.com",
-      "name": "Motor Vehicle Maintenance &amp; Repair",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/mechanicsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/mechanics.meta.stackexchange.com",
-      "name": "Motor Vehicle Maintenance &amp; Repair Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/parenting\/img\/favicon.ico",
-      "site_url": "http:\/\/parenting.stackexchange.com",
-      "name": "Parenting",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/parentingmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/parenting.meta.stackexchange.com",
-      "name": "Parenting Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/sharepoint\/img\/favicon.ico",
-      "site_url": "http:\/\/sharepoint.stackexchange.com",
-      "name": "SharePoint",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/sharepointmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/sharepoint.meta.stackexchange.com",
-      "name": "SharePoint Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/music\/img\/favicon.ico",
-      "site_url": "http:\/\/music.stackexchange.com",
-      "name": "Music: Practice &amp; Theory",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/musicmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/music.meta.stackexchange.com",
-      "name": "Music: Practice &amp; Theory Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/sqa\/img\/favicon.ico",
-      "site_url": "http:\/\/sqa.stackexchange.com",
-      "name": "Software Quality Assurance &amp; Testing",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/sqameta\/img\/favicon.ico",
-      "site_url": "https:\/\/sqa.meta.stackexchange.com",
-      "name": "Software Quality Assurance &amp; Testing Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/judaism\/img\/favicon.ico",
-      "site_url": "http:\/\/judaism.stackexchange.com",
-      "name": "Mi Yodeya",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/judaismmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/judaism.meta.stackexchange.com",
-      "name": "Mi Yodeya Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/german\/img\/favicon.ico",
-      "site_url": "http:\/\/german.stackexchange.com",
-      "name": "German Language",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/germanmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/german.meta.stackexchange.com",
-      "name": "German Language Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/japanese\/img\/favicon.ico",
-      "site_url": "http:\/\/japanese.stackexchange.com",
-      "name": "Japanese Language",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/japanesemeta\/img\/favicon.ico",
-      "site_url": "https:\/\/japanese.meta.stackexchange.com",
-      "name": "Japanese Language Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/philosophy\/img\/favicon.ico",
-      "site_url": "http:\/\/philosophy.stackexchange.com",
-      "name": "Philosophy",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/philosophymeta\/img\/favicon.ico",
-      "site_url": "https:\/\/philosophy.meta.stackexchange.com",
-      "name": "Philosophy Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/gardening\/img\/favicon.ico",
-      "site_url": "http:\/\/gardening.stackexchange.com",
-      "name": "Gardening &amp; Landscaping",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/gardeningmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/gardening.meta.stackexchange.com",
-      "name": "Gardening &amp; Landscaping Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/travel\/img\/favicon.ico",
-      "site_url": "http:\/\/travel.stackexchange.com",
-      "name": "Travel",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/travelmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/travel.meta.stackexchange.com",
-      "name": "Travel Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/productivity\/img\/favicon.ico",
-      "site_url": "http:\/\/productivity.stackexchange.com",
-      "name": "Personal Productivity",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/productivitymeta\/img\/favicon.ico",
-      "site_url": "https:\/\/productivity.meta.stackexchange.com",
-      "name": "Personal Productivity Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/crypto\/img\/favicon.ico",
-      "site_url": "http:\/\/crypto.stackexchange.com",
-      "name": "Cryptography",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/cryptometa\/img\/favicon.ico",
-      "site_url": "https:\/\/crypto.meta.stackexchange.com",
-      "name": "Cryptography Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/dsp\/img\/favicon.ico",
-      "site_url": "http:\/\/dsp.stackexchange.com",
-      "name": "Signal Processing",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/dspmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/dsp.meta.stackexchange.com",
-      "name": "Signal Processing Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/french\/img\/favicon.ico",
-      "site_url": "http:\/\/french.stackexchange.com",
-      "name": "French Language",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/frenchmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/french.meta.stackexchange.com",
-      "name": "French Language Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/christianity\/img\/favicon.ico",
-      "site_url": "http:\/\/christianity.stackexchange.com",
-      "name": "Christianity",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/christianitymeta\/img\/favicon.ico",
-      "site_url": "https:\/\/christianity.meta.stackexchange.com",
-      "name": "Christianity Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/bitcoin\/img\/favicon.ico",
-      "site_url": "http:\/\/bitcoin.stackexchange.com",
-      "name": "Bitcoin",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/bitcoinmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/bitcoin.meta.stackexchange.com",
-      "name": "Bitcoin Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/linguistics\/img\/favicon.ico",
-      "site_url": "http:\/\/linguistics.stackexchange.com",
-      "name": "Linguistics",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/linguisticsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/linguistics.meta.stackexchange.com",
-      "name": "Linguistics Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/hermeneutics\/img\/favicon.ico",
-      "site_url": "http:\/\/hermeneutics.stackexchange.com",
-      "name": "Biblical Hermeneutics",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/hermeneuticsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/hermeneutics.meta.stackexchange.com",
-      "name": "Biblical Hermeneutics Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/history\/img\/favicon.ico",
-      "site_url": "http:\/\/history.stackexchange.com",
-      "name": "History",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/historymeta\/img\/favicon.ico",
-      "site_url": "https:\/\/history.meta.stackexchange.com",
-      "name": "History Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/bricks\/img\/favicon.ico",
-      "site_url": "http:\/\/bricks.stackexchange.com",
-      "name": "LEGO&#174; Answers",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/bricksmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/bricks.meta.stackexchange.com",
-      "name": "LEGO&#174; Answers Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/spanish\/img\/favicon.ico",
-      "site_url": "http:\/\/spanish.stackexchange.com",
-      "name": "Spanish Language",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/spanishmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/spanish.meta.stackexchange.com",
-      "name": "Spanish Language Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/scicomp\/img\/favicon.ico",
-      "site_url": "http:\/\/scicomp.stackexchange.com",
-      "name": "Computational Science",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/scicompmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/scicomp.meta.stackexchange.com",
-      "name": "Computational Science Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/movies\/img\/favicon.ico",
-      "site_url": "http:\/\/movies.stackexchange.com",
-      "name": "Movies &amp; TV",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/moviesmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/movies.meta.stackexchange.com",
-      "name": "Movies &amp; TV Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/chinese\/img\/favicon.ico",
-      "site_url": "http:\/\/chinese.stackexchange.com",
-      "name": "Chinese Language",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/chinesemeta\/img\/favicon.ico",
-      "site_url": "https:\/\/chinese.meta.stackexchange.com",
-      "name": "Chinese Language Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/biology\/img\/favicon.ico",
-      "site_url": "http:\/\/biology.stackexchange.com",
-      "name": "Biology",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/biologymeta\/img\/favicon.ico",
-      "site_url": "https:\/\/biology.meta.stackexchange.com",
-      "name": "Biology Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/poker\/img\/favicon.ico",
-      "site_url": "http:\/\/poker.stackexchange.com",
-      "name": "Poker",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/pokermeta\/img\/favicon.ico",
-      "site_url": "https:\/\/poker.meta.stackexchange.com",
-      "name": "Poker Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/mathematica\/img\/favicon.ico",
-      "site_url": "http:\/\/mathematica.stackexchange.com",
-      "name": "Mathematica",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/mathematicameta\/img\/favicon.ico",
-      "site_url": "https:\/\/mathematica.meta.stackexchange.com",
-      "name": "Mathematica Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/cogsci\/img\/favicon.ico",
-      "site_url": "http:\/\/cogsci.stackexchange.com",
-      "name": "Cognitive Sciences",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/cogscimeta\/img\/favicon.ico",
-      "site_url": "https:\/\/cogsci.meta.stackexchange.com",
-      "name": "Cognitive Sciences Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/outdoors\/img\/favicon.ico",
-      "site_url": "http:\/\/outdoors.stackexchange.com",
-      "name": "The Great Outdoors",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/outdoorsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/outdoors.meta.stackexchange.com",
-      "name": "The Great Outdoors Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/martialarts\/img\/favicon.ico",
-      "site_url": "http:\/\/martialarts.stackexchange.com",
-      "name": "Martial Arts",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/martialartsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/martialarts.meta.stackexchange.com",
-      "name": "Martial Arts Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/sports\/img\/favicon.ico",
-      "site_url": "http:\/\/sports.stackexchange.com",
-      "name": "Sports",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/sportsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/sports.meta.stackexchange.com",
-      "name": "Sports Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/academia\/img\/favicon.ico",
-      "site_url": "http:\/\/academia.stackexchange.com",
-      "name": "Academia",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/academiameta\/img\/favicon.ico",
-      "site_url": "https:\/\/academia.meta.stackexchange.com",
-      "name": "Academia Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/cs\/img\/favicon.ico",
-      "site_url": "http:\/\/cs.stackexchange.com",
-      "name": "Computer Science",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/csmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/cs.meta.stackexchange.com",
-      "name": "Computer Science Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/workplace\/img\/favicon.ico",
-      "site_url": "http:\/\/workplace.stackexchange.com",
-      "name": "The Workplace",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/workplacemeta\/img\/favicon.ico",
-      "site_url": "https:\/\/workplace.meta.stackexchange.com",
-      "name": "The Workplace Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/windowsphone\/img\/favicon.ico",
-      "site_url": "http:\/\/windowsphone.stackexchange.com",
-      "name": "Windows Phone",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/windowsphonemeta\/img\/favicon.ico",
-      "site_url": "https:\/\/windowsphone.meta.stackexchange.com",
-      "name": "Windows Phone Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/chemistry\/img\/favicon.ico",
-      "site_url": "http:\/\/chemistry.stackexchange.com",
-      "name": "Chemistry",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/chemistrymeta\/img\/favicon.ico",
-      "site_url": "https:\/\/chemistry.meta.stackexchange.com",
-      "name": "Chemistry Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/chess\/img\/favicon.ico",
-      "site_url": "http:\/\/chess.stackexchange.com",
-      "name": "Chess",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/chessmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/chess.meta.stackexchange.com",
-      "name": "Chess Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/raspberrypi\/img\/favicon.ico",
-      "site_url": "http:\/\/raspberrypi.stackexchange.com",
-      "name": "Raspberry Pi",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/raspberrypimeta\/img\/favicon.ico",
-      "site_url": "https:\/\/raspberrypi.meta.stackexchange.com",
-      "name": "Raspberry Pi Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/russian\/img\/favicon.ico",
-      "site_url": "http:\/\/russian.stackexchange.com",
-      "name": "Russian Language",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/russianmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/russian.meta.stackexchange.com",
-      "name": "Russian Language Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/islam\/img\/favicon.ico",
-      "site_url": "http:\/\/islam.stackexchange.com",
-      "name": "Islam",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/islammeta\/img\/favicon.ico",
-      "site_url": "https:\/\/islam.meta.stackexchange.com",
-      "name": "Islam Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/salesforce\/img\/favicon.ico",
-      "site_url": "http:\/\/salesforce.stackexchange.com",
-      "name": "Salesforce",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/salesforcemeta\/img\/favicon.ico",
-      "site_url": "https:\/\/salesforce.meta.stackexchange.com",
-      "name": "Salesforce Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/patents\/img\/favicon.ico",
-      "site_url": "http:\/\/patents.stackexchange.com",
-      "name": "Ask Patents",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/patentsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/patents.meta.stackexchange.com",
-      "name": "Ask Patents Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/genealogy\/img\/favicon.ico",
-      "site_url": "http:\/\/genealogy.stackexchange.com",
-      "name": "Genealogy &amp; Family History",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/genealogymeta\/img\/favicon.ico",
-      "site_url": "https:\/\/genealogy.meta.stackexchange.com",
-      "name": "Genealogy &amp; Family History Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/robotics\/img\/favicon.ico",
-      "site_url": "http:\/\/robotics.stackexchange.com",
-      "name": "Robotics",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/roboticsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/robotics.meta.stackexchange.com",
-      "name": "Robotics Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/expressionengine\/img\/favicon.ico",
-      "site_url": "http:\/\/expressionengine.stackexchange.com",
-      "name": "ExpressionEngine&#174; Answers",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/expressionenginemeta\/img\/favicon.ico",
-      "site_url": "https:\/\/expressionengine.meta.stackexchange.com",
-      "name": "ExpressionEngine&#174; Answers Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/politics\/img\/favicon.ico",
-      "site_url": "http:\/\/politics.stackexchange.com",
-      "name": "Politics",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/politicsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/politics.meta.stackexchange.com",
-      "name": "Politics Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/anime\/img\/favicon.ico",
-      "site_url": "http:\/\/anime.stackexchange.com",
-      "name": "Anime &amp; Manga",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/animemeta\/img\/favicon.ico",
-      "site_url": "https:\/\/anime.meta.stackexchange.com",
-      "name": "Anime &amp; Manga Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/magento\/img\/favicon.ico",
-      "site_url": "http:\/\/magento.stackexchange.com",
-      "name": "Magento",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/magentometa\/img\/favicon.ico",
-      "site_url": "https:\/\/magento.meta.stackexchange.com",
-      "name": "Magento Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/ell\/img\/favicon.ico",
-      "site_url": "http:\/\/ell.stackexchange.com",
-      "name": "English Language Learners",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/ellmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/ell.meta.stackexchange.com",
-      "name": "English Language Learners Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/sustainability\/img\/favicon.ico",
-      "site_url": "http:\/\/sustainability.stackexchange.com",
-      "name": "Sustainable Living",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/sustainabilitymeta\/img\/favicon.ico",
-      "site_url": "https:\/\/sustainability.meta.stackexchange.com",
-      "name": "Sustainable Living Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/tridion\/img\/favicon.ico",
-      "site_url": "http:\/\/tridion.stackexchange.com",
-      "name": "Tridion",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/tridionmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/tridion.meta.stackexchange.com",
-      "name": "Tridion Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/reverseengineering\/img\/favicon.ico",
-      "site_url": "http:\/\/reverseengineering.stackexchange.com",
-      "name": "Reverse Engineering",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/reverseengineeringmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/reverseengineering.meta.stackexchange.com",
-      "name": "Reverse Engineering Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/networkengineering\/img\/favicon.ico",
-      "site_url": "http:\/\/networkengineering.stackexchange.com",
-      "name": "Network Engineering",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/networkengineeringmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/networkengineering.meta.stackexchange.com",
-      "name": "Network Engineering Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/opendata\/img\/favicon.ico",
-      "site_url": "http:\/\/opendata.stackexchange.com",
-      "name": "Open Data",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/opendatameta\/img\/favicon.ico",
-      "site_url": "https:\/\/opendata.meta.stackexchange.com",
-      "name": "Open Data Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/freelancing\/img\/favicon.ico",
-      "site_url": "http:\/\/freelancing.stackexchange.com",
-      "name": "Freelancing",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/freelancingmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/freelancing.meta.stackexchange.com",
-      "name": "Freelancing Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/blender\/img\/favicon.ico",
-      "site_url": "http:\/\/blender.stackexchange.com",
-      "name": "Blender",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/blendermeta\/img\/favicon.ico",
-      "site_url": "https:\/\/blender.meta.stackexchange.com",
-      "name": "Blender Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/mathoverflow\/img\/favicon.ico",
-      "site_url": "http:\/\/mathoverflow.net",
-      "name": "MathOverflow",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/mathoverflowmeta\/img\/favicon.ico",
-      "site_url": "http:\/\/meta.mathoverflow.net",
-      "name": "MathOverflow Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/space\/img\/favicon.ico",
-      "site_url": "http:\/\/space.stackexchange.com",
-      "name": "Space Exploration",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/spacemeta\/img\/favicon.ico",
-      "site_url": "https:\/\/space.meta.stackexchange.com",
-      "name": "Space Exploration Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/sound\/img\/favicon.ico",
-      "site_url": "http:\/\/sound.stackexchange.com",
-      "name": "Sound Design",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/soundmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/sound.meta.stackexchange.com",
-      "name": "Sound Design Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/astronomy\/img\/favicon.ico",
-      "site_url": "http:\/\/astronomy.stackexchange.com",
-      "name": "Astronomy",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/astronomymeta\/img\/favicon.ico",
-      "site_url": "https:\/\/astronomy.meta.stackexchange.com",
-      "name": "Astronomy Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/tor\/img\/favicon.ico",
-      "site_url": "http:\/\/tor.stackexchange.com",
-      "name": "Tor",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/tormeta\/img\/favicon.ico",
-      "site_url": "https:\/\/tor.meta.stackexchange.com",
-      "name": "Tor Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/pets\/img\/favicon.ico",
-      "site_url": "http:\/\/pets.stackexchange.com",
-      "name": "Pets",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/petsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/pets.meta.stackexchange.com",
-      "name": "Pets Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/ham\/img\/favicon.ico",
-      "site_url": "http:\/\/ham.stackexchange.com",
-      "name": "Amateur Radio",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/hammeta\/img\/favicon.ico",
-      "site_url": "https:\/\/ham.meta.stackexchange.com",
-      "name": "Amateur Radio Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/italian\/img\/favicon.ico",
-      "site_url": "http:\/\/italian.stackexchange.com",
-      "name": "Italian Language",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/italianmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/italian.meta.stackexchange.com",
-      "name": "Italian Language Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/br\/img\/favicon.ico",
-      "site_url": "http:\/\/pt.stackoverflow.com",
-      "name": "Stack Overflow em Portugu&#234;s",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/brmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/pt.meta.stackoverflow.com",
-      "name": "Stack Overflow em Portugu&#234;s Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/aviation\/img\/favicon.ico",
-      "site_url": "http:\/\/aviation.stackexchange.com",
-      "name": "Aviation",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/aviationmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/aviation.meta.stackexchange.com",
-      "name": "Aviation Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/ebooks\/img\/favicon.ico",
-      "site_url": "http:\/\/ebooks.stackexchange.com",
-      "name": "Ebooks",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/ebooksmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/ebooks.meta.stackexchange.com",
-      "name": "Ebooks Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/alcohol\/img\/favicon.ico",
-      "site_url": "http:\/\/alcohol.stackexchange.com",
-      "name": "Beer, Wine &amp; Spirits",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/alcoholmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/alcohol.meta.stackexchange.com",
-      "name": "Beer, Wine &amp; Spirits Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/softwarerecs\/img\/favicon.ico",
-      "site_url": "http:\/\/softwarerecs.stackexchange.com",
-      "name": "Software Recommendations",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/softwarerecsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/softwarerecs.meta.stackexchange.com",
-      "name": "Software Recommendations Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/arduino\/img\/favicon.ico",
-      "site_url": "http:\/\/arduino.stackexchange.com",
-      "name": "Arduino",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/arduinometa\/img\/favicon.ico",
-      "site_url": "https:\/\/arduino.meta.stackexchange.com",
-      "name": "Arduino Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/cs50\/img\/favicon.ico",
-      "site_url": "http:\/\/cs50.stackexchange.com",
-      "name": "CS50",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/cs50meta\/img\/favicon.ico",
-      "site_url": "https:\/\/cs50.meta.stackexchange.com",
-      "name": "CS50 Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/expatriates\/img\/favicon.ico",
-      "site_url": "http:\/\/expatriates.stackexchange.com",
-      "name": "Expatriates",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/expatriatesmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/expatriates.meta.stackexchange.com",
-      "name": "Expatriates Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/matheducators\/img\/favicon.ico",
-      "site_url": "http:\/\/matheducators.stackexchange.com",
-      "name": "Mathematics Educators",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/matheducatorsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/matheducators.meta.stackexchange.com",
-      "name": "Mathematics Educators Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/meta.stackoverflow.com\/content\/Sites\/stackoverflowmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/meta.stackoverflow.com",
-      "name": "Meta Stack Overflow",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/earthscience\/img\/favicon.ico",
-      "site_url": "http:\/\/earthscience.stackexchange.com",
-      "name": "Earth Science",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/earthsciencemeta\/img\/favicon.ico",
-      "site_url": "https:\/\/earthscience.meta.stackexchange.com",
-      "name": "Earth Science Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/joomla\/img\/favicon.ico",
-      "site_url": "http:\/\/joomla.stackexchange.com",
-      "name": "Joomla",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/joomlameta\/img\/favicon.ico",
-      "site_url": "https:\/\/joomla.meta.stackexchange.com",
-      "name": "Joomla Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/datascience\/img\/favicon.ico",
-      "site_url": "http:\/\/datascience.stackexchange.com",
-      "name": "Data Science",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/datasciencemeta\/img\/favicon.ico",
-      "site_url": "https:\/\/datascience.meta.stackexchange.com",
-      "name": "Data Science Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/puzzling\/img\/favicon.ico",
-      "site_url": "http:\/\/puzzling.stackexchange.com",
-      "name": "Puzzling",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/puzzlingmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/puzzling.meta.stackexchange.com",
-      "name": "Puzzling Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/craftcms\/img\/favicon.ico",
-      "site_url": "http:\/\/craftcms.stackexchange.com",
-      "name": "Craft CMS",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/craftcmsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/craftcms.meta.stackexchange.com",
-      "name": "Craft CMS Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/buddhism\/img\/favicon.ico",
-      "site_url": "http:\/\/buddhism.stackexchange.com",
-      "name": "Buddhism",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/buddhismmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/buddhism.meta.stackexchange.com",
-      "name": "Buddhism Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/hinduism\/img\/favicon.ico",
-      "site_url": "http:\/\/hinduism.stackexchange.com",
-      "name": "Hinduism",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/hinduismmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/hinduism.meta.stackexchange.com",
-      "name": "Hinduism Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/communitybuilding\/img\/favicon.ico",
-      "site_url": "http:\/\/communitybuilding.stackexchange.com",
-      "name": "Community Building",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/communitybuildingmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/communitybuilding.meta.stackexchange.com",
-      "name": "Community Building Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/startups\/img\/favicon.ico",
-      "site_url": "http:\/\/startups.stackexchange.com",
-      "name": "Startups",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/startupsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/startups.meta.stackexchange.com",
-      "name": "Startups Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/worldbuilding\/img\/favicon.ico",
-      "site_url": "http:\/\/worldbuilding.stackexchange.com",
-      "name": "Worldbuilding",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/worldbuildingmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/worldbuilding.meta.stackexchange.com",
-      "name": "Worldbuilding Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/ja\/img\/favicon.ico",
-      "site_url": "http:\/\/ja.stackoverflow.com",
-      "name": "\u30b9\u30bf\u30c3\u30af\u30fb\u30aa\u30fc\u30d0\u30fc\u30d5\u30ed\u30fc",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/jameta\/img\/favicon.ico",
-      "site_url": "https:\/\/ja.meta.stackoverflow.com",
-      "name": "\u30b9\u30bf\u30c3\u30af\u30fb\u30aa\u30fc\u30d0\u30fc\u30d5\u30ed\u30fcMeta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/emacs\/img\/favicon.ico",
-      "site_url": "http:\/\/emacs.stackexchange.com",
-      "name": "Emacs",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/emacsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/emacs.meta.stackexchange.com",
-      "name": "Emacs Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/hsm\/img\/favicon.ico",
-      "site_url": "http:\/\/hsm.stackexchange.com",
-      "name": "History of Science and Mathematics",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/hsmmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/hsm.meta.stackexchange.com",
-      "name": "History of Science and Mathematics Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/economics\/img\/favicon.ico",
-      "site_url": "http:\/\/economics.stackexchange.com",
-      "name": "Economics",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/economicsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/economics.meta.stackexchange.com",
-      "name": "Economics Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/lifehacks\/img\/favicon.ico",
-      "site_url": "http:\/\/lifehacks.stackexchange.com",
-      "name": "Lifehacks",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/lifehacksmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/lifehacks.meta.stackexchange.com",
-      "name": "Lifehacks Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/engineering\/img\/favicon.ico",
-      "site_url": "http:\/\/engineering.stackexchange.com",
-      "name": "Engineering",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/engineeringmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/engineering.meta.stackexchange.com",
-      "name": "Engineering Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/coffee\/img\/favicon.ico",
-      "site_url": "http:\/\/coffee.stackexchange.com",
-      "name": "Coffee",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/coffeemeta\/img\/favicon.ico",
-      "site_url": "https:\/\/coffee.meta.stackexchange.com",
-      "name": "Coffee Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/vi\/img\/favicon.ico",
-      "site_url": "http:\/\/vi.stackexchange.com",
-      "name": "Vi and Vim",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/vimeta\/img\/favicon.ico",
-      "site_url": "https:\/\/vi.meta.stackexchange.com",
-      "name": "Vi and Vim Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/musicfans\/img\/favicon.ico",
-      "site_url": "http:\/\/musicfans.stackexchange.com",
-      "name": "Music Fans",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/musicfansmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/musicfans.meta.stackexchange.com",
-      "name": "Music Fans Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/woodworking\/img\/favicon.ico",
-      "site_url": "http:\/\/woodworking.stackexchange.com",
-      "name": "Woodworking",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/woodworkingmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/woodworking.meta.stackexchange.com",
-      "name": "Woodworking Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/civicrm\/img\/favicon.ico",
-      "site_url": "http:\/\/civicrm.stackexchange.com",
-      "name": "CiviCRM",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/civicrmmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/civicrm.meta.stackexchange.com",
-      "name": "CiviCRM Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/health\/img\/favicon.ico",
-      "site_url": "http:\/\/health.stackexchange.com",
-      "name": "Health",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/healthmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/health.meta.stackexchange.com",
-      "name": "Health Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/ru\/img\/favicon.ico",
-      "site_url": "http:\/\/ru.stackoverflow.com",
-      "name": "Stack Overflow \u043d\u0430 \u0440\u0443\u0441\u0441\u043a\u043e\u043c",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/rumeta\/img\/favicon.ico",
-      "site_url": "https:\/\/ru.meta.stackoverflow.com",
-      "name": "Stack Overflow \u043d\u0430 \u0440\u0443\u0441\u0441\u043a\u043e\u043c Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/rus\/img\/favicon.ico",
-      "site_url": "http:\/\/rus.stackexchange.com",
-      "name": "\u0420\u0443\u0441\u0441\u043a\u0438\u0439 \u044f\u0437\u044b\u043a",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/rusmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/rus.meta.stackexchange.com",
-      "name": "\u0420\u0443\u0441\u0441\u043a\u0438\u0439 \u044f\u0437\u044b\u043a Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/mythology\/img\/favicon.ico",
-      "site_url": "http:\/\/mythology.stackexchange.com",
-      "name": "Mythology",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/mythologymeta\/img\/favicon.ico",
-      "site_url": "https:\/\/mythology.meta.stackexchange.com",
-      "name": "Mythology Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/law\/img\/favicon.ico",
-      "site_url": "http:\/\/law.stackexchange.com",
-      "name": "Law",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/lawmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/law.meta.stackexchange.com",
-      "name": "Law Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/opensource\/img\/favicon.ico",
-      "site_url": "http:\/\/opensource.stackexchange.com",
-      "name": "Open Source",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/opensourcemeta\/img\/favicon.ico",
-      "site_url": "https:\/\/opensource.meta.stackexchange.com",
-      "name": "Open Source Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/elementaryos\/img\/favicon.ico",
-      "site_url": "http:\/\/elementaryos.stackexchange.com",
-      "name": "elementary OS",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/elementaryosmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/elementaryos.meta.stackexchange.com",
-      "name": "elementary OS Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/portuguese\/img\/favicon.ico",
-      "site_url": "http:\/\/portuguese.stackexchange.com",
-      "name": "Portuguese Language",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/portuguesemeta\/img\/favicon.ico",
-      "site_url": "https:\/\/portuguese.meta.stackexchange.com",
-      "name": "Portuguese Language Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/computergraphics\/img\/favicon.ico",
-      "site_url": "http:\/\/computergraphics.stackexchange.com",
-      "name": "Computer Graphics",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/computergraphicsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/computergraphics.meta.stackexchange.com",
-      "name": "Computer Graphics Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/hardwarerecs\/img\/favicon.ico",
-      "site_url": "http:\/\/hardwarerecs.stackexchange.com",
-      "name": "Hardware Recommendations",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/hardwarerecsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/hardwarerecs.meta.stackexchange.com",
-      "name": "Hardware Recommendations Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/es\/img\/favicon.ico",
-      "site_url": "http:\/\/es.stackoverflow.com",
-      "name": "Stack Overflow en espa&#241;ol",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/esmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/es.meta.stackoverflow.com",
-      "name": "Stack Overflow Meta en espa&#241;ol",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/3dprinting\/img\/favicon.ico",
-      "site_url": "http:\/\/3dprinting.stackexchange.com",
-      "name": "3D Printing",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/3dprintingmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/3dprinting.meta.stackexchange.com",
-      "name": "3D Printing Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/ethereum\/img\/favicon.ico",
-      "site_url": "http:\/\/ethereum.stackexchange.com",
-      "name": "Ethereum",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/ethereummeta\/img\/favicon.ico",
-      "site_url": "https:\/\/ethereum.meta.stackexchange.com",
-      "name": "Ethereum Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/latin\/img\/favicon.ico",
-      "site_url": "http:\/\/latin.stackexchange.com",
-      "name": "Latin Language",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/latinmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/latin.meta.stackexchange.com",
-      "name": "Latin Language Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/languagelearning\/img\/favicon.ico",
-      "site_url": "http:\/\/languagelearning.stackexchange.com",
-      "name": "Language Learning",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/languagelearningmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/languagelearning.meta.stackexchange.com",
-      "name": "Language Learning Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/retrocomputing\/img\/favicon.ico",
-      "site_url": "http:\/\/retrocomputing.stackexchange.com",
-      "name": "Retrocomputing",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/retrocomputingmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/retrocomputing.meta.stackexchange.com",
-      "name": "Retrocomputing Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/crafts\/img\/favicon.ico",
-      "site_url": "http:\/\/crafts.stackexchange.com",
-      "name": "Arts &amp; Crafts",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/craftsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/crafts.meta.stackexchange.com",
-      "name": "Arts &amp; Crafts Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/korean\/img\/favicon.ico",
-      "site_url": "http:\/\/korean.stackexchange.com",
-      "name": "Korean Language",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/koreanmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/korean.meta.stackexchange.com",
-      "name": "Korean Language Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/monero\/img\/favicon.ico",
-      "site_url": "http:\/\/monero.stackexchange.com",
-      "name": "Monero",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/monerometa\/img\/favicon.ico",
-      "site_url": "https:\/\/monero.meta.stackexchange.com",
-      "name": "Monero Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/ai\/img\/favicon.ico",
-      "site_url": "http:\/\/ai.stackexchange.com",
-      "name": "Artificial Intelligence",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/aimeta\/img\/favicon.ico",
-      "site_url": "https:\/\/ai.meta.stackexchange.com",
-      "name": "Artificial Intelligence Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/esperanto\/img\/favicon.ico",
-      "site_url": "http:\/\/esperanto.stackexchange.com",
-      "name": "Esperanto Language",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/esperantometa\/img\/favicon.ico",
-      "site_url": "https:\/\/esperanto.meta.stackexchange.com",
-      "name": "Esperanto Language Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/sitecore\/img\/favicon.ico",
-      "site_url": "http:\/\/sitecore.stackexchange.com",
-      "name": "Sitecore",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/sitecoremeta\/img\/favicon.ico",
-      "site_url": "https:\/\/sitecore.meta.stackexchange.com",
-      "name": "Sitecore Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/iot\/img\/favicon.ico",
-      "site_url": "http:\/\/iot.stackexchange.com",
-      "name": "Internet of Things",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/iotmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/iot.meta.stackexchange.com",
-      "name": "Internet of Things Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/literature\/img\/favicon.ico",
-      "site_url": "http:\/\/literature.stackexchange.com",
-      "name": "Literature",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/literaturemeta\/img\/favicon.ico",
-      "site_url": "https:\/\/literature.meta.stackexchange.com",
-      "name": "Literature Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/vegetarianism\/img\/favicon.ico",
-      "site_url": "http:\/\/vegetarianism.stackexchange.com",
-      "name": "Vegetarianism",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/vegetarianismmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/vegetarianism.meta.stackexchange.com",
-      "name": "Vegetarianism Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/ukrainian\/img\/favicon.ico",
-      "site_url": "http:\/\/ukrainian.stackexchange.com",
-      "name": "Ukrainian Language",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/ukrainianmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/ukrainian.meta.stackexchange.com",
-      "name": "Ukrainian Language Meta",
-      "site_type": "meta_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/devops\/img\/favicon.ico",
-      "site_url": "http:\/\/devops.stackexchange.com",
-      "name": "DevOps",
-      "site_type": "main_site"
-    },
-    {
-      "favicon_url": "https:\/\/cdn.sstatic.net\/Sites\/devopsmeta\/img\/favicon.ico",
-      "site_url": "https:\/\/devops.meta.stackexchange.com",
-      "name": "DevOps Meta",
-      "site_type": "meta_site"
-    }
-  ],
+  "items": [{
+    "aliases": ["http://www.stackoverflow.com", "http://facebook.stackoverflow.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/stackoverflow/img/favicon.ico",
+    "site_url": "https://stackoverflow.com",
+    "api_site_parameter": "stackoverflow",
+    "name": "Stack Overflow",
+    "site_type": "main_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/serverfault/img/favicon.ico",
+    "site_url": "https://serverfault.com",
+    "api_site_parameter": "serverfault",
+    "name": "Server Fault",
+    "site_type": "main_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/superuser/img/favicon.ico",
+    "site_url": "https://superuser.com",
+    "api_site_parameter": "superuser",
+    "name": "Super User",
+    "site_type": "main_site"
+  }, {
+    "favicon_url": "https://meta.stackexchange.com/content/Sites/stackexchangemeta/img/favicon.ico",
+    "site_url": "https://meta.stackexchange.com",
+    "api_site_parameter": "meta",
+    "name": "Meta Stack Exchange",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://nothingtoinstall.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/webapps/img/favicon.ico",
+    "site_url": "https://webapps.stackexchange.com",
+    "api_site_parameter": "webapps",
+    "name": "Web Applications",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.nothingtoinstall.com", "http://meta.webapps.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/webappsmeta/img/favicon.ico",
+    "site_url": "https://webapps.meta.stackexchange.com",
+    "api_site_parameter": "webapps.meta",
+    "name": "Web Applications Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://arqade.com", "http://thearqade.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/gaming/img/favicon.ico",
+    "site_url": "https://gaming.stackexchange.com",
+    "api_site_parameter": "gaming",
+    "name": "Arqade",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.arqade.com", "http://meta.thearqade.com", "http://meta.gaming.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/gamingmeta/img/favicon.ico",
+    "site_url": "https://gaming.meta.stackexchange.com",
+    "api_site_parameter": "gaming.meta",
+    "name": "Arqade Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://webmaster.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/webmasters/img/favicon.ico",
+    "site_url": "https://webmasters.stackexchange.com",
+    "api_site_parameter": "webmasters",
+    "name": "Webmasters",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.webmaster.stackexchange.com", "http://meta.webmasters.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/webmastersmeta/img/favicon.ico",
+    "site_url": "https://webmasters.meta.stackexchange.com",
+    "api_site_parameter": "webmasters.meta",
+    "name": "Webmasters Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://seasonedadvice.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/cooking/img/favicon.ico",
+    "site_url": "https://cooking.stackexchange.com",
+    "api_site_parameter": "cooking",
+    "name": "Seasoned Advice",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.seasonedadvice.com", "http://meta.cooking.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/cookingmeta/img/favicon.ico",
+    "site_url": "https://cooking.meta.stackexchange.com",
+    "api_site_parameter": "cooking.meta",
+    "name": "Seasoned Advice Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/gamedev/img/favicon.ico",
+    "site_url": "https://gamedev.stackexchange.com",
+    "api_site_parameter": "gamedev",
+    "name": "Game Development",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.gamedev.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/gamedevmeta/img/favicon.ico",
+    "site_url": "https://gamedev.meta.stackexchange.com",
+    "api_site_parameter": "gamedev.meta",
+    "name": "Game Development Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://photography.stackexchange.com", "http://photos.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/photo/img/favicon.ico",
+    "site_url": "https://photo.stackexchange.com",
+    "api_site_parameter": "photo",
+    "name": "Photography",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.photography.stackexchange.com", "http://meta.photos.stackexchange.com", "http://meta.photo.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/photometa/img/favicon.ico",
+    "site_url": "https://photo.meta.stackexchange.com",
+    "api_site_parameter": "photo.meta",
+    "name": "Photography Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://statistics.stackexchange.com", "http://crossvalidated.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/stats/img/favicon.ico",
+    "site_url": "https://stats.stackexchange.com",
+    "api_site_parameter": "stats",
+    "name": "Cross Validated",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.statistics.stackexchange.com", "http://meta.stats.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/statsmeta/img/favicon.ico",
+    "site_url": "https://stats.meta.stackexchange.com",
+    "api_site_parameter": "stats.meta",
+    "name": "Cross Validated Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://maths.stackexchange.com", "http://mathematics.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/math/img/favicon.ico",
+    "site_url": "https://math.stackexchange.com",
+    "api_site_parameter": "math",
+    "name": "Mathematics",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.math.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/mathmeta/img/favicon.ico",
+    "site_url": "https://math.meta.stackexchange.com",
+    "api_site_parameter": "math.meta",
+    "name": "Mathematics Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/diy/img/favicon.ico",
+    "site_url": "https://diy.stackexchange.com",
+    "api_site_parameter": "diy",
+    "name": "Home Improvement",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.diy.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/diymeta/img/favicon.ico",
+    "site_url": "https://diy.meta.stackexchange.com",
+    "api_site_parameter": "diy.meta",
+    "name": "Home Improvement Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/superusermeta/img/favicon.ico",
+    "site_url": "https://meta.superuser.com",
+    "api_site_parameter": "meta.superuser",
+    "name": "Meta Super User",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/serverfaultmeta/img/favicon.ico",
+    "site_url": "https://meta.serverfault.com",
+    "api_site_parameter": "meta.serverfault",
+    "name": "Meta Server Fault",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/gis/img/favicon.ico",
+    "site_url": "https://gis.stackexchange.com",
+    "api_site_parameter": "gis",
+    "name": "Geographic Information Systems",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.gis.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/gismeta/img/favicon.ico",
+    "site_url": "https://gis.meta.stackexchange.com",
+    "api_site_parameter": "gis.meta",
+    "name": "Geographic Information Systems Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/tex/img/favicon.ico",
+    "site_url": "https://tex.stackexchange.com",
+    "api_site_parameter": "tex",
+    "name": "TeX - LaTeX",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.tex.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/texmeta/img/favicon.ico",
+    "site_url": "https://tex.meta.stackexchange.com",
+    "api_site_parameter": "tex.meta",
+    "name": "TeX - LaTeX Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://ubuntu.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/askubuntu/img/favicon.ico",
+    "site_url": "https://askubuntu.com",
+    "api_site_parameter": "askubuntu",
+    "name": "Ask Ubuntu",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.ubuntu.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/askubuntumeta/img/favicon.ico",
+    "site_url": "https://meta.askubuntu.com",
+    "api_site_parameter": "meta.askubuntu",
+    "name": "Ask Ubuntu Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://basicallymoney.com", "http://www.basicallymoney.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/money/img/favicon.ico",
+    "site_url": "https://money.stackexchange.com",
+    "api_site_parameter": "money",
+    "name": "Personal Finance \u0026amp; Money",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.money.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/moneymeta/img/favicon.ico",
+    "site_url": "https://money.meta.stackexchange.com",
+    "api_site_parameter": "money.meta",
+    "name": "Personal Finance \u0026amp; Money Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://elu.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/english/img/favicon.ico",
+    "site_url": "https://english.stackexchange.com",
+    "api_site_parameter": "english",
+    "name": "English Language \u0026amp; Usage",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.english.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/englishmeta/img/favicon.ico",
+    "site_url": "https://english.meta.stackexchange.com",
+    "api_site_parameter": "english.meta",
+    "name": "English Language \u0026amp; Usage Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/stackapps/img/favicon.ico",
+    "site_url": "https://stackapps.com",
+    "api_site_parameter": "stackapps",
+    "name": "Stack Apps",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://ui.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/ux/img/favicon.ico",
+    "site_url": "https://ux.stackexchange.com",
+    "api_site_parameter": "ux",
+    "name": "User Experience",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.ui.stackexchange.com", "http://meta.ux.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/uxmeta/img/favicon.ico",
+    "site_url": "https://ux.meta.stackexchange.com",
+    "api_site_parameter": "ux.meta",
+    "name": "User Experience Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://linux.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/unix/img/favicon.ico",
+    "site_url": "https://unix.stackexchange.com",
+    "api_site_parameter": "unix",
+    "name": "Unix \u0026amp; Linux",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.linux.stackexchange.com", "http://meta.unix.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/unixmeta/img/favicon.ico",
+    "site_url": "https://unix.meta.stackexchange.com",
+    "api_site_parameter": "unix.meta",
+    "name": "Unix \u0026amp; Linux Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/wordpress/img/favicon.ico",
+    "site_url": "https://wordpress.stackexchange.com",
+    "api_site_parameter": "wordpress",
+    "name": "WordPress Development",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.wordpress.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/wordpressmeta/img/favicon.ico",
+    "site_url": "https://wordpress.meta.stackexchange.com",
+    "api_site_parameter": "wordpress.meta",
+    "name": "WordPress Development Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/cstheory/img/favicon.ico",
+    "site_url": "https://cstheory.stackexchange.com",
+    "api_site_parameter": "cstheory",
+    "name": "Theoretical Computer Science",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.cstheory.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/cstheorymeta/img/favicon.ico",
+    "site_url": "https://cstheory.meta.stackexchange.com",
+    "api_site_parameter": "cstheory.meta",
+    "name": "Theoretical Computer Science Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://askdifferent.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/apple/img/favicon.ico",
+    "site_url": "https://apple.stackexchange.com",
+    "api_site_parameter": "apple",
+    "name": "Ask Different",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.apple.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/applemeta/img/favicon.ico",
+    "site_url": "https://apple.meta.stackexchange.com",
+    "api_site_parameter": "apple.meta",
+    "name": "Ask Different Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/rpg/img/favicon.ico",
+    "site_url": "https://rpg.stackexchange.com",
+    "api_site_parameter": "rpg",
+    "name": "Role-playing Games",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.rpg.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/rpgmeta/img/favicon.ico",
+    "site_url": "https://rpg.meta.stackexchange.com",
+    "api_site_parameter": "rpg.meta",
+    "name": "Role-playing Games Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://bicycle.stackexchange.com", "http://cycling.stackexchange.com", "http://bikes.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/bicycles/img/favicon.ico",
+    "site_url": "https://bicycles.stackexchange.com",
+    "api_site_parameter": "bicycles",
+    "name": "Bicycles",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.bicycle.stackexchange.com", "http://meta.bicycles.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/bicyclesmeta/img/favicon.ico",
+    "site_url": "https://bicycles.meta.stackexchange.com",
+    "api_site_parameter": "bicycles.meta",
+    "name": "Bicycles Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://programmer.stackexchange.com", "http://programmers.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/softwareengineering/img/favicon.ico",
+    "site_url": "https://softwareengineering.stackexchange.com",
+    "api_site_parameter": "softwareengineering",
+    "name": "Software Engineering",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.programmers.stackexchange.com", "http://meta.softwareengineering.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/softwareengineeringmeta/img/favicon.ico",
+    "site_url": "https://softwareengineering.meta.stackexchange.com",
+    "api_site_parameter": "softwareengineering.meta",
+    "name": "Software Engineering Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://chiphacker.com", "http://www.chiphacker.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/electronics/img/favicon.ico",
+    "site_url": "https://electronics.stackexchange.com",
+    "api_site_parameter": "electronics",
+    "name": "Electrical Engineering",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.electronics.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/electronicsmeta/img/favicon.ico",
+    "site_url": "https://electronics.meta.stackexchange.com",
+    "api_site_parameter": "electronics.meta",
+    "name": "Electrical Engineering Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/android/img/favicon.ico",
+    "site_url": "https://android.stackexchange.com",
+    "api_site_parameter": "android",
+    "name": "Android Enthusiasts",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.android.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/androidmeta/img/favicon.ico",
+    "site_url": "https://android.meta.stackexchange.com",
+    "api_site_parameter": "android.meta",
+    "name": "Android Enthusiasts Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://boardgame.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/boardgames/img/favicon.ico",
+    "site_url": "https://boardgames.stackexchange.com",
+    "api_site_parameter": "boardgames",
+    "name": "Board \u0026amp; Card Games",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.boardgames.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/boardgamesmeta/img/favicon.ico",
+    "site_url": "https://boardgames.meta.stackexchange.com",
+    "api_site_parameter": "boardgames.meta",
+    "name": "Board \u0026amp; Card Games Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/physics/img/favicon.ico",
+    "site_url": "https://physics.stackexchange.com",
+    "api_site_parameter": "physics",
+    "name": "Physics",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.physics.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/physicsmeta/img/favicon.ico",
+    "site_url": "https://physics.meta.stackexchange.com",
+    "api_site_parameter": "physics.meta",
+    "name": "Physics Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://homebrewing.stackexchange.com", "http://brewadvice.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/homebrew/img/favicon.ico",
+    "site_url": "https://homebrew.stackexchange.com",
+    "api_site_parameter": "homebrew",
+    "name": "Homebrewing",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.homebrewing.stackexchange.com", "http://meta.homebrew.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/homebrewmeta/img/favicon.ico",
+    "site_url": "https://homebrew.meta.stackexchange.com",
+    "api_site_parameter": "homebrew.meta",
+    "name": "Homebrewing Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://itsecurity.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/security/img/favicon.ico",
+    "site_url": "https://security.stackexchange.com",
+    "api_site_parameter": "security",
+    "name": "Information Security",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.itsecurity.stackexchange.com", "http://meta.security.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/securitymeta/img/favicon.ico",
+    "site_url": "https://security.meta.stackexchange.com",
+    "api_site_parameter": "security.meta",
+    "name": "Information Security Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://writer.stackexchange.com", "http://writers.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/writing/img/favicon.ico",
+    "site_url": "https://writing.stackexchange.com",
+    "api_site_parameter": "writing",
+    "name": "Writing",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.writing.stackexchange.com", "http://meta.writers.stackexchange.com", "http://writers.meta.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/writingmeta/img/favicon.ico",
+    "site_url": "https://writing.meta.stackexchange.com",
+    "api_site_parameter": "writing.meta",
+    "name": "Writing Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://avp.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/avp/img/favicon.ico",
+    "site_url": "https://video.stackexchange.com",
+    "api_site_parameter": "video",
+    "name": "Video Production",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.avp.stackexchange.com", "http://meta.video.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/avpmeta/img/favicon.ico",
+    "site_url": "https://video.meta.stackexchange.com",
+    "api_site_parameter": "video.meta",
+    "name": "Video Production Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://graphicsdesign.stackexchange.com", "http://graphicdesigns.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/graphicdesign/img/favicon.ico",
+    "site_url": "https://graphicdesign.stackexchange.com",
+    "api_site_parameter": "graphicdesign",
+    "name": "Graphic Design",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.graphicdesign.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/graphicdesignmeta/img/favicon.ico",
+    "site_url": "https://graphicdesign.meta.stackexchange.com",
+    "api_site_parameter": "graphicdesign.meta",
+    "name": "Graphic Design Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/dba/img/favicon.ico",
+    "site_url": "https://dba.stackexchange.com",
+    "api_site_parameter": "dba",
+    "name": "Database Administrators",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.dba.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/dbameta/img/favicon.ico",
+    "site_url": "https://dba.meta.stackexchange.com",
+    "api_site_parameter": "dba.meta",
+    "name": "Database Administrators Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://sciencefiction.stackexchange.com", "http://fantasy.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/scifi/img/favicon.ico",
+    "site_url": "https://scifi.stackexchange.com",
+    "api_site_parameter": "scifi",
+    "name": "Science Fiction \u0026amp; Fantasy",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.scifi.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/scifimeta/img/favicon.ico",
+    "site_url": "https://scifi.meta.stackexchange.com",
+    "api_site_parameter": "scifi.meta",
+    "name": "Science Fiction \u0026amp; Fantasy Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/codereview/img/favicon.ico",
+    "site_url": "https://codereview.stackexchange.com",
+    "api_site_parameter": "codereview",
+    "name": "Code Review",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.codereview.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/codereviewmeta/img/favicon.ico",
+    "site_url": "https://codereview.meta.stackexchange.com",
+    "api_site_parameter": "codereview.meta",
+    "name": "Code Review Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/codegolf/img/favicon.ico",
+    "site_url": "https://codegolf.stackexchange.com",
+    "api_site_parameter": "codegolf",
+    "name": "Programming Puzzles \u0026amp; Code Golf",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.codegolf.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/codegolfmeta/img/favicon.ico",
+    "site_url": "https://codegolf.meta.stackexchange.com",
+    "api_site_parameter": "codegolf.meta",
+    "name": "Programming Puzzles \u0026amp; Code Golf Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/quant/img/favicon.ico",
+    "site_url": "https://quant.stackexchange.com",
+    "api_site_parameter": "quant",
+    "name": "Quantitative Finance",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.quant.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/quantmeta/img/favicon.ico",
+    "site_url": "https://quant.meta.stackexchange.com",
+    "api_site_parameter": "quant.meta",
+    "name": "Quantitative Finance Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/pm/img/favicon.ico",
+    "site_url": "https://pm.stackexchange.com",
+    "api_site_parameter": "pm",
+    "name": "Project Management",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.pm.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/pmmeta/img/favicon.ico",
+    "site_url": "https://pm.meta.stackexchange.com",
+    "api_site_parameter": "pm.meta",
+    "name": "Project Management Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://skeptic.stackexchange.com", "http://skepticexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/skeptics/img/favicon.ico",
+    "site_url": "https://skeptics.stackexchange.com",
+    "api_site_parameter": "skeptics",
+    "name": "Skeptics",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.skeptics.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/skepticsmeta/img/favicon.ico",
+    "site_url": "https://skeptics.meta.stackexchange.com",
+    "api_site_parameter": "skeptics.meta",
+    "name": "Skeptics Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/fitness/img/favicon.ico",
+    "site_url": "https://fitness.stackexchange.com",
+    "api_site_parameter": "fitness",
+    "name": "Physical Fitness",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.fitness.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/fitnessmeta/img/favicon.ico",
+    "site_url": "https://fitness.meta.stackexchange.com",
+    "api_site_parameter": "fitness.meta",
+    "name": "Physical Fitness Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/drupal/img/favicon.ico",
+    "site_url": "https://drupal.stackexchange.com",
+    "api_site_parameter": "drupal",
+    "name": "Drupal Answers",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.drupal.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/drupalmeta/img/favicon.ico",
+    "site_url": "https://drupal.meta.stackexchange.com",
+    "api_site_parameter": "drupal.meta",
+    "name": "Drupal Answers Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://garage.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/mechanics/img/favicon.ico",
+    "site_url": "https://mechanics.stackexchange.com",
+    "api_site_parameter": "mechanics",
+    "name": "Motor Vehicle Maintenance \u0026amp; Repair",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.garage.stackexchange.com", "http://meta.mechanics.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/mechanicsmeta/img/favicon.ico",
+    "site_url": "https://mechanics.meta.stackexchange.com",
+    "api_site_parameter": "mechanics.meta",
+    "name": "Motor Vehicle Maintenance \u0026amp; Repair Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/parenting/img/favicon.ico",
+    "site_url": "https://parenting.stackexchange.com",
+    "api_site_parameter": "parenting",
+    "name": "Parenting",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.parenting.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/parentingmeta/img/favicon.ico",
+    "site_url": "https://parenting.meta.stackexchange.com",
+    "api_site_parameter": "parenting.meta",
+    "name": "Parenting Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://sharepointoverflow.com", "http://www.sharepointoverflow.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/sharepoint/img/favicon.ico",
+    "site_url": "https://sharepoint.stackexchange.com",
+    "api_site_parameter": "sharepoint",
+    "name": "SharePoint",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.sharepoint.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/sharepointmeta/img/favicon.ico",
+    "site_url": "https://sharepoint.meta.stackexchange.com",
+    "api_site_parameter": "sharepoint.meta",
+    "name": "SharePoint Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://guitars.stackexchange.com", "http://guitar.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/music/img/favicon.ico",
+    "site_url": "https://music.stackexchange.com",
+    "api_site_parameter": "music",
+    "name": "Music: Practice \u0026amp; Theory",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.music.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/musicmeta/img/favicon.ico",
+    "site_url": "https://music.meta.stackexchange.com",
+    "api_site_parameter": "music.meta",
+    "name": "Music: Practice \u0026amp; Theory Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/sqa/img/favicon.ico",
+    "site_url": "https://sqa.stackexchange.com",
+    "api_site_parameter": "sqa",
+    "name": "Software Quality Assurance \u0026amp; Testing",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.sqa.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/sqameta/img/favicon.ico",
+    "site_url": "https://sqa.meta.stackexchange.com",
+    "api_site_parameter": "sqa.meta",
+    "name": "Software Quality Assurance \u0026amp; Testing Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://mi.yodeya.com", "http://yodeya.com", "http://yodeya.stackexchange.com", "http://miyodeya.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/judaism/img/favicon.ico",
+    "site_url": "https://judaism.stackexchange.com",
+    "api_site_parameter": "judaism",
+    "name": "Mi Yodeya",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.judaism.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/judaismmeta/img/favicon.ico",
+    "site_url": "https://judaism.meta.stackexchange.com",
+    "api_site_parameter": "judaism.meta",
+    "name": "Mi Yodeya Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://deutsch.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/german/img/favicon.ico",
+    "site_url": "https://german.stackexchange.com",
+    "api_site_parameter": "german",
+    "name": "German Language",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.german.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/germanmeta/img/favicon.ico",
+    "site_url": "https://german.meta.stackexchange.com",
+    "api_site_parameter": "german.meta",
+    "name": "German Language Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/japanese/img/favicon.ico",
+    "site_url": "https://japanese.stackexchange.com",
+    "api_site_parameter": "japanese",
+    "name": "Japanese Language",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.japanese.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/japanesemeta/img/favicon.ico",
+    "site_url": "https://japanese.meta.stackexchange.com",
+    "api_site_parameter": "japanese.meta",
+    "name": "Japanese Language Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/philosophy/img/favicon.ico",
+    "site_url": "https://philosophy.stackexchange.com",
+    "api_site_parameter": "philosophy",
+    "name": "Philosophy",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.philosophy.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/philosophymeta/img/favicon.ico",
+    "site_url": "https://philosophy.meta.stackexchange.com",
+    "api_site_parameter": "philosophy.meta",
+    "name": "Philosophy Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://landscaping.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/gardening/img/favicon.ico",
+    "site_url": "https://gardening.stackexchange.com",
+    "api_site_parameter": "gardening",
+    "name": "Gardening \u0026amp; Landscaping",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.gardening.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/gardeningmeta/img/favicon.ico",
+    "site_url": "https://gardening.meta.stackexchange.com",
+    "api_site_parameter": "gardening.meta",
+    "name": "Gardening \u0026amp; Landscaping Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/travel/img/favicon.ico",
+    "site_url": "https://travel.stackexchange.com",
+    "api_site_parameter": "travel",
+    "name": "Travel",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.travel.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/travelmeta/img/favicon.ico",
+    "site_url": "https://travel.meta.stackexchange.com",
+    "api_site_parameter": "travel.meta",
+    "name": "Travel Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://cryptography.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/crypto/img/favicon.ico",
+    "site_url": "https://crypto.stackexchange.com",
+    "api_site_parameter": "crypto",
+    "name": "Cryptography",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.cryptography.stackexchange.com", "http://meta.crypto.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/cryptometa/img/favicon.ico",
+    "site_url": "https://crypto.meta.stackexchange.com",
+    "api_site_parameter": "crypto.meta",
+    "name": "Cryptography Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://signals.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/dsp/img/favicon.ico",
+    "site_url": "https://dsp.stackexchange.com",
+    "api_site_parameter": "dsp",
+    "name": "Signal Processing",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.dsp.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/dspmeta/img/favicon.ico",
+    "site_url": "https://dsp.meta.stackexchange.com",
+    "api_site_parameter": "dsp.meta",
+    "name": "Signal Processing Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/french/img/favicon.ico",
+    "site_url": "https://french.stackexchange.com",
+    "api_site_parameter": "french",
+    "name": "French Language",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.french.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/frenchmeta/img/favicon.ico",
+    "site_url": "https://french.meta.stackexchange.com",
+    "api_site_parameter": "french.meta",
+    "name": "French Language Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/christianity/img/favicon.ico",
+    "site_url": "https://christianity.stackexchange.com",
+    "api_site_parameter": "christianity",
+    "name": "Christianity",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.christianity.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/christianitymeta/img/favicon.ico",
+    "site_url": "https://christianity.meta.stackexchange.com",
+    "api_site_parameter": "christianity.meta",
+    "name": "Christianity Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/bitcoin/img/favicon.ico",
+    "site_url": "https://bitcoin.stackexchange.com",
+    "api_site_parameter": "bitcoin",
+    "name": "Bitcoin",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.bitcoin.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/bitcoinmeta/img/favicon.ico",
+    "site_url": "https://bitcoin.meta.stackexchange.com",
+    "api_site_parameter": "bitcoin.meta",
+    "name": "Bitcoin Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://linguist.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/linguistics/img/favicon.ico",
+    "site_url": "https://linguistics.stackexchange.com",
+    "api_site_parameter": "linguistics",
+    "name": "Linguistics",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.linguistics.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/linguisticsmeta/img/favicon.ico",
+    "site_url": "https://linguistics.meta.stackexchange.com",
+    "api_site_parameter": "linguistics.meta",
+    "name": "Linguistics Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/hermeneutics/img/favicon.ico",
+    "site_url": "https://hermeneutics.stackexchange.com",
+    "api_site_parameter": "hermeneutics",
+    "name": "Biblical Hermeneutics",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.hermeneutics.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/hermeneuticsmeta/img/favicon.ico",
+    "site_url": "https://hermeneutics.meta.stackexchange.com",
+    "api_site_parameter": "hermeneutics.meta",
+    "name": "Biblical Hermeneutics Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/history/img/favicon.ico",
+    "site_url": "https://history.stackexchange.com",
+    "api_site_parameter": "history",
+    "name": "History",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.history.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/historymeta/img/favicon.ico",
+    "site_url": "https://history.meta.stackexchange.com",
+    "api_site_parameter": "history.meta",
+    "name": "History Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/bricks/img/favicon.ico",
+    "site_url": "https://bricks.stackexchange.com",
+    "api_site_parameter": "bricks",
+    "name": "Bricks",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.bricks.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/bricksmeta/img/favicon.ico",
+    "site_url": "https://bricks.meta.stackexchange.com",
+    "api_site_parameter": "bricks.meta",
+    "name": "Bricks Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://espanol.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/spanish/img/favicon.ico",
+    "site_url": "https://spanish.stackexchange.com",
+    "api_site_parameter": "spanish",
+    "name": "Spanish Language",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.spanish.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/spanishmeta/img/favicon.ico",
+    "site_url": "https://spanish.meta.stackexchange.com",
+    "api_site_parameter": "spanish.meta",
+    "name": "Spanish Language Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/scicomp/img/favicon.ico",
+    "site_url": "https://scicomp.stackexchange.com",
+    "api_site_parameter": "scicomp",
+    "name": "Computational Science",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.scicomp.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/scicompmeta/img/favicon.ico",
+    "site_url": "https://scicomp.meta.stackexchange.com",
+    "api_site_parameter": "scicomp.meta",
+    "name": "Computational Science Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://tv.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/movies/img/favicon.ico",
+    "site_url": "https://movies.stackexchange.com",
+    "api_site_parameter": "movies",
+    "name": "Movies \u0026amp; TV",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.tv.stackexchange.com", "http://meta.movies.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/moviesmeta/img/favicon.ico",
+    "site_url": "https://movies.meta.stackexchange.com",
+    "api_site_parameter": "movies.meta",
+    "name": "Movies \u0026amp; TV Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/chinese/img/favicon.ico",
+    "site_url": "https://chinese.stackexchange.com",
+    "api_site_parameter": "chinese",
+    "name": "Chinese Language",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.chinese.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/chinesemeta/img/favicon.ico",
+    "site_url": "https://chinese.meta.stackexchange.com",
+    "api_site_parameter": "chinese.meta",
+    "name": "Chinese Language Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/biology/img/favicon.ico",
+    "site_url": "https://biology.stackexchange.com",
+    "api_site_parameter": "biology",
+    "name": "Biology",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.biology.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/biologymeta/img/favicon.ico",
+    "site_url": "https://biology.meta.stackexchange.com",
+    "api_site_parameter": "biology.meta",
+    "name": "Biology Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/poker/img/favicon.ico",
+    "site_url": "https://poker.stackexchange.com",
+    "api_site_parameter": "poker",
+    "name": "Poker",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.poker.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/pokermeta/img/favicon.ico",
+    "site_url": "https://poker.meta.stackexchange.com",
+    "api_site_parameter": "poker.meta",
+    "name": "Poker Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/mathematica/img/favicon.ico",
+    "site_url": "https://mathematica.stackexchange.com",
+    "api_site_parameter": "mathematica",
+    "name": "Mathematica",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.mathematica.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/mathematicameta/img/favicon.ico",
+    "site_url": "https://mathematica.meta.stackexchange.com",
+    "api_site_parameter": "mathematica.meta",
+    "name": "Mathematica Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://cogsci.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/psychology/img/favicon.ico",
+    "site_url": "https://psychology.stackexchange.com",
+    "api_site_parameter": "psychology",
+    "name": "Psychology \u0026amp; Neuroscience",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.cogsci.stackexchange.com", "http://cogsci.meta.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/psychologymeta/img/favicon.ico",
+    "site_url": "https://psychology.meta.stackexchange.com",
+    "api_site_parameter": "psychology.meta",
+    "name": "Psychology \u0026amp; Neuroscience Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/outdoors/img/favicon.ico",
+    "site_url": "https://outdoors.stackexchange.com",
+    "api_site_parameter": "outdoors",
+    "name": "The Great Outdoors",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.outdoors.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/outdoorsmeta/img/favicon.ico",
+    "site_url": "https://outdoors.meta.stackexchange.com",
+    "api_site_parameter": "outdoors.meta",
+    "name": "The Great Outdoors Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/martialarts/img/favicon.ico",
+    "site_url": "https://martialarts.stackexchange.com",
+    "api_site_parameter": "martialarts",
+    "name": "Martial Arts",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.martialarts.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/martialartsmeta/img/favicon.ico",
+    "site_url": "https://martialarts.meta.stackexchange.com",
+    "api_site_parameter": "martialarts.meta",
+    "name": "Martial Arts Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/sports/img/favicon.ico",
+    "site_url": "https://sports.stackexchange.com",
+    "api_site_parameter": "sports",
+    "name": "Sports",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.sports.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/sportsmeta/img/favicon.ico",
+    "site_url": "https://sports.meta.stackexchange.com",
+    "api_site_parameter": "sports.meta",
+    "name": "Sports Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://academics.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/academia/img/favicon.ico",
+    "site_url": "https://academia.stackexchange.com",
+    "api_site_parameter": "academia",
+    "name": "Academia",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.academia.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/academiameta/img/favicon.ico",
+    "site_url": "https://academia.meta.stackexchange.com",
+    "api_site_parameter": "academia.meta",
+    "name": "Academia Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://computerscience.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/cs/img/favicon.ico",
+    "site_url": "https://cs.stackexchange.com",
+    "api_site_parameter": "cs",
+    "name": "Computer Science",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.cs.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/csmeta/img/favicon.ico",
+    "site_url": "https://cs.meta.stackexchange.com",
+    "api_site_parameter": "cs.meta",
+    "name": "Computer Science Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/workplace/img/favicon.ico",
+    "site_url": "https://workplace.stackexchange.com",
+    "api_site_parameter": "workplace",
+    "name": "The Workplace",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.workplace.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/workplacemeta/img/favicon.ico",
+    "site_url": "https://workplace.meta.stackexchange.com",
+    "api_site_parameter": "workplace.meta",
+    "name": "The Workplace Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/windowsphone/img/favicon.ico",
+    "site_url": "https://windowsphone.stackexchange.com",
+    "api_site_parameter": "windowsphone",
+    "name": "Windows Phone",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.windowsphone.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/windowsphonemeta/img/favicon.ico",
+    "site_url": "https://windowsphone.meta.stackexchange.com",
+    "api_site_parameter": "windowsphone.meta",
+    "name": "Windows Phone Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/chemistry/img/favicon.ico",
+    "site_url": "https://chemistry.stackexchange.com",
+    "api_site_parameter": "chemistry",
+    "name": "Chemistry",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.chemistry.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/chemistrymeta/img/favicon.ico",
+    "site_url": "https://chemistry.meta.stackexchange.com",
+    "api_site_parameter": "chemistry.meta",
+    "name": "Chemistry Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/chess/img/favicon.ico",
+    "site_url": "https://chess.stackexchange.com",
+    "api_site_parameter": "chess",
+    "name": "Chess",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.chess.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/chessmeta/img/favicon.ico",
+    "site_url": "https://chess.meta.stackexchange.com",
+    "api_site_parameter": "chess.meta",
+    "name": "Chess Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/raspberrypi/img/favicon.ico",
+    "site_url": "https://raspberrypi.stackexchange.com",
+    "api_site_parameter": "raspberrypi",
+    "name": "Raspberry Pi",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.raspberrypi.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/raspberrypimeta/img/favicon.ico",
+    "site_url": "https://raspberrypi.meta.stackexchange.com",
+    "api_site_parameter": "raspberrypi.meta",
+    "name": "Raspberry Pi Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/russian/img/favicon.ico",
+    "site_url": "https://russian.stackexchange.com",
+    "api_site_parameter": "russian",
+    "name": "Russian Language",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.russian.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/russianmeta/img/favicon.ico",
+    "site_url": "https://russian.meta.stackexchange.com",
+    "api_site_parameter": "russian.meta",
+    "name": "Russian Language Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/islam/img/favicon.ico",
+    "site_url": "https://islam.stackexchange.com",
+    "api_site_parameter": "islam",
+    "name": "Islam",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.islam.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/islammeta/img/favicon.ico",
+    "site_url": "https://islam.meta.stackexchange.com",
+    "api_site_parameter": "islam.meta",
+    "name": "Islam Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/salesforce/img/favicon.ico",
+    "site_url": "https://salesforce.stackexchange.com",
+    "api_site_parameter": "salesforce",
+    "name": "Salesforce",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.salesforce.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/salesforcemeta/img/favicon.ico",
+    "site_url": "https://salesforce.meta.stackexchange.com",
+    "api_site_parameter": "salesforce.meta",
+    "name": "Salesforce Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://askpatents.com", "http://askpatents.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/patents/img/favicon.ico",
+    "site_url": "https://patents.stackexchange.com",
+    "api_site_parameter": "patents",
+    "name": "Ask Patents",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.askpatents.com", "http://meta.askpatents.stackexchange.com", "http://meta.patents.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/patentsmeta/img/favicon.ico",
+    "site_url": "https://patents.meta.stackexchange.com",
+    "api_site_parameter": "patents.meta",
+    "name": "Ask Patents Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/genealogy/img/favicon.ico",
+    "site_url": "https://genealogy.stackexchange.com",
+    "api_site_parameter": "genealogy",
+    "name": "Genealogy \u0026amp; Family History",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.genealogy.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/genealogymeta/img/favicon.ico",
+    "site_url": "https://genealogy.meta.stackexchange.com",
+    "api_site_parameter": "genealogy.meta",
+    "name": "Genealogy \u0026amp; Family History Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/robotics/img/favicon.ico",
+    "site_url": "https://robotics.stackexchange.com",
+    "api_site_parameter": "robotics",
+    "name": "Robotics",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.robotics.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/roboticsmeta/img/favicon.ico",
+    "site_url": "https://robotics.meta.stackexchange.com",
+    "api_site_parameter": "robotics.meta",
+    "name": "Robotics Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/expressionengine/img/favicon.ico",
+    "site_url": "https://expressionengine.stackexchange.com",
+    "api_site_parameter": "expressionengine",
+    "name": "ExpressionEngine\u0026#174; Answers",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.expressionengine.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/expressionenginemeta/img/favicon.ico",
+    "site_url": "https://expressionengine.meta.stackexchange.com",
+    "api_site_parameter": "expressionengine.meta",
+    "name": "ExpressionEngine\u0026#174; Answers Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/politics/img/favicon.ico",
+    "site_url": "https://politics.stackexchange.com",
+    "api_site_parameter": "politics",
+    "name": "Politics",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.politics.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/politicsmeta/img/favicon.ico",
+    "site_url": "https://politics.meta.stackexchange.com",
+    "api_site_parameter": "politics.meta",
+    "name": "Politics Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/anime/img/favicon.ico",
+    "site_url": "https://anime.stackexchange.com",
+    "api_site_parameter": "anime",
+    "name": "Anime \u0026amp; Manga",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.anime.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/animemeta/img/favicon.ico",
+    "site_url": "https://anime.meta.stackexchange.com",
+    "api_site_parameter": "anime.meta",
+    "name": "Anime \u0026amp; Manga Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/magento/img/favicon.ico",
+    "site_url": "https://magento.stackexchange.com",
+    "api_site_parameter": "magento",
+    "name": "Magento",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.magento.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/magentometa/img/favicon.ico",
+    "site_url": "https://magento.meta.stackexchange.com",
+    "api_site_parameter": "magento.meta",
+    "name": "Magento Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/ell/img/favicon.ico",
+    "site_url": "https://ell.stackexchange.com",
+    "api_site_parameter": "ell",
+    "name": "English Language Learners",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.ell.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/ellmeta/img/favicon.ico",
+    "site_url": "https://ell.meta.stackexchange.com",
+    "api_site_parameter": "ell.meta",
+    "name": "English Language Learners Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/sustainability/img/favicon.ico",
+    "site_url": "https://sustainability.stackexchange.com",
+    "api_site_parameter": "sustainability",
+    "name": "Sustainable Living",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.sustainability.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/sustainabilitymeta/img/favicon.ico",
+    "site_url": "https://sustainability.meta.stackexchange.com",
+    "api_site_parameter": "sustainability.meta",
+    "name": "Sustainable Living Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/tridion/img/favicon.ico",
+    "site_url": "https://tridion.stackexchange.com",
+    "api_site_parameter": "tridion",
+    "name": "Tridion",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.tridion.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/tridionmeta/img/favicon.ico",
+    "site_url": "https://tridion.meta.stackexchange.com",
+    "api_site_parameter": "tridion.meta",
+    "name": "Tridion Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/reverseengineering/img/favicon.ico",
+    "site_url": "https://reverseengineering.stackexchange.com",
+    "api_site_parameter": "reverseengineering",
+    "name": "Reverse Engineering",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.reverseengineering.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/reverseengineeringmeta/img/favicon.ico",
+    "site_url": "https://reverseengineering.meta.stackexchange.com",
+    "api_site_parameter": "reverseengineering.meta",
+    "name": "Reverse Engineering Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/networkengineering/img/favicon.ico",
+    "site_url": "https://networkengineering.stackexchange.com",
+    "api_site_parameter": "networkengineering",
+    "name": "Network Engineering",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.networkengineering.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/networkengineeringmeta/img/favicon.ico",
+    "site_url": "https://networkengineering.meta.stackexchange.com",
+    "api_site_parameter": "networkengineering.meta",
+    "name": "Network Engineering Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/opendata/img/favicon.ico",
+    "site_url": "https://opendata.stackexchange.com",
+    "api_site_parameter": "opendata",
+    "name": "Open Data",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.opendata.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/opendatameta/img/favicon.ico",
+    "site_url": "https://opendata.meta.stackexchange.com",
+    "api_site_parameter": "opendata.meta",
+    "name": "Open Data Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/freelancing/img/favicon.ico",
+    "site_url": "https://freelancing.stackexchange.com",
+    "api_site_parameter": "freelancing",
+    "name": "Freelancing",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.freelancing.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/freelancingmeta/img/favicon.ico",
+    "site_url": "https://freelancing.meta.stackexchange.com",
+    "api_site_parameter": "freelancing.meta",
+    "name": "Freelancing Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/blender/img/favicon.ico",
+    "site_url": "https://blender.stackexchange.com",
+    "api_site_parameter": "blender",
+    "name": "Blender",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.blender.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/blendermeta/img/favicon.ico",
+    "site_url": "https://blender.meta.stackexchange.com",
+    "api_site_parameter": "blender.meta",
+    "name": "Blender Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://mathoverflow.stackexchange.com", "http://mathoverflow.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/mathoverflow/img/favicon.ico",
+    "site_url": "https://mathoverflow.net",
+    "api_site_parameter": "mathoverflow.net",
+    "name": "MathOverflow",
+    "site_type": "main_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/mathoverflowmeta/img/favicon.ico",
+    "site_url": "https://meta.mathoverflow.net",
+    "api_site_parameter": "meta.mathoverflow.net",
+    "name": "MathOverflow Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://thefinalfrontier.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/space/img/favicon.ico",
+    "site_url": "https://space.stackexchange.com",
+    "api_site_parameter": "space",
+    "name": "Space Exploration",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.space.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/spacemeta/img/favicon.ico",
+    "site_url": "https://space.meta.stackexchange.com",
+    "api_site_parameter": "space.meta",
+    "name": "Space Exploration Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://socialsounddesign.com", "http://sounddesign.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/sound/img/favicon.ico",
+    "site_url": "https://sound.stackexchange.com",
+    "api_site_parameter": "sound",
+    "name": "Sound Design",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.sound.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/soundmeta/img/favicon.ico",
+    "site_url": "https://sound.meta.stackexchange.com",
+    "api_site_parameter": "sound.meta",
+    "name": "Sound Design Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/astronomy/img/favicon.ico",
+    "site_url": "https://astronomy.stackexchange.com",
+    "api_site_parameter": "astronomy",
+    "name": "Astronomy",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.astronomy.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/astronomymeta/img/favicon.ico",
+    "site_url": "https://astronomy.meta.stackexchange.com",
+    "api_site_parameter": "astronomy.meta",
+    "name": "Astronomy Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/tor/img/favicon.ico",
+    "site_url": "https://tor.stackexchange.com",
+    "api_site_parameter": "tor",
+    "name": "Tor",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.tor.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/tormeta/img/favicon.ico",
+    "site_url": "https://tor.meta.stackexchange.com",
+    "api_site_parameter": "tor.meta",
+    "name": "Tor Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/pets/img/favicon.ico",
+    "site_url": "https://pets.stackexchange.com",
+    "api_site_parameter": "pets",
+    "name": "Pets",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.pets.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/petsmeta/img/favicon.ico",
+    "site_url": "https://pets.meta.stackexchange.com",
+    "api_site_parameter": "pets.meta",
+    "name": "Pets Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/ham/img/favicon.ico",
+    "site_url": "https://ham.stackexchange.com",
+    "api_site_parameter": "ham",
+    "name": "Amateur Radio",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.ham.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/hammeta/img/favicon.ico",
+    "site_url": "https://ham.meta.stackexchange.com",
+    "api_site_parameter": "ham.meta",
+    "name": "Amateur Radio Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/italian/img/favicon.ico",
+    "site_url": "https://italian.stackexchange.com",
+    "api_site_parameter": "italian",
+    "name": "Italian Language",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.italian.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/italianmeta/img/favicon.ico",
+    "site_url": "https://italian.meta.stackexchange.com",
+    "api_site_parameter": "italian.meta",
+    "name": "Italian Language Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://br.stackoverflow.com", "http://stackoverflow.com.br"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/br/img/favicon.ico",
+    "site_url": "https://pt.stackoverflow.com",
+    "api_site_parameter": "pt.stackoverflow",
+    "name": "Stack Overflow em Portugu\u0026#234;s",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.br.stackoverflow.com", "http://meta.pt.stackoverflow.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/brmeta/img/favicon.ico",
+    "site_url": "https://pt.meta.stackoverflow.com",
+    "api_site_parameter": "pt.meta.stackoverflow",
+    "name": "Stack Overflow em Portugu\u0026#234;s Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/aviation/img/favicon.ico",
+    "site_url": "https://aviation.stackexchange.com",
+    "api_site_parameter": "aviation",
+    "name": "Aviation",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.aviation.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/aviationmeta/img/favicon.ico",
+    "site_url": "https://aviation.meta.stackexchange.com",
+    "api_site_parameter": "aviation.meta",
+    "name": "Aviation Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/ebooks/img/favicon.ico",
+    "site_url": "https://ebooks.stackexchange.com",
+    "api_site_parameter": "ebooks",
+    "name": "Ebooks",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.ebooks.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/ebooksmeta/img/favicon.ico",
+    "site_url": "https://ebooks.meta.stackexchange.com",
+    "api_site_parameter": "ebooks.meta",
+    "name": "Ebooks Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://beer.stackexchange.com", "http://dranks.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/alcohol/img/favicon.ico",
+    "site_url": "https://alcohol.stackexchange.com",
+    "api_site_parameter": "alcohol",
+    "name": "Beer, Wine \u0026amp; Spirits",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.beer.stackexchange.com", "http://meta.alcohol.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/alcoholmeta/img/favicon.ico",
+    "site_url": "https://alcohol.meta.stackexchange.com",
+    "api_site_parameter": "alcohol.meta",
+    "name": "Beer, Wine \u0026amp; Spirits Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/softwarerecs/img/favicon.ico",
+    "site_url": "https://softwarerecs.stackexchange.com",
+    "api_site_parameter": "softwarerecs",
+    "name": "Software Recommendations",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.softwarerecs.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/softwarerecsmeta/img/favicon.ico",
+    "site_url": "https://softwarerecs.meta.stackexchange.com",
+    "api_site_parameter": "softwarerecs.meta",
+    "name": "Software Recommendations Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/arduino/img/favicon.ico",
+    "site_url": "https://arduino.stackexchange.com",
+    "api_site_parameter": "arduino",
+    "name": "Arduino",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.arduino.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/arduinometa/img/favicon.ico",
+    "site_url": "https://arduino.meta.stackexchange.com",
+    "api_site_parameter": "arduino.meta",
+    "name": "Arduino Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/cs50/img/favicon.ico",
+    "site_url": "https://cs50.stackexchange.com",
+    "api_site_parameter": "cs50",
+    "name": "CS50",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.cs50.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/cs50meta/img/favicon.ico",
+    "site_url": "https://cs50.meta.stackexchange.com",
+    "api_site_parameter": "cs50.meta",
+    "name": "CS50 Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://expats.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/expatriates/img/favicon.ico",
+    "site_url": "https://expatriates.stackexchange.com",
+    "api_site_parameter": "expatriates",
+    "name": "Expatriates",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.expatriates.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/expatriatesmeta/img/favicon.ico",
+    "site_url": "https://expatriates.meta.stackexchange.com",
+    "api_site_parameter": "expatriates.meta",
+    "name": "Expatriates Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/matheducators/img/favicon.ico",
+    "site_url": "https://matheducators.stackexchange.com",
+    "api_site_parameter": "matheducators",
+    "name": "Mathematics Educators",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.matheducators.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/matheducatorsmeta/img/favicon.ico",
+    "site_url": "https://matheducators.meta.stackexchange.com",
+    "api_site_parameter": "matheducators.meta",
+    "name": "Mathematics Educators Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://meta.stackoverflow.com/content/Sites/stackoverflowmeta/img/favicon.ico",
+    "site_url": "https://meta.stackoverflow.com",
+    "api_site_parameter": "meta.stackoverflow",
+    "name": "Meta Stack Overflow",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/earthscience/img/favicon.ico",
+    "site_url": "https://earthscience.stackexchange.com",
+    "api_site_parameter": "earthscience",
+    "name": "Earth Science",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.earthscience.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/earthsciencemeta/img/favicon.ico",
+    "site_url": "https://earthscience.meta.stackexchange.com",
+    "api_site_parameter": "earthscience.meta",
+    "name": "Earth Science Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/joomla/img/favicon.ico",
+    "site_url": "https://joomla.stackexchange.com",
+    "api_site_parameter": "joomla",
+    "name": "Joomla",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.joomla.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/joomlameta/img/favicon.ico",
+    "site_url": "https://joomla.meta.stackexchange.com",
+    "api_site_parameter": "joomla.meta",
+    "name": "Joomla Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/datascience/img/favicon.ico",
+    "site_url": "https://datascience.stackexchange.com",
+    "api_site_parameter": "datascience",
+    "name": "Data Science",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.datascience.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/datasciencemeta/img/favicon.ico",
+    "site_url": "https://datascience.meta.stackexchange.com",
+    "api_site_parameter": "datascience.meta",
+    "name": "Data Science Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/puzzling/img/favicon.ico",
+    "site_url": "https://puzzling.stackexchange.com",
+    "api_site_parameter": "puzzling",
+    "name": "Puzzling",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.puzzling.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/puzzlingmeta/img/favicon.ico",
+    "site_url": "https://puzzling.meta.stackexchange.com",
+    "api_site_parameter": "puzzling.meta",
+    "name": "Puzzling Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/craftcms/img/favicon.ico",
+    "site_url": "https://craftcms.stackexchange.com",
+    "api_site_parameter": "craftcms",
+    "name": "Craft CMS",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.craftcms.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/craftcmsmeta/img/favicon.ico",
+    "site_url": "https://craftcms.meta.stackexchange.com",
+    "api_site_parameter": "craftcms.meta",
+    "name": "Craft CMS Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/buddhism/img/favicon.ico",
+    "site_url": "https://buddhism.stackexchange.com",
+    "api_site_parameter": "buddhism",
+    "name": "Buddhism",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.buddhism.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/buddhismmeta/img/favicon.ico",
+    "site_url": "https://buddhism.meta.stackexchange.com",
+    "api_site_parameter": "buddhism.meta",
+    "name": "Buddhism Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/hinduism/img/favicon.ico",
+    "site_url": "https://hinduism.stackexchange.com",
+    "api_site_parameter": "hinduism",
+    "name": "Hinduism",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.hinduism.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/hinduismmeta/img/favicon.ico",
+    "site_url": "https://hinduism.meta.stackexchange.com",
+    "api_site_parameter": "hinduism.meta",
+    "name": "Hinduism Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://moderator.stackexchange.com", "http://moderators.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/communitybuilding/img/favicon.ico",
+    "site_url": "https://communitybuilding.stackexchange.com",
+    "api_site_parameter": "communitybuilding",
+    "name": "Community Building",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.moderators.stackexchange.com", "http://meta.communitybuilding.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/communitybuildingmeta/img/favicon.ico",
+    "site_url": "https://communitybuilding.meta.stackexchange.com",
+    "api_site_parameter": "communitybuilding.meta",
+    "name": "Community Building Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/worldbuilding/img/favicon.ico",
+    "site_url": "https://worldbuilding.stackexchange.com",
+    "api_site_parameter": "worldbuilding",
+    "name": "Worldbuilding",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.worldbuilding.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/worldbuildingmeta/img/favicon.ico",
+    "site_url": "https://worldbuilding.meta.stackexchange.com",
+    "api_site_parameter": "worldbuilding.meta",
+    "name": "Worldbuilding Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://jp.stackoverflow.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/ja/img/favicon.ico",
+    "site_url": "https://ja.stackoverflow.com",
+    "api_site_parameter": "ja.stackoverflow",
+    "name": "スタック・オーバーフロー",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.ja.stackoverflow.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/jameta/img/favicon.ico",
+    "site_url": "https://ja.meta.stackoverflow.com",
+    "api_site_parameter": "ja.meta.stackoverflow",
+    "name": "スタック・オーバーフローMeta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/emacs/img/favicon.ico",
+    "site_url": "https://emacs.stackexchange.com",
+    "api_site_parameter": "emacs",
+    "name": "Emacs",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.emacs.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/emacsmeta/img/favicon.ico",
+    "site_url": "https://emacs.meta.stackexchange.com",
+    "api_site_parameter": "emacs.meta",
+    "name": "Emacs Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/hsm/img/favicon.ico",
+    "site_url": "https://hsm.stackexchange.com",
+    "api_site_parameter": "hsm",
+    "name": "History of Science and Mathematics",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.hsm.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/hsmmeta/img/favicon.ico",
+    "site_url": "https://hsm.meta.stackexchange.com",
+    "api_site_parameter": "hsm.meta",
+    "name": "History of Science and Mathematics Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/economics/img/favicon.ico",
+    "site_url": "https://economics.stackexchange.com",
+    "api_site_parameter": "economics",
+    "name": "Economics",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.economics.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/economicsmeta/img/favicon.ico",
+    "site_url": "https://economics.meta.stackexchange.com",
+    "api_site_parameter": "economics.meta",
+    "name": "Economics Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/lifehacks/img/favicon.ico",
+    "site_url": "https://lifehacks.stackexchange.com",
+    "api_site_parameter": "lifehacks",
+    "name": "Lifehacks",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.lifehacks.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/lifehacksmeta/img/favicon.ico",
+    "site_url": "https://lifehacks.meta.stackexchange.com",
+    "api_site_parameter": "lifehacks.meta",
+    "name": "Lifehacks Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/engineering/img/favicon.ico",
+    "site_url": "https://engineering.stackexchange.com",
+    "api_site_parameter": "engineering",
+    "name": "Engineering",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.engineering.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/engineeringmeta/img/favicon.ico",
+    "site_url": "https://engineering.meta.stackexchange.com",
+    "api_site_parameter": "engineering.meta",
+    "name": "Engineering Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/coffee/img/favicon.ico",
+    "site_url": "https://coffee.stackexchange.com",
+    "api_site_parameter": "coffee",
+    "name": "Coffee",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.coffee.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/coffeemeta/img/favicon.ico",
+    "site_url": "https://coffee.meta.stackexchange.com",
+    "api_site_parameter": "coffee.meta",
+    "name": "Coffee Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://vim.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/vi/img/favicon.ico",
+    "site_url": "https://vi.stackexchange.com",
+    "api_site_parameter": "vi",
+    "name": "Vi and Vim",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.vi.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/vimeta/img/favicon.ico",
+    "site_url": "https://vi.meta.stackexchange.com",
+    "api_site_parameter": "vi.meta",
+    "name": "Vi and Vim Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/musicfans/img/favicon.ico",
+    "site_url": "https://musicfans.stackexchange.com",
+    "api_site_parameter": "musicfans",
+    "name": "Music Fans",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.musicfans.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/musicfansmeta/img/favicon.ico",
+    "site_url": "https://musicfans.meta.stackexchange.com",
+    "api_site_parameter": "musicfans.meta",
+    "name": "Music Fans Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/woodworking/img/favicon.ico",
+    "site_url": "https://woodworking.stackexchange.com",
+    "api_site_parameter": "woodworking",
+    "name": "Woodworking",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.woodworking.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/woodworkingmeta/img/favicon.ico",
+    "site_url": "https://woodworking.meta.stackexchange.com",
+    "api_site_parameter": "woodworking.meta",
+    "name": "Woodworking Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/civicrm/img/favicon.ico",
+    "site_url": "https://civicrm.stackexchange.com",
+    "api_site_parameter": "civicrm",
+    "name": "CiviCRM",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.civicrm.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/civicrmmeta/img/favicon.ico",
+    "site_url": "https://civicrm.meta.stackexchange.com",
+    "api_site_parameter": "civicrm.meta",
+    "name": "CiviCRM Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/health/img/favicon.ico",
+    "site_url": "https://health.stackexchange.com",
+    "api_site_parameter": "health",
+    "name": "Health",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.health.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/healthmeta/img/favicon.ico",
+    "site_url": "https://health.meta.stackexchange.com",
+    "api_site_parameter": "health.meta",
+    "name": "Health Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://hashcode.ru", "http://stackoverflow.ru"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/ru/img/favicon.ico",
+    "site_url": "https://ru.stackoverflow.com",
+    "api_site_parameter": "ru.stackoverflow",
+    "name": "Stack Overflow на русском",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.hashcode.ru", "http://meta.ru.stackoverflow.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/rumeta/img/favicon.ico",
+    "site_url": "https://ru.meta.stackoverflow.com",
+    "api_site_parameter": "ru.meta.stackoverflow",
+    "name": "Stack Overflow на русском Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://russ.hashcode.ru", "http://russ.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/rus/img/favicon.ico",
+    "site_url": "https://rus.stackexchange.com",
+    "api_site_parameter": "rus",
+    "name": "Русский язык",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.rus.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/rusmeta/img/favicon.ico",
+    "site_url": "https://rus.meta.stackexchange.com",
+    "api_site_parameter": "rus.meta",
+    "name": "Русский язык Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/mythology/img/favicon.ico",
+    "site_url": "https://mythology.stackexchange.com",
+    "api_site_parameter": "mythology",
+    "name": "Mythology \u0026amp; Folklore",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.mythology.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/mythologymeta/img/favicon.ico",
+    "site_url": "https://mythology.meta.stackexchange.com",
+    "api_site_parameter": "mythology.meta",
+    "name": "Mythology \u0026amp; Folklore Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/law/img/favicon.ico",
+    "site_url": "https://law.stackexchange.com",
+    "api_site_parameter": "law",
+    "name": "Law",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.law.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/lawmeta/img/favicon.ico",
+    "site_url": "https://law.meta.stackexchange.com",
+    "api_site_parameter": "law.meta",
+    "name": "Law Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/opensource/img/favicon.ico",
+    "site_url": "https://opensource.stackexchange.com",
+    "api_site_parameter": "opensource",
+    "name": "Open Source",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.opensource.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/opensourcemeta/img/favicon.ico",
+    "site_url": "https://opensource.meta.stackexchange.com",
+    "api_site_parameter": "opensource.meta",
+    "name": "Open Source Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/elementaryos/img/favicon.ico",
+    "site_url": "https://elementaryos.stackexchange.com",
+    "api_site_parameter": "elementaryos",
+    "name": "elementary OS",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.elementaryos.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/elementaryosmeta/img/favicon.ico",
+    "site_url": "https://elementaryos.meta.stackexchange.com",
+    "api_site_parameter": "elementaryos.meta",
+    "name": "elementary OS Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/portuguese/img/favicon.ico",
+    "site_url": "https://portuguese.stackexchange.com",
+    "api_site_parameter": "portuguese",
+    "name": "Portuguese Language",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.portuguese.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/portuguesemeta/img/favicon.ico",
+    "site_url": "https://portuguese.meta.stackexchange.com",
+    "api_site_parameter": "portuguese.meta",
+    "name": "Portuguese Language Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/computergraphics/img/favicon.ico",
+    "site_url": "https://computergraphics.stackexchange.com",
+    "api_site_parameter": "computergraphics",
+    "name": "Computer Graphics",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.computergraphics.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/computergraphicsmeta/img/favicon.ico",
+    "site_url": "https://computergraphics.meta.stackexchange.com",
+    "api_site_parameter": "computergraphics.meta",
+    "name": "Computer Graphics Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/hardwarerecs/img/favicon.ico",
+    "site_url": "https://hardwarerecs.stackexchange.com",
+    "api_site_parameter": "hardwarerecs",
+    "name": "Hardware Recommendations",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.hardwarerecs.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/hardwarerecsmeta/img/favicon.ico",
+    "site_url": "https://hardwarerecs.meta.stackexchange.com",
+    "api_site_parameter": "hardwarerecs.meta",
+    "name": "Hardware Recommendations Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/es/img/favicon.ico",
+    "site_url": "https://es.stackoverflow.com",
+    "api_site_parameter": "es.stackoverflow",
+    "name": "Stack Overflow en espa\u0026#241;ol",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.es.stackoverflow.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/esmeta/img/favicon.ico",
+    "site_url": "https://es.meta.stackoverflow.com",
+    "api_site_parameter": "es.meta.stackoverflow",
+    "name": "Stack Overflow Meta en espa\u0026#241;ol",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://threedprinting.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/3dprinting/img/favicon.ico",
+    "site_url": "https://3dprinting.stackexchange.com",
+    "api_site_parameter": "3dprinting",
+    "name": "3D Printing",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.3dprinting.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/3dprintingmeta/img/favicon.ico",
+    "site_url": "https://3dprinting.meta.stackexchange.com",
+    "api_site_parameter": "3dprinting.meta",
+    "name": "3D Printing Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/ethereum/img/favicon.ico",
+    "site_url": "https://ethereum.stackexchange.com",
+    "api_site_parameter": "ethereum",
+    "name": "Ethereum",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.ethereum.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/ethereummeta/img/favicon.ico",
+    "site_url": "https://ethereum.meta.stackexchange.com",
+    "api_site_parameter": "ethereum.meta",
+    "name": "Ethereum Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/latin/img/favicon.ico",
+    "site_url": "https://latin.stackexchange.com",
+    "api_site_parameter": "latin",
+    "name": "Latin Language",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.latin.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/latinmeta/img/favicon.ico",
+    "site_url": "https://latin.meta.stackexchange.com",
+    "api_site_parameter": "latin.meta",
+    "name": "Latin Language Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/languagelearning/img/favicon.ico",
+    "site_url": "https://languagelearning.stackexchange.com",
+    "api_site_parameter": "languagelearning",
+    "name": "Language Learning",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.languagelearning.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/languagelearningmeta/img/favicon.ico",
+    "site_url": "https://languagelearning.meta.stackexchange.com",
+    "api_site_parameter": "languagelearning.meta",
+    "name": "Language Learning Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/retrocomputing/img/favicon.ico",
+    "site_url": "https://retrocomputing.stackexchange.com",
+    "api_site_parameter": "retrocomputing",
+    "name": "Retrocomputing",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.retrocomputing.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/retrocomputingmeta/img/favicon.ico",
+    "site_url": "https://retrocomputing.meta.stackexchange.com",
+    "api_site_parameter": "retrocomputing.meta",
+    "name": "Retrocomputing Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/crafts/img/favicon.ico",
+    "site_url": "https://crafts.stackexchange.com",
+    "api_site_parameter": "crafts",
+    "name": "Arts \u0026amp; Crafts",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.crafts.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/craftsmeta/img/favicon.ico",
+    "site_url": "https://crafts.meta.stackexchange.com",
+    "api_site_parameter": "crafts.meta",
+    "name": "Arts \u0026amp; Crafts Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/korean/img/favicon.ico",
+    "site_url": "https://korean.stackexchange.com",
+    "api_site_parameter": "korean",
+    "name": "Korean Language",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.korean.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/koreanmeta/img/favicon.ico",
+    "site_url": "https://korean.meta.stackexchange.com",
+    "api_site_parameter": "korean.meta",
+    "name": "Korean Language Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/monero/img/favicon.ico",
+    "site_url": "https://monero.stackexchange.com",
+    "api_site_parameter": "monero",
+    "name": "Monero",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.monero.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/monerometa/img/favicon.ico",
+    "site_url": "https://monero.meta.stackexchange.com",
+    "api_site_parameter": "monero.meta",
+    "name": "Monero Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/ai/img/favicon.ico",
+    "site_url": "https://ai.stackexchange.com",
+    "api_site_parameter": "ai",
+    "name": "Artificial Intelligence",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.ai.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/aimeta/img/favicon.ico",
+    "site_url": "https://ai.meta.stackexchange.com",
+    "api_site_parameter": "ai.meta",
+    "name": "Artificial Intelligence Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/esperanto/img/favicon.ico",
+    "site_url": "https://esperanto.stackexchange.com",
+    "api_site_parameter": "esperanto",
+    "name": "Esperanto Language",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.esperanto.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/esperantometa/img/favicon.ico",
+    "site_url": "https://esperanto.meta.stackexchange.com",
+    "api_site_parameter": "esperanto.meta",
+    "name": "Esperanto Language Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/sitecore/img/favicon.ico",
+    "site_url": "https://sitecore.stackexchange.com",
+    "api_site_parameter": "sitecore",
+    "name": "Sitecore",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.sitecore.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/sitecoremeta/img/favicon.ico",
+    "site_url": "https://sitecore.meta.stackexchange.com",
+    "api_site_parameter": "sitecore.meta",
+    "name": "Sitecore Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/iot/img/favicon.ico",
+    "site_url": "https://iot.stackexchange.com",
+    "api_site_parameter": "iot",
+    "name": "Internet of Things",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.iot.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/iotmeta/img/favicon.ico",
+    "site_url": "https://iot.meta.stackexchange.com",
+    "api_site_parameter": "iot.meta",
+    "name": "Internet of Things Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/literature/img/favicon.ico",
+    "site_url": "https://literature.stackexchange.com",
+    "api_site_parameter": "literature",
+    "name": "Literature",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.literature.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/literaturemeta/img/favicon.ico",
+    "site_url": "https://literature.meta.stackexchange.com",
+    "api_site_parameter": "literature.meta",
+    "name": "Literature Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://vegetarian.stackexchange.com", "http://veg.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/vegetarianism/img/favicon.ico",
+    "site_url": "https://vegetarianism.stackexchange.com",
+    "api_site_parameter": "vegetarianism",
+    "name": "Veganism \u0026amp; Vegetarianism",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.vegetarian.stackexchange.com", "http://meta.vegetarianism.stackexchange.com", "http://veg.meta.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/vegetarianismmeta/img/favicon.ico",
+    "site_url": "https://vegetarianism.meta.stackexchange.com",
+    "api_site_parameter": "vegetarianism.meta",
+    "name": "Veganism \u0026amp; Vegetarianism Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/ukrainian/img/favicon.ico",
+    "site_url": "https://ukrainian.stackexchange.com",
+    "api_site_parameter": "ukrainian",
+    "name": "Ukrainian Language",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.ukrainian.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/ukrainianmeta/img/favicon.ico",
+    "site_url": "https://ukrainian.meta.stackexchange.com",
+    "api_site_parameter": "ukrainian.meta",
+    "name": "Ukrainian Language Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/devops/img/favicon.ico",
+    "site_url": "https://devops.stackexchange.com",
+    "api_site_parameter": "devops",
+    "name": "DevOps",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://meta.devops.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/devopsmeta/img/favicon.ico",
+    "site_url": "https://devops.meta.stackexchange.com",
+    "api_site_parameter": "devops.meta",
+    "name": "DevOps Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/bioinformatics/img/favicon.ico",
+    "site_url": "https://bioinformatics.stackexchange.com",
+    "api_site_parameter": "bioinformatics",
+    "name": "Bioinformatics",
+    "site_type": "main_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/bioinformaticsmeta/img/favicon.ico",
+    "site_url": "https://bioinformatics.meta.stackexchange.com",
+    "api_site_parameter": "bioinformatics.meta",
+    "name": "Bioinformatics Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/cseducators/img/favicon.ico",
+    "site_url": "https://cseducators.stackexchange.com",
+    "api_site_parameter": "cseducators",
+    "name": "Computer Science Educators",
+    "site_type": "main_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/cseducatorsmeta/img/favicon.ico",
+    "site_url": "https://cseducators.meta.stackexchange.com",
+    "api_site_parameter": "cseducators.meta",
+    "name": "Computer Science Educators Meta",
+    "site_type": "meta_site"
+  }, {
+    "aliases": ["http://interpersonalskills.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/interpersonal/img/favicon.ico",
+    "site_url": "https://interpersonal.stackexchange.com",
+    "api_site_parameter": "interpersonal",
+    "name": "Interpersonal Skills",
+    "site_type": "main_site"
+  }, {
+    "aliases": ["http://interpersonalskills.meta.stackexchange.com"],
+    "favicon_url": "https://cdn.sstatic.net/Sites/interpersonalmeta/img/favicon.ico",
+    "site_url": "https://interpersonal.meta.stackexchange.com",
+    "api_site_parameter": "interpersonal.meta",
+    "name": "Interpersonal Skills Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/augur/img/favicon.ico",
+    "site_url": "https://augur.stackexchange.com",
+    "api_site_parameter": "augur",
+    "name": "Augur",
+    "site_type": "main_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/augurmeta/img/favicon.ico",
+    "site_url": "https://augur.meta.stackexchange.com",
+    "api_site_parameter": "augur.meta",
+    "name": "Augur Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/iota/img/favicon.ico",
+    "site_url": "https://iota.stackexchange.com",
+    "api_site_parameter": "iota",
+    "name": "Iota",
+    "site_type": "main_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/iotameta/img/favicon.ico",
+    "site_url": "https://iota.meta.stackexchange.com",
+    "api_site_parameter": "iota.meta",
+    "name": "Iota Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/stellar/img/favicon.ico",
+    "site_url": "https://stellar.stackexchange.com",
+    "api_site_parameter": "stellar",
+    "name": "Stellar",
+    "site_type": "main_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/stellarmeta/img/favicon.ico",
+    "site_url": "https://stellar.meta.stackexchange.com",
+    "api_site_parameter": "stellar.meta",
+    "name": "Stellar Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/conlang/img/favicon.ico",
+    "site_url": "https://conlang.stackexchange.com",
+    "api_site_parameter": "conlang",
+    "name": "Constructed Languages",
+    "site_type": "main_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/conlangmeta/img/favicon.ico",
+    "site_url": "https://conlang.meta.stackexchange.com",
+    "api_site_parameter": "conlang.meta",
+    "name": "Constructed Languages Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/quantumcomputing/img/favicon.ico",
+    "site_url": "https://quantumcomputing.stackexchange.com",
+    "api_site_parameter": "quantumcomputing",
+    "name": "Quantum Computing",
+    "site_type": "main_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/quantumcomputingmeta/img/favicon.ico",
+    "site_url": "https://quantumcomputing.meta.stackexchange.com",
+    "api_site_parameter": "quantumcomputing.meta",
+    "name": "Quantum Computing Meta",
+    "site_type": "meta_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/eosio/img/favicon.ico",
+    "site_url": "https://eosio.stackexchange.com",
+    "api_site_parameter": "eosio",
+    "name": "EOS.IO",
+    "site_type": "main_site"
+  }, {
+    "favicon_url": "https://cdn.sstatic.net/Sites/eosiometa/img/favicon.ico",
+    "site_url": "https://eosio.meta.stackexchange.com",
+    "api_site_parameter": "eosio.meta",
+    "name": "EOS.IO Meta",
+    "site_type": "meta_site"
+  }],
   "has_more": false,
-  "quota_max": 300,
-  "quota_remaining": 289
+  "quota_max": 10000,
+  "quota_remaining": 7708
 }
