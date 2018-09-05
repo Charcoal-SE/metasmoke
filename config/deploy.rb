@@ -38,7 +38,7 @@ set :linked_dirs, fetch(:linked_dirs, []).push(
 )
 
 # Default value for default_env is {}
-# set :default_env, { path: '$(pwd)/bin:$(pwd)/node_modules/.bin:$PATH' }
+# set :default_env, { path: '/opt/ruby/bin:$PATH' }
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5

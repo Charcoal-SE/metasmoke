@@ -185,6 +185,12 @@ class PostsController < ApplicationController
   end
 
   def cast_spam_flag
+    feedback = Feedback.new(feedback_type: 'tpu-',
+                            user_id: current_user.id,
+                            post_id: @post.id)
+
+    flash[:danger] = 'Unable to save feedback. Ping Undo.' unless feedback.save
+
     if current_user.api_token.blank?
       flash[:warning] = 'You must be write-authenticated to cast a spam flag.'
       redirect_to(authentication_status_path) && return
@@ -203,13 +209,6 @@ class PostsController < ApplicationController
     if result
       flash[:success] = 'Spam flag cast successfully.'
 
-      feedback = Feedback.new(feedback_type: 'tpu-',
-                              user_id: current_user.id,
-                              post_id: @post.id)
-
-      unless feedback.save
-        flash[:danger] = 'Unable to save feedback. Ping Undo.'
-      end
     else
       flash[:danger] = "Spam flag not cast: #{message}"
     end

@@ -27,8 +27,6 @@ require 'capistrano/rails/migrations'
 require 'capistrano/passenger'
 require 'whenever/capistrano'
 require 'capistrano/locally'
-# require 'capistrano/yarn'
-require 'capistrano/npm'
 
 require 'capistrano/scm/git'
 install_plugin Capistrano::SCM::Git

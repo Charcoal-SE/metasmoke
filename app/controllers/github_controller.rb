@@ -209,13 +209,13 @@ class GithubController < ApplicationController
     if context.start_with? 'ci/circleci'
       redis = Redis.new
       if state == 'success'
-        redis.incr "sucessful_ci_count/#{sha}"
-        redis.expire "sucessful_ci_count/#{sha}", 600
-        return unless redis.get "sucessful_ci_count/#{sha}" == 3
+        redis.incr "successful_ci_count/#{sha}"
+        redis.expire "successful_ci_count/#{sha}", 1200
+        return unless redis.get("successful_ci_count/#{sha}").to_i == 3
         context = 'ci/circleci'
       else
-        redis.set "sucessful_ci_count/#{sha}", 0
-        redis.expire "sucessful_ci_count/#{sha}", 600
+        redis.set "successful_ci_count/#{sha}", 0
+        redis.expire "successful_ci_count/#{sha}", 1200
       end
     end
 
