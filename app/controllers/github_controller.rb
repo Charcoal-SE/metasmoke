@@ -207,25 +207,13 @@ class GithubController < ApplicationController
     return if state == 'pending' || (state == 'success' && context == 'github/pages')
 
     if context.start_with? 'ci/circleci'
-      logger = Logger.new(File.join(Rails.root, 'log/circleci.log'))
       redis = Redis.new
-      logger.info '================= BEFORE ================='
-      logger.info redis
-      logger.info "Context: #{context}"
-      logger.info "State: #{state}"
-      logger.info "SHA: #{sha}"
-      logger.info "TTL: #{redis.ttl "sucessful_ci_count/#{sha}"}"
-      logger.info "Value: #{redis.get "sucessful_ci_count/#{sha}"}"
-      logger.info '=========================================='
       if state == 'success'
-        logger.info "Incrimenting sucessful_ci_count/#{sha}"
         redis.incr "sucessful_ci_count/#{sha}"
         redis.expire "sucessful_ci_count/#{sha}", 1200
-        logger.info "Value: #{redis.get "sucessful_ci_count/#{sha}"}"
         return unless redis.get("sucessful_ci_count/#{sha}").to_i == 3
         context = 'ci/circleci'
       else
-        logger.info "Resetting sucessful_ci_count/#{sha}"
         redis.set "sucessful_ci_count/#{sha}", 0
         redis.expire "sucessful_ci_count/#{sha}", 600
       end
