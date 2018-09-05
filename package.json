@@ -48,7 +48,10 @@
         }
       ],
       "no-console": "error",
-      "brace-style": ["error", "stroustrup"]
+      "brace-style": [
+        "error",
+        "stroustrup"
+      ]
     }
   },
   "dependencies": {
@@ -61,8 +64,8 @@
     "jquery-ujs": "^1.2.2",
     "livestamp": "github:mattbradley/livestampjs#7572242",
     "moment": "^2.18.1",
-    "turbolinks": "^5.0.3",
-    "tagging": "github:thesecretmaster/tagging#master"
+    "tagging": "github:thesecretmaster/tagging#master",
+    "turbolinks": "^5.0.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.1",
@@ -82,7 +85,7 @@
     "file-loader": "^0.11.2",
     "glob": "^7.1.2",
     "js-yaml": "^3.8.4",
-    "node-sass": "^4.5.3",
+    "node-sass": "^4.9.3",
     "path-complete-extname": "^0.1.0",
     "postcss-loader": "^2.0.5",
     "postcss-smart-import": "^0.7.4",
