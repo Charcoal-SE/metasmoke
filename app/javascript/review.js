@@ -53,16 +53,16 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
 
 route(/\/review\/untagged-domains(\/\d*)?/, () => {
   $(document).on('ajax:success', '.review-add-domain-tag', () => {
-    const taggifyInput = document.getElementById('tag_name');
+    const taggifyInput = $('#tag_name');
     taggifyInput.removeAttribute('disabled');
-    const form = $(taggifyInput.parentElement.parentElement);
+    const form = taggifyInput.parents('form');
     const submitBtn = form.find('input[type=submit]');
     submitBtn.addClass('btn-success');
   });
   $(document).on('ajax:failure', '.review-add-domain-tag', () => {
-    const taggifyInput = document.getElementById('tag_name');
+    const taggifyInput = $('#tag_name');
     taggifyInput.removeAttribute('disabled');
-    const form = $(taggifyInput.parentElement.parentElement);
+    const form = taggifyInput.parents('form');
     const submitBtn = form.find('input[type=submit]');
     submitBtn.addClass('btn-danger');
   });
