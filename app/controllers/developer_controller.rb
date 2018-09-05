@@ -28,8 +28,12 @@ class DeveloperController < ApplicationController
     message = "[ [metasmoke-deploy](//travis-ci.org/Undo1/metasmoke-deploy) ] deploy started by #{current_user.username}"
     SmokeDetector.send_message_to_charcoal(message)
 
-    message = Octokit.commit('Charcoal-SE/metasmoke', CurrentCommit)['commit']['message']
-    sha = CurrentCommit.first(7)
+    # old_message = Octokit.commit('Charcoal-SE/metasmoke', CurrentCommit)['commit']['message']
+    old_sha = CurrentCommit.first(7)
+
+    commit = Octokit.commits('Charcoal-SE/metasmoke')[0]
+    message = commit['commit']['message']
+    sha = commit['sha'].first(7)
 
     HTTParty.post('https://api.travis-ci.org/repo/19152912/requests', headers: {
                     'Content-Type' => 'application/json',
@@ -39,7 +43,7 @@ class DeveloperController < ApplicationController
                   }, body: {
                     request: {
                       branch: 'master',
-                      message: "#{sha}: #{message}"
+                      message: "#{old_sha} -> #{sha}: #{message}"
                     }
                   }.to_json)
 
