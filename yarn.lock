@@ -6408,7 +6408,7 @@ table@^3.7.8:
 
 "tagging@github:thesecretmaster/tagging#master":
   version "0.0.5-a"
-  resolved "https://codeload.github.com/thesecretmaster/tagging/tar.gz/21ac0c6f1a684c5c5b714330e7d82f3d48df5780"
+  resolved "https://codeload.github.com/thesecretmaster/tagging/tar.gz/46476293ed8ae270fc430f28dc8ee2736aac7f33"
   dependencies:
     css-loader ">0.0.0"
     style-loader ">0.0.0"
