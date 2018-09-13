@@ -1,0 +1,4 @@
+Contact: security@charcoal-se.org
+Encryption: https://metasmoke.erwaysoftware.com/security-pubkey.txt
+Acknowledgements: https://charcoal-se.org/security
+Policy: https://charcoal-se.org/security
