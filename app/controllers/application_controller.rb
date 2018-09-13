@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :check_auth_required
+  before_action :deduplicate_ajax_requests
 
   before_action do
     Rack::MiniProfiler.authorize_request if current_user&.has_role?(:developer)
@@ -65,5 +66,20 @@ class ApplicationController < ActionController::Base
     return if user_signed_in? || devise_controller? || (controller_name == 'users' && action_name == 'missing_privileges')
     flash[:warning] = 'You need to have an account to view metasmoke pages.'
     authenticate_user!
+  end
+
+  def deduplicate_ajax_requests
+    return unless request.headers['X-AJAX-Deduplicate'].present?
+
+    redis = Redis.new
+    request_uniq = request.headers['X-AJAX-Deduplicate']
+    if redis.get("request-dedup/#{request_uniq}").present?
+      render status: :conflict, plain: "409 Conflict\nRequest conflicts with a previous AJAX request"
+    else
+      redis.multi do
+        redis.set "request-dedup/#{request_uniq}", '1'
+        redis.expire "request-dedup/#{request_uniq}", 300
+      end
+    end
   end
 end

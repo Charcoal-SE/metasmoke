@@ -34,7 +34,7 @@ import '../graphs';
 import '../site_settings';
 import '../comments';
 
-import { onLoad, installSelectpickers } from '../util';
+import { onLoad, installSelectpickers, uuid4, hashCode } from '../util';
 
 onLoad(() => {
   $('[data-toggle="tooltip"]').tooltip();
@@ -88,5 +88,18 @@ onLoad(() => {
       formParameterCleanups.push(tgt[0]);
       tgt.submit();
     }
+  });
+
+  $(document).on('ajax:beforeSend', 'form[data-deduplicate]', (ev, xhr) => {
+    const $tgt = $(ev.target);
+    if (!$tgt.data('dedup-uuid')) {
+      $tgt.attr('data-dedup-uuid', uuid4());
+    }
+
+    const dedupUuid = $tgt.data('dedup-uuid');
+    const data = $(ev).serialize();
+    const requestId = `${dedupUuid}/${hashCode(data)}`;
+    xhr.setRequestHeader('X-AJAX-Deduplicate', requestId);
+    console.log(`ajax:beforeSend added X-AJAX-Deduplicate: ${requestId}`);
   });
 });

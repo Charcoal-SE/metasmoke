@@ -1,10 +1,12 @@
 import createDebug from 'debug';
 
+import { onLoad } from './util';
+
 const debug = createDebug('ms:reasons');
 
 // This really is the wrong file for all of this
 
-$(() => {
+onLoad(() => {
   $(document).on('click', '.show-post-body', function () {
     if ($(this).data('postloaded')) {
       togglePostBodyVisible(this);

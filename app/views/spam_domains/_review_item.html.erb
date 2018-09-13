@@ -24,7 +24,8 @@
     <% end %>
   </p>
 
-  <%= form_tag review_add_tag_path, method: :post, class: 'form-inline pull-left review-add-domain-tag', remote: true do %>
+  <%= form_tag review_add_tag_path, method: :post, class: 'form-inline pull-left review-add-domain-tag', remote: true,
+               data: { deduplicate: true } do %>
     <%= hidden_field_tag :domain_id, domain.id %>
     <%= select_tag :tag_name, options_for_select(DomainTag.all.map { |dt| [dt.name, dt.name, { 'data-subtext' => dt.description&.truncate(100) }] }),
                    class: 'selectpicker', include_blank: true %>
