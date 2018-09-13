@@ -32,6 +32,8 @@ class FeedbacksController < ApplicationController
       f.update(is_invalidated: true, invalidated_by: current_user, invalidated_at: DateTime.now)
     end
 
+    f.post.update_feedback_cache
+
     redirect_to clear_post_feedback_path(f.post_id)
   end
 
