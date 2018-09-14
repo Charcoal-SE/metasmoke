@@ -97,7 +97,7 @@ onLoad(() => {
     }
 
     const dedupUuid = $tgt.data('dedup-uuid');
-    const data = $(ev).serialize();
+    const data = $(ev.target).serialize();
     const requestId = `${dedupUuid}/${hashCode(data)}`;
     xhr.setRequestHeader('X-AJAX-Deduplicate', requestId);
     console.log(`ajax:beforeSend added X-AJAX-Deduplicate: ${requestId}`);
