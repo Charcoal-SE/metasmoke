@@ -3,11 +3,9 @@ import moment from 'moment';
 
 import cable from './cable';
 
-import { onLoad } from '../util';
-
 const debug = createDebug('ms:topbar');
 
-onLoad(() => {
+$(() => {
   cable.subscriptions.create('TopbarChannel', {
     received(arg) {
       const { review, commit, last_ping: lastPing } = arg;

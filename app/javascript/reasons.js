@@ -5,8 +5,7 @@ import { onLoad } from './util';
 const debug = createDebug('ms:reasons');
 
 // This really is the wrong file for all of this
-
-onLoad(() => {
+$(() => {
   $(document).on('click', '.show-post-body', function () {
     if ($(this).data('postloaded')) {
       togglePostBodyVisible(this);
@@ -33,6 +32,9 @@ onLoad(() => {
     $('#search').focus();
     e.preventDefault();
   });
+});
+
+onLoad(() => {
   setTimeout(() => $('#search').addClass('ready'), 100);
 });
 
