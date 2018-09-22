@@ -1,6 +1,12 @@
 <% with_app = false if with_app.nil? %>
 <tr>
-  <td><%= log.user.try(:username) %></td>
+  <td>
+    <% if current_user&.has_role?(:admin) %>
+      <%= link_to log.user.try(:username), user_overview_path(user: log.user.try(:id)) %>
+    <% else %>
+      <%= log.user.try(:username) %>
+    <% end %>
+  </td>
   <%= render "posts/post", :post => log.post, :wrap_in_tr => false %>
   <% if with_app %>
     <td><%= log.api_key.present? ? log.api_key.app_name : 'MS Web UI' %></td>
