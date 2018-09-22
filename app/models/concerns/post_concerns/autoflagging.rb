@@ -141,7 +141,8 @@ module PostConcerns::Autoflagging
           Rails.logger.warn "[autoflagging] #{id}: send_autoflagged..."
           log_as_json = JSON.parse(FlagLogController.render(locals: { flag_log: flag_log }, partial: 'flag_log.json'))
           ActionCable.server.broadcast 'api_flag_logs', flag_log: log_as_json
-          ActionCable.server.broadcast 'flag_logs', row: FlagLogController.render(locals: { log: flag_log }, partial: 'flag_log')
+          ActionCable.server.broadcast 'flag_logs', row: FlagLogController.render(locals: { log: flag_log, render_source: :controller },
+                                                                                  partial: 'flag_log')
           Rails.logger.warn "[autoflagging] #{id}: broadcast"
         end
       end

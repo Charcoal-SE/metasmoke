@@ -1,7 +1,8 @@
 <% with_app = false if with_app.nil? %>
 <tr>
   <td>
-    <% if current_user&.has_role?(:admin) %>
+    <%# As for why we need render_source, see metasmoke#510 - Devise doesn't like being rendered from a controller %>
+    <% if (defined?(render_source) && render_source != :controller) && current_user&.has_role?(:admin) && log.user.present? %>
       <%= link_to log.user.try(:username), user_overview_path(user: log.user.try(:id)) %>
     <% else %>
       <%= log.user.try(:username) %>
