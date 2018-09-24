@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ReviewItem < ApplicationRecord
+  include Websocket
+
   belongs_to :user
   belongs_to :queue, class_name: 'ReviewQueue', foreign_key: 'review_queue_id'
   belongs_to :reviewable, polymorphic: true

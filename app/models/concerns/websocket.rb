@@ -6,6 +6,7 @@ module Websocket
   included do
     after_create :broadcast_create
     after_update :broadcast_update
+    before_destroy :broadcast_destroy, prepend: true
 
     def broadcast_event(type)
       event_class = self.class.to_s
@@ -23,6 +24,10 @@ module Websocket
 
     def broadcast_update
       broadcast_event 'update'
+    end
+
+    def broadcast_destroy
+      broadcast_event 'destroy'
     end
   end
 end

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ReviewQueue < ApplicationRecord
+  include Websocket
+
   has_many :items, class_name: 'ReviewItem'
   has_many :results, class_name: 'ReviewResult', through: :items
 
