@@ -69,7 +69,7 @@
         <h4 class="modal-title">New Domain Link</h4>
       </div>
       <div class="modal-body">
-        <%= form_for DomainLink.new, url: create_domain_link_path, remote: true, class: 'domain-link-form' do |f| %>
+        <%= form_for DomainLink.new, url: create_domain_link_path, remote: true do |f| %>
           <%= f.hidden_field :left_id, value: @domain.id %>
 
           <div class="field">

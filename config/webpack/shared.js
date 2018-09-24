@@ -36,7 +36,13 @@ module.exports = {
   },
 
   module: {
-    rules: sync(join(loadersDir, '*.js')).map(loader => require(loader))
+    rules: [{
+      test: require.resolve('jquery'),
+      use: [{
+        loader: 'expose-loader',
+        options: '$'
+      }]
+    }, ...sync(join(loadersDir, '*.js')).map(loader => require(loader))]
   },
 
   plugins: [
@@ -47,15 +53,10 @@ module.exports = {
       writeToFileEmit: true
     }),
     new webpack.ProvidePlugin({
-      jQuery: 'jquery',
-      $: 'jquery'
+      $: 'jquery',
+      jQuery: 'jquery'
     })
   ],
-
-  externals: {
-    jquery: 'jQuery',
-    moment: 'moment'
-  },
 
   resolve: {
     extensions: settings.extensions,
@@ -67,5 +68,9 @@ module.exports = {
 
   resolveLoader: {
     modules: ['node_modules']
+  },
+
+  externals: {
+    jquery: 'jQuery'
   }
 };

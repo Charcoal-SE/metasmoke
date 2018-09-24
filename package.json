@@ -57,13 +57,15 @@
   "dependencies": {
     "actioncable": "^5.1.1",
     "bootstrap-select": "^1.12.2",
+    "bootstrap3": "^3.3.5",
     "debug": "^2.6.8",
+    "expose-loader": "^0.7.5",
     "jailed": "^0.3.1",
-    "jquery": ">=1.9.1",
+    "jquery": "^3.3.1",
     "jquery-tablesort": "^0.0.11",
     "jquery-ujs": "^1.2.2",
     "livestamp": "github:mattbradley/livestampjs#7572242",
-    "moment": "^2.18.1",
+    "moment": "^2.22.2",
     "turbolinks": "^5.0.3"
   },
   "devDependencies": {

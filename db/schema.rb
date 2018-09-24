@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_04_131526) do
+ActiveRecord::Schema.define(version: 2018_09_23_141132) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id"
@@ -198,6 +198,7 @@ ActiveRecord::Schema.define(version: 2018_09_04_131526) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["creator_id"], name: "index_domain_links_on_creator_id"
+    t.index ["left_id", "right_id"], name: "index_domain_links_on_left_id_and_right_id", unique: true
     t.index ["left_id"], name: "index_domain_links_on_left_id"
     t.index ["right_id"], name: "index_domain_links_on_right_id"
   end

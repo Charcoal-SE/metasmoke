@@ -1,7 +1,9 @@
-import { onLoad } from './util';
+import createDebug from 'debug';
 
-onLoad(() => {
-  $('.domain-link-form').on('ajax:success', (ev, data) => {
+const debug = createDebug('ms:domain_links');
+
+$(() => {
+  $('.new_domain_link').on('ajax:success', (ev, data) => {
     $('.domain-links-list').append(data);
     $(ev.target).parents('.modal').modal('close');
   });

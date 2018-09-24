@@ -12,6 +12,8 @@
   import/first
 */
 
+require('expose-loader?$!jquery');
+
 import Turbolinks from 'turbolinks';
 import '../turbolinks_prefetch.coffee'; // The original is in coffee.
 Turbolinks.start();
