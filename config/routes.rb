@@ -227,13 +227,15 @@ Rails.application.routes.draw do
       delete ':id',       to: 'domain_links#destroy', as: :destroy_domain_link
     end
 
-    root                  to: 'spam_domains#index',   as: :spam_domains
-    post   'create.json', to: 'spam_domains#create',  as: :create_spam_domain
-    get    'query.json',  to: 'spam_domains#query',   as: :spam_domains_query
-    get    ':id/edit',    to: 'spam_domains#edit',    as: :edit_spam_domain
-    patch  ':id/edit',    to: 'spam_domains#update',  as: :update_spam_domain
-    get    ':id',         to: 'spam_domains#show',    as: :spam_domain
-    delete ':id',         to: 'spam_domains#destroy', as: :destroy_spam_domain
+    root                     to: 'spam_domains#index',             as: :spam_domains
+    get    'new',            to: 'spam_domains#new',               as: :new_spam_domain
+    post   'create.json',    to: 'spam_domains#create_from_post',  as: :create_spam_domain
+    post   'no_post_create', to: 'spam_domains#create',            as: :create_no_post_spam_domain
+    get    'query.json',     to: 'spam_domains#query',             as: :spam_domains_query
+    get    ':id/edit',       to: 'spam_domains#edit',              as: :edit_spam_domain
+    patch  ':id/edit',       to: 'spam_domains#update',            as: :update_spam_domain
+    get    ':id',            to: 'spam_domains#show',              as: :spam_domain
+    delete ':id',            to: 'spam_domains#destroy',           as: :destroy_spam_domain
   end
 
   scope 'flagging' do

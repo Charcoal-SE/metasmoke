@@ -1,5 +1,6 @@
 <h3>Domain Tracking</h3>
-<p>Tracking <strong><%= pluralize(@total, 'domain') %></strong> in total. To apply one tag to many domains, use the <%= link_to "mass tagging tool", :domain_tags_mass_tagging %>.</p>
+<p>Tracking <strong><%= pluralize(@total, 'domain') %></strong> in total. To apply one tag to many domains, use the
+  <%= link_to 'mass tagging tool', :domain_tags_mass_tagging %>. You can also <%= link_to 'add a new domain', new_spam_domain_path %>.</p>
 
 <%= form_tag spam_domains_path, method: :get, class: 'form-inline' do %>
   <%= text_field_tag :filter, params[:filter], class: 'form-control input-sm' %>
