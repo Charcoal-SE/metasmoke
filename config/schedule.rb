@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-every 1.day do
+every 1.day, at: '1:00 am' do
   runner 'ReasonsHelper.check_for_inactive_reasons'
   runner 'ReasonsHelper.calculate_weights_for_flagging'
 end
