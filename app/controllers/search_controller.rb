@@ -37,11 +37,16 @@ class SearchController < ApplicationController
 
     per_page = user_signed_in? && params[:per_page].present? ? [params[:per_page].to_i, 10_000].min : 100
 
-    @results = @results.where("IFNULL(posts.username, '') #{username_operation} :username"\
-                              " AND IFNULL(title, '') #{title_operation} :title"\
-                              " AND IFNULL(body, '') #{body_operation} :body"\
-                              " AND IFNULL(why, '') #{why_operation} :why",
-                              username: username, title: title, body: body, why: why)
+    search_string = ''
+    search_params = {}
+    [[:username, username, username_operation], [:title, title, title_operation],
+     [:body, body, body_operation], [:why, why, why_operation]].each do |si|
+      if si[2] == 'LIKE' && si[1] != '%%'
+        search_string += "IFNULL(`posts`.`#{si[0]}`, '') #{si[2]} :#{si[0]}"
+        search_params[si[0]] = si[1]
+      end
+    end
+    @results = @results.where(search_string.join(' AND '), **search_params)
                        .paginate(page: params[:page], per_page: per_page)
                        .order(Arel.sql('`posts`.`created_at` DESC'))
 
@@ -55,11 +60,13 @@ class SearchController < ApplicationController
 
     @results = case params[:user_rep_direction]
                when '>='
-                 @results.where('ifnull(user_reputation, 0) >= :rep', rep: user_reputation)
+                 if user_reputation > 0
+                   @results.where('IFNULL(user_reputation, 0) >= :rep', rep: user_reputation)
+                 end
                when '=='
-                 @results.where('ifnull(user_reputation, 0) = :rep', rep: user_reputation)
+                 @results.where('IFNULL(user_reputation, 0) = :rep', rep: user_reputation)
                when '<='
-                 @results.where('ifnull(user_reputation, 0) <= :rep', rep: user_reputation)
+                 @results.where('IFNULL(user_reputation, 0) <= :rep', rep: user_reputation)
                else
                  @results
                end
@@ -82,12 +89,14 @@ class SearchController < ApplicationController
                   'a'
                 end
 
-    unmatched = @results.where.not("link like '%/questions/%' OR link like '%/a/%'")
-    @results =  if params[:post_type_include_unmatched]
-                  @results.where('link like ?', "%/#{post_type}/%").or(unmatched)
-                else
-                  @results.where('link like ?', "%/#{post_type}/%")
-                end
+    if post_type.present?
+      unmatched = @results.where.not("link LIKE '%/questions/%' OR link LIKE '%/a/%'")
+      @results =  if params[:post_type_include_unmatched]
+                    @results.where('link like ?', "%/#{post_type}/%").or(unmatched)
+                  else
+                    @results.where('link like ?', "%/#{post_type}/%")
+                  end
+    end
 
     respond_to do |format|
       format.html do
