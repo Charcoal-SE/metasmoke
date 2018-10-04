@@ -4,25 +4,28 @@ class ConflictingFeedbackJob < ApplicationJob
   queue_as :default
 
   def perform
-    Rails.logger.info "ConflictingFeedbackJob started (#{DateTime.now}, +0s)"
+    Rails.logger.info "Job started (#{DateTime.now}, +0s)"
 
-    time = Benchmark.measure do
-      conflicted = Post.where('created_at <= ?', 1.day.ago).where('is_tp = 1 AND (is_fp = 1 OR is_naa = 1)')
-                       .includes(:feedbacks).map do |p|
+    conflicts = Post.where('created_at <= ?', 1.day.ago).where('is_tp = 1 AND (is_fp = 1 OR is_naa = 1)')\
+                    .includes(:feedbacks, feedbacks: {user: :roles})
+    Rails.logger.info "Total #{conflicts.count} existing conflicts."
+
+    immediate_timer = Benchmark.measure do
+      immediate_resolution_data = conflicts.map do |p|
         feedback_classes = p.feedbacks.map { |f| f.feedback_type[0] }
         unique_classes = feedback_classes.uniq
         feedback_counts = unique_classes.map { |fc| [fc, feedback_classes.count(fc)] }.to_h
         [p, feedback_counts]
       end.to_h
 
-      # Magic number: minimum threshold to be automatically resolvable. One feedback class must outstrip another
+      # Magic number: minimum threshold to be immediately resolvable. One feedback class must outstrip another
       # by this amount for the conflict to be resolvable; otherwise, it's going to need more human eyes.
-      resolvable = conflicted.select do |_post, feedback_counts|
+      resolvable = immediate_resolution_data.select do |_post, feedback_counts|
         counts = feedback_counts.values
         counts.max >= (counts.max(2)[1] || counts.max) + 2
       end
 
-      Rails.logger.info "Found #{resolvable.size} resolvable conflicts of #{conflicted.size} total."
+      Rails.logger.info "Found #{resolvable.size} immediately resolvable conflicts."
 
       resolvable.each do |post, feedback_counts|
         winner = feedback_counts.max_by { |_k, v| v }[0]
@@ -30,6 +33,28 @@ class ConflictingFeedbackJob < ApplicationJob
       end
     end
 
-    Rails.logger.info "ConflictingFeedbackJob finished (#{DateTime.now}, +#{time.real.round(2)}s)"
+    detailed_timer = Benchmark.measure do
+      roles = { flagger: 0, reviewer: 1, core: 2, code_admin: 3, smoke_detector_runner: 3, admin: 4, developer: 0 }
+
+      detailed_resolution_data = conflicts.map do |p|
+        feedback_data = p.feedbacks.map { |f| [f.feedback_type[0], (f.user&.roles&.map { |r| roles[r.name.to_sym] }&.max || 0)] }
+        sums = feedback_data.map { |f| f[0] }.uniq.map { |ft| [ft, feedback_data.select { |f| f[0] == ft }.map { |f| f[1] }.sum] }
+        [p, sums]
+      end
+
+      resolvable = detailed_resolution_data.select do |_post, feedback_data|
+        values = feedback_data.map { |f| f[1] }
+        values.max > (values.max(2)[1] || values.max)
+      end
+
+      Rails.logger.info "Found #{resolvable.size} further conflicts resolvable by user precedence."
+
+      resolvable.each do |post, feedback_data|
+        winner = feedback_data.max_by { |f| f[1] }[0]
+        post.feedbacks.where('LEFT(feedback_type, 1) != ?', winner).update_all(is_invalidated: true, invalidated_by: -1, invalidated_at: DateTime.now)
+      end
+    end
+
+    Rails.logger.info "Job finished (#{DateTime.now}, immediate=#{immediate_timer.real.round(2)}s, detailed=#{detailed_timer.real.round(2)}s)"
   end
 end
