@@ -34,14 +34,20 @@ class ConflictingFeedbackJob < ApplicationJob
     end
 
     detailed_timer = Benchmark.measure do
+      # User precedences. Higher numbers mean a user possessing this role will override a user possessing a lower role.
+      # Everyone gets flagger, so that's worth a whole nothing; developer likewise because you can be a developer without knowing anything about
+      # feedback (and all of our current developers have other high-precedence roles as well).
       roles = { flagger: 0, reviewer: 1, core: 2, code_admin: 3, smoke_detector_runner: 3, admin: 4, developer: 0 }
 
+      # One-liner beauty (or hell, depending how you look at it). First get a list of all feedbacks and the maximum precedence of the user who
+      # created it. Secondly, take that list and uniq-ify it by summing all precedences for the same feedback type.
       detailed_resolution_data = conflicts.map do |p|
         feedback_data = p.feedbacks.map { |f| [f.feedback_type[0], (f.user&.roles&.map { |r| roles[r.name.to_sym] }&.max || 0)] }
         sums = feedback_data.map { |f| f[0] }.uniq.map { |ft| [ft, feedback_data.select { |f| f[0] == ft }.map { |f| f[1] }.sum] }
         [p, sums]
       end
 
+      # If one feedback type has a higher total user precedence than any others, we can resolve the conflict to that feedback type.
       resolvable = detailed_resolution_data.select do |_post, feedback_data|
         values = feedback_data.map { |f| f[1] }
         values.max > (values.max(2)[1] || values.max)
