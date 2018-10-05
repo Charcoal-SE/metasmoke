@@ -97,6 +97,12 @@ class DeveloperController < ApplicationController
     redirect_back fallback_location: root_path
   end
 
+  def run_feedback_reindex
+    FeedbackReindexJob.perform_later
+    flash[:success] = 'FeedbackReindexJob triggered.'
+    redirect_back fallback_location: root_path
+  end
+
   private
 
   def check_impersonating
