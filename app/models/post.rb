@@ -138,7 +138,7 @@ class Post < ApplicationRecord
   end
 
   def parse_domains
-    hosts = (URI.extract(body || '') + URI.extract(title || '')).map do |x|
+    hosts = part_to_extract_from_domains.map do |x|
       begin
         URI.parse(x).hostname.gsub(/www\./, '').downcase
       rescue
@@ -151,6 +151,16 @@ class Post < ApplicationRecord
       domain = SpamDomain.find_or_create_by domain: h
       domain.posts << self unless domain.posts.include? self
       Rails.cache.delete "spam_domain_post_counts_##{domain.id}"
+    end
+  end
+
+  private
+
+  def part_to_extract_from_domains
+    if answer?
+      URI.extract(body || '')
+    else
+      (URI.extract(body || '') + URI.extract(title || ''))
     end
   end
 end
