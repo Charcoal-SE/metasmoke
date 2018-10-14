@@ -8,9 +8,9 @@ class DomainTagsController < ApplicationController
 
   def index
     @tags = if params[:filter].present?
-              DomainTag.where('name LIKE ?', "%#{params[:filter]}%")
+              DomainTag.standard.where('name LIKE ?', "%#{params[:filter]}%")
             else
-              DomainTag.all
+              DomainTag.standard
             end.order(name: :asc).paginate(page: params[:page], per_page: 100)
     @counts = DomainTag.where(id: @tags.map(&:id)).joins(:spam_domains).group(Arel.sql('domain_tags.id')).count
   end

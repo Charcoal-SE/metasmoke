@@ -1,9 +1,9 @@
 <% domain ||= nil %>
-<div class="label label-info tag-label">
+<div class="label label-<%= tag.special? ? 'warning' : 'info' %> tag-label">
   <%= link_to domain_tag_path(tag), class: 'domain-tag' do %>
     #<%= tag.name %>
   <% end %>
-  <% unless domain.nil? %>
+  <% if domain.present? && !tag.special? %>
     <%= form_tag remove_domain_tag_path, method: :post do %>
       <%= hidden_field_tag :domain_id, domain.id %>
       <%= hidden_field_tag :tag_name, tag.name %>

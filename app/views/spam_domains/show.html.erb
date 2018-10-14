@@ -1,4 +1,13 @@
-<h1>Domain: <code><%= @domain.domain %></code></h1>
+<h1>
+  Domain: <code><%= @domain.domain %></code>
+  <% if @domain.domain_tags.special.any? %>
+    <small>
+      <% @domain.domain_tags.special.each do |t| %>
+        <%= render 'domain_tags/tag', tag: t %>
+      <% end %>
+    </small>
+  <% end %>
+</h1>
 <% if user_signed_in? && (current_user.has_role?(:core) || current_user.has_role?(:admin)) %>
   <p>
     <% if current_user.has_role?(:core) %>
@@ -12,9 +21,9 @@
 <% end %>
 <div class="clearfix domain-tag-list">
   <p class="pull-left">
-    <% if @domain.domain_tags.any? %>
+    <% if @domain.domain_tags.standard.any? %>
       Tagged with:
-      <% @domain.domain_tags.each do |t| %>
+      <% @domain.domain_tags.standard.each do |t| %>
         <%= render 'domain_tags/tag', tag: t, domain: @domain %>
       <% end %>
     <% else %>
