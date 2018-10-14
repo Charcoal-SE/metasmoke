@@ -12,6 +12,14 @@ class SpamDomain < ApplicationRecord
 
   validates :domain, uniqueness: true
 
+  after_create do
+    asn_query = `dig +short "$(dig +short '#{domain.tr("'", '')}' | head -n 1 | awk -F. '{print $4"."$3"." $2"."$1}').origin.asn.cymru.com" TXT`
+    asn = asn_query.strip.tr('"', '').split('|')[0]&.strip
+    if asn.present?
+      domain_tags << DomainTag.find_or_create_by(name: "AS-#{asn}", description: "Domains under the Autonomous System Number #{asn}.", special: true)
+    end
+  end
+
   def links
     left_links.or right_links
   end
