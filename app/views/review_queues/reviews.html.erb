@@ -15,10 +15,10 @@
   <%= form_tag review_history_path(name: @queue.name), method: :get, class: 'form-inline top-filters' do %>
     <%= hidden_field_tag :all, value: '1' %>
     <%= label_tag :user %>
-    <%= select_tag :user, options_from_collection_for_select(User.all, 'username', 'id', selected: params[:user]),
+    <%= select_tag :user, options_from_collection_for_select(User.all, 'id', 'username', selected: params[:user]),
                    include_blank: true, class: 'form-control input-sm' %>
     <%= label_tag :response %>
-    <%= select_tag :response, options_for_select(@queue.responses, selected: params[:response]),
+    <%= select_tag :response, options_for_select(@queue.responses + [['Skip', 'skip']], selected: params[:response]),
                    include_blank: true, class: 'form-control input-sm' %>
     <%= submit_tag 'Filter', class: 'btn btn-primary btn-sm' %>
   <% end %>
