@@ -13,7 +13,7 @@
 
 <% if @all %>
   <%= form_tag review_history_path(name: @queue.name), method: :get, class: 'form-inline top-filters' do %>
-    <%= hidden_field_tag :all, value: '1' %>
+    <%= hidden_field_tag :all, '1' %>
     <%= label_tag :user %>
     <%= select_tag :user, options_from_collection_for_select(User.all, 'id', 'username', selected: params[:user]),
                    include_blank: true, class: 'form-control input-sm' %>
