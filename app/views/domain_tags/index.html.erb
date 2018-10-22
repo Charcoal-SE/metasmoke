@@ -2,6 +2,8 @@
 
 <%= form_tag domain_tags_path, method: :get, class: 'form-inline' do %>
   <%= text_field_tag :filter, params[:filter], class: 'form-control input-sm' %>
+  <%= check_box_tag :include_special, checked: params[:include_special].present? %>
+  <%= label_tag :include_special %>
   <%= submit_tag 'Search', class: 'btn btn-primary btn-sm' %>
 <% end %>
 

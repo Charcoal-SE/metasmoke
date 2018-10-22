@@ -7,7 +7,9 @@ class DomainTagsController < ApplicationController
   before_action :set_domain_tag, only: [:show, :edit, :update, :destroy]
 
   def index
-    @tags = if params[:filter].present?
+    @tags = if params[:filter].present? && params[:include_special].present?
+              DomainTag.all.where('name LIKE ?', "%#{params[:filter]}%")
+            elsif params[:filter].present?
               DomainTag.standard.where('name LIKE ?', "%#{params[:filter]}%")
             else
               DomainTag.standard
