@@ -11,6 +11,18 @@
   <li class="<%= 'active' unless @all %>"><%= link_to 'Mine', all: 0 %></li>
 </ul>
 
+<% if @all %>
+  <%= form_tag review_history_path(name: @queue.name), method: :get, class: 'form-inline' do %>
+    <%= hidden_field_tag :all, value: '1' %>
+    <%= label_tag :user %>
+    <%= select_tag :user, options_from_collection_for_select(User.all, 'username', 'id'), class: 'form-control input-sm' %>
+    <%= label_tag :response %>
+    <%= select_tag :response, options_for_select(@queue.responses), class: 'form-control input-sm' %>
+    <%= submit_tag 'Filter', class: 'btn btn-primary btn-sm' %>
+  <% end %>
+<% end %>
+
+
 <table class="table">
   <tr>
     <th class="text-muted">Item ID</th>
@@ -18,6 +30,9 @@
     <% if @all %> <th>User</th> <% end %>
     <th>Task</th>
     <th>Result</th>
+    <% if current_user&.has_role?(:admin) %>
+      <th></th>
+    <% end %>
   </tr>
 
   <% @reviews.each do |review| %>
@@ -27,6 +42,9 @@
       <% if @all %> <td><%= review.user.username %></td> <% end %>
       <td><%= link_to review.item.reviewable.review_item_name, review_item_path(@queue.name, review.item) %></td>
       <td><%= review.result %></td>
+      <% if current_user&.has_role?(:admin) %>
+        <td><%= link_to 'Delete', delete_review_path(name: @queue.name, id: review.id), class: 'text-danger', method: :delete %></td>
+      <% end %>
     </tr>
   <% end %>
 </table>

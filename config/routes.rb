@@ -352,13 +352,14 @@ Rails.application.routes.draw do
   end
 
   scope 'review' do
-    root                   to: 'review_queues#index',         as: :review_queues
-    get  ':name',          to: 'review_queues#queue',         as: :review_queue
-    get  ':name/next',     to: 'review_queues#next_item',     as: :next_review_item
-    get  ':name/history',  to: 'review_queues#reviews',       as: :review_history
-    post ':name/recheck',  to: 'review_queues#recheck_items', as: :recheck_queue_items
-    get  ':name/:item_id', to: 'review_queues#item',          as: :review_item
-    post ':name/:item_id', to: 'review_queues#submit',        as: :submit_review
+    root                     to: 'review_queues#index',         as: :review_queues
+    get    ':name',          to: 'review_queues#queue',         as: :review_queue
+    get    ':name/next',     to: 'review_queues#next_item',     as: :next_review_item
+    get    ':name/history',  to: 'review_queues#reviews',       as: :review_history
+    post   ':name/recheck',  to: 'review_queues#recheck_items', as: :recheck_queue_items
+    get    ':name/:item_id', to: 'review_queues#item',          as: :review_item
+    post   ':name/:item_id', to: 'review_queues#submit',        as: :submit_review
+    delete ':name/:id',      to: 'review_queues#delete',        as: :delete_review
   end
 
   scope 'rss' do

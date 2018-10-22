@@ -4,6 +4,7 @@ class ReviewQueuesController < ApplicationController
   before_action :set_queue, except: [:index]
   before_action :verify_permissions, except: [:index]
   before_action :verify_developer, only: [:recheck_items]
+  before_action :verify_admin, only: [:delete]
 
   def index
     @queues = ReviewQueue.all.includes(:items)
@@ -63,16 +64,11 @@ class ReviewQueuesController < ApplicationController
   end
 
   def reviews
-    @all = params[:all] == '1'
-
-    @reviews =
-      if @all
-        ReviewResult
-      else
-        ReviewResult.where(user: current_user)
-      end
-      .all.joins(:item).where(review_items: { review_queue_id: @queue.id })
-      .order(created_at: :desc).paginate(page: params[:page], per_page: 100)
+    @reviews = ReviewResult.joins(:item).where(review_items: { review_queue: @queue })
+    @reviews = @reviews.where(user: current_user) if params[:all] = 1
+    @reviews = @reviews.where(user_id: params[:user]) if params[:user].present?
+    @reviews = @reviews.where(result: params[:response]) if params[:response].present?
+    @reviews = @reviews.order(created_at: :desc).paginate(page: params[:page], per_page: 100)
   end
 
   def recheck_items
@@ -83,6 +79,12 @@ class ReviewQueuesController < ApplicationController
     end
     flash[:info] = 'Checking started in background.'
     redirect_back fallback_location: review_queues_path
+  end
+
+  def delete
+    @review = ReviewResult.find(params[:id])
+    @review.destroy
+    head :no_content
   end
 
   private
