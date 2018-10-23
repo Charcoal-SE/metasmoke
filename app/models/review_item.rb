@@ -8,7 +8,14 @@ class ReviewItem < ApplicationRecord
   belongs_to :reviewable, polymorphic: true
   has_many :results, class_name: 'ReviewResult'
 
-  generate_direct_associations :post, :spam_domain, :flag
+  [:post, :spam_domain, :flag].each do |t|
+    belongs_to(t, -> { where(reviewable_type: t.classify) }, foreign_key: 'reviewable_id')
+
+    define_method t do
+      return unless reviewable_type == t.classify
+      super
+    end
+  end
 
   validates :reviewable_type, inclusion: { in: %w[Post SpamDomain Flag] }
 
@@ -19,18 +26,5 @@ class ReviewItem < ApplicationRecord
     joins("LEFT JOIN review_results rr ON rr.review_item_id = review_items.id AND rr.user_id = #{user.id}").where(review_items: { queue: queue,
                                                                                                                                   completed: false },
                                                                                                                   rr: { id: nil })
-  end
-
-  private
-
-  def generate_direct_associations(*types)
-    types.each do |t|
-      belongs_to(t, -> { where(reviewable_type: t.classify) }, foreign_key: 'reviewable_id')
-
-      define_method t do
-        return unless reviewable_type == t.classify
-        super
-      end
-    end
   end
 end
