@@ -65,7 +65,7 @@ class ReviewQueuesController < ApplicationController
 
   def reviews
     @all = params[:all].present? && params[:all] == '1'
-    reviewable_table = @queue.reviewable_type.underscore
+    reviewable_table = @queue.reviewable_type.underscore.pluralize
     @reviews = ReviewResult.joins(:item).joins("INNER JOIN `#{reviewable_table}` ON `review_items`.`reviewable_type` = '#{@queue.reviewable_type}' "\
                                                "AND `review_items`.`reviewable_id` = `#{reviewable_table}`.`id`")
                            .includes(:item, item: [reviewable_table.singularize.to_sym]).where(review_items: { review_queue_id: @queue })
