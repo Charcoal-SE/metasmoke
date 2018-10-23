@@ -40,7 +40,6 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
 
 route(/\/review\/untagged-domains(\/\d*)?/, () => {
   $(document).on('ajax:success', '.review-add-domain-tag', (e, data) => {
-    console.log(e, data);
     const $noTags = $('.no-tags');
     if ($noTags.length > 0) {
       $noTags.remove();

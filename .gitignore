@@ -39,6 +39,7 @@ config/deploy/*
 /public/packs
 /node_modules
 REVISION
+package-lock.json
 
 *.swp
 *.swo

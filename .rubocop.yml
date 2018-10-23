@@ -44,7 +44,7 @@ Metrics/PerceivedComplexity:
   Enabled: false
 
 Metrics/MethodLength:
-  Max: 100
+  Max: 150
   Exclude:
     - 'db/migrate/*'
 Metrics/LineLength:

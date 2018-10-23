@@ -7,7 +7,7 @@ class ConflictingFeedbackJob < ApplicationJob
     Rails.logger.info "Job started (#{DateTime.now}, +0s)"
 
     conflicts = Post.where('created_at <= ?', 1.day.ago).where('is_tp = 1 AND (is_fp = 1 OR is_naa = 1)')\
-                    .includes(:feedbacks, feedbacks: {user: :roles})
+                    .includes(:feedbacks, feedbacks: { user: :roles })
     Rails.logger.info "Total #{conflicts.count} existing conflicts."
 
     immediate_timer = Benchmark.measure do
