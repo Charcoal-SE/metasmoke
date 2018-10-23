@@ -65,7 +65,6 @@ class ReviewQueuesController < ApplicationController
 
   def reviews
     @all = params[:all].present? && params[:all] == '1'
-    reviewable_table = @queue.reviewable_type.underscore.pluralize
     @reviews = ReviewResult.joins(:item).includes(:item).where(review_items: { review_queue_id: @queue })
     @reviews = @reviews.where(user: current_user) if @all == false
     @reviews = @reviews.where(user_id: params[:user]) if params[:user].present?

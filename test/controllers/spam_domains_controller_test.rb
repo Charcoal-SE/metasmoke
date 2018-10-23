@@ -11,12 +11,12 @@ class SpamDomainsControllerTest < ActionController::TestCase
   end
 
   test 'should deny create to non-smokey clients' do
-    post :create
+    post :create_from_post
     assert_response :forbidden
   end
 
   test 'should let smokey create spam domains' do
-    post :create, params: { key: smoke_detectors(:smoke_detector_1).access_token, post_id: posts(:post_23601).id,
+    post :create_from_post, params: { key: smoke_detectors(:smoke_detector_1).access_token, post_id: posts(:post_23601).id,
                             domains: ['test.spam.com'] }
     assert_equal({ 'status' => 'success', 'total_domains' => 1 }, JSON.parse(response.body))
     assert_response :success
