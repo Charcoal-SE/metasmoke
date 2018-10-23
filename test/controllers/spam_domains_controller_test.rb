@@ -17,7 +17,7 @@ class SpamDomainsControllerTest < ActionController::TestCase
 
   test 'should let smokey create spam domains' do
     post :create_from_post, params: { key: smoke_detectors(:smoke_detector_1).access_token, post_id: posts(:post_23601).id,
-                            domains: ['test.spam.com'] }
+                                      domains: ['test.spam.com'] }
     assert_equal({ 'status' => 'success', 'total_domains' => 1 }, JSON.parse(response.body))
     assert_response :success
   end
