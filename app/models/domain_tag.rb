@@ -9,4 +9,14 @@ class DomainTag < ApplicationRecord
 
   scope(:standard, -> { where(special: false) })
   scope(:special, -> { where(special: true) })
+
+  def merge_into(master)
+    master.spam_domains += (spam_domains.to_a - master.spam_domains.to_a)
+    master.posts += (posts.to_a - master.posts.to_a)
+
+    spam_domains.clear
+    posts.clear
+
+    destroy
+  end
 end

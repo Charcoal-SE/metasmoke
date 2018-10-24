@@ -67,3 +67,20 @@
 
   <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
 <% end %>
+
+<% if current_user&.has_role?(:developer) %>
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+      <h3 class="panel-title">Developer tools</h3>
+    </div>
+    <div class="panel-body">
+      <%= form_tag merge_tags_path, method: :post, class: 'form-inline' do %>
+        <%= hidden_field_tag :source_id, @tag.id %>
+        <%= label_tag :target_id, 'Merge this tag with:' %>
+        <%= select_tag :target_id, options_for_select(DomainTag.all.map { |t| [t.name, t.id, { 'data-subtext' => t.id }] }),
+                       class: 'form-control input-sm selectpicker', include_blank: true %>
+        <%= submit_tag 'Merge', class: 'btn btn-sm btn-danger' %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

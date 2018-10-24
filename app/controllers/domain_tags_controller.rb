@@ -5,6 +5,7 @@ class DomainTagsController < ApplicationController
   before_action :verify_core, only: [:add, :remove, :edit, :update, :add_post, :remove_post]
   before_action :verify_admin, only: [:destroy]
   before_action :set_domain_tag, only: [:show, :edit, :update, :destroy]
+  before_action :verify_developer, only: [:merge]
 
   def index
     @tags = if params[:filter].present? && params[:include_special].present?
@@ -107,6 +108,16 @@ class DomainTagsController < ApplicationController
     ApplicationRecord.mass_habtm 'domain_tags_spam_domains', 'domain_tag', 'spam_domain', pairs
     flash[:success] = 'Tag applied to selected posts.'
     redirect_to domain_tags_mass_tagging_path(filter: params[:filter])
+  end
+
+  def merge
+    source = DomainTag.find params[:source_id]
+    target = DomainTag.find params[:target_id]
+
+    source.merge_into target
+
+    flash[:success] = 'Tag merge completed.'
+    redirect_to domain_tag_path(target)
   end
 
   private

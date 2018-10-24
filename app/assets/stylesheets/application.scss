@@ -323,3 +323,11 @@ div.btn-sm {
     padding: calc(0.45em + 2px) 1em !important;
   }
 }
+
+.bootstrap-select.input-sm {
+  max-width: 200px;
+
+  & > button {
+    padding: 0.45em 1em !important;
+  }
+}
