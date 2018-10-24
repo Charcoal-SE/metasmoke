@@ -1,9 +1,9 @@
 <h3>Domain Tagging</h3>
 
 <%= form_tag domain_tags_path, method: :get, class: 'form-inline' do %>
-  <%= text_field_tag :filter, params[:filter], class: 'form-control input-sm' %>
-  <%= check_box_tag :include_special, checked: params[:include_special].present? %>
-  <%= label_tag :include_special %>
+  <%= text_field_tag :filter, params[:filter], class: 'form-control input-sm', placeholder: 'Search for tags' %>
+  <%= check_box_tag :include_special, '1', params[:include_special] == '1' %>
+  <%= label_tag :include_special, 'Include special tags?' %>
   <%= submit_tag 'Search', class: 'btn btn-primary btn-sm' %>
 <% end %>
 
@@ -18,7 +18,7 @@
   <tbody>
     <% @tags.each do |t| %>
       <tr>
-        <td><span class="label label-info">#<%= t.name %></span> <span class="text-muted"><%= t.description&.truncate(100) %></span></td>
+        <td><span class="label label-<%= t.special? ? 'warning' : 'info' %>">#<%= t.name %></span> <span class="text-muted"><%= t.description&.truncate(100) %></span></td>
         <td><%= @counts[t.id] || 0 %></td>
         <td><%= link_to 'Details', domain_tag_path(t) %></td>
         <% if user_signed_in? && current_user.has_role?(:core) %>
