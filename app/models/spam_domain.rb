@@ -17,8 +17,9 @@ class SpamDomain < ApplicationRecord
     asn = asn_query.strip.tr('"', '').split('|')[0]&.strip
     if asn.present?
       asn.split.each do |as|
+        desc = `dig +short AS#{as}.asn.cymru.com TXT`.strip.tr('"', '').split('|')[-1]&.strip
         tag = DomainTag.find_or_create_by(name: "AS-#{as}", special: true)
-        tag.update(description: "Domains under the Autonomous System Number #{as}.") unless tag.description.present?
+        tag.update(description: "Domains under the Autonomous System Number #{as} - #{desc}.") unless tag.description.present?
         domain_tags << tag
       end
     end
