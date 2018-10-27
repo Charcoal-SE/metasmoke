@@ -32,7 +32,7 @@
         <td><%= user.id %></td>
         <td><%= link_to_if user.stack_exchange_account_id.present?, sanitize(user.username), "//stackexchange.com/users/#{user.stack_exchange_account_id}" %></td>
         <% if current_user&.has_role?(:admin) %>
-          <%= render partial: 'roles_admin', locals: {roles: @roles} %>
+          <%= render partial: 'roles_admin', locals: {roles: @roles, user: user} %>
         <% else %>
           <td><%= user.roles.map(&:name).map{|n| n.humanize.downcase}.to_sentence.capitalize %></td>
         <% end %>
