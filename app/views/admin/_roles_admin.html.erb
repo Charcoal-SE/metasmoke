@@ -4,11 +4,6 @@
       <%= check_box_tag "#{user.id}[#{role.to_s}]", 'foo', user.has_cached_role?(role),
                         disabled: (role == :developer and not user.has_cached_role?(role)),
                         class: "permissions-checkbox", data: {:user_id => user.id, :role => role.to_s } %>
-      <% if role.to_sym == :core %>
-        <%= check_box_tag "#{user.id}[#{role.to_s}]", 'foo', user.has_pinned_role?(role),
-                          disabled: (role == :developer and not user.has_cached_role?(role)),
-                          class: "pin-checkbox", data: {:user_id => user.id, :role => role.to_s } %>
-      <% end %>
     </label>
   </td>
 <% end %>
