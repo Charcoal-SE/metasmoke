@@ -252,13 +252,6 @@ class GithubController < ApplicationController
         Dir.chdir('SmokeDetector') do
           system 'git config user.name metasmoke'
           system 'git', 'config', 'user.email', AppConfig['github']['username']
-
-          File.write '.git/info/attributes', <<~END
-            bad_keywords.txt -text merge=union
-            blacklisted_usernames.txt -text merge=union
-            blacklisted_websites.txt -text merge=union
-            watched_keywords.txt -text merge=union
-          END
         end
       end
 
