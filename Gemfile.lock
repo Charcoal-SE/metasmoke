@@ -227,7 +227,7 @@ GEM
     jwt (2.1.0)
     launchy (2.4.3)
       addressable (~> 2.3)
-    loofah (2.2.2)
+    loofah (2.2.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.0)
@@ -460,7 +460,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   jwt
-  loofah (~> 2.2.1)
+  loofah (~> 2.2.1, >= 2.2.3)
   meta_request
   mysql2
   octokit (~> 4.0)
