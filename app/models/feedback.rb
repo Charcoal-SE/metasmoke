@@ -27,19 +27,18 @@ class Feedback < ApplicationRecord
 
   after_save do
     if update_post_feedback_cache # if post feedback cache was changed
-      if post.flagged? && !is_positive?
-        message = "fp feedback on autoflagged post: [#{post.title}](#{post.link}) [MS](//metasmoke.erwaysoftware.com/post/#{post_id})"
-        ActionCable.server.broadcast 'smokedetector_messages', autoflag_fp: { message: message, site: post.site.site_domain }
-        
-        Thread.new do
-          sys = User.find(-1)
-          flaggers = post.eligible_flaggers.map do |u|
-            [u.id, "@#{u.username.tr(' ', '')}", FlagCondition.validate_for_user(u, sys)]
+      if post.flagged? && !post.is_tp
+        sys = User.find(-1)
+        post.eligible_flaggers.each do |u|
+          Thread.new do
+            FlagCondition.validate_for_user(u, sys)
           end
-          names = post.flaggers.map { |u| flaggers.select { |f| f[0] == u.id }[0][1] }
-          user_msg = "Autoflagged FP: flagged by #{@names.join(', ')}"
-          ActionCable.server.broadcast 'smokedetector_messages', autoflag_fp: { message: user_msg, site: post.site.site_domain }
         end
+
+        names = post.eligible_flaggers.map { |u| "@#{u.username.tr(' ', '')}" }
+        message = "fp feedback on autoflagged post: [#{post.title}](#{post.link}) [MS]" \
+                  "(//metasmoke.erwaysoftware.com/post/#{post_id}) (#{names.join ' '})"
+        ActionCable.server.broadcast 'smokedetector_messages', autoflag_fp: { message: message, site: post.site.site_domain }
       end
 
       post.stack_exchange_user&.unblacklist_user if post.is_fp
