@@ -1,4 +1,5 @@
-<% with_app = false if with_app.nil? %>
+<% with_app ||= false %>
+<% with_comment ||= false %>
 <tr>
   <td>
     <%# As for why we need render_source, see metasmoke#510 - Devise doesn't like being rendered from a controller %>
@@ -11,6 +12,9 @@
   <%= render "posts/post", :post => log.post, :wrap_in_tr => false %>
   <% if with_app %>
     <td><%= log.api_key.present? ? log.api_key.app_name : 'MS Web UI' %></td>
+  <% end %>
+  <% if with_comment %>
+    <td><%= log.comment %></td>
   <% end %>
   <td class='<%= "success" if log.success %>' title="<%= log.error_message %>"><%= log.success ? "Success" : "Fail" %><%= " (dry run)" if log.is_dry_run %></td>
 </tr>

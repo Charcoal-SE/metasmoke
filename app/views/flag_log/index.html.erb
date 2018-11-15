@@ -38,13 +38,16 @@
         <% if params[:filter] == 'manual' %>
           <th>App</th>
         <% end %>
+        <% if params[:filter] == 'other' %>
+          <th>Comment</th>
+        <% end %>
         <th>Result</th>
       </tr>
    </thead>
   <% end %>
   <tbody>
     <% @flag_logs.each do |log| %>
-      <%= render 'flag_log', log: log, with_app: params[:filter] == 'manual' %>
+      <%= render 'flag_log', log: log, with_app: params[:filter] == 'manual', with_comment: params[:filter] == 'other' %>
     <% end %>
   </tbody>
 </table>
