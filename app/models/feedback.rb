@@ -36,8 +36,8 @@ class Feedback < ApplicationRecord
         end
 
         names = post.eligible_flaggers.map { |u| "@#{u.username.tr(' ', '')}" }
-        message = "fp feedback on autoflagged post: [#{post.title}](#{post.link}) [MS]" \
-                  "(//metasmoke.erwaysoftware.com/post/#{post_id}) (#{names.join ' '})"
+        message = "fp feedback on autoflagged post: [#{post.title}](#{post.link}) [[MS]" \
+                  "(//metasmoke.erwaysoftware.com/post/#{post_id})] (#{names.join ' '})"
         ActionCable.server.broadcast 'smokedetector_messages', autoflag_fp: { message: message, site: post.site.site_domain }
       end
 
@@ -65,6 +65,10 @@ class Feedback < ApplicationRecord
                       .destroy_all
 
     post.reload.update_feedback_cache unless num_deleted.empty?
+  end
+
+  after_create do
+    DeletionLog.auto_other_flag(nil, post)
   end
 
   # Keep this block last to make sure any corrections or deletions have been made before we check count

@@ -118,6 +118,10 @@ class Post < ApplicationRecord
     deletion_logs.where(is_deleted: true).any?
   end
 
+  def conflicted?
+    is_tp && (is_fp || is_naa)
+  end
+
   def stack_id
     native_id
   end

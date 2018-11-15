@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_23_122100) do
+ActiveRecord::Schema.define(version: 2018_11_14_235134) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id"
@@ -453,6 +453,7 @@ ActiveRecord::Schema.define(version: 2018_10_23_122100) do
     t.datetime "last_users_update"
     t.string "api_parameter"
     t.boolean "closed", default: false, null: false
+    t.boolean "auto_disputed_flags_enabled"
     t.index ["api_parameter"], name: "index_sites_on_api_parameter"
   end
 

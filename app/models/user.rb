@@ -175,7 +175,7 @@ class User < ApplicationRecord
     save!
   end
 
-  def flag(flag_type, post, dry_run = false)
+  def flag(flag_type, post, dry_run = false, **opts)
     if moderator_sites.pluck(:site_id).include? post.site_id
       return false, 'User is a moderator on this site'
     end
@@ -212,6 +212,9 @@ class User < ApplicationRecord
         ['spam', 'contenido no deseado', 'スパム', 'спам'].include? fo['title']
       elsif flag_type.to_sym == :abusive
         ['rude or abusive', 'rude ou abusivo', 'irrespetuoso o abusivo', '失礼又は暴言', 'невежливый или оскорбительный'].include? fo['title']
+      elsif flag_type.to_sym == :other
+        ['in need of moderator intervention', 'precisa de atenção dos moderadores', 'se necesita la intervención de un moderador',
+         'モデレーターによる対応が必要です', 'требуется вмешательство модератора'].include? fo['title']
       else
         return false, "Unrecognized flag type #{flag_type} specified in call to User#flag"
       end
@@ -219,7 +222,7 @@ class User < ApplicationRecord
 
     return false, 'Flag option not present' if flag_option.blank?
 
-    request_params = { 'option_id' => flag_option['option_id'], 'site' => site.site_domain }.merge auth_dict
+    request_params = { 'option_id' => flag_option['option_id'], 'site' => site.site_domain }.merge(auth_dict).merge(opts)
     return true, 0 if dry_run
     uri = URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/add")
     flag_response = JSON.parse(Net::HTTP.post_form(uri, request_params).body)
@@ -238,6 +241,10 @@ class User < ApplicationRecord
 
   def abusive_flag(post, dry_run = false)
     flag :abusive, post, dry_run
+  end
+
+  def other_flag(post, comment)
+    flag :other, post, false, comment: comment
   end
 
   def moderator?
