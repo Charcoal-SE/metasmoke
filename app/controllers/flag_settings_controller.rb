@@ -100,6 +100,7 @@ class FlagSettingsController < ApplicationController
     @json = JSON.dump(@sites.map do |s|
       [s.id, { flags_enabled: s.flags_enabled,
                max_flags: s.max_flags_per_post,
+               auto_disputed_flags_enabled: s.auto_disputed_flags_enabled,
                name: s.site_name, domain: s.site_domain }]
     end.to_h)
   end
@@ -109,9 +110,12 @@ class FlagSettingsController < ApplicationController
     updata.each do |k, v|
       next unless v['changed'].present? && v['changed'] == true
       params = {}
-      params[:flags_enabled] = v['flags_enabled'] if v['flags_enabled'].present?
-      params[:max_flags_per_post] = v['max_flags'] if v['max_flags'].present?
-      Site.find(k).update(params)
+      params[:flags_enabled] = v['flags_enabled'] unless v['flags_enabled'].nil?
+      params[:max_flags_per_post] = v['max_flags'] unless v['max_flags'].nil?
+      params[:auto_disputed_flags_enabled] = v['auto_disputed_flags_enabled'] unless v['auto_disputed_flags_enabled'].nil?
+      site = Site.find(k)
+      puts "Update: #{site} #{params}"
+      site.update(params)
     end
     head :no_content
   end

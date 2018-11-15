@@ -21,7 +21,8 @@ route('/flagging/settings/sites', () => {
     $('.unsaved-changes').show();
 
     const sid = $(ev.target).parents('tr').data('sid').toString();
-    window.flagging_settings[sid].flags_enabled = $(ev.target).is(':checked');
+    const setting = $(ev.target).attr('name');
+    window.flagging_settings[sid][setting] = $(ev.target).is(':checked');
     window.flagging_settings[sid].changed = true;
   });
 

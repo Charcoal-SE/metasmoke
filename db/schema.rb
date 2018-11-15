@@ -453,7 +453,7 @@ ActiveRecord::Schema.define(version: 2018_11_14_235134) do
     t.datetime "last_users_update"
     t.string "api_parameter"
     t.boolean "closed", default: false, null: false
-    t.boolean "auto_disputed_flags_enabled"
+    t.boolean "auto_disputed_flags_enabled", default: true
     t.index ["api_parameter"], name: "index_sites_on_api_parameter"
   end
 

@@ -1,7 +1,7 @@
-<h1>Site Flagging Settings</h1>
-<p>Contains settings for each site for autoflagging. Lets you configure enabled/disabled state and max flags.</p>
+<h1>Site Settings</h1>
+<p>Contains settings that can be configured per SE site.</p>
 
-<input type="text" class="form-control input-sm site-search" placeholder="Filter..." /><br/>
+<input type="text" class="form-control input-sm site-search" placeholder="Filter (press Enter to apply)" /><br/>
 
 <table class="table table-striped">
   <thead>
@@ -9,14 +9,16 @@
       <th>Site</th>
       <th>Flags enabled</th>
       <th>Max flags per post</th>
+      <th>Auto-modflags enabled</th>
     </tr>
   </thead>
   <tbody>
     <% @sites.each do |s| %>
       <tr data-sid="<%= s.id %>">
         <td><%= HTMLEntities.new.decode s.site_name %></td>
-        <td><input type="checkbox" <%= 'checked' if s.flags_enabled %> /></td>
+        <td><input type="checkbox" name="flags_enabled" <%= 'checked' if s.flags_enabled %> /></td>
         <td><input type="number" class="form-control input-sm" min="0" max="6" value="<%= s.max_flags_per_post %>" /></td>
+        <td><input type="checkbox" name="auto_disputed_flags_enabled" <%= 'checked' if s.auto_disputed_flags_enabled %> /></td>
       </tr>
     <% end %>
   </tbody>
