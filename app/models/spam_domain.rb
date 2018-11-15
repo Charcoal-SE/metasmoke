@@ -64,7 +64,11 @@ class SpamDomain < ApplicationRecord
 
   def setup_review(*_args)
     return unless posts.count >= 3 && domain_tags.count == 0 && !review_item.present?
-    ReviewItem.create(reviewable: self, queue: ReviewQueue['untagged-domains'], completed: false)
+    if posts.map(&:is_fp).any?(&:!)
+      ReviewItem.create(reviewable: self, queue: ReviewQueue['untagged-domains'], completed: false)
+    else
+      domain_tags << DomainTag.find_or_create_by(name: 'notspam')
+    end
   end
 
   def check_dq(*_args)
