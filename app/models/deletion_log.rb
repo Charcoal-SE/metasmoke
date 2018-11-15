@@ -29,7 +29,7 @@ class DeletionLog < ApplicationRecord
   end
 
   def self.auto_other_flag(dl = nil, post = nil)
-    return if post.nil? || !post.site.auto_disputed_flags_enabled
+    return if post.nil? || !post.site&.auto_disputed_flags_enabled
     deleted = dl.present? ? dl.is_deleted : !post.deleted_at.nil?
     if deleted && (post.is_fp || post.is_naa)
       comment_template = 'This post had {flags} spam flag(s) cast on it by Charcoal members and has since been deleted, but was ultimately judged '\
