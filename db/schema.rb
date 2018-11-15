@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_14_235134) do
+ActiveRecord::Schema.define(version: 2018_11_15_145502) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id"
@@ -280,9 +280,12 @@ ActiveRecord::Schema.define(version: 2018_11_14_235134) do
     t.integer "site_id"
     t.boolean "is_auto", default: true
     t.integer "api_key_id"
+    t.string "flag_type", default: "spam"
+    t.text "comment"
     t.index ["api_key_id"], name: "index_flag_logs_on_api_key_id"
     t.index ["created_at"], name: "index_flag_logs_on_created_at"
     t.index ["flag_condition_id"], name: "index_flag_logs_on_flag_condition_id"
+    t.index ["flag_type"], name: "index_flag_logs_on_flag_type"
     t.index ["post_id"], name: "index_flag_logs_on_post_id"
     t.index ["site_id"], name: "index_flag_logs_on_site_id"
     t.index ["user_id"], name: "index_flag_logs_on_user_id"

@@ -166,7 +166,8 @@ module API
         backoff: status.present? ? message : 0,
         site_id: post.site_id,
         is_auto: false,
-        api_key: @key
+        api_key: @key,
+        flag_type: flag_type.to_s
       )
       if status
         { status: 'success', backoff: message }

@@ -9,20 +9,24 @@ class FlagLogController < ApplicationController
     @applicable_flag_logs = if @individual_user
                               @individual_user.flag_logs.where(is_auto: true)
                             else
-                              FlagLog.auto
+                              FlagLog.all
                             end
 
-    case params[:filter]
-    when 'fps'
-      @applicable_flag_logs = @applicable_flag_logs.joins(:post)
+    @applicable_flag_logs = case params[:filter]
+                            when 'fps'
+                              @applicable_flag_logs.joins(:post)
                                                    .where(success: true)
                                                    .where(posts: { is_tp: false })
                                                    .where('`posts`.`is_fp` = 1 OR `posts`.`is_naa` = 1')
-    when 'failures'
-      @applicable_flag_logs = @applicable_flag_logs.where(success: false)
-    when 'manual'
-      @applicable_flag_logs = @individual_user ? @individual_user.flag_logs.where(auto: false) : FlagLog.manual
-    end
+                            when 'failures'
+                              @applicable_flag_logs.where(success: false)
+                            when 'manual'
+                              @individual_user ? @individual_user.flag_logs.where(auto: false) : FlagLog.manual
+                            when 'other'
+                              @applicable_flag_logs.unscoped.where(flag_type: 'other')
+                            else
+                              @applicable_flag_logs.auto.spam
+                            end
 
     @flag_logs = @applicable_flag_logs.order(Arel.sql('flag_logs.created_at DESC, flag_logs.id DESC'))
                                       .includes(post: [feedbacks: [:user, :api_key]])

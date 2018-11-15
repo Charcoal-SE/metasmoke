@@ -23,8 +23,9 @@
       <li class="<%= 'active' if params[:user_id].to_i == current_user.id %>"><%= link_to "Mine (#{FlagLog.where(:is_auto => true, :success => true, :user => current_user).count})", flag_logs_by_user_path(:user_id => current_user.id) %></li>
     <% end %>
     <li class="<%= 'active' if params[:filter] == 'fps' %>"><%= link_to "False Positives", flag_logs_path(filter: 'fps') %></li>
-    <li class="<%= 'active' if params[:filter] == 'failures' %>"><%= link_to "Failures", flag_logs_path(filter: 'failures') %></li>
+    <li class="<%= 'active' if params[:filter] == 'failures' %>"><%= link_to 'Failures', flag_logs_path(filter: 'failures') %></li>
     <li class="<%= 'active' if params[:filter] == 'manual' %>"><%= link_to "Manual", flag_logs_path(filter: 'manual') %></li>
+    <li class="<%= 'active' if params[:filter] == 'other' %>"><%= link_to "Other Auto", flag_logs_path(filter: 'other') %></li>
   </ul>
 <% end %>
 

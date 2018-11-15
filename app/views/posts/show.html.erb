@@ -1,7 +1,7 @@
 <h4>
-  <% if @post.flagged? %>
+  <% if @post.flag_logs.successful.any? %>
     <%= link_to post_flag_logs_path(@post), :style => "text-decoration:none"  do %>
-      <span class="text-danger glyphicon glyphicon-flag" title="This post was flagged automatically" href="#"></span>
+      <span class="text-danger" title="This post had flags cast on it" href="#"><%= @post.flag_logs.successful.first.flag_icon %></span>
     <% end %>
   <% end %>
   <%= title @post.title %>
