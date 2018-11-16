@@ -36,7 +36,7 @@ class DeletionLog < ApplicationRecord
                          'not to have been spam. Please review whether spam flags - and the penalty that comes with them - are appropriate for this '\
                          'post - you can let us know in https://chat.stackexchange.com/rooms/11540 if the flags were inappropriate. '\
                          "If you're wondering WTF this flag is, see https://charcoal-se.org/smokey/Auto-Mod-Flags for details."
-      comment = comment_template.gsub('{flags}', post.flag_logs.manual.successful.count)
+      comment = comment_template.gsub('{flags}', post.flag_logs.manual.successful.count.to_s)
       smokey = User.find(-1)
       status, message = smokey.other_flag(post, comment)
       FlagLog.create(
