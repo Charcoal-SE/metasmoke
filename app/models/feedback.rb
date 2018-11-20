@@ -107,10 +107,9 @@ class Feedback < ApplicationRecord
 
   def send_to_chat
     return if chat_user_id.present?
-
     return if Feedback.where(post: post).where('feedback_type LIKE ?', "#{feedback_type[0]}%").where.not(id: id).exists?
 
-    message = "#{feedback_type} by #{user&.username || user_name}"
+    message = "#{feedback_type} feedback received"
     unless post.id == Post.last.id
       host = 'metasmoke.erwaysoftware.com'
       link = url_helpers.url_for controller: :posts, action: :show, id: post.id, host: host
