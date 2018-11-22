@@ -54,7 +54,7 @@ class FlagCondition < ApplicationRecord
     accuracy = overall_accuracy user
 
     unless accuracy.present? && accuracy < FlagSetting['min_accuracy'].to_f#
-      accuracy
+      return accuracy
     end
     
     user.flag_conditions.update_all(flags_enabled: false)
