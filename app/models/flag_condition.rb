@@ -53,12 +53,16 @@ class FlagCondition < ApplicationRecord
   def self.validate_for_user(user, disabler)
     accuracy = overall_accuracy user
 
-    return unless accuracy.present? && accuracy < FlagSetting['min_accuracy'].to_f
+    unless accuracy.present? && accuracy < FlagSetting['min_accuracy'].to_f#
+      accuracy
+    end
+    
     user.flag_conditions.update_all(flags_enabled: false)
     username = user&.username&.tr(' ', '')
     admin = disabler&.username&.tr(' ', '')
     SmokeDetector.send_message_to_charcoal "@#{username} Your flag conditions were manually disabled by @#{admin}: " \
                                            "Total accuracy must be >= #{FlagSetting['min_accuracy']}%."
+    accuracy
   end
 
   def validate!(post)
