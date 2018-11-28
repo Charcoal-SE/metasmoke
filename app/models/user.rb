@@ -190,12 +190,12 @@ class User < ApplicationRecord
       acct_id = stack_exchange_account_id
       post_id = post.native_id
       post_type = path
-      uri = URI.parse("#{tstore["host"]}/autoflag/options?account_id=#{acct_id}&site=#{site}&post_id=#{post_id}&post_type=#{post_type}")
+      uri = URI.parse("#{tstore['host']}/autoflag/options?account_id=#{acct_id}&site=#{site}&post_id=#{post_id}&post_type=#{post_type}")
       req = Net::HTTP::Get.new(uri)
       req['Authorization'] = tstore['token']
-      response = JSON.parse(Net::HTTP.start(uri.hostname, uri.port) {|http|
+      response = JSON.parse(Net::HTTP.start(uri.hostname, uri.port) do |http|
         http.request(req)
-      }.body)
+      end.body)
     else
       auth_dict = { 'key' => AppConfig['stack_exchange']['key'], 'access_token' => api_token }
       auth_string = "key=#{AppConfig['stack_exchange']['key']}&access_token=#{api_token}"
@@ -244,12 +244,12 @@ class User < ApplicationRecord
       post_id = post.native_id
       flag_option_id = flag_option['option_id']
       post_type = path
-      uri = URI.parse("#{tstore["host"]}/autoflag?account_id=#{acct_id}&site=#{site}&post_id=#{post_id}&post_type=#{post_type}&flag_option_id=#{flag_option_id}")
+      uri = URI.parse("#{tstore['host']}/autoflag?account_id=#{acct_id}&site=#{site}&post_id=#{post_id}&post_type=#{post_type}&flag_option_id=#{flag_option_id}")
       req = Net::HTTP::Post.new(uri)
       req['Authorization'] = tstore['token']
-      flag_response = JSON.parse(Net::HTTP.start(uri.hostname, uri.port) {|http|
+      flag_response = JSON.parse(Net::HTTP.start(uri.hostname, uri.port) do |http|
         http.request(req)
-      }.body)
+      end.body)
     else
       uri = URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/add")
       flag_response = JSON.parse(Net::HTTP.post_form(uri, request_params).body)
