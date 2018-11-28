@@ -415,7 +415,8 @@ Rails.application.routes.draw do
 
     get    'denied',               to: 'users#missing_privileges',  as: :missing_privileges
 
-    get    'migrate_token',        to: 'users#migrate_token',        as: :migrate_token
+    get    'migrate_token',        to: 'users#migrate_token_confirmation', as: :migrate_token_confirmation
+    post   'migrate_token',        to: 'users#migrate_token',        as: :migrate_token
 
     get    ':id',                  to: 'users#show',                as: :dev_user, constraints: { id: /-?\d+/ }
     post   ':id/update_ids',       to: 'users#refresh_ids',         as: :update_user_chat_ids
