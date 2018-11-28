@@ -182,15 +182,29 @@ class User < ApplicationRecord
 
     raise 'Not authenticated' if api_token.nil?
 
-    auth_dict = { 'key' => AppConfig['stack_exchange']['key'], 'access_token' => api_token }
-    auth_string = "key=#{AppConfig['stack_exchange']['key']}&access_token=#{api_token}"
-
     path = post.answer? ? 'answers' : 'questions'
     site = post.site
 
-    # Try to get flag options
-    uri = URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/options?site=#{site.site_domain}&#{auth_string}")
-    response = JSON.parse(Net::HTTP.get_response(uri).body)
+    if api_token.migrated
+      tstore = AppConfig['token_store']
+      acct_id = stack_exchange_account_id
+      post_id = post.native_id
+      post_type = path
+      uri = URI.parse("#{tstore["host"]}/autoflag/options?account_id=#{acct_id}&site=#{site}&post_id=#{post_id}&post_type=#{post_type}")
+      req = Net::HTTP::Get.new(uri)
+      req['Authorization'] = tstore['token']
+      response = JSON.parse(Net::HTTP.start(uri.hostname, uri.port) {|http|
+        http.request(req)
+      }.body)
+    else
+      auth_dict = { 'key' => AppConfig['stack_exchange']['key'], 'access_token' => api_token }
+      auth_string = "key=#{AppConfig['stack_exchange']['key']}&access_token=#{api_token}"
+
+      # Try to get flag options
+      uri = URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/options?site=#{site.site_domain}&#{auth_string}")
+      response = JSON.parse(Net::HTTP.get_response(uri).body)
+    end
+
     flag_options = response['items']
 
     if flag_options.blank?
@@ -224,8 +238,22 @@ class User < ApplicationRecord
 
     request_params = { 'option_id' => flag_option['option_id'], 'site' => site.site_domain }.merge(auth_dict).merge(opts)
     return true, 0 if dry_run
-    uri = URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/add")
-    flag_response = JSON.parse(Net::HTTP.post_form(uri, request_params).body)
+    if api_token.migrated
+      tstore = AppConfig['token_store']
+      acct_id = stack_exchange_account_id
+      post_id = post.native_id
+      flag_option_id = flag_option['option_id']
+      post_type = path
+      uri = URI.parse("#{tstore["host"]}/autoflag?account_id=#{acct_id}&site=#{site}&post_id=#{post_id}&post_type=#{post_type}&flag_option_id=#{flag_option_id}")
+      req = Net::HTTP::Post.new(uri)
+      req['Authorization'] = tstore['token']
+      flag_response = JSON.parse(Net::HTTP.start(uri.hostname, uri.port) {|http|
+        http.request(req)
+      }.body)
+    else
+      uri = URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/add")
+      flag_response = JSON.parse(Net::HTTP.post_form(uri, request_params).body)
+    end
     # rubocop:disable Style/GuardClause
     if flag_response.include?('error_id') || flag_response.include?('error_message')
       return false, flag_response['error_message']
