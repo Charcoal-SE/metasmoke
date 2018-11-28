@@ -191,29 +191,17 @@ class User < ApplicationRecord
       post_id = post.native_id
       post_type = path
       r = HTTParty.get("#{tstore['host']}/autoflag/options",
-                headers: {
-                  'X-API-Key': tstore['key']
-                  },
-                query: {
-                  account_id: acct_id,
-                  site: site.api_parameter,
-                  post_id: post_id,
-                  post_type: post_type[0..-2]
-                  })
-      # uri = URI.parse("#{tstore['host']}/autoflag/options?account_id=#{acct_id}&site=#{site.api_parameter}&post_id=#{post_id}&post_type=#{post_type}").to_s
-      # req = Net::HTTP.new(uri, 443)
-      # req.use_ssl = true
-      # preq = Net::HTTP::Post.new(uri)
-      # preq['X-API-Key'] = tstore['token']
-      #pp r
-      #pp r.headers
-      #pp r.code
+                       headers: {
+                         'X-API-Key': tstore['key']
+                       },
+                       query: {
+                         account_id: acct_id,
+                         site: site.api_parameter,
+                         post_id: post_id,
+                         post_type: post_type[0..-2]
+                       })
       response = JSON.parse(r.body)
-      #pp response
-      # response = JSON.parse(Net::HTTP.start(uri.hostname, uri.port) do |http|
-      #   http.request(req)
-      # end.body)
-      auth_dict = {}
+      auth_dict = {} # Created by the other branch, needs to exist
     else
       auth_dict = { 'key' => AppConfig['stack_exchange']['key'], 'access_token' => api_token }
       auth_string = "key=#{AppConfig['stack_exchange']['key']}&access_token=#{api_token}"
@@ -263,17 +251,18 @@ class User < ApplicationRecord
       flag_option_id = flag_option['option_id']
       post_type = path
       comment = opts[:comment]
-      req = HTTParty.post("#{tstore['host']}/autoflag", headers: { 'X-API-Key': tstore['key'] },
-                                             data: {account_id: acct_id, site: site.api_parameter, post_id: post_id, post_type:post_type, flag_option_id:flag_option_id, comment: comment })
-#      uri = URI.parse("#{tstore['host']}/autoflag?account_id=#{acct_id}&site=#{site.api_parameter}&post_id=#{post_id}&post_type=#{post_type}&flag_option_id=#{flag_option_id}&comment=#{comment}").to_s
-#      req = Net::HTTP.new(uri, 443)
-#      req.use_ssl = true
-#      preq = Net::HTTP::Post.new(uri)
-#      preq['X-API-Key'] = tstore['token']
+      req = HTTParty.post("#{tstore['host']}/autoflag",
+                          headers: {
+                            'X-API-Key': tstore['key']
+                          }, data: {
+                            account_id: acct_id,
+                            site: site.api_parameter,
+                            post_id: post_id,
+                            post_type: post_type,
+                            flag_option_id: flag_option_id,
+                            comment: comment
+                          })
       flag_response = JSON.parse(req.body)
-      # flag_response = JSON.parse(Net::HTTP.start(uri.hostname, uri.port) do |http|
-      #   http.request(req)
-      # end.body)
     else
       uri = URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/add")
       flag_response = JSON.parse(Net::HTTP.post_form(uri, request_params).body)
