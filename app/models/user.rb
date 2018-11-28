@@ -180,22 +180,40 @@ class User < ApplicationRecord
       return false, 'User is a moderator on this site'
     end
 
-    raise 'Not authenticated' if api_token.nil?
+    raise 'Not authenticated' if api_token.nil? && !token_migrated
 
     path = post.answer? ? 'answers' : 'questions'
     site = post.site
 
-    if api_token.migrated
+    if token_migrated
       tstore = AppConfig['token_store']
       acct_id = stack_exchange_account_id
       post_id = post.native_id
       post_type = path
-      uri = URI.parse("#{tstore['host']}/autoflag/options?account_id=#{acct_id}&site=#{site}&post_id=#{post_id}&post_type=#{post_type}")
-      req = Net::HTTP::Get.new(uri)
-      req['Authorization'] = tstore['token']
-      response = JSON.parse(Net::HTTP.start(uri.hostname, uri.port) do |http|
-        http.request(req)
-      end.body)
+      r = HTTParty.get("#{tstore['host']}/autoflag/options",
+                headers: {
+                  'X-API-Key': tstore['key']
+                  },
+                query: {
+                  account_id: acct_id,
+                  site: site.api_parameter,
+                  post_id: post_id,
+                  post_type: post_type[0..-2]
+                  })
+      # uri = URI.parse("#{tstore['host']}/autoflag/options?account_id=#{acct_id}&site=#{site.api_parameter}&post_id=#{post_id}&post_type=#{post_type}").to_s
+      # req = Net::HTTP.new(uri, 443)
+      # req.use_ssl = true
+      # preq = Net::HTTP::Post.new(uri)
+      # preq['X-API-Key'] = tstore['token']
+      #pp r
+      #pp r.headers
+      #pp r.code
+      response = JSON.parse(r.body)
+      #pp response
+      # response = JSON.parse(Net::HTTP.start(uri.hostname, uri.port) do |http|
+      #   http.request(req)
+      # end.body)
+      auth_dict = {}
     else
       auth_dict = { 'key' => AppConfig['stack_exchange']['key'], 'access_token' => api_token }
       auth_string = "key=#{AppConfig['stack_exchange']['key']}&access_token=#{api_token}"
@@ -238,18 +256,24 @@ class User < ApplicationRecord
 
     request_params = { 'option_id' => flag_option['option_id'], 'site' => site.site_domain }.merge(auth_dict).merge(opts)
     return true, 0 if dry_run
-    if api_token.migrated
+    if token_migrated
       tstore = AppConfig['token_store']
       acct_id = stack_exchange_account_id
       post_id = post.native_id
       flag_option_id = flag_option['option_id']
       post_type = path
-      uri = URI.parse("#{tstore['host']}/autoflag?account_id=#{acct_id}&site=#{site}&post_id=#{post_id}&post_type=#{post_type}&flag_option_id=#{flag_option_id}")
-      req = Net::HTTP::Post.new(uri)
-      req['Authorization'] = tstore['token']
-      flag_response = JSON.parse(Net::HTTP.start(uri.hostname, uri.port) do |http|
-        http.request(req)
-      end.body)
+      comment = opts[:comment]
+      req = HTTParty.post("#{tstore['host']}/autoflag", headers: { 'X-API-Key': tstore['key'] },
+                                             data: {account_id: acct_id, site: site.api_parameter, post_id: post_id, post_type:post_type, flag_option_id:flag_option_id, comment: comment })
+#      uri = URI.parse("#{tstore['host']}/autoflag?account_id=#{acct_id}&site=#{site.api_parameter}&post_id=#{post_id}&post_type=#{post_type}&flag_option_id=#{flag_option_id}&comment=#{comment}").to_s
+#      req = Net::HTTP.new(uri, 443)
+#      req.use_ssl = true
+#      preq = Net::HTTP::Post.new(uri)
+#      preq['X-API-Key'] = tstore['token']
+      flag_response = JSON.parse(req.body)
+      # flag_response = JSON.parse(Net::HTTP.start(uri.hostname, uri.port) do |http|
+      #   http.request(req)
+      # end.body)
     else
       uri = URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/add")
       flag_response = JSON.parse(Net::HTTP.post_form(uri, request_params).body)

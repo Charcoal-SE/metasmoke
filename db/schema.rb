@@ -81,7 +81,6 @@ ActiveRecord::Schema.define(version: 2018_11_28_170003) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "expiry"
-    t.boolean "migrated", default: false, null: false
     t.index ["api_key_id"], name: "index_api_tokens_on_api_key_id"
     t.index ["user_id"], name: "index_api_tokens_on_user_id"
   end
@@ -541,6 +540,7 @@ ActiveRecord::Schema.define(version: 2018_11_28_170003) do
     t.boolean "oauth_created"
     t.boolean "eu_resident"
     t.boolean "privacy_accepted"
+    t.boolean "migrated", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
