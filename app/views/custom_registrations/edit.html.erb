@@ -63,4 +63,19 @@
 <p>Unhappy? You can delete your metasmoke account by clicking this button.
   <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger' %></p>
 
+<% if !current_user.token_migrated %>
+  <div class="alert alert-info" role="alert">
+    We're currently beta testing a new way to cast autoflags. The new system will be safer in that even someone with direct server access does not have
+    you access_token (the thing which lets others act on your behalf). Currently, this safer token vault is on an AWS Lambda and will store tokens in
+    AWS DynamoDB under thesecretmaster's account. He will have full read access to your tokens, and when this system is migrated to Undo's account, Undo
+    will also have access. By clicking this button, you consent to both thesecretmaster and Undo having access to your account.
+    <br>
+    <%= link_to "Help test the new autoflagging system!", "#{AppConfig['token_store']['host']}/auth", class: 'btn btn-info' %>
+  </div>
+<% else %>
+  <div class="alert alert-info" role="alert">
+    You're signed up for our token beta thing! Ping Undo in Charcoal HQ if you'd like to be removed.
+  </div>
+<% end %>
+
 <%= link_to "Back", :back %>

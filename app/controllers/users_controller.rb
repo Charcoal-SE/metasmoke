@@ -131,6 +131,11 @@ class UsersController < ApplicationController
     redirect_to dev_user_path(@user)
   end
 
+  def migrate_token
+    current_user.update(token_migrated: true)
+    redirect_to edit_user_registration_path
+  end
+
   private
 
   def set_user
