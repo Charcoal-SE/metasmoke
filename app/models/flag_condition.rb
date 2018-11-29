@@ -53,10 +53,10 @@ class FlagCondition < ApplicationRecord
   def self.validate_for_user(user, disabler)
     accuracy = overall_accuracy user
 
-    unless accuracy.present? && accuracy < FlagSetting['min_accuracy'].to_f#
+    unless accuracy.present? && accuracy < FlagSetting['min_accuracy'].to_f #
       return accuracy
     end
-    
+
     user.flag_conditions.update_all(flags_enabled: false)
     username = user&.username&.tr(' ', '')
     admin = disabler&.username&.tr(' ', '')

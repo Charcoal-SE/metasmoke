@@ -1,4 +1,7 @@
 common: &common
+  token_store:
+    host: https://the.best.token.store
+    key: atokenforthetokenstore
   smoke_detector:
     key: 'smokey_key'
   ses_smtp_credentials: # email

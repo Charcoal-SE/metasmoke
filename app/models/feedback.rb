@@ -30,7 +30,7 @@ class Feedback < ApplicationRecord
       if post.flagged? && !is_positive?
         message = "fp feedback on autoflagged post: [#{post.title}](#{post.link}) [MS](//metasmoke.erwaysoftware.com/post/#{post_id})"
         ActionCable.server.broadcast 'smokedetector_messages', autoflag_fp: { message: message, site: post.site.site_domain }
-        
+
         Thread.new do
           sys = User.find(-1)
           flaggers = post.eligible_flaggers.map do |u|

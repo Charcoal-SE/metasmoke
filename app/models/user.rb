@@ -180,17 +180,37 @@ class User < ApplicationRecord
       return false, 'User is a moderator on this site'
     end
 
-    raise 'Not authenticated' if api_token.nil?
-
-    auth_dict = { 'key' => AppConfig['stack_exchange']['key'], 'access_token' => api_token }
-    auth_string = "key=#{AppConfig['stack_exchange']['key']}&access_token=#{api_token}"
+    raise 'Not authenticated' if api_token.nil? && !token_migrated
 
     path = post.answer? ? 'answers' : 'questions'
     site = post.site
 
-    # Try to get flag options
-    uri = URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/options?site=#{site.site_domain}&#{auth_string}")
-    response = JSON.parse(Net::HTTP.get_response(uri).body)
+    if token_migrated
+      tstore = AppConfig['token_store']
+      acct_id = stack_exchange_account_id
+      post_id = post.native_id
+      post_type = path
+      r = HTTParty.get("#{tstore['host']}/autoflag/options",
+                       headers: {
+                         'X-API-Key': tstore['key']
+                       },
+                       query: {
+                         account_id: acct_id,
+                         site: site.api_parameter,
+                         post_id: post_id,
+                         post_type: post_type[0..-2]
+                       })
+      response = JSON.parse(r.body)
+      auth_dict = {} # Created by the other branch, needs to exist
+    else
+      auth_dict = { 'key' => AppConfig['stack_exchange']['key'], 'access_token' => api_token }
+      auth_string = "key=#{AppConfig['stack_exchange']['key']}&access_token=#{api_token}"
+
+      # Try to get flag options
+      uri = URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/options?site=#{site.site_domain}&#{auth_string}")
+      response = JSON.parse(Net::HTTP.get_response(uri).body)
+    end
+
     flag_options = response['items']
 
     if flag_options.blank?
@@ -224,8 +244,29 @@ class User < ApplicationRecord
 
     request_params = { 'option_id' => flag_option['option_id'], 'site' => site.site_domain }.merge(auth_dict).merge(opts)
     return true, 0 if dry_run
-    uri = URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/add")
-    flag_response = JSON.parse(Net::HTTP.post_form(uri, request_params).body)
+    if token_migrated
+      tstore = AppConfig['token_store']
+      acct_id = stack_exchange_account_id
+      post_id = post.native_id
+      flag_option_id = flag_option['option_id']
+      post_type = path
+      comment = opts[:comment]
+      req = HTTParty.post("#{tstore['host']}/autoflag",
+                          headers: {
+                            'X-API-Key': tstore['key']
+                          }, data: {
+                            account_id: acct_id,
+                            site: site.api_parameter,
+                            post_id: post_id,
+                            post_type: post_type,
+                            flag_option_id: flag_option_id,
+                            comment: comment
+                          })
+      flag_response = JSON.parse(req.body)
+    else
+      uri = URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/add")
+      flag_response = JSON.parse(Net::HTTP.post_form(uri, request_params).body)
+    end
     # rubocop:disable Style/GuardClause
     if flag_response.include?('error_id') || flag_response.include?('error_message')
       return false, flag_response['error_message']

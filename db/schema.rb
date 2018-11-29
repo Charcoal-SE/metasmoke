@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_15_145502) do
+ActiveRecord::Schema.define(version: 2018_11_28_170003) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id"
@@ -540,6 +540,7 @@ ActiveRecord::Schema.define(version: 2018_11_15_145502) do
     t.boolean "oauth_created"
     t.boolean "eu_resident"
     t.boolean "privacy_accepted"
+    t.boolean "token_migrated", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
