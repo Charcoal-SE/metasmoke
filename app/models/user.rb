@@ -255,7 +255,7 @@ class User < ApplicationRecord
       req = HTTParty.post("#{tstore['host']}/autoflag",
                           headers: {
                             'X-API-Key': tstore['key']
-                          }, data: {
+                          }, query: {
                             account_id: acct_id,
                             site: site.api_parameter,
                             post_id: post_id,
