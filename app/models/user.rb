@@ -200,7 +200,7 @@ class User < ApplicationRecord
                          post_id: post_id,
                          post_type: post_type[0..-2]
                        })
-      return false, "[beta] /autoflag/options #{r.code} #{r.body}" if r.code != 200
+      return false, "[beta] /autoflag/options #{req.code}\n#{req.headers}\n#{req.body}" if r.code != 200
       response = JSON.parse(r.body)
       auth_dict = {} # Created by the other branch, needs to exist
     else
@@ -263,7 +263,7 @@ class User < ApplicationRecord
                             flag_option_id: flag_option_id,
                             comment: comment
                           })
-      return false, "[beta] /autoflag/options #{req.code} #{req.body}" if req.code != 200
+      return false, "[beta] /autoflag #{req.code}\n#{req.headers}\n#{req.body}" if req.code != 200
       flag_response = JSON.parse(req.body)
     else
       uri = URI.parse("https://api.stackexchange.com/2.2/#{path}/#{post.stack_id}/flags/add")
