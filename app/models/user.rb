@@ -200,7 +200,7 @@ class User < ApplicationRecord
                          post_id: post_id,
                          post_type: post_type[0..-2]
                        })
-      return false, "[beta] /autoflag/options #{req.code}\n#{req.headers}\n#{req.body}" if r.code != 200
+      return false, "[beta] /autoflag/options #{r.code}\n#{r.headers}\n#{r.body}" if r.code != 200
       response = JSON.parse(r.body)
       auth_dict = {} # Created by the other branch, needs to exist
     else
@@ -259,7 +259,7 @@ class User < ApplicationRecord
                             account_id: acct_id,
                             site: site.api_parameter,
                             post_id: post_id,
-                            post_type: post_type,
+                            post_type: post_type[0..-2],
                             flag_option_id: flag_option_id,
                             comment: comment
                           })
