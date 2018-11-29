@@ -273,8 +273,7 @@ class User < ApplicationRecord
     if flag_response.include?('error_id') || flag_response.include?('error_message')
       return false, flag_response['error_message']
     else
-      backoff = (flag_response.include?('backoff') ? flag_response['backoff'] : 0)
-      return true, "[beta] Backoff: #{backoff}"
+      return true, (flag_response.include?('backoff') ? flag_response['backoff'] : 0)
     end
     # rubocop:enable Style/GuardClause
   end
