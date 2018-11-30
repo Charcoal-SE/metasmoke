@@ -1,0 +1,14 @@
+- name: flagging_enabled
+  value: 0
+- name: registration_enabled
+  value: 0
+- name: min_accuracy
+  value: 99.75
+- name: min_post_count
+  value: 1000
+- name: dry_run
+  value: 0
+- name: scaled_max_flags
+  value: 0,0,0,99.9,101,101
+- name: max_flags
+  value: 4
