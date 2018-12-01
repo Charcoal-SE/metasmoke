@@ -22,13 +22,15 @@ class StatusController < ApplicationController
 
     @smoke_detector.save!
 
-    ActionCable.server.broadcast 'status',       id: @smoke_detector.id,
-                                                 ts_unix: @smoke_detector.last_ping.to_i,
-                                                 ts_ago: time_ago_in_words(@smoke_detector.last_ping, include_seconds: true),
-                                                 ts_raw: @smoke_detector.last_ping.to_s,
-                                                 location: @smoke_detector.location
-    ActionCable.server.broadcast 'topbar', last_ping: @smoke_detector.last_ping.to_f
-    ActionCable.server.broadcast 'smokey_pings', smokey: @smoke_detector.as_json
+    Thread.new do
+      ActionCable.server.broadcast 'status',       id: @smoke_detector.id,
+                                                   ts_unix: @smoke_detector.last_ping.to_i,
+                                                   ts_ago: time_ago_in_words(@smoke_detector.last_ping, include_seconds: true),
+                                                   ts_raw: @smoke_detector.last_ping.to_s,
+                                                   location: @smoke_detector.location
+      ActionCable.server.broadcast 'topbar', last_ping: @smoke_detector.last_ping.to_f
+      ActionCable.server.broadcast 'smokey_pings', smokey: @smoke_detector.as_json
+    end
 
     respond_to do |format|
       format.json do
