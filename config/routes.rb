@@ -18,21 +18,22 @@ Rails.application.routes.draw do
 
   resources :dumps
 
-  get    'sites/dash',          to: 'dashboard#site_dash',     as: :site_dash
+  get    'sites/dash',            to: 'dashboard#site_dash',        as: :site_dash
 
-  get    'search',              to: 'search#index'
-  get    'reasons',             to: 'dashboard#index',         as: :reasons
-  get    'flagging',            to: 'flag_settings#dashboard', as: :flagging
+  get    'search',                to: 'search#index'
+  get    'reasons',               to: 'dashboard#index',            as: :reasons
+  get    'flagging',              to: 'flag_settings#dashboard',    as: :flagging
 
-  get    'query_times',         to: 'dashboard#query_times',   as: :query_times
+  get    'query-times',           to: 'dashboard#query_times',      as: :query_times
+  post   'query-times/reset/:id', to: 'dashboard#reset_query_time', as: :reset_query_time
 
-  post   'statistics.json',     to: 'statistics#create'
-  post   'feedbacks.json',      to: 'feedbacks#create'
-  post   'posts.json',          to: 'posts#create'
-  post   'deletion_logs.json',  to: 'deletion_logs#create'
-  post   'status-update.json',  to: 'status#status_update'
+  post   'statistics.json',       to: 'statistics#create'
+  post   'feedbacks.json',        to: 'feedbacks#create'
+  post   'posts.json',            to: 'posts#create'
+  post   'deletion_logs.json',    to: 'deletion_logs#create'
+  post   'status-update.json',    to: 'status#status_update'
 
-  delete 'feedback/:id/delete', to: 'feedbacks#delete',        as: :delete_feedback
+  delete 'feedback/:id/delete',   to: 'feedbacks#delete',           as: :delete_feedback
 
   devise_for :users, controllers: { sessions: 'custom_sessions', registrations: 'custom_registrations' }
   devise_scope :user do

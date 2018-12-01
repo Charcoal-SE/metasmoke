@@ -2,6 +2,7 @@
 
 class DashboardController < ApplicationController
   before_action :verify_core, only: [:db_dumps, :download_dump]
+  before_action :verify_developer, only: [:reset_query_time]
 
   def funride
     response.cache_control = 'public, max-age=86400'
@@ -46,6 +47,11 @@ class DashboardController < ApplicationController
 
   def query_times
     @query_times = params[:count].present? ? QueryAverage.all.order(counter: :desc) : QueryAverage.all.order(average: :desc)
+  end
+
+  def reset_query_time
+    QueryAverage.find(params[:id]).update(counter: 0, average: 0)
+    redirect_back fallback_location: root_path
   end
 
   def site_dash

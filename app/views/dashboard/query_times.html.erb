@@ -7,6 +7,9 @@
       <th>Average Runtime</th>
       <th>Hits</th>
       <th>DB Time Spent on Route</th>
+      <% if current_user&.has_role?(:developer) %>
+        <th class="no-sort"></th>
+      <% end %>
     </tr>
   </thead>
   <tbody>
@@ -16,6 +19,9 @@
         <td data-sort-value="<%= (qt.average * 100).to_i %>"><%= qt.average.round(2) %></td>
         <td data-sort-value="<%= qt.counter %>"><%= qt.counter %></td>
         <td data-sort-value="<%= (qt.counter * qt.average * 100).to_i %>"><%= (qt.counter * qt.average).round(2) %></td>
+        <% if current_user&.has_role?(:developer) %>
+          <td><%= link_to 'Reset', reset_query_time_path(qt), method: :post, class: 'text-danger' %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
