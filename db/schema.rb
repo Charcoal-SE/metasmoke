@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_28_170003) do
+ActiveRecord::Schema.define(version: 2018_12_01_215629) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "user_id"
@@ -246,6 +246,7 @@ ActiveRecord::Schema.define(version: 2018_11_28_170003) do
     t.integer "api_key_id"
     t.string "chat_host", collation: "utf8_unicode_ci"
     t.string "legacy_feedback_type"
+    t.index ["created_at"], name: "index_feedbacks_on_created_at"
     t.index ["post_id"], name: "index_feedbacks_on_post_id"
     t.index ["user_name"], name: "by_user_name", length: 5
   end
