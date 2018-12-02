@@ -1,5 +1,5 @@
 <% domain ||= nil %>
-<div class="label label-<%= tag.special? ? 'warning' : 'info' %> tag-label">
+<div class="label label-<%= tag.special? ? 'warning' : 'info' %> tag-label" data-toggle="tooltip" title="<%= tag.description %>">
   <%= link_to domain_tag_path(tag), class: 'domain-tag' do %>
     #<%= tag.name %>
   <% end %>
