@@ -132,18 +132,19 @@ class UsersController < ApplicationController
   end
 
   def migrate_token_confirmation
-    if params[:state] != Rails.cache.fetch("token_migration_state/#{current_user.id}")
-      flash[:danger] = "It looks like you didn't actually authenticate! It might still work, but I don't think it will."
-    end
+    return unless params[:state] != Rails.cache.fetch("token_migration_state/#{current_user.id}")
+    flash[:danger] = "It looks like you didn't actually authenticate! It might still work, but I don't think it will."
   end
 
   def migrate_token
     state = Rails.cache.fetch("token_migration_state/#{current_user.id}")
-    res = HTTParty.get("#{AppConfig['token_store']['host']}/auth/confirm", headers: { 'X-API-Key': AppConfig['token_store']['key']}, query: { account_id: current_user.stack_exchange_account_id, state: state})
+    res = HTTParty.get("#{AppConfig['token_store']['host']}/auth/confirm",
+                       headers: { 'X-API-Key': AppConfig['token_store']['key'] },
+                       query: { account_id: current_user.stack_exchange_account_id, state: state })
     Rails.logger.info res
-    if params[:state] == state && JSON.parse(res.body)["token_exists"]
+    if params[:state] == state && JSON.parse(res.body)['token_exists']
       current_user.update(token_migrated: true)
-      flash[:success] = "Your registration was completed sucessfully!"
+      flash[:success] = 'Your registration was completed sucessfully!'
     else
       flash[:danger] = "We couldn't complete your registration. Please try again."
     end

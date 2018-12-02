@@ -37,14 +37,9 @@ class Feedback < ApplicationRecord
             [u.id, "@#{u.username.tr(' ', '')}", FlagCondition.validate_for_user(u, sys)]
           end
           names = post.flaggers.map { |u| flaggers.select { |f| f[0] == u.id }[0][1] }
-          user_msg = "Autoflagged FP: flagged by #{@names.join(', ')}"
+          user_msg = "Autoflagged FP: flagged by #{names.join(', ')}"
           ActionCable.server.broadcast 'smokedetector_messages', autoflag_fp: { message: user_msg, site: post.site.site_domain }
         end
-
-        names = post.eligible_flaggers.map { |u| "@#{u.username.tr(' ', '')}" }
-        message = "fp feedback on autoflagged post: [#{post.title}](#{post.link}) [[MS]" \
-                  "(//metasmoke.erwaysoftware.com/post/#{post_id})] (#{names.join ' '})"
-        ActionCable.server.broadcast 'smokedetector_messages', autoflag_fp: { message: message, site: post.site.site_domain }
       end
 
       post.stack_exchange_user&.unblacklist_user if post.is_fp
