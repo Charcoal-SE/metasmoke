@@ -1,79 +1,120 @@
-<h2>Account Settings</h2>
+<h2 class="text-center">Account Settings</h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <% if resource.errors.any? %><div class="alert alert-danger"><%= devise_error_messages! %></div><% end %>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+          <% if resource.errors.any? %><div class="alert alert-danger"><%= devise_error_messages! %></div><% end %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, class: 'form-control' %>
-  </div><br/>
+          <div class="field">
+            <%= f.label :username %><br/>
+            <%= f.text_field :username, class: 'form-control' %>
+          </div><br/>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div><br/>
-  <% end %>
+          <div class="field">
+            <%= f.label :email %><br />
+            <%= f.email_field :email, class: 'form-control' %>
+          </div><br/>
 
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "off", class: 'form-control' %>
-  </div><br/>
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+            <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div><br/>
+          <% end %>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control' %>
-  </div><br/>
+          <div class="field">
+            <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+            <%= f.password_field :password, autocomplete: "off", class: 'form-control' %>
+          </div><br/>
 
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "off", class: 'form-control' %>
-  </div><br/>
+          <div class="field">
+            <%= f.label :password_confirmation %><br />
+            <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control' %>
+          </div><br/>
 
-  <div class="actions">
-    <%= f.submit "Update", class: 'btn btn-primary' %>
-  </div>
-<% end %>
+          <hr/>
 
-<% if current_user.oauth_created %>
-  <h3>No password? No problem!</h3>
-  <%= form_tag url_for(controller: '/users', action: :update_email) do %>
-    <div class="field">
-      <%= label_tag :email %><br/>
-      <%= email_field_tag :email, nil, class: 'form-control' %>
-    </div><br/>
-    <div class="actions">
-      <%= submit_tag 'Save', class: 'btn btn-success' %>
+          <div class="field form-group has-warning">
+            <%= f.label :current_password, class: 'control-label' %><br/>
+            <%= f.password_field :current_password, autocomplete: "off", class: 'form-control' %>
+            <span class="help-block">We need your current password to confirm your changes.</span>
+          </div>
+
+          <div class="actions">
+            <%= f.submit "Update", class: 'btn btn-primary' %>
+          </div>
+        <% end %>
+
+        <% if current_user.oauth_created %>
+          <h3>No password? No problem!</h3>
+          <%= form_tag url_for(controller: '/users', action: :update_email) do %>
+            <div class="field">
+              <%= label_tag :email %><br/>
+              <%= email_field_tag :email, nil, class: 'form-control' %>
+            </div><br/>
+            <div class="actions">
+              <%= submit_tag 'Save', class: 'btn btn-success' %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
     </div>
-  <% end %>
-<% end %>
 
-<h3>Two-factor authentication</h3>
-<p><%= link_to 'Configure two-factor authentication', url_for(:controller => '/users', :action => :tf_status) %></p>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h3>Two-factor authentication</h3>
+        <p><%= link_to 'Configure two-factor authentication', url_for(:controller => '/users', :action => :tf_status) %></p>
+      </div>
+    </div>
 
-<h3>Announcement emails</h3>
-<%= form_tag url_for(controller: '/users', action: :set_announcement_emails) do %>
-  <div class="field">
-    <%= check_box_tag :emails, nil, current_user.announcement_emails %> <%= label_tag :emails, "Send me emails about new announcements" %>
-  </div><br/>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h3>Announcement emails</h3>
+        <%= form_tag url_for(controller: '/users', action: :set_announcement_emails) do %>
+          <div class="field">
+            <%= check_box_tag :emails, nil, current_user.announcement_emails %> <%= label_tag :emails, "Send me emails about new announcements" %>
+          </div><br/>
 
-  <div class="actions">
-    <%= submit_tag "Save", class: 'btn btn-success' %>
+          <div class="actions">
+            <%= submit_tag "Save", class: 'btn btn-success' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h3>Token storage beta</h3>
+        <% if !current_user.token_migrated %>
+          <div class="alert alert-info" role="alert">
+            <p>
+              We're currently beta testing a new way to cast autoflags. The new system will be safer in that even someone with direct server access does
+              not have your access_token (the thing which lets others act on your behalf). Currently, this safer token vault is on an AWS Lambda and
+              will store tokens in AWS DynamoDB under thesecretmaster's account. He will have full read access to your tokens, and when this system is
+              migrated to Undo's account, Undo will also have access. By clicking this button, you consent to both thesecretmaster and Undo having
+              access to your account's API access tokens, which allows them to perform actions under your account.
+            </p><br/>
+
+            <% state = Rails.cache.fetch("token_migration_state/#{current_user.id}", expires_in: 30.minutes) { SecureRandom.hex(10) } %>
+            <%= link_to 'Help test the new autoflagging system!', "#{AppConfig['token_store']['host']}/auth?state=#{state}", class: 'btn btn-info' %>
+          </div>
+        <% else %>
+          <div class="alert alert-info" role="alert">
+            You're signed up for our token beta thing! Ping Undo in Charcoal HQ if you'd like to be removed.
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="panel panel-danger">
+      <div class="panel-body">
+        <h3 class="text-danger">Cancel my account</h3>
+        <p>
+          If you'd like to delete your metasmoke account, ping Undo in <%= link_to 'Charcoal HQ', 'https://chat.stackexchange.com/rooms/11540' %>.
+          Deleting an account has been known to cause errors before, so deletions are done manually so that this can be monitored.
+        </p>
+      </div>
+    </div>
   </div>
-<% end %>
+</div>
 
-<h3>Cancel my account</h3>
-<p>Unhappy? You can delete your metasmoke account by clicking this button.
-  <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger' %></p>
-
-<% if !current_user.token_migrated %>
-  <div class="alert alert-info" role="alert">
-    We're currently beta testing a new way to cast autoflags. The new system will be safer in that even someone with direct server access does not have your access_token (the thing which lets others act on your behalf). Currently, this safer token vault is on an AWS Lambda and will store tokens in AWS DynamoDB under thesecretmaster's account. He will have full read access to your tokens, and when this system is migrated to Undo's account, Undo will also have access. By clicking this button, you consent to both thesecretmaster and Undo having access to your account's API access tokens, which allows them to perform actions under your account.
-    <br>
-    <% state = Rails.cache.fetch("token_migration_state/#{current_user.id}", expires_in: 30.minutes) { SecureRandom.hex(10) } %>
-    <%= link_to "Help test the new autoflagging system!", "#{AppConfig['token_store']['host']}/auth?state=#{state}", class: 'btn btn-info' %>
-  </div>
-<% else %>
-  <div class="alert alert-info" role="alert">
-    You're signed up for our token beta thing! Ping Undo in Charcoal HQ if you'd like to be removed.
-  </div>
-<% end %>
-
-<%= link_to "Back", :back %>
+<%= link_to 'Back', :back %>
