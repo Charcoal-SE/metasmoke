@@ -32,13 +32,13 @@ class Feedback < ApplicationRecord
         ActionCable.server.broadcast 'smokedetector_messages', autoflag_fp: { message: message, site: post.site.site_domain }
 
         Thread.new do
+          names = post.flaggers.map { |u| '@' + u.username.tr(' ', '') }
+          user_msg = "Autoflagged FP: flagged by #{names.join(', ')}"
+          ActionCable.server.broadcast 'smokedetector_messages', autoflag_fp: { message: user_msg, site: post.site.site_domain }
           sys = User.find(-1)
           post.eligible_flaggers.each do |u|
             FlagCondition.validate_for_user(u, sys)
           end
-          names = post.flaggers.map { |u| '@' + u.username.tr(' ', '') }
-          user_msg = "Autoflagged FP: flagged by #{names.join(', ')}"
-          ActionCable.server.broadcast 'smokedetector_messages', autoflag_fp: { message: user_msg, site: post.site.site_domain }
         end
       end
 
