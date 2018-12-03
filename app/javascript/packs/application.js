@@ -110,6 +110,7 @@ onLoad(() => {
       reviewCounter.attr('data-toggle', 'tooltip').attr('data-placement', 'bottom')
                    .attr('title', 'Got 5 minutes to do 10 reviews?');
       reviewCounter.tooltip('show');
+      localStorage['ms-review-alerted-at'] = Date.now().toString();
     }
   }
 });
