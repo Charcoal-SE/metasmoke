@@ -7,8 +7,11 @@ module AuthenticationHelper
   end
 
   def write_auth_url
-    config = AppConfig['stack_exchange']
-    auth_url('write_access,no_expiry', config['redirect_uri'])
+    config = AppConfig['token_store']
+    state = Rails.cache.fetch("token_migration_state/#{current_user.id}", expires_in: 30.minutes) do
+      SecureRandom.hex(10)
+    end
+    "#{config['host']}/auth?state=#{state}"
   end
 
   def identify_auth_url
