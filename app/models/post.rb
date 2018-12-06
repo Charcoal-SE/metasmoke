@@ -66,6 +66,26 @@ class Post < ApplicationRecord
     errors.add(:base, "Reported in the last 5 minutes by a different instance: #{conflict.id}")
   end
 
+  def populate_redis
+    post = {
+      body: body,
+      title: title,
+      reason_weight: reasons.map(&:weight).reduce(:+),
+      created_at: created_at,
+      username: username,
+      stack_exchange_user_id: stack_exchange_user.id,
+      flagged: flagged?
+    }
+    redis.hmset("posts/#{id}", *post.to_a)
+
+    reason_names = reasons.map(&:reason_name)
+    redis.zadd("posts/#{id}/reasons", *with_no_score(reason_names))
+
+    redis.zadd("posts", *with_no_score("#{id}"))
+    feedbacks.each(&:populate_redis)
+    deletion_logs.each(&:update_deletion_data)
+  end
+
   def update_feedback_cache
     feedbacks = self.feedbacks.to_a
 

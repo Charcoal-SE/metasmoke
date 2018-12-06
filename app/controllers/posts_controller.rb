@@ -134,12 +134,28 @@ class PostsController < ApplicationController
         # Start autoflagging
         Rails.logger.warn "[autoflagging] #{@post.id}: post.save succeeded"
 
+        post = {
+          body: @post.body,
+          title: @post.title,
+          reason_weight: @post.reasons.map(&:weight).reduce(:+),
+          created_at: @post.created_at,
+          username: @post.username,
+          stack_exchange_user_id: @post.stack_exchange_user.id
+        }
+        redis.hmset("posts/#{@post.id}", *post.to_a)
+
+        reason_names = @post.reasons.map(&:reason_name)
+        redis.lpush "posts/#{@post.id}/reasons", *reason_names
+
+        redis.lpush "posts" "#{@post.id}"
+
         Thread.new do
           Rails.logger.warn "[autoflagging] #{@post.id}: thread begin"
           # Trying to autoflag in a different thread while in test
           # can cause race conditions and segfaults. This is bad,
           # so we completely suppress the issue and just don't do that.
           @post.autoflag unless Rails.env.test?
+          redis.hset("posts/#{@post.id}", "flagged?", @post.flagged?)
         end
 
         format.json { render status: :created, plain: 'OK' }
