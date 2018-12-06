@@ -27,7 +27,7 @@ module PostConcerns::Autoflagging
         Rails.logger.warn "[autoflagging] #{id}: fetched conditions"
 
         uids = post.site.user_site_settings.where(user_id: available_user_ids.keys).map(&:user_id)
-        users = User.where(id: uids, flags_enabled: true) #.where.not(encrypted_api_token: nil)
+        users = User.where(id: uids, flags_enabled: true) # .where.not(encrypted_api_token: nil)
         if users.blank?
           Rails.logger.warn "[autoflagging] #{id}: no users available"
           post.send_not_autoflagged
