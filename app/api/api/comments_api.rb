@@ -10,9 +10,18 @@ module API
       std_result PostComment.where(post_id: params[:id]).order(id: :desc), filter: FILTERS[:comments]
     end
 
-    before do
-      authenticate_smokey!
+    params do
+      requires :key, type: String
+      requires :token, type: String
+      requires :text, type: String
     end
+    post 'post/:id/add' do
+      authenticate_user!
+
+      comment = PostComment.create(post_id: params[:id], text: params[:text], user: current_user)
+      single_result comment
+    end
+
     params do
       requires :key, type: String
       requires :text, type: String
@@ -20,6 +29,8 @@ module API
       requires :chat_host, type: String
     end
     post 'post/:id' do
+      authenticate_smokey!
+
       id_field = { 'stackexchange.com' => :stackexchange_chat_id, 'stackoverflow.com' => :stackoverflow_chat_id,
                    'meta.stackexchange.com' => :meta_stackexchange_chat_id }[params[:chat_host]]
       error!({ name: 'bad_parameter', detail: 'chat_host is unrecognized' }, 400) if id_field.nil?

@@ -22,6 +22,12 @@ Output format:
 Available tables: `post_comments`.
 Output format: identical to `/comments`.
 ---
+/api/v2.0/comments/post/:id/add | Add a comment to a post.
+
+Requires parameters: `text`.
+Available tables: N/A. All fields on the created comment are returned.
+Output format: identical to `/comments`.
+---
 /api/v2.0/comments/post/:id | [W] [Smokey] Add an automatic comment to a post.
 
 **This route is for use by SmokeDetector instances only.**
