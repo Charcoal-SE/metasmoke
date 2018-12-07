@@ -73,9 +73,13 @@ class Post < ApplicationRecord
       reason_weight: reasons.map(&:weight).reduce(:+),
       created_at: created_at,
       username: username,
-      stack_exchange_user_id: stack_exchange_user_id,
+      link: link,
+      site_site_logo: site.site_logo,
+      stack_exchange_user_username: stack_exchange_user.try(:username),
+      stack_exchange_user_id: stack_exchange_user.try(:id),
       flagged: flagged?,
-      site_id: site_id
+      site_id: site_id,
+      post_comments_count: comments.count
     }
     redis.hmset("posts/#{id}", *post.to_a)
 
@@ -93,10 +97,14 @@ class Post < ApplicationRecord
     rpost = redis.hgetall("posts/#{id}")
     post.body = rpost['body']
     post.title = rpost['title']
+    post.link = rpost['link']
     post.created_at = rpost['created_at']
     post.username = rpost['username']
     post.site_id = rpost['site_id']
-    post.stack_exchange_user_id = rpost['stack_exchange_user_id']
+    post.stack_exchange_user = StackExchangeUser.new(username: rpost['stack_exchange_user_username'], id: rpost['stack_exchange_user_id'])
+    post.comments = rpost["post_comments_count"].to_i.times.map { PostComment.new }
+    post.comments.define_singleton_method(:count) { rpost["post_comments_count"].to_i }
+    post.site = Site.new(site_logo: rpost['site_site_logo'])
     # Could do without this line.
     post.define_singleton_method(:flagged?) { rpost['flagged'] == 'true' ? true : false }
     reason_names = redis.zrange "posts/#{id}/reasons", 0, -1, with_scores: true
