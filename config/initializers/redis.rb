@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'redis'
 
 def redis
@@ -5,7 +7,7 @@ def redis
 end
 
 def with_no_score(ary)
-  zeros = ary.length.times.map { 0 }
-  elements = ary.map { |i| "\"#{i}\""}
-  zeros.zip(elements)#.flatten
+  zeros = Array.new(ary.length) { 0 }
+  elements = ary.map { |i| "\"#{i}\"" }
+  zeros.zip(elements) # .flatten
 end
