@@ -73,8 +73,9 @@ class Post < ApplicationRecord
       reason_weight: reasons.map(&:weight).reduce(:+),
       created_at: created_at,
       username: username,
-      stack_exchange_user_id: stack_exchange_user.id,
-      flagged: flagged?
+      stack_exchange_user_id: stack_exchange_user_id,
+      flagged: flagged?,
+      site_id: site_id
     }
     redis.hmset("posts/#{id}", *post.to_a)
 
@@ -94,6 +95,7 @@ class Post < ApplicationRecord
     post.title = rpost["title"]
     post.created_at = rpost["created_at"]
     post.username = rpost["username"]
+    post.site_id = rpost["site_id"]
     post.stack_exchange_user_id = rpost["stack_exchange_user_id"]
     # Could do without this line.
     post.define_singleton_method(:flagged?) { rpost["flagged"] == "true" ? true : false }

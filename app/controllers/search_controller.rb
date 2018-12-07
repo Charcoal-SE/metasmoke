@@ -115,11 +115,9 @@ class SearchController < ApplicationController
         @sites = Site.where(id: @results.map(&:site_id)).to_a unless params[:option] == 'graphs'
         render :search
       end
-      format.json do
-        render json: @results
-      end
-      format.rss { render :search, layout: false }
-      format.xml { render 'search.rss', layout: false }
+      format.json { render json: @results }
+      format.rss  { render :search, layout: false }
+      format.xml  { render 'search.rss', layout: false }
     end
   end
 end

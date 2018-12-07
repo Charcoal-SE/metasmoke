@@ -89,6 +89,8 @@ class PostsController < ApplicationController
   # GET /posts.json
   def index
     if (params[:page].nil? || params[:page].empty? || params[:page] == "1") && params[:filter] != 'undeleted'
+      ids = redis.zrange("posts", 0, 100)
+      Post.order(Arel.sql('created_at DESC')).first(100).each(&:populate_redis) if ids.length < 100
       @posts = redis.zrange("posts", 0, 100).map do |id|
         Post.from_redis(id)
       end
@@ -98,10 +100,8 @@ class PostsController < ApplicationController
       @posts = Post.all.includes_for_post_row.paginate(page: params[:page], per_page: 100).order(Arel.sql('created_at DESC'))
 
       @posts = @posts.where(deleted_at: nil) if params[:filter] == 'undeleted'
-
-      # Why is this here?
-      @sites = Site.where(id: @posts.map(&:site_id)).to_a
     end
+    @sites = Site.where(id: @posts.map(&:site_id)).to_a
   end
 
   # POST /posts
