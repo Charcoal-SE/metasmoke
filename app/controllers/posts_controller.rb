@@ -88,11 +88,20 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all.includes_for_post_row.paginate(page: params[:page], per_page: 100).order(Arel.sql('created_at DESC'))
+    if (params[:page].nil? || params[:page].empty? || params[:page] == "1") && params[:filter] != 'undeleted'
+      @posts = redis.zrange("posts", 0, 100).map do |id|
+        Post.from_redis(id)
+      end
+      @posts.define_singleton_method(:total_pages) {Post.count/100}
+      @posts.define_singleton_method(:current_page) {1}
+    else
+      @posts = Post.all.includes_for_post_row.paginate(page: params[:page], per_page: 100).order(Arel.sql('created_at DESC'))
 
-    @posts = @posts.where(deleted_at: nil) if params[:filter] == 'undeleted'
+      @posts = @posts.where(deleted_at: nil) if params[:filter] == 'undeleted'
 
-    @sites = Site.where(id: @posts.map(&:site_id)).to_a
+      # Why is this here?
+      @sites = Site.where(id: @posts.map(&:site_id)).to_a
+    end
   end
 
   # POST /posts
@@ -134,20 +143,7 @@ class PostsController < ApplicationController
         # Start autoflagging
         Rails.logger.warn "[autoflagging] #{@post.id}: post.save succeeded"
 
-        post = {
-          body: @post.body,
-          title: @post.title,
-          reason_weight: @post.reasons.map(&:weight).reduce(:+),
-          created_at: @post.created_at,
-          username: @post.username,
-          stack_exchange_user_id: @post.stack_exchange_user.id
-        }
-        redis.hmset("posts/#{@post.id}", *post.to_a)
-
-        reason_names = @post.reasons.map(&:reason_name)
-        redis.lpush "posts/#{@post.id}/reasons", *reason_names
-
-        redis.lpush "posts" "#{@post.id}"
+        @post.populate_redis
 
         Thread.new do
           Rails.logger.warn "[autoflagging] #{@post.id}: thread begin"
@@ -155,7 +151,7 @@ class PostsController < ApplicationController
           # can cause race conditions and segfaults. This is bad,
           # so we completely suppress the issue and just don't do that.
           @post.autoflag unless Rails.env.test?
-          redis.hset("posts/#{@post.id}", "flagged?", @post.flagged?)
+          redis.hset("posts/#{@post.id}", "flagged", @post.flagged?)
         end
 
         format.json { render status: :created, plain: 'OK' }

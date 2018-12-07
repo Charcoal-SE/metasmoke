@@ -82,7 +82,7 @@ class Post < ApplicationRecord
     reason_weights = reasons.map(&:weight)
     redis.zadd("posts/#{id}/reasons", reason_weights.zip(reason_names))
 
-    redis.zadd("posts", *with_no_score([id]))
+    redis.zadd("posts", 0, id)
     feedbacks.each(&:populate_redis)
     deletion_logs.each(&:update_deletion_data)
   end
