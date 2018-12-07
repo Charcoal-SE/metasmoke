@@ -5,5 +5,7 @@ def redis
 end
 
 def with_no_score(ary)
-  ary.zip(ary.length.times.map { 0 }).flatten
+  zeros = ary.length.times.map { 0 }
+  elements = ary.map { |i| "\"#{i}\""}
+  zeros.zip(elements)#.flatten
 end
