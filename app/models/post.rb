@@ -81,7 +81,7 @@ class Post < ApplicationRecord
 
     reason_names = reasons.map(&:reason_name)
     reason_weights = reasons.map(&:weight)
-    redis.zadd("posts/#{id}/reasons", reason_weights.zip(reason_names))
+    redis.zadd("posts/#{id}/reasons", reason_weights.zip(reason_names)) if reasons.length > 0
 
     redis.zadd("posts", 0, id)
     feedbacks.each(&:populate_redis)
