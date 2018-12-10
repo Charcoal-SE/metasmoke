@@ -3,7 +3,8 @@
 require 'redis'
 
 def redis
-  @redis ||= Redis.new
+  puts "FUCK" unless $redis
+  $redis ||= Redis.new#(port:1234)
 end
 
 def with_no_score(ary)

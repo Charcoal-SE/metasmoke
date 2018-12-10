@@ -74,7 +74,7 @@ class Post < ApplicationRecord
       created_at: created_at,
       username: username,
       link: link,
-      site_site_logo: site.site_logo,
+      site_site_logo: site.try(:site_logo),
       stack_exchange_user_username: stack_exchange_user.try(:username),
       stack_exchange_user_id: stack_exchange_user.try(:id),
       flagged: flagged?,
@@ -87,9 +87,45 @@ class Post < ApplicationRecord
     reason_weights = reasons.map(&:weight)
     redis.zadd("posts/#{id}/reasons", reason_weights.zip(reason_names)) unless reasons.empty?
 
-    redis.zadd('posts', 0, id)
     feedbacks.each(&:populate_redis)
     deletion_logs.each(&:update_deletion_data)
+
+    reasons.each do |reason|
+      redis.zadd "reasons/#{reason.id}", created_at.to_i, id
+    end
+
+    redis.sadd "all_posts", id
+    redis.zadd "posts", created_at.to_i, id
+    # and all the other stuff in populate redis meta
+  end
+
+  def self.populate_redis_meta
+    progressbar = ProgressBar.create total: Post.count
+    ilevel = ActiveRecord::Base.logger.level
+    ActiveRecord::Base.logger.level = 1
+    Post.all.eager_load(:reasons).eager_load(:flag_logs).find_each(batch_size: 50000) do |post|
+      # tps, fps, naas, reasons/id, questions, answers, autoflagged
+      redis.pipelined {
+        redis.sadd "tps", post.id if post.is_tp
+        redis.sadd "fps", post.id if post.is_fp
+        redis.sadd "naas", post.id if post.is_naa
+        post.reasons.each do |reason|
+          redis.sadd "reasons/#{reason.id}", post.id
+        end
+        if post.link.nil?
+          redis.sadd "nolink", post.id
+        else
+          redis.sadd "questions", post.id if post.question?
+          redis.sadd "answers", post.id if post.answer?
+        end
+        redis.sadd "autoflagged", post.id if post.flagged?
+        redis.sadd "sites/#{post.site_id}", post.id
+        redis.sadd "all_posts", post.id
+        redis.zadd "posts", post.created_at.to_i, post.id
+      }
+      progressbar.increment
+    end
+    ActiveRecord::Base.logger.level = ilevel
   end
 
   def self.from_redis(id)
@@ -100,11 +136,15 @@ class Post < ApplicationRecord
     post.link = rpost['link']
     post.created_at = rpost['created_at']
     post.username = rpost['username']
-    post.site_id = rpost['site_id']
-    post.stack_exchange_user = StackExchangeUser.new(username: rpost['stack_exchange_user_username'], id: rpost['stack_exchange_user_id'])
+    if !(rpost['stack_exchange_user_id'].empty? && rpost['stack_exchange_user_username'].empty?)
+      post.stack_exchange_user = StackExchangeUser.new(
+        username: rpost['stack_exchange_user_username'],
+        id: rpost['stack_exchange_user_id']
+      )
+    end
     post.comments = rpost["post_comments_count"].to_i.times.map { PostComment.new }
     post.comments.define_singleton_method(:count) { rpost["post_comments_count"].to_i }
-    post.site = Site.new(site_logo: rpost['site_site_logo'])
+    post.site = Site.new(site_logo: rpost['site_site_logo'], id: rpost['site_id'])
     # Could do without this line.
     post.define_singleton_method(:flagged?) { rpost['flagged'] == 'true' ? true : false }
     reason_names = redis.zrange "posts/#{id}/reasons", 0, -1, with_scores: true

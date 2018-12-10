@@ -6,6 +6,10 @@ class Reason < ApplicationRecord
   has_and_belongs_to_many :posts
   has_many :feedbacks, through: :posts
 
+  def populate_redis
+    redis.zadd "reasons/#{id}", (posts.map { |post| [post.created_at.id, post.id]})
+  end
+
   def tp_percentage
     # I don't like the .count.count, but it does get the job done
 
