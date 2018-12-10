@@ -20,6 +20,124 @@ class SearchController < ApplicationController
 
     user_reputation = params[:user_reputation].to_i || 0
 
+    case params[:feedback]
+    when /true/
+      feedback = :is_tp
+    when /false/
+      feedback = :is_fp
+    when /NAA/
+      feedback = :is_naa
+    end
+
+    @results = if params[:reason].present?
+                 Reason.find(params[:reason]).posts.includes_for_post_row
+               else
+                 Post.all.includes_for_post_row
+               end
+
+    per_page = user_signed_in? && params[:per_page].present? ? [params[:per_page].to_i, 10_000].min : 100
+
+    search_string = []
+    search_params = {}
+    [[:username, username, username_operation], [:title, title, title_operation],
+     [:body, body, body_operation], [:why, why, why_operation]].each do |si|
+      search_string << "IFNULL(`posts`.`#{si[0]}`, '') #{si[2]} :#{si[0]}"
+      search_params[si[0]] = si[1]
+    end
+    @results = @results.where(search_string.join(' AND '), **search_params)
+                       .paginate(page: params[:page], per_page: per_page)
+                       .order(Arel.sql('`posts`.`created_at` DESC'))
+
+    @results = @results.includes(:reasons).includes(:feedbacks) if params[:option].nil?
+
+    if feedback.present?
+      @results = @results.where(feedback => true)
+    elsif params[:feedback] == 'conflicted'
+      @results = @results.where(is_tp: true, is_fp: true)
+    end
+
+    @results = case params[:user_rep_direction]
+               when '>='
+                 if user_reputation > 0
+                   @results.where('IFNULL(user_reputation, 0) >= :rep', rep: user_reputation)
+                 end
+               when '=='
+                 @results.where('IFNULL(user_reputation, 0) = :rep', rep: user_reputation)
+               when '<='
+                 @results.where('IFNULL(user_reputation, 0) <= :rep', rep: user_reputation)
+               else
+                 @results
+               end
+
+    @results = @results.where(site_id: params[:site]) if params[:site].present?
+
+    @results = @results.includes(feedbacks: [:user])
+
+    case params[:autoflagged].try(:downcase)
+    when 'yes'
+      @results = @results.autoflagged
+    when 'no'
+      @results = @results.not_autoflagged
+    end
+
+    post_type = case params[:post_type].try(:downcase).try(:[], 0)
+                when 'q'
+                  'questions'
+                when 'a'
+                  'a'
+                end
+
+    if post_type.present?
+      unmatched = @results.where.not("link LIKE '%/questions/%' OR link LIKE '%/a/%'")
+      @results =  if params[:post_type_include_unmatched]
+                    @results.where('link like ?', "%/#{post_type}/%").or(unmatched)
+                  else
+                    @results.where('link like ?', "%/#{post_type}/%")
+                  end
+    end
+
+    respond_to do |format|
+      format.html do
+        @counts_by_accuracy_group = @results.group(:is_tp, :is_fp, :is_naa).count
+        @counts_by_feedback = [:is_tp, :is_fp, :is_naa].each_with_index.map do |symbol, i|
+          [symbol, @counts_by_accuracy_group.select { |k, _v| k[i] }.values.sum]
+        end.to_h
+
+        case params[:feedback_filter]
+        when 'tp'
+          @results = @results.where(is_tp: true)
+        when 'fp'
+          @results = @results.where(is_fp: true)
+        when 'naa'
+          @results = @results.where(is_naa: true)
+        end
+
+        @sites = Site.where(id: @results.map(&:site_id)).to_a unless params[:option] == 'graphs'
+        render :search
+      end
+      format.json do
+        render json: @results
+      end
+      format.rss { render :search, layout: false }
+      format.xml { render 'search.rss', layout: false }
+    end
+  end
+
+  def index_fast
+    title, title_operation,
+    body, body_operation,
+    why, why_operation,
+    username, username_operation = [:title, :body, :why, :username].map do |s|
+      SearchHelper.parse_search_params(params, s, current_user)
+    end.flatten
+
+    if [title_operation, body_operation, why_operation, username_operation].any?(&:!)
+      render json: { error: 'Unauthenticated users cannot use regex search' }, status: 403
+      return
+    end
+
+    user_reputation = params[:user_reputation].to_i || 0
+
     feedback = case params[:feedback]
     when /true/
       :is_tp
@@ -40,12 +158,6 @@ class SearchController < ApplicationController
     @logs.push("PAGE: #{page}")
     @logs.push("PER_PAGE: #{per_page}")
     @logs.push("NPAGE: #{npage}")
-
-    # @results = if params[:reason].present?
-    #              Reason.find(params[:reason]).posts.includes_for_post_row
-    #            else
-    #              Post.all.includes_for_post_row
-    #            end
 
     intersect = %w[]
     subtract = %w[]
@@ -116,7 +228,6 @@ class SearchController < ApplicationController
       else
         puts "WTF #{op}"
       end
-      # @logs.push "#{type}: #{redis.zcard "user_searches/#{fcounter}/#{type}"}"
     end
     redis.expire fkey, 120
 
@@ -132,90 +243,6 @@ class SearchController < ApplicationController
     redis.expire final_key, 1200
     redis.expire "search_counter", 2000
 
-    # @nresults = @nresults.select do |id|
-    #   [
-    #     ["stack_exchange_user_username", username, username_operation],
-    #     ["title", title, title_operation],
-    #     ["body", body, body_operation]#,
-    #     # [:why, why, why_operation]
-    #   ].all? do |type, contstraint, op|
-    #     hsh = redis.hgetall "posts/#{id}"
-    #     if hsh[type].nil?
-    #       true
-    #     else
-    #       case op
-    #       when "REGEXP"
-    #         %r{#{contstraint}}.match?(hsh[type])
-    #       when "NOT REGEXP"
-    #         !%r{#{contstraint}}.match?(hsh[type])
-    #       when "LIKE"
-    #         hsh[type].include? contstraint[1..-2]
-    #       else
-    #         puts "WTF #{op}"
-    #       end
-    #     end
-    #   end
-    # end
-
-    # search_string = []
-    # search_params = {}
-    # [[:username, username, username_operation], [:title, title, title_operation],
-    #  [:body, body, body_operation], [:why, why, why_operation]].each do |type, constraint, operation|
-    #   search_string << "IFNULL(`posts`.`#{type}`, '') #{operation} :#{type}"
-    #   search_params[type] = constraint
-    # end
-    # @results = @results.where(search_string.join(' AND '), **search_params)
-    #                    .paginate(page: page, per_page: per_page)
-    #                    .order(Arel.sql('`posts`.`created_at` DESC'))
-    #
-    # @results = @results.includes(:reasons).includes(:feedbacks) if params[:option].nil?
-    #
-    # if feedback.present?
-    #   @results = @results.where(feedback => true)
-    # elsif params[:feedback] == 'conflicted'
-    #   @results = @results.where(is_tp: true, is_fp: true)
-    # end
-    #
-    # @results = case params[:user_rep_direction]
-    #            when '>='
-    #              if user_reputation > 0
-    #                @results.where('IFNULL(user_reputation, 0) >= :rep', rep: user_reputation)
-    #              end
-    #            when '=='
-    #              @results.where('IFNULL(user_reputation, 0) = :rep', rep: user_reputation)
-    #            when '<='
-    #              @results.where('IFNULL(user_reputation, 0) <= :rep', rep: user_reputation)
-    #            else
-    #              @results
-    #            end
-    #
-    # @results = @results.where(site_id: params[:site]) if params[:site].present?
-    #
-    # @results = @results.includes(feedbacks: [:user])
-    #
-    # case params[:autoflagged].try(:downcase)
-    # when 'yes'
-    #   @results = @results.autoflagged
-    # when 'no'
-    #   @results = @results.not_autoflagged
-    # end
-    #
-    # post_type = case params[:post_type].try(:downcase).try(:[], 0)
-    #             when 'q'
-    #               'questions'
-    #             when 'a'
-    #               'a'
-    #             end
-    #
-    # if post_type.present?
-    #   unmatched = @results.where.not("link LIKE '%/questions/%' OR link LIKE '%/a/%'")
-    #   @results =  if params[:post_type_include_unmatched]
-    #                 @results.where('link like ?', "%/#{post_type}/%").or(unmatched)
-    #               else
-    #                 @results.where('link like ?', "%/#{post_type}/%")
-    #               end
-    # end
-
     count = @nresults.length
 
     @results = @nresults.drop(npage.min).take(npage.max).map { |i| Post.from_redis(i) }
@@ -224,24 +251,6 @@ class SearchController < ApplicationController
 
     respond_to do |format|
       format.html do
-        # @counts_by_accuracy_group2 = [
-        #   [true, true, true],
-        #   [false, true, true],
-        #   [false, false, true],
-        #   [false, false, false]
-        # ].map { |i| i.permutation(3).to_a }.flatten(1).map do |is_tp, is_fp, is_naa|
-        #   rkey = "user_searches/#{search_id}/counts_by_accuracy_group"
-        #   inter_keys = [final_key]
-        #   inter_keys.push "tps" if is_tp
-        #   inter_keys.push "fps" if is_fp
-        #   inter_keys.push "naas" if is_naa
-        #   redis.zinterstore rkey, inter_keys
-        #   count = redis.zcard rkey
-        #   redis.del rkey
-        #   [[is_tp, is_fp, is_naa], count]
-        # end.reject do |a, b|
-        #   b == 0 || b = @nresults.length
-        # end
         tp_key = "user_searches/#{search_id}/counts_by_feedback/tps"
         redis.zinterstore tp_key, [final_key, "tps"]
         tp_count = redis.zcard tp_key
@@ -263,7 +272,7 @@ class SearchController < ApplicationController
           is_naa: naa_count
         }
 
-        @result_count = redis.zcard final_key #@counts_by_accuracy_group.values.sum
+        @result_count = redis.zcard final_key
 
         case params[:feedback_filter]
         when 'tp'
@@ -275,7 +284,7 @@ class SearchController < ApplicationController
         end
 
         @sites = Site.where(id: @results.map(&:site_id)).to_a unless params[:option] == 'graphs'
-        render :search
+        render :search_fast
       end
       format.json { render json: @results }
       format.rss  { render :search, layout: false }
