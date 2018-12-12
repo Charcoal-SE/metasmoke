@@ -23,14 +23,8 @@ class StatusController < ApplicationController
     @smoke_detector.save!
 
     Thread.new do
-      ActionCable.server.broadcast 'status',       id: @smoke_detector.id,
-                                                   ts_unix: @smoke_detector.last_ping.to_i,
-                                                   ts_ago: time_ago_in_words(@smoke_detector.last_ping, include_seconds: true),
-                                                   ts_raw: @smoke_detector.last_ping.to_s,
-                                                   location: @smoke_detector.location,
-                                                   is_standby: @smoke_detector.is_standby,
-                                                   active: active?,
-                                                   failover_link: failover_link
+      ActionCable.server.broadcast 'status', status_channel_data
+      ActionCable.server.broadcast 'status_code_admin', status_channel_data.merge(failover_link: failover_link)
       ActionCable.server.broadcast 'topbar', last_ping: @smoke_detector.last_ping.to_f
       ActionCable.server.broadcast 'smokey_pings', smokey: @smoke_detector.as_json
     end
@@ -54,6 +48,18 @@ class StatusController < ApplicationController
   end
 
   private
+
+  def status_channel_data
+    {
+      id: @smoke_detector.id,
+      ts_unix: @smoke_detector.last_ping.to_i,
+      ts_ago: time_ago_in_words(@smoke_detector.last_ping, include_seconds: true),
+      ts_raw: @smoke_detector.last_ping.to_s,
+      location: @smoke_detector.location,
+      is_standby: @smoke_detector.is_standby,
+      active: active?
+    }
+  end
 
   def failover_link
     active? && @smoke_detector.is_standby && smoke_detector_force_failover_path(@smoke_detector.id)
