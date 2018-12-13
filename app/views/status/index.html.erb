@@ -17,10 +17,8 @@
     <% end %>
       <td class="location-cell">
         <%= link_to smoke_detector_statistics_path(sd.id) do %>
-          <span class="location"><%= sd.location %></span>
-          <% if sd.is_standby %>
-            <span class="label label-<%= sd.last_ping > 3.minutes.ago ? "primary" : "default" %> ">Standby</span>
-          <% end %>
+          <span class="location"><%= sd.location %></span>  
+          <span class="label label-<%= sd.last_ping > 3.minutes.ago ? "primary" : "default" %> " style="display: <%= sd.is_standby ? 'inline' : 'none'%>">Standby</span>
         <% end %>
       </td>
       <td class="status-<%= sd.status_color %> ping-cell" data-livestamp="<%= sd.last_ping.to_i %>" title="<%= sd.last_ping.to_s %>">
