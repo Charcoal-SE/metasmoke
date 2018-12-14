@@ -44,7 +44,7 @@ gem 'groupdate', '~> 3.0.0'
 gem 'rubocop', '~> 0.48.1', require: false, group: :test
 gem 'simplecov', require: false, group: :test
 
-gem 'blazer', '2.0.0', github: 'Charcoal-SE/blazer'
+gem 'blazer', '2.1.0+charcoal', github: 'Charcoal-SE/blazer'
 gem 'grape', '1.0.0'
 
 # gem 'puma_worker_killer'
