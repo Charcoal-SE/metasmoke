@@ -27,3 +27,6 @@ data_sources:
       domain_tag_id: "SELECT id, name FROM p_domain_tags WHERE id IN {value}"
 
 audit: true
+user_class: User
+user_method: current_user
+user_name: username
