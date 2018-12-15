@@ -6,9 +6,9 @@ GIT
 
 GIT
   remote: https://github.com/Charcoal-SE/blazer.git
-  revision: 3ca0c7756292961c7fe025889c15dde78223221c
+  revision: 462a93207eb43f3fb9aad229321619531c0db891
   specs:
-    blazer (2.1.0.charcoal)
+    blazer (1.10.0.charcoal)
       activerecord (>= 4)
       chartkick
       railties (>= 4)
@@ -105,7 +105,7 @@ GEM
       activerecord (>= 4.0, < 5.3)
     awesome_print (1.8.0)
     aws-eventstream (1.0.1)
-    aws-partitions (1.124.0)
+    aws-partitions (1.125.0)
     aws-sdk-core (3.44.0)
       aws-eventstream (~> 1.0)
       aws-partitions (~> 1.0)
@@ -440,7 +440,7 @@ DEPENDENCIES
   audited (~> 4.4)
   awesome_print
   aws-sdk-s3
-  blazer (= 2.1.0.charcoal)!
+  blazer (= 1.10.0.charcoal)!
   byebug
   capistrano
   capistrano-bundler
