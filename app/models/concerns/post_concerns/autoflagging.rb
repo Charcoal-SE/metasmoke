@@ -8,9 +8,9 @@ module PostConcerns::Autoflagging
     scope(:not_autoflagged, -> { where(autoflagged: false) })
 
     def autoflag
+      return 'Flagging disabled' unless FlagSetting['flagging_enabled'] == '1'
       Rails.logger.warn "[autoflagging] #{id}: Post#autoflag begin"
       return 'Duplicate post' unless Post.where(link: link).count == 1
-      return 'Flagging disabled' unless FlagSetting['flagging_enabled'] == '1'
       Rails.logger.warn "[autoflagging] #{id}: not a dupe"
 
       dry_run = FlagSetting['dry_run'] == '1'
@@ -120,7 +120,11 @@ module PostConcerns::Autoflagging
       end
 
       Rails.logger.warn "[autoflagging] #{id}: pre spam_flag"
-      success, message = user.spam_flag(self, dry_run)
+      success, message = if self.should_flag_abusive?
+                           user.abusive_flag(self, dry_run)
+                         else
+                           user.spam_flag(self, dry_run)
+                         end
       Rails.logger.warn "[autoflagging] #{id}: post spam_flag"
       backoff = 0
       backoff = message if success
@@ -170,6 +174,16 @@ module PostConcerns::Autoflagging
 
       uids = site.user_site_settings.where(user_id: available_user_ids.keys).map(&:user_id)
       User.where(id: uids, flags_enabled: true).where.not(encrypted_api_token: nil)
+    end
+
+    def should_flag_abusive?
+      # Any of the reasons are offensive / repeating etc.
+
+      self.reasons.map do |r|
+        ['offensive', 'toxic', 'repeat', 'unique'].map do |s|
+          r.reason_name.downcase.include? s
+        end.any?
+      end.any?
     end
 
     def flagged?
