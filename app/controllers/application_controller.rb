@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
   def deduplicate_ajax_requests
     return unless request.headers['X-AJAX-Deduplicate'].present?
 
-    redis = Redis.new
+    redis = Redis.new(url: AppConfig["redis"]["url"])
     request_uniq = request.headers['X-AJAX-Deduplicate']
     if redis.get("request-dedup/#{request_uniq}").present?
       render status: :conflict, plain: "409 Conflict\nRequest conflicts with a previous AJAX request"

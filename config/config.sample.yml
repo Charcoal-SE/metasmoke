@@ -1,4 +1,6 @@
 common: &common
+  redis:
+    url: redis://localhost:6379
   token_store:
     host: https://the.best.token.store
     key: atokenforthetokenstore

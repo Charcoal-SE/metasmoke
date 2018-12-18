@@ -207,7 +207,7 @@ class GithubController < ApplicationController
     return if state == 'pending' || (state == 'success' && context == 'github/pages')
 
     if context.start_with? 'ci/circleci'
-      redis = Redis.new
+      redis = Redis.new(url: AppConfig["redis"]["url"])
       if state == 'success'
         redis.incr "successful_ci_count/#{sha}"
         redis.expire "successful_ci_count/#{sha}", 1200
