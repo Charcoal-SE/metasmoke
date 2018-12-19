@@ -106,6 +106,8 @@ module PostConcerns::Autoflagging
       else
         post.update_columns(autoflagged: true)
       end
+      
+      spam_wave_autoflag
     end
 
     def send_autoflag(user, dry_run, condition)
@@ -203,7 +205,7 @@ module PostConcerns::Autoflagging
       revision_list.count
     end
 
-    after_create do
+    def spam_wave_autoflag
       Thread.new do
         Rails.logger.warn '[autoflagging-sw] spam wave check begin'
 
