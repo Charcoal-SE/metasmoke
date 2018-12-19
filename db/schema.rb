@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_01_215629) do
+ActiveRecord::Schema.define(version: 2018_12_17_200352) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "user_id"
@@ -460,6 +460,11 @@ ActiveRecord::Schema.define(version: 2018_12_01_215629) do
     t.index ["api_parameter"], name: "index_sites_on_api_parameter"
   end
 
+  create_table "sites_spam_waves", primary_key: ["site_id", "spam_wave_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "site_id", null: false
+    t.bigint "spam_wave_id", null: false
+  end
+
   create_table "sites_user_site_settings", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "site_id"
     t.integer "user_site_setting_id"
@@ -484,6 +489,17 @@ ActiveRecord::Schema.define(version: 2018_12_01_215629) do
     t.text "whois"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "spam_waves", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.text "conditions"
+    t.bigint "user_id"
+    t.datetime "expiry"
+    t.integer "max_flags"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_spam_waves_on_user_id"
   end
 
   create_table "stack_exchange_users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -575,5 +591,6 @@ ActiveRecord::Schema.define(version: 2018_12_01_215629) do
   add_foreign_key "review_items", "review_queues"
   add_foreign_key "review_results", "users"
   add_foreign_key "smoke_detectors", "users"
+  add_foreign_key "spam_waves", "users"
   add_foreign_key "user_site_settings", "users"
 end

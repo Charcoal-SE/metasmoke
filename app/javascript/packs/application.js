@@ -113,4 +113,11 @@ onLoad(() => {
       localStorage['ms-review-alerted-at'] = Date.now().toString();
     }
   }
+
+  $('.wave-preview').click(() => {
+    $.ajax({
+      url: '/spam-waves/preview',
+      data: $('form').serialize()
+    });
+  });
 });

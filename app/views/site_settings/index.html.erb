@@ -22,6 +22,8 @@
                      <%= 'checked' if SiteSetting[s.name] %> />
             <% when 'number' %>
               <span class="editable-value" data-type='number' data-name="<%= s.name %>"><%= SiteSetting[s.name] %></span>
+            <% when 'float' %>
+              <span class="editable-value" data-type='number' data-step="0.01" data-name="<%= s.name %>"><%= SiteSetting[s.name] %></span>
             <% else %>
               <span class="editable-value" data-type='text' data-name="<%= s.name %>"><%= SiteSetting[s.name] %></span>
           <% end %>

@@ -307,7 +307,7 @@ body .profiler-results {
   }
 }
 
-.btn {
+.btn:not(.bootstrap-select button) {
   @include btn;
 }
 

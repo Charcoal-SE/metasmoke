@@ -389,6 +389,18 @@ Rails.application.routes.draw do
     get  ':id',               to: 'stack_exchange_users#show',        as: :stack_exchange_user
   end
 
+  scope 'spam-waves' do
+    root                 to: 'spam_waves#index',   as: :spam_waves
+    get    'new',        to: 'spam_waves#new',     as: :new_spam_wave
+    post   'new',        to: 'spam_waves#create',  as: :create_spam_wave
+    get    'preview',    to: 'spam_waves#preview', as: :preview_spam_wave
+    get    ':id',        to: 'spam_waves#show',    as: :spam_wave
+    get    ':id/edit',   to: 'spam_waves#edit',    as: :edit_spam_wave
+    post   ':id/edit',   to: 'spam_waves#update',  as: :update_spam_wave
+    post   ':id/cancel', to: 'spam_waves#cancel',  as: :cancel_spam_wave
+    post   ':id/renew',  to: 'spam_waves#renew',   as: :renew_spam_wave
+  end
+
   scope 'status' do
     root                     to: 'status#index',      as: :status
     get  'code.json', to: 'code_status#api'

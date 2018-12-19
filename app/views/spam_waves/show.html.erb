@@ -1,0 +1,24 @@
+<h1><%= @wave.name %></h1>
+<h4 class="text-muted">Currently <strong><%= @wave.expiry.past? ? 'expired' : 'active' %>.</strong></h4>
+<p class="text-muted">Created by <%= @wave.user.username %> <%= time_ago_in_words(@wave.created_at) %> ago.</p>
+
+<% unless @wave.expiry.past? %>
+  <p>Expires in <%= distance_of_time_in_words(DateTime.now, @wave.expiry) %>.</p>
+<% end %>
+
+<% unless @wave.expiry.past? %>
+  <%= link_to 'Edit', edit_spam_wave_path(@wave), class: 'btn btn-primary' %>
+  <%= link_to 'Cancel Wave', cancel_spam_wave_path(@wave), class: 'btn btn-danger', method: :post %>
+<% end %>
+<% if (@wave.expiry - DateTime.now) <= 2.hours && !@wave.expiry.past? %>
+  <%= link_to 'Renew Wave', renew_spam_wave_path(@wave), class: 'btn btn-warning', method: :post %>
+<% end %>
+
+<h3>Conditions</h3>
+<pre>{
+  "title_regex": "<%= escape_javascript(@wave.conditions['title_regex']) %>",
+  "body_regex": "<%= escape_javascript(@wave.conditions['body_regex']) %>",
+  "username_regex": "<%= escape_javascript(@wave.conditions['username_regex']) %>",
+  "max_user_rep": <%= escape_javascript(@wave.conditions['max_user_rep']) %>
+}</pre>
+

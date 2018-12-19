@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  conditions: MyText
+  user: one
+  expiry: 2018-12-17 18:31:37
+  max_flags: 1
+
+two:
+  name: MyString
+  conditions: MyText
+  user: two
+  expiry: 2018-12-17 18:31:37
+  max_flags: 1
