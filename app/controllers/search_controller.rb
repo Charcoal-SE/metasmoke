@@ -141,12 +141,12 @@ class SearchController < ApplicationController
     user_reputation = params[:user_reputation].to_i || 0
 
     feedback = case params[:feedback]
-    when /true/
-      :is_tp
-    when /false/
-      :is_fp
-    when /NAA/
-      :is_naa
+               when /true/
+                 :is_tp
+               when /false/
+                 :is_fp
+               when /NAA/
+                 :is_naa
     end
 
     per_page = user_signed_in? && params[:per_page].present? ? [params[:per_page].to_i, 10_000].min : 100
@@ -154,7 +154,7 @@ class SearchController < ApplicationController
     page = params[:page].to_i
     page = 1 if page == 0
 
-    npage = [(page-1)*per_page,page*per_page]
+    npage = [(page - 1) * per_page, page * per_page]
 
     @logs = []
     @logs.push("PAGE: #{page}")
@@ -169,8 +169,8 @@ class SearchController < ApplicationController
     if feedback.present?
       intersect.push "#{feedback.to_s[3..-1]}s"
     elsif params[:feedback] == 'conflicted'
-      intersect.push "tps"
-      intersect.push "fps"
+      intersect.push 'tps'
+      intersect.push 'fps'
     end
 
     case params[:autoflagged].try(:downcase)
@@ -191,53 +191,53 @@ class SearchController < ApplicationController
 
     intersect.push("sites/#{params[:site].to_i}/posts") if params[:site].present?
 
-    search_id = redis.incr "search_counter"
+    search_id = redis.incr 'search_counter'
     if intersect.empty?
-      dkey = "all_posts"
+      dkey = 'all_posts'
     else
       dkey = "user_searches/#{search_id}/intersect"
-      redis.sinterstore dkey, "all_posts", *intersect
+      redis.sinterstore dkey, 'all_posts', *intersect
     end
     if subtract.empty?
       skey = dkey
     else
       skey = "user_searches/#{search_id}/subtract"
       redis.sdiffstore(skey, dkey, *subtract)
-      redis.expire dkey, redis_expiry_time unless dkey == "all_posts"
+      redis.expire dkey, redis_expiry_time unless dkey == 'all_posts'
     end
     fkey = "user_searches/#{search_id}/simple_result"
     # This converts it to a ZSET, before this we were working with a SET
-    redis.zinterstore(fkey, ["posts", skey], aggregate: "max")
-    redis.expire skey, redis_expiry_time unless skey == "all_posts"
+    redis.zinterstore(fkey, ['posts', skey], aggregate: 'max')
+    redis.expire skey, redis_expiry_time unless skey == 'all_posts'
 
     # Make 3 tmpsets then intersect them
-    to_expire = [];
+    to_expire = []
     [
-      ["stack_exchange_user_username", username, username_operation],
-      ["title", title, title_operation],
-      ["body", body, body_operation],
-      ["why", why, why_operation]
+      ['stack_exchange_user_username', username, username_operation],
+      ['title', title, title_operation],
+      ['body', body, body_operation],
+      ['why', why, why_operation]
     ].each do |type, constraint, op|
       next if params[type.split('_').last].nil?
       tkey = "user_searches/#{search_id}/#{type}"
       to_expire.push(tkey)
       case op
-      when "REGEXP"
-        redis.zhregex fkey, tkey, "posts/", "#{type}", params["#{type}_is_case_sensitive"] ? constraint : "(?i)#{constraint}"
-      when "NOT REGEXP"
-        redis.zhregex fkey, tkey, "posts/", "#{type}", params["#{type}_is_case_sensitive"] ? constraint : "(?i)#{constraint}", "INVERT"
-      when "LIKE"
-        redis.zhregex fkey, tkey, "posts/", "#{type}", constraint[1..-2], "LIKE"
+      when 'REGEXP'
+        redis.zhregex fkey, tkey, 'posts/', type.to_s, params["#{type}_is_case_sensitive"] ? constraint : "(?i)#{constraint}"
+      when 'NOT REGEXP'
+        redis.zhregex fkey, tkey, 'posts/', type.to_s, params["#{type}_is_case_sensitive"] ? constraint : "(?i)#{constraint}", 'INVERT'
+      when 'LIKE'
+        redis.zhregex fkey, tkey, 'posts/', type.to_s, constraint[1..-2], 'LIKE'
       end
     end
     redis.expire fkey, redis_expiry_time
 
     final_key = "user_searches/#{search_id}/final"
     @nresults = if to_expire.empty?
-      []
-    else
-      redis.zunionstore final_key, cols
-      redis.zrevrange(final_key, 0, -1)
+                  []
+                else
+                  redis.zunionstore final_key, cols
+                  redis.zrevrange(final_key, 0, -1)
     end
     to_expire.each { |k| redis.expire k, redis_expiry_time }
 
@@ -245,12 +245,12 @@ class SearchController < ApplicationController
 
     # Technically we should wait until later to reset these, but eh.
     redis.expire final_key, redis_expiry_time
-    redis.expire "search_counter", 2400
+    redis.expire 'search_counter', 2400
 
     count = @nresults.length
 
     @results = @nresults.drop(npage.min).take(npage.max).map { |i| Post.from_redis(i) }
-    @results.define_singleton_method(:total_pages) { (count/per_page)+1 }
+    @results.define_singleton_method(:total_pages) { (count / per_page) + 1 }
     @results.define_singleton_method(:current_page) { page }
 
     respond_to do |format|
@@ -265,7 +265,7 @@ class SearchController < ApplicationController
 
         @counts_by_feedback = result_keys.map { |n, k| [:"is_#{n}", redis.zcard(k)] }.to_h
 
-        to_expire.each { |k| redis.expire(k,redis_expiry_time) }
+        to_expire.each { |k| redis.expire(k, redis_expiry_time) }
 
         @result_count = redis.zcard final_key
 

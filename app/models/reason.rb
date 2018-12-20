@@ -11,6 +11,7 @@ class Reason < ApplicationRecord
   def remove_from_redis(reason)
     redis.del "reasons/#{reason.id}"
   end
+
   def populate_redis
     redis.sadd("reasons/#{id}", posts.map(&:id))
   end

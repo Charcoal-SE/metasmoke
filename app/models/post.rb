@@ -98,19 +98,19 @@ class Post < ApplicationRecord
       redis.sadd "reasons/#{reason.id}", id
     end
 
-    redis.sadd "all_posts", id
-    redis.zadd "posts", created_at.to_i, id
+    redis.sadd 'all_posts', id
+    redis.zadd 'posts', created_at.to_i, id
 
-    redis.sadd "tps", id if is_tp
-    redis.sadd "fps", id if is_fp
-    redis.sadd "naas", id if is_naa
+    redis.sadd 'tps', id if is_tp
+    redis.sadd 'fps', id if is_fp
+    redis.sadd 'naas', id if is_naa
     if link.nil?
-      redis.sadd "nolink", id
+      redis.sadd 'nolink', id
     else
-      redis.sadd "questions", id if question?
-      redis.sadd "answers", id if answer?
+      redis.sadd 'questions', id if question?
+      redis.sadd 'answers', id if answer?
     end
-    redis.sadd "autoflagged", id if flagged?
+    redis.sadd 'autoflagged', id if flagged?
     redis.sadd "sites/#{post.site_id}/posts", id
   end
 
@@ -121,15 +121,15 @@ class Post < ApplicationRecord
     post.reasons.each do |reason|
       redis.srem "reasons/#{reason.id}", post.id
     end
-    redis.srem "all_posts", post.id
-    redis.zrem "posts", post.id
-    redis.srem "tps", post.id
-    redis.srem "fps", post.id
-    redis.srem "naas", post.id
-    redis.srem "nolink", post.id
-    redis.srem "questions", post.id
-    redis.srem "answers", post.id
-    redis.srem "autoflagged", post.id
+    redis.srem 'all_posts', post.id
+    redis.zrem 'posts', post.id
+    redis.srem 'tps', post.id
+    redis.srem 'fps', post.id
+    redis.srem 'naas', post.id
+    redis.srem 'nolink', post.id
+    redis.srem 'questions', post.id
+    redis.srem 'answers', post.id
+    redis.srem 'autoflagged', post.id
     redis.srem "sites/#{post.site_id}/posts", post.id
   end
 
@@ -137,26 +137,26 @@ class Post < ApplicationRecord
     progressbar = ProgressBar.create total: Post.count
     ilevel = ActiveRecord::Base.logger.level
     ActiveRecord::Base.logger.level = 1
-    Post.all.eager_load(:reasons).eager_load(:flag_logs).find_each(batch_size: 50000) do |post|
+    Post.all.eager_load(:reasons).eager_load(:flag_logs).find_each(batch_size: 50_000) do |post|
       # tps, fps, naas, reasons/id, questions, answers, autoflagged
-      redis.pipelined {
-        redis.sadd "tps", post.id if post.is_tp
-        redis.sadd "fps", post.id if post.is_fp
-        redis.sadd "naas", post.id if post.is_naa
+      redis.pipelined do
+        redis.sadd 'tps', post.id if post.is_tp
+        redis.sadd 'fps', post.id if post.is_fp
+        redis.sadd 'naas', post.id if post.is_naa
         post.reasons.each do |reason|
           redis.sadd "reasons/#{reason.id}", post.id
         end
         if post.link.nil?
-          redis.sadd "nolink", post.id
+          redis.sadd 'nolink', post.id
         else
-          redis.sadd "questions", post.id if post.question?
-          redis.sadd "answers", post.id if post.answer?
+          redis.sadd 'questions', post.id if post.question?
+          redis.sadd 'answers', post.id if post.answer?
         end
-        redis.sadd "autoflagged", post.id if post.flagged?
+        redis.sadd 'autoflagged', post.id if post.flagged?
         redis.sadd "sites/#{post.site_id}/posts", post.id
-        redis.sadd "all_posts", post.id
-        redis.zadd "posts", post.created_at.to_i, post.id
-      }
+        redis.sadd 'all_posts', post.id
+        redis.zadd 'posts', post.created_at.to_i, post.id
+      end
       progressbar.increment
     end
     ActiveRecord::Base.logger.level = ilevel
@@ -171,14 +171,14 @@ class Post < ApplicationRecord
     post.created_at = rpost['created_at']
     post.username = rpost['username']
     post.why = rpost['why']
-    if !(rpost['stack_exchange_user_id'].empty? && rpost['stack_exchange_user_username'].empty?)
+    unless rpost['stack_exchange_user_id'].empty? && rpost['stack_exchange_user_username'].empty?
       post.stack_exchange_user = StackExchangeUser.new(
         username: rpost['stack_exchange_user_username'],
         id: rpost['stack_exchange_user_id']
       )
     end
-    post.comments = rpost["post_comments_count"].to_i.times.map { PostComment.new }
-    post.comments.define_singleton_method(:count) { rpost["post_comments_count"].to_i }
+    post.comments = Array.new(rpost['post_comments_count'].to_i) { PostComment.new }
+    post.comments.define_singleton_method(:count) { rpost['post_comments_count'].to_i }
     post.site = Site.new(site_logo: rpost['site_site_logo'], id: rpost['site_id'])
     # Could do without this line.
     post.define_singleton_method(:flagged?) { rpost['flagged'] == 'true' ? true : false }
