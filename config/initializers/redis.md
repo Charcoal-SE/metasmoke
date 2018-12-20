@@ -16,7 +16,10 @@ HASH posts/<id> (Post)
         why: why
 
 ZSET posts/<id>/reasons (Post.reasons reason_name, score: weight)
-SET reasons/<id> (Reason.all.map(&:id))
+-- These need AR callbacks
+SET reasons (Reason.all.map(&:id))
+SET reasons/<id> (Reason.all.map { |r| r.posts.map(&:id) }.flatten)
+--
 SET all_posts (Post.all.map(&:id))
 ZSET posts (Post.all id, score: created_at.to_i)
 SET tps (Post.where(is_tp:true).map(&:id))
@@ -28,5 +31,7 @@ SET answers (Post.all.to_a.select(&:answer?).map(&:id))
 SET autoflagged (Post.all.to_a.select(&:flagged?).map(&:id))
 SET deleted (Post.where.not(deleted_at:nil).map(&:id))
 SET sites/<id>/posts (Site.find(<id>).posts.map(&:id))
+SET review_queues (ReivewQueue.map(&:id))
+SET review_queue/<id>/unreviewed (ReviewItem.active.map(&:id))
 feedbacks.each(&:populate_redis)
 deletion_logs.each(&:update_deletion_data)

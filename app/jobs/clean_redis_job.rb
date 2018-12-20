@@ -13,9 +13,6 @@ class CleanRedisJob < ApplicationJob
           redis.sadd ck('tps'), post.id if post.is_tp
           redis.sadd ck('fps'), post.id if post.is_fp
           redis.sadd ck('naas'), post.id if post.is_naa
-          post.reasons.each do |reason|
-            redis.sadd ck("reasons/#{reason.id}"), post.id
-          end
           if post.link.nil?
             redis.sadd ck('nolink'), post.id
           else
@@ -66,7 +63,8 @@ class CleanRedisJob < ApplicationJob
 
     redis.pipelined do
       Reason.find_each do |i|
-        redis.sadd(ck("reasons/#{i.id}"), i.posts.map(&:id))
+        redis.sadd(ck("reasons"), i.id)
+        redis.sadd(ck("reasons/#{i.id}"), i.posts.select(:id).map(&:id))
       end
     end
 

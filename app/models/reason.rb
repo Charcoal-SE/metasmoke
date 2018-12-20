@@ -6,14 +6,15 @@ class Reason < ApplicationRecord
   has_and_belongs_to_many :posts
   has_many :feedbacks, through: :posts
 
-  after_destroy :remove_from_redis
-
-  def remove_from_redis(reason)
-    redis.del "reasons/#{reason.id}"
-  end
-
-  def populate_redis
-    redis.sadd("reasons/#{id}", posts.map(&:id))
+  def self.populate_redis_meta
+    redis.pipelined do
+      find_each do |reason|
+        redis.sadd "reasons", reason.id
+        reason.posts.select(:id).each do |post|
+          redis.sadd "reasons/#{reason.id}", post.id
+        end
+      end
+    end
   end
 
   def tp_percentage
