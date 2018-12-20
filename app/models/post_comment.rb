@@ -18,14 +18,6 @@ class PostComment < ApplicationRecord
   belongs_to :post
   belongs_to :user
 
-  after_create do
-    redis.hincrby "posts/#{post.id}", 'post_comments_count', 1
-  end
-
-  after_destroy do
-    redis.hincrby "posts/#{post.id}", 'post_comments_count', -1 unless redis.hget("posts/#{post.id}", 'post_comments_count').to_s == '0'
-  end
-
   def self.scrubber
     CommentScrubber.new
   end

@@ -21,7 +21,6 @@ Rails.application.routes.draw do
   get    'sites/dash',            to: 'dashboard#site_dash',        as: :site_dash
 
   get    'search',                to: 'search#index'
-  get    'search_fast',           to: 'search#index_fast'
   get    'reasons',               to: 'dashboard#index',            as: :reasons
   get    'flagging',              to: 'flag_settings#dashboard',    as: :flagging
 

@@ -20,21 +20,8 @@ class DeletionLog < ApplicationRecord
     end
   end
 
-  after_create :update_deletion_data
-
-  def update_deletion_data
-    if is_deleted
-      post.update(deleted_at: created_at) if post.deleted_at.nil?
-      redis.hset("posts/#{post.id}", 'deleted_at', created_at.to_s)
-    end
-  end
-
-  def self.from_redis(post_id)
-    del_log = new
-    str = redis.hget("posts/#{post_id}", 'deleted_at')
-    del_log.created_at = str
-    del_log.is_deleted = !str.nil?
-    [del_log]
+  after_create do
+    post.update(deleted_at: created_at) if is_deleted && post.deleted_at.nil?
   end
 
   after_create do
