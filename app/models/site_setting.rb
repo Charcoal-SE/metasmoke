@@ -3,6 +3,16 @@
 class SiteSetting < ApplicationRecord
   validates :name, uniqueness: true
 
+  after_save :populate_redis
+
+  def populate_redis
+    redis.set "site_setting/#{name}", value
+  end
+
+  after_destroy do |ss|
+    redis.del "site_setting/#{ss.name}"
+  end
+
   def self.[](key)
     inst = find_by name: key
     case inst&.value_type

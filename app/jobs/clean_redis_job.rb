@@ -65,8 +65,25 @@ class CleanRedisJob < ApplicationJob
     end
 
     redis.pipelined do
-      Reason.all.each do |i|
+      Reason.find_each do |i|
         redis.sadd(ck("reasons/#{i.id}"), i.posts.map(&:id))
+      end
+    end
+
+    redis.pipelined do
+      SiteSetting.find_each do |ss|
+        redis.set ck("site_settings/#{ss.name}"), ss.value
+      end
+    end
+
+    redis.pipelined do
+      ReviewItem.find_each do |ri|
+        redis.sadd ck("review_queues"), ri.queue.id
+        if completed
+          redis.srem ck("review_queue/#{ri.queue.id}/unreviewed"), ri.id
+        else
+          redis.sadd ck("review_queue/#{ri.queue.id}/unreviewed"), ri.id
+        end
       end
     end
 
@@ -82,7 +99,7 @@ class CleanRedisJob < ApplicationJob
         redis.rename key, "pending_deletion/#{key}" if redis.exists key
         redis.rename "cleanups/#{key}", key
       end
-      redis.expire "pending_deletion/#{key}", 1
+      redis.del "pending_deletion/#{key}"
     end
     @keys = []
     redis.del 'cleanups/lock'

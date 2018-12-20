@@ -44,6 +44,7 @@
           <a class="navbar-brand" href="/">metasmoke</a>
         </div>
 
+        <% Rack::MiniProfiler.step('Rendering: layouts/application/nav') do %>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
@@ -52,7 +53,7 @@
             <%= nav_link GraphsController %>
             <%= nav_link SearchController %>
             <% if user_signed_in? && current_user.has_role?("reviewer") %>
-              <% q_counts = ReviewQueue.joins(:items).where(review_items: { completed: false }).group(Arel.sql('review_queues.id')).count %>
+              <% q_counts = redis.smembers("review_queues").map { |i| [i.to_i, redis.scard("review_queue/#{i}/unreviewed")] } %>
               <% total_count = q_counts.map { |_k, v| v }.sum %>
               <% label = raw("review <span class='reviews-count badge'>#{total_count != 0 && current_user&.has_role?(:reviewer) ? total_count : nil}</span>") %>
               <%= nav_dropdown ReviewQueuesController, label: label do %>
@@ -156,6 +157,7 @@
             <% end %>
           </ul>
         </div><!-- /.navbar-collapse -->
+      <% end %>
       </div><!-- /.container-fluid -->
     </nav>
     <div class="col-md-offset-1 col-md-10">

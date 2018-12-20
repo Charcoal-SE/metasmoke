@@ -22,6 +22,21 @@ class ReviewItem < ApplicationRecord
   scope(:active, -> { where(completed: false) })
   scope(:completed, -> { where(completed: true) })
 
+  after_save :populate_redis
+
+  def populate_redis
+    redis.sadd "review_queues", queue.id
+    if completed
+      redis.srem "review_queue/#{queue.id}/unreviewed", id
+    else
+      redis.sadd "review_queue/#{queue.id}/unreviewed", id
+    end
+  end
+
+  def self.populate_redis_meta
+    eager_load(:queue).find_each(&:populate_redis)
+  end
+
   def self.unreviewed_by(queue, user)
     joins("LEFT JOIN review_results rr ON rr.review_item_id = review_items.id AND rr.user_id = #{user.id}").where(review_items: { queue: queue,
                                                                                                                                   completed: false },
