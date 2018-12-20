@@ -143,8 +143,6 @@ class PostsController < ApplicationController
         # Start autoflagging
         Rails.logger.warn "[autoflagging] #{@post.id}: post.save succeeded"
 
-        @post.populate_redis
-
         Thread.new do
           Rails.logger.warn "[autoflagging] #{@post.id}: thread begin"
           # Trying to autoflag in a different thread while in test
