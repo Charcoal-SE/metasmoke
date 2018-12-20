@@ -26,9 +26,7 @@ class Redis::Post
   end
 
   def cachebreak
-    cb = feedbacks.map(&:id).push(comments.count).join(",")
-    puts cb
-    cb
+    feedbacks.map(&:id).push(comments.count).join(",")
   end
 
   def comments
