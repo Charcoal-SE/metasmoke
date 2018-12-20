@@ -7,12 +7,13 @@
 <p><%= log %></p>
 <% end %>
 
-<%= form_tag (params[:option] == 'graphs' ? search_path(anchor: "graphs") : search_path), method: "get" do |f| %>
+<%= form_tag (params[:option] == 'graphs' ? search_fast_path(anchor: "graphs") : search_fast_path), method: "get" do |f| %>
   <div class="form-group">
     <%= label_tag :title %>
     <% if current_user&.can_use_regex_search? %>
       <%= check_box_tag :title_is_regex, 1, params[:title_is_regex] %> <span class="text-muted">regex</span>
       <%= check_box_tag :title_is_inverse_regex, 1, params[:title_is_inverse_regex] %> <span class="text-muted">invert</span>
+      <%= check_box_tag :title_is_case_sensitive, 1, params[:title_is_case_sensitive] %> <span class="text-muted">case sensitive</span>
     <% end %>
     <%= text_field_tag :title, params[:title], placeholder: "*", class: "form-control" %>
   </div>
@@ -21,6 +22,7 @@
     <% if current_user&.can_use_regex_search? %>
       <%= check_box_tag :body_is_regex, 1, params[:body_is_regex] %> <span class="text-muted">regex</span>
       <%= check_box_tag :body_is_inverse_regex, 1, params[:body_is_inverse_regex] %> <span class="text-muted">invert</span>
+      <%= check_box_tag :body_is_case_sensitive, 1, params[:body_is_case_sensitive] %> <span class="text-muted">case sensitive</span>
     <% end %>
     <%= text_field_tag :body, params[:body], placeholder: "*", class: "form-control" %>
   </div>
@@ -29,6 +31,7 @@
     <% if current_user&.can_use_regex_search? %>
       <%= check_box_tag :username_is_regex, 1, params[:username_is_regex] %> <span class="text-muted">regex</span>
       <%= check_box_tag :username_is_inverse_regex, 1, params[:username_is_inverse_regex] %> <span class="text-muted">invert</span>
+      <%= check_box_tag :username_is_case_sensitive, 1, params[:username_is_case_sensitive] %> <span class="text-muted">case sensitive</span>
     <% end %>
     <%= text_field_tag :username, params[:username], placeholder: "*", class: "form-control" %>
   </div>
@@ -37,6 +40,7 @@
     <% if current_user&.can_use_regex_search? %>
       <%= check_box_tag :why_is_regex, 1, params[:why_is_regex] %> <span class="text-muted">regex</span>
       <%= check_box_tag :why_is_inverse_regex, 1, params[:why_is_inverse_regex] %> <span class="text-muted">invert</span>
+      <%= check_box_tag :why_is_case_sensitive, 1, params[:why_is_case_sensitive] %> <span class="text-muted">case sensitive</span>
     <% end %>
     <%= text_field_tag :why, params[:why], placeholder: "*", class: "form-control" %>
   </div>

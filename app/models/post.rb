@@ -51,6 +51,9 @@ class Post < ApplicationRecord
     ActionCable.server.broadcast 'topbar', review: ReviewItem.active.count
   end
 
+  after_save :populate_redis
+  after_destroy :remove_from_redis, prepend: true
+
   def reject_recent_duplicates
     # If a different SmokeDetector has reported the same post in the last 5 minutes, reject it
 
@@ -79,7 +82,8 @@ class Post < ApplicationRecord
       stack_exchange_user_id: stack_exchange_user.try(:id),
       flagged: flagged?,
       site_id: site_id,
-      post_comments_count: comments.count
+      post_comments_count: comments.count,
+      why: why
     }
     redis.hmset("posts/#{id}", *post.to_a)
 
@@ -91,12 +95,42 @@ class Post < ApplicationRecord
     deletion_logs.each(&:update_deletion_data)
 
     reasons.each do |reason|
-      redis.zadd "reasons/#{reason.id}", created_at.to_i, id
+      redis.sadd "reasons/#{reason.id}", id
     end
 
     redis.sadd "all_posts", id
     redis.zadd "posts", created_at.to_i, id
-    # and all the other stuff in populate redis meta
+
+    redis.sadd "tps", id if is_tp
+    redis.sadd "fps", id if is_fp
+    redis.sadd "naas", id if is_naa
+    if link.nil?
+      redis.sadd "nolink", id
+    else
+      redis.sadd "questions", id if question?
+      redis.sadd "answers", id if answer?
+    end
+    redis.sadd "autoflagged", id if flagged?
+    redis.sadd "sites/#{post.site_id}/posts", id
+  end
+
+  def remove_from_redis(post)
+    redis.del "posts/#{post.id}"
+    redis.del "posts/#{post.id}/reasons"
+    # Test this one:
+    post.reasons.each do |reason|
+      redis.srem "reasons/#{reason.id}", post.id
+    end
+    redis.srem "all_posts", post.id
+    redis.zrem "posts", post.id
+    redis.srem "tps", post.id
+    redis.srem "fps", post.id
+    redis.srem "naas", post.id
+    redis.srem "nolink", post.id
+    redis.srem "questions", post.id
+    redis.srem "answers", post.id
+    redis.srem "autoflagged", post.id
+    redis.srem "sites/#{post.site_id}/posts", post.id
   end
 
   def self.populate_redis_meta
@@ -119,7 +153,7 @@ class Post < ApplicationRecord
           redis.sadd "answers", post.id if post.answer?
         end
         redis.sadd "autoflagged", post.id if post.flagged?
-        redis.sadd "sites/#{post.site_id}", post.id
+        redis.sadd "sites/#{post.site_id}/posts", post.id
         redis.sadd "all_posts", post.id
         redis.zadd "posts", post.created_at.to_i, post.id
       }
@@ -136,6 +170,7 @@ class Post < ApplicationRecord
     post.link = rpost['link']
     post.created_at = rpost['created_at']
     post.username = rpost['username']
+    post.why = rpost['why']
     if !(rpost['stack_exchange_user_id'].empty? && rpost['stack_exchange_user_username'].empty?)
       post.stack_exchange_user = StackExchangeUser.new(
         username: rpost['stack_exchange_user_username'],
