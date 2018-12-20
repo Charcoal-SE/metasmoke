@@ -1,12 +1,5 @@
 <% title "Search" %>
 
-<p>Pages: <%= @results.total_pages %></p>
-<p>CurPage: <%= @results.current_page %></p>
-
-<% @logs.each do |log| %>
-<p><%= log %></p>
-<% end %>
-
 <%= form_tag (params[:option] == 'graphs' ? search_fast_path(anchor: "graphs") : search_fast_path), method: "get" do |f| %>
   <div class="form-group">
     <%= label_tag :title %>
