@@ -1,0 +1,10 @@
+<div class="spam-wave" data-id="<%= wave.id %>">
+  <h3><%= link_to wave.name, spam_wave_path(wave) %></h3>
+  <p class="text-muted">Created by <%= wave.user.username %> <%= time_ago_in_words(wave.created_at) %> ago.</p>
+  <% if wave.expiry.past? %>
+    <p>Expired.</p>
+  <% else %>
+    <p>Expires in <%= distance_of_time_in_words(DateTime.now, wave.expiry) %>.</p>
+  <% end %>
+</div>
+<hr/>

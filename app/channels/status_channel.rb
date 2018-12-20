@@ -2,6 +2,10 @@
 
 class StatusChannel < ApplicationCable::Channel
   def subscribed
-    stream_from 'status'
+    if current_user&.has_role?(:code_admin)
+      stream_from 'status_code_admin'
+    else
+      stream_from 'status'
+    end
   end
 end

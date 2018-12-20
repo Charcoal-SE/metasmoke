@@ -106,6 +106,8 @@ module PostConcerns::Autoflagging
       else
         post.update_columns(autoflagged: true)
       end
+      
+      spam_wave_autoflag
     end
 
     def send_autoflag(user, dry_run, condition)
@@ -201,6 +203,36 @@ module PostConcerns::Autoflagging
 
       update(revision_count: revision_list.count)
       revision_list.count
+    end
+
+    def spam_wave_autoflag
+      Thread.new do
+        Rails.logger.warn '[autoflagging-sw] spam wave check begin'
+
+        waves = SpamWave.active.joins(:sites).where(sites: { id: site_id })
+        if waves.any?
+          Rails.logger.warn '[autoflagging-sw] active waves exist'
+          waves.each do |w|
+            if w.post_matches?(self)
+              Rails.logger.warn '[autoflagging-sw] found matching wave'
+              if autoflagged?
+                Rails.logger.warn '[autoflagging-sw] already autoflagged, ignore'
+              else
+                flag_count = w.max_flags
+                users = User.where(flags_enabled: true).shuffle
+                users.each do |user|
+                  break if flag_count <= 0
+                  flag_count -= send_autoflag(user, nil, nil)
+                end
+              end
+            end
+          end
+        else
+          Rails.logger.warn '[autoflagging-sw] no waves'
+        end
+
+        Rails.logger.warn '[autoflagging-sw] spam wave check end'
+      end
     end
   end
 end

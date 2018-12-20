@@ -30,7 +30,8 @@ route('/admin/settings', () => {
     ev.stopPropagation();
     const value = $(ev.target).text();
     const type = $(ev.target).data('type');
-    $(ev.target).html(`<input type="${type}" class="editing-value form-control input-sm" value="${value}" />`);
+    const step = $(ev.target).data('step') || 1;
+    $(ev.target).html(`<input type="${type}" step="${step}" class="editing-value form-control input-sm" value="${value}" />`);
   });
 
   $(document).on('click', () => {

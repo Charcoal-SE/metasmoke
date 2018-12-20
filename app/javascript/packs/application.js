@@ -101,16 +101,23 @@ onLoad(() => {
     const requestId = `${dedupUuid}/${hashCode(data)}`;
     xhr.setRequestHeader('X-AJAX-Deduplicate', requestId);
   });
-  
+
   const reviewCounter = $('.reviews-count');
   if (reviewCounter.length > 0 && parseInt(reviewCounter.text().trim(), 10) > 50) {
     const reviewAlertedAt = parseInt(localStorage['ms-review-alerted-at'] || 0, 10);
     const diff = (Date.now() - reviewAlertedAt) / 1000;
     if (diff >= 14400) {
       reviewCounter.attr('data-toggle', 'tooltip').attr('data-placement', 'bottom')
-                   .attr('title', 'Got 5 minutes to do 10 reviews?');
+        .attr('title', 'Got 5 minutes to do 10 reviews?');
       reviewCounter.tooltip('show');
       localStorage['ms-review-alerted-at'] = Date.now().toString();
     }
   }
+
+  $('.wave-preview').click(() => {
+    $.ajax({
+      url: '/spam-waves/preview',
+      data: $('form').serialize()
+    });
+  });
 });

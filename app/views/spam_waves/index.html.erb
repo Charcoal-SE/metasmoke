@@ -1,0 +1,32 @@
+<h1>Spam waves</h1>
+<p>Spam waves are a way to make it easy for us to respond to sudden influxes of a certain type of spam. By adding a wave here, everything matching
+the conditions specified will be autoflagged for 24 hours. Make sure you communicate what's being done to site mods or CM's.</p>
+<p>
+  <%= link_to new_spam_wave_path, class: 'btn btn-primary btn-sm' do %>
+    <i class="fas fa-plus"></i> Create New
+  <% end %>
+</p>
+
+<h2>Active waves</h2>
+<% @active.each do |w| %>
+  <%= render 'spam_wave', wave: w %>
+<% end %>
+<% if @active.count == 0 %>
+  <em>None right now.</em>
+<% end %>
+
+<div class="text-center">
+  <%= will_paginate @active, renderer: BootstrapPagination::Rails %>
+</div>
+
+<h2>Expired waves</h2>
+<% @expired.each do |w| %>
+  <%= render 'spam_wave', wave: w %>
+<% end %>
+<% if @expired.count == 0 %>
+  <em>No waves expired yet.</em>
+<% end %>
+
+<div class="text-center">
+  <%= will_paginate @expired, renderer: BootstrapPagination::Rails %>
+</div>

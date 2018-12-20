@@ -1,0 +1,100 @@
+<% wave ||= nil %>
+<% submit_path ||= create_spam_wave_path %>
+<% page_title ||= 'New Spam Wave' %>
+
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <h2 class="panel-body"><%= page_title %></h2>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <% if @errors.any? %>
+          <div class="alert alert-danger">
+            The following errors occurred while trying to create this wave:
+            <ul>
+              <% @errors.full_messages.each do |m| %>
+                <li><%= m %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <%= form_tag submit_path, method: :post do %>
+          <h3>Details</h3>
+          <div class="field form-group <%= 'has-error' if error?(:name) %>">
+            <%= label_tag :name %><br/>
+            <%= text_field_tag :name, default(:name, wave, nil), class: 'form-control', autocomplete: 'off' %>
+            <span class="help-block"><%= help_or_error(:name, "Something to describe very briefly what the spam wave is.") %></span>
+          </div>
+          <div class="field form-group <%= 'has-error' if error?(:max_flags) %>">
+            <%= label_tag :max_flags %><br/>
+            <%= number_field_tag :max_flags, default(:max_flags, wave, FlagSetting['max_flags']), class: 'form-control' %>
+            <span class="help-block">
+              <%= help_or_error(:max_flags) do %>
+                How many flags should be applied to matching posts?
+                <strong>Overrides default autoflagging max_flags.</strong>
+              <% end %>
+            </span>
+          </div>
+          <div class="field form-group <%= 'has-error' if error?(:expiry) %>">
+            <%= label_tag :expiry %><br/>
+            <%= datetime_field_tag :expiry, default(:expiry, wave, 24.hours.from_now)&.iso8601[0..-2], class: 'form-control' %>
+            <span class="help-block">
+              <%= help_or_error(:expiry, "A point after which this wave will be deactivated. Maximum 24 hours from now.") %>
+            </span>
+          </div>
+
+          <hr/>
+
+          <h3>Sites</h3>
+          <div class="field form-group">
+            <% h = HTMLEntities.new %>
+            <%= label_tag :sites %><br/>
+            <%= select_tag :sites, options_for_select(Site.mains.map{ |s| [h.decode(s.site_name), s.id] }, selected: wave&.sites&.map(&:id)),
+                           multiple: true, class: 'form-control selectpicker', 'data-live-search' => true, 'data-actions-box' => true,
+                           'data-dropup-auto' => false %>
+            <span class="help-block">Choose the sites this wave should apply to.</span>
+          </div>
+
+          <hr/>
+
+          <h3>Conditions</h3>
+          <div class="field form-group">
+            <%= label_tag 'conditions[title_regex]', 'Title regex' %><br/>
+            <%= text_field_tag 'conditions[title_regex]', default('conditions[title_regex]', wave, '.*'), class: 'form-control' %>
+            <span class="help-block">Posts must have titles that match this regex to be flagged.</span>
+          </div>
+          <div class="field form-group">
+            <%= label_tag 'conditions[body_regex]', 'Body regex' %><br/>
+            <%= text_field_tag 'conditions[body_regex]', default('conditions[body_regex]', wave, '.*'), class: 'form-control' %>
+            <span class="help-block">Posts must have bodies that match this regex to be flagged.</span>
+          </div>
+          <div class="field form-group">
+            <%= label_tag 'conditions[username_regex]', 'Username regex' %><br/>
+            <%= text_field_tag 'conditions[username_regex]', default('conditions[username_regex]', wave, '.*'), class: 'form-control' %>
+            <span class="help-block">Post authors must have usernames that match this regex for the post to be flagged.</span>
+          </div>
+          <div class="field form-group">
+            <%= label_tag 'conditions[max_user_rep]', 'Max user rep' %><br/>
+            <%= number_field_tag 'conditions[max_user_rep]', default('conditions[max_user_rep]', wave, 1), class: 'form-control' %>
+            <span class="help-block">Post authors must have less reputation than this value for the post to be flagged.</span>
+          </div>
+
+          <hr/>
+
+          <div class="actions">
+            <button type="button" class="btn btn-success wave-preview">Preview</button>
+            <%= submit_tag 'Submit', class: 'btn btn-primary' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h3>Preview</h3>
+        <p class="text-muted">Click Preview to view the posts caught by your current settings.</p>
+        <div class="preview"></div>
+      </div>
+    </div>
+  </div>
+</div>

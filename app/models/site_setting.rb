@@ -10,6 +10,8 @@ class SiteSetting < ApplicationRecord
       inst&.value&.to_i == 1
     when 'number'
       inst&.value&.to_i
+    when 'float'
+      inst&.value&.to_f
     else
       inst&.value
     end
@@ -21,6 +23,8 @@ class SiteSetting < ApplicationRecord
              when 'boolean'
                val == 'true' ? 1 : 0
              when 'number'
+               val.to_s
+             when 'float'
                val.to_s
              else
                val
