@@ -106,7 +106,7 @@ module PostConcerns::Autoflagging
       else
         post.update_columns(autoflagged: true)
       end
-      
+
       spam_wave_autoflag
     end
 
@@ -213,17 +213,16 @@ module PostConcerns::Autoflagging
         if waves.any?
           Rails.logger.warn '[autoflagging-sw] active waves exist'
           waves.each do |w|
-            if w.post_matches?(self)
-              Rails.logger.warn '[autoflagging-sw] found matching wave'
-              if autoflagged?
-                Rails.logger.warn '[autoflagging-sw] already autoflagged, ignore'
-              else
-                flag_count = w.max_flags
-                users = User.where(flags_enabled: true).shuffle
-                users.each do |user|
-                  break if flag_count <= 0
-                  flag_count -= send_autoflag(user, nil, nil)
-                end
+            next unless w.post_matches?(self)
+            Rails.logger.warn '[autoflagging-sw] found matching wave'
+            if autoflagged?
+              Rails.logger.warn '[autoflagging-sw] already autoflagged, ignore'
+            else
+              flag_count = w.max_flags
+              users = User.where(flags_enabled: true).shuffle
+              users.each do |user|
+                break if flag_count <= 0
+                flag_count -= send_autoflag(user, nil, nil)
               end
             end
           end

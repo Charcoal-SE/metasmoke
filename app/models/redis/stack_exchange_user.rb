@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Redis::StackExchangeUser
   attr_reader :fields, :id
 

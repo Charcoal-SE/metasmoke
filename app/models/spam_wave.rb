@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SpamWave < ApplicationRecord
   belongs_to :user
   has_and_belongs_to_many :sites
@@ -42,7 +44,7 @@ class SpamWave < ApplicationRecord
   end
 
   def accuracy
-    tps = posts.select { |p| p.is_tp }
+    tps = posts.select(&:is_tp)
     (tps.size.to_f / posts.size) * 100
   end
 

@@ -3,7 +3,7 @@
 require 'redis'
 
 def redis
-  $redis ||= Redis.new(AppConfig["redis"])
+  $redis ||= Redis.new(AppConfig['redis'])
 end
 
 def with_no_score(ary)

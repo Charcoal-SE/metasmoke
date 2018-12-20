@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Redis::Base::ZSet
   def all(id)
     id.to_i
@@ -6,9 +8,7 @@ class Redis::Base::ZSet
 
   private
 
-  def prefix=(nprefix)
-    @prefix = nprefix
-  end
+  attr_writer :prefix
 
   def prefix
     @prefix ||= self.class.to_s.downcase

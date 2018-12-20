@@ -85,33 +85,12 @@ class PostsController < ApplicationController
     end
   end
 
-  def index
-    page_num = [params[:page].to_i-1,0].max
-    per_page = 100
-    page = [page_num*per_page, (page_num+1)*per_page-1]
-    k = 'posts'
-    if params[:filter] == 'undeleted'
-      k = 'undeleted_posts'
-      redis.sdiffstore 'undeleted_posts/pre', 'all_posts', 'deleted'
-      redis.zinterstore 'undeleted_posts', ['posts', 'undeleted_posts/pre']
-    end
-    start = Time.now
-    @posts = redis.zrevrange(k, *page).map do |id|
-      Redis::Post.new(id)
-    end
-    endt = Time.now
-    Rails.logger.info "Took #{endt-start} to build posts"
-    @posts.define_singleton_method(:total_pages) { redis.zcard('posts') / 100 }
-    @posts.define_singleton_method(:current_page) { page_num + 1 }
-    @sites = Site.where(id: @posts.map(&:site_id)).to_a
-  end
-
   # GET /posts
   # GET /posts.json
   def index
-    page_num = [params[:page].to_i-1,0].max
+    page_num = [params[:page].to_i - 1, 0].max
     per_page = 100
-    page = [page_num*per_page, (page_num+1)*per_page-1]
+    page = [page_num * per_page, (page_num + 1) * per_page - 1]
     k = 'posts'
     if params[:filter] == 'undeleted'
       k = 'undeleted_posts'
@@ -123,7 +102,7 @@ class PostsController < ApplicationController
       Redis::Post.new(id)
     end
     endt = Time.now
-    Rails.logger.info "Took #{endt-start} to build posts"
+    Rails.logger.info "Took #{endt - start} to build posts"
     @posts.define_singleton_method(:total_pages) { redis.zcard('posts') / 100 }
     @posts.define_singleton_method(:current_page) { page_num + 1 }
     @sites = Site.where(id: @posts.map(&:site_id)).to_a

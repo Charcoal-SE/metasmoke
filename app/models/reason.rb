@@ -9,7 +9,7 @@ class Reason < ApplicationRecord
   def self.populate_redis_meta
     redis.pipelined do
       find_each do |reason|
-        redis.sadd "reasons", reason.id
+        redis.sadd 'reasons', reason.id
         reason.posts.select(:id).each do |post|
           redis.sadd "reasons/#{reason.id}", post.id
         end

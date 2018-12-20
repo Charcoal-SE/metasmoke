@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Redis::Post
   attr_reader :fields, :id
 
@@ -11,13 +13,13 @@ class Redis::Post
   end
 
   def created_at
-    @created_at ||= @fields["created_at"].to_time
+    @created_at ||= @fields['created_at'].to_time
   end
 
   def stack_exchange_user
     @stack_exchange_user ||= Redis::StackExchangeUser.new(
       @fields['stack_exchange_user_id'],
-      username: @fields['stack_exchange_user_username'],
+      username: @fields['stack_exchange_user_username']
     )
   end
 

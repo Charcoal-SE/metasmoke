@@ -16,7 +16,7 @@ class DashboardController < ApplicationController
     end
 
     Rack::MiniProfiler.step('Redis queries') do
-      @inactive_reasons, @active_reasons = #Rails.cache.fetch 'reasons_index', expires_in: 6.hours do
+      @inactive_reasons, @active_reasons = # Rails.cache.fetch 'reasons_index', expires_in: 6.hours do
         [true, false].map do |inactive|
           results = Reason.where(inactive: inactive).to_a.map do |reason|
             reason.define_singleton_method(:post_count) { redis.scard "reasons/#{reason.id}" }
@@ -34,10 +34,10 @@ class DashboardController < ApplicationController
               [fb, redis.scard("reasons/#{reason.id}/#{fb}s")]
             end.to_h
 
-            [reason.id, {total: redis.scard("reasons/#{reason.id}")}.merge(per_feedback_counts)]
+            [reason.id, { total: redis.scard("reasons/#{reason.id}") }.merge(per_feedback_counts)]
           end.to_h
 
-          {counts: counts, results: results}
+          { counts: counts, results: results }
         end
     end
 

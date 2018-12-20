@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Redis::Base::Set
   def initialize(id)
     @source_id = id
@@ -13,7 +15,7 @@ class Redis::Base::Set
     super(m, *args, &block)
   end
 
-  def respond_to_missing?(m, include_private = false)
+  def respond_to_missing?(m, _include_private = false)
     m == target
   end
 
@@ -57,7 +59,7 @@ class Redis::Base::Set
     end
 
     def prefix
-      @prefix ||= self.to_s.downcase.to_sym
+      @prefix ||= to_s.downcase.to_sym
     end
 
     def target

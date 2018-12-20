@@ -25,7 +25,7 @@ class ReviewItem < ApplicationRecord
   after_save :populate_redis
 
   def populate_redis
-    redis.sadd "review_queues", queue.id
+    redis.sadd 'review_queues', queue.id
     if completed
       redis.srem "review_queue/#{queue.id}/unreviewed", id
     else

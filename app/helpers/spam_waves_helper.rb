@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SpamWavesHelper
   def help_or_error(field, help = nil, &block)
     if @errors.any? && @errors.messages.include?(field)
@@ -17,9 +19,17 @@ module SpamWavesHelper
 
   def default(field, wave = nil, default = nil)
     if field.to_s.include? '['
-      (wave.conditions[field.to_s.split('[')[1].tr(']', '')] rescue nil) || params[field] || default
+      (begin
+         wave.conditions[field.to_s.split('[')[1].tr(']', '')]
+       rescue
+         nil
+       end) || params[field] || default
     else
-      (wave&.send(field) rescue nil) || params[field] || default
+      (begin
+         wave&.send(field)
+       rescue
+         nil
+       end) || params[field] || default
     end
   end
 end

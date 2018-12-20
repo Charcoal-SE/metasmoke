@@ -167,7 +167,7 @@ class Post < ApplicationRecord
 
   def self.from_redis(id)
     rpost = redis.hgetall("posts/#{id}")
-    post = Post.new()
+    post = Post.new
     post.body = rpost['body']
     post.title = rpost['title']
     post.link = rpost['link']

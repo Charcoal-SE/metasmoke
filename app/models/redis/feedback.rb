@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Redis::Feedback
   attr_reader :fields, :id
 
@@ -17,7 +19,7 @@ class Redis::Feedback
   def user
     @user ||= User.new(username: user_name)
   end
-  
+
   def self.post(post_id)
     feedback_ids = redis.zrange "post/#{post_id}/feedbacks", 0, -1
     feedback_ids.map { |id| Redis::Feedback.new(id) }
