@@ -1,5 +1,5 @@
 class Redis::Post
-  attr_reader :fields
+  attr_reader :fields, :id
 
   def initialize(id, **overrides)
     @id = id
@@ -10,28 +10,26 @@ class Redis::Post
     define_method(field) { @fields[field] }
   end
 
-  def id
-    @id
-  end
-
   def created_at
     @created_at ||= @fields["created_at"].to_time
   end
 
   def stack_exchange_user
-    @stack_exchange_user ||= StackExchangeUser.new(
+    @stack_exchange_user ||= Redis::StackExchangeUser.new(
+      @fields['stack_exchange_user_id'],
       username: @fields['stack_exchange_user_username'],
-      id: @fields['stack_exchange_user_id'].to_i
     )
   end
 
   def cachebreak
-    feedbacks.map(&:id).push(comments.count).join(",")
+    Rack::MiniProfiler.step("Generating cachebreaker for Post##{id}") do
+      "#{id}:#{feedbacks.map(&:id).join(',')}:#{comments.count}"
+    end
   end
 
   def comments
     if @comments.nil?
-      @comments = Array.new(@fields['post_comments_count'].to_i) { PostComment.new }
+      @comments = Array.new(@fields['post_comments_count'].to_i) { Redis::PostComment.new(nil) }
       c = @fields['post_comments_count'].to_i
       @comments.define_singleton_method(:count) { c }
     end
@@ -57,7 +55,7 @@ class Redis::Post
   end
 
   def feedbacks
-    @feedbacks ||= Feedback.from_redis(id)
+    @feedbacks ||= Redis::Feedback.post(id)
   end
 
   def deletion_logs

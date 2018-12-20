@@ -3,28 +3,35 @@
 class ReasonsController < ApplicationController
   def show
     @reason = Reason.find(params[:id])
-    @posts = @reason.posts
-                    .select(:id, :created_at, :link, :title, :site_id, :username, :stack_exchange_user_id, 'IF(LENGTH(body)>1,1,0) as body_exists')
-                    .includes(:reasons, :feedbacks)
-                    .includes(feedbacks: [:user, :api_key])
-                    .paginate(page: params[:page], per_page: 100)
-                    .order(Arel.sql('created_at DESC'))
+
+    # Note: Body nil check as body_exists
+    @posts = Redis::Reason.find(params[:id]).intersect('posts', type: :zset)
+    # @posts = @reason.posts
+    #                 .select(:id, :created_at, :link, :title, :site_id, :username, :stack_exchange_user_id, 'IF(LENGTH(body)>1,1,0) as body_exists')
+    #                 .includes(:reasons, :feedbacks)
+    #                 .includes(feedbacks: [:user, :api_key])
+    #                 .paginate(page: params[:page], per_page: 100)
+    #                 .order(Arel.sql('created_at DESC'))
+
+    @total = @posts.cardinality
+    @counts_by_feedback = {
+      is_tp: @posts.intersect('tps').cardinality,
+      is_fp: @posts.intersect('fps').cardinality,
+      is_naa: @posts.intersect('naas').cardinality
+    }
 
     case params[:filter]
     when 'tp'
-      @posts = @posts.where(is_tp: true)
+      @posts = @posts.intersect('tps')
     when 'fp'
-      @posts = @posts.where(is_fp: true)
+      @posts = @posts.intersect('fps')
     when 'naa'
-      @posts = @posts.where(is_naa: true)
+      @posts = @posts.intersect('naas')
     end
 
-    @sites = Site.where(id: @posts.map(&:site_id)).to_a
+    @posts = @posts.paginate(params[:page], 100) { |id| Redis::Post.new(id) }
 
-    @counts_by_accuracy_group = @reason.posts.group(:is_tp, :is_fp, :is_naa).count
-    @counts_by_feedback = [:is_tp, :is_fp, :is_naa].each_with_index.map do |symbol, i|
-      [symbol, @counts_by_accuracy_group.select { |k, _v| k[i] }.values.sum]
-    end.to_h
+    @sites = Site.where(id: @posts.map(&:site_id)).to_a
   end
 
   def sites_chart

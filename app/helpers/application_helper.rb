@@ -10,6 +10,7 @@ module ApplicationHelper
 
   @current_dropdown_is_active = nil
   def nav_link(cls, options = {}, &block)
+    Rack::MiniProfiler.step("Generating nav_link: #{cls}") do
     options[:active] ||= []
     options[:attrs] ||= {}
     options[:attrs][:class] ||= []
@@ -62,6 +63,7 @@ module ApplicationHelper
     @current_dropdown_is_active ||= is_active unless @current_dropdown_is_active.nil?
 
     tag.li link + options[:children], options[:attrs].merge(class: [is_active ? 'active' : '', *options[:attrs][:class]])
+  end
   end
 
   def nav_dropdown(cls = nil, options = {}, &block)

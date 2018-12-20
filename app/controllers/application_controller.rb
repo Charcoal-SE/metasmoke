@@ -13,12 +13,14 @@ class ApplicationController < ActionController::Base
   end
 
   def check_if_smokedetector
+    Rack::MiniProfiler.step('ApplicationController: check_if_smokedetector') do
     provided_key = params[:key]
 
     @smoke_detector = SmokeDetector.find_by(access_token: provided_key)
 
     return if @smoke_detector.present? # Authorized
     render(plain: 'Go away', status: 403)
+    end
   end
 
   def not_found

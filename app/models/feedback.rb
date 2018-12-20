@@ -37,6 +37,17 @@ class Feedback < ApplicationRecord
     }
   end
 
+  def self.from_redis_self(id)
+    feedback = redis.hgetall "feedbacks/#{id}"
+    Feedback.new(
+      id: id,
+      feedback_type: feedback['feedback_type'],
+      user_name: feedback['username'],
+      api_key: APIKey.new(app_name: feedback['app_name']),
+      is_invalidated: feedback['is_invalidated']
+    )
+  end
+
   def self.from_redis(post_id)
     feedback_ids = redis.zrange "post/#{post_id}/feedbacks", 0, -1
     feedbacks = feedback_ids.map do |id|
