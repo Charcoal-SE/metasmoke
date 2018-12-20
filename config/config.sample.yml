@@ -1,4 +1,7 @@
 common: &common
+  redis:
+    host: localhost
+    timeout: 0
   token_store:
     host: https://the.best.token.store
     key: atokenforthetokenstore

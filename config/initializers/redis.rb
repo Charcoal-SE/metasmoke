@@ -3,7 +3,7 @@
 require 'redis'
 
 def redis
-  $redis ||= Redis.new(timeout: 0, port: 1234)
+  $redis ||= Redis.new(AppConfig["redis"])
 end
 
 def with_no_score(ary)
