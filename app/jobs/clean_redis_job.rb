@@ -6,9 +6,10 @@ class CleanRedisJob < ApplicationJob
   def perform
     return if redis.setnx('cleanups/lock', 'true') == 0
     @keys = []
-    Post.all.eager_load(:stack_exchange_user).eager_load(:site).eager_load(:comments).eager_load(:reasons).eager_load(:flag_logs).eager_load(:feedbacks).find_in_batches(batch_size: 10_000) do |posts|
+    api_key_cache = {} # id => APIKey
+    Post.eager_load(:stack_exchange_user).eager_load(:site).eager_load(:comments).eager_load(:reasons).eager_load(:flag_logs).eager_load(:feedbacks).find_each(batch_size: 1000) do |post|
       redis.pipelined do
-        posts.each do |post|
+        # posts.each do |post|
           redis.sadd ck('tps'), post.id if post.is_tp
           redis.sadd ck('fps'), post.id if post.is_fp
           redis.sadd ck('naas'), post.id if post.is_naa
@@ -37,7 +38,7 @@ class CleanRedisJob < ApplicationJob
             stack_exchange_user_id: post.stack_exchange_user.try(:id),
             flagged: post.flagged?,
             site_id: post.site_id,
-            post_comments_count: post.comments.count,
+            post_comments_count: post.comments.length,#post.comments.count,
             why: post.why
           }
           redis.hmset("posts/#{post.id}", *post_hash.to_a)
@@ -51,12 +52,16 @@ class CleanRedisJob < ApplicationJob
             redis.hmset "feedbacks/#{feedback.id}", *{
               feedback_type: feedback.feedback_type,
               username: feedback.user_name, # feedback.user.try(:username) || feedback.user_name,
-              app_name: feedback.api_key.try(:app_name),
+              app_name: api_key_cache[feedback.api_key_id] ||= feedback.api_key.try(:app_name),
               invalidated: feedback.is_invalidated
             }
           end
-        end
+          nil
+        # end
+        # nil
       end
+      # GC.start
+      nil
     end
 
     redis.pipelined do
@@ -66,14 +71,15 @@ class CleanRedisJob < ApplicationJob
     end
 
     [['posts', Post], ['reasons', Reason], ['feedbacks', Feedback]].each do |str, type|
+      ids = type.all.select(:id).map(&:id)
       redis.scan_each(match: "#{str}/*") do |elem|
-        redis.del elem unless type.exists?(elem.split('/')[1].to_i)
+        redis.del elem unless ids.include?(elem.split('/')[1].to_i)
       end
     end
 
     @keys.each do |key|
       redis.multi do
-        redis.rename key, "pending_deletion/#{key}"
+        redis.rename key, "pending_deletion/#{key}" if redis.exists key
         redis.rename "cleanups/#{key}", key
       end
       redis.expire "pending_deletion/#{key}", 1
@@ -87,6 +93,6 @@ class CleanRedisJob < ApplicationJob
   def ck(key)
     @keys ||= []
     @keys.push(key)
-    "cleanup/#{key}"
+    "cleanups/#{key}"
   end
 end

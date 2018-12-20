@@ -1,5 +1,5 @@
 <table class="table" id="posts-index-table">
   <tbody>
-    <%= render partial: 'posts/post', collection: posts %>
+    <%= render partial: 'posts/post', collection: posts, cached: proc { |i| i.cachebreak } %>
   </tbody>
 </table>

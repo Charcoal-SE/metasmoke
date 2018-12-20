@@ -111,7 +111,8 @@ class Post < ApplicationRecord
       redis.sadd 'answers', id if answer?
     end
     redis.sadd 'autoflagged', id if flagged?
-    redis.sadd "sites/#{post.site_id}/posts", id
+    redis.sadd 'deleted', id unless deleted_at.nil?
+    redis.sadd "sites/#{site_id}/posts", id
   end
 
   def remove_from_redis(post)
@@ -130,6 +131,7 @@ class Post < ApplicationRecord
     redis.srem 'questions', post.id
     redis.srem 'answers', post.id
     redis.srem 'autoflagged', post.id
+    redis.srem 'deleted', post.id
     redis.srem "sites/#{post.site_id}/posts", post.id
   end
 
@@ -155,6 +157,7 @@ class Post < ApplicationRecord
         redis.sadd 'autoflagged', post.id if post.flagged?
         redis.sadd "sites/#{post.site_id}/posts", post.id
         redis.sadd 'all_posts', post.id
+        redis.sadd 'deleted', post.id unless post.deleted_at.nil?
         redis.zadd 'posts', post.created_at.to_i, post.id
       end
       progressbar.increment
@@ -163,8 +166,8 @@ class Post < ApplicationRecord
   end
 
   def self.from_redis(id)
-    post = Post.new
     rpost = redis.hgetall("posts/#{id}")
+    post = Post.new()
     post.body = rpost['body']
     post.title = rpost['title']
     post.link = rpost['link']

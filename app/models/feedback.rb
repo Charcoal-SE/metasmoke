@@ -42,6 +42,7 @@ class Feedback < ApplicationRecord
     feedbacks = feedback_ids.map do |id|
       feedback = redis.hgetall "feedbacks/#{id}"
       Feedback.new(
+        id: id,
         feedback_type: feedback['feedback_type'],
         user_name: feedback['username'],
         api_key: APIKey.new(app_name: feedback['app_name']),

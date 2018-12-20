@@ -85,22 +85,47 @@ class PostsController < ApplicationController
     end
   end
 
+  def index
+    page_num = [params[:page].to_i-1,0].max
+    per_page = 100
+    page = [page_num*per_page, (page_num+1)*per_page-1]
+    k = 'posts'
+    if params[:filter] == 'undeleted'
+      k = 'undeleted_posts'
+      redis.sdiffstore 'undeleted_posts/pre', 'all_posts', 'deleted'
+      redis.zinterstore 'undeleted_posts', ['posts', 'undeleted_posts/pre']
+    end
+    start = Time.now
+    @posts = redis.zrevrange(k, *page).map do |id|
+      Redis::Post.new(id)
+    end
+    endt = Time.now
+    Rails.logger.info "Took #{endt-start} to build posts"
+    @posts.define_singleton_method(:total_pages) { redis.zcard('posts') / 100 }
+    @posts.define_singleton_method(:current_page) { page_num + 1 }
+    @sites = Site.where(id: @posts.map(&:site_id)).to_a
+  end
+
   # GET /posts
   # GET /posts.json
   def index
-    if (params[:page].nil? || params[:page].empty? || params[:page] == '1') && params[:filter] != 'undeleted'
-      ids = redis.zrange('posts', 0, 100)
-      Post.order(Arel.sql('created_at DESC')).first(100).each(&:populate_redis) if ids.length < 100
-      @posts = redis.zrange('posts', 0, 100).map do |id|
-        Post.from_redis(id)
-      end
-      @posts.define_singleton_method(:total_pages) { Post.count / 100 }
-      @posts.define_singleton_method(:current_page) { 1 }
-    else
-      @posts = Post.all.includes_for_post_row.paginate(page: params[:page], per_page: 100).order(Arel.sql('created_at DESC'))
-
-      @posts = @posts.where(deleted_at: nil) if params[:filter] == 'undeleted'
+    page_num = [params[:page].to_i-1,0].max
+    per_page = 100
+    page = [page_num*per_page, (page_num+1)*per_page-1]
+    k = 'posts'
+    if params[:filter] == 'undeleted'
+      k = 'undeleted_posts'
+      redis.sdiffstore 'undeleted_posts/pre', 'all_posts', 'deleted'
+      redis.zinterstore 'undeleted_posts', ['posts', 'undeleted_posts/pre']
     end
+    start = Time.now
+    @posts = redis.zrevrange(k, *page).map do |id|
+      Redis::Post.new(id)
+    end
+    endt = Time.now
+    Rails.logger.info "Took #{endt-start} to build posts"
+    @posts.define_singleton_method(:total_pages) { redis.zcard('posts') / 100 }
+    @posts.define_singleton_method(:current_page) { page_num + 1 }
     @sites = Site.where(id: @posts.map(&:site_id)).to_a
   end
 
