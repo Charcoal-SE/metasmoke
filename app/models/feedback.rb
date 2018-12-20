@@ -25,6 +25,32 @@ class Feedback < ApplicationRecord
 
   validates :feedback_type, inclusion: { in: VALID_TYPES }
 
+  after_save :populate_redis
+
+  def populate_redis
+    redis.zadd "post/#{post.id}/feedbacks", 0, id.to_s
+    redis.hmset "feedbacks/#{id}", *{
+      feedback_type: feedback_type,
+      username: user.try(:username) || user_name,
+      app_name: api_key.try(:app_name),
+      invalidated: is_invalidated
+    }
+  end
+
+  def self.from_redis(post_id)
+    feedback_ids = redis.zrange "post/#{post_id}/feedbacks", 0, -1
+    feedbacks = feedback_ids.map do |id|
+      feedback = redis.hgetall "feedbacks/#{id}"
+      Feedback.new(
+        feedback_type: feedback['feedback_type'],
+        user_name: feedback['username'],
+        api_key: APIKey.new(app_name: feedback['app_name']),
+        is_invalidated: feedback['is_invalidated']
+      )
+    end
+    feedbacks
+  end
+
   after_save do
     if update_post_feedback_cache # if post feedback cache was changed
       if post.flagged? && !is_positive?

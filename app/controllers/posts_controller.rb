@@ -88,10 +88,19 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all.includes_for_post_row.paginate(page: params[:page], per_page: 100).order(Arel.sql('created_at DESC'))
+    if (params[:page].nil? || params[:page].empty? || params[:page] == '1') && params[:filter] != 'undeleted'
+      ids = redis.zrange('posts', 0, 100)
+      Post.order(Arel.sql('created_at DESC')).first(100).each(&:populate_redis) if ids.length < 100
+      @posts = redis.zrange('posts', 0, 100).map do |id|
+        Post.from_redis(id)
+      end
+      @posts.define_singleton_method(:total_pages) { Post.count / 100 }
+      @posts.define_singleton_method(:current_page) { 1 }
+    else
+      @posts = Post.all.includes_for_post_row.paginate(page: params[:page], per_page: 100).order(Arel.sql('created_at DESC'))
 
-    @posts = @posts.where(deleted_at: nil) if params[:filter] == 'undeleted'
-
+      @posts = @posts.where(deleted_at: nil) if params[:filter] == 'undeleted'
+    end
     @sites = Site.where(id: @posts.map(&:site_id)).to_a
   end
 
@@ -140,6 +149,7 @@ class PostsController < ApplicationController
           # can cause race conditions and segfaults. This is bad,
           # so we completely suppress the issue and just don't do that.
           @post.autoflag unless Rails.env.test?
+          redis.hset("posts/#{@post.id}", 'flagged', @post.flagged?)
         end
 
         format.json { render status: :created, plain: 'OK' }

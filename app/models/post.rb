@@ -51,6 +51,9 @@ class Post < ApplicationRecord
     ActionCable.server.broadcast 'topbar', review: ReviewItem.active.count
   end
 
+  after_save :populate_redis
+  after_destroy :remove_from_redis, prepend: true
+
   def reject_recent_duplicates
     # If a different SmokeDetector has reported the same post in the last 5 minutes, reject it
 
@@ -64,6 +67,131 @@ class Post < ApplicationRecord
     return if conflict.blank?
 
     errors.add(:base, "Reported in the last 5 minutes by a different instance: #{conflict.id}")
+  end
+
+  def populate_redis
+    post = {
+      body: body,
+      title: title,
+      reason_weight: reasons.map(&:weight).reduce(:+),
+      created_at: created_at,
+      username: username,
+      link: link,
+      site_site_logo: site.try(:site_logo),
+      stack_exchange_user_username: stack_exchange_user.try(:username),
+      stack_exchange_user_id: stack_exchange_user.try(:id),
+      flagged: flagged?,
+      site_id: site_id,
+      post_comments_count: comments.count,
+      why: why
+    }
+    redis.hmset("posts/#{id}", *post.to_a)
+
+    reason_names = reasons.map(&:reason_name)
+    reason_weights = reasons.map(&:weight)
+    redis.zadd("posts/#{id}/reasons", reason_weights.zip(reason_names)) unless reasons.empty?
+
+    feedbacks.each(&:populate_redis)
+    deletion_logs.each(&:update_deletion_data)
+
+    reasons.each do |reason|
+      redis.sadd "reasons/#{reason.id}", id
+    end
+
+    redis.sadd 'all_posts', id
+    redis.zadd 'posts', created_at.to_i, id
+
+    redis.sadd 'tps', id if is_tp
+    redis.sadd 'fps', id if is_fp
+    redis.sadd 'naas', id if is_naa
+    if link.nil?
+      redis.sadd 'nolink', id
+    else
+      redis.sadd 'questions', id if question?
+      redis.sadd 'answers', id if answer?
+    end
+    redis.sadd 'autoflagged', id if flagged?
+    redis.sadd "sites/#{post.site_id}/posts", id
+  end
+
+  def remove_from_redis(post)
+    redis.del "posts/#{post.id}"
+    redis.del "posts/#{post.id}/reasons"
+    # Test this one:
+    post.reasons.each do |reason|
+      redis.srem "reasons/#{reason.id}", post.id
+    end
+    redis.srem 'all_posts', post.id
+    redis.zrem 'posts', post.id
+    redis.srem 'tps', post.id
+    redis.srem 'fps', post.id
+    redis.srem 'naas', post.id
+    redis.srem 'nolink', post.id
+    redis.srem 'questions', post.id
+    redis.srem 'answers', post.id
+    redis.srem 'autoflagged', post.id
+    redis.srem "sites/#{post.site_id}/posts", post.id
+  end
+
+  def self.populate_redis_meta
+    progressbar = ProgressBar.create total: Post.count
+    ilevel = ActiveRecord::Base.logger.level
+    ActiveRecord::Base.logger.level = 1
+    Post.all.eager_load(:reasons).eager_load(:flag_logs).find_each(batch_size: 50_000) do |post|
+      # tps, fps, naas, reasons/id, questions, answers, autoflagged
+      redis.pipelined do
+        redis.sadd 'tps', post.id if post.is_tp
+        redis.sadd 'fps', post.id if post.is_fp
+        redis.sadd 'naas', post.id if post.is_naa
+        post.reasons.each do |reason|
+          redis.sadd "reasons/#{reason.id}", post.id
+        end
+        if post.link.nil?
+          redis.sadd 'nolink', post.id
+        else
+          redis.sadd 'questions', post.id if post.question?
+          redis.sadd 'answers', post.id if post.answer?
+        end
+        redis.sadd 'autoflagged', post.id if post.flagged?
+        redis.sadd "sites/#{post.site_id}/posts", post.id
+        redis.sadd 'all_posts', post.id
+        redis.zadd 'posts', post.created_at.to_i, post.id
+      end
+      progressbar.increment
+    end
+    ActiveRecord::Base.logger.level = ilevel
+  end
+
+  def self.from_redis(id)
+    post = Post.new
+    rpost = redis.hgetall("posts/#{id}")
+    post.body = rpost['body']
+    post.title = rpost['title']
+    post.link = rpost['link']
+    post.created_at = rpost['created_at']
+    post.username = rpost['username']
+    post.why = rpost['why']
+    unless rpost['stack_exchange_user_id'].empty? && rpost['stack_exchange_user_username'].empty?
+      post.stack_exchange_user = StackExchangeUser.new(
+        username: rpost['stack_exchange_user_username'],
+        id: rpost['stack_exchange_user_id']
+      )
+    end
+    post.comments = Array.new(rpost['post_comments_count'].to_i) { PostComment.new }
+    post.comments.define_singleton_method(:count) { rpost['post_comments_count'].to_i }
+    post.site = Site.new(site_logo: rpost['site_site_logo'], id: rpost['site_id'])
+    # Could do without this line.
+    post.define_singleton_method(:flagged?) { rpost['flagged'] == 'true' ? true : false }
+    reason_names = redis.zrange "posts/#{id}/reasons", 0, -1, with_scores: true
+    post.reasons = reason_names.map do |rn, weight|
+      Reason.new(reason_name: rn, weight: weight)
+    end
+    post.feedbacks = Feedback.from_redis(id)
+    post.deletion_logs = DeletionLog.from_redis(id)
+    post.deleted_at = post.deletion_logs.first.created_at unless post.deletion_logs.empty?
+    # If we set the ID earlier, stuff explodes becaus AR thinks the record is real
+    post.id = id
+    post
   end
 
   def update_feedback_cache
