@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SpamWavesController < ApplicationController
   before_action :verify_admin
   before_action :set_wave, except: [:index, :new, :create, :preview]
@@ -31,7 +33,7 @@ class SpamWavesController < ApplicationController
                          conditions: params[:conditions], sites: sites, created_at: DateTime.now)
     posts = @wave.posts
     @posts = Post.where(id: posts.map(&:id)).includes_for_post_row.order(created_at: :desc)
-    @accuracy = posts.size > 0 ? (posts.select(&:is_tp).size.to_f / posts.size.to_f) * 100 : 0.0
+    @accuracy = !posts.empty? ? (posts.select(&:is_tp).size.to_f / posts.size.to_f) * 100 : 0.0
     render :preview, format: :js
   end
 

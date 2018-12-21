@@ -25,6 +25,34 @@ class Feedback < ApplicationRecord
 
   validates :feedback_type, inclusion: { in: VALID_TYPES }
 
+  after_save :populate_redis
+
+  def populate_redis
+    redis.sadd "post/#{post.id}/feedbacks", id.to_s
+    redis.hmset "feedbacks/#{id}", *{
+      feedback_type: feedback_type,
+      username: user.try(:username) || user_name,
+      app_name: api_key.try(:app_name),
+      invalidated: is_invalidated
+    }
+  end
+
+  def self.populate_redis_meta
+    eager_load(:post).eager_load(:user).eager_load(:api_key).find_each(batch_size: 10000) do |fb|
+      redis.pipelined do
+        next if fb.post.nil?
+        redis.del "post/#{fb.post.id}/feedbacks"
+        redis.sadd "post/#{fb.post.id}/feedbacks", fb.id.to_s
+        redis.hmset "feedbacks/#{fb.id}", *{
+          feedback_type: fb.feedback_type,
+          username: fb.user.try(:username) || fb.user_name,
+          app_name: fb.api_key.try(:app_name),
+          invalidated: fb.is_invalidated
+        }
+      end
+    end
+  end
+
   after_save do
     if update_post_feedback_cache # if post feedback cache was changed
       if post.flagged? && !is_positive?

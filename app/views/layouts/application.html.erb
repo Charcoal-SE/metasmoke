@@ -8,25 +8,28 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= favicon_link_tag       '/favicon.ico' %>
-  <link rel="search" type="application/opensearchdescription+xml" title="metasmoke"
-        href="https://metasmoke.erwaysoftware.com/opensearch.xml">
+<% Rack::MiniProfiler.step('Rendering: layouts/application/head') do %>
+  <% cache "application/head_tags" do %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= favicon_link_tag       '/favicon.ico' %>
+    <link rel="search" type="application/opensearchdescription+xml" title="metasmoke"
+          href="https://metasmoke.erwaysoftware.com/opensearch.xml">
 
-  <%= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" %>
-  <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css" %>
-  <%= stylesheet_link_tag "https://charcoal-se.org/assets/css/branding.css" %>
-  <%= stylesheet_link_tag "https://use.fontawesome.com/releases/v5.2.0/css/all.css", integrity: "sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ", crossorigin: "anonymous" %>
+    <%= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" %>
+    <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css" %>
+    <%= stylesheet_link_tag "https://charcoal-se.org/assets/css/branding.css" %>
+    <%= stylesheet_link_tag "https://use.fontawesome.com/releases/v5.2.0/css/all.css", integrity: "sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ", crossorigin: "anonymous" %>
 
-  <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" %>
-  <%= javascript_include_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" %>
-  <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js" %>
+    <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" %>
+    <%= javascript_include_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" %>
+    <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js" %>
+    <%= javascript_include_tag "//code.highcharts.com/highcharts.js", "chartkick" %>
+  <% end %>
   <%= javascript_pack_tag 'vendor', 'data-turbolinks-track': 'reload' %>
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_include_tag "//code.highcharts.com/highcharts.js", "chartkick" %>
-
   <%= csrf_meta_tags %>
   <%= action_cable_meta_tag %>
+  <% end %>
 </head>
   <body class="<%= controller.class.name.sub(/Controller$/, '').underscore.dasherize %>">
 
@@ -44,6 +47,7 @@
           <a class="navbar-brand" href="/">metasmoke</a>
         </div>
 
+        <% Rack::MiniProfiler.step('Rendering: layouts/application/nav') do %>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
@@ -51,13 +55,14 @@
             <li class='<%= (controller.class == DashboardController && controller.action_name == :index) ? "active" : "" %>'><%= link_to "reasons", reasons_path %></li>
             <%= nav_link GraphsController %>
             <%= nav_link SearchController %>
+            <% Rack::MiniProfiler.step('Rendering: layouts/application/nav/review') do %>
             <% if user_signed_in? && current_user.has_role?("reviewer") %>
-              <% q_counts = ReviewQueue.joins(:items).where(review_items: { completed: false }).group(Arel.sql('review_queues.id')).count %>
-              <% total_count = q_counts.map { |_k, v| v }.sum %>
+              <% q_counts = redis.smembers("review_queues").map { |i| [i.to_i, redis.scard("review_queue/#{i}/unreviewed")] } %>
+              <% total_count = q_counts.sum { |_k, v| v } %>
               <% label = raw("review <span class='reviews-count badge'>#{total_count != 0 && current_user&.has_role?(:reviewer) ? total_count : nil}</span>") %>
+              <% Rack::MiniProfiler.step('Rendering: layouts/application/nav/review/dropdown') do %>
               <%= nav_dropdown ReviewQueuesController, label: label do %>
-                <% ReviewQueue.all.each do |rq| %>
-                  <% next unless current_user.has_role?(rq.privileges) %>
+                <% ReviewQueue.where(privileges: current_user.roles.map(&:name)).each do |rq| %>
                   <li>
                     <%= link_to review_queue_path(rq.name) do %>
                       <%= rq.name.titleize %> <span class="badge"><%= q_counts[rq.id] %></span>
@@ -65,6 +70,8 @@
                   </li>
                 <% end %>
               <% end %>
+              <% end %>
+            <% end %>
             <% end %>
             <%= nav_link FlagSettingsController, action: :dashboard, label: 'flagging', active: [FlagConditionsController, FlagLogController] %>
             <% if user_signed_in? %>
@@ -156,10 +163,11 @@
             <% end %>
           </ul>
         </div><!-- /.navbar-collapse -->
+      <% end %>
       </div><!-- /.container-fluid -->
     </nav>
     <div class="col-md-offset-1 col-md-10">
-
+      <% Rack::MiniProfiler.step('Rendering: layouts/application/announcements') do %>
       <div class="alert alert-warning" id="metasmoke-deployed-banner" style="display: none" role="alert">
         This page has been updated. <a href="" data-turbolinks="false">Refresh</a> to get the latest version.
       </div>
@@ -178,7 +186,7 @@
           <% end %>
         </div><br/>
       <% end %>
-
+      <% end %>
       <%= yield %>
       <div class="footer">
         <p class="text-muted">

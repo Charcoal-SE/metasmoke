@@ -10,58 +10,60 @@ module ApplicationHelper
 
   @current_dropdown_is_active = nil
   def nav_link(cls, options = {}, &block)
-    options[:active] ||= []
-    options[:attrs] ||= {}
-    options[:attrs][:class] ||= []
-    options[:action] ||= :index
-    cls ||= options[:controller]
+    Rack::MiniProfiler.step("Generating nav_link: #{cls}") do
+      options[:active] ||= []
+      options[:attrs] ||= {}
+      options[:attrs][:class] ||= []
+      options[:action] ||= :index
+      cls ||= options[:controller]
 
-    if cls
-      controller_name = cls.name.underscore.sub(/_controller$/, '')
-      if options[:label].nil?
-        options[:label] = if options[:action] == :index
-                            controller_name
-                          else
-                            options[:action]
-                          end
+      if cls
+        controller_name = cls.name.underscore.sub(/_controller$/, '')
+        if options[:label].nil?
+          options[:label] = if options[:action] == :index
+                              controller_name
+                            else
+                              options[:action]
+                            end
+        end
+        allowed_keys = %w[action anchor only_path].map(&:to_sym)
+        url = url_for({
+          # needs to be /#{controller_name} because otherwise, when you’re in a
+          # scoped controller (e.g. devise/*), it looks for `devise/#{controller_name}`
+          controller: "/#{controller_name}"
+        }.merge(options.select { |key| allowed_keys.include? key })
+         .merge(options[:params] || {}))
+      elsif options[:path].present?
+        url = options[:path]
+      else
+        url = '#'
       end
-      allowed_keys = %w[action anchor only_path].map(&:to_sym)
-      url = url_for({
-        # needs to be /#{controller_name} because otherwise, when you’re in a
-        # scoped controller (e.g. devise/*), it looks for `devise/#{controller_name}`
-        controller: "/#{controller_name}"
-      }.merge(options.select { |key| allowed_keys.include? key })
-       .merge(options[:params] || {}))
-    elsif options[:path].present?
-      url = options[:path]
-    else
-      url = '#'
+
+      options[:label] = options[:label].to_s
+      options[:label] = options[:label].sub 'Smoke Detector', 'SmokeDetector' unless @current_dropdown_is_active.nil?
+
+      link = if block_given?
+               link_to(url, options[:link_attrs]) { h(options[:label]) + ' ' + capture(&block) }
+             else
+               link_to options[:label], url, options[:link_attrs]
+             end
+
+      if [true, false].include? options[:active]
+        is_active = options[:active]
+      else
+        actives = options[:active]
+                  .clone
+                  .unshift([cls, options[:action]])
+                  .reject { |item| item.nil? || (item.is_a?(Array) && item[0].nil?) }
+                  .map { |item| item.is_a?(Array) ? item : [item, nil] }
+
+        is_active = !actives.select { |args| current_action?(*args) }.empty?
+      end
+
+      @current_dropdown_is_active ||= is_active unless @current_dropdown_is_active.nil?
+
+      tag.li link + options[:children], options[:attrs].merge(class: [is_active ? 'active' : '', *options[:attrs][:class]])
     end
-
-    options[:label] = options[:label].to_s
-    options[:label] = options[:label].sub 'Smoke Detector', 'SmokeDetector' unless @current_dropdown_is_active.nil?
-
-    link = if block_given?
-             link_to(url, options[:link_attrs]) { h(options[:label]) + ' ' + capture(&block) }
-           else
-             link_to options[:label], url, options[:link_attrs]
-           end
-
-    if [true, false].include? options[:active]
-      is_active = options[:active]
-    else
-      actives = options[:active]
-                .clone
-                .unshift([cls, options[:action]])
-                .reject { |item| item.nil? || (item.is_a?(Array) && item[0].nil?) }
-                .map { |item| item.is_a?(Array) ? item : [item, nil] }
-
-      is_active = !actives.select { |args| current_action?(*args) }.empty?
-    end
-
-    @current_dropdown_is_active ||= is_active unless @current_dropdown_is_active.nil?
-
-    tag.li link + options[:children], options[:attrs].merge(class: [is_active ? 'active' : '', *options[:attrs][:class]])
   end
 
   def nav_dropdown(cls = nil, options = {}, &block)

@@ -15,19 +15,32 @@ class DashboardController < ApplicationController
       return
     end
 
-    @inactive_reasons, @active_reasons = Rails.cache.fetch 'reasons_index', expires_in: 6.hours do
-      [true, false].map do |inactive|
-        results = Reason.all.joins(:posts)
-                        .where(reasons: { inactive: inactive })
-                        .group(Arel.sql('reasons.id'))
-                        .select(Arel.sql('reasons.*, COUNT(DISTINCT posts.id) AS post_count, COUNT(DISTINCT IF(posts.is_tp AND NOT posts.is_fp AND '\
-                                         'NOT posts.is_naa, posts.id, NULL)) AS tp_count, COUNT(DISTINCT IF(posts.is_fp AND NOT posts.is_tp AND '\
-                                         'NOT posts.is_naa, posts.id, NULL)) AS fp_count, COUNT(DISTINCT IF(posts.is_naa OR (posts.is_tp AND '\
-                                         'posts.is_fp), posts.id, NULL)) AS naa_count'))
-                        .order(Arel.sql('post_count DESC'))
-        { results: results, counts: results.map { |r| [r.id, { total: r.post_count, tp: r.tp_count, fp: r.fp_count, naa: r.naa_count }] }.to_h }
-      end
+    Rack::MiniProfiler.step('Redis queries') do
+      @inactive_reasons, @active_reasons = # Rails.cache.fetch 'reasons_index', expires_in: 6.hours do
+        [true, false].map do |inactive|
+          results = Reason.where(inactive: inactive).to_a.map do |reason|
+            reason.define_singleton_method(:post_count) { redis.scard "reasons/#{reason.id}" }
+            reason
+          end.sort_by(&:post_count).reverse
+          counts = results.map do |reason|
+            per_feedback_counts = %i[tp fp naa].map do |fb|
+              redis.sinterstore "reasons/#{reason.id}/#{fb}s", "reasons/#{reason.id}", "#{fb}s"
+              if fb == :tp
+                redis.sdiffstore "reasons/#{reason.id}/tps", "reasons/#{reason.id}/tps", "reasons/#{reason.id}/fps", "reasons/#{reason.id}/naas"
+              end
+              if fb == :fp
+                redis.sdiffstore "reasons/#{reason.id}/fps", "reasons/#{reason.id}/fps", "reasons/#{reason.id}/tps", "reasons/#{reason.id}/naas"
+              end
+              [fb, redis.scard("reasons/#{reason.id}/#{fb}s")]
+            end.to_h
+
+            [reason.id, { total: redis.scard("reasons/#{reason.id}") }.merge(per_feedback_counts)]
+          end.to_h
+
+          { counts: counts, results: results }
+        end
     end
+
     @reasons = Reason.all
     @posts = Post.all
   end

@@ -13,12 +13,14 @@ class ApplicationController < ActionController::Base
   end
 
   def check_if_smokedetector
-    provided_key = params[:key]
+    Rack::MiniProfiler.step('ApplicationController: check_if_smokedetector') do
+      provided_key = params[:key]
 
-    @smoke_detector = SmokeDetector.find_by(access_token: provided_key)
+      @smoke_detector = SmokeDetector.find_by(access_token: provided_key)
 
-    return if @smoke_detector.present? # Authorized
-    render(plain: 'Go away', status: 403)
+      return if @smoke_detector.present? # Authorized
+      render(plain: 'Go away', status: 403)
+    end
   end
 
   def not_found
@@ -63,7 +65,7 @@ class ApplicationController < ActionController::Base
   private
 
   def check_auth_required
-    return unless SiteSetting['require_auth_all_pages']
+    return unless redis.get('require_auth_all_pages') == '1' # SiteSetting['require_auth_all_pages']
     return if user_signed_in? || devise_controller? || (controller_name == 'users' && action_name == 'missing_privileges')
     flash[:warning] = 'You need to have an account to view metasmoke pages.'
     authenticate_user!
@@ -72,7 +74,7 @@ class ApplicationController < ActionController::Base
   def deduplicate_ajax_requests
     return unless request.headers['X-AJAX-Deduplicate'].present?
 
-    redis = Redis.new(url: AppConfig["redis"]["url"])
+    redis = Redis.new(url: AppConfig['redis']['url'])
     request_uniq = request.headers['X-AJAX-Deduplicate']
     if redis.get("request-dedup/#{request_uniq}").present?
       render status: :conflict, plain: "409 Conflict\nRequest conflicts with a previous AJAX request"
