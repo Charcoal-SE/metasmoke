@@ -21,7 +21,7 @@ class Redis::Feedback
   end
 
   def self.post(post_id)
-    feedback_ids = redis.smembers "post/#{post_id}/feedbacks"
+    feedback_ids = redis.zrange "post/#{post_id}/feedbacks", 0, -1
     feedback_ids.map { |id| Redis::Feedback.new(id) }
   end
 

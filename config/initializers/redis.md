@@ -15,6 +15,7 @@ HASH posts/<id> (Post)
         post_comments_count: comments.count,
         why: why
 
+SET (currently ZSET) posts/<id>/feedbacks (Post.find(<id>).feedbacks.map(&:id))
 ZSET posts/<id>/reasons (Post.reasons reason_name, score: weight)
 -- These need AR callbacks
 SET reasons (Reason.all.map(&:id))

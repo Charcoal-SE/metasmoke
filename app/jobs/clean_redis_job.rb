@@ -100,7 +100,7 @@ class CleanRedisJob < ApplicationJob
     end
 
     Rails.logger.info @keys
-    @keys.each do |key|
+    @keys.uniq.each do |key|
       Rails.logger.warn "WARNING: Could not copy key #{key}. cleanups/#{key} exists? #{redis.exists "cleanups/#{key}"} | #{key} exists? #{redis.exists key}" unless redis.exists "cleanups/#{key}"
       redis.rename "cleanups/#{key}", key unless redis.exists "cleanups/#{key}"
     end
@@ -111,7 +111,7 @@ class CleanRedisJob < ApplicationJob
 
   def ck(key)
     @keys ||= []
-    @keys.push(key)
+    @keys.push(key) unless @keys.include? key
     "cleanups/#{key}"
   end
 end

@@ -13,7 +13,7 @@ class Redis::Post
   end
 
   def created_at
-    @created_at ||= @fields['created_at'].to_time
+    @created_at ||= @fields['created_at']#.to_time
   end
 
   def stack_exchange_user
@@ -38,7 +38,11 @@ class Redis::Post
   end
 
   def site
-    @site ||= Site.new(site_logo: @fields['site_site_logo'], id: @fields['site_id'])
+    @site ||= if !@fields['site_site_logo'].nil? && !@fields['site_site_url'].nil?
+      Site.new(site_logo: @fields['site_site_logo'], id: @fields['site_id'])
+    else
+      nil
+    end
   end
 
   def flagged?

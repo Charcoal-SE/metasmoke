@@ -1,17 +1,19 @@
 # frozen_string_literal: true
 
 class Redis::Base::Collection
+  attr_reader :key, :intersects
+
   def initialize(key, type: :set, intersects: [])
     @type = type
-    @key = key
-    @intersects = instersects
+    @key = key.to_s
+    @intersects = intersects
   end
 
   def intersect(nkey, type: @type)
     nkey = nkey.to_key if nkey.respond_to? :to_key
     type = type.to_sym
     throw "Invalid type #{type}" unless %i[set zset].include? type
-    Redis::Base::Collection.new(@key, type: type, intersects: @intersects.push(nkey))
+    Redis::Base::Collection.new(@key, type: type, intersects: @intersects.dup.push(nkey))
     # counter = redis.incr 'collection/counter'
     # fkey = "collections/#{counter}"
     # if type == :set
@@ -32,17 +34,18 @@ class Redis::Base::Collection
 
   def cardinality
     # Eval to tmpkey and then zcard
-    redis.multi do
+    redis.multi do |multi|
       key = "tmp/collection/#{Time.now.to_i}"
-      redis.zinterstore key, @key, @intersects
       case @type
       when :zset
-        redis.zcard key
+        multi.zinterstore key, [@key, @intersects].flatten
+        multi.zcard key
       when :set
-        redis.scard key
+        multi.sinterstore key, [@key, @intersects].flatten
+        multi.scard key
       end
-      redis.del key
-    end
+      multi.del key
+    end[1] # This is black magic to me. I'm really unsure what it is.
   end
 
   def evaluate(bounds = nil, order: nil)
@@ -55,14 +58,14 @@ class Redis::Base::Collection
       bounds ||= [0, -1]
       redis.multi do
         key = "tmp/collection/#{Time.now.to_i}"
-        redis.zinterstore key, @key, @intersects
+        redis.zinterstore key, [@key, @intersects].flatten
         if order.to_s.casecmp('ASC') == 0
           redis.zrange key, *bounds
         else
           redis.zrevrange key, *bounds
         end
         redis.del key
-      end
+      end[1]
     end
   end
 
