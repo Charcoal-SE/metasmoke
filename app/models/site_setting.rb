@@ -9,7 +9,9 @@ class SiteSetting < ApplicationRecord
     redis.set "site_setting/#{name}", value
   end
 
-  after_destroy do |ss|
+  after_destroy :remove_from_redis
+
+  def remote_from_redis(ss)
     redis.del "site_setting/#{ss.name}"
   end
 

@@ -28,7 +28,7 @@ class Feedback < ApplicationRecord
   after_save :populate_redis
 
   def populate_redis
-    redis.zadd "post/#{post.id}/feedbacks", 0, id.to_s
+    redis.sadd "post/#{post.id}/feedbacks", id.to_s
     redis.hmset "feedbacks/#{id}", *{
       feedback_type: feedback_type,
       username: user.try(:username) || user_name,
@@ -37,30 +37,20 @@ class Feedback < ApplicationRecord
     }
   end
 
-  def self.from_redis_self(id)
-    feedback = redis.hgetall "feedbacks/#{id}"
-    Feedback.new(
-      id: id,
-      feedback_type: feedback['feedback_type'],
-      user_name: feedback['username'],
-      api_key: APIKey.new(app_name: feedback['app_name']),
-      is_invalidated: feedback['is_invalidated']
-    )
-  end
-
-  def self.from_redis(post_id)
-    feedback_ids = redis.zrange "post/#{post_id}/feedbacks", 0, -1
-    feedbacks = feedback_ids.map do |id|
-      feedback = redis.hgetall "feedbacks/#{id}"
-      Feedback.new(
-        id: id,
-        feedback_type: feedback['feedback_type'],
-        user_name: feedback['username'],
-        api_key: APIKey.new(app_name: feedback['app_name']),
-        is_invalidated: feedback['is_invalidated']
-      )
+  def self.populate_redis_meta
+    eager_load(:post).eager_load(:user).eager_load(:api_key).find_each(batch_size: 10000) do |fb|
+      redis.pipelined do
+        next if fb.post.nil?
+        redis.del "post/#{fb.post.id}/feedbacks"
+        redis.sadd "post/#{fb.post.id}/feedbacks", fb.id.to_s
+        redis.hmset "feedbacks/#{fb.id}", *{
+          feedback_type: fb.feedback_type,
+          username: fb.user.try(:username) || fb.user_name,
+          app_name: fb.api_key.try(:app_name),
+          invalidated: fb.is_invalidated
+        }
+      end
     end
-    feedbacks
   end
 
   after_save do

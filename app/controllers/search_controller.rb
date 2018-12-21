@@ -249,7 +249,7 @@ class SearchController < ApplicationController
 
     count = @nresults.length
 
-    @results = @nresults.drop(npage.min).take(npage.max).map { |i| Post.from_redis(i) }
+    @results = @nresults.drop(npage.min).take(npage.max).map { |i| Redis::Post.new(i) }
     @results.define_singleton_method(:total_pages) { (count / per_page) + 1 }
     @results.define_singleton_method(:current_page) { page }
 

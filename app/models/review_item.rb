@@ -23,6 +23,7 @@ class ReviewItem < ApplicationRecord
   scope(:completed, -> { where(completed: true) })
 
   after_save :populate_redis
+  after_destroy :remove_from_redis
 
   def populate_redis
     redis.sadd 'review_queues', queue.id
@@ -31,6 +32,10 @@ class ReviewItem < ApplicationRecord
     else
       redis.sadd "review_queue/#{queue.id}/unreviewed", id
     end
+  end
+
+  def remove_from_redis(ri)
+    redis.srem "review_queue/#{ri.queue.id}/unreviewed", ri.id
   end
 
   def self.populate_redis_meta

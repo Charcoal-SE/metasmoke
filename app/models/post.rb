@@ -119,7 +119,7 @@ class Post < ApplicationRecord
     redis.del "posts/#{post.id}"
     redis.del "posts/#{post.id}/reasons"
     # Test this one:
-    post.reasons.each do |reason|
+    Reason.find_each do |reason|
       redis.srem "reasons/#{reason.id}", post.id
     end
     redis.srem 'all_posts', post.id
@@ -163,38 +163,6 @@ class Post < ApplicationRecord
       progressbar.increment
     end
     ActiveRecord::Base.logger.level = ilevel
-  end
-
-  def self.from_redis(id)
-    rpost = redis.hgetall("posts/#{id}")
-    post = Post.new
-    post.body = rpost['body']
-    post.title = rpost['title']
-    post.link = rpost['link']
-    post.created_at = rpost['created_at']
-    post.username = rpost['username']
-    post.why = rpost['why']
-    unless rpost['stack_exchange_user_id'].empty? && rpost['stack_exchange_user_username'].empty?
-      post.stack_exchange_user = StackExchangeUser.new(
-        username: rpost['stack_exchange_user_username'],
-        id: rpost['stack_exchange_user_id']
-      )
-    end
-    post.comments = Array.new(rpost['post_comments_count'].to_i) { PostComment.new }
-    post.comments.define_singleton_method(:count) { rpost['post_comments_count'].to_i }
-    post.site = Site.new(site_logo: rpost['site_site_logo'], id: rpost['site_id'])
-    # Could do without this line.
-    post.define_singleton_method(:flagged?) { rpost['flagged'] == 'true' ? true : false }
-    reason_names = redis.zrange "posts/#{id}/reasons", 0, -1, with_scores: true
-    post.reasons = reason_names.map do |rn, weight|
-      Reason.new(reason_name: rn, weight: weight)
-    end
-    post.feedbacks = Feedback.from_redis(id)
-    post.deletion_logs = DeletionLog.from_redis(id)
-    post.deleted_at = post.deletion_logs.first.created_at unless post.deletion_logs.empty?
-    # If we set the ID earlier, stuff explodes becaus AR thinks the record is real
-    post.id = id
-    post
   end
 
   def update_feedback_cache

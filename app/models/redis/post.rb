@@ -32,8 +32,7 @@ class Redis::Post
   def comments
     if @comments.nil?
       @comments = Array.new(@fields['post_comments_count'].to_i) { Redis::PostComment.new(nil) }
-      c = @fields['post_comments_count'].to_i
-      @comments.define_singleton_method(:count) { c }
+      @comments.define_singleton_method(:count) { length }
     end
     @comments
   end
@@ -65,6 +64,6 @@ class Redis::Post
   end
 
   def deleted_at
-    @deleted_at ||= deletion_logs.first.created_at unless deletion_logs.empty?
+    @deleted_at ||= deletion_logs.empty? ? nil : deletion_logs.first.created_at
   end
 end
