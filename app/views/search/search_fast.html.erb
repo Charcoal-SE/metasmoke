@@ -1,5 +1,7 @@
 <% title "Search" %>
 
+<div class="alert alert-warning"><b>Note:</b> There are currently some important features missing from search. The graphs tab is fully untested, user reputation is ignored, and non-regex search is ALWAYS case sensitive, even if the box is not checked. If you see any issues, please <a href="https://github.com/Charcoal-SE/metasmoke/issues">open an issue on GitHub</a> or ping @thesecretmaster in <a href="https://chat.stackexchange.com/rooms/11540/charcoal-hq">Charcoal HQ</a>.</div>
+
 <%= form_tag (params[:option] == 'graphs' ? search_fast_path(anchor: "graphs") : search_fast_path), method: "get" do |f| %>
   <div class="form-group">
     <%= label_tag :title %>

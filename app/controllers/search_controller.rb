@@ -161,13 +161,13 @@ class SearchController < ApplicationController
     @logs.push("PER_PAGE: #{per_page}")
     @logs.push("NPAGE: #{npage}")
 
-    intersect = %w[]
-    subtract = %w[]
+    intersect = []
+    subtract = []
 
     intersect.push "reasons/#{params[:reason].to_i}" if params[:reason].present?
 
     if feedback.present?
-      intersect.push "#{feedback.to_s[3..-1]}s"
+      intersect.push "#{feedback.to_s.split('_').last}s"
     elsif params[:feedback] == 'conflicted'
       intersect.push 'tps'
       intersect.push 'fps'
@@ -191,6 +191,8 @@ class SearchController < ApplicationController
 
     intersect.push("sites/#{params[:site].to_i}/posts") if params[:site].present?
 
+    Rails.logger.info "Generated intersects. Applying..."
+
     search_id = redis.incr 'search_counter'
     if intersect.empty?
       dkey = 'all_posts'
@@ -198,17 +200,25 @@ class SearchController < ApplicationController
       dkey = "user_searches/#{search_id}/intersect"
       redis.sinterstore dkey, 'all_posts', *intersect
     end
+
+    Rails.logger.info "Applied intersects. Cardinality: #{redis.scard dkey}"
+
     if subtract.empty?
       skey = dkey
     else
       skey = "user_searches/#{search_id}/subtract"
       redis.sdiffstore(skey, dkey, *subtract)
-      redis.expire dkey, redis_expiry_time unless dkey == 'all_posts'
+      redis.del dkey unless dkey == 'all_posts'
     end
+
+    Rails.logger.info "Applied subtractions. Cardinality: #{redis.scard skey}"
+
     fkey = "user_searches/#{search_id}/simple_result"
     # This converts it to a ZSET, before this we were working with a SET
     redis.zinterstore(fkey, ['posts', skey], aggregate: 'max')
-    redis.expire skey, redis_expiry_time unless skey == 'all_posts'
+
+    Rails.logger.info "Converted to zset. Cardinality: #{redis.zcard fkey}"
+    redis.del skey unless skey == 'all_posts'
 
     # Make 3 tmpsets then intersect them
     to_expire = []
@@ -230,16 +240,18 @@ class SearchController < ApplicationController
         redis.zhregex fkey, tkey, 'posts/', type.to_s, constraint[1..-2], 'LIKE'
       end
     end
-    redis.expire fkey, redis_expiry_time
 
     final_key = "user_searches/#{search_id}/final"
     @nresults = if to_expire.empty?
-                  []
+                  redis.zunionstore final_key, [fkey]
+                  redis.zrevrange(fkey, 0, -1)
                 else
-                  redis.zunionstore final_key, cols
+                  redis.zunionstore final_key, to_expire
                   redis.zrevrange(final_key, 0, -1)
     end
-    to_expire.each { |k| redis.expire k, redis_expiry_time }
+    to_expire.each { |k| redis.del k }
+
+    redis.del fkey
 
     @logs.push "Result count: #{@nresults.length}"
 
@@ -265,7 +277,7 @@ class SearchController < ApplicationController
 
         @counts_by_feedback = result_keys.map { |n, k| [:"is_#{n}", redis.zcard(k)] }.to_h
 
-        to_expire.each { |k| redis.expire(k, redis_expiry_time) }
+        to_expire.each { |k| redis.del k }
 
         @result_count = redis.zcard final_key
 
