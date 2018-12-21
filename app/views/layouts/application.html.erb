@@ -65,7 +65,7 @@
                 <% ReviewQueue.where(privileges: current_user.roles.map(&:name)).each do |rq| %>
                   <li>
                     <%= link_to review_queue_path(rq.name) do %>
-                      <%= rq.name.titleize %> <span class="badge"><%= q_counts[rq.id] %></span>
+                      <%= rq.name.titleize %> <span class="badge"><%= q_counts[rq.id] unless q_counts[rq.id] == 0 %></span>
                     <% end %>
                   </li>
                 <% end %>
