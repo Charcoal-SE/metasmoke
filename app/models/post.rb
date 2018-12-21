@@ -52,7 +52,7 @@ class Post < ApplicationRecord
   end
 
   after_save :populate_redis
-  after_destroy :remove_from_redis, prepend: true
+  after_destroy :remove_from_redis
 
   def reject_recent_duplicates
     # If a different SmokeDetector has reported the same post in the last 5 minutes, reject it
@@ -115,24 +115,24 @@ class Post < ApplicationRecord
     redis.sadd "sites/#{site_id}/posts", id
   end
 
-  def remove_from_redis(post)
-    redis.del "posts/#{post.id}"
-    redis.del "posts/#{post.id}/reasons"
+  def remove_from_redis
+    redis.del "posts/#{id}"
+    redis.del "posts/#{id}/reasons"
     # Test this one:
     Reason.find_each do |reason|
-      redis.srem "reasons/#{reason.id}", post.id
+      redis.srem "reasons/#{reason.id}", id
     end
-    redis.srem 'all_posts', post.id
-    redis.zrem 'posts', post.id
-    redis.srem 'tps', post.id
-    redis.srem 'fps', post.id
-    redis.srem 'naas', post.id
-    redis.srem 'nolink', post.id
-    redis.srem 'questions', post.id
-    redis.srem 'answers', post.id
-    redis.srem 'autoflagged', post.id
-    redis.srem 'deleted', post.id
-    redis.srem "sites/#{post.site_id}/posts", post.id
+    redis.srem 'all_posts', id
+    redis.zrem 'posts', id
+    redis.srem 'tps', id
+    redis.srem 'fps', id
+    redis.srem 'naas', id
+    redis.srem 'nolink', id
+    redis.srem 'questions', id
+    redis.srem 'answers', id
+    redis.srem 'autoflagged', id
+    redis.srem 'deleted', id
+    redis.srem "sites/#{site_id}/posts", id
   end
 
   def self.populate_redis_meta
