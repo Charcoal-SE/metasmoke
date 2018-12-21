@@ -8,7 +8,7 @@ class Redis::Feedback
     @fields = redis.hgetall("feedbacks/#{id}").merge(overrides)
   end
 
-  %w[feedback_type user_name is_invalidated].each do |m|
+  %w[feedback_type username is_invalidated].each do |m|
     define_method(m) { @fields[m] }
   end
 
@@ -16,8 +16,10 @@ class Redis::Feedback
     @api_key ||= APIKey.new(app_name: @fields['app_name'])
   end
 
+  alias_method :user_name, :username
+
   def user
-    @user ||= User.new(username: user_name)
+    @user ||= User.new(username: username)
   end
 
   def self.post(post_id)

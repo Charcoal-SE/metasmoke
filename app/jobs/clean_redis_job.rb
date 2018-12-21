@@ -3,6 +3,8 @@
 class CleanRedisJob < ApplicationJob
   queue_as :default
 
+  PREFIX = 'cleanups'
+
   def perform
     @keys = []
     api_key_cache = {} # id => APIKey
@@ -46,7 +48,6 @@ class CleanRedisJob < ApplicationJob
             reason_weights = post.reasons.map(&:weight)
             redis.zadd(ck("posts/#{post.id}/reasons"), reason_weights.zip(reason_names)) unless post.reasons.empty?
 
-            post.feedbacks(&:populate_redis)
             nil
           end
           nil
@@ -55,6 +56,24 @@ class CleanRedisJob < ApplicationJob
       GC.start
       nil
     end
+
+    Feedback.eager_load(:post).eager_load(:user).eager_load(:api_key).find_each(batch_size: 10000) do |fb|
+      redis.pipelined do
+        next if fb.post.nil?
+        redis.sadd ck(key), fb.id
+        redis.hmset "feedbacks/#{fb.id}", *{
+          feedback_type: fb.feedback_type,
+          username: fb.user.try(:username) || fb.user_name,
+          app_name: fb.api_key.try(:app_name),
+          invalidated: fb.is_invalidated
+        }
+      end
+    end
+    post_ids = ActiveRecord::Base.connection.select_all('SELECT id FROM posts').rows.flatten
+    redis.scan_each(match: "#{PREFIX}/post/*/feedbacks") do |key|
+      redis.del key unless post_ids.include?(key.split('/')[1].to_i)
+    end
+    post_ids = nil
 
     redis.pipelined do
       DeletionLog.eager_load(:post).find_each do |dl|
@@ -112,6 +131,6 @@ class CleanRedisJob < ApplicationJob
   def ck(key)
     @keys ||= []
     @keys.push(key) unless @keys.include? key
-    "cleanups/#{key}"
+    "#{PREFIX}/#{key}"
   end
 end

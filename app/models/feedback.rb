@@ -38,17 +38,25 @@ class Feedback < ApplicationRecord
   end
 
   def self.populate_redis_meta
-    eager_load(:post).eager_load(:user).eager_load(:api_key).find_each(batch_size: 10000) do |fb|
+    keys = []
+    prefix = "feedbacks_populate"
+    eager_load(:user).eager_load(:api_key).find_each(batch_size: 10000) do |fb|
       redis.pipelined do
-        next if fb.post.nil?
-        redis.del "post/#{fb.post.id}/feedbacks"
-        redis.sadd "post/#{fb.post.id}/feedbacks", fb.id.to_s
+        next if fb.post_id.nil?
+        key = "post/#{fb.post_id}/feedbacks"
+        keys.push(key)
+        redis.sadd "#{prefix}/#{key}", fb.id
         redis.hmset "feedbacks/#{fb.id}", *{
           feedback_type: fb.feedback_type,
           username: fb.user.try(:username) || fb.user_name,
           app_name: fb.api_key.try(:app_name),
           invalidated: fb.is_invalidated
         }
+      end
+    end
+    redis.pipelined do
+      keys.uniq.each do |key|
+        redis.rename "#{prefix}/#{key}", key
       end
     end
   end
