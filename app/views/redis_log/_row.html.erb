@@ -1,0 +1,39 @@
+<% wrapped ||= false %>
+
+<% if wrapped %><div data-log-id="<%= req[:key] %>"><% end %>
+<li class="list-group-item list-item-label" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="<%= req[:key] %>" href="#<%= req[:key] %>">
+  <%= render 'redis_log/header', req: req %>
+</li>
+<div class="collapse" style="margin-bottom:-1px" id="<%= req[:key] %>">
+  <li class="list-group-item square-borders">
+    <p>
+      <%= link_to "session", redis_log_by_session_path(id: req['session_id']) %>&nbsp;|
+      <%= link_to "user", redis_log_by_user_path(id: req['user_id']) %>
+    </p>
+    <h4><code><%= req['controller'] %>#<%= req['action'] %> (<%= req['path'] %>.<%= req['format'] %>)</code></h4>
+    <% if !req[:exception].empty? %>
+    <h3><%= req['status'] %> Exception:</h3>
+    <pre><%= req['exception'] %></pre>
+    <%= render 'redis_log/param_table', params: req[:exception] %>
+    <% end %>
+    <% %w[Params Headers].each do |key| %>
+        <h4><%= key %></h4>
+        <% if req[key.downcase.to_sym].empty? %>
+          (empty)
+        <% else %>
+          <%= render 'redis_log/param_table', heading: key, params: req[key.downcase.to_sym] %>
+        <% end %>
+    <% end %>
+    <table>
+      <tr>
+        <td>Request ID</td>
+        <td><code><%= req[:request_id] %></code></td>
+      </tr>
+      <tr>
+        <td>Commit SHA</td>
+        <td><code><%= req['sha'] %></code></td>
+      </tr>
+    </table>
+  </li>
+</div>
+<% if wrapped %></div><% end %>

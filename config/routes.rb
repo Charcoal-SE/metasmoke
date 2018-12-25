@@ -438,6 +438,13 @@ Rails.application.routes.draw do
     post   ':id/update_mod_sites', to: 'users#update_mod_sites',    as: :update_mod_sites
   end
 
+  scope 'redis_log' do
+    get 'index', to: 'redis_log#index'
+    get 'user/:id', to: 'redis_log#by_user', as: :redis_log_by_user
+    get 'status/:status', to: 'redis_log#by_status', as: :redis_log_by_status
+    get 'session/:id', to: 'redis_log#by_session', as: :redis_log_by_session
+  end
+
   # This should always be right at the end of this file, so that it doesn't override other routes.
   mount API::Base => '/api'
   mount ActionCable.server => '/cable'

@@ -1,0 +1,16 @@
+<span class="text-<%= req['status'].to_i == 200 ? 'success' : 'danger' %>" href="#<%= req[:key] %>">
+  <%= render 'redis_log/user', impersonator_id: req['impersonator_id'], user_id: req['user_id'], session_id: req['session_id'] %>
+  <code><%= link_to req['status'], redis_log_by_status_path(status: req['status']), style: 'display: inline;' %></code> <%= req['method'] %> <%= req['path'] %>
+</span>
+<div class="pull-right">
+  <code>
+    <span style="display:inline-block;">
+      <%= Time.at(req[:timestamp]).strftime("%-y/%-m/%-d %-H:%M:%S.%-3N") %>
+    </span>&nbsp;·&nbsp;<span style="display:inline-block;">
+      <i class="fas fa-database" title="DB time"></i>
+      <%= number_with_precision(req['db_runtime'].to_f, precision: 3).rjust(7, "\u00A0") %>s
+      · <i class="fas fa-desktop" title="View time"></i>
+      <%= number_with_precision(req['view_runtime'].to_f, precision: 3).rjust(7, "\u00A0") %>s
+    </span>
+  </code>
+</div>

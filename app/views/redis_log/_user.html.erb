@@ -1,0 +1,11 @@
+<% impersonator_id ||= nil %>
+
+<% if impersonator_id.present? %>
+  [<%= User.find(impersonator_id).username %> (impersonating <%= User.find(user_id).username %>)]
+<% elsif user_id.present? %>
+  [<%= User.find(user_id).username %>]
+<% elsif session_id.nil? %>
+  [NOSESS]
+<% else %>
+  <img src="https://robohash.org/<%= session_id %>?size=20x20">
+<% end %>
