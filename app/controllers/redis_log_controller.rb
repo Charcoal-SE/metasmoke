@@ -27,7 +27,8 @@ class RedisLogController < ApplicationController
   def index
     @requests = redis.zrevrange("requests", 1, 11, with_scores: true).map do |request_id, timestamp|
       redis.hgetall("request/#{timestamp}/#{request_id}").merge({
-        headers: redis.hgetall("request/#{timestamp}/#{request_id}/headers"),
+        request_headers: redis.hgetall("request/#{timestamp}/#{request_id}/request_headers"),
+        response_headers: redis.hgetall("request/#{timestamp}/#{request_id}/response_headers"),
         params: redis.hgetall("request/#{timestamp}/#{request_id}/params"),
         exception: redis.hgetall("request/#{timestamp}/#{request_id}/exception"),
         timestamp: timestamp,
@@ -41,7 +42,8 @@ class RedisLogController < ApplicationController
     session_id = params[:id]
     @requests = redis.zrange("session/#{session_id}/requests", 0, 20, with_scores: true).map do |request_id, timestamp|
       redis.hgetall("request/#{timestamp}/#{request_id}").merge({
-        headers: redis.hgetall("request/#{timestamp}/#{request_id}/headers"),
+        request_headers: redis.hgetall("request/#{timestamp}/#{request_id}/request_headers"),
+        response_headers: redis.hgetall("request/#{timestamp}/#{request_id}/response_headers"),
         params: redis.hgetall("request/#{timestamp}/#{request_id}/params"),
         exception: redis.hgetall("request/#{timestamp}/#{request_id}/exception"),
         timestamp: timestamp,
@@ -57,7 +59,8 @@ class RedisLogController < ApplicationController
     status = params[:status]
     @requests = redis.zrevrange("requests/status/#{status}", 0, 20, with_scores: true).map do |request_id, timestamp|
       redis.hgetall("request/#{timestamp}/#{request_id}").merge({
-        headers: redis.hgetall("request/#{timestamp}/#{request_id}/headers"),
+        request_headers: redis.hgetall("request/#{timestamp}/#{request_id}/request_headers"),
+        response_headers: redis.hgetall("request/#{timestamp}/#{request_id}/response_headers"),
         params: redis.hgetall("request/#{timestamp}/#{request_id}/params"),
         exception: redis.hgetall("request/#{timestamp}/#{request_id}/exception"),
         timestamp: timestamp,

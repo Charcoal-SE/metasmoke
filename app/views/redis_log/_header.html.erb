@@ -1,6 +1,6 @@
 <span class="text-<%= req['status'].to_i == 200 ? 'success' : 'danger' %>" href="#<%= req[:key] %>">
-  <%= render 'redis_log/user', impersonator_id: req['impersonator_id'], user_id: req['user_id'], session_id: req['session_id'] %>
-  <code><%= link_to req['status'], redis_log_by_status_path(status: req['status']), style: 'display: inline;' %></code> <%= req['method'] %> <%= req['path'] %>
+  <%= render 'redis_log/user', impersonator_id: req['impersonator_id'], user_id: req['user_id'], session_id: req['session_id'], smoke_detector_id: req['smoke_detector_id'], api_key_id: req['api_key_id'] %>
+  <code><%= link_to req['status'].to_i, redis_log_by_status_path(status: req['status'].to_i), style: 'display: inline;' %></code> <%= req['method'] %> <%= req['path'] %>
 </span>
 <div class="pull-right">
   <code>

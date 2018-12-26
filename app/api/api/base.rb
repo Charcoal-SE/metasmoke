@@ -106,6 +106,26 @@ module API
     end
 
     before do
+      key = APIKey.find_by(key: params[:key])
+      smokey_token = key.nil? ? SmokeDetector.find_by(access_token: params[:key]) : nil
+      request_time ||= Time.now.to_f
+      uuid = request.env["action_dispatch.request_id"]
+      redis_log_key = "request/#{request_time}/#{uuid}"
+      request.set_header "redis_logs.log_key", redis_log_key
+      request.set_header "redis_logs.timestamp", request_time
+      request.set_header "redis_logs.request_id", uuid
+      redis.zadd "requests", request_time, uuid
+      {request_headers: headers.except("Cookie"), params: params.except(:key)}.each do |key, val|
+        redis.mapped_hmset "#{redis_log_key}/#{key}", val unless val.empty?
+      end
+      redis.mapped_hmset redis_log_key, {
+        status: 'INC',
+        path: request.path,
+        api_key_id: key&.id,
+        smoke_detector_id: smokey_token&.id,
+        sha: CurrentCommit
+      }
+      RedisLogJob.perform_later(uuid, request_time)
       authenticate_app!
     end
 

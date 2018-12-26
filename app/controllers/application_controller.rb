@@ -72,12 +72,13 @@ class ApplicationController < ActionController::Base
       request.set_header "redis_logs.timestamp", @request_time
       request.set_header "redis_logs.request_id", request.uuid
       redis.zadd "requests", @request_time, request.uuid
-      log_redis headers: headers, params: request.filtered_parameters.except(:controller, :action)
+      log_redis request_headers: headers, params: request.filtered_parameters.except(:controller, :action)
       if !session[:redis_log_id].present?
         session[:redis_log_id] = SecureRandom.base64
         session[:redis_log_id] = SecureRandom.base64 while redis.sadd("sessions", session[:redis_log_id]) == 0
       end
       redis.mapped_hmset redis_log_key, {
+        status: 'INC',
         path: request.filtered_path,
         impersonator_id: session[:impersonator_id],
         user_id: user_signed_in? ? current_user.id : nil,
