@@ -377,6 +377,7 @@ Rails.application.routes.draw do
     get    ':id/statistics',     to: 'statistics#index',               as: :smoke_detector_statistics
     delete ':id',                to: 'smoke_detectors#destroy',        as: :smoke_detector_delete
     post   ':id/force_failover', to: 'smoke_detectors#force_failover', as: :smoke_detector_force_failover
+    post   ':id/force_pull',     to: 'smoke_detectors#force_pull',     as: :smoke_detector_force_pull
     get    'audits',             to: 'smoke_detectors#audits'
     get    'check_token/:token', to: 'smoke_detectors#check_token'
   end
