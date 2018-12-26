@@ -34,6 +34,9 @@ class StatusController < ApplicationController
         if @smoke_detector.should_failover && !new_standby_switch
           @smoke_detector.update(is_standby: false, force_failover: false)
           render status: 200, json: { failover: true }
+        elsif @smoke_detector.should_pull
+          @smoke_detector.update(force_pull: false)
+          render status: 200, json: { pull_update: true }
         else
           head 200, content_type: 'text/html'
         end

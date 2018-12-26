@@ -28,6 +28,13 @@ class SmokeDetectorsController < ApplicationController
     redirect_to status_path
   end
 
+  def force_pull
+    @smoke_detector.update(force_pull: true)
+    flash[:success] = "#{@smoke_detector.location} will pull updates on the next ping; probably within 60 seconds."
+
+    redirect_to status_path
+  end
+
   def audits
     @audits = Audited::Audit.where(auditable_type: 'SmokeDetector')
                             .includes(:auditable, :user)
