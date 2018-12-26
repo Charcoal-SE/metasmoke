@@ -332,8 +332,7 @@ GEM
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
     rolify (5.2.0)
-    rotp (4.0.2)
-      addressable (~> 2.5)
+    rotp (3.3.1)
     rqrcode (0.10.1)
       chunky_png (~> 1.0)
     rubocop (0.48.1)
@@ -480,7 +479,7 @@ DEPENDENCIES
   redcarpet
   redis (~> 3.0)
   rolify
-  rotp
+  rotp (= 3.3.1)
   rqrcode
   rubocop (~> 0.48.1)
   sass-rails
@@ -500,4 +499,4 @@ DEPENDENCIES
   will_paginate-bootstrap!
 
 BUNDLED WITH
-   1.16.6
+   1.17.1
