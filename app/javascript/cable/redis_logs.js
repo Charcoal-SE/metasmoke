@@ -23,4 +23,3 @@ route('/redis_log/index', () => {
   redis.unsubscribe();
   redis = null;
 });
-});
