@@ -2,8 +2,8 @@
 
 class SmokeDetectorsController < ApplicationController
   before_action :authenticate_user!, except: [:audits, :check_token]
-  before_action :verify_admin, except: [:audits, :force_failover, :mine, :token_regen, :new, :create, :check_token]
-  before_action :verify_code_admin, only: [:force_failover]
+  before_action :verify_admin, except: [:audits, :force_failover, :force_pull, :mine, :token_regen, :new, :create, :check_token]
+  before_action :verify_code_admin, only: [:force_failover, :force_pull]
   before_action :verify_smoke_detector_runner, only: [:mine, :token_regen, :new, :create]
   before_action :set_smoke_detector, except: [:audits, :mine, :new, :create, :check_token]
 
