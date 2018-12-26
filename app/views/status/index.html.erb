@@ -34,8 +34,11 @@
       </td>
       <td>
         <% if current_user&.has_role?(:code_admin) %>
-          <% if sd.is_standby and sd.last_ping > 3.minutes.ago %>
-            <%= link_to "Failover", smoke_detector_force_failover_path(sd.id), class: "text-danger", :data => {:confirm => "This will take effect at the next ping, within a minute. Sure?"}, method: :post %>
+          <% if sd.last_ping > 3.minutes.ago %>
+            <% if sd.is_standby %>
+              <%= link_to "Failover", smoke_detector_force_failover_path(sd.id), class: "text-danger", :data => {:confirm => "This will take effect at the next ping, within a minute. Sure?"}, method: :post %>
+            <% end %>
+            <%= link_to "Pull", smoke_detector_force_pull_path(sd.id), class: "text-danger", :data => {:confirm => "This will take effect at the next ping, within a minute. Sure?"}, method: :post %>
           <% end %>
         <% end %>
       </td>

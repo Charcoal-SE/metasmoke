@@ -15,6 +15,10 @@ class SmokeDetector < ApplicationRecord
     force_failover || (is_standby && SmokeDetector.where(is_standby: false).where('last_ping > ?', 3.minutes.ago).empty?)
   end
 
+  def should_pull
+    force_pull
+  end
+
   def as_json(options = {})
     opts = {
       except: [:access_token],

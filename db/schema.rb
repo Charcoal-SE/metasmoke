@@ -469,6 +469,7 @@ ActiveRecord::Schema.define(version: 2018_09_04_131526) do
     t.bigint "user_id"
     t.boolean "is_standby", default: false
     t.boolean "force_failover", default: false
+    t.boolean "force_pull", default: false
     t.index ["user_id"], name: "index_smoke_detectors_on_user_id"
   end
 
