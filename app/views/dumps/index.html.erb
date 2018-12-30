@@ -15,3 +15,20 @@
     <% end %>
   </tbody>
 </table>
+
+<h3>Redis dumps</h3>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>File</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @redis_dumps&.each do |dump| %>
+      <tr>
+        <td><%= link_to dump[:name], dump[:url] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
