@@ -22,6 +22,12 @@
   text-decoration: none;
 }
 
-.list-item-label > div {
+.list-item-label > span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.list-item-label > * {
   display: table-cell;
 }
