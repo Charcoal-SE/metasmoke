@@ -2,13 +2,13 @@
 <% smoke_detector_id ||= nil %>
 <% api_key_id ||= nil %>
 
-<% if smoke_detector_id.present? %>
+<% if smoke_detector_id.present? && SmokeDetector.exists?(smoke_detector_id) %>
   [SD <%= SmokeDetector.find(smoke_detector_id).location %>]
-<% elsif api_key_id.present? %>
+<% elsif api_key_id.present? && APIKey.exists?(api_key_id) %>
   [API <%= APIKey.find(api_key_id).app_name %>]
-<% elsif impersonator_id.present? %>
+<% elsif impersonator_id.present? && User.exists?(impersonator_id) && User.exists?(user_id) %>
   [<%= User.find(impersonator_id).username %> (impersonating <%= User.find(user_id).username %>)]
-<% elsif user_id.present? %>
+<% elsif user_id.present? && User.exists?(user_id) %>
   [<%= User.find(user_id).username %>]
 <% elsif session_id.nil? %>
   [NOSESS]

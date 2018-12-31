@@ -1,4 +1,5 @@
-<span class="text-<%= %w[200 API].include?(req['status'].to_s) ? 'success' : 'danger' %>" href="#<%= req[:key] %>">
+<% status_color = case req['status'].to_s when /(2\d{2}|API)/ then 'success' when /4\d{2}/ then 'warning' when /3\d{2}/ then 'info' when /5\d{2}/ then 'danger' else 'danger' end %>
+<span class="text-<%= status_color %>" href="#<%= req[:key] %>">
   <%= render 'redis_log/user', impersonator_id: req['impersonator_id'], user_id: req['user_id'], session_id: req['session_id'], smoke_detector_id: req['smoke_detector_id'], api_key_id: req['api_key_id'] %>
   <code><%= link_to req['status'], redis_log_by_status_path(status: req['status'].to_i), style: 'display: inline;', class: 'redis-log-link' %></code> <%= req['method'] %> <%= req['path'] %>
 </span>
