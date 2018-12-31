@@ -30,9 +30,7 @@ class Redis::Client
     ensure
       if t1
         call_time = (Time.now - t1) * 1000
-        puts "BEFORE RUNTIME: #{ActiveRecord::RuntimeRegistry.sql_runtime}"
         ActiveRecord::RuntimeRegistry.sql_runtime = ActiveRecord::RuntimeRegistry.sql_runtime.to_i + call_time
-        puts "AFTER RUNTIME: #{ActiveRecord::RuntimeRegistry.sql_runtime}"
         @logger.debug("[Redis] call_time=%0.2f ms" % (call_time))
       end
     end

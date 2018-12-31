@@ -256,7 +256,6 @@ class SearchController < ApplicationController
     @logs.push "Result count: #{@nresults.length}"
 
     # Technically we should wait until later to reset these, but eh.
-    redis.expire final_key, redis_expiry_time
     redis.expire 'search_counter', 2400
 
     count = @nresults.length
@@ -297,5 +296,6 @@ class SearchController < ApplicationController
       format.rss  { render :search, layout: false }
       format.xml  { render 'search.rss', layout: false }
     end
+    redis.del final_key
   end
 end
