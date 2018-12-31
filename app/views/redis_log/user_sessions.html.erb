@@ -8,6 +8,7 @@
     </li>
     <div class="collapse" style="margin-bottom:-1px" id="<%= css_id %>">
       <ul class="list-group">
+        <!-- TODO: This could use the table partial -->
         <% session[:requests].each do |req| %>
           <%= render 'redis_log/row', req: req %>
         <% end %>
