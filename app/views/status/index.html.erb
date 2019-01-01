@@ -17,7 +17,7 @@
     <% end %>
       <td class="location-cell">
         <%= link_to smoke_detector_statistics_path(sd.id) do %>
-          <span class="location"><%= sd.location %></span>  
+          <span class="location"><%= sd.location %></span>
           <span class="label label-<%= sd.last_ping > 3.minutes.ago ? "primary" : "default" %> " style="display: <%= sd.is_standby ? 'inline' : 'none'%>">Standby</span>
         <% end %>
       </td>
@@ -30,16 +30,20 @@
                 :data => {:confirm => "This will be logged, and cannot be undone. Sure?"}, :method => :delete %>
         <% end %>
       </td>
-      <td>
-        <% if current_user&.has_role?(:code_admin) %>
-          <% if sd.last_ping > 3.minutes.ago %>
+      <% if current_user&.has_role?(:code_admin) %>
+        <% if sd.last_ping > 3.minutes.ago %>
+          <td>
             <% if sd.is_standby %>
               <%= link_to "Failover", smoke_detector_force_failover_path(sd.id), class: "text-danger", :data => {:confirm => "This will take effect at the next ping, within a minute. Sure?"}, method: :post %>
             <% end %>
+          </td>
+          <td>
             <%= link_to "Pull", smoke_detector_force_pull_path(sd.id), class: "text-danger", :data => {:confirm => "This will take effect at the next ping, within a minute. Sure?"}, method: :post %>
-          <% end %>
+          </td>
+        <% else %>
+          <td colspan="2"></td>
         <% end %>
-      </td>
+      <% end %>
     </tr>
   <% end %>
 </table>
