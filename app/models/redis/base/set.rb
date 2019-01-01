@@ -12,7 +12,7 @@ class Redis::Base::Set
 
   def method_missing(m, *args, &block)
     return target_all(*args, &block) if m == target
-    super(m, *args, &block)
+    super
   end
 
   def respond_to_missing?(m, _include_private = false)

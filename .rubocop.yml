@@ -12,6 +12,7 @@ AllCops:
     - 'db/schema.rb' # auto-generated :(
     - 'Capfile'
     - 'config/routes.rb'
+    - 'zhregex/**/**/**/*'
   TargetRubyVersion: 2.4
 
 Style/SymbolArray:
@@ -24,6 +25,8 @@ Style/FileName:
 Style/FrozenStringLiteralComment:
   EnforcedStyle: always
   Enabled: true
+  Exclude:
+    - db/migrate/*
 Style/NumericPredicate:
   AutoCorrect: true
   EnforcedStyle: comparison

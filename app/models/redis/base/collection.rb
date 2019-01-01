@@ -53,7 +53,7 @@ class Redis::Base::Collection
     when :set
       puts 'Cannot accept bounds for SET' unless bounds.nil?
       puts 'Cannot ordering for SET' unless order.nil?
-      redis.sinter *@intersects
+      redis.sinter(*@intersects)
     when :zset
       bounds ||= [0, -1]
       redis.multi do

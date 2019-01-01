@@ -16,7 +16,7 @@ class Redis::Feedback
     @api_key ||= APIKey.new(app_name: @fields['app_name'])
   end
 
-  alias_method :user_name, :username
+  alias user_name username
 
   def user
     @user ||= User.new(username: username)

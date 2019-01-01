@@ -41,5 +41,7 @@ config/deploy/*
 REVISION
 package-lock.json
 
+zhregex
+
 *.swp
 *.swo

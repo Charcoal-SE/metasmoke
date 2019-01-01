@@ -39,10 +39,8 @@ class Redis::Post
 
   def site
     @site ||= if !@fields['site_site_logo'].nil? && !@fields['site_id'].nil?
-      Site.new(site_logo: @fields['site_site_logo'], id: @fields['site_id'])
-    else
-      nil
-    end
+                Site.new(site_logo: @fields['site_site_logo'], id: @fields['site_id'])
+              end
   end
 
   def flagged?

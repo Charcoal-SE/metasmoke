@@ -7,9 +7,14 @@ class CleanRedisJob < ApplicationJob
 
   def perform
     @keys = []
-    api_key_cache = {} # id => APIKey
     thread = Thread.new {}
-    Post.eager_load(:stack_exchange_user).eager_load(:site).eager_load(:comments).eager_load(:reasons).eager_load(:flag_logs).eager_load(:feedbacks).find_in_batches(batch_size: 250) do |posts|
+    Post.eager_load(:stack_exchange_user)
+        .eager_load(:site)
+        .eager_load(:comments)
+        .eager_load(:reasons)
+        .eager_load(:flag_logs)
+        .eager_load(:feedbacks)
+        .find_in_batches(batch_size: 250) do |posts|
       thread.join
       thread = Thread.new do
         redis.pipelined do
@@ -57,7 +62,7 @@ class CleanRedisJob < ApplicationJob
       nil
     end
 
-    Feedback.eager_load(:post).eager_load(:user).eager_load(:api_key).find_each(batch_size: 10000) do |fb|
+    Feedback.eager_load(:post).eager_load(:user).eager_load(:api_key).find_each(batch_size: 10_000) do |fb|
       redis.pipelined do
         next if fb.post.nil?
         redis.sadd ck(key), fb.id
@@ -111,7 +116,7 @@ class CleanRedisJob < ApplicationJob
       end
     end
 
-    [['posts', Post], ['reasons', Reason], ['feedbacks', Feedback]].each do |str, type|
+    [['posts', Post], ['reasons', Reason], ['feedbacks', Feedback]].each do |str, _type|
       ids = ActiveRecord::Base.connection.select_all("SELECT id FROM #{str}").rows.flatten
       redis.scan_each(match: "#{str}/*") do |elem|
         redis.del elem unless ids.include?(elem.split('/')[1].to_i)
@@ -120,7 +125,11 @@ class CleanRedisJob < ApplicationJob
 
     Rails.logger.info @keys
     @keys.uniq.each do |key|
-      Rails.logger.warn "WARNING: Could not copy key #{key}. cleanups/#{key} exists? #{redis.exists "cleanups/#{key}"} | #{key} exists? #{redis.exists key}" unless redis.exists "cleanups/#{key}"
+      unless redis.exists("cleanups/#{key}")
+        Rails.logger.warn("WARNING: Could not copy key #{key}. " \
+                          "Does cleanups/#{key} exists? #{redis.exists("cleanups/#{key}") ? 'yes' : 'no'} | " \
+                          "#{key} exists? #{redis.exists(key) ? 'yes' : 'no'}")
+      end
       redis.rename "cleanups/#{key}", key unless redis.exists "cleanups/#{key}"
     end
     @keys = []
