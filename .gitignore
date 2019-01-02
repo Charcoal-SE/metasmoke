@@ -42,6 +42,8 @@ REVISION
 package-lock.json
 
 zhregex
+redis-git
+*.rdb
 
 *.swp
 *.swo
