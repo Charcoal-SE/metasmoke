@@ -3,8 +3,11 @@
 require 'redis'
 
 def redis
-  $redis ||= Redis.new(AppConfig['redis']) # rubocop:disable Style/GlobalVars
+  config = YAML.load_file(File.join(Rails.root, 'config', 'cable.yml'))[Rails.env]
+  $redis ||= Redis.new(config) # rubocop:disable Style/GlobalVars
 end
+
+redis
 
 def with_no_score(ary)
   zeros = Array.new(ary.length) { 0 }

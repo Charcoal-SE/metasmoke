@@ -19,6 +19,7 @@ config/secrets.html
 config/config.yml
 config/database.yml
 config/blazer.yml
+config/cable.yml
 
 db_import.sql
 db_import_*.sql
