@@ -8,6 +8,15 @@ class Redis::Post
     @fields = redis.hgetall("posts/#{id}").merge(overrides)
   end
 
+  def all(type:)
+    case type
+    when :set
+      Redis::Base::Collection.new('all_posts', type: type)
+    when :zset
+      Redis::Base::Collection.new('posts', type: type)
+    end
+  end
+
   %w[body title link username why stack_exchange_user_id site_id].each do |field|
     define_method(field) { @fields[field] }
   end

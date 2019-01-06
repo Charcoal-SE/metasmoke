@@ -20,6 +20,7 @@ ZSET posts/<id>/reasons (Post.reasons reason_name, score: weight)
 -- These need AR callbacks
 SET reasons (Reason.all.map(&:id))
 SET reasons/<id> (Reason.all.map { |r| r.posts.map(&:id) }.flatten)
+SET reasons/<id>/<feedback_type> Temporary cache used in /reasons
 --
 SET all_posts (Post.all.map(&:id))
 ZSET posts (Post.all id, score: created_at.to_i)

@@ -94,10 +94,12 @@ class PostsController < ApplicationController
     k = 'posts'
     if params[:filter] == 'undeleted'
       k = 'undeleted_posts'
-      redis.sdiffstore 'undeleted_posts/pre', 'all_posts', 'deleted'
-      redis.zinterstore 'undeleted_posts', ['posts', 'undeleted_posts/pre']
+      # Move this code into Redis::Post#update_undeleted_cache
+      Redis::Post.all(type: :set).difference('deleted').store('undeleted_posts/pre')
+      Redis::Post.all(type: :zset).intersect('undeleted_posts/pre').store('undeleted_posts')
     end
     start = Time.now
+    # Use paginate
     @posts = redis.zrevrange(k, *page).map do |id|
       Redis::Post.new(id)
     end
