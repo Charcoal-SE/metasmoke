@@ -16,7 +16,9 @@ Types::QueryType = GraphQL::ObjectType.define do
       if args['link']
         Post.find(link: args['link'])
       elsif args['uid'] && args['site']
-        Post.includes(:site).find_by(sites: { api_parameter: args['site'] }, native_id: args['uid'])
+        posts = Post.includes(:site).where(sites: { api_parameter: args['site'] }, native_id: args['uid'])
+        GraphQL::ExecutionError.new('More than one post matches those parameters') if posts.length > 1
+        post.empty? ? nil : post.first
       elsif args['id']
         Post.find(args['id'])
       else
@@ -52,8 +54,8 @@ Types::QueryType = GraphQL::ObjectType.define do
         posts = uids.map do |site_id, native_id|
           all_permutations.select do |post|
             post.site_id == site_id && post.native_id == native_id
-          end.first
-        end
+          end
+        end.flatten.reject(&:nil?)
         posts = Post.where(id: posts.map(&:id))
       end
       posts = posts.find(args['ids']) if args['ids']

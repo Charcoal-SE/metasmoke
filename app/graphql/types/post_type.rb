@@ -29,6 +29,7 @@ Types::PostType = GraphQL::ObjectType.define do
   field :reasons, types[Types::ReasonType]
   field :spam_domains, types[Types::SpamDomainType]
   field :flag_logs, types[Types::FlagLogType]
+  field :comments, types[Types::PostCommentType]
 
   field :created_at, Types::DateTimeType
   field :updated_at, Types::DateTimeType
