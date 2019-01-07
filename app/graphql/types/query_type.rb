@@ -5,6 +5,8 @@ Types::QueryType = GraphQL::ObjectType.define do
   # Add root-level fields here.
   # They will be entry points for queries on your schema.
 
+  BASE = 8
+
   field :post do
     type Types::PostType
     argument :id, types.ID
@@ -12,6 +14,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :site, types.String
     argument :link, types.String
     resolve ->(_obj, args, _ctx) do
+      puts "RES: post"
       return GraphQL::ExecutionError.new('Invalid argument grouping') if [%w[uid site], ['id'], ['link']].include? args
       if args['link']
         Post.find(link: args['link'])
@@ -26,7 +29,7 @@ Types::QueryType = GraphQL::ObjectType.define do
       end
     end
     complexity ->(_ctx, _args, child_complexity) do
-      25 * (child_complexity > 1 ? child_complexity : 1)
+      (BASE * 25) + (child_complexity > 1 ? child_complexity : 1)
     end
   end
 
@@ -41,6 +44,7 @@ Types::QueryType = GraphQL::ObjectType.define do
                                  "the 'last' option is used, in which case offset is counted from the end.", default_value: 0
     description 'Find Posts, with a maximum of 100 to be returned'
     resolve ->(_obj, args, _ctx) do
+      puts "RES: posts"
       posts = Post.all
       posts = posts.where(link: args['urls']) if args['urls']
       if args['uids']
@@ -61,19 +65,23 @@ Types::QueryType = GraphQL::ObjectType.define do
       posts = posts.find(args['ids']) if args['ids']
       return GraphQL::ExecutionError.new("You can't use 'last' and 'first' together") if args['first'] && args['last']
       posts = posts.offset(args['offset']).first(args['first']) if args['first']
+      # binding.pry
       posts = posts.reverse_order.offset(args['offset']).first(args['last']) if args['last']
       posts = posts.limit(100) if posts.respond_to? :limit
+      puts "Exited"
+      puts posts.map(&:id).to_s
       Array(posts)
+      # puts posts.length
+      Array(Post.all.reverse_order.limit(20))
     end
-    complexity ->(_ctx, args, child_complexity) do
-      base = 1
-      children = 1
-      children *= (args['last'] || args['first'] || 1)
-      base *= args['uids'].length * 2 if args['uids']
-      children *= args['uids'].length if args['uids']
-      children *= args['ids'].length if args['ids']
-      children *= args['urls'].length if args['urls']
-      (base * 25) + children * (child_complexity > 1 ? child_complexity : 1)
+    complexity ->(ctx, args, child_complexity) do
+      children = 0
+      children += (args['last'] || args['first'] || 0)
+      children += args['uids'].length if args['uids']
+      children += args['ids'].length if args['ids']
+      children += args['urls'].length if args['urls']
+      puts "COPMLEXITY: #{children}\nCHILD OCMPOELL: #{child_complexity}"
+      (BASE * 25) + children * (child_complexity > 1 ? child_complexity : 1)
     end
   end
 
@@ -88,11 +96,11 @@ Types::QueryType = GraphQL::ObjectType.define do
       argument :id, types.ID, "Get one #{ar_class} by id"
       description "Find one #{ar_class}"
       resolve ->(_obj, args, _ctx) do
+        puts "RES #{name}"
         ar_class.find(args['id']) if args['id']
       end
       complexity ->(_ctx, _args, child_complexity) do
-        base = 1
-        (base * 25) + (child_complexity > 1 ? child_complexity : 1)
+        (BASE * 25) + (child_complexity > 1 ? child_complexity : 1)
       end
     end
 
@@ -105,6 +113,7 @@ Types::QueryType = GraphQL::ObjectType.define do
                                    "the 'last' option is used, in which case offset is counted from the end.", default_value: 0
       description "Find multiple #{ar_class.to_s.pluralize}. Maximum of 200 returned."
       resolve ->(_obj, args, _ctx) do
+        puts "RES: #{name}"
         things = ar_class.all
         things = things.where(id: args['ids']) if args['ids']
         return GraphQL::ExecutionError.new("You can't use 'last' and 'first' together") if args['first'] && args['last']
@@ -114,11 +123,11 @@ Types::QueryType = GraphQL::ObjectType.define do
         Array(things)
       end
       complexity ->(_ctx, args, child_complexity) do
-        children = 1
-        base = 1
-        children *= args['ids'].length if args['ids']
-        children *= (args['last'] || args['first'] || 1)
-        (base * 25) + children * (child_complexity > 1 ? child_complexity : 1)
+        children = 0
+        children += args['ids'].length if args['ids']
+        children += (args['last'] || args['first'] || 0)
+        children = 200 if children.zero?
+        (BASE * 25) + children * (child_complexity > 1 ? child_complexity : 1)
       end
     end
   end

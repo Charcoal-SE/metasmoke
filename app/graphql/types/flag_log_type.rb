@@ -7,10 +7,26 @@ Types::FlagLogType = GraphQL::ObjectType.define do
   field :is_dry_run, types.Boolean
   field :backoff, types.Int
   field :is_auto, types.Boolean
-  field :user, Types::UserType
-  field :post, Types::PostType
-  field :site, Types::SiteType
-  field :flag_condition, Types::FlagConditionType
+  field :user, Types::UserType do
+    complexity ->(_ctx, _args, child_complexity) do
+      (BASE * 25) + (child_complexity > 1 ? child_complexity : 1)
+    end
+  end
+  field :post, Types::PostType do
+    complexity ->(_ctx, _args, child_complexity) do
+      (BASE * 25) + (child_complexity > 1 ? child_complexity : 1)
+    end
+  end
+  field :site, Types::SiteType do
+    complexity ->(_ctx, _args, child_complexity) do
+      (BASE * 25) + (child_complexity > 1 ? child_complexity : 1)
+    end
+  end
+  field :flag_condition, Types::FlagConditionType do
+    complexity ->(_ctx, _args, child_complexity) do
+      (BASE * 25) + (child_complexity > 1 ? child_complexity : 1)
+    end
+  end
 
   field :created_at, Types::DateTimeType
   field :updated_at, Types::DateTimeType
