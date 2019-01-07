@@ -14,7 +14,6 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :site, types.String
     argument :link, types.String
     resolve ->(_obj, args, _ctx) do
-      puts "RES: post"
       return GraphQL::ExecutionError.new('Invalid argument grouping') if [%w[uid site], ['id'], ['link']].include? args
       if args['link']
         Post.find(link: args['link'])
@@ -44,7 +43,6 @@ Types::QueryType = GraphQL::ObjectType.define do
                                  "the 'last' option is used, in which case offset is counted from the end.", default_value: 0
     description 'Find Posts, with a maximum of 100 to be returned'
     resolve ->(_obj, args, _ctx) do
-      puts "RES: posts"
       posts = Post.all
       posts = posts.where(link: args['urls']) if args['urls']
       if args['uids']
@@ -80,7 +78,6 @@ Types::QueryType = GraphQL::ObjectType.define do
       children += args['uids'].length if args['uids']
       children += args['ids'].length if args['ids']
       children += args['urls'].length if args['urls']
-      puts "COPMLEXITY: #{children}\nCHILD OCMPOELL: #{child_complexity}"
       (BASE * 25) + children * (child_complexity > 1 ? child_complexity : 1)
     end
   end
@@ -96,7 +93,6 @@ Types::QueryType = GraphQL::ObjectType.define do
       argument :id, types.ID, "Get one #{ar_class} by id"
       description "Find one #{ar_class}"
       resolve ->(_obj, args, _ctx) do
-        puts "RES #{name}"
         ar_class.find(args['id']) if args['id']
       end
       complexity ->(_ctx, _args, child_complexity) do
@@ -113,7 +109,6 @@ Types::QueryType = GraphQL::ObjectType.define do
                                    "the 'last' option is used, in which case offset is counted from the end.", default_value: 0
       description "Find multiple #{ar_class.to_s.pluralize}. Maximum of 200 returned."
       resolve ->(_obj, args, _ctx) do
-        puts "RES: #{name}"
         things = ar_class.all
         things = things.where(id: args['ids']) if args['ids']
         return GraphQL::ExecutionError.new("You can't use 'last' and 'first' together") if args['first'] && args['last']

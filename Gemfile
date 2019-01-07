@@ -38,6 +38,8 @@ gem 'flamegraph'
 gem 'rack-mini-profiler'
 gem 'stackprof'
 
+gem 'pry'
+
 gem 'chartkick'
 gem 'groupdate', '~> 3.0.0'
 
