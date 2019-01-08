@@ -138,8 +138,6 @@ class SearchController < ApplicationController
       return
     end
 
-    user_reputation = params[:user_reputation].to_i || 0
-
     feedback = case params[:feedback]
                when /true/
                  :is_tp

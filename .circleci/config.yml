@@ -96,6 +96,12 @@ jobs:
           password: ubuntu
           host: 127.0.0.1
         ' > config/database.yml
+    - run: |-
+        mkdir -p config && echo 'test:
+          adapter: redis
+          timeout: 120
+          url: redis://localhost:6379
+        ' > config/cable.yml
 
     # Bundler
     - restore_cache:

@@ -10,7 +10,7 @@ class DumpsController < ApplicationController
 
     presigner = Aws::S3::Presigner.new
     @redis_dumps = Aws::S3::Resource.new.bucket('erwaysoftware.redisdumps').objects.map do |o|
-      { name: o.key, url: presigner.presigned_url(:get_object, bucket: "erwaysoftware.redisdumps", key: o.key) }
+      { name: o.key, url: presigner.presigned_url(:get_object, bucket: 'erwaysoftware.redisdumps', key: o.key) }
     end
   end
 

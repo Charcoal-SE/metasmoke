@@ -13,6 +13,7 @@ AllCops:
     - 'Capfile'
     - 'config/routes.rb'
     - 'zhregex/**/**/**/*'
+    - 'redis-git/**/**/**/*'
   TargetRubyVersion: 2.4
 
 Style/SymbolArray:
@@ -67,6 +68,8 @@ Metrics/BlockLength:
     - helpers
     - field
     - included
+    - step
   Exclude:
     - db/migrate/*.rb
     - 'app/views/**/*.builder'
+    - app/jobs/clean_redis_job.rb

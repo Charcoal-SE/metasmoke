@@ -65,8 +65,6 @@ Rails.application.configure do
     s3_region: 'us-east-2'
   }
 
-  Aws.config.update({
-    region: 'us-east-1',
-    credentials: Aws::Credentials.new(AppConfig["aws"]["access_token"], AppConfig["aws"]["secret_token"])
-  })
+  Aws.config.update(region: 'us-east-1',
+                    credentials: Aws::Credentials.new(AppConfig['aws']['access_token'], AppConfig['aws']['secret_token']))
 end

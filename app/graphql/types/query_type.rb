@@ -67,7 +67,7 @@ Types::QueryType = GraphQL::ObjectType.define do
       posts = posts.limit(100) if posts.respond_to? :limit
       Array(posts)
     end
-    complexity ->(ctx, args, child_complexity) do
+    complexity ->(_ctx, args, child_complexity) do
       children = 0
       children += (args['last'] || args['first'] || 0)
       children += args['uids'].length if args['uids']
@@ -116,7 +116,7 @@ Types::QueryType = GraphQL::ObjectType.define do
         children = 0
         children += args['ids'].length if args['ids']
         children += (args['last'] || args['first'] || 0)
-        children = 200 if children.zero?
+        children = 200 if children == 0
         (BASE * 25) + children * (child_complexity > 1 ? child_complexity : 1)
       end
     end
