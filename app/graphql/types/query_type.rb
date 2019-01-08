@@ -63,14 +63,9 @@ Types::QueryType = GraphQL::ObjectType.define do
       posts = posts.find(args['ids']) if args['ids']
       return GraphQL::ExecutionError.new("You can't use 'last' and 'first' together") if args['first'] && args['last']
       posts = posts.offset(args['offset']).first(args['first']) if args['first']
-      # binding.pry
       posts = posts.reverse_order.offset(args['offset']).first(args['last']) if args['last']
       posts = posts.limit(100) if posts.respond_to? :limit
-      puts "Exited"
-      puts posts.map(&:id).to_s
       Array(posts)
-      # puts posts.length
-      Array(Post.all.reverse_order.limit(20))
     end
     complexity ->(ctx, args, child_complexity) do
       children = 0
