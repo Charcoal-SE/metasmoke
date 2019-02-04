@@ -67,18 +67,33 @@
   <% end %>
 </div>
 
+<hr/>
+
 <% unless @post.body.nil? %>
-  <div data-postid="<%= @post.id.to_s %>" class="post-body">
-    <hr>
-    <pre class="post-body-pre-block"><%= @post.body %></pre>
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#post-body-tab" role="tab" data-toggle="tab">Markdown</a></li>
+    <li role="presentation"><a href="#preview-tab" role="tab" data-toggle="tab">Preview</a></li>
+  </ul><br/>
+
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="post-body-tab">
+      <pre class="post-body-pre-block"><%= @post.body %></pre>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="preview-tab">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <%= raw(sanitize(AnnouncementsController.renderer.render(@post.body), scrubber: PostScrubber.new)) %>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>
 
 <hr>
 
 <% unless @post.link.nil? %>
-  <% unless @post.site_logo.nil? %>
-    <%= image_tag @post.site_logo, size: "20" %>
+  <% unless @post.site&.site_logo&.nil? %>
+    <%= image_tag @post.site.site_logo, size: "20" %>
   <% end %>
   <%= link_to "View on site", @post.link %>
   <% if @post.deleted_at %>
@@ -102,9 +117,9 @@
     <% end %>
     <% unless @post.user_link.nil? %>
       | posted by
-      <% unless @post.site_logo.nil? %>
+      <% unless @post.site&.site_logo&.nil? %>
         <%= link_to @post.user_link do %>
-          <%= image_tag @post.site_logo, size: "20" %>
+          <%= image_tag @post.site.site_logo, size: "20" %>
         <% end %>
       <% end %>
       <%= link_to @post.username, stack_exchange_user_path(@post.stack_exchange_user_id) if @post.stack_exchange_user_id.present? %>
@@ -124,8 +139,10 @@
   <% end %>
 </ul>
 
-<% if @post.reason_weight.present? %>
+<% if @post.respond_to?(:reason_weight) && @post.reason_weight&.present? %>
   <p class="text-muted">Reason weight: <%= @post.reason_weight %></p>
+<% else %>
+  <p class="text-muted">Reason weight: <%= @post.reasons.map(&:weight).reduce(:+) %></p>
 <% end %>
 
 <% if @post.why.present? %>
