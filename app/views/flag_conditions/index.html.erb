@@ -32,16 +32,16 @@
           <td class="text-<%= condition.flags_enabled ? 'success' : 'danger' %>">
             <%= condition.flags_enabled ? 'Enabled' : 'Disabled' %>
             <% if params[:action] == 'index' %>
-              <%= link_to condition.flags_enabled ? '(disable)' : '(enable)', flag_conditions_enable_path(condition.id), :method => :patch %>
+              <%= link_to condition.flags_enabled ? '(disable)' : '(enable)', flag_conditions_enable_path(condition.id), method: :patch %>
             <% end %>
           </td>
           <td><%= condition.min_weight %></td>
           <td><%= condition.max_poster_rep %></td>
           <td><%= condition.min_reason_count %></td>
           <td><%= condition.sites.count %></td>
-          <td><%= link_to "Edit", url_for(:controller => :flag_conditions, :action => :edit, :id => condition.id) %></td>
-          <td><%= link_to "Delete", url_for(:controller => :flag_conditions, :action => :destroy, :id => condition.id),
-                          :method => :delete, :data => { :confirm => "Are you sure?" }, :class => "text-danger" %></td>
+          <td><%= link_to "Edit", url_for(controller: :flag_conditions, action: :edit, id: condition.id) %></td>
+          <td><%= link_to "Delete", url_for(controller: :flag_conditions, action: :destroy, id: condition.id),
+                          method: :delete, data: { confirm: "Are you sure?" }, class: "text-danger" %></td>
         </tr>
       <% end %>
     </tbody>
@@ -53,7 +53,7 @@
 
 <% unless params[:action] == "full_list" %>
   <% if FlagSetting['registration_enabled'] == '1' %>
-    <%= link_to "New condition", url_for(:controller => :flag_conditions, :action => :new) %>
+    <%= link_to "New condition", url_for(controller: :flag_conditions, action: :new) %>
   <% else %>
     <p class="text-muted"><em>Registration for autoflagging is currently closed.</em></p>
   <% end %>

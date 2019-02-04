@@ -46,7 +46,7 @@
 <% end %>
 
 <h3>Two-factor authentication</h3>
-<p><%= link_to 'Configure two-factor authentication', url_for(:controller => '/users', :action => :tf_status) %></p>
+<p><%= link_to 'Configure two-factor authentication', url_for(controller: '/users', action: :tf_status) %></p>
 
 <h3>Announcement emails</h3>
 <%= form_tag url_for(controller: '/users', action: :set_announcement_emails) do %>

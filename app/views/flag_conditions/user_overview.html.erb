@@ -38,9 +38,9 @@
         <td><%= pref.sites.count %></td>
         <td><%= pref.max_flags %></td>
         <td><%= pref.flags_used %></td>
-        <td><%= link_to "Edit", url_for(:controller => :user_site_settings, :action => :edit, :id => pref.id) %></td>
-        <td><%= link_to "Delete", url_for(:controller => :user_site_settings, :action => :destroy, :id => pref.id),
-                        :method => :delete, :data => { :confirm => "Are you sure?" }, :class => "text-danger" %></td>
+        <td><%= link_to "Edit", url_for(controller: :user_site_settings, action: :edit, id: pref.id) %></td>
+        <td><%= link_to "Delete", url_for(controller: :user_site_settings, action: :destroy, id: pref.id),
+                        method: :delete, data: { confirm: "Are you sure?" }, class: "text-danger" %></td>
       </tr>
   <% end %>
   </tbody>
@@ -70,9 +70,9 @@
         <td><%= condition.max_poster_rep %></td>
         <td><%= condition.min_reason_count %></td>
         <td><%= condition.sites.count %></td>
-        <td><%= link_to "Edit", url_for(:controller => :flag_conditions, :action => :edit, :id => condition.id) %></td>
-        <td><%= link_to "Delete", url_for(:controller => :flag_conditions, :action => :destroy, :id => condition.id),
-                        :method => :delete, :data => { :confirm => "Are you sure?" }, :class => "text-danger" %></td>
+        <td><%= link_to "Edit", url_for(controller: :flag_conditions, action: :edit, id: condition.id) %></td>
+        <td><%= link_to "Delete", url_for(controller: :flag_conditions, action: :destroy, id: condition.id),
+                        method: :delete, data: { confirm: "Are you sure?" }, class: "text-danger" %></td>
       </tr>
     <% end %>
   </tbody>

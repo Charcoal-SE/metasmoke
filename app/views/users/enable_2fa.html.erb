@@ -6,4 +6,4 @@
 
 <div class="qr-2fa"><img src="<%= @qr_uri %>" width="300" /></div>
 
-<%= link_to "Done, next step", url_for(:controller => :users, :action => :enable_code), :class => "btn btn-success" %>
+<%= link_to "Done, next step", url_for(controller: :users, action: :enable_code), class: "btn btn-success" %>

@@ -2,7 +2,7 @@
 <p>All the sites on the Stack Exchange network should be listed here. To find spammers on your site, search for and select it
   from the dropdown below, and hit View.</p>
 
-<%= form_tag url_for(:controller => :stack_exchange_users, :action => :on_site), :method => :get do %>
-  <%= select_tag 'site', options_for_select(@sites.map{|s| [s.site_name, s.id]}), {:class => 'form-control selectpicker', 'data-live-search' => true, 'data-actions-box' => true, 'data-dropup-auto' => false} %><br/>
-  <%= submit_tag 'View', :class => 'btn btn-primary' %>
+<%= form_tag url_for(controller: :stack_exchange_users, action: :on_site), method: :get do %>
+  <%= select_tag 'site', options_for_select(@sites.map{|s| [s.site_name, s.id]}), {class: 'form-control selectpicker', 'data-live-search' => true, 'data-actions-box' => true, 'data-dropup-auto' => false} %><br/>
+  <%= submit_tag 'View', class: 'btn btn-primary' %>
 <% end %>

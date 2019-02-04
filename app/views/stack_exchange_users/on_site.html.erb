@@ -3,6 +3,6 @@
   to tell the system that this user has been reviewed and the appropriate action taken; the user will be removed from this list.</p>
 
 <p class="text-muted">Data last updated: <%= @site.last_users_update.present? ? time_ago_in_words(@site.last_users_update) + ' ago' : "Never" %>
-  &mdash; <%= link_to "Update now", url_for(:controller => :stack_exchange_users, :action => :update_data, :site => @site.id), :method => :post %></p>
+  &mdash; <%= link_to "Update now", url_for(controller: :stack_exchange_users, action: :update_data, site: @site.id), method: :post %></p>
 
 <%= render 'table', users: @users %>

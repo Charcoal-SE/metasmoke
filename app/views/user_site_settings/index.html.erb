@@ -15,7 +15,7 @@
     </p>
     <hr/>
     <% if current_user.api_token.nil? %>
-      <p class="text-info">You need to authenticate for write access first; <%= link_to "you can do that here", url_for(:controller => :authentication, :action => :status) %>.</p>
+      <p class="text-info">You need to authenticate for write access first; <%= link_to "you can do that here", url_for(controller: :authentication, action: :status) %>.</p>
     <% else %>
       <input id="red-button" name="red-button" type="checkbox" <%= "checked" if current_user.flags_enabled %> <%= "disabled" if (FlagSetting["registration_enabled"] == "0" || !current_user.has_role?(:flagger)) and not current_user.flags_enabled %> />
       <label for="red-button">Use my account to cast flags automatically</label>
@@ -46,19 +46,19 @@
         <td class="text-muted"><%= pref.id %></td>
         <td><%= pref.sites.count %></td>
         <td><%= pref.max_flags %></td>
-        <td><%= current_user.flag_logs.where(:is_auto => true, :success => true).where('created_at > ?', 1.day.ago).count %></td>
-        <td><%= link_to "Edit", url_for(:controller => :user_site_settings, :action => :edit, :id => pref.id) %></td>
-        <td><%= link_to "Delete", url_for(:controller => :user_site_settings, :action => :destroy, :id => pref.id),
-                        :method => :delete, :data => { :confirm => "Are you sure?" }, :class => "text-danger" %></td>
+        <td><%= current_user.flag_logs.where(is_auto: true, success: true).where('created_at > ?', 1.day.ago).count %></td>
+        <td><%= link_to "Edit", url_for(controller: :user_site_settings, action: :edit, id: pref.id) %></td>
+        <td><%= link_to "Delete", url_for(controller: :user_site_settings, action: :destroy, id: pref.id),
+                        method: :delete, data: { confirm: "Are you sure?" }, class: "text-danger" %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <% if FlagSetting['registration_enabled'] == '1' %>
-  <p><em>Don't want to set this up yourself? <%= link_to "There's a wizard for that.", url_for(:controller => :flag_conditions, :action => :one_click_setup) %></em></p>
-  <%= link_to "Set up preferences", url_for(:controller => :user_site_settings, :action => :new) %><br/>
-  <%= link_to "Set up conditions", url_for(:controller => :flag_conditions, :action => :index) %>
+  <p><em>Don't want to set this up yourself? <%= link_to "There's a wizard for that.", url_for(controller: :flag_conditions, action: :one_click_setup) %></em></p>
+  <%= link_to "Set up preferences", url_for(controller: :user_site_settings, action: :new) %><br/>
+  <%= link_to "Set up conditions", url_for(controller: :flag_conditions, action: :index) %>
 <% else %>
   <p class="text-muted"><em>Registration for autoflagging is currently closed.</em></p>
 <% end %>

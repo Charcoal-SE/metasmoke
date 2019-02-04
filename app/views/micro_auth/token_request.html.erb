@@ -4,6 +4,6 @@
   confirmation to do this.</p>
 <p><strong>Do you trust this app?</strong></p>
 <%= link_to "Yes, grant permission", oauth_authorize_path(key: @api_key.key, redirect: params[:redirect]),
-            :method => :post, :class => "btn btn-success" %>
+            method: :post, class: "btn btn-success" %>
 <%= link_to "No, deny permission", oauth_reject_path(key: @api_key.key),
-            :class => "btn btn-danger" %>
+            class: "btn btn-danger" %>

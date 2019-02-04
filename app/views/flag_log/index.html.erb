@@ -10,17 +10,17 @@
 
 <% if @individual_post.nil? %>
   <%= line_chart [
-        {name: 'Flags', data: @applicable_flag_logs.group_by_day("flag_logs.created_at", :range => 1.month.ago.to_date..Time.now).count},
-        {name: 'Posts', data: @applicable_flag_logs.select(Arel.sql('DISTINCT post_id')).group_by_day("flag_logs.created_at", :range => 1.month.ago.to_date..Time.now).count}
+        {name: 'Flags', data: @applicable_flag_logs.group_by_day("flag_logs.created_at", range: 1.month.ago.to_date..Time.now).count},
+        {name: 'Posts', data: @applicable_flag_logs.select(Arel.sql('DISTINCT post_id')).group_by_day("flag_logs.created_at", range: 1.month.ago.to_date..Time.now).count}
       ], colors: ['#76ADE1', '#e0a976'],
       library: { "xAxis": { "plotLines" => flag_settings_plot_lines(1.month.ago)}} %>
 <% end %>
 
 <% if @individual_post.nil? %>
   <ul class="nav nav-tabs" role="tablist">
-    <li class="<%= 'active' if params[:user_id].nil? and (params[:filter].nil? or params[:filter] == 'all') %>"><%= link_to "All (#{FlagLog.where(:is_auto => true, :success => true).count})", flag_logs_path %></li>
+    <li class="<%= 'active' if params[:user_id].nil? and (params[:filter].nil? or params[:filter] == 'all') %>"><%= link_to "All (#{FlagLog.where(is_auto: true, success: true).count})", flag_logs_path %></li>
     <% if current_user %>
-      <li class="<%= 'active' if params[:user_id].to_i == current_user.id %>"><%= link_to "Mine (#{FlagLog.where(:is_auto => true, :success => true, :user => current_user).count})", flag_logs_by_user_path(:user_id => current_user.id) %></li>
+      <li class="<%= 'active' if params[:user_id].to_i == current_user.id %>"><%= link_to "Mine (#{FlagLog.where(is_auto: true, success: true, user: current_user).count})", flag_logs_by_user_path(user_id: current_user.id) %></li>
     <% end %>
     <li class="<%= 'active' if params[:filter] == 'fps' %>"><%= link_to "False Positives", flag_logs_path(filter: 'fps') %></li>
     <li class="<%= 'active' if params[:filter] == 'failures' %>"><%= link_to 'Failures', flag_logs_path(filter: 'failures') %></li>
@@ -58,6 +58,6 @@
 
 <% if @individual_post.present? %>
   <div id="eligible_flaggers">
-    <%= link_to "Eligible Flaggers", post_eligible_flaggers_path(@individual_post), :remote => true %>
+    <%= link_to "Eligible Flaggers", post_eligible_flaggers_path(@individual_post), remote: true %>
   </div>
 <% end %>

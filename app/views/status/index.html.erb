@@ -26,19 +26,19 @@
       </td>
       <td>
         <% if current_user&.has_role?(:admin) %>
-          <%= link_to "De-authorize", url_for(:controller => :smoke_detectors, :action => :destroy, :id => sd.id), :class => "text-danger",
-                :data => {:confirm => "This will be logged, and cannot be undone. Sure?"}, :method => :delete %>
+          <%= link_to "De-authorize", url_for(controller: :smoke_detectors, action: :destroy, id: sd.id), class: "text-danger",
+                data: {confirm: "This will be logged, and cannot be undone. Sure?"}, method: :delete %>
         <% end %>
       </td>
       <% if current_user&.has_role?(:code_admin) %>
         <% if sd.last_ping > 3.minutes.ago %>
           <td class="status-failover-cell">
             <% if sd.is_standby %>
-              <%= link_to "Failover", smoke_detector_force_failover_path(sd.id), class: "text-danger", :data => {:confirm => "This will take effect at the next ping, within a minute. Sure?"}, method: :post %>
+              <%= link_to "Failover", smoke_detector_force_failover_path(sd.id), class: "text-danger", data: {confirm: "This will take effect at the next ping, within a minute. Sure?"}, method: :post %>
             <% end %>
           </td>
           <td>
-            <%= link_to "Pull", smoke_detector_force_pull_path(sd.id), class: "text-danger", :data => {:confirm => "This will take effect at the next ping, within a minute. Sure?"}, method: :post %>
+            <%= link_to "Pull", smoke_detector_force_pull_path(sd.id), class: "text-danger", data: {confirm: "This will take effect at the next ping, within a minute. Sure?"}, method: :post %>
           </td>
         <% else %>
           <td colspan="2"></td>
@@ -60,7 +60,7 @@
 
 <br />
 
-<%= link_to "Audits", url_for(:controller => :smoke_detectors, :action => :audits) %><br/><br/>
+<%= link_to "Audits", url_for(controller: :smoke_detectors, action: :audits) %><br/><br/>
 <% if current_user&.has_role?(:admin) %>
   <div class="panel panel-danger">
     <div class="panel-body">

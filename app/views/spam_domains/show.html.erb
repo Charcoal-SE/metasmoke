@@ -63,7 +63,7 @@
 <table class="table">
   <tbody>
     <% @posts.includes_for_post_row.each do |post| %>
-      <%= render 'posts/post', :post => post %>
+      <%= render 'posts/post', post: post %>
     <% end %>
   </tbody>
 </table>

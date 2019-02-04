@@ -1,6 +1,6 @@
 <h4>
   <% if @post.flag_logs.auto.successful.any? %>
-    <%= link_to post_flag_logs_path(@post), :style => "text-decoration:none"  do %>
+    <%= link_to post_flag_logs_path(@post), style: "text-decoration:none"  do %>
       <span class="text-danger" title="This post had flags cast on it" href="#"><%= @post.flag_logs.auto.successful.first.flag_icon %></span>
     <% end %>
   <% end %>
@@ -13,7 +13,7 @@
      <% end %>
   </strong>
   <% unless feedbacks.empty? %>
-    <% if current_user.present? && (current_user.has_role?(:admin) || @post.feedbacks.where(:user_id => current_user.id).exists?) %>
+    <% if current_user.present? && (current_user.has_role?(:admin) || @post.feedbacks.where(user_id: current_user.id).exists?) %>
       <small>
         <%= link_to "(clear)", clear_post_feedback_path(@post) %>
       </small>
@@ -151,7 +151,7 @@
 
 <% if user_signed_in? && (current_user.api_token.present? || current_user.flags_enabled) && !@post.is_fp && !@post.deleted? && Time.now - (@post.created_at || 1.day.ago) <= 1.hour && current_user.has_role?(:reviewer) %>
   <p>
-    <%= link_to url_for(:controller => :posts, :action => :cast_spam_flag, :id => @post.id), :method => :post, :class => "text-danger" do %>
+    <%= link_to url_for(controller: :posts, action: :cast_spam_flag, id: @post.id), method: :post, class: "text-danger" do %>
       <span class="glyphicon glyphicon-flag"></span> Spam flag
     <% end %>
   </p>
@@ -201,7 +201,7 @@
     </div>
     <div class="panel-body">
       <ul>
-        <li><%= link_to "Update feedback cache", url_for(:controller => :posts, :action => :reindex_feedback, :id => @post.id), :method => :post %></li>
+        <li><%= link_to "Update feedback cache", url_for(controller: :posts, action: :reindex_feedback, id: @post.id), method: :post %></li>
         <li><%= link_to "Delete post", dev_delete_post_path(@post.id), method: :post, data: { confirm: "Are you sure you want to delete this post? This can't be undone." } %></li>
       </ul>
     </div>
