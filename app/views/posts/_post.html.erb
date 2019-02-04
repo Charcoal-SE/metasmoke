@@ -58,25 +58,43 @@
       <% end %>
     </span>
 
-    <% if post.try(:body).present? or post.try(:body_exists) == 1 %>
-      <div data-postid="<%= post.id %>" class="post-body" style="<%= "display: none;" unless expand_post.present? and expand_post %>">
-        <% if preload_post_body %>
-          <pre class="post-body-pre-block"><%= post.body %></pre>
-          <p>
-            <span class="report-reasons">
-              <%= post.reasons.map(&:reason_name).join(", ") %>
-            </span>
-          </p>
-          <% if show_autoflaggers && post.flagged? %>
-            <p>Autoflagged by:&nbsp;
-              <% post.flaggers.each do |flagger| %>
-                <%= link_to flagger.username, "https://stackexchange.com/users/#{flagger.stack_exchange_account_id}" %>&nbsp;&nbsp;
-              <% end %>
-            </p>
-          <% end %>
-        <% end %>
-      </div>
-    <% end %>
+    <div class="post-body" data-postid="<%= post.id %>" style="<%= "display: none;" unless expand_post.present? and expand_post %>">
+      <% if preload_post_body %>
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#post-body-tab" role="tab" data-toggle="tab">Markdown</a></li>
+          <li role="presentation"><a href="#preview-tab" role="tab" data-toggle="tab">Preview</a></li>
+        </ul><br/>
+
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="post-body-tab">
+            <% if post.try(:body).present? or post.try(:body_exists) == 1 %>
+              <div>
+                <pre class="post-body-pre-block"><%= post.body %></pre>
+                <p>
+                  <span class="report-reasons">
+                    <%= post.reasons.map(&:reason_name).join(", ") %>
+                  </span>
+                </p>
+                <% if show_autoflaggers && post.flagged? %>
+                  <p>Autoflagged by:&nbsp;
+                    <% post.flaggers.each do |flagger| %>
+                      <%= link_to flagger.username, "https://stackexchange.com/users/#{flagger.stack_exchange_account_id}" %>&nbsp;&nbsp;
+                    <% end %>
+                  </p>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="preview-tab">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <%= raw(sanitize(AnnouncementsController.renderer.render(post.body), scrubber: PostScrubber.new)) %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </td>
 <% if wrap_in_tr %>
 </tr>

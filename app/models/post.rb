@@ -1,5 +1,17 @@
 # frozen_string_literal: true
 
+class PostScrubber < Rails::Html::PermitScrubber
+  def initialize
+    super
+    self.tags = %w[a b blockquote code del dd dl dt em h1 h2 h3 i img kbd li ol p pre s sup sub strong strike ul br hr]
+    self.attributes = %w[href title src height width alt]
+  end
+
+  def skip_node?(node)
+    node.text?
+  end
+end
+
 class Post < ApplicationRecord
   include Websocket
   include PostConcerns::Autoflagging

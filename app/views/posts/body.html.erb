@@ -1,6 +1,24 @@
-<pre class="post-body-pre-block"><%= @post.body %></pre>
-<p>
-  <span class="report-reasons">
-    <%= @post.reasons.map(&:reason_name).join(", ") %>
-  </span>
-</p>
+<ul class="nav nav-tabs" role="tablist">
+  <li role="presentation" class="active"><a href="#post-body-tab" role="tab" data-toggle="tab">Markdown</a></li>
+  <li role="presentation"><a href="#preview-tab" role="tab" data-toggle="tab">Preview</a></li>
+</ul><br/>
+
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane active" id="post-body-tab">
+    <div>
+      <pre class="post-body-pre-block"><%= @post.body %></pre>
+      <p>
+        <span class="report-reasons">
+          <%= @post.reasons.map(&:reason_name).join(", ") %>
+        </span>
+      </p>
+    </div>
+  </div>
+  <div role="tabpanel" class="tab-pane" id="preview-tab">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <%= raw(sanitize(AnnouncementsController.renderer.render(@post.body), scrubber: PostScrubber.new)) %>
+      </div>
+    </div>
+  </div>
+</div>
