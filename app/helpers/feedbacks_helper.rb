@@ -18,6 +18,8 @@ module FeedbacksHelper
       '&#x2713;'
     elsif f.is_naa?
       '&#128169;'
+    elsif f.feedback_type.downcase.include? 'ignore'
+      '&#128683;'
     else
       ''
     end

@@ -1,3 +1,3 @@
-<% unless (feedback.is_positive? and feedback.is_negative?) or (not feedback.is_positive? and not feedback.is_negative? and not feedback.is_naa?) %>
-  <span style="<%= "font-weight:normal" if feedback.is_naa? %>" data-toggle="tooltip" data-placement="top" title="<%= feedback.user.present? ? "#{feedback.user.try(:username)} (From Review)" : feedback.user_name %>: <%= feedback.feedback_type %>" class="<%= element_class_for_feedback feedback %>"><%= element_symbol_for_feedback(feedback).html_safe %></span>
-<% end %>
+<span style="<%= "font-weight:normal" if feedback.is_naa? %>" data-toggle="tooltip" data-placement="top"
+      title="<%= feedback.user.present? ? "#{feedback.user.try(:username)} (From Review)" : feedback.user_name %>: <%= feedback.feedback_type %>"
+      class="<%= element_class_for_feedback feedback %>"><%= element_symbol_for_feedback(feedback).html_safe %></span>
