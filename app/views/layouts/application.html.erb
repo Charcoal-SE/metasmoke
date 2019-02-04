@@ -122,7 +122,7 @@
               }
             } %>
           </ul>
-          <% if controller.class == DashboardController && controller.action_name == :index %>
+          <% if controller.class == DashboardController && controller.action_name == 'index' %>
             <form class="navbar-form navbar-right" role="search">
               <div class="form-group">
                 <input type="text" id="search" class="form-control" placeholder="Search reasons">
@@ -158,7 +158,7 @@
                 <code><%= CurrentCommit.first(7) %></code>
               <% end %>
             <% end %>
-            <% if controller.class == DashboardController %>
+            <% if controller.class == DashboardController && controller.action_name == 'index' %>
               <li class="search-icon hidden-xs"><a class="glyphicon glyphicon-search" href=#><span class="sr-only">Search</span></a></li>
             <% end %>
           </ul>
