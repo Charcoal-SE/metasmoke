@@ -11,10 +11,15 @@
        <span style="<%= "font-weight:normal" if feedback.is_naa? %>" data-toggle="tooltip" data-placement="top" title="<%= (feedback.user.present? || feedback.api_key_id.present?) ? "#{feedback.user.try(:username)} (From #{feedback.api_key.try(:app_name) || "Review"})" : feedback.user_name %>: <%= feedback.feedback_type %>" class="<%= element_class_for_feedback feedback %>"><%= element_symbol_for_feedback(feedback).html_safe %></span>
      <% end %>
   </strong>
+  <small>
+    <%= link_to post_path(@post) do %>
+      <i class="fas fa-fw fa-link"></i>
+    <% end %>
+  </small>
   <% unless feedbacks.empty? %>
     <% if current_user.present? && (current_user.has_role?(:admin) || @post.feedbacks.where(user_id: current_user.id).exists?) %>
       <small>
-        <%= link_to "(clear)", clear_post_feedback_path(@post) %>
+        &middot; <%= link_to "(clear)", clear_post_feedback_path(@post) %>
       </small>
     <% end %>
   <% end %>
