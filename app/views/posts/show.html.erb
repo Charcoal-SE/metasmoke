@@ -12,10 +12,15 @@
        <% end %>
     </strong>
   <% end %>
+  <small>
+    <%= link_to post_path(@post) do %>
+      <i class="fas fa-fw fa-link"></i>
+    <% end %>
+  </small>
   <% unless @post.feedbacks.empty? || @is_review_item %>
     <% if current_user.present? && (current_user.has_role?(:admin) || @post.feedbacks.where(user_id: current_user.id).exists?) %>
       <small>
-        <%= link_to "(clear)", clear_post_feedback_path(@post) %>
+        &middot; <%= link_to "(clear)", clear_post_feedback_path(@post) %>
       </small>
     <% end %>
   <% end %>
@@ -179,7 +184,7 @@
 <% end %>
 
 <% if current_user&.has_role?(:reviewer) %>
-  <p><a href="#" class="new-comment"><span class="glyphicon glyphicon-plus"></span> Add a comment</a></p>
+  <p><a href="javascript:void(0)" class="new-comment"><span class="glyphicon glyphicon-plus"></span> Add a comment</a></p>
 <% end %>
 
 <div class="add-comment">
