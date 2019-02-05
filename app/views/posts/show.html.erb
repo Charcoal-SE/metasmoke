@@ -5,13 +5,15 @@
     <% end %>
   <% end %>
   <%= title @post.title %>
-  <% feedbacks = @post.feedbacks.to_a %>
-  <strong class="post-feedbacks">
-     <% feedbacks.each do |feedback| %>
-       <span style="<%= "font-weight:normal" if feedback.is_naa? %>" data-toggle="tooltip" data-placement="top" title="<%= (feedback.user.present? || feedback.api_key_id.present?) ? "#{feedback.user.try(:username)} (From #{feedback.api_key.try(:app_name) || "Review"})" : feedback.user_name %>: <%= feedback.feedback_type %>" class="<%= element_class_for_feedback feedback %>"><%= element_symbol_for_feedback(feedback).html_safe %></span>
-     <% end %>
-  </strong>
-  <% unless feedbacks.empty? %>
+  <% unless @is_review_item %>
+    <% feedbacks = @post.feedbacks.to_a %>
+    <strong class="post-feedbacks">
+       <% feedbacks.each do |feedback| %>
+         <span style="<%= "font-weight:normal" if feedback.is_naa? %>" data-toggle="tooltip" data-placement="top" title="<%= (feedback.user.present? || feedback.api_key_id.present?) ? "#{feedback.user.try(:username)} (From #{feedback.api_key.try(:app_name) || "Review"})" : feedback.user_name %>: <%= feedback.feedback_type %>" class="<%= element_class_for_feedback feedback %>"><%= element_symbol_for_feedback(feedback).html_safe %></span>
+       <% end %>
+    </strong>
+  <% end %>
+  <% unless feedbacks.empty? || @is_review_item %>
     <% if current_user.present? && (current_user.has_role?(:admin) || @post.feedbacks.where(user_id: current_user.id).exists?) %>
       <small>
         <%= link_to "(clear)", clear_post_feedback_path(@post) %>
@@ -26,7 +28,7 @@
   </a></p>
 <% end %>
 
-<% if user_signed_in? && current_user.has_role?(:reviewer) %>
+<% if user_signed_in? && current_user.has_role?(:reviewer) && !@is_review_item %>
   <p>
     <strong>Add feedback:</strong>
     <%= link_to raw('&#x2713'), post_feedback_path(post_id: @post.id, feedback_type: 'tp'),

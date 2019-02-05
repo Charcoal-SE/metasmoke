@@ -1,5 +1,6 @@
 <div class="review-item">
   <%= render 'review_queues/responses', queue: queue, item: item, exclude_responses: item.reviewable.question? ? [['NAA', 'naa']] : [] %>
   <% @post = item.reviewable %>
+  <% @is_review_item = true %>
   <%= render file: 'posts/show.html.erb' %>
 </div>
