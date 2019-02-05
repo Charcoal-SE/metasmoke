@@ -2,7 +2,7 @@
 <div class="panel panel-primary post-comment" data-cid="<%= comment.id %>">
   <div class="panel-heading">
     <strong><%= comment.user.username %></strong>
-    <% if feedback.present? %>
+    <% if feedback.present? && !@is_review_item %>
       <%= render 'feedbacks/feedback', feedback: feedback %>
     <% end %>
     <span title="<%= comment.created_at %>"><%= time_ago_in_words comment.created_at %> ago</span>

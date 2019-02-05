@@ -1,5 +1,5 @@
-import { onLoad } from './util';
 import createDebug from 'debug';
+import { onLoad } from './util';
 
 const debug = createDebug('ms:comments');
 
