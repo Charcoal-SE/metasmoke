@@ -38,7 +38,8 @@ class Redis::Client
 end
 
 def redis
-  $redis ||= Redis.new(AppConfig['redis'].merge(logger: Logger.new(File.join(Rails.root, 'log', 'redis.log'))))
+  config = YAML.load_file(File.join(Rails.root, 'config', 'cable.yml'))[Rails.env]
+  $redis ||= Redis.new(config) # rubocop:disable Style/GlobalVars
 end
 
 redis

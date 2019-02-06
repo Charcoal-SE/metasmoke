@@ -6,7 +6,7 @@
 <div class="pull-right">
   <code>
     <span style="display:inline-block;">
-      <%= Time.at(req[:timestamp]).strftime("%-y/%-m/%-d %-H:%M:%S.%-3N") %>
+      <%= Time.at(req[:timestamp]).iso8601 %>
     </span>&nbsp;·&nbsp;<span style="display:inline-block;">
       <i class="fas fa-database" title="DB time"></i>
       <% if req['db_runtime'].nil? %>

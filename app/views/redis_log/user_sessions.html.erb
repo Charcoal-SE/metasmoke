@@ -4,7 +4,7 @@
     <li class="list-group-item list-item-label" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="<%= css_id %>" href="#<%= css_id %>">
       <span class="badge"><%= session[:count] %></span>
       <%= render 'redis_log/user', session_id: session[:id], user_id: session[:user_id] %>
-      <%= Time.at(session['start'].to_i).strftime("%-y/%-m/%-d %-H:%M") %> - <%= Time.at(session['end'].to_i).strftime("%-y/%-m/%-d %-H:%M") %>
+      <%= Time.at(session['start'].to_i).iso8601 %> - <%= Time.at(session['end'].to_i).strftime("%-y/%-m/%-d %-H:%M") %>
     </li>
     <div class="collapse" style="margin-bottom:-1px" id="<%= css_id %>">
       <ul class="list-group">

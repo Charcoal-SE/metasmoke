@@ -110,6 +110,7 @@
                     (currently, it’s overridden with `.dropdown-menu > li > a` in Bootstrap)
                   %>
                   <%= nav_link DeveloperController, label: 'Production log', action: :production_log %>
+                  <%= nav_link RedisLogController, label: 'Request log', action: :index %>
                 <% end %>
               <% end %>
             <% end %>

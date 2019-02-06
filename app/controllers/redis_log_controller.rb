@@ -4,7 +4,8 @@ class RedisLogController < ApplicationController
 
   def by_user
     user_id = params[:id]
-    @sessions = redis.zrevrange("user_sessions/#{user_id}", 0, 20).map do |session_id|
+    si, ei = page
+    @sessions = redis.zrevrange("user_sessions/#{user_id}", si, ei).map do |session_id|
       requests = redis.zrange("session/#{session_id}/requests", 0, 20, with_scores: true)
       redis.hgetall("session/#{session_id}").merge({
         id: session_id,
@@ -25,7 +26,8 @@ class RedisLogController < ApplicationController
   end
 
   def index
-    @requests = redis.zrevrange("requests", 1, 11, with_scores: true).map do |request_id, timestamp|
+    si, ei = page
+    @requests = redis.zrevrange("requests", si, ei, with_scores: true).map do |request_id, timestamp|
       redis.hgetall("request/#{timestamp}/#{request_id}").merge({
         request_headers: redis.hgetall("request/#{timestamp}/#{request_id}/request_headers"),
         response_headers: redis.hgetall("request/#{timestamp}/#{request_id}/response_headers"),
@@ -40,7 +42,8 @@ class RedisLogController < ApplicationController
 
   def by_session
     @session_id = params[:id]
-    @requests = redis.zrange("session/#{@session_id}/requests", 0, 20, with_scores: true).map do |request_id, timestamp|
+    si, ei = page
+    @requests = redis.zrange("session/#{@session_id}/requests", si, ei, with_scores: true).map do |request_id, timestamp|
       redis.hgetall("request/#{timestamp}/#{request_id}").merge({
         request_headers: redis.hgetall("request/#{timestamp}/#{request_id}/request_headers"),
         response_headers: redis.hgetall("request/#{timestamp}/#{request_id}/response_headers"),
@@ -55,7 +58,8 @@ class RedisLogController < ApplicationController
 
   def by_status
     @status = params[:status]
-    @requests = redis.zrevrange("requests/status/#{@status}", 0, 20, with_scores: true).map do |request_id, timestamp|
+    si, ei = page
+    @requests = redis.zrevrange("requests/status/#{@status}", si, ei, with_scores: true).map do |request_id, timestamp|
       redis.hgetall("request/#{timestamp}/#{request_id}").merge({
         request_headers: redis.hgetall("request/#{timestamp}/#{request_id}/request_headers"),
         response_headers: redis.hgetall("request/#{timestamp}/#{request_id}/response_headers"),
@@ -66,5 +70,14 @@ class RedisLogController < ApplicationController
         key: "#{timestamp.to_s.gsub('.', '-')}-#{request_id}"
       })
     end
+  end
+
+  private
+
+  def page
+    pagesize = params[:pagesize].present? ? params[:pagesize].to_i : 50
+    start_idx = (((params[:page].present? ? params[:page].to_i : 1) - 1) * pagesize) + 1
+    end_idx = start_idx + pagesize
+    [start_idx, end_idx]
   end
 end

@@ -10,6 +10,9 @@
       <% if !req['session_id'].nil? %>
         <%= link_to "session", redis_log_by_session_path(id: req['session_id']) %>
       <% end %>
+      <% if !req['session_id'].nil? && !req['user_id'].nil? %>
+        &middot;
+      <% end %>
       <% if !req['user_id'].nil? %>
         <%= link_to "user", redis_log_by_user_path(id: req['user_id']) %>
       <% end %>
@@ -21,14 +24,14 @@
     <%= render 'redis_log/param_table', params: req[:exception] %>
     <% end %>
     <% ["Params", "Request Headers", "Response Headers"].each do |key| %>
-        <h4><%= key %></h4>
-        <% if req[key.downcase.gsub(' ', '_').to_sym].nil? || req[key.downcase.gsub(' ', '_').to_sym].empty? %>
-          (empty)
-        <% else %>
-          <%= render 'redis_log/param_table', heading: key, params: req[key.downcase.gsub(' ', '_').to_sym] %>
-        <% end %>
+      <h4><%= key %></h4>
+      <% if req[key.downcase.gsub(' ', '_').to_sym].nil? || req[key.downcase.gsub(' ', '_').to_sym].empty? %>
+        (empty)
+      <% else %>
+        <%= render 'redis_log/param_table', heading: key, params: req[key.downcase.gsub(' ', '_').to_sym] %>
+      <% end %>
     <% end %>
-    <table>
+    <table class="request-details-table">
       <tr>
         <td>Request ID</td>
         <td><code><%= req[:request_id] %></code></td>
