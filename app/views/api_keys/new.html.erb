@@ -2,24 +2,24 @@
 <p>From this page, you can register a new API key. The key is pre-set for you for security; copy it and add a name for
   the app (or user) that will use it, then click Register.</p>
 
-<%= form_for @key, :url => url_for(:controller => :api_keys, :action => :create) do |f| %>
+<%= form_for @key, url: url_for(controller: :api_keys, action: :create) do |f| %>
   <div class="field">
     <%= f.label :key %><br/>
-    <%= f.text_field :key, :value => @key.key, :class => "form-control" %>
+    <%= f.text_field :key, value: @key.key, class: "form-control" %>
   </div><br/>
   <div class="field">
     <%= f.label :app_name %><br/>
-    <%= f.text_field :app_name, :class => "form-control" %>
+    <%= f.text_field :app_name, class: "form-control" %>
   </div><br/>
   <div class="field">
     <%= f.label :user_id, "Owner" %><br/>
-    <%= f.select :user_id, options_for_select(User.all.map{|u| [u.username, u.id]}), { :include_blank => true }, { :class => "form-control" } %>
+    <%= f.select :user_id, options_for_select(User.all.map{|u| [u.username, u.id]}), { include_blank: true }, { class: "form-control" } %>
   </div><br/>
   <div class="field">
     <%= f.label :github_link, "GitHub repository link" %><br/>
-    <%= f.text_field :github_link, :class => "form-control" %>
+    <%= f.text_field :github_link, class: "form-control" %>
   </div><br/>
   <div class="field">
-    <%= f.submit "Register", :class => "btn btn-primary" %>
+    <%= f.submit "Register", class: "btn btn-primary" %>
   </div>
 <% end %>

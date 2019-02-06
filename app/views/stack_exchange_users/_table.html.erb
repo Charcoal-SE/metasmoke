@@ -19,7 +19,7 @@
   <tbody>
     <% users.each do |u| %>
       <tr>
-        <td class="text-muted"><%= link_to u.id, url_for(:controller => :stack_exchange_users, :action => :show, :id => u.id) %></td>
+        <td class="text-muted"><%= link_to u.id, url_for(controller: :stack_exchange_users, action: :show, id: u.id) %></td>
         <td><%= link_to "#{u.user_id} (#{u.username})", "#{@site.site_url}/users/#{u.user_id}" %></td>
         <% if post_counts %>
           <td><%= u.posts.count %></td>

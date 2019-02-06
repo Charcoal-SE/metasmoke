@@ -5,7 +5,7 @@
 <p>Two-factor authentication is currently <strong><%= current_user.enabled_2fa ? "on" : "off" %></strong> for your account.</p>
 
 <% if current_user.enabled_2fa %>
-  <p><%= link_to "Turn off", url_for(:controller => :users, :action => :disable_code) %></p>
+  <p><%= link_to "Turn off", url_for(controller: :users, action: :disable_code) %></p>
 <% else %>
-  <p><%= link_to "Turn on", url_for(:controller => :users, :action => :enable_2fa), :method => :post %></p>
+  <p><%= link_to "Turn on", url_for(controller: :users, action: :enable_2fa), method: :post %></p>
 <% end %>

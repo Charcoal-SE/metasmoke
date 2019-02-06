@@ -5,6 +5,8 @@ Types::QueryType = GraphQL::ObjectType.define do
   # Add root-level fields here.
   # They will be entry points for queries on your schema.
 
+  BASE = 8
+
   field :post do
     type Types::PostType
     argument :id, types.ID
@@ -16,7 +18,9 @@ Types::QueryType = GraphQL::ObjectType.define do
       if args['link']
         Post.find(link: args['link'])
       elsif args['uid'] && args['site']
-        Post.includes(:site).find_by(sites: { api_parameter: args['site'] }, native_id: args['uid'])
+        posts = Post.includes(:site).where(sites: { api_parameter: args['site'] }, native_id: args['uid'])
+        GraphQL::ExecutionError.new('More than one post matches those parameters') if posts.length > 1
+        post.empty? ? nil : post.first
       elsif args['id']
         Post.find(args['id'])
       else
@@ -24,7 +28,7 @@ Types::QueryType = GraphQL::ObjectType.define do
       end
     end
     complexity ->(_ctx, _args, child_complexity) do
-      25 * (child_complexity > 1 ? child_complexity : 1)
+      (BASE * 25) + (child_complexity > 1 ? child_complexity : 1)
     end
   end
 
@@ -52,8 +56,8 @@ Types::QueryType = GraphQL::ObjectType.define do
         posts = uids.map do |site_id, native_id|
           all_permutations.select do |post|
             post.site_id == site_id && post.native_id == native_id
-          end.first
-        end
+          end
+        end.flatten.reject(&:nil?)
         posts = Post.where(id: posts.map(&:id))
       end
       posts = posts.find(args['ids']) if args['ids']
@@ -64,14 +68,12 @@ Types::QueryType = GraphQL::ObjectType.define do
       Array(posts)
     end
     complexity ->(_ctx, args, child_complexity) do
-      base = 1
-      children = 1
-      children *= (args['last'] || args['first'] || 1)
-      base *= args['uids'].length * 2 if args['uids']
-      children *= args['uids'].length if args['uids']
-      children *= args['ids'].length if args['ids']
-      children *= args['urls'].length if args['urls']
-      (base * 25) + children * (child_complexity > 1 ? child_complexity : 1)
+      children = 0
+      children += (args['last'] || args['first'] || 0)
+      children += args['uids'].length if args['uids']
+      children += args['ids'].length if args['ids']
+      children += args['urls'].length if args['urls']
+      (BASE * 25) + children * (child_complexity > 1 ? child_complexity : 1)
     end
   end
 
@@ -89,8 +91,7 @@ Types::QueryType = GraphQL::ObjectType.define do
         ar_class.find(args['id']) if args['id']
       end
       complexity ->(_ctx, _args, child_complexity) do
-        base = 1
-        (base * 25) + (child_complexity > 1 ? child_complexity : 1)
+        (BASE * 25) + (child_complexity > 1 ? child_complexity : 1)
       end
     end
 
@@ -112,11 +113,11 @@ Types::QueryType = GraphQL::ObjectType.define do
         Array(things)
       end
       complexity ->(_ctx, args, child_complexity) do
-        children = 1
-        base = 1
-        children *= args['ids'].length if args['ids']
-        children *= (args['last'] || args['first'] || 1)
-        (base * 25) + children * (child_complexity > 1 ? child_complexity : 1)
+        children = 0
+        children += args['ids'].length if args['ids']
+        children += (args['last'] || args['first'] || 0)
+        children = 200 if children == 0
+        (BASE * 25) + children * (child_complexity > 1 ? child_complexity : 1)
       end
     end
   end

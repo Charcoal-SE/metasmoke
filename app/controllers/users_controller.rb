@@ -49,7 +49,7 @@ class UsersController < ApplicationController
     end
 
     totp = ROTP::TOTP.new(current_user.two_factor_token)
-    if totp.verify_with_drift(params[:code], 30, Time.now)
+    if totp.verify(params[:code], drift_behind: 30, drift_ahead: 30)
       current_user.update(enabled_2fa: true)
       flash[:success] = 'Success! 2FA has been enabled on your account.'
       redirect_to url_for(controller: :users, action: :tf_status)
@@ -68,7 +68,7 @@ class UsersController < ApplicationController
     end
 
     totp = ROTP::TOTP.new(current_user.two_factor_token)
-    if totp.verify_with_drift(params[:code], 30, Time.now)
+    if totp.verify(params[:code], drift_behind: 30, drift_ahead: 30)
       current_user.update(two_factor_token: nil, enabled_2fa: false)
       flash[:success] = 'Success! 2FA has been disabled on your account.'
       redirect_to url_for(controller: :users, action: :tf_status)

@@ -19,6 +19,7 @@ config/secrets.html
 config/config.yml
 config/database.yml
 config/blazer.yml
+config/cable.yml
 
 db_import.sql
 db_import_*.sql
@@ -40,6 +41,10 @@ config/deploy/*
 /node_modules
 REVISION
 package-lock.json
+
+zhregex
+redis-git
+*.rdb
 
 *.swp
 *.swo

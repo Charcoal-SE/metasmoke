@@ -41,6 +41,8 @@ def redis
   $redis ||= Redis.new(AppConfig['redis'].merge(logger: Logger.new(File.join(Rails.root, 'log', 'redis.log'))))
 end
 
+redis
+
 def with_no_score(ary)
   zeros = Array.new(ary.length) { 0 }
   elements = ary.map { |i| "\"#{i}\"" }

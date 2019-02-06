@@ -36,7 +36,7 @@ route('/status', () => {
         standByLabel.hide();
       }
 
-      row.children('td').last().html(failoverLink ? failoverElement(failoverLink) : '');
+      row.children('td.status-failover-cell').html(failoverLink ? failoverElement(failoverLink) : '');
 
       const pingCell = row.find('.ping-cell');
       pingCell.attr('data-livestamp', tsUnix).attr('title', tsRaw);

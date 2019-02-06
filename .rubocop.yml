@@ -12,6 +12,8 @@ AllCops:
     - 'db/schema.rb' # auto-generated :(
     - 'Capfile'
     - 'config/routes.rb'
+    - 'zhregex/**/**/**/*'
+    - 'redis-git/**/**/**/*'
   TargetRubyVersion: 2.4
 
 Style/SymbolArray:
@@ -24,6 +26,8 @@ Style/FileName:
 Style/FrozenStringLiteralComment:
   EnforcedStyle: always
   Enabled: true
+  Exclude:
+    - db/migrate/*
 Style/NumericPredicate:
   AutoCorrect: true
   EnforcedStyle: comparison
@@ -64,6 +68,8 @@ Metrics/BlockLength:
     - helpers
     - field
     - included
+    - step
   Exclude:
     - db/migrate/*.rb
     - 'app/views/**/*.builder'
+    - app/jobs/clean_redis_job.rb

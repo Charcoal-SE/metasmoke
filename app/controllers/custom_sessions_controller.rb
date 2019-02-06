@@ -35,7 +35,7 @@ class CustomSessionsController < Devise::SessionsController
     end
 
     totp = ROTP::TOTP.new(target_user.two_factor_token)
-    if totp.verify_with_drift(params[:code], 30, Time.now)
+    if totp.verify(params[:code], drift_ahead: 30, drift_behind: 30)
       if @@first_factor.include? params[:uid].to_i
         @@first_factor.delete params[:uid].to_i
         sign_in_and_redirect User.find(params[:uid])

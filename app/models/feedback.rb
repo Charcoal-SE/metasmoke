@@ -39,8 +39,8 @@ class Feedback < ApplicationRecord
 
   def self.populate_redis_meta
     keys = []
-    prefix = "feedbacks_populate"
-    eager_load(:user).eager_load(:api_key).find_each(batch_size: 10000) do |fb|
+    prefix = 'feedbacks_populate'
+    eager_load(:user).eager_load(:api_key).find_each(batch_size: 10_000) do |fb|
       redis.pipelined do
         next if fb.post_id.nil?
         key = "post/#{fb.post_id}/feedbacks"

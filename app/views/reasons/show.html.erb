@@ -9,16 +9,16 @@
 
 <ul class="nav nav-tabs">
   <li class="<%= 'active' if params[:filter].nil? or params[:filter] == 'all' %>">
-    <%= link_to "All (#{@total})", reason_path(@reason, :filter => nil) %>
+    <%= link_to "All (#{@total})", reason_path(@reason, filter: nil) %>
   </li>
   <li class="<%= 'active' if params[:filter] == 'tp' %>">
-    <%= link_to "True positives (#{@counts_by_feedback[:is_tp]})", reason_path(@reason, :filter => 'tp') %>
+    <%= link_to "True positives (#{@counts_by_feedback[:is_tp]})", reason_path(@reason, filter: 'tp') %>
   </li>
   <li class="<%= 'active' if params[:filter] == 'fp' %>">
-    <%= link_to "False positives (#{@counts_by_feedback[:is_fp]})", reason_path(@reason, :filter => 'fp') %>
+    <%= link_to "False positives (#{@counts_by_feedback[:is_fp]})", reason_path(@reason, filter: 'fp') %>
   </li>
   <li class="<%= 'active' if params[:filter] == 'naa' %>">
-    <%= link_to "NAA (#{@counts_by_feedback[:is_naa]})", reason_path(@reason, :filter => 'naa') %>
+    <%= link_to "NAA (#{@counts_by_feedback[:is_naa]})", reason_path(@reason, filter: 'naa') %>
   </li>
 </ul>
 

@@ -84,7 +84,7 @@
 <% if @results.present? %>
   <ul class="nav nav-tabs">
     <li role="presentation" class="<%= "active" if params[:option].nil? and (params[:feedback_filter].nil? or params[:feedback_filter] == 'all') %>">
-      <%= link_to "Results (#{@counts_by_accuracy_group.values.sum})", search_path(request.query_parameters.merge!({:option => nil, feedback_filter: nil})) %>
+      <%= link_to "Results (#{@counts_by_accuracy_group.values.sum})", search_path(request.query_parameters.merge!({option: nil, feedback_filter: nil})) %>
     </li>
     <li class="<%= 'active' if params[:feedback_filter] == 'tp' %>">
       <%= link_to "True positives (#{@counts_by_feedback[:is_tp]})", search_path(request.query_parameters.to_h.merge!({option: nil, feedback_filter: "tp"})) %>
@@ -93,7 +93,7 @@
       <%= link_to "False positives (#{@counts_by_feedback[:is_fp]})", search_path(request.query_parameters.to_h.merge!({option: nil, feedback_filter: "fp"})) %>
     </li>
     <li class="<%= 'active' if params[:feedback_filter] == 'naa' %>">
-      <%= link_to "NAA (#{@counts_by_feedback[:is_naa]})", search_path(request.query_parameters.to_h.merge!({:option => nil, :feedback_filter => "naa"})) %>
+      <%= link_to "NAA (#{@counts_by_feedback[:is_naa]})", search_path(request.query_parameters.to_h.merge!({option: nil, feedback_filter: "naa"})) %>
     </li>
     <li role="presentation" class="<%= "active" if params[:option] == "graphs" %>">
       <%= link_to "Graphs", search_path(request.query_parameters.to_h.merge({option: "graphs", anchor: "graphs"})) %>
@@ -103,13 +103,13 @@
   <% if params[:option].nil? %>
     <table class="table">
       <% @results.each do |post| %>
-        <%= render "posts/post", :post => post %>
+        <%= render "posts/post", post: post %>
       <% end %>
     </table>
     <div class="text-center">
       <%= will_paginate @results, renderer: BootstrapPagination::Rails %>
       <p class="text-muted">
-        <%= link_to "JSON (still subject to paging limits)", search_path(params: request.query_parameters, :format => :json) %>
+        <%= link_to "JSON (still subject to paging limits)", search_path(params: request.query_parameters, format: :json) %>
       </p>
     </div>
   <% else %>
@@ -117,7 +117,7 @@
       <% h = HTMLEntities.new %>
       <%= pie_chart @results.group(:site).count.map{ |k,v| {(k.nil? ? "Unknown" : h.decode(k.site_name))=>v} }.reduce(:merge).select{|k,v| k != "Unknown"}.sort_by {|k,v| v}.reverse %>
 
-      <%= line_chart [{name: "True positives", data: @results.where(:is_tp => true).group_by_day('`posts`.`created_at`', range: 1.month.ago.to_date..Time.now).count}, {name: "False positives", data: @results.where(:is_fp => true).group_by_day('`posts`.`created_at`', range: 1.month.ago.to_date..Time.now).count}], colors: ["green", "red"], library: {"tooltip" => {'shared' => 'true'} } %>
+      <%= line_chart [{name: "True positives", data: @results.where(is_tp: true).group_by_day('`posts`.`created_at`', range: 1.month.ago.to_date..Time.now).count}, {name: "False positives", data: @results.where(is_fp: true).group_by_day('`posts`.`created_at`', range: 1.month.ago.to_date..Time.now).count}], colors: ["green", "red"], library: {"tooltip" => {'shared' => 'true'} } %>
     </div>
   <% end %>
 <% end %>
@@ -129,8 +129,8 @@
     </div>
     <div class="panel-body">
       <ul>
-        <li><%= link_to "Update site cache", url_for(:controller => :developer, :action => :update_sites), :method => :post,
-                :data => { :confirm => "You're a developer, so I should be assuming you know what you're doing, but: are you sure?" } %></li>
+        <li><%= link_to "Update site cache", url_for(controller: :developer, action: :update_sites), method: :post,
+                data: { confirm: "You're a developer, so I should be assuming you know what you're doing, but: are you sure?" } %></li>
       </ul>
     </div>
   </div>

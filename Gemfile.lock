@@ -480,7 +480,7 @@ DEPENDENCIES
   redcarpet
   redis (~> 3.0)
   rolify
-  rotp
+  rotp (~> 4.0)
   rqrcode
   rubocop (~> 0.48.1)
   sass-rails
@@ -500,4 +500,4 @@ DEPENDENCIES
   will_paginate-bootstrap!
 
 BUNDLED WITH
-   1.16.6
+   1.17.1

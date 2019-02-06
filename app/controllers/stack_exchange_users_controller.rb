@@ -11,9 +11,10 @@ class StackExchangeUsersController < ApplicationController
                               .where('stack_exchange_users.site_id = 1')
                               .where('feedbacks.feedback_type LIKE \'%t%\'')
                               .includes(:site)
+                              .includes(:posts)
                               .group(:user_id)
                               .order(Arel.sql('created_at DESC'))
-                              .first(100)
+                              .limit(100)
   end
 
   def show

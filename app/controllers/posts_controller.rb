@@ -19,6 +19,8 @@ class PostsController < ApplicationController
       @post = Post.find params[:id]
     end
 
+    @is_review_item = false
+
     not_found if @post&.id.nil?
   end
 

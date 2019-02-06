@@ -9,7 +9,7 @@
       <%= log.user.try(:username) %>
     <% end %>
   </td>
-  <%= render "posts/post", :post => log.post, :wrap_in_tr => false %>
+  <%= render "posts/post", post: log.post, wrap_in_tr: false %>
   <% if with_app %>
     <td><%= log.api_key.present? ? log.api_key.app_name : 'MS Web UI' %></td>
   <% end %>

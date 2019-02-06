@@ -7,7 +7,7 @@
     <%= link_to "All", posts_path %>
   </li>
   <li class="<%= 'active' if params[:filter] == 'undeleted' %>">
-    <%= link_to "Undeleted", posts_path(:filter => :undeleted) %>
+    <%= link_to "Undeleted", posts_path(filter: :undeleted) %>
   </li>
 </ul>
 

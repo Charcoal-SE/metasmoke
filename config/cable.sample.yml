@@ -4,7 +4,8 @@ production:
 
 local: &local
   adapter: redis
-  url: redis://localhost:6379
+  timeout: 120
+  url: redis://localhost:6378
 
 development: *local
 test: *local

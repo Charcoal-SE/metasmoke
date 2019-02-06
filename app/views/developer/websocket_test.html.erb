@@ -1,7 +1,7 @@
 <h3>Websocket Test</h3>
 <p>This lets you broadcast arbitrary content across the websockets. If you abuse this, I will find you.</p>
 
-<%= form_tag url_for(:controller => :developer, :action => :send_websocket_test), :method => :post do %>
+<%= form_tag url_for(controller: :developer, action: :send_websocket_test), method: :post do %>
   <div class="field">
     <%= label_tag 'channel' %><br/>
     <%= text_field_tag 'channel', '', class: 'form-control' %>
@@ -9,10 +9,10 @@
 
   <div class="field">
     <%= label_tag 'content' %><br/>
-    <%= text_field_tag 'content', '', :class => 'form-control', :placeholder => 'JSON format' %>
+    <%= text_field_tag 'content', '', class: 'form-control', placeholder: 'JSON format' %>
   </div><br/>
 
   <div class="actions">
-    <%= submit_tag 'Broadcast', :class => 'btn btn-primary' %>
+    <%= submit_tag 'Broadcast', class: 'btn btn-primary' %>
   </div>
 <% end %>

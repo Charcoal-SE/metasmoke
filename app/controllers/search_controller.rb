@@ -138,8 +138,6 @@ class SearchController < ApplicationController
       return
     end
 
-    user_reputation = params[:user_reputation].to_i || 0
-
     feedback = case params[:feedback]
                when /true/
                  :is_tp
@@ -147,7 +145,7 @@ class SearchController < ApplicationController
                  :is_fp
                when /NAA/
                  :is_naa
-    end
+               end
 
     per_page = user_signed_in? && params[:per_page].present? ? [params[:per_page].to_i, 10_000].min : 100
 
@@ -191,7 +189,7 @@ class SearchController < ApplicationController
 
     intersect.push("sites/#{params[:site].to_i}/posts") if params[:site].present?
 
-    Rails.logger.info "Generated intersects. Applying..."
+    Rails.logger.info 'Generated intersects. Applying...'
 
     search_id = redis.incr 'search_counter'
     if intersect.empty?
@@ -248,7 +246,7 @@ class SearchController < ApplicationController
                 else
                   redis.zunionstore final_key, to_expire
                   redis.zrevrange(final_key, 0, -1)
-    end
+                end
     to_expire.each { |k| redis.del k }
 
     redis.del fkey

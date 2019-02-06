@@ -27,8 +27,8 @@
         </td>
         <td><%= time_ago_in_words(key.created_at) %> ago</td>
         <td><input type="checkbox" class="trust-checkbox" data-key-id="<%= key.id %>" <%= "checked" if key.is_trusted %> /></td>
-        <td><%= link_to "Edit", url_for(:controller => :api_keys, :action => :edit, :id => key.id) %></td>
-        <td><%= link_to "Revoke write tokens", url_for(:controller => :api_keys, :action => :revoke_write_tokens, :id => key.id), :method => :delete, :class => "text text-danger", data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to "Edit", url_for(controller: :api_keys, action: :edit, id: key.id) %></td>
+        <td><%= link_to "Revoke write tokens", url_for(controller: :api_keys, action: :revoke_write_tokens, id: key.id), method: :delete, class: "text text-danger", data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

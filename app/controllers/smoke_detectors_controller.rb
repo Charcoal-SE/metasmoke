@@ -2,8 +2,8 @@
 
 class SmokeDetectorsController < ApplicationController
   before_action :authenticate_user!, except: [:audits, :check_token]
-  before_action :verify_admin, except: [:audits, :force_failover, :mine, :token_regen, :new, :create, :check_token]
-  before_action :verify_code_admin, only: [:force_failover]
+  before_action :verify_admin, except: [:audits, :force_failover, :force_pull, :mine, :token_regen, :new, :create, :check_token]
+  before_action :verify_code_admin, only: [:force_failover, :force_pull]
   before_action :verify_smoke_detector_runner, only: [:mine, :token_regen, :new, :create]
   before_action :set_smoke_detector, except: [:audits, :mine, :new, :create, :check_token]
 
@@ -24,6 +24,13 @@ class SmokeDetectorsController < ApplicationController
   def force_failover
     @smoke_detector.update(force_failover: true)
     flash[:success] = "Failover for #{@smoke_detector.location} will be forced on the next ping; probably within 60 seconds."
+
+    redirect_to status_path
+  end
+
+  def force_pull
+    @smoke_detector.update(force_pull: true)
+    flash[:success] = "#{@smoke_detector.location} will pull updates on the next ping; probably within 60 seconds."
 
     redirect_to status_path
   end

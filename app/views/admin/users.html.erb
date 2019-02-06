@@ -36,11 +36,11 @@
         <% else %>
           <td><%= user.roles.map(&:name).map{|n| n.humanize.downcase}.to_sentence.capitalize %></td>
         <% end %>
-        <td><%= link_to 'Feedback', admin_user_feedback_path(:user_id => user.id) %></td>
+        <td><%= link_to 'Feedback', admin_user_feedback_path(user_id: user.id) %></td>
         <% if current_user&.has_role?(:developer) %>
           <td><%= link_to 'Developer', dev_user_path(user) %></td>
           <td><%= link_to 'Impersonate', impersonate_path(user), method: :post, class: 'text-warning' %></td>
-          <td><%= link_to 'Nuke', 'javascript:void(0);', class: 'text-danger nuke-user-link', data: { :user_id => user.id, :username => user.username } %></td>
+          <td><%= link_to 'Nuke', 'javascript:void(0);', class: 'text-danger nuke-user-link', data: { user_id: user.id, username: user.username } %></td>
         <% end %>
       </tr>
     <% end %>

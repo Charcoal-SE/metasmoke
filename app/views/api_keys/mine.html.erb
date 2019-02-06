@@ -23,8 +23,8 @@
         <td><%= link_to "Repo", key.github_link %></td>
         <td><%= key.user.username %></td>
         <td><%= time_ago_in_words(key.created_at) %> ago</td>
-        <td><%= link_to "Edit", url_for(:controller => :api_keys, :action => :owner_edit, :id => key.id) %></td>
-        <td><%= link_to "Revoke write tokens", url_for(:controller => :api_keys, :action => :owner_revoke, :id => key.id), :method => :delete, :class => "text text-danger", data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to "Edit", url_for(controller: :api_keys, action: :owner_edit, id: key.id) %></td>
+        <td><%= link_to "Revoke write tokens", url_for(controller: :api_keys, action: :owner_revoke, id: key.id), method: :delete, class: "text text-danger", data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

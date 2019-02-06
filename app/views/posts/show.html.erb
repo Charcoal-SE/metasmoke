@@ -1,21 +1,26 @@
 <h4>
-  <% if @post.flag_logs.successful.any? %>
-    <%= link_to post_flag_logs_path(@post), :style => "text-decoration:none"  do %>
-      <span class="text-danger" title="This post had flags cast on it" href="#"><%= @post.flag_logs.successful.first.flag_icon %></span>
+  <% if @post.flag_logs.auto.successful.any? %>
+    <%= link_to post_flag_logs_path(@post), style: "text-decoration:none"  do %>
+      <span class="text-danger" title="This post had flags cast on it" href="#"><%= @post.flag_logs.auto.successful.first.flag_icon %></span>
     <% end %>
   <% end %>
   <%= title @post.title %>
-  <% feedbacks = @post.feedbacks.to_a %>
-  <strong class="post-feedbacks">
-     <% feedbacks.each do |feedback| %>
-       <% next if (feedback.is_positive? && feedback.is_negative?) || (!feedback.is_positive? && !feedback.is_negative? && !feedback.is_naa?) %>
+  <% unless @is_review_item %>
+    <strong class="post-feedbacks">
+       <% @post.feedbacks.each do |feedback| %>
          <span style="<%= "font-weight:normal" if feedback.is_naa? %>" data-toggle="tooltip" data-placement="top" title="<%= (feedback.user.present? || feedback.api_key_id.present?) ? "#{feedback.user.try(:username)} (From #{feedback.api_key.try(:app_name) || "Review"})" : feedback.user_name %>: <%= feedback.feedback_type %>" class="<%= element_class_for_feedback feedback %>"><%= element_symbol_for_feedback(feedback).html_safe %></span>
-     <% end %>
-  </strong>
-  <% unless feedbacks.empty? %>
-    <% if current_user.present? && (current_user.has_role?(:admin) || @post.feedbacks.where(:user_id => current_user.id).exists?) %>
+       <% end %>
+    </strong>
+  <% end %>
+  <small>
+    <%= link_to post_path(@post) do %>
+      <i class="fas fa-fw fa-link"></i>
+    <% end %>
+  </small>
+  <% unless @post.feedbacks.empty? || @is_review_item %>
+    <% if current_user.present? && (current_user.has_role?(:admin) || @post.feedbacks.where(user_id: current_user.id).exists?) %>
       <small>
-        <%= link_to "(clear)", clear_post_feedback_path(@post) %>
+        &middot; <%= link_to "(clear)", clear_post_feedback_path(@post) %>
       </small>
     <% end %>
   <% end %>
@@ -27,7 +32,7 @@
   </a></p>
 <% end %>
 
-<% if user_signed_in? && current_user.has_role?(:reviewer) %>
+<% if user_signed_in? && current_user.has_role?(:reviewer) && !@is_review_item %>
   <p>
     <strong>Add feedback:</strong>
     <%= link_to raw('&#x2713'), post_feedback_path(post_id: @post.id, feedback_type: 'tp'),
@@ -67,18 +72,33 @@
   <% end %>
 </div>
 
+<hr/>
+
 <% unless @post.body.nil? %>
-  <div data-postid="<%= @post.id.to_s %>" class="post-body">
-    <hr>
-    <pre class="post-body-pre-block"><%= @post.body %></pre>
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#post-body-tab" role="tab" data-toggle="tab">Markdown</a></li>
+    <li role="presentation"><a href="#preview-tab" role="tab" data-toggle="tab">Preview</a></li>
+  </ul><br/>
+
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="post-body-tab">
+      <pre class="post-body-pre-block"><%= @post.body %></pre>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="preview-tab">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <%= raw(sanitize(AnnouncementsController.renderer.render(@post.body), scrubber: PostScrubber.new)) %>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>
 
 <hr>
 
 <% unless @post.link.nil? %>
-  <% unless @post.site_logo.nil? %>
-    <%= image_tag @post.site_logo, size: "20" %>
+  <% unless @post.site&.site_logo&.nil? %>
+    <%= image_tag @post.site.site_logo, size: "20" %>
   <% end %>
   <%= link_to "View on site", @post.link %>
   <% if @post.deleted_at %>
@@ -102,9 +122,9 @@
     <% end %>
     <% unless @post.user_link.nil? %>
       | posted by
-      <% unless @post.site_logo.nil? %>
+      <% unless @post.site&.site_logo&.nil? %>
         <%= link_to @post.user_link do %>
-          <%= image_tag @post.site_logo, size: "20" %>
+          <%= image_tag @post.site.site_logo, size: "20" %>
         <% end %>
       <% end %>
       <%= link_to @post.username, stack_exchange_user_path(@post.stack_exchange_user_id) if @post.stack_exchange_user_id.present? %>
@@ -124,8 +144,10 @@
   <% end %>
 </ul>
 
-<% if @post.reason_weight.present? %>
+<% if @post.respond_to?(:reason_weight) && @post.reason_weight&.present? %>
   <p class="text-muted">Reason weight: <%= @post.reason_weight %></p>
+<% else %>
+  <p class="text-muted">Reason weight: <%= @post.reasons.map(&:weight).reduce(:+) %></p>
 <% end %>
 
 <% if @post.why.present? %>
@@ -134,7 +156,7 @@
 
 <% if user_signed_in? && (current_user.api_token.present? || current_user.flags_enabled) && !@post.is_fp && !@post.deleted? && Time.now - (@post.created_at || 1.day.ago) <= 1.hour && current_user.has_role?(:reviewer) %>
   <p>
-    <%= link_to url_for(:controller => :posts, :action => :cast_spam_flag, :id => @post.id), :method => :post, :class => "text-danger" do %>
+    <%= link_to url_for(controller: :posts, action: :cast_spam_flag, id: @post.id), method: :post, class: "text-danger" do %>
       <span class="glyphicon glyphicon-flag"></span> Spam flag
     <% end %>
   </p>
@@ -162,7 +184,7 @@
 <% end %>
 
 <% if current_user&.has_role?(:reviewer) %>
-  <p><a href="#" class="new-comment"><span class="glyphicon glyphicon-plus"></span> Add a comment</a></p>
+  <p><a href="javascript:void(0)" class="new-comment"><span class="glyphicon glyphicon-plus"></span> Add a comment</a></p>
 <% end %>
 
 <div class="add-comment">
@@ -184,7 +206,7 @@
     </div>
     <div class="panel-body">
       <ul>
-        <li><%= link_to "Update feedback cache", url_for(:controller => :posts, :action => :reindex_feedback, :id => @post.id), :method => :post %></li>
+        <li><%= link_to "Update feedback cache", url_for(controller: :posts, action: :reindex_feedback, id: @post.id), method: :post %></li>
         <li><%= link_to "Delete post", dev_delete_post_path(@post.id), method: :post, data: { confirm: "Are you sure you want to delete this post? This can't be undone." } %></li>
       </ul>
     </div>

@@ -15,14 +15,14 @@ class PostCommentsController < ApplicationController
   def create
     @comment = PostComment.new comment_params.merge(user: current_user)
     flash[:danger] = 'Failed to post your comment.' unless @comment.save
-    redirect_to post_path(@comment.post_id)
+    redirect_back fallback_location: post_path(@comment.post_id)
   end
 
   def update
     unless @comment.update(text: params[:text])
       flash[:danger] = 'Failed to update your comment.'
     end
-    redirect_to post_path(@comment.post_id)
+    redirect_back fallback_location: post_path(@comment.post_id)
   end
 
   def destroy

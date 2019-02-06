@@ -1,13 +1,17 @@
+import createDebug from 'debug';
 import { onLoad } from './util';
 
+const debug = createDebug('ms:comments');
+
 onLoad(() => {
-  $('.new-comment').click(ev => {
+  $(document).on('click', '.new-comment', ev => {
+    debug('.new-comment click');
     ev.preventDefault();
     $('.add-comment').show();
     $(ev.target).remove();
   });
 
-  $('.comment-edit').click(async ev => {
+  $(document).on('click', '.comment-edit', async ev => {
     ev.preventDefault();
 
     const $comment = $(ev.target).parents('.post-comment, .abuse-comment');
