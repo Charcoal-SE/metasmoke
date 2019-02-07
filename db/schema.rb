@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_28_174359) do
+ActiveRecord::Schema.define(version: 2019_02_07_015006) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "user_id"
@@ -378,6 +378,10 @@ ActiveRecord::Schema.define(version: 2018_12_28_174359) do
   create_table "posts_spam_domains", primary_key: ["post_id", "spam_domain_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "post_id", default: 0, null: false
     t.integer "spam_domain_id", default: 0, null: false
+    t.index ["post_id"], name: "index_posts_spam_domains_on_post_id"
+    t.index ["post_id"], name: "posts_spam_domains_post_id_index"
+    t.index ["spam_domain_id"], name: "index_posts_spam_domains_on_spam_domain_id"
+    t.index ["spam_domain_id"], name: "posts_spam_domains_spam_domain_id_index"
   end
 
   create_table "query_averages", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -460,7 +464,7 @@ ActiveRecord::Schema.define(version: 2018_12_28_174359) do
     t.index ["api_parameter"], name: "index_sites_on_api_parameter"
   end
 
-  create_table "sites_spam_waves", primary_key: ["site_id", "spam_wave_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "sites_spam_waves", primary_key: ["site_id", "spam_wave_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "site_id", null: false
     t.bigint "spam_wave_id", null: false
   end
@@ -492,7 +496,7 @@ ActiveRecord::Schema.define(version: 2018_12_28_174359) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "spam_waves", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "spam_waves", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "name"
     t.text "conditions"
     t.bigint "user_id"
