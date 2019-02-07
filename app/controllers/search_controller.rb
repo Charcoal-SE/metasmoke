@@ -131,7 +131,7 @@ class SearchController < ApplicationController
       SearchHelper.parse_search_params(params, s, current_user)
     end.flatten
 
-    redis_expiry_time = params[:redis_expiry].present? ? [params[:redis_expire].to_i, 600] : 120
+    # redis_expiry_time = params[:redis_expiry].present? ? [params[:redis_expire].to_i, 600] : 120
 
     if [title_operation, body_operation, why_operation, username_operation].any?(&:!)
       render json: { error: 'Unauthenticated users cannot use regex search' }, status: 403

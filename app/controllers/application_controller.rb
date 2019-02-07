@@ -70,26 +70,24 @@ class ApplicationController < ActionController::Base
     Rack::MiniProfiler.step('Logging to redis') do
       redis = redis(logger: true)
       @request_time ||= Time.now.to_f
-      request.set_header "redis_logs.log_key", redis_log_key
-      request.set_header "redis_logs.timestamp", @request_time
-      request.set_header "redis_logs.request_id", request.uuid
-      redis.zadd "requests", @request_time, request.uuid
+      request.set_header 'redis_logs.log_key', redis_log_key
+      request.set_header 'redis_logs.timestamp', @request_time
+      request.set_header 'redis_logs.request_id', request.uuid
+      redis.zadd 'requests', @request_time, request.uuid
       log_redis request_headers: headers, params: request.filtered_parameters.except(:controller, :action)
-      if !session[:redis_log_id].present?
+      unless session[:redis_log_id].present?
         session[:redis_log_id] = SecureRandom.base64
-        session[:redis_log_id] = SecureRandom.base64 while redis.sadd("sessions", session[:redis_log_id]) == 0
+        session[:redis_log_id] = SecureRandom.base64 while redis.sadd('sessions', session[:redis_log_id]) == 0
       end
-      redis.mapped_hmset redis_log_key, {
-        status: 'INC',
-        path: request.filtered_path,
-        impersonator_id: session[:impersonator_id],
-        user_id: user_signed_in? ? current_user.id : nil,
-        session_id: session[:redis_log_id],
-        sha: CurrentCommit
-      }
+      redis.mapped_hmset redis_log_key, status: 'INC',
+                                        path: request.filtered_path,
+                                        impersonator_id: session[:impersonator_id],
+                                        user_id: user_signed_in? ? current_user.id : nil,
+                                        session_id: session[:redis_log_id],
+                                        sha: CurrentCommit
       redis.zadd "session/#{session[:redis_log_id]}/requests", @request_time, request.uuid
-      redis.hsetnx("session/#{session[:redis_log_id]}", "start", @request_time)
-      redis.hset("session/#{session[:redis_log_id]}", "end", @request_time)
+      redis.hsetnx("session/#{session[:redis_log_id]}", 'start', @request_time)
+      redis.hset("session/#{session[:redis_log_id]}", 'end', @request_time)
       redis.zadd "user_sessions/#{current_user.id}", @request_time, session[:redis_log_id] if user_signed_in?
       RedisLogJob.perform_later(request.uuid, @request_time)
     end

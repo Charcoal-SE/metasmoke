@@ -13,9 +13,8 @@ class Redis::Client
     begin
       commands.each do |name, *args|
         logged_args = args.map do |a|
-          case
-          when a.respond_to?(:inspect) then a.inspect
-          when a.respond_to?(:to_s)    then a.to_s
+          if a.respond_to?(:inspect) then a.inspect
+          elsif a.respond_to?(:to_s) then a.to_s
           else
             # handle poorly-behaved descendants of BasicObject
             klass = a.instance_exec { (class << self; self end).superclass }
@@ -31,7 +30,7 @@ class Redis::Client
       if t1
         call_time = (Time.now - t1) * 1000
         ActiveRecord::RuntimeRegistry.sql_runtime = ActiveRecord::RuntimeRegistry.sql_runtime.to_i + call_time
-        @logger.debug("[Redis] call_time=%0.2f ms" % (call_time))
+        @logger.debug('[Redis] call_time=%0.2f ms' % call_time) # rubocop:disable Style/FormatString
       end
     end
   end
@@ -40,7 +39,7 @@ end
 def redis(logger: false)
   if logger
     config = AppConfig['redis_logging']
-    $redis_logging ||= Redis.new(config)
+    $redis_logging ||= Redis.new(config) # rubocop:disable Style/GlobalVars
   else
     config = YAML.load_file(File.join(Rails.root, 'config', 'cable.yml'))[Rails.env]
     $redis ||= Redis.new(config) # rubocop:disable Style/GlobalVars
