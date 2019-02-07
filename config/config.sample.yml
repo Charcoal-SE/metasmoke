@@ -244,7 +244,8 @@ common: &common
 development:
   <<: *common
 
-test: *common
+test:
+  <<: *common
   redis_logging:
     adapter: redis
     timeout: 200
