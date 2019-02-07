@@ -47,7 +47,7 @@ class DeletionLog < ApplicationRecord
 
     comment_template = 'This post had {flags} spam/abusive flag(s) cast on it by Charcoal members and has since been deleted, but was ultimately '\
                        'judged not to have been spam. Please review whether spam flags - and the penalty that comes with them - are appropriate '\
-                       'this post - you can let us know in https://chat.stackexchange.com/rooms/11540 if the flags were inappropriate. '\
+                       'for this post - you can let us know in https://chat.stackexchange.com/rooms/11540 if the flags were inappropriate. '\
                        "If you're wondering WTF this flag is, see https://charcoal-se.org/smokey/Auto-Mod-Flags for details."
     comment = comment_template.gsub('{flags}', post.flag_logs.manual.successful.count.to_s)
     smokey = User.find(-1)
