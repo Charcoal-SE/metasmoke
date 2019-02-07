@@ -244,8 +244,11 @@ common: &common
 development:
   <<: *common
 
-test:
-  <<: *common
+test: *common
+  redis_logging:
+    adapter: redis
+    timeout: 200
+    url: redis://localhost:6379
 
 production:
   <<: *common
