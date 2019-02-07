@@ -37,12 +37,18 @@ class Redis::Client
   end
 end
 
-def redis
-  config = YAML.load_file(File.join(Rails.root, 'config', 'cable.yml'))[Rails.env]
-  $redis ||= Redis.new(config) # rubocop:disable Style/GlobalVars
+def redis(logger: false)
+  if logger
+    config = AppConfig['redis_logging']
+    $redis_logging ||= Redis.new(config)
+  else
+    config = YAML.load_file(File.join(Rails.root, 'config', 'cable.yml'))[Rails.env]
+    $redis ||= Redis.new(config) # rubocop:disable Style/GlobalVars
+  end
 end
 
 redis
+redis(logger: true)
 
 def with_no_score(ary)
   zeros = Array.new(ary.length) { 0 }

@@ -66,7 +66,9 @@ class ApplicationController < ActionController::Base
   private
 
   def redis_log_request
+    redis = redis(logger: true)
     Rack::MiniProfiler.step('Logging to redis') do
+      redis = redis(logger: true)
       @request_time ||= Time.now.to_f
       request.set_header "redis_logs.log_key", redis_log_key
       request.set_header "redis_logs.timestamp", @request_time
@@ -94,6 +96,7 @@ class ApplicationController < ActionController::Base
   end
 
   def log_redis(**opts)
+    redis = redis(logger: true)
     opts.each do |key, val|
       redis.mapped_hmset "#{redis_log_key}/#{key}", val unless val.empty?
     end

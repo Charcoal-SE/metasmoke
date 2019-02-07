@@ -3,6 +3,7 @@ class RedisLogController < ApplicationController
   before_action :verify_developer
 
   def by_user
+    redis = redis(logger:true)
     user_id = params[:id]
     si, ei = page
     @sessions = redis.zrevrange("user_sessions/#{user_id}", si, ei).map do |session_id|
@@ -26,6 +27,7 @@ class RedisLogController < ApplicationController
   end
 
   def index
+    redis = redis(logger:true)
     si, ei = page
     @requests = redis.zrevrange("requests", si, ei, with_scores: true).map do |request_id, timestamp|
       redis.hgetall("request/#{timestamp}/#{request_id}").merge({
@@ -41,6 +43,7 @@ class RedisLogController < ApplicationController
   end
 
   def by_session
+    redis = redis(logger:true)
     @session_id = params[:id]
     si, ei = page
     @requests = redis.zrange("session/#{@session_id}/requests", si, ei, with_scores: true).map do |request_id, timestamp|
@@ -57,6 +60,7 @@ class RedisLogController < ApplicationController
   end
 
   def by_status
+    redis = redis(logger:true)
     @status = params[:status]
     si, ei = page
     @requests = redis.zrevrange("requests/status/#{@status}", si, ei, with_scores: true).map do |request_id, timestamp|

@@ -2,6 +2,7 @@ class RedisLogJob < ApplicationJob
   queue_as :default
 
   def perform(request_id, timestamp)
+    redis = redis(logger: true)
     info = redis.hgetall("request/#{timestamp}/#{request_id}").merge({
       headers: redis.hgetall("request/#{timestamp}/#{request_id}/headers"),
       params: redis.hgetall("request/#{timestamp}/#{request_id}/params"),
