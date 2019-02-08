@@ -287,6 +287,8 @@ class SearchController < ApplicationController
           @results = @results.select(&:is_naa)
         end
 
+        redis.del final_key
+
         @sites = Site.where(id: @results.map(&:site_id)).to_a unless params[:option] == 'graphs'
         render :search_fast
       end
