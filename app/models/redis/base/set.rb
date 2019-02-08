@@ -1,13 +1,22 @@
 # frozen_string_literal: true
 
 class Redis::Base::Set
+  def id
+    @source_id
+  end
+
   def initialize(id)
     @source_id = id
   end
 
-  def intersect(target_key, **opts)
-    target_key.to_key if target_key.is_a? Redis::Base::Set
-    Redis::Base::Collection.intersect(key, target_key, **opts)
+  def intersect(*target_keys, **opts)
+    target_keys.map! { |tk| tk.is_a?(Redis::Base::Set) ? tk.to_key : tk }
+    Redis::Base::Collection.intersect(key, target_keys, **opts)
+  end
+
+  def difference(*target_keys, **opts)
+    target_keys.map! { |tk| tk.is_a?(Redis::Base::Set) ? tk.to_key : tk }
+    Redis::Base::Collection.difference(key, target_keys, **opts)
   end
 
   def method_missing(m, *args, &block)
@@ -21,6 +30,10 @@ class Redis::Base::Set
 
   def to_key
     key
+  end
+
+  def count
+    redis.scard key
   end
 
   private
@@ -37,9 +50,9 @@ class Redis::Base::Set
     self.class.target
   end
 
-  def id
-    @source_id
-  end
+  # def id
+  #   @source_id
+  # end
 
   def prefix
     self.class.prefix

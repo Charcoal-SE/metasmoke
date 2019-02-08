@@ -207,14 +207,13 @@ class GithubController < ApplicationController
     return if state == 'pending' || (state == 'success' && context == 'github/pages')
 
     if context.start_with? 'ci/circleci'
+      ci_counter = Redis::CI.new(sha)
       if state == 'success'
-        redis.incr "successful_ci_count/#{sha}"
-        redis.expire "successful_ci_count/#{sha}", 1200
-        return unless redis.get("successful_ci_count/#{sha}").to_i == 3
+        ci_counter.sucess_count_incr
+        return unless ci_counter.sucess_count == 3
         context = 'ci/circleci'
       else
-        redis.set "successful_ci_count/#{sha}", 0
-        redis.expire "successful_ci_count/#{sha}", 1200
+        ci_counter.sucess_count_reset
       end
     end
 

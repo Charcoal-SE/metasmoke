@@ -19,22 +19,17 @@ class DashboardController < ApplicationController
       @inactive_reasons, @active_reasons = # Rails.cache.fetch 'reasons_index', expires_in: 6.hours do
         [true, false].map do |inactive|
           results = Reason.where(inactive: inactive).to_a.map do |reason|
-            reason.define_singleton_method(:post_count) { redis.scard "reasons/#{reason.id}" }
+            reason.define_singleton_method(:post_count) { Redis::Reason.find(reason.id).count }
             reason
           end.sort_by(&:post_count).reverse
           counts = results.map do |reason|
-            per_feedback_counts = %i[tp fp naa].map do |fb|
-              redis.sinterstore "reasons/#{reason.id}/#{fb}s", "reasons/#{reason.id}", "#{fb}s"
-              if fb == :tp
-                redis.sdiffstore "reasons/#{reason.id}/tps", "reasons/#{reason.id}/tps", "reasons/#{reason.id}/fps", "reasons/#{reason.id}/naas"
-              end
-              if fb == :fp
-                redis.sdiffstore "reasons/#{reason.id}/fps", "reasons/#{reason.id}/fps", "reasons/#{reason.id}/tps", "reasons/#{reason.id}/naas"
-              end
-              [fb, redis.scard("reasons/#{reason.id}/#{fb}s")]
+            reason = Redis::Reason.find(reason.id)
+            per_feedback_counts = %w[tps fps naas].map do |fb|
+              reason.clear_reason_feedback_cache(fb)
+              reason.update_reason_feedback_cache(fb)
+              [fb[0..-2].to_sym, reason.for_feedback(fb).cardinality]
             end.to_h
-
-            [reason.id, { total: redis.scard("reasons/#{reason.id}") }.merge(per_feedback_counts)]
+            [reason.id, { total: reason.count }.merge(per_feedback_counts)]
           end.to_h
 
           { counts: counts, results: results }

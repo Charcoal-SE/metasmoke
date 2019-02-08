@@ -65,7 +65,7 @@ class ApplicationController < ActionController::Base
   private
 
   def check_auth_required
-    return unless redis.get('require_auth_all_pages') == '1' # SiteSetting['require_auth_all_pages']
+    return unless Redis::SiteSetting.bool('require_auth_all_pages')
     return if user_signed_in? || devise_controller? || (controller_name == 'users' && action_name == 'missing_privileges')
     flash[:warning] = 'You need to have an account to view metasmoke pages.'
     authenticate_user!
@@ -74,15 +74,8 @@ class ApplicationController < ActionController::Base
   def deduplicate_ajax_requests
     return unless request.headers['X-AJAX-Deduplicate'].present?
 
-    redis = Redis.new(url: AppConfig['redis']['url'])
     request_uniq = request.headers['X-AJAX-Deduplicate']
-    if redis.get("request-dedup/#{request_uniq}").present?
-      render status: :conflict, plain: "409 Conflict\nRequest conflicts with a previous AJAX request"
-    else
-      redis.multi do
-        redis.set "request-dedup/#{request_uniq}", '1'
-        redis.expire "request-dedup/#{request_uniq}", 300
-      end
-    end
+    new_request = redis.set "request-dedup/#{request_uniq}", 1, ex: 300, nx: true
+    render status: :conflict, plain: "409 Conflict\nRequest conflicts with a previous AJAX request" unless new_request
   end
 end
