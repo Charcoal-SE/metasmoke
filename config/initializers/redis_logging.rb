@@ -3,6 +3,7 @@
 REDIS_LOG_EXPIRATION = 2.weeks.seconds.to_i
 
 def log_timestamps(ts, status:, action:, controller:, format:, method:, view_runtime:, db_runtime:, path:)
+  redis = redis(logger: true)
   redis.zadd "request_timings/view/by_path/#{method.upcase}/#{path}.#{format}", ts, view_runtime
   redis.zadd "request_timings/db/by_path/#{method.upcase}/#{path}.#{format}", ts, db_runtime
   redis.zadd "request_timings/total/by_path/#{method.upcase}/#{path}.#{format}", ts, (db_runtime + view_runtime)

@@ -87,10 +87,11 @@ class ApplicationController < ActionController::Base
                                           session_id: session[:redis_log_id],
                                           sha: CurrentCommit
         redis.expire redis_log_key, REDIS_LOG_EXPIRATION
-        redis.sadd "session/#{session[:redis_log_id]}/requests", request.uuid
+        # TODO: If we care more about memory than speed, switch session/*/requests and user_sessions/* to be sets and intersect them with requests to get a zset when you need one.
+        redis.zadd "session/#{session[:redis_log_id]}/requests", @request_time, request.uuid
         redis.hsetnx("session/#{session[:redis_log_id]}", 'start', @request_time)
         redis.hset("session/#{session[:redis_log_id]}", 'end', @request_time)
-        redis.sadd "user_sessions/#{current_user.id}", session[:redis_log_id] if user_signed_in?
+        redis.zadd "user_sessions/#{current_user.id}", @request_time, session[:redis_log_id] if user_signed_in?
       end
       RedisLogJob.perform_later(request.uuid, @request_time)
     end
