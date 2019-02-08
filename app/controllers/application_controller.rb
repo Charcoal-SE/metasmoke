@@ -79,16 +79,19 @@ class ApplicationController < ActionController::Base
         session[:redis_log_id] = SecureRandom.base64
         session[:redis_log_id] = SecureRandom.base64 while redis.sadd('sessions', session[:redis_log_id]) == 0
       end
-      redis.mapped_hmset redis_log_key, status: 'INC',
-                                        path: request.filtered_path,
-                                        impersonator_id: session[:impersonator_id],
-                                        user_id: user_signed_in? ? current_user.id : nil,
-                                        session_id: session[:redis_log_id],
-                                        sha: CurrentCommit
-      redis.zadd "session/#{session[:redis_log_id]}/requests", @request_time, request.uuid
-      redis.hsetnx("session/#{session[:redis_log_id]}", 'start', @request_time)
-      redis.hset("session/#{session[:redis_log_id]}", 'end', @request_time)
-      redis.zadd "user_sessions/#{current_user.id}", @request_time, session[:redis_log_id] if user_signed_in?
+      redis.multi do
+        redis.mapped_hmset redis_log_key, status: 'INC',
+                                          path: request.filtered_path,
+                                          impersonator_id: session[:impersonator_id],
+                                          user_id: user_signed_in? ? current_user.id : nil,
+                                          session_id: session[:redis_log_id],
+                                          sha: CurrentCommit
+        redis.expire redis_log_key, REDIS_LOG_EXPIRATION
+        redis.sadd "session/#{session[:redis_log_id]}/requests", request.uuid
+        redis.hsetnx("session/#{session[:redis_log_id]}", 'start', @request_time)
+        redis.hset("session/#{session[:redis_log_id]}", 'end', @request_time)
+        redis.sadd "user_sessions/#{current_user.id}", session[:redis_log_id] if user_signed_in?
+      end
       RedisLogJob.perform_later(request.uuid, @request_time)
     end
   end
@@ -96,7 +99,11 @@ class ApplicationController < ActionController::Base
   def log_redis(**opts)
     redis = redis(logger: true)
     opts.each do |key, val|
-      redis.mapped_hmset "#{redis_log_key}/#{key}", val unless val.empty?
+      next if val.empty?
+      redis.multi do
+        redis.mapped_hmset "#{redis_log_key}/#{key}", val
+        redis.expire "#{redis_log_key}/#{key}", REDIS_LOG_EXPIRATION
+      end
     end
   end
 

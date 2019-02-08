@@ -1,5 +1,23 @@
 # frozen_string_literal: true
 
+REDIS_LOG_EXPIRATION = 2.weeks.seconds.to_i
+
+def log_timestamps(ts, status:, action:, controller:, format:, method:, view_runtime:, db_runtime:, path:)
+  redis.zadd "request_timings/view/by_path/#{method.upcase}/#{path}.#{format}", ts, view_runtime
+  redis.zadd "request_timings/db/by_path/#{method.upcase}/#{path}.#{format}", ts, db_runtime
+  redis.zadd "request_timings/total/by_path/#{method.upcase}/#{path}.#{format}", ts, (db_runtime + view_runtime)
+
+  redis.zadd "request_timings/view/by_action/#{controller}##{action}", ts, view_runtime
+  redis.zadd "request_timings/db/by_action/#{controller}##{action}", ts, db_runtime
+  redis.zadd "request_timings/total/by_action/#{controller}##{action}", ts, (db_runtime + view_runtime)
+
+  redis.zadd "request_timings/status_counts/by_path/#{method.upcase}/#{path}.#{format}", ts, status
+  redis.zadd "request_timings/status_counts/by_action/#{controller}##{action}", ts, status
+  redis.zadd "request_timings/status_counts", ts, status
+
+  redis.zadd "request_timings/sha", ts, CurrentCommit, nx: true
+end
+
 ActiveSupport::Notifications.subscribe 'process_action.action_controller' do |_name, _started, _finished, _unique_id, data|
   redis = redis(logger: true)
   request_id = data[:headers]['action_dispatch.request_id']
@@ -9,6 +27,7 @@ ActiveSupport::Notifications.subscribe 'process_action.action_controller' do |_n
   unless request_timestamp.nil?
     redis.zadd "requests/status/#{data[:status]}", request_timestamp, request_id
     redis.mapped_hmset redis_log_key, data.slice(:controller, :action, :format, :method, :status, :view_runtime, :db_runtime)
+    log_timestamps(request_timestamp, **data.slice(:action, :controller, :view_runtime, :db_runtime, :method, :format, :status), path: redis.hget(redis_log_key, 'path')) if data[:status] == 200
     redis.mapped_hmset "#{redis_log_key}/response_headers", data[:headers].to_h['action_controller.instance'].response.headers.to_h
     if data[:exception].present?
       redis.hset redis_log_key, 'exception', data[:exception].join("\n")

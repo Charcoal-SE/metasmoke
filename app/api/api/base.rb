@@ -116,13 +116,18 @@ module API
       request.set_header 'redis_logs.request_id', uuid
       redis.zadd 'requests', request_time, uuid
       { request_headers: headers.except('Cookie'), params: params.except(:key) }.each do |k, v|
-        redis.mapped_hmset "#{redis_log_key}/#{k}", val unless v.empty?
+        next if v.empty?
+        redis.multi do
+          redis.mapped_hmset "#{redis_log_key}/#{k}", val
+          redis.expire "#{redis_log_key}/#{k}", REDIS_LOG_EXPIRATION
+        end
       end
       redis.mapped_hmset redis_log_key, status: 'INC',
                                         path: request.path,
                                         api_key_id: key&.id,
                                         smoke_detector_id: smokey_token&.id,
                                         sha: CurrentCommit
+      redis.expire redis_log_key, REDIS_LOG_EXPIRATION
       RedisLogJob.perform_later(uuid, request_time)
       authenticate_app!
     end
