@@ -1,0 +1,46 @@
+// Place all the styles related to the RedisLog controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.square-borders {
+  border-radius: 0px !important;
+  margin-bottom: -1px;
+}
+
+.list-item-label {
+  background-color: #f5f5f5 !important;
+  display: table !important;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.list-item-label > a {
+  overflow: hidden;
+  white-space: nowrap;
+  display: table-cell;
+  text-overflow: ellipsis;
+}
+
+.list-item-label:hover > a, .list-item-label > a:hover {
+  text-decoration: none;
+}
+
+.list-item-label > span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.list-item-label > * {
+  display: table-cell;
+}
+
+.request-details-table {
+  tr > td:first-of-type {
+    font-weight: bold;
+  }
+
+  td {
+    padding: 0.5em;
+  }
+}

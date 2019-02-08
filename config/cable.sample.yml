@@ -7,5 +7,9 @@ local: &local
   timeout: 120
   url: redis://localhost:6378
 
+test:
+  adapter: redis
+  timeout: 200
+  url: redis://localhost:6379
+
 development: *local
-test: *local

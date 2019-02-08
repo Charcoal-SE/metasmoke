@@ -1,0 +1,25 @@
+<% status_color = case req['status'].to_s when /(2\d{2}|API)/ then 'success' when /4\d{2}/ then 'warning' when /3\d{2}/ then 'info' when /5\d{2}/ then 'danger' else 'danger' end %>
+<span class="text-<%= status_color %>" href="#<%= req[:key] %>">
+  <%= render 'redis_log/user', impersonator_id: req['impersonator_id'], user_id: req['user_id'], session_id: req['session_id'], smoke_detector_id: req['smoke_detector_id'], api_key_id: req['api_key_id'] %>
+  <code><%= link_to req['status'], redis_log_by_status_path(status: req['status'].to_i), style: 'display: inline;', class: 'redis-log-link' %></code> <%= req['method'] %> <%= req['path'] %>
+</span>
+<div class="pull-right">
+  <code>
+    <span style="display:inline-block;">
+      <%= Time.at(req[:timestamp]).strftime("%-y/%-m/%-d %-H:%M:%S.%-3N") %>
+    </span>&nbsp;·&nbsp;<span style="display:inline-block;">
+      <i class="fas fa-database" title="DB time"></i>
+      <% if req['db_runtime'].nil? %>
+        <i>&nbsp;unknown&nbsp;</i>
+      <% else %>
+        <%= number_with_precision(req['db_runtime'].to_f, precision: 3).rjust(7, "\u00A0") %>ms
+      <% end %>
+      · <i class="fas fa-desktop" title="View time"></i>
+      <% if req['view_runtime'].nil? %>
+        <i>&nbsp;unknown&nbsp;</i>
+      <% else %>
+        <%= number_with_precision(req['view_runtime'].to_f, precision: 3).rjust(7, "\u00A0") %>ms
+      <% end %>
+    </span>
+  </code>
+</div>

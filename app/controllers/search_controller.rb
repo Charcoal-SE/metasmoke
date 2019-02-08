@@ -131,7 +131,7 @@ class SearchController < ApplicationController
       SearchHelper.parse_search_params(params, s, current_user)
     end.flatten
 
-    redis_expiry_time = params[:redis_expiry].present? ? [params[:redis_expire].to_i, 600] : 120
+    # redis_expiry_time = params[:redis_expiry].present? ? [params[:redis_expire].to_i, 600] : 120
 
     if [title_operation, body_operation, why_operation, username_operation].any?(&:!)
       render json: { error: 'Unauthenticated users cannot use regex search' }, status: 403
@@ -254,7 +254,6 @@ class SearchController < ApplicationController
     @logs.push "Result count: #{@nresults.length}"
 
     # Technically we should wait until later to reset these, but eh.
-    redis.expire final_key, redis_expiry_time
     redis.expire 'search_counter', 2400
 
     count = @nresults.length
@@ -297,5 +296,6 @@ class SearchController < ApplicationController
       format.rss  { render :search, layout: false }
       format.xml  { render 'search.rss', layout: false }
     end
+    redis.del final_key
   end
 end

@@ -7,3 +7,4 @@ import './posts';
 import './post';
 import './topbar';
 import './status';
+import './redis_logs';

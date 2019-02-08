@@ -1,4 +1,7 @@
 common: &common
+  redis_logging:
+    adapter: redis
+    url: redis://localhost:6378
   token_store:
     host: https://the.best.token.store
     key: atokenforthetokenstore
@@ -243,6 +246,10 @@ development:
 
 test:
   <<: *common
+  redis_logging:
+    adapter: redis
+    timeout: 200
+    url: redis://localhost:6379
 
 production:
   <<: *common
