@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class Redis::CI
-  PREFIX = "ci"
-  CI_COUNTER_PREFIX = "sucessful_ci_count"
+  PREFIX = 'ci'
+  CI_COUNTER_PREFIX = 'sucessful_ci_count'
 
   def initialize(sha)
     @sha = sha
@@ -8,7 +10,7 @@ class Redis::CI
 
   def sucess_count_incr(sha)
     key = "#{PREFIX}/#{CI_COUNTER_PREFIX}/#{sha}"
-    redis.multi
+    redis.multi do
       redis.incr key
       redis.expire key, 1200
     end[0]

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class Redis::SiteSetting
-  PREFIX = "site_setting"
+  PREFIX = 'site_setting'
 
   class << self
     def bool(name)

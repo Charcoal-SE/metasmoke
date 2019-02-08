@@ -4,12 +4,10 @@ module SpamWavesHelper
   def help_or_error(field, help = nil, &block)
     if @errors.any? && @errors.messages.include?(field)
       field.to_s.humanize + ' ' + @errors.messages[field].first
+    elsif block_given?
+      capture(&block)
     else
-      if block_given?
-        capture(&block)
-      else
-        help
-      end
+      help
     end
   end
 

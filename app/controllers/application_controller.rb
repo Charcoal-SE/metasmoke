@@ -75,8 +75,7 @@ class ApplicationController < ActionController::Base
     return unless request.headers['X-AJAX-Deduplicate'].present?
 
     request_uniq = request.headers['X-AJAX-Deduplicate']
-    if !redis.set "request-dedup/#{request_uniq}", 1, ex: 300, nx: true
-      render status: :conflict, plain: "409 Conflict\nRequest conflicts with a previous AJAX request"
-    end
+    new_request = redis.set "request-dedup/#{request_uniq}", 1, ex: 300, nx: true
+    render status: :conflict, plain: "409 Conflict\nRequest conflicts with a previous AJAX request" unless new_request
   end
 end

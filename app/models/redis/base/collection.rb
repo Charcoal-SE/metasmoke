@@ -40,11 +40,11 @@ class Redis::Base::Collection
     # Eval to tmpkey and then zcard
     if @differences.empty? && @intersects.empty?
       return case @type
-      when :set
-        redis.scard @key
-      when :zset
-        redis.zcard @key
-      end
+             when :set
+               redis.scard @key
+             when :zset
+               redis.zcard @key
+             end
     end
     redis.multi do |multi|
       key = "tmp/collection/#{Time.now.to_i}"
@@ -87,8 +87,8 @@ class Redis::Base::Collection
 
   def store(key)
     # TODO: For all the commands in this section, doing this will an empty @intersects or @differences will explode in unknown ways
-    throw "WHUT R U STORIN" if @intersects.empty? && @differences.empty?
-    redis.multi do |multi|
+    throw 'WHUT R U STORIN' if @intersects.empty? && @differences.empty?
+    redis.multi do |_multi|
       case @type
       when :set
         redis.sinterstore key, @key, @intersects unless @intersects.empty?
