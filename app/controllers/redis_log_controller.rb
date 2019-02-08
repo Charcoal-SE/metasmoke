@@ -10,7 +10,7 @@ class RedisLogController < ApplicationController
     si, ei = page
     @sessions = redis.zrevrange("user_sessions/#{user_id}", si, ei).map do |session_id|
       requests = redis.zrange("session/#{session_id}/requests", 0, 20, with_scores: true)
-      if redis.zcard "session/#{session_id}/requests" == 0
+      if redis.zcard("session/#{session_id}/requests") == 0
         redis.multi do
           redis.del "session/#{session_id}/requests"
           redis.del "session/#{session_id}"
@@ -46,7 +46,7 @@ class RedisLogController < ApplicationController
     redis = redis(logger: true)
     @session_id = params[:id]
     si, ei = page
-    @requests = if redis.zcard "session/#{@session_id}/requests" == 0
+    @requests = if redis.zcard("session/#{@session_id}/requests") == 0
       redis.multi do
         redis.del "session/#{@session_id}/requests"
         redis.del "session/#{@session_id}"
@@ -91,7 +91,7 @@ class RedisLogController < ApplicationController
 
   def page
     pagesize = params[:pagesize].present? ? params[:pagesize].to_i : 50
-    start_idx = (((params[:page].present? ? params[:page].to_i : 1) - 1) * pagesize) + 1
+    start_idx = (((params[:page].present? ? params[:page].to_i : 1) - 1) * pagesize)
     end_idx = start_idx + pagesize
     [start_idx, end_idx]
   end
