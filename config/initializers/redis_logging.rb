@@ -14,9 +14,9 @@ def log_timestamps(ts, status:, action:, controller:, format:, method:, view_run
 
   redis.zadd "request_timings/status_counts/by_path/#{method.upcase}/#{path}.#{format}", ts, status
   redis.zadd "request_timings/status_counts/by_action/#{controller}##{action}", ts, status
-  redis.zadd "request_timings/status_counts", ts, status
+  redis.zadd 'request_timings/status_counts', ts, status
 
-  redis.zadd "request_timings/sha", ts, CurrentCommit, nx: true
+  redis.zadd 'request_timings/sha', ts, CurrentCommit, nx: true
 end
 
 ActiveSupport::Notifications.subscribe 'process_action.action_controller' do |_name, _started, _finished, _unique_id, data|

@@ -47,18 +47,18 @@ class RedisLogController < ApplicationController
     @session_id = params[:id]
     si, ei = page
     @requests = if redis.zcard("session/#{@session_id}/requests") == 0
-      redis.multi do
-        redis.del "session/#{@session_id}/requests"
-        redis.del "session/#{@session_id}"
-      end
-      {}
-    else
-      redis.zrange("session/#{@session_id}/requests", si, ei, with_scores: true).map do |request_id, timestamp|
-        r = get_request(timestamp, request_id)
-        redis.zrem "session/#{@session_id}/requests", request_id if r.empty?
-        r
-      end.reject(&:empty?)
-    end
+                  redis.multi do
+                    redis.del "session/#{@session_id}/requests"
+                    redis.del "session/#{@session_id}"
+                  end
+                  {}
+                else
+                  redis.zrange("session/#{@session_id}/requests", si, ei, with_scores: true).map do |request_id, timestamp|
+                    r = get_request(timestamp, request_id)
+                    redis.zrem "session/#{@session_id}/requests", request_id if r.empty?
+                    r
+                  end.reject(&:empty?)
+                end
   end
 
   def by_status
