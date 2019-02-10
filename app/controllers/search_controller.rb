@@ -9,7 +9,7 @@ class SearchController < ApplicationController
     title, title_operation,
     body, body_operation,
     why, why_operation,
-    username, username_operation = [:title, :body, :why, :username].map do |s|
+    username, username_operation = %i[title body why username].map do |s|
       SearchHelper.parse_search_params(params, s, current_user)
     end.flatten
 
@@ -99,7 +99,7 @@ class SearchController < ApplicationController
     respond_to do |format|
       format.html do
         @counts_by_accuracy_group = @results.group(:is_tp, :is_fp, :is_naa).count
-        @counts_by_feedback = [:is_tp, :is_fp, :is_naa].each_with_index.map do |symbol, i|
+        @counts_by_feedback = %i[is_tp is_fp is_naa].each_with_index.map do |symbol, i|
           [symbol, @counts_by_accuracy_group.select { |k, _v| k[i] }.values.sum]
         end.to_h
 
@@ -127,7 +127,7 @@ class SearchController < ApplicationController
     title, title_operation,
     body, body_operation,
     why, why_operation,
-    username, username_operation = [:title, :body, :why, :username].map do |s|
+    username, username_operation = %i[title body why username].map do |s|
       SearchHelper.parse_search_params(params, s, current_user)
     end.flatten
 

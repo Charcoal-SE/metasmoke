@@ -2,8 +2,8 @@
 
 class DeveloperController < ApplicationController
   before_action :authenticate_user!, except: [:blank_page]
-  before_action :verify_developer, except: [:blank_page, :change_back, :verify_elevation]
-  before_action :check_impersonating, only: [:change_back, :verify_elevation]
+  before_action :verify_developer, except: %i[blank_page change_back verify_elevation]
+  before_action :check_impersonating, only: %i[change_back verify_elevation]
 
   def update_sites
     SitesHelper.update_sites

@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 class APIController < ApplicationController
-  before_action :verify_key, except: [:filter_generator, :api_docs, :filter_fields, :calculate_filter]
+  before_action :verify_key, except: %i[filter_generator api_docs filter_fields calculate_filter]
   before_action :verify_trusted_key, only: [:regex_search]
-  before_action :set_pagesize, except: [:filter_generator, :api_docs]
-  before_action :verify_write_token, only: [:create_feedback, :report_post, :spam_flag, :add_domain_tag]
-  skip_before_action :verify_authenticity_token, only: [:posts_by_url, :create_feedback, :report_post, :spam_flag, :post_deleted, :add_domain_tag,
-                                                        :calculate_filter]
+  before_action :set_pagesize, except: %i[filter_generator api_docs]
+  before_action :verify_write_token, only: %i[create_feedback report_post spam_flag add_domain_tag]
+  skip_before_action :verify_authenticity_token, only: %i[posts_by_url create_feedback report_post spam_flag post_deleted add_domain_tag
+                                                          calculate_filter]
 
   # Public routes
 

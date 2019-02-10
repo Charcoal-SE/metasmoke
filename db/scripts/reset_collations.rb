@@ -17,7 +17,7 @@ tables_columns.each do |t, cs|
   ActiveRecord::Base.connection.execute "ALTER TABLE `#{t}` DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 
   puts '  ALTER MODIFY...'
-  cs.select { |c| [:string, :text].include? c.type }.each do |c|
+  cs.select { |c| %i[string text].include? c.type }.each do |c|
     puts "    #{c.name}"
     ActiveRecord::Base.connection.execute "ALTER TABLE `#{t}` MODIFY `#{c.name}` #{c.sql_type} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
   end

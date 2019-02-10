@@ -8,7 +8,7 @@ class ReviewItem < ApplicationRecord
   belongs_to :reviewable, polymorphic: true
   has_many :results, class_name: 'ReviewResult'
 
-  [:post, :spam_domain, :flag].each do |t|
+  %i[post spam_domain flag].each do |t|
     belongs_to(t, -> { where(review_items: { reviewable_type: t.to_s.pluralize.classify }) }, foreign_key: 'reviewable_id')
 
     define_method t do

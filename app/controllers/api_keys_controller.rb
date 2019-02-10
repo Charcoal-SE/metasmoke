@@ -2,9 +2,9 @@
 
 class APIKeysController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_key, except: [:index, :new, :create, :mine]
-  before_action :verify_admin, except: [:owner_edit, :owner_update, :owner_revoke, :mine]
-  before_action :verify_ownership, only: [:owner_edit, :owner_update, :owner_revoke]
+  before_action :set_key, except: %i[index new create mine]
+  before_action :verify_admin, except: %i[owner_edit owner_update owner_revoke mine]
+  before_action :verify_ownership, only: %i[owner_edit owner_update owner_revoke]
 
   def index
     @keys = APIKey.all

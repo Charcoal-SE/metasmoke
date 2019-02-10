@@ -5,7 +5,7 @@ include AuthenticationHelper
 
 class AuthenticationController < ApplicationController
   before_action :authenticate_user!, except: [:login_redirect_target]
-  before_action :verify_admin, only: [:invalidate_tokens, :send_invalidations]
+  before_action :verify_admin, only: %i[invalidate_tokens send_invalidations]
 
   def status
     @config = AppConfig['stack_exchange']

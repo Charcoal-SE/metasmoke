@@ -2,7 +2,7 @@
 
 class SpamWavesController < ApplicationController
   before_action :verify_admin
-  before_action :set_wave, except: [:index, :new, :create, :preview]
+  before_action :set_wave, except: %i[index new create preview]
 
   def index
     @active = SpamWave.active.order(created_at: :desc).paginate(page: params[:page], per_page: 30)

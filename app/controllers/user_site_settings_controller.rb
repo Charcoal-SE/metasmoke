@@ -3,8 +3,8 @@
 class UserSiteSettingsController < ApplicationController
   before_action :authenticate_user!
   before_action :verify_admin, only: [:for_user]
-  before_action :set_preference, only: [:edit, :update, :destroy]
-  before_action :verify_authorized, only: [:edit, :update, :destroy]
+  before_action :set_preference, only: %i[edit update destroy]
+  before_action :verify_authorized, only: %i[edit update destroy]
 
   def index
     @preferences = UserSiteSetting.where(user: current_user)

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DumpsController < ApplicationController
-  before_action :set_dump, only: [:show, :edit, :update, :destroy]
+  before_action :set_dump, only: %i[show edit update destroy]
 
   # GET /dumps
   # GET /dumps.json

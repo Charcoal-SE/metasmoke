@@ -29,7 +29,7 @@ class FlagLogController < ApplicationController
                             end
 
     @flag_logs = @applicable_flag_logs.order(Arel.sql('flag_logs.created_at DESC, flag_logs.id DESC'))
-                                      .includes(post: [feedbacks: [:user, :api_key]])
+                                      .includes(post: [feedbacks: %i[user api_key]])
                                       .includes(post: [:reasons])
                                       .includes(:user)
                                       .paginate(page: params[:page], per_page: 100)
@@ -40,7 +40,7 @@ class FlagLogController < ApplicationController
     @individual_post = Post.find(params[:id])
     @flag_logs = @individual_post.flag_logs.where(is_auto: true)
                                  .order(Arel.sql('created_at DESC, id DESC'))
-                                 .includes(post: [feedbacks: [:user, :api_key]])
+                                 .includes(post: [feedbacks: %i[user api_key]])
                                  .includes(post: [:reasons])
                                  .includes(:user)
                                  .paginate(page: params[:page], per_page: 100)
@@ -55,7 +55,7 @@ class FlagLogController < ApplicationController
   def not_flagged
     @posts = Post.left_joins(:flag_logs)
                  .where(flag_logs: { id: nil })
-                 .includes(feedbacks: [:user, :api_key])
+                 .includes(feedbacks: %i[user api_key])
                  .includes(:reasons)
                  .order(created_at: :desc)
                  .paginate(page: params[:page], per_page: 100)

@@ -2,7 +2,7 @@
 
 class MicroAuthController < ApplicationController
   before_action :authenticate_user!, except: [:token]
-  before_action :verify_key, except: [:invalid_key, :authorized]
+  before_action :verify_key, except: %i[invalid_key authorized]
   before_action :set_token, only: [:authorized]
 
   def token_request; end

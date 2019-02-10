@@ -2,10 +2,10 @@
 
 class SpamDomainsController < ApplicationController
   before_action :check_if_smokedetector, only: [:create_from_post]
-  before_action :authenticate_user!, only: [:edit, :update, :destroy, :create, :new]
-  before_action :verify_core, only: [:edit, :update, :create, :new]
+  before_action :authenticate_user!, only: %i[edit update destroy create new]
+  before_action :verify_core, only: %i[edit update create new]
   before_action :verify_admin, only: [:destroy]
-  before_action :set_spam_domain, only: [:show, :edit, :update, :destroy]
+  before_action :set_spam_domain, only: %i[show edit update destroy]
 
   def index
     @total = SpamDomain.count

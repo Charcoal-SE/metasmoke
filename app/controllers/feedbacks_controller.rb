@@ -2,7 +2,7 @@
 
 class FeedbacksController < ApplicationController
   before_action :authenticate_user!, except: [:create]
-  before_action :set_feedback, only: [:show, :edit, :update, :destroy]
+  before_action :set_feedback, only: %i[show edit update destroy]
   before_action :check_if_smokedetector, only: :create
 
   protect_from_forgery except: [:create]

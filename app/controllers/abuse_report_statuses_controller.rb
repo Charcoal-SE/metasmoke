@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class AbuseReportStatusesController < ApplicationController
-  before_action :verify_core, except: [:index, :show]
-  before_action :set_status, except: [:index, :create]
+  before_action :verify_core, except: %i[index show]
+  before_action :set_status, except: %i[index create]
   before_action :verify_admin, only: :destroy
 
   def index

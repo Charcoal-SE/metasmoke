@@ -2,8 +2,8 @@
 
 class UsersController < ApplicationController
   before_action :authenticate_user!, except: [:missing_privileges]
-  before_action :verify_developer, only: [:show, :refresh_ids, :send_password_reset, :update_mod_sites]
-  before_action :set_user, only: [:show, :refresh_ids, :send_password_reset, :update_mod_sites]
+  before_action :verify_developer, only: %i[show refresh_ids send_password_reset update_mod_sites]
+  before_action :set_user, only: %i[show refresh_ids send_password_reset update_mod_sites]
 
   def username; end
 

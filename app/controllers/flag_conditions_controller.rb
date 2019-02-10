@@ -2,11 +2,11 @@
 
 class FlagConditionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :verify_admin, only: [:full_list, :user_overview, :validate_user]
-  before_action :set_condition, only: [:edit, :update, :destroy, :enable]
-  before_action :verify_authorized, only: [:edit, :update, :destroy, :enable]
+  before_action :verify_admin, only: %i[full_list user_overview validate_user]
+  before_action :set_condition, only: %i[edit update destroy enable]
+  before_action :verify_authorized, only: %i[edit update destroy enable]
   before_action :check_registration_status, only: [:new]
-  before_action :set_preview_data, only: [:new, :edit, :preview]
+  before_action :set_preview_data, only: %i[new edit preview]
   before_action :verify_reviewer, only: [:sandbox]
 
   def index

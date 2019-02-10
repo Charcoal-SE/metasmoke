@@ -16,8 +16,6 @@ AllCops:
     - 'redis-git/**/**/**/*'
   TargetRubyVersion: 2.4
 
-Style/SymbolArray:
-  Enabled: false
 Style/Documentation:
   Enabled: false
 Style/FileName:

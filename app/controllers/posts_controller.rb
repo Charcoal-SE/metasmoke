@@ -3,9 +3,9 @@
 class PostsController < ApplicationController
   protect_from_forgery except: [:create]
   before_action :check_if_smokedetector, only: :create
-  before_action :set_post, only: [:needs_admin, :feedbacksapi, :reindex_feedback, :cast_spam_flag, :delete_post]
-  before_action :authenticate_user!, only: [:reindex_feedback, :cast_spam_flag]
-  before_action :verify_developer, only: [:reindex_feedback, :delete_post]
+  before_action :set_post, only: %i[needs_admin feedbacksapi reindex_feedback cast_spam_flag delete_post]
+  before_action :authenticate_user!, only: %i[reindex_feedback cast_spam_flag]
+  before_action :verify_developer, only: %i[reindex_feedback delete_post]
   before_action :verify_reviewer, only: [:feedback]
 
   def show

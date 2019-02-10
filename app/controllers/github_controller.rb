@@ -5,7 +5,7 @@ include APIHelper
 
 class GithubController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :verify_github, except: [:update_deploy_to_master, :add_pullapprove_comment]
+  before_action :verify_github, except: %i[update_deploy_to_master add_pullapprove_comment]
   before_action :check_if_smokedetector, only: [:add_pullapprove_comment]
 
   # Fires whenever a CI service finishes.

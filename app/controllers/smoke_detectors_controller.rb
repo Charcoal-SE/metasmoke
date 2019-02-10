@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class SmokeDetectorsController < ApplicationController
-  before_action :authenticate_user!, except: [:audits, :check_token]
-  before_action :verify_admin, except: [:audits, :force_failover, :force_pull, :mine, :token_regen, :new, :create, :check_token]
-  before_action :verify_code_admin, only: [:force_failover, :force_pull]
-  before_action :verify_smoke_detector_runner, only: [:mine, :token_regen, :new, :create]
-  before_action :set_smoke_detector, except: [:audits, :mine, :new, :create, :check_token]
+  before_action :authenticate_user!, except: %i[audits check_token]
+  before_action :verify_admin, except: %i[audits force_failover force_pull mine token_regen new create check_token]
+  before_action :verify_code_admin, only: %i[force_failover force_pull]
+  before_action :verify_smoke_detector_runner, only: %i[mine token_regen new create]
+  before_action :set_smoke_detector, except: %i[audits mine new create check_token]
 
   def destroy
     unless current_user.present? && (current_user.has_role?(:admin) || current_user.id == @smoke_detector.user_id)

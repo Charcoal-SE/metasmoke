@@ -2,8 +2,8 @@
 
 class AbuseReportsController < ApplicationController
   before_action :verify_core, except: [:public_link]
-  before_action :set_report, except: [:index, :new, :create, :public_link]
-  before_action :verify_access, except: [:index, :new, :create, :show, :public_link]
+  before_action :set_report, except: %i[index new create public_link]
+  before_action :verify_access, except: %i[index new create show public_link]
   before_action :verify_admin, only: [:destroy]
 
   def index

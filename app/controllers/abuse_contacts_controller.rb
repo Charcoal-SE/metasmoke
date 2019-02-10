@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class AbuseContactsController < ApplicationController
-  before_action :verify_core, except: [:index, :show]
-  before_action :set_contact, except: [:index, :create]
+  before_action :verify_core, except: %i[index show]
+  before_action :set_contact, except: %i[index create]
   before_action :verify_admin, only: [:destroy]
 
   @markdown_renderer = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new)
