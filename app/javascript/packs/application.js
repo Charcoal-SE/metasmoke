@@ -165,7 +165,7 @@ const metasmoke = window.metasmoke = {
         $(`.post-render-mode[data-render-mode="${metasmoke.storage['post-render-mode']}"]`).tab('show');
       }
 
-      $(document).on('DOMNodeInserted', '.post-body', ev => {
+      $(document).on('DOMNodeInserted', '.post-body, .review-item-container', ev => {
         $(`.post-render-mode[data-render-mode="${metasmoke.storage['post-render-mode']}"]`).tab('show');
       });
     }
