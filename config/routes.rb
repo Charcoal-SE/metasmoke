@@ -208,7 +208,7 @@ Rails.application.routes.draw do
     post 'reindex',          to: 'developer#run_feedback_reindex', as: :developer_reindex
 
     scope 'request-log' do
-      get 'index',          to: 'redis_log#index'
+      root                  to: 'redis_log#index'
       get 'user/:id',       to: 'redis_log#by_user',    as: :redis_log_by_user
       get 'status/:status', to: 'redis_log#by_status',  as: :redis_log_by_status
       get 'session/:id',    to: 'redis_log#by_session', as: :redis_log_by_session
