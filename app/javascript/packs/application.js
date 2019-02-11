@@ -43,7 +43,7 @@ const metasmoke = window.metasmoke = {
 
   storage: new Proxy(localStorage, {
     get: (target, name) => {
-      return !!target.metasmoke ? JSON.parse(target.metasmoke)[name] : null;
+      return target.metasmoke ? JSON.parse(target.metasmoke)[name] : null;
     },
 
     set: (target, name, value) => {
@@ -165,11 +165,11 @@ const metasmoke = window.metasmoke = {
         $(`.post-render-mode[data-render-mode="${metasmoke.storage['post-render-mode']}"]`).tab('show');
       }
 
-      $(document).on('DOMNodeInserted', '.post-body, .review-item-container', ev => {
+      $(document).on('DOMNodeInserted', '.post-body, .review-item-container', () => {
         $(`.post-render-mode[data-render-mode="${metasmoke.storage['post-render-mode']}"]`).tab('show');
       });
     }
-  }),
+  })
 };
 
 onLoad(() => {

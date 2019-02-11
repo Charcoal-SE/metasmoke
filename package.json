@@ -52,7 +52,8 @@
         "error",
         "stroustrup"
       ],
-      "no-mixed-operators": "off"
+      "no-mixed-operators": "off",
+      "no-multi-assign": "off"
     }
   },
   "dependencies": {
