@@ -9,17 +9,21 @@
       <%= Time.at(req[:timestamp]).strftime('%Y-%m-%d %H:%M:%S') %>
     </span>&nbsp;·&nbsp;<span style="display:inline-block;">
       <i class="fas fa-database" title="DB time"></i>
-      <% if req['db_runtime'].nil? %>
-        <i>&nbsp;unknown&nbsp;</i>
-      <% else %>
-        <%= number_with_precision(req['db_runtime'].to_f, precision: 3).rjust(7, "\u00A0") %>ms
-      <% end %>
+      <span class="request-db-time">
+        <% if req['db_runtime'].nil? %>
+          <i>&nbsp;unknown&nbsp;</i>
+        <% else %>
+          <%= number_with_precision(req['db_runtime'].to_f, precision: 3).rjust(7, "\u00A0") %>ms
+        <% end %>
+      </span>
       · <i class="fas fa-desktop" title="View time"></i>
-      <% if req['view_runtime'].nil? %>
-        <i>&nbsp;unknown&nbsp;</i>
-      <% else %>
-        <%= number_with_precision(req['view_runtime'].to_f, precision: 3).rjust(7, "\u00A0") %>ms
-      <% end %>
+      <span class="request-view-time">
+        <% if req['view_runtime'].nil? %>
+          <i>&nbsp;unknown&nbsp;</i>
+        <% else %>
+          <%= number_with_precision(req['view_runtime'].to_f, precision: 3).rjust(7, "\u00A0") %>ms
+        <% end %>
+      </span>
     </span>
   </code>
 </div>

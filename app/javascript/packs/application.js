@@ -24,6 +24,7 @@ import '../admin';
 import '../api';
 import '../code_status';
 import '../data';
+import '../developer';
 import '../domain_links';
 import '../flag_conditions';
 import '../flag_settings';
