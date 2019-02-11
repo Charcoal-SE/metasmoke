@@ -76,8 +76,12 @@
 
 <% unless @post.body.nil? %>
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#post-body-tab" role="tab" data-toggle="tab">Markdown</a></li>
-    <li role="presentation"><a href="#preview-tab" role="tab" data-toggle="tab">Preview</a></li>
+    <li role="presentation" class="active">
+      <a href="#post-body-tab" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="markdown">Markdown</a>
+    </li>
+    <li role="presentation">
+      <a href="#preview-tab" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="rendered">Preview</a>
+    </li>
   </ul><br/>
 
   <div class="tab-content">

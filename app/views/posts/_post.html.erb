@@ -60,12 +60,18 @@
     <div class="post-body" data-postid="<%= post.id %>" style="<%= "display: none;" unless expand_post.present? and expand_post %>">
       <% if preload_post_body %>
         <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="active"><a href="#post-body-tab" role="tab" data-toggle="tab">Markdown</a></li>
-          <li role="presentation"><a href="#preview-tab" role="tab" data-toggle="tab">Preview</a></li>
+          <li role="presentation" class="active">
+            <a href="#post-body-tab-<%= post.id %>" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="markdown">
+              Markdown
+            </a>
+          </li>
+          <li role="presentation">
+            <a href="#preview-tab-<%= post.id %>" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="rendered">Preview</a>
+          </li>
         </ul><br/>
 
         <div class="tab-content">
-          <div role="tabpanel" class="tab-pane active" id="post-body-tab">
+          <div role="tabpanel" class="tab-pane active" id="post-body-tab-<%= post.id %>">
             <% if post.try(:body).present? or post.try(:body_exists) == 1 %>
               <div>
                 <pre class="post-body-pre-block"><%= post.body %></pre>
@@ -84,7 +90,7 @@
               </div>
             <% end %>
           </div>
-          <div role="tabpanel" class="tab-pane" id="preview-tab">
+          <div role="tabpanel" class="tab-pane" id="preview-tab-<%= post.id %>">
             <div class="panel panel-default">
               <div class="panel-body">
                 <%= raw(sanitize(AnnouncementsController.renderer.render(post.body), scrubber: PostScrubber.new)) %>

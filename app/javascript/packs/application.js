@@ -12,6 +12,8 @@
   import/first
 */
 
+import createDebug from 'debug';
+
 import Turbolinks from 'turbolinks';
 import '../turbolinks_prefetch.coffee'; // The original is in coffee.
 Turbolinks.start();
@@ -36,88 +38,140 @@ import '../comments';
 
 import { onLoad, installSelectpickers, uuid4, hashCode } from '../util';
 
-onLoad(() => {
-  $('[data-toggle="tooltip"]').tooltip();
-  $('[data-toggle="popover"]').popover();
+const metasmoke = window.metasmoke = {
+  debug: createDebug('ms:application'),
 
-  $('.sortable-table').tablesort();
+  storage: new Proxy(localStorage, {
+    get: (target, name) => {
+      return !!target.metasmoke ? JSON.parse(target.metasmoke)[name] : null;
+    },
 
-  installSelectpickers();
-
-  $('.announcement-collapse').click(ev => {
-    ev.preventDefault();
-
-    const collapser = $('.announcement-collapse');
-    const announcements = $('.announcements').children('.alert-info');
-    const showing = collapser.text().indexOf('Hide') > -1;
-    if (showing) {
-      const text = announcements.map((i, x) => $('p', x).text()).toArray().join(' ');
-      localStorage.setItem('metasmoke-announcements-read', text);
-      $('.announcements:not(body)').slideUp(500);
-      collapser.text('Show announcements');
+    set: (target, name, value) => {
+      if (!target.metasmoke) {
+        target.metasmoke = JSON.stringify({});
+      }
+      const data = JSON.parse(target.metasmoke);
+      data[name] = value;
+      target.metasmoke = JSON.stringify(data);
+      return true;
     }
-    else {
-      localStorage.removeItem('metasmoke-announcements-read');
-      $('.announcements:not(body)').slideDown(500);
-      collapser.text('Hide announcements');
-    }
-  });
+  }),
 
-  (function () {
-    const announcements = $('.announcements').children('.alert-info');
-    const text = announcements.map((i, x) => $('p', x).text()).toArray().join(' ');
+  init: Object.assign(() => {
+    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="popover"]').popover();
 
-    const read = localStorage.getItem('metasmoke-announcements-read');
-    if (read && read === text) {
-      $('.announcements:not(body)').hide();
-      $('.announcement-collapse').text('Show announcements');
-    }
-  })();
+    $('.sortable-table').tablesort();
 
-  $('.form-submit').click(ev => {
-    $(ev.target).parent().submit();
-  });
-
-  const formParameterCleanups = [];
-
-  $(document).on('submit', 'form', ev => {
-    const tgt = $(ev.target);
-    if (formParameterCleanups.indexOf(tgt[0]) === -1) {
-      ev.preventDefault();
-      $(tgt.find(':input').toArray().filter(e => $(e).val() === '')).attr('disabled', true);
-      formParameterCleanups.push(tgt[0]);
-      tgt.submit();
-    }
-  });
-
-  $(document).on('ajax:beforeSend', 'form[data-deduplicate]', (ev, xhr) => {
-    const $tgt = $(ev.target);
-    if (!$tgt.data('dedup-uuid')) {
-      $tgt.attr('data-dedup-uuid', uuid4());
-    }
-
-    const dedupUuid = $tgt.data('dedup-uuid');
-    const data = $(ev.target).serialize();
-    const requestId = `${dedupUuid}/${hashCode(data)}`;
-    xhr.setRequestHeader('X-AJAX-Deduplicate', requestId);
-  });
-
-  const reviewCounter = $('.reviews-count');
-  if (reviewCounter.length > 0 && parseInt(reviewCounter.text().trim(), 10) > 50) {
-    const reviewAlertedAt = parseInt(localStorage['ms-review-alerted-at'] || 0, 10);
-    const diff = (Date.now() - reviewAlertedAt) / 1000;
-    if (diff >= 14400) {
-      reviewCounter.attr('data-toggle', 'tooltip').attr('data-placement', 'bottom')
-        .attr('title', 'Got 5 minutes to do 10 reviews?');
-      reviewCounter.tooltip('show');
-      localStorage['ms-review-alerted-at'] = Date.now().toString();
-    }
-  }
-
-  $('.wave-preview').click(() => {
-    $.ajax({
-      url: '/spam-waves/preview',
-      data: $('form').serialize()
+    $('.form-submit').click(ev => {
+      $(ev.target).parent().submit();
     });
-  });
+
+    $('.wave-preview').click(() => {
+      $.ajax({
+        url: '/spam-waves/preview',
+        data: $('form').serialize()
+      });
+    });
+
+    installSelectpickers();
+
+    metasmoke.init.setupAnnouncementCollapse();
+    metasmoke.init.initFormParamCleanups();
+    metasmoke.init.setupAjaxDeduplicator();
+    metasmoke.init.checkReviewCountKicker();
+    metasmoke.init.setPostRenderModes();
+  }, {
+    setupAnnouncementCollapse: () => {
+      $('.announcement-collapse').click(ev => {
+        ev.preventDefault();
+
+        const collapser = $('.announcement-collapse');
+        const announcements = $('.announcements').children('.alert-info');
+        const showing = collapser.text().indexOf('Hide') > -1;
+        if (showing) {
+          const text = announcements.map((i, x) => $('p', x).text()).toArray().join(' ');
+          metasmoke.storage['read-announcements'] = text;
+          $('.announcements:not(body)').slideUp(500);
+          collapser.text('Show announcements');
+        }
+        else {
+          metasmoke.storage['read-announcements'] = null;
+          $('.announcements:not(body)').slideDown(500);
+          collapser.text('Hide announcements');
+        }
+      });
+
+      const announcements = $('.announcements').children('.alert-info');
+      const text = announcements.map((i, x) => $('p', x).text()).toArray().join(' ');
+
+      const read = metasmoke.storage['read-announcements'];
+      if (read && read === text) {
+        $('.announcements:not(body)').hide();
+        $('.announcement-collapse').text('Show announcements');
+      }
+    },
+
+    initFormParamCleanups: () => {
+      const formParameterCleanups = [];
+
+      $(document).on('submit', 'form', ev => {
+        const tgt = $(ev.target);
+        if (formParameterCleanups.indexOf(tgt[0]) === -1) {
+          ev.preventDefault();
+          $(tgt.find(':input').toArray().filter(e => $(e).val() === '')).attr('disabled', true);
+          formParameterCleanups.push(tgt[0]);
+          tgt.submit();
+        }
+      });
+    },
+
+    setupAjaxDeduplicator: () => {
+      $(document).on('ajax:beforeSend', 'form[data-deduplicate]', (ev, xhr) => {
+        const $tgt = $(ev.target);
+        if (!$tgt.data('dedup-uuid')) {
+          $tgt.attr('data-dedup-uuid', uuid4());
+        }
+
+        const dedupUuid = $tgt.data('dedup-uuid');
+        const data = $(ev.target).serialize();
+        const requestId = `${dedupUuid}/${hashCode(data)}`;
+        xhr.setRequestHeader('X-AJAX-Deduplicate', requestId);
+      });
+    },
+
+    checkReviewCountKicker: () => {
+      const reviewCounter = $('.reviews-count');
+      if (reviewCounter.length > 0 && parseInt(reviewCounter.text().trim(), 10) > 50) {
+        const reviewAlertedAt = parseInt(metasmoke.storage['review-alerted-at'] || 0, 10);
+        const diff = (Date.now() - reviewAlertedAt) / 1000;
+        if (diff >= 14400) {
+          reviewCounter.attr('data-toggle', 'tooltip').attr('data-placement', 'bottom')
+          .attr('title', 'Got 5 minutes to do 10 reviews?');
+          reviewCounter.tooltip('show');
+          metasmoke.storage['review-alerted-at'] = Date.now().toString();
+        }
+      }
+    },
+
+    setPostRenderModes: () => {
+      $(document).on('click', '.post-render-mode', ev => {
+        const mode = $(ev.target).data('render-mode');
+        metasmoke.storage['post-render-mode'] = mode;
+        metasmoke.debug(`default render mode updated to ${mode}`);
+      });
+
+      if (metasmoke.storage['post-render-mode']) {
+        $(`.post-render-mode[data-render-mode="${metasmoke.storage['post-render-mode']}"]`).tab('show');
+      }
+
+      $(document).on('DOMNodeInserted', '.post-body', ev => {
+        $(`.post-render-mode[data-render-mode="${metasmoke.storage['post-render-mode']}"]`).tab('show');
+      });
+    }
+  }),
+};
+
+onLoad(() => {
+  metasmoke.init();
 });
