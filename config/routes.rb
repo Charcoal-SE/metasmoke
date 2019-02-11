@@ -139,7 +139,7 @@ Rails.application.routes.draw do
     get  'posts/site',              to: 'api#posts_by_site'
     get  'posts/between',           to: 'api#posts_by_daterange'
     get  'posts/search',            to: 'api#search_posts'
-    get  'posts/search/regex',      to: 'api#regex_search'
+    # get  'posts/search/regex',      to: 'api#regex_search'
     get  'posts/:ids',              to: 'api#posts'
     get  'post/:id/feedback',       to: 'api#post_feedback'
     get  'post/:id/reasons',        to: 'api#post_reasons'
