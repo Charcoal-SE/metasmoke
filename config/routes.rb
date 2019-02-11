@@ -356,9 +356,10 @@ Rails.application.routes.draw do
   end
 
   scope 'reason' do
-    get ':id',                to: 'reasons#show',           as: :reason
-    get ':id/site_chart',     to: 'reasons#sites_chart',    as: :reason_site_chart
-    get ':id/accuracy_chart', to: 'reasons#accuracy_chart', as: :reason_accuracy_chart
+    post 'description',        to: 'reasons#update_description', as: :update_reason_description
+    get  ':id',                to: 'reasons#show',               as: :reason
+    get  ':id/site_chart',     to: 'reasons#sites_chart',        as: :reason_site_chart
+    get  ':id/accuracy_chart', to: 'reasons#accuracy_chart',     as: :reason_accuracy_chart
   end
 
   scope 'review' do

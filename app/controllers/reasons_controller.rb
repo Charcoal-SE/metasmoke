@@ -59,4 +59,10 @@ class ReasonsController < ApplicationController
       }
     ]
   end
+
+  def update_description
+    @reason = Reason.find(params[:id])
+    @reason.update(description: params[:description])
+    redirect_back fallback_location: reason_path(@reason)
+  end
 end

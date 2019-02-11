@@ -1,4 +1,8 @@
 <h3><%= title @reason.reason_name %> <span class="text-muted">(<%= @reason.weight %>)</span></h3>
+<p class="text-muted">
+  <%= @reason.description %><br/>
+  <a href="#" data-toggle="modal" data-target="#description-modal"><i class="fas fa-edit"></i> Edit description</a>
+</p>
 
 <div class="col-md-6">
   <%= pie_chart reason_site_chart_path(@reason.id) %>
@@ -30,4 +34,31 @@
 
 <div class="text-center">
   <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
+</div>
+
+<div class="modal fade" id="description-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Edit Description</h4>
+      </div>
+      <div class="modal-body">
+        <%= form_tag update_reason_description_path, method: :post do %>
+          <%= hidden_field_tag :id, @reason.id %>
+
+          <div class="field">
+            <%= label_tag :description do %>
+              <i class="fas fa-question"></i> Description
+            <% end %><br/>
+            <%= text_area_tag :description, nil, class: 'form-control', rows: 3, cols: 100 %>
+          </div><br/>
+
+          <div class="actions">
+            <button type="submit" class="btn btn-success"><i class="fas fa-check"></i> Update</button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
