@@ -124,7 +124,9 @@
       | posted by
       <% unless @post.site&.site_logo&.nil? %>
         <%= link_to @post.user_link do %>
-          <%= image_tag @post.site.site_logo, size: "20" %>
+          <% unless @post.site&.site_logo.nil? %>
+            <%= image_tag @post.site.site_logo, size: "20" %>
+          <% end %>
         <% end %>
       <% end %>
       <%= link_to @post.username, stack_exchange_user_path(@post.stack_exchange_user_id) if @post.stack_exchange_user_id.present? %>
