@@ -97,7 +97,7 @@
 <hr>
 
 <% unless @post.link.nil? %>
-  <% unless @post.site&.site_logo&.nil? %>
+  <% unless @post.site&.site_logo.nil? %>
     <%= image_tag @post.site.site_logo, size: "20" %>
   <% end %>
   <%= link_to "View on site", @post.link %>
