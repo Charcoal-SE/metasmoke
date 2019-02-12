@@ -1,4 +1,10 @@
-<h1>Review <%= @queue.name.titleize %></h1>
+<h1>
+  Review <%= @queue.name.titleize %>
+  <small>
+    &middot;
+    <%= link_to 'History', review_history_path(name: @queue.name) %>
+  </small>
+</h1>
 <p><%= @queue.description %></p>
 
 <div class="review-item-container">
