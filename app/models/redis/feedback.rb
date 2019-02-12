@@ -24,7 +24,7 @@ class Redis::Feedback
 
   def self.post(post_id)
     feedback_ids = redis.smembers "post/#{post_id}/feedbacks"
-    feedback_ids.map { |id| Redis::Feedback.new(id) }
+    feedback_ids.to_a.map { |id| Redis::Feedback.new(id) }
   end
 
   # Stolen from feedbacks model
