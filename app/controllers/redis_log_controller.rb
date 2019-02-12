@@ -78,6 +78,7 @@ class RedisLogController < ApplicationController
     redis = redis(logger: true)
     from_redis = redis.hgetall("request/#{timestamp}/#{request_id}")
     return {} if from_redis.empty?
+    from_redis['status'] ||= 'UNK'
     from_redis.merge(
       request_headers: redis.hgetall("request/#{timestamp}/#{request_id}/request_headers"),
       response_headers: redis.hgetall("request/#{timestamp}/#{request_id}/response_headers"),
