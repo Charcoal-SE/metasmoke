@@ -8,7 +8,7 @@ class RedisLogController < ApplicationController
     redis = redis(logger: true)
     user_id = params[:id]
     si, ei = page
-    @sessions = redis.zrevrange("user_sessions/#{user_id}", si, ei).map do |session_id|
+    @sessions = redis.zrevrange("user_sessions/#{user_id}", si, ei).to_a.map do |session_id|
       requests = redis.zrange("session/#{session_id}/requests", 0, 20, with_scores: true)
       if redis.zcard("session/#{session_id}/requests") == 0
         redis.multi do
