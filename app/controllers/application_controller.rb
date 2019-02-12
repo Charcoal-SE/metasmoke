@@ -74,7 +74,7 @@ class ApplicationController < ActionController::Base
       request.set_header 'redis_logs.timestamp', @request_time
       request.set_header 'redis_logs.request_id', request.uuid
       redis.zadd 'requests', @request_time, request.uuid
-      log_redis request_headers: headers, params: request.filtered_parameters.except(:controller, :action)
+      log_redis request_headers: headers.to_h, params: request.filtered_parameters.except(:controller, :action)
       unless session[:redis_log_id].present?
         session[:redis_log_id] = SecureRandom.base64
         session[:redis_log_id] = SecureRandom.base64 while redis.sadd('sessions', session[:redis_log_id]) == 0
