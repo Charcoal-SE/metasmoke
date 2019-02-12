@@ -8,7 +8,7 @@ class Redis::CI
     @sha = sha
   end
 
-  def sucess_count_incr(sha)
+  def sucess_count_incr(sha = @sha)
     key = "#{PREFIX}/#{CI_COUNTER_PREFIX}/#{sha}"
     redis.multi do
       redis.incr key
@@ -16,11 +16,11 @@ class Redis::CI
     end[0]
   end
 
-  def sucess_count_reset(sha)
+  def sucess_count_reset(sha = @sha)
     redis.del "#{PREFIX}/#{CI_COUNTER_PREFIX}/#{sha}"
   end
 
-  def sucess_count(sha)
+  def sucess_count(sha = @sha)
     redis.get("#{PREFIX}/#{CI_COUNTER_PREFIX}/#{sha}").to_i
   end
 
