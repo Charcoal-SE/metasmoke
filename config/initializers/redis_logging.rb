@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-REDIS_LOG_EXPIRATION = 2.weeks.seconds.to_i
+REDIS_LOG_EXPIRATION = 1.weeks.seconds.to_i
 
 def log_timestamps(ts, status:, action:, controller:, format:, method:, view_runtime:, db_runtime:, path:)
   redis = redis(logger: true)
@@ -30,6 +30,7 @@ ActiveSupport::Notifications.subscribe 'process_action.action_controller' do |_n
     redis.mapped_hmset redis_log_key, data.slice(:controller, :action, :format, :method, :status, :view_runtime, :db_runtime)
     log_timestamps(request_timestamp, **data.slice(:action, :controller, :view_runtime, :db_runtime, :method, :format, :status), path: redis.hget(redis_log_key, 'path')) if data[:status] == 200
     redis.mapped_hmset "#{redis_log_key}/response_headers", data[:headers].to_h['action_controller.instance'].response.headers.to_h
+    redis.expire "#{redis_log_key}/response_headers", REDIS_LOG_EXPIRATION
     if data[:exception].present?
       redis.hset redis_log_key, 'exception', data[:exception].join("\n")
       ex = data[:exception_object]
