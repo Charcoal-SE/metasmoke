@@ -36,6 +36,15 @@ class Redis::Client
   end
 end
 
+class Redis
+  # Yes, I know that monkey patching is bad, but redis is being bad too
+  def hgetall(key)
+    synchronize do |client|
+      client.call([:hgetall, key], &proc { |r| Hashify.call(r.to_a) })
+    end
+  end
+end
+
 def redis(logger: false)
   if logger
     config = AppConfig['redis_logging']

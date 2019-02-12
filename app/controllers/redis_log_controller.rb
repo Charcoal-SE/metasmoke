@@ -65,7 +65,7 @@ class RedisLogController < ApplicationController
     redis = redis(logger: true)
     @status = params[:status]
     si, ei = page
-    @requests = redis.zrevrange("requests/status/#{@status}", si, ei, with_scores: true).map do |request_id, timestamp|
+    @requests = redis.zrevrange("requests/status/#{@status}", si, ei, with_scores: true).to_a.map do |request_id, timestamp|
       r = get_request(timestamp, request_id)
       redis.zrem "requests/status/#{@status}", request_id if r.empty?
       r

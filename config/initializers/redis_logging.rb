@@ -26,7 +26,7 @@ ActiveSupport::Notifications.subscribe 'process_action.action_controller' do |_n
   redis_log_key = data[:headers]['redis_logs.log_key']
   request_timestamp = data[:headers]['redis_logs.timestamp']
   unless request_timestamp.nil?
-    redis.zadd "requests/status/#{data[:status]}", request_timestamp, request_id
+    redis.zadd "requests/status/#{data[:status] || 'INC'}", request_timestamp, request_id
     redis.mapped_hmset redis_log_key, data.slice(:controller, :action, :format, :method, :status, :view_runtime, :db_runtime)
     log_timestamps(request_timestamp, **data.slice(:action, :controller, :view_runtime, :db_runtime, :method, :format, :status), path: redis.hget(redis_log_key, 'path')) if data[:status] == 200
     redis.mapped_hmset "#{redis_log_key}/response_headers", data[:headers].to_h['action_controller.instance'].response.headers.to_h
