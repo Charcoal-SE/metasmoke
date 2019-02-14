@@ -45,11 +45,11 @@ class DeletionLog < ApplicationRecord
     deleted = dl.present? ? dl.is_deleted : !post.deleted_at.nil?
     return unless deleted && (post.is_fp || post.is_naa) && post.flag_logs.manual.successful.count > 0
 
-    comment_template = 'This post had {flags} spam/abusive flag(s) cast on it by Charcoal members and has since been deleted, but was ultimately '\
-                       'judged not to have been spam. Please review whether spam flags - and the penalty that comes with them - are appropriate '\
-                       'for this post - you can let us know in https://chat.stackexchange.com/rooms/11540 if the flags were inappropriate. '\
-                       "If you're wondering WTF this flag is, see https://charcoal-se.org/smokey/Auto-Mod-Flags for details."
-    comment = comment_template.gsub('{flags}', post.flag_logs.manual.successful.count.to_s)
+    comment_template = "Charcoal project members cast {flagtype} flags on this post, but at least one subsequent reviewer isn't confident "\
+                       "that's the right decision. Please review and undelete the post if necessary; see "\
+                       'https://charcoal-se.org/smokey/Auto-Mod-Flags for more details about this flag.'
+    flag_type = post.flag_logs.manual.successful.map(&:flag_type).uniq.join(' & ')
+    comment = comment_template.gsub('{flagtype}', flag_type)
     smokey = User.find(-1)
     status, message = smokey.other_flag(post, comment)
     FlagLog.create(
