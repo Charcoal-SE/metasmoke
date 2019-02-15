@@ -41,7 +41,7 @@ ActiveSupport::Notifications.subscribe 'process_action.action_controller' do |_n
 #                                                        message: ex.try(:message)
 #     end
 #     RedisLogJob.perform_later(request_id, request_timestamp)
-  end
+#  end
 end
 
 ActiveSupport::Notifications.subscribe 'endpoint_run.grape' do |_name, _started, _finished, _unique_id, data|
