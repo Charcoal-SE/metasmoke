@@ -66,6 +66,7 @@ class ApplicationController < ActionController::Base
   private
 
   def redis_log_request
+    return
     redis = redis(logger: true)
     Rack::MiniProfiler.step('Logging to redis') do
       redis = redis(logger: true)
