@@ -70,6 +70,7 @@ class ReviewQueuesController < ApplicationController
     @reviews = @reviews.where(user: current_user) if @all == false
     @reviews = @reviews.where(user_id: params[:user]) if params[:user].present?
     @reviews = @reviews.where(result: params[:response]) if params[:response].present?
+    @reviews = @reviews.joins(:user, user: :roles).where(roles: { name: params[:role] }) if params[:role].present?
     @reviews = @reviews.order(created_at: :desc).paginate(page: params[:page], per_page: 100)
   end
 

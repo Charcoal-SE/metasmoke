@@ -20,6 +20,9 @@
     <%= label_tag :response %>
     <%= select_tag :response, options_for_select(@queue.responses + [['Skip', 'skip']], selected: params[:response]),
                    include_blank: true, class: 'form-control input-sm' %>
+    <%= label_tag :role %>
+    <%= select_tag :role, options_for_select(Role.names.map { |r| [r.to_s.humanize, r] }, selected: params[:role]),
+                   include_blank: true, class: 'form-control input-sm' %>
     <%= submit_tag 'Filter', class: 'btn btn-primary btn-sm' %>
   <% end %>
 <% end %>
@@ -31,6 +34,7 @@
     <th class="text-muted">Review ID</th>
     <% if @all %> <th>User</th> <% end %>
     <th>Task</th>
+    <th>Timestamp</th>
     <th>Result</th>
     <% if current_user&.has_role?(:admin) %>
       <th></th>
@@ -43,6 +47,7 @@
       <td class="text-muted"><%= review.id %></td>
       <% if @all %> <td><%= review.user.username %></td> <% end %>
       <td><%= link_to review.item.reviewable&.review_item_name || '(deleted record)', review_item_path(@queue.name, review.item) %></td>
+      <td><span title="<%= review.created_at %>"><%= time_ago_in_words(review.created_at) %> ago</span></td>
       <td><%= review.result %></td>
       <% if current_user&.has_role?(:admin) %>
         <td><%= link_to 'Delete', delete_review_path(name: @queue.name, id: review.id), class: 'text-danger', method: :delete %></td>
