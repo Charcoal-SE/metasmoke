@@ -44,7 +44,7 @@ xml.rss version: '2.0' do
         when 'onsite'
           # We rely on Post.link being a protocol-relative link.
           # This is supported by current data; there are only four exceptions from back in early '17. Won't matter for RSS.
-          xml.link 'https://' + post.link
+          xml.link 'https:' + post.link
         else
           xml.link url_for(controller: 'posts', action: 'show', id: post.id, only_path: false)
         end
