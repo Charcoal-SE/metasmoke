@@ -11,15 +11,16 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :feedbacks
+  has_many :feedbacks, dependent: :nullify
   has_many :api_tokens, dependent: :destroy
   has_many :api_keys, dependent: :nullify
   has_many :user_site_settings, dependent: :destroy
   has_many :flag_conditions, dependent: :destroy
   has_many :flag_logs, dependent: :nullify
   has_many :smoke_detectors, dependent: :destroy
-  has_many :moderator_sites
-  has_many :reviews, class_name: 'ReviewResult'
+  has_many :moderator_sites, dependent: :destroy
+  has_many :reviews, class_name: 'ReviewResult', dependent: :nullify
+  has_many :post_comments, dependent: :nullify
 
   has_one :channels_user, required: false, dependent: :destroy
 
