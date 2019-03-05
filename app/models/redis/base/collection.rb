@@ -60,7 +60,7 @@ class Redis::Base::Collection
         multi.scard key
       end
       multi.del key
-    end[2] # This is black magic to me. I'm really unsure what it is.
+    end[1] # This is black magic to me. I'm really unsure what it is.
   end
 
   def evaluate(bounds = nil, order: nil)
