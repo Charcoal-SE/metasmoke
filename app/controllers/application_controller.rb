@@ -96,7 +96,7 @@ class ApplicationController < ActionController::Base
         redis.expire "session/#{session[:redis_log_id]}", REDIS_LOG_EXPIRATION
         if user_signed_in?
           redis.zadd "user_sessions/#{current_user.id}", @request_time, session[:redis_log_id]
-          redis.expire "user_sessions/#{current_user.id}", REDIS_LOG_EXPIRATION*3
+          redis.expire "user_sessions/#{current_user.id}", REDIS_LOG_EXPIRATION*3"
         end
       end
       RedisLogJob.perform_later(request.uuid, @request_time)
