@@ -24,6 +24,23 @@ class DeveloperController < ApplicationController
     @log.gsub(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i, '') # Emails
   end
 
+  def make_space_in_logs
+    redis(logger:true).zrange("requests", 0, -1, with_scores: true).each do |val, score|
+      new_expire = REDIS_LOG_EXPIRATION.to_i - (Time.now.to_i - score.to_i)
+      keys = redis(logger:true).scan_each(match: "request/#{score}*").to_a
+      redis(logger:true).multi do
+        if new_expire <= 0
+          keys.each { |k| redis(logger:true).del(k) }
+          redis(logger:true).zrem "requests", val
+        else
+          keys.each do |k|
+            redis(logger:true).expire k, new_expire
+          end
+        end
+      end
+    end
+  end
+
   def deploy
     message = "[ [metasmoke-deploy](//travis-ci.org/Undo1/metasmoke-deploy) ] deploy started by #{current_user.username}"
     SmokeDetector.send_message_to_charcoal(message)

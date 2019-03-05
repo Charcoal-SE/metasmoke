@@ -66,7 +66,6 @@ class ApplicationController < ActionController::Base
   private
 
   def redis_log_request
-    return
     redis = redis(logger: true)
     Rack::MiniProfiler.step('Logging to redis') do
       redis = redis(logger: true)
@@ -78,7 +77,7 @@ class ApplicationController < ActionController::Base
       log_redis request_headers: headers.to_h, params: request.filtered_parameters.except(:controller, :action)
       unless session[:redis_log_id].present?
         session[:redis_log_id] = SecureRandom.base64
-        session[:redis_log_id] = SecureRandom.base64 while redis.sadd('sessions', session[:redis_log_id]) == 0
+        session[:redis_log_id] = SecureRandom.base64 while redis.exists("session/#{session[:redis_log_id]}")
       end
       redis.multi do
         redis.mapped_hmset redis_log_key, status: 'INC',
@@ -91,9 +90,12 @@ class ApplicationController < ActionController::Base
         # TODO: If we care more about memory than speed, switch session/*/requests and user_sessions/* to be sets and
         # intersect them with requests to get a zset when you need one.
         redis.zadd "session/#{session[:redis_log_id]}/requests", @request_time, request.uuid
+        redis.expire "session/#{session[:redis_log_id]}/requests", REDIS_LOG_EXPIRATION
         redis.hsetnx("session/#{session[:redis_log_id]}", 'start', @request_time)
         redis.hset("session/#{session[:redis_log_id]}", 'end', @request_time)
+        redis.expire "session/#{session[:redis_log_id]}", REDIS_LOG_EXPIRATION
         redis.zadd "user_sessions/#{current_user.id}", @request_time, session[:redis_log_id] if user_signed_in?
+        redis.expire "user_sessions/#{current_user.id}", REDIS_LOG_EXPIRATION*3
       end
       RedisLogJob.perform_later(request.uuid, @request_time)
     end
