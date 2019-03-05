@@ -1,0 +1,7 @@
+<% if redis(logger:true).sismember("saved_requests", "#{@request[:timestamp]}/#{@request[:request_id]}") %>
+  <%= link_to "Unsave", redis_log_unsave_request_path(@request.slice(:timestamp, :request_id)) %>
+<% else %>
+  <%= link_to "Save", redis_log_save_request_path(@request.slice(:timestamp, :request_id)) %>
+<% end %>
+
+<%= render 'row', req: @request %>

@@ -7,15 +7,11 @@
 <div class="collapse" style="margin-bottom:-1px" id="<%= req[:key] %>">
   <li class="list-group-item square-borders">
     <p>
-      <% if !req['session_id'].nil? %>
-        <%= link_to "session", redis_log_by_session_path(id: req['session_id']) %>
-      <% end %>
-      <% if !req['session_id'].nil? && !req['user_id'].nil? %>
-        &middot;
-      <% end %>
-      <% if !req['user_id'].nil? %>
-        <%= link_to "user", redis_log_by_user_path(id: req['user_id']) %>
-      <% end %>
+      <%= req['session_id'].nil? ? "No Session" : link_to("session", redis_log_by_session_path(id: req['session_id'])) %>
+      &middot;
+      <%= req['user_id'].nil? ? "No User" : link_to("user", redis_log_by_user_path(id: req['user_id'])) %>
+      &middot;
+      <%= link_to("request", redis_log_request_path(req.slice(:request_id, :timestamp))) %>
     </p>
     <h4><code><%= req['controller'] %>#<%= req['action'] %> (<%= req['path'] %>.<%= req['format'] %>)</code></h4>
     <% if !req[:exception].empty? %>

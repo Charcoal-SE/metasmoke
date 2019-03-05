@@ -4,6 +4,42 @@ class RedisLogController < ApplicationController
   before_action :authenticate_user!
   before_action :verify_developer
 
+  def save
+    redis = redis(logger: true)
+    new_expire = REDIS_LOG_EXPIRATION*1000
+    timestamp = params[:timestamp]
+    request_id = params[:request_id]
+    redis.multi do
+      redis.sadd("saved_requests", "#{timestamp}/#{request_id}")
+      redis.expire("request/#{timestamp}/#{request_id}", new_expire)
+      redis.expire("request/#{timestamp}/#{request_id}/request_headers", new_expire)
+      redis.expire("request/#{timestamp}/#{request_id}/response_headers", new_expire)
+      redis.expire("request/#{timestamp}/#{request_id}/params", new_expire)
+      redis.expire("request/#{timestamp}/#{request_id}/exception", new_expire)
+    end
+    redirect_to redis_log_request_path(timestamp: timestamp, request_id: request_id)
+  end
+
+  def unsave
+    redis = redis(logger: true)
+    new_expire = REDIS_LOG_EXPIRATION
+    timestamp = params[:timestamp]
+    request_id = params[:request_id]
+    redis.multi do
+      redis.srem("saved_requests", "#{timestamp}/#{request_id}")
+      redis.expire("request/#{timestamp}/#{request_id}", new_expire)
+      redis.expire("request/#{timestamp}/#{request_id}/request_headers", new_expire)
+      redis.expire("request/#{timestamp}/#{request_id}/response_headers", new_expire)
+      redis.expire("request/#{timestamp}/#{request_id}/params", new_expire)
+      redis.expire("request/#{timestamp}/#{request_id}/exception", new_expire)
+    end
+    redirect_to redis_log_request_path(timestamp: timestamp, request_id: request_id)
+  end
+
+  def show
+    @request = get_request params[:timestamp].to_f, params[:request_id]
+  end
+
   def by_user
     redis = redis(logger: true)
     user_id = params[:id]

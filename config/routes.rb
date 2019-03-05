@@ -212,6 +212,11 @@ Rails.application.routes.draw do
       get 'user/:id',       to: 'redis_log#by_user',    as: :redis_log_by_user
       get 'status/:status', to: 'redis_log#by_status',  as: :redis_log_by_status
       get 'session/:id',    to: 'redis_log#by_session', as: :redis_log_by_session
+      scope 'request/:timestamp/:request_id', constraints: {:timestamp => /[^\/]+/ } do
+        root to: 'redis_log#show', as: :redis_log_request
+        get 'save', to: 'redis_log#save', as: :redis_log_save_request
+        get 'unsave', to: 'redis_log#unsave', as: :redis_log_unsave_request
+      end
     end
   end
 
