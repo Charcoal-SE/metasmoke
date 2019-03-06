@@ -213,6 +213,19 @@ class GraphsController < ApplicationController
     ]
   end
 
+  def qtimes; end # stub, temp, delete me when redis log graphs are done
+
+  def query_times_graphs
+    controller = params[:controller_name]
+    action = params[:action_name]
+    data = redis(logger:true).zrangebyscore("request_timings/total/by_action/#{controller}##{action}", 1.month.ago.to_i, "+inf", with_scores: true).map { |y, x| [x.to_f, y.to_f]}
+    throw "No Data" if data.nil? || data.empty?
+    smoothed = moving_avg(data).map { |x, y| [Time.at(x.to_i).to_datetime, y] }
+    render json: [
+      {name: "Timings", data: smoothed}
+    ]
+  end
+
   private
 
   def cached_query(cache_key, **opts)
@@ -227,5 +240,11 @@ class GraphsController < ApplicationController
     else
       yield
     end
+  end
+
+  def moving_avg(pts)
+    yv = pts.map(&:last)
+    ad = yv.map.with_index { |v, i| yv[([0, i-3].max)..([i+3, yv.size].min)].sum / (([0, i-3].max)..([i+3, yv.size].min)).size.to_f }
+    pts.map.with_index { |e, i| [e[0], ad[i]] }
   end
 end

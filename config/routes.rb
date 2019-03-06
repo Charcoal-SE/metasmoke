@@ -316,6 +316,8 @@ Rails.application.routes.draw do
     get 'monthly_ttd',       to: 'graphs#monthly_ttd',            as: :monthly_ttd_graph
     get 'reports',           to: 'graphs#reports',                as: :reports_graph
     get 'af_accuracy',       to: 'graphs#af_accuracy',            as: :af_accuracy
+    get 'timings/by_action/:controller_name/:action_name', to: 'graphs#query_times_graphs', as: :query_times_graph
+    get 'qtimes/:controller_name/:action_name', to: 'graphs#qtimes'
   end
 
   scope 'magic' do
