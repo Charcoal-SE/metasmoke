@@ -6,6 +6,10 @@ module API
       std_result SpamDomain.all.order(id: :desc), filter: FILTERS[:domains]
     end
 
+    get 'name/:name' do
+      std_result SpamDomain.where(domain: params[:name]).order(id: :desc), filter: FILTERS[:domains]
+    end
+
     get ':id/posts' do
       std_result SpamDomain.find(params[:id]).posts.order(id: :desc), filter: FILTERS[:posts]
     end

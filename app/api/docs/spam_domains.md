@@ -17,6 +17,11 @@ Output format:
         "has_more": true
     }
 ---
+/api/v2.0/domains/name/:name | Find a domain record by its domain name
+
+Available tables: `spam_domains`.
+Output format: identical to `/domains`.
+---
 /api/v2.0/domains/:id/posts | List all posts containing a specific domain.
 
 Available tables: `posts`.
