@@ -9,7 +9,7 @@ $(document).ready(() => {
 
 /* TODO: Add websockets to the other pages */
 let redis;
-route('/redis_log/index', () => {
+route('/dev/request-log', () => {
   redis = cable.subscriptions.create('RedisLogChannel', {
     received(data) {
       const matchedLog = $('#logs div[data-log-id="' + data.key + '"]');
