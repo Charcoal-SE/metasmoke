@@ -7,7 +7,6 @@ $(document).ready(() => {
   });
 });
 
-/* TODO: Add websockets to the other pages */
 let redis;
 route('/dev/request-log', () => {
   redis = cable.subscriptions.create('RedisLogChannel', {
