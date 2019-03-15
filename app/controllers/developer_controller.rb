@@ -25,16 +25,16 @@ class DeveloperController < ApplicationController
   end
 
   def make_space_in_logs
-    redis(logger:true).zrange("requests", 0, -1, with_scores: true).each do |val, score|
+    redis(logger: true).zrange('requests', 0, -1, with_scores: true).each do |val, score|
       new_expire = REDIS_LOG_EXPIRATION.to_i - (Time.now.to_i - score.to_i)
-      keys = redis(logger:true).scan_each(match: "request/#{score}*").to_a
-      redis(logger:true).multi do
+      keys = redis(logger: true).scan_each(match: "request/#{score}*").to_a
+      redis(logger: true).multi do
         if new_expire <= 0
-          keys.each { |k| redis(logger:true).del(k) }
-          redis(logger:true).zrem "requests", val
+          keys.each { |k| redis(logger: true).del(k) }
+          redis(logger: true).zrem 'requests', val
         else
           keys.each do |k|
-            redis(logger:true).expire k, new_expire
+            redis(logger: true).expire k, new_expire
           end
         end
       end

@@ -6,11 +6,11 @@ class RedisLogController < ApplicationController
 
   def save
     redis = redis(logger: true)
-    new_expire = REDIS_LOG_EXPIRATION*1000
+    new_expire = REDIS_LOG_EXPIRATION * 1000
     timestamp = params[:timestamp]
     request_id = params[:request_id]
     redis.multi do
-      redis.sadd("saved_requests", "#{timestamp}/#{request_id}")
+      redis.sadd('saved_requests', "#{timestamp}/#{request_id}")
       redis.expire("request/#{timestamp}/#{request_id}", new_expire)
       redis.expire("request/#{timestamp}/#{request_id}/request_headers", new_expire)
       redis.expire("request/#{timestamp}/#{request_id}/response_headers", new_expire)
@@ -26,7 +26,7 @@ class RedisLogController < ApplicationController
     timestamp = params[:timestamp]
     request_id = params[:request_id]
     redis.multi do
-      redis.srem("saved_requests", "#{timestamp}/#{request_id}")
+      redis.srem('saved_requests', "#{timestamp}/#{request_id}")
       redis.expire("request/#{timestamp}/#{request_id}", new_expire)
       redis.expire("request/#{timestamp}/#{request_id}/request_headers", new_expire)
       redis.expire("request/#{timestamp}/#{request_id}/response_headers", new_expire)

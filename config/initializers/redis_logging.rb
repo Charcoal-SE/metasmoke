@@ -2,7 +2,7 @@
 
 REDIS_LOG_EXPIRATION = 1.day.seconds.to_i
 
-def log_timestamps(ts, status:, action:, controller:, format:, method:, view_runtime:, db_runtime:, path:)
+def log_timestamps(ts, status:, action:, controller:, format:, method:, view_runtime:, db_runtime:, path:) # rubocop:disable Metrics/ParameterLists
   redis = redis(logger: true)
   redis.zadd "request_timings/view/by_path/#{method.upcase}/#{path}.#{format}", ts, view_runtime
   redis.zadd "request_timings/db/by_path/#{method.upcase}/#{path}.#{format}", ts, db_runtime
@@ -28,7 +28,13 @@ ActiveSupport::Notifications.subscribe 'process_action.action_controller' do |_n
   unless request_timestamp.nil?
     redis.zadd "requests/status/#{data[:status] || 'INC'}", request_timestamp, request_id
     redis.mapped_hmset redis_log_key, data.slice(:controller, :action, :format, :method, :status, :view_runtime, :db_runtime)
-    log_timestamps(request_timestamp, **data.slice(:action, :controller, :view_runtime, :db_runtime, :method, :format, :status), path: redis.hget(redis_log_key, 'path')) if data[:status] == 200
+    if data[:status] == 200
+      log_timestamps(request_timestamp, **data.slice(
+        :action, :controller,
+        :view_runtime, :db_runtime,
+        :method, :format, :status
+      ), path: redis.hget(redis_log_key, 'path'))
+    end
     redis.mapped_hmset "#{redis_log_key}/response_headers", data[:headers].to_h['action_controller.instance'].response.headers.to_h
     redis.expire "#{redis_log_key}/response_headers", REDIS_LOG_EXPIRATION
     if data[:exception].present?
@@ -41,7 +47,7 @@ ActiveSupport::Notifications.subscribe 'process_action.action_controller' do |_n
                                                        message: ex.try(:message)
     end
     RedisLogJob.perform_later(request_id, request_timestamp)
- end
+  end
 end
 
 ActiveSupport::Notifications.subscribe 'endpoint_run.grape' do |_name, _started, _finished, _unique_id, data|

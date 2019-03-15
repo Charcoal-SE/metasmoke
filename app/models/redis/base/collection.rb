@@ -51,7 +51,7 @@ class Redis::Base::Collection
       case @type
       when :zset
         multi.zinterstore key, [@key, @intersects].flatten unless @intersects.empty?
-        throw "WTF" unless @differences.empty?
+        throw 'WTF' unless @differences.empty?
         multi.zdiffstore key, key, @differences unless @differences.empty?
         multi.zcard key
       when :set
@@ -75,7 +75,7 @@ class Redis::Base::Collection
       bounds ||= [0, -1]
       redis.multi do
         redis.zinterstore key, [@key, @intersects].flatten
-        throw "Cannot do diff with zsets yet!" unless @differences.empty?
+        throw 'Cannot do diff with zsets yet!' unless @differences.empty?
         redis.zdiffstore key, key, @differences unless @differences.empty?
         if order.to_s.casecmp('ASC') == 0
           redis.zrange key, *bounds

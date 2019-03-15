@@ -114,7 +114,7 @@ module API
       request.set_header 'redis_logs.log_key', redis_log_key
       request.set_header 'redis_logs.timestamp', request_time
       request.set_header 'redis_logs.request_id', uuid
-      redis = redis(logger:true)
+      redis = redis(logger: true)
       redis.zadd 'requests', request_time, uuid
       { request_headers: headers.except('Cookie'), params: params.except(:key) }.each do |k, v|
         next if v.empty?
