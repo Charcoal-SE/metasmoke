@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Redis::QueryAverage
   def initialize(method, path)
     @method = method
@@ -6,11 +8,11 @@ class Redis::QueryAverage
   end
 
   def counter
-    redis(logger:true).zcard(@redis_key).to_i
+    redis(logger: true).zcard(@redis_key).to_i
   end
 
   def average
-    redis(logger:true).zrange(@redis_key,0,-1).map(&:to_f).sum / counter
+    redis(logger: true).zrange(@redis_key, 0, -1).map(&:to_f).sum / counter
   end
 
   def path

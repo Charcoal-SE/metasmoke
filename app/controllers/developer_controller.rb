@@ -53,16 +53,16 @@ class DeveloperController < ApplicationController
     sha = commit['sha'].first(7)
 
     redis_log HTTParty.post('https://api.travis-ci.org/repo/19152912/requests', headers: {
-                    'Content-Type' => 'application/json',
-                    'Accept' => 'application/json',
-                    'Travis-API-Version' => '3',
-                    'Authorization' => "token #{AppConfig['travis']['token']}"
-                  }, body: {
-                    request: {
-                      branch: 'master',
-                      message: "#{old_sha} -> #{sha}: #{message}"
-                    }
-                  }.to_json)
+                              'Content-Type' => 'application/json',
+                              'Accept' => 'application/json',
+                              'Travis-API-Version' => '3',
+                              'Authorization' => "token #{AppConfig['travis']['token']}"
+                            }, body: {
+                              request: {
+                                branch: 'master',
+                                message: "#{old_sha} -> #{sha}: #{message}"
+                              }
+                            }.to_json)
 
     redirect_to 'https://travis-ci.org/Undo1/metasmoke-deploy'
   end

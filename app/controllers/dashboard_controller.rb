@@ -54,7 +54,7 @@ class DashboardController < ApplicationController
   end
 
   def query_times
-    @query_times = redis(logger:true).scan_each(match: "request_timings/db/by_path/*").map do |k|
+    @query_times = redis(logger: true).scan_each(match: 'request_timings/db/by_path/*').map do |k|
       Redis::QueryAverage.new(*k.split('/', 5)[3..-1])
     end.sort_by(&:average).reverse
   end
