@@ -10,6 +10,7 @@ class RedisLogJob < ApplicationJob
                                                                      exception: redis.hgetall("request/#{timestamp}/#{request_id}/exception"),
                                                                      timestamp: timestamp,
                                                                      request_id: request_id,
+                                                                     logs: redis.lrange("request/#{timestamp}/#{request_id}/logs",0,-1),
                                                                      key: "#{timestamp.to_s.tr('.', '-')}-#{request_id}")
     ActionCable.server.broadcast 'redis_log_channel', key: "#{timestamp.to_s.tr('.', '-')}-#{request_id}",
                                                       html: ApplicationController.render(

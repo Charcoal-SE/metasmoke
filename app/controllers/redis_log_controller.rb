@@ -16,6 +16,7 @@ class RedisLogController < ApplicationController
       redis.expire("request/#{timestamp}/#{request_id}/response_headers", new_expire)
       redis.expire("request/#{timestamp}/#{request_id}/params", new_expire)
       redis.expire("request/#{timestamp}/#{request_id}/exception", new_expire)
+      redis.expire("request/#{timestamp}/#{request_id}/logs", new_expire)
     end
     redirect_to redis_log_request_path(timestamp: timestamp, request_id: request_id)
   end
@@ -32,6 +33,7 @@ class RedisLogController < ApplicationController
       redis.expire("request/#{timestamp}/#{request_id}/response_headers", new_expire)
       redis.expire("request/#{timestamp}/#{request_id}/params", new_expire)
       redis.expire("request/#{timestamp}/#{request_id}/exception", new_expire)
+      redis.expire("request/#{timestamp}/#{request_id}/logs", new_expire)
     end
     redirect_to redis_log_request_path(timestamp: timestamp, request_id: request_id)
   end
@@ -122,7 +124,8 @@ class RedisLogController < ApplicationController
       exception: redis.hgetall("request/#{timestamp}/#{request_id}/exception"),
       timestamp: timestamp,
       request_id: request_id,
-      key: "#{timestamp.to_s.tr('.', '-')}-#{request_id}"
+      key: "#{timestamp.to_s.tr('.', '-')}-#{request_id}",
+      logs: redis.lrange("request/#{timestamp}/#{request_id}/logs", 0, -1)
     )
   end
 

@@ -44,6 +44,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def redis_log(msg)
+    redis = redis(logger: true)
+    redis.multi do |m|
+      m.rpush "#{redis_log_key}/logs", msg.to_s
+      m.expire "#{redis_log_key}/logs", REDIS_LOG_EXPIRATION
+    end
+  end
+
   protected
 
   Role.names.each do |rn|

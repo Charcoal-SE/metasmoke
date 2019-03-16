@@ -14,6 +14,10 @@
       <%= link_to("request", redis_log_request_path(req.slice(:request_id, :timestamp))) %>
     </p>
     <h4><code><%= req['controller'] %>#<%= req['action'] %> (<%= req['path'] %>.<%= req['format'] %>)</code></h4>
+    <% if !req[:logs].nil? %>
+    <h3>Logs:</h3>
+    <%= raw(req[:logs].map { |l| sanitize(l) }.join("<br>")) %>
+    <% end %>
     <% if !req[:exception].empty? %>
     <h3><%= req['status'] %> Exception:</h3>
     <pre><%= req['exception'] %></pre>
