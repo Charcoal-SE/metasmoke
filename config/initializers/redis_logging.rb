@@ -4,6 +4,7 @@ REDIS_LOG_EXPIRATION = 1.day.seconds.to_i
 
 def log_timestamps(ts, status:, action:, controller:, format:, method:, view_runtime:, db_runtime:, path:) # rubocop:disable Metrics/ParameterLists
   redis = redis(logger: true)
+  path = path.split("?").first
   redis.zadd "request_timings/view/by_path/#{method.upcase}/#{path}.#{format}", ts, view_runtime
   redis.zadd "request_timings/db/by_path/#{method.upcase}/#{path}.#{format}", ts, db_runtime
   redis.zadd "request_timings/total/by_path/#{method.upcase}/#{path}.#{format}", ts, (db_runtime + view_runtime)
