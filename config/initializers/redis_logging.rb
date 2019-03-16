@@ -64,6 +64,7 @@ ActiveSupport::Notifications.subscribe 'endpoint_run.grape' do |_name, _started,
                                     status: 'API',
                                     view_runtime: nil,
                                     db_runtime: nil
+  redis.zadd "requests/status/API", request_timestamp, request_id
   if data[:exception].present?
     redis.hset redis_log_key, 'exception', data[:exception].join("\n")
     ex = data[:exception_object]
