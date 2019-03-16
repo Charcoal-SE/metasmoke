@@ -52,7 +52,7 @@ class DeveloperController < ApplicationController
     message = commit['commit']['message']
     sha = commit['sha'].first(7)
 
-    HTTParty.post('https://api.travis-ci.org/repo/19152912/requests', headers: {
+    redis_log HTTParty.post('https://api.travis-ci.org/repo/19152912/requests', headers: {
                     'Content-Type' => 'application/json',
                     'Accept' => 'application/json',
                     'Travis-API-Version' => '3',
