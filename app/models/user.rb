@@ -181,7 +181,7 @@ class User < ApplicationRecord
       return false, 'User is a moderator on this site'
     end
 
-    raise 'Not enabled' if !flags_enabled
+    raise 'Not enabled' unless flags_enabled
 
     path = post.answer? ? 'answers' : 'questions'
     site = post.site
@@ -202,7 +202,6 @@ class User < ApplicationRecord
                      })
     return false, "[beta] /autoflag/options #{r.code}\n#{r.headers}\n#{r.body}" if r.code != 200
     response = JSON.parse(r.body)
-    auth_dict = {} # Created by the other branch, needs to exist
 
     flag_options = response['items']
 
@@ -235,7 +234,6 @@ class User < ApplicationRecord
 
     return false, 'Flag option not present' if flag_option.blank?
 
-    request_params = { 'option_id' => flag_option['option_id'], 'site' => site.site_domain }.merge(auth_dict).merge(opts)
     return true, 0 if dry_run
     tstore = AppConfig['token_store']
     acct_id = stack_exchange_account_id
@@ -256,7 +254,7 @@ class User < ApplicationRecord
                         })
     return false, "[beta] /autoflag #{req.code}\n#{req.headers}\n#{req.body}" if req.code != 200
     flag_response = JSON.parse(req.body)
-    
+
     # rubocop:disable Style/GuardClause
     if flag_response.include?('error_id') || flag_response.include?('error_message')
       return false, flag_response['error_message']
