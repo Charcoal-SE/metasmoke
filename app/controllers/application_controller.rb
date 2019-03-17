@@ -130,7 +130,7 @@ class ApplicationController < ActionController::Base
   def check_auth_required
     return unless SiteSetting['require_auth_all_pages']
     return if user_signed_in? || devise_controller? || (controller_name == 'users' && action_name == 'missing_privileges')
-    log_redis "Redirected to login page because require_auth_all_pages is set"
+    redis_log "Redirected to login page because require_auth_all_pages is set"
     flash[:warning] = 'You need to have an account to view metasmoke pages.'
     authenticate_user!
   end
@@ -140,7 +140,7 @@ class ApplicationController < ActionController::Base
     request_uniq = request.headers['X-AJAX-Deduplicate']
     new_request = redis.set "request-dedup/#{request_uniq}", 1, ex: 300, nx: true
     if !new_request
-      log_redis "Rejected by ajax deduplication"
+      redis_log "Rejected by ajax deduplication"
       render status: :conflict, plain: "409 Conflict\nRequest conflicts with a previous AJAX request"
     end
   end
