@@ -144,6 +144,8 @@ class UsersController < ApplicationController
     Rails.logger.info res
     if params[:state] == state && JSON.parse(res.body)['token_exists'] && current_user.update(flags_enabled: true)
       flash[:success] = 'Your registration was completed sucessfully!'
+    elsif params[:error].present?
+      flash[:danger] = "Got an error: #{params[:error]}: #{params[:error_description]}"
     else
       flash[:danger] = "We couldn't complete your registration. Please try again."
     end
