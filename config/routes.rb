@@ -198,6 +198,7 @@ Rails.application.routes.draw do
     get  'prod_log',         to: 'developer#production_log',       as: :dev_prod_log
     get  'query_time_log',   to: 'developer#query_times_log',      as: :dev_query_times_log
     get  'blank',            to: 'developer#blank_page',           as: :dev_blank
+    get  'layout',           to: 'developer#empty_layout',         as: :dev_layout
     get  'websockets',       to: 'developer#websocket_test'
     post 'websockets',       to: 'developer#send_websocket_test'
     post 'deploy',           to: 'developer#deploy',               as: :developer_deploy

@@ -75,6 +75,10 @@ class DeveloperController < ApplicationController
     render layout: false
   end
 
+  def empty_layout
+    render layout: true
+  end
+
   def websocket_test; end
 
   def send_websocket_test

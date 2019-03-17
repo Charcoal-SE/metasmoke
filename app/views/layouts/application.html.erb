@@ -8,27 +8,27 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-<% Rack::MiniProfiler.step('Rendering: layouts/application/head') do %>
-  <% cache "application/head_tags" do %>
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-    <%= favicon_link_tag       '/favicon.ico' %>
-    <link rel="search" type="application/opensearchdescription+xml" title="metasmoke"
-          href="https://metasmoke.erwaysoftware.com/opensearch.xml">
+  <% Rack::MiniProfiler.step('Rendering: layouts/application/head') do %>
+    <% cache "application/head_tags" do %>
+      <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+      <%= favicon_link_tag       '/favicon.ico' %>
+      <link rel="search" type="application/opensearchdescription+xml" title="metasmoke"
+            href="https://metasmoke.erwaysoftware.com/opensearch.xml">
 
-    <%= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" %>
-    <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css" %>
-    <%= stylesheet_link_tag "https://charcoal-se.org/assets/css/branding.css" %>
-    <%= stylesheet_link_tag "https://use.fontawesome.com/releases/v5.2.0/css/all.css", integrity: "sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ", crossorigin: "anonymous" %>
+      <%= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" %>
+      <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css" %>
+      <%= stylesheet_link_tag "https://charcoal-se.org/assets/css/branding.css" %>
+      <%= stylesheet_link_tag "https://use.fontawesome.com/releases/v5.2.0/css/all.css", integrity: "sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ", crossorigin: "anonymous" %>
 
-    <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" %>
-    <%= javascript_include_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" %>
-    <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js" %>
-    <%= javascript_include_tag "//code.highcharts.com/highcharts.js", "chartkick" %>
-  <% end %>
-  <%= javascript_pack_tag 'vendor', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-  <%= csrf_meta_tags %>
-  <%= action_cable_meta_tag %>
+      <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" %>
+      <%= javascript_include_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" %>
+      <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js" %>
+      <%= javascript_include_tag "//code.highcharts.com/highcharts.js", "chartkick" %>
+    <% end %>
+    <%= javascript_pack_tag 'vendor', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= csrf_meta_tags %>
+    <%= action_cable_meta_tag %>
   <% end %>
 </head>
   <body class="<%= controller.class.name.sub(/Controller$/, '').underscore.dasherize %>">
