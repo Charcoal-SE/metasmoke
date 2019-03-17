@@ -4,6 +4,7 @@ class StackExchangeUsersController < ApplicationController
   before_action :authenticate_user!, only: [:update_data]
   before_action :verify_at_least_one_diamond, only: [:dead]
   before_action :set_stack_exchange_user, only: [:show]
+  before_action :verify_core
 
   def index
     @users = StackExchangeUser.joins(:feedbacks)
