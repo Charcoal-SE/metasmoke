@@ -146,7 +146,7 @@ module API
     post ':id/flag' do
       post = Post.find params[:id]
 
-      if current_user.api_token.blank? && !current_user.flags_enabled
+      if !(current_user.write_authenticated && current_user.flags_enabled)
         error!({
                  error_name: 'not_write_authenticated',
                  error_code: 409,

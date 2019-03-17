@@ -18,11 +18,6 @@ class AuthenticationController < ApplicationController
     current_user.stack_exchange_account_id = access_token_info['account_id']
     current_user.update_chat_ids
 
-    begin
-      current_user.api_token = token if access_token_info['scope'].include? 'write_access'
-    rescue # rubocop:disable Lint/HandleExceptions
-    end
-
     # temporarily disable SQL logging. http://stackoverflow.com/a/7760140/1849664
     old_logger = ActiveRecord::Base.logger
     ActiveRecord::Base.logger = nil
@@ -31,7 +26,7 @@ class AuthenticationController < ApplicationController
 
     ActiveRecord::Base.logger = old_logger
 
-    if current_user.api_token.present?
+    if current_user.write_authenticated
       u = current_user
       Thread.new do
         # Do this in the background to keep the page load fast.
@@ -39,9 +34,9 @@ class AuthenticationController < ApplicationController
       end
     end
 
-    flash[:success] = "Successfully registered #{'write' if current_user.api_token.present?} token"
+    flash[:success] = "Successfully registered token"
 
-    if current_user.api_token.present? && current_user.flags_enabled == false
+    if current_user.write_authenticated && !current_user.flags_enabled
       redirect_to ocs_path
     else
       redirect_to authentication_status_path
@@ -91,6 +86,7 @@ class AuthenticationController < ApplicationController
   end
 
   def invalidate_tokens
+    flash[:danger] = ["Any actions taken on tihs page will do nothing, due to the fact that now the tokens live on a seperate lambda."]
     @users = User.all.where.not(encrypted_api_token: nil)
   end
 

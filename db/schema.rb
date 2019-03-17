@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_16_223243) do
+ActiveRecord::Schema.define(version: 2019_03_17_202853) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "user_id"
@@ -551,7 +551,7 @@ ActiveRecord::Schema.define(version: 2019_03_16_223243) do
     t.integer "stackoverflow_chat_id"
     t.integer "stack_exchange_account_id"
     t.boolean "flags_enabled", default: false
-    t.string "encrypted_api_token"
+    t.string "encrypted_api_token_legacy"
     t.string "two_factor_token"
     t.boolean "enabled_2fa"
     t.binary "salt"
@@ -561,6 +561,7 @@ ActiveRecord::Schema.define(version: 2019_03_16_223243) do
     t.boolean "eu_resident"
     t.boolean "privacy_accepted"
     t.boolean "token_migrated_legacy"
+    t.boolean "write_authenticated", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

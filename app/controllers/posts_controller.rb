@@ -209,7 +209,7 @@ class PostsController < ApplicationController
 
     flash[:danger] = 'Unable to save feedback. Ping Undo.' unless feedback.save
 
-    if current_user.api_token.blank? && !current_user.flags_enabled
+    if !(current_user.write_authenticated && current_user.flags_enabled)
       flash[:warning] = 'You must be write-authenticated to cast a spam flag.'
       redirect_to(authentication_status_path) && return
     elsif !current_user.has_role?(:reviewer)
