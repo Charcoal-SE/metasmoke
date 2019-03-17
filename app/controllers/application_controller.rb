@@ -5,9 +5,9 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :redis_log_request
   before_action :check_auth_required
   before_action :deduplicate_ajax_requests
-  before_action :redis_log_request
 
   before_action do
     Rack::MiniProfiler.authorize_request if current_user&.has_role?(:developer)
@@ -128,17 +128,20 @@ class ApplicationController < ActionController::Base
   end
 
   def check_auth_required
-    return unless Redis::SiteSetting.bool('require_auth_all_pages')
+    return unless SiteSetting['require_auth_all_pages']
     return if user_signed_in? || devise_controller? || (controller_name == 'users' && action_name == 'missing_privileges')
+    log_redis "Redirected to login page because require_auth_all_pages is set"
     flash[:warning] = 'You need to have an account to view metasmoke pages.'
     authenticate_user!
   end
 
   def deduplicate_ajax_requests
     return unless request.headers['X-AJAX-Deduplicate'].present?
-
     request_uniq = request.headers['X-AJAX-Deduplicate']
     new_request = redis.set "request-dedup/#{request_uniq}", 1, ex: 300, nx: true
-    render status: :conflict, plain: "409 Conflict\nRequest conflicts with a previous AJAX request" unless new_request
+    if !new_request
+      log_redis "Rejected by ajax deduplication"
+      render status: :conflict, plain: "409 Conflict\nRequest conflicts with a previous AJAX request"
+    end
   end
 end
