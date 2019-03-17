@@ -12,11 +12,13 @@ route('/dev/request-log', () => {
   redis = cable.subscriptions.create('RedisLogChannel', {
     received(data) {
       const matchedLog = $('#logs div[data-log-id="' + data.key + '"]');
-      if (matchedLog.length > 0) {
-        matchedLog[0].replaceWith($.parseHTML(data.html)[1]);
+      let parsed_html = $.parseHTML(data.html)[1];
+      if (matchedLog.length > 0 && matchedLog[0].getAttribute("precedence") < data.precedence) {
+        matchedLog[0].replaceWith(parsed_html);
       }
       else {
-        $('#logs').prepend($.parseHTML(data.html)[1]);
+        parsed_html.setAttribute('precedence', data.precedence);
+        $('#logs').prepend(parsed_html);
       }
     }
   });
