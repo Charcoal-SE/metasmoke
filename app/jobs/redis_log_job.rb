@@ -9,7 +9,7 @@ class RedisLogJob < ApplicationJob
   end
 
   before_perform do |job|
-    job.arguments.map! { |arg| YAML.load(arg) }
+    job.arguments.map! { |arg| YAML.load(arg) } # rubocop:disable Security/YAMLLoad
   end
 
   # rubocop:disable Metrics/ParameterLists
