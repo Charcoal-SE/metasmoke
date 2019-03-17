@@ -1,17 +1,20 @@
 # frozen_string_literal: true
+
 require 'yaml'
 
 class RedisLogJob < ApplicationJob
   queue_as :default
   before_enqueue do |job|
-    job.arguments.map! { |arg| arg.to_yaml }
+    job.arguments.map!(&:to_yaml)
   end
 
   before_perform do |job|
-    job.arguments.map! { |arg| YAML.load(arg) }
+    job.arguments.map! { |arg| YAML.safe_load(arg) }
   end
 
+  # rubocop:disable Metrics/ParameterLists
   def perform(root, subspaces: {}, status: nil, exception: {}, session_id: nil, user_id: nil, time:, uuid:, completed: false)
+    # rubocop:enable Metrics/ParameterLists
     keyspace_map = subspaces
     @time = time
     @uuid = uuid
@@ -22,7 +25,7 @@ class RedisLogJob < ApplicationJob
     log_to_namespace(redis_log_key, keyspace_map)
     log_exception(exception) if exception[:exception].present?
     @redis.zadd "requests/status/#{status}", @time, @uuid unless status.nil?
-    if !completed
+    unless completed
       # These things only need to be done once
       log_session(session_id, user_id)
       @redis.zadd 'requests', @time, @uuid
@@ -65,10 +68,10 @@ class RedisLogJob < ApplicationJob
     @redis.hset redis_log_key, 'exception', data[:exception].join("\n")
     ex = data[:exception_object]
     @redis.mapped_hmset "#{redis_log_key}/exception", file_name: ex.try(:file_name),
-                                                     annotated_source_code: ex.try(:annoted_source_code)&.join("\n"),
-                                                     line_number: ex.try(:line_number),
-                                                     backtrace: ex.try(:backtrace)&.join("\n"),
-                                                     message: ex.try(:message)
+                                                      annotated_source_code: ex.try(:annoted_source_code)&.join("\n"),
+                                                      line_number: ex.try(:line_number),
+                                                      backtrace: ex.try(:backtrace)&.join("\n"),
+                                                      message: ex.try(:message)
   end
 
   def send_out_websocket(completed)

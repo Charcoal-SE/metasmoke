@@ -36,9 +36,9 @@ ActiveSupport::Notifications.subscribe 'process_action.action_controller' do |_n
         response_headers: data[:headers].to_h['action_controller.instance'].response.headers.to_h
       },
       status: data[:status] || 'INC',
-      exception:data.slice(:exception, :exception_object),
-      time:request_timestamp,
-      uuid:request_id,
+      exception: data.slice(:exception, :exception_object),
+      time: request_timestamp,
+      uuid: request_id,
       completed: true
     )
     if data[:status] == 200
@@ -54,7 +54,6 @@ end
 ActiveSupport::Notifications.subscribe 'endpoint_run.grape' do |_name, _started, _finished, _unique_id, data|
   request_id = data[:env]['action_dispatch.request_id']
   # redis_log_id = data[:env]['rack.session']['redis_log_id']
-  redis_log_key = data[:env]['redis_logs.log_key']
   request_timestamp = data[:env]['redis_logs.timestamp']
 
   RedisLogJob.perform_later(
@@ -69,8 +68,8 @@ ActiveSupport::Notifications.subscribe 'endpoint_run.grape' do |_name, _started,
       db_runtime: nil
     },
     exception: data.slice(:exception, :exception_object),
-    time:request_timestamp,
-    uuid:request_id,
+    time: request_timestamp,
+    uuid: request_id,
     completed: true
   )
 end
