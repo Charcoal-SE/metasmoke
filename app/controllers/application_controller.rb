@@ -82,7 +82,16 @@ class ApplicationController < ActionController::Base
       request.set_header 'redis_logs.timestamp', @request_time
       request.set_header 'redis_logs.request_id', request.uuid
       redis.zadd 'requests', @request_time, request.uuid
-      log_redis request_headers: headers.to_h, params: request.filtered_parameters.except(:controller, :action)
+      {
+        request_headers: headers.to_h,
+        params: request.filtered_parameters.except(:controller, :action)
+      }.each do |key, val|
+        next if val.empty?
+        redis.multi do
+          redis.mapped_hmset "#{redis_log_key}/#{key}", val
+          redis.expire "#{redis_log_key}/#{key}", REDIS_LOG_EXPIRATION
+        end
+      end
       unless session[:redis_log_id].present?
         session[:redis_log_id] = SecureRandom.base64
         session[:redis_log_id] = SecureRandom.base64 while redis.exists("session/#{session[:redis_log_id]}")
@@ -108,17 +117,6 @@ class ApplicationController < ActionController::Base
         end
       end
       RedisLogJob.perform_later(request.uuid, @request_time)
-    end
-  end
-
-  def log_redis(**opts)
-    redis = redis(logger: true)
-    opts.each do |key, val|
-      next if val.empty?
-      redis.multi do
-        redis.mapped_hmset "#{redis_log_key}/#{key}", val
-        redis.expire "#{redis_log_key}/#{key}", REDIS_LOG_EXPIRATION
-      end
     end
   end
 
