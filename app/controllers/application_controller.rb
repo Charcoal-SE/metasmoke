@@ -73,6 +73,16 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def smokey_route?
+    {
+      posts: :create,
+      feedbacks: :create,
+      deletion_logs: :create,
+      statistics: :create,
+      status: :status_update
+    }.dig(controller_name.to_sym) == action_name.to_sym
+  end
+
   def redis_log_request
     Rack::MiniProfiler.step('Logging to redis') do
       redis = redis(logger: true)
@@ -80,7 +90,7 @@ class ApplicationController < ActionController::Base
       request.set_header 'redis_logs.log_key', redis_log_key
       request.set_header 'redis_logs.timestamp', @request_time
       request.set_header 'redis_logs.request_id', request.uuid
-      unless session[:redis_log_id].present?
+      unless session[:redis_log_id].present? || is_smokey_route?
         session[:redis_log_id] = SecureRandom.base64
         session[:redis_log_id] = SecureRandom.base64 while redis.exists("session/#{session[:redis_log_id]}")
       end
@@ -89,8 +99,9 @@ class ApplicationController < ActionController::Base
           path: request.filtered_path,
           impersonator_id: session[:impersonator_id],
           user_id: user_signed_in? ? current_user.id : nil,
-          session_id: session[:redis_log_id],
-          sha: CurrentCommit
+          session_id: smokey_route? ? params[:key] : session[:redis_log_id],
+          sha: CurrentCommit,
+          smoke_detector_id: is_smokey_route? ? SmokeDetector.find_by(access_token: params[:key])&.id : nil
         },
         subspaces: {
           request_headers: headers.to_h,
@@ -113,8 +124,7 @@ class ApplicationController < ActionController::Base
     return unless SiteSetting['require_auth_all_pages']
     return if user_signed_in? || devise_controller? || (controller_name == 'users' && action_name == 'missing_privileges')
 
-    smokey_routes = { posts: :create, feedbacks: :create, deletion_logs: :create, statistics: :create, status: :status_update }
-    return if smokey_routes.include?(controller_name.to_sym) && smokey_routes[controller_name].to_s == action_name
+    return if smokey_route?
 
     redis_log 'Redirected to login page because require_auth_all_pages is set'
     flash[:warning] = 'You need to have an account to view metasmoke pages.'
