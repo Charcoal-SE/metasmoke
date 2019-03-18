@@ -12,6 +12,8 @@
       <%= req['user_id'].nil? ? "No User" : link_to("user", redis_log_by_user_path(id: req['user_id'])) %>
       &middot;
       <%= link_to("request", redis_log_request_path(req.slice(:request_id, :timestamp))) %>
+      &middot;
+      <%= %w[method path format].all? { |i| req[i].present? } ? link_to("path", redis_log_by_path_path(method: req['method'], format: req['format'], path: Rails.sensible_routes.match_for(req['path'])&.path || req['path'].split('?').first)) : 'No Path' %>
     </p>
     <h4><code><%= req['controller'] %>#<%= req['action'] %> (<%= req['path'] %>.<%= req['format'] %>)</code></h4>
     <% if !req[:logs].nil? %>

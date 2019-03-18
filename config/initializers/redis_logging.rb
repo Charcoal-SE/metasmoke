@@ -4,7 +4,7 @@ require 'sensible_routes'
 
 REDIS_LOG_EXPIRATION = 1.day.seconds.to_i
 
-def log_timestamps(ts, status:, action:, controller:, format:, method:, view_runtime:, db_runtime:, path:) # rubocop:disable Metrics/ParameterLists
+def log_timestamps(ts, status:, action:, controller:, format:, method:, view_runtime:, db_runtime:, path:, uuid:) # rubocop:disable Metrics/ParameterLists
   redis = redis(logger: true)
   return if path.nil?
   path = Rails.sensible_routes.match_for(path)&.path || path.split('?').first
@@ -19,6 +19,9 @@ def log_timestamps(ts, status:, action:, controller:, format:, method:, view_run
   redis.zadd "request_timings/status_counts/by_path/#{method.upcase}/#{path}.#{format}", ts, status
   redis.zadd "request_timings/status_counts/by_action/#{controller}##{action}", ts, status
   redis.zadd 'request_timings/status_counts', ts, status
+
+  redis.zadd "requests/by_path/#{method.upcase}/#{path}.#{format}", ts, uuid
+  redis.zadd "requests/by_action/#{controller}##{action}", ts, uuid
 
   redis.zadd 'request_timings/sha', ts, CurrentCommit, nx: true
 end
@@ -46,7 +49,7 @@ ActiveSupport::Notifications.subscribe 'process_action.action_controller' do |_n
         :action, :controller,
         :view_runtime, :db_runtime,
         :method, :format, :status
-      ), path: redis.hget(redis_log_key, 'path'))
+      ), path: redis.hget(redis_log_key, 'path'), uuid: request_id)
     end
   end
 end
