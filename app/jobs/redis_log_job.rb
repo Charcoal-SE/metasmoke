@@ -19,6 +19,16 @@ class RedisLogJob < ApplicationJob
     @time = time
     @uuid = uuid
     @redis = redis(logger: true, new: true)
+    # Because ActionJob is async, sometimes the second set of info will come before data from the first is in redis. That causes bad.
+    if completed
+      @redis.set("#{redis_log_key}/metastatus", Time.now.to_i, nx: true)
+      if @redis.get("#{redis_log_key}/metastatus") != "before_action" && Time.now.to_i - @redis.get("#{redis_log_key}/metastatus").to_i < 20
+        retry_job wait: (1/2).seconds
+        return
+      else
+        @redis.del "#{redis_log_key}/metastatus"
+      end
+    end
     @redis.multi
     @redis.mapped_hmset redis_log_key, root
     @redis.expire redis_log_key, REDIS_LOG_EXPIRATION
@@ -29,6 +39,9 @@ class RedisLogJob < ApplicationJob
       # These things only need to be done once
       log_session(session_id, user_id)
       @redis.zadd 'requests', @time, @uuid
+    end
+    if !completed
+      @redis.set "#{redis_log_key}/metastatus", "before_action"
     end
     @redis.exec
 
