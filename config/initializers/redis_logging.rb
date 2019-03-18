@@ -46,7 +46,7 @@ ActiveSupport::Notifications.subscribe 'process_action.action_controller' do |_n
       uuid: request_id,
       completed: true
     )
-    if data[:status] == 200
+    if !data[:status].nil?
       log_timestamps(request_timestamp, **data.slice(
         :action, :controller,
         :view_runtime, :db_runtime,
