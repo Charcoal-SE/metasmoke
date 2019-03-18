@@ -22,8 +22,8 @@ class RedisLogJob < ApplicationJob
     # Because ActionJob is async, sometimes the second set of info will come before data from the first is in redis. That causes bad.
     if completed
       @redis.set("#{redis_log_key}/metastatus", Time.now.to_i, nx: true)
-      if @redis.get("#{redis_log_key}/metastatus") != "before_action" && Time.now.to_i - @redis.get("#{redis_log_key}/metastatus").to_i < 20
-        retry_job wait: (1/2).seconds
+      if @redis.get("#{redis_log_key}/metastatus") != 'before_action' && Time.now.to_i - @redis.get("#{redis_log_key}/metastatus").to_i < 20
+        retry_job wait: (1 / 2).seconds
         return
       else
         @redis.del "#{redis_log_key}/metastatus"
@@ -40,9 +40,7 @@ class RedisLogJob < ApplicationJob
       log_session(session_id, user_id)
       @redis.zadd 'requests', @time, @uuid
     end
-    if !completed
-      @redis.set "#{redis_log_key}/metastatus", "before_action"
-    end
+    @redis.set "#{redis_log_key}/metastatus", 'before_action' unless completed
     @redis.exec
 
     send_out_websocket(completed)

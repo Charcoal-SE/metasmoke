@@ -13,11 +13,11 @@ route('/dev/request-log', () => {
     received(data) {
       const matchedLog = $('#logs div[data-log-id="' + data.key + '"]');
       const parsedHtml = $.parseHTML(data.html)[1];
-      console.log(matchedLog);
-      if (matchedLog.length == 0) {
+      if (matchedLog.length === 0) {
         parsedHtml.setAttribute('precedence', data.precedence);
         $('#logs').prepend(parsedHtml);
-      } else if (matchedLog[0].getAttribute('precedence') < data.precedence) {
+      }
+      else if (matchedLog[0].getAttribute('precedence') < data.precedence) {
         matchedLog[0].replaceWith(parsedHtml);
       }
     }
