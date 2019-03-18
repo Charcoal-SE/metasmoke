@@ -86,7 +86,6 @@ class ApplicationController < ActionController::Base
       end
       RedisLogJob.perform_later(
         {
-          status: 'INC',
           path: request.filtered_path,
           impersonator_id: session[:impersonator_id],
           user_id: user_signed_in? ? current_user.id : nil,

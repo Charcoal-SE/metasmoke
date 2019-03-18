@@ -18,7 +18,9 @@
       </span>
       · <i class="fas fa-desktop" title="View time"></i>
       <span class="request-view-time">
-        <% if req['view_runtime'].nil? %>
+        <% if req['status'] == 'API' %>
+          <i>&nbsp;&nbsp;&nbsp;N/A&nbsp;&nbsp;&nbsp;</i>
+        <% elsif req['view_runtime'].nil? %>
           <i>&nbsp;unknown&nbsp;</i>
         <% else %>
           <%= number_with_precision(req['view_runtime'].to_f, precision: 3).rjust(7, "\u00A0") %>ms

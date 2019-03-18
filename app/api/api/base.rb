@@ -114,9 +114,9 @@ module API
       request.set_header 'redis_logs.log_key', redis_log_key
       request.set_header 'redis_logs.timestamp', request_time
       request.set_header 'redis_logs.request_id', uuid
+      request.set_header 'redis_logs.start_time', Time.now.to_f.to_s
       RedisLogJob.perform_later(
         {
-          status: 'INC',
           path: request.path,
           api_key_id: key&.id,
           smoke_detector_id: smokey_token&.id,

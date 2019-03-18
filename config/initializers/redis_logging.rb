@@ -35,7 +35,7 @@ ActiveSupport::Notifications.subscribe 'process_action.action_controller' do |_n
       subspaces: {
         response_headers: data[:headers].to_h['action_controller.instance'].response.headers.to_h
       },
-      status: data[:status] || 'INC',
+      status: data[:status],
       exception: data.slice(:exception, :exception_object),
       time: request_timestamp,
       uuid: request_id,
@@ -65,7 +65,7 @@ ActiveSupport::Notifications.subscribe 'endpoint_run.grape' do |_name, _started,
       method: data[:env]['grape.routing_args'][:route_info].request_method,
       status: 'API',
       view_runtime: nil,
-      db_runtime: nil
+      db_runtime: Time.now.to_f - data[:env]['redis_logs.start_time'].to_f
     },
     exception: data.slice(:exception, :exception_object),
     time: request_timestamp,
