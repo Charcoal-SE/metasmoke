@@ -112,6 +112,10 @@ class ApplicationController < ActionController::Base
   def check_auth_required
     return unless SiteSetting['require_auth_all_pages']
     return if user_signed_in? || devise_controller? || (controller_name == 'users' && action_name == 'missing_privileges')
+
+    smokey_routes = { posts: :create, feedbacks: :create, deletion_logs: :create, statistics: :create, status: :status_update }
+    return if smokey_routes.include?(controller_name.to_sym) && smokey_routes[controller_name].to_s == action_name
+
     redis_log 'Redirected to login page because require_auth_all_pages is set'
     flash[:warning] = 'You need to have an account to view metasmoke pages.'
     authenticate_user!
