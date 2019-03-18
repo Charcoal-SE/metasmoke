@@ -101,7 +101,7 @@ class ApplicationController < ActionController::Base
           user_id: user_signed_in? ? current_user.id : nil,
           session_id: smokey_route? ? params[:key] : session[:redis_log_id],
           sha: CurrentCommit,
-          smoke_detector_id: is_smokey_route? ? SmokeDetector.find_by(access_token: params[:key])&.id : nil
+          smoke_detector_id: smokey_route? ? SmokeDetector.find_by(access_token: params[:key])&.id : nil
         },
         subspaces: {
           request_headers: headers.to_h,
