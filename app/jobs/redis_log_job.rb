@@ -83,6 +83,7 @@ class RedisLogJob < ApplicationJob
                                                       line_number: ex.try(:line_number),
                                                       backtrace: ex.try(:backtrace)&.join("\n"),
                                                       message: ex.try(:message)
+    @redis.expire "#{redis_log_key}/exception", REDIS_LOG_EXPIRATION
   end
 
   def send_out_websocket(completed)
