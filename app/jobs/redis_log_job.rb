@@ -5,7 +5,13 @@ require 'yaml'
 class RedisLogJob < ApplicationJob
   queue_as :default
   before_enqueue do |job|
-    job.arguments.map!(&:to_yaml)
+    job.arguments.map! do |i|
+      begin
+        i.to_yaml
+      rescue
+        ""
+      end
+    end
   end
 
   before_perform do |job|
