@@ -181,7 +181,7 @@ class User < ApplicationRecord
       return false, 'User is a moderator on this site'
     end
 
-    raise 'Not enabled' unless flags_enabled
+    raise 'Not authenticated' unless write_authenticated
 
     path = post.answer? ? 'answers' : 'questions'
     site = post.site
