@@ -35,10 +35,10 @@ class RedisLogJob < ApplicationJob
     log_to_namespace(redis_log_key, keyspace_map)
     log_exception(exception) if exception[:exception].present?
     if completed
-      @redis.zrem "requests/status/UNK", @uuid
+      @redis.zrem 'requests/status/UNK', @uuid
       @redis.zadd "requests/status/#{status || 'INC'}", @time, @uuid
     else
-      @redis.zadd "requests/status/UNK", @time, @uuid
+      @redis.zadd 'requests/status/UNK', @time, @uuid
     end
     unless completed
       # These things only need to be done once
