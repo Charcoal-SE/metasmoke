@@ -4,7 +4,9 @@ require 'sensible_routes'
 
 REDIS_LOG_EXPIRATION = 1.day.seconds.to_i
 
-def log_timestamps(ts, status:, action:, controller:, format:, method:, view_runtime:, db_runtime:, path:, uuid:) # rubocop:disable Metrics/ParameterLists
+# rubocop:disable Metrics/ParameterLists
+def log_timestamps(ts, status:, action:, controller:, format:, method:, view_runtime:, db_runtime:, path:, uuid:)
+  # rubocop:enable Metrics/ParameterLists
   redis = redis(logger: true)
   return if path.nil?
   path = Rails.sensible_routes.match_for(path)&.path || path.split('?').first

@@ -9,7 +9,7 @@ class RedisLogJob < ApplicationJob
       begin
         i.to_yaml
       rescue
-        ""
+        ''
       end
     end
   end

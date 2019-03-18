@@ -90,7 +90,7 @@ class ApplicationController < ActionController::Base
       request.set_header 'redis_logs.log_key', redis_log_key
       request.set_header 'redis_logs.timestamp', @request_time
       request.set_header 'redis_logs.request_id', request.uuid
-      unless session[:redis_log_id].present? || is_smokey_route?
+      unless session[:redis_log_id].present? || smokey_route?
         session[:redis_log_id] = SecureRandom.base64
         session[:redis_log_id] = SecureRandom.base64 while redis.exists("session/#{session[:redis_log_id]}")
       end
