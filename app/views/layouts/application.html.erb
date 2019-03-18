@@ -84,7 +84,7 @@
             <% end %>
 
             <% if current_user&.has_role?(:core) %>
-              <% nav_dropdown DashboardController, action: 'new_dash', label: 'core' do %>
+              <%= nav_dropdown DashboardController, action: 'new_dash', label: 'core' do %>
                 <% unless current_user&.has_role?(:admin) %>
                   <%= nav_link AdminController, label: 'User Data & Roles', action: :users %>
                   <li role="separator" class="divider"></li>
@@ -113,7 +113,7 @@
             <% end %>
 
             <% if current_user&.has_role?(:admin) %>
-              <% nav_dropdown AdminController, label: 'admin' do %>
+              <%= nav_dropdown AdminController, label: 'admin' do %>
                 <%= nav_link AdminController, label: 'User Data & Roles', action: :users %>
                 <%= nav_link APIKeysController, label: 'API Keys' %>
                 <%= nav_link SiteSettingsController, label: 'Website Configuration' %>
@@ -121,13 +121,13 @@
             <% end %>
 
             <% if current_user&.has_role?(:developer) %>
-              <% nav_dropdown DashboardController, action: 'new_dash', label: 'dev' do %>
+              <%= nav_dropdown DashboardController, action: 'new_dash', label: 'dev' do %>
                 <%= nav_link DumpsController, label: 'Database Dumps', action: :index %>
                 <%= nav_link DeveloperController, label: 'Production log', action: :production_log %>
                 <%= nav_link RedisLogController, label: 'Request log', action: :index %>
               <% end %>
             <% end %>
-            
+
             <%= nav_link StatusController, attrs: {
               class: ['status', "status-#{SmokeDetector.status_color}"],
               data: {
