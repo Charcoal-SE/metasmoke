@@ -10,7 +10,7 @@ def log_timestamps(ts, status:, action:, controller:, format:, method:, view_run
   redis = redis(logger: true)
   view_runtime = view_runtime.to_f
   db_runtime = db_runtime.to_f
-  rlog("Logging timestamps FR, path == #{path}", ts, uuid)
+
   return if path.nil?
   path = Rails.sensible_routes.match_for(path)&.path || path.split('?').first
   redis.zadd "request_timings/view/by_path/#{method.upcase}/#{path}.#{format}", ts, view_runtime
