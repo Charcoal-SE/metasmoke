@@ -10,6 +10,7 @@ def log_timestamps(ts, status:, action:, controller:, format:, method:, view_run
   redis = redis(logger: true)
   view_runtime = view_runtime.to_f
   db_runtime = db_runtime.to_f
+  rlog("Logging timestamps FR, path == #{path}", ts, uuid)
   return if path.nil?
   path = Rails.sensible_routes.match_for(path)&.path || path.split('?').first
   redis.zadd "request_timings/view/by_path/#{method.upcase}/#{path}.#{format}", ts, view_runtime
@@ -48,12 +49,12 @@ ActiveSupport::Notifications.subscribe 'process_action.action_controller' do |_n
       uuid: request_id,
       completed: true
     )
-    if !data[:status].nil?
+    unless data[:status].nil?
       log_timestamps(request_timestamp, **data.slice(
         :action, :controller,
         :view_runtime, :db_runtime,
         :method, :format, :status
-      ), path: redis.hget(redis_log_key, 'path'), uuid: request_id)
+      ), path: redis.hget(redis_log_key, 'path') || data[:path], uuid: request_id)
     end
   end
 end
