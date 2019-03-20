@@ -13,7 +13,10 @@
     <th>Posts</th>
   </tr>
 
-  <% @posts.includes_for_post_row.each do |post| %>
+  <% @posts.each do |post| %>
     <%= render 'posts/post', post: post %>
   <% end %>
 </table>
+
+
+<%= will_paginate @posts, renderer: BootstrapPagination::Rails %>

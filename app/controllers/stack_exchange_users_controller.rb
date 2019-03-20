@@ -4,7 +4,6 @@ class StackExchangeUsersController < ApplicationController
   before_action :authenticate_user!, only: [:update_data]
   before_action :verify_at_least_one_diamond, only: [:dead]
   before_action :set_stack_exchange_user, only: [:show]
-  before_action :verify_core
 
   def index
     @users = StackExchangeUser.joins(:feedbacks)
@@ -19,7 +18,7 @@ class StackExchangeUsersController < ApplicationController
   end
 
   def show
-    @posts = @user.posts
+    @posts = @user.posts.includes_for_post_row.paginate(page: params[:page], per_page: 20)
   end
 
   def on_site
