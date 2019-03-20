@@ -2,8 +2,17 @@
 
 class RedisLogChannel < ApplicationCable::Channel
   def subscribed
-    # binding.irb
-    stream_from 'redis_log_channel' if !current_user.nil? && current_user.has_role?(:developer)
+    if !current_user.nil? && current_user.has_role?(:developer)
+      %i[status path session].each do |filter|
+        if params[filter].present?
+          stream_from "redis_log_#{filter}_#{params[filter]}"
+          return
+        end
+      end
+      stream_from 'redis_log_channel'
+    else
+      reject
+    end
   end
 
   def unsubscribed

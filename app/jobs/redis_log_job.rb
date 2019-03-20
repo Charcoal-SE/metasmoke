@@ -107,13 +107,23 @@ class RedisLogJob < ApplicationJob
                         request_id: @uuid,
                         logs: @redis.lrange("#{redis_log_key}/logs", 0, -1),
                         key: "#{@time.to_s.tr('.', '-')}-#{@uuid}")
-    ActionCable.server.broadcast 'redis_log_channel',
-                                 key: "#{@time.to_s.tr('.', '-')}-#{@uuid}",
-                                 precedence: completed ? 1 : 0,
-                                 html: ApplicationController.render(
-                                   template: 'redis_log/_row',
-                                   locals: { req: info, wrapped: true },
-                                   layout: nil
-                                 )
+    ws_msg = {
+      key: "#{@time.to_s.tr('.', '-')}-#{@uuid}",
+      precedence: completed ? 1 : 0,
+      html: ApplicationController.render(
+        template: 'redis_log/_row',
+        locals: { req: info, wrapped: true },
+        layout: nil
+      )
+    }
+    ActionCable.server.broadcast 'redis_log_channel', **ws_msg
+    {
+      status: info["status"],
+      user: info["user_id"],
+      session: info["session_id"],
+      path: Rails.sensible_routes.match_for(info["path"])&.path || info["path"].split('?').first
+    }.each do |filter, value|
+      ActionCable.server.broadcast "redis_log_#{filter}_#{value}", **ws_msg
+    end
   end
 end
