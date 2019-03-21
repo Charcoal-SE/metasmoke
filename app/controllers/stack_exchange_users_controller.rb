@@ -3,7 +3,6 @@
 class StackExchangeUsersController < ApplicationController
   before_action :authenticate_user!, only: [:update_data]
   before_action :verify_at_least_one_diamond, only: [:dead]
-  before_action :set_stack_exchange_user, only: [:show]
 
   def index
     @users = StackExchangeUser.joins(:feedbacks)
@@ -18,7 +17,13 @@ class StackExchangeUsersController < ApplicationController
   end
 
   def show
-    @posts = @user.posts.includes_for_post_row.paginate(page: params[:page], per_page: 20)
+    @user = Redis::StackExchangeUser.new(params[:id])
+    page_num = [params[:page].to_i - 1, 0].max
+    per_page = [params[:per_page].to_i, 100, 1].sort[1]
+    page = [page_num * per_page, (page_num + 1) * per_page - 1]
+    posts = @posts = @user.posts[page[0]..page[1]]
+    @posts.define_singleton_method(:total_pages) { posts.length / per_page }
+    @posts.define_singleton_method(:current_page) { page_num + 1 }
   end
 
   def on_site
@@ -66,14 +71,5 @@ class StackExchangeUsersController < ApplicationController
 
     flash[:info] = 'Data updates have been queued; check back in a few minutes.'
     redirect_to url_for(controller: :stack_exchange_users, action: :on_site, site: params[:site])
-  end
-
-  private
-
-  # Use callbacks to share common setup or constraints between actions.
-  def set_stack_exchange_user
-    @user = StackExchangeUser.joins(:site).select(Arel.sql('stack_exchange_users.*, sites.site_logo')).find(params[:id])
-  rescue
-    @user = StackExchangeUser.find(params[:id])
   end
 end
