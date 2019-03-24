@@ -14,7 +14,15 @@ class ReviewQueuesController < ApplicationController
 
   def next_item
     response.cache_control = 'max-age=0, private, must-revalidate, no-store'
-    unreviewed = ReviewItem.unreviewed_by(@queue, current_user)
+    if params[:site_id].present?
+      unreviewed = @queue.next_items(current_user) do |c|
+        reviewable_table = @queue.reviewable_type.pluralize.underscore
+        c.joins("INNER JOIN `#{reviewable_table}` AS reviewable ON reviewable.id = review_items.reviewable_id")
+         .where(reviewable: filter_params([:site_id]))
+      end
+    else
+      unreviewed = @queue.next_items(current_user)
+    end
 
     while !unreviewed.empty? && unreviewed.first.reviewable.nil?
       unreviewed.first.update(completed: true)
@@ -99,5 +107,9 @@ class ReviewQueuesController < ApplicationController
   def verify_permissions
     return if user_signed_in? && current_user.has_role?(@queue.privileges)
     not_found
+  end
+
+  def filter_params(allowed)
+    allowed.map { |p| params[p].present? ? [p, params[p]] : nil }.compact.to_h
   end
 end

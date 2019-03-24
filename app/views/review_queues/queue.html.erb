@@ -7,6 +7,18 @@
 </h1>
 <p><%= @queue.description %></p>
 
+<% if @queue.name == 'posts' %>
+  <div>
+    <form class="form-inline">
+      <%= label_tag :site_id, 'Site' %>
+      <% h = HTMLEntities.new %>
+      <%= select_tag :site_id, options_for_select(Site.all.map { |s| [h.decode(s.site_name), s.id] }), include_blank: true,
+                     class: 'form-control review-filter' %>
+      <button type="button" class="btn btn-primary" id="filter-button">Filter</button>
+    </form>
+  </div><br/>
+<% end %>
+
 <div class="review-item-container">
   <% if @item %>
     <%= render "#{@item.reviewable_type.underscore.pluralize}/review_item.html.erb", queue: @queue, item: @item, layout: nil %>
