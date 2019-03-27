@@ -57,6 +57,8 @@ class GithubController < ApplicationController
 
     pull_request = params[:pull_request]
 
+    SmokeDetector.send_message_to_charcoal("PR##{pull_request[:number]} (\"#{pull_request[:title]}\") opened by #{pull_request[:user][:login]}")
+
     unless pull_request[:user][:login] == 'SmokeDetector'
       render(text: 'Not from SmokeDetector. Uninterested.') && return
     end
