@@ -14,4 +14,4 @@ find /var/lib/mysql -type f -exec touch {} +
 service mysql start
 
 # start redis, too
-service redis-server start
+/redis-git/src/redis-server --port 6378 --loadmodule /zhregex/module.so --dbfilename dump.rdb &
