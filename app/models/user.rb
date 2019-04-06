@@ -168,7 +168,7 @@ class User < ApplicationRecord
                                                                user_id: id)
       end
 
-      sleep response['backoff'].to_i if has_more && response.include?('backoff')
+      sleep response['backoff'].to_i if response.include?('backoff')
     end
 
     self.moderator_sites = new_moderator_sites
