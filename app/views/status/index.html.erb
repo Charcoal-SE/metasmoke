@@ -30,7 +30,7 @@
                 data: {confirm: "This will be logged, and cannot be undone. Sure?"}, method: :delete %>
         <% end %>
       </td>
-      <% if current_user&.has_role?(:code_admin) %>
+      <% if current_user&.has_role?(:blacklist_manager) %>
         <% if sd.last_ping > 3.minutes.ago %>
           <td class="status-failover-cell">
             <% if sd.is_standby %>

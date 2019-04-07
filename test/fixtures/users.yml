@@ -26,7 +26,7 @@ system_user:
     zone: !ruby/object:ActiveSupport::TimeZone
       name: Etc/UTC
     time: *5
-  roles: reviewer, code_admin
+  roles: reviewer, blacklist_manager
   id: -1
 
 
@@ -97,8 +97,8 @@ admin_user:
     time: *5
   roles: reviewer, admin
 
-code_admin_user:
-  email: code_admin@user.com
+blacklist_manager_user:
+  email: blacklist_manager@user.com
   encrypted_password: "abcdefghjklmnopqrstuvwxyz3"
   remember_created_at:
   created_at: !ruby/object:ActiveSupport::TimeWithZone
@@ -117,7 +117,7 @@ code_admin_user:
     zone: !ruby/object:ActiveSupport::TimeZone
       name: Etc/UTC
     time: *5
-  roles: reviewer, code_admin
+  roles: reviewer, blacklist_manager
 
 two_factor_confirming:
   email: two_factor@user.com

@@ -37,7 +37,7 @@ class ConflictingFeedbackJob < ApplicationJob
       # User precedences. Higher numbers mean a user possessing this role will override a user possessing a lower role.
       # Everyone gets flagger, so that's worth a whole nothing; developer likewise because you can be a developer without knowing anything about
       # feedback (and all of our current developers have other high-precedence roles as well).
-      roles = { flagger: 0, reviewer: 1, core: 2, code_admin: 3, smoke_detector_runner: 3, admin: 4, developer: 0 }
+      roles = { flagger: 0, reviewer: 1, core: 2, blacklist_manager: 3, smoke_detector_runner: 3, admin: 4, developer: 0 }
 
       # One-liner beauty (or hell, depending how you look at it). First get a list of all feedbacks and the maximum precedence of the user who
       # created it. Secondly, take that list and uniq-ify it by summing all precedences for the same feedback type.
