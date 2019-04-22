@@ -11,6 +11,7 @@
       <th>Reason</th>
       <th>Number caught</th>
       <th class='no-sort'>Last caught</th>
+      <th>Weight</th>
       <th>Accuracy</th>
     </tr>
   </thead>
@@ -21,6 +22,7 @@
         <td><%= link_to reason.reason_name, reason_path(reason) %></td>
         <td data-sort-value="<%= reason.post_count %>"><%= reason.post_count %></td>
         <td><%= truncate((reason.last_post_title.nil? ? reason.posts.last.title : reason.last_post_title), length: 40, seperator: ' ') %></td>
+        <td><%= reason.weight %></td>
         <% counts = @active_reasons[:counts][reason.id] %>
         <%= render 'reason_accuracy', reason: reason, tp: 100 * counts[:tp].to_f / counts[:total], fp: 100 * counts[:fp].to_f / counts[:total],
                                       naa: 100 * counts[:naa].to_f / counts[:total] %>
