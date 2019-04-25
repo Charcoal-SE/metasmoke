@@ -1,0 +1,2 @@
+module Lists::ListsHelper
+end

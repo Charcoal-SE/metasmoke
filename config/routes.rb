@@ -322,6 +322,16 @@ Rails.application.routes.draw do
     get 'qtimes/:controller_name/:action_name', to: 'graphs#qtimes'
   end
 
+  scope 'lists' do
+    root               to: 'lists/lists#index',   as: :lists
+    get    'new',      to: 'lists/lists#new',     as: :new_list
+    post   'new',      to: 'lists/lists#create',  as: :create_list
+    get    ':id',      to: 'lists/lists#show',    as: :list
+    get    ':id/edit', to: 'lists/lists#edit',    as: :edit_list
+    patch  ':id/edit', to: 'lists/lists#update',  as: :update_list
+    delete ':id',      to: 'lists/lists#destroy', as: :destroy_list
+  end
+
   scope 'magic' do
     get 'funride', to: 'dashboard#funride'
   end

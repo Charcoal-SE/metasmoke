@@ -1,0 +1,29 @@
+<h2>Lists</h2>
+<p>Lists of Things. Mostly various shades of gr[ea]y.</p>
+<% if current_user&.has_role?(:admin) %>
+  <p><%= link_to 'New', new_list_path %></p>
+<% end %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="text-muted">ID</th>
+      <th>Name</th>
+      <th>Write privileges</th>
+      <th colspan="<%= current_user&.has_role?(:admin) ? 1 : 2 %>"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @lists.each do |l| %>
+      <tr>
+        <td class="text-muted"><%= l.id %></td>
+        <td><%= l.name %></td>
+        <td><%= l.write_privs %></td>
+        <td><%= link_to 'Details', list_path(l) %></td>
+        <% if current_user&.has_role?(:admin) %>
+          <td><%= link_to 'Edit', edit_list_path(l) %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
