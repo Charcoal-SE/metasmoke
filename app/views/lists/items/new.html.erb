@@ -1,0 +1,14 @@
+<h2>New list item</h2>
+<p>You're adding an item to the <strong><%= @list.name %></strong> list.</p>
+
+<%= form_for @list.items.new, url: add_list_item_path(list_id: @list.id) do |f| %>
+  <div class="form-group">
+    <%= f.label :content %>
+    <%= f.text_area :content, rows: 1, cols: 100, class: 'form-control' %>
+    <small class="help-block">Whatever you want to add to the list goes in here. Expand the textbox if you need more room.</small>
+  </div>
+
+  <div class="actions">
+    <%= f.submit 'Save', class: 'btn btn-success' %>
+  </div>
+<% end %>

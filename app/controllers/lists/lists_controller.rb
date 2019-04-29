@@ -43,7 +43,7 @@ class Lists::ListsController < ApplicationController
   private
 
   def list_params
-    params.require(:lists_list).permit(:name, :description, :write_privs, :manage_privs)
+    params.require(:lists_list).permit(:name, :description, :write_privs, :manage_privs, :link_table, :link_field)
   end
 
   def set_list

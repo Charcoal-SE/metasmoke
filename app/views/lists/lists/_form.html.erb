@@ -24,14 +24,30 @@
 
   <div class="form-group">
     <%= f.label :write_privs, 'Write privileges' %>
-    <%= f.select :write_privs, options_for_select(Role.names.map { |n| [n.to_s.humanize, n] }), { include_blank: true }, class: 'form-control' %>
+    <%= f.select :write_privs, options_for_select(Role.names.map { |n| [n.to_s.humanize, n] }, selected: @list.write_privs),
+                 { include_blank: true }, class: 'form-control' %>
     <small class="help-block">What role do you have to have to be able to add stuff to/remove stuff from this list?</small>
   </div>
 
   <div class="form-group">
     <%= f.label :manage_privs, 'Management privileges' %>
-    <%= f.select :manage_privs, options_for_select(Role.names.map { |n| [n.to_s.humanize, n] }), { include_blank: true }, class: 'form-control' %>
+    <%= f.select :manage_privs, options_for_select(Role.names.map { |n| [n.to_s.humanize, n] }, selected: @list.manage_privs),
+                 { include_blank: true }, class: 'form-control' %>
     <small class="help-block">What role do you have to have to be able to manage the list itself?</small>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :link_table, 'Auto-link table' %>
+    <%= f.select :link_table, options_for_select(ApplicationRecord.connection.tables.map { |tn| [tn, tn] }, selected: @list.link_table),
+                 { include_blank: true }, class: 'form-control selectpicker' %>
+    <small class="help-block">Which table do items in this list link to? Let a developer pick this later if you're not sure.</small>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :link_field, 'Auto-link field' %>
+    <%= f.select :link_field, options_for_select(ApplicationRecord.connection.tables.map { |tn| ApplicationRecord.connection.columns(tn).map { |c| "#{tn}.#{c.name}" } }.flatten,
+                                                 selected: @list.link_field), { include_blank: true }, class: 'form-control selectpicker' %>
+    <small class="help-block">Which field in the link table provides the unique key for the link? Again, let a developer pick if you don't know.</small>
   </div>
 
   <div class="actions">

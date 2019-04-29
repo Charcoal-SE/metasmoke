@@ -1,7 +1,7 @@
 <h2>Lists</h2>
 <p>Lists of Things. Mostly various shades of gr[ea]y.</p>
 <% if current_user&.has_role?(:admin) %>
-  <p><%= link_to 'New', new_list_path %></p>
+  <p><%= link_to '+ New', new_list_path %></p>
 <% end %>
 
 <table class="table table-striped">
@@ -10,7 +10,8 @@
       <th class="text-muted">ID</th>
       <th>Name</th>
       <th>Write privileges</th>
-      <th colspan="<%= current_user&.has_role?(:admin) ? 1 : 2 %>"></th>
+      <th>Manage privileges</th>
+      <th colspan="2"></th>
     </tr>
   </thead>
   <tbody>
@@ -18,7 +19,8 @@
       <tr>
         <td class="text-muted"><%= l.id %></td>
         <td><%= l.name %></td>
-        <td><%= l.write_privs %></td>
+        <td><%= l.write_privs.humanize %></td>
+        <td><%= l.manage_privs.humanize %></td>
         <td><%= link_to 'Details', list_path(l) %></td>
         <% if current_user&.has_role?(:admin) %>
           <td><%= link_to 'Edit', edit_list_path(l) %></td>

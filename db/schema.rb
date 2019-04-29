@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_25_221432) do
+ActiveRecord::Schema.define(version: 2019_04_29_220548) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "user_id"
@@ -315,6 +315,16 @@ ActiveRecord::Schema.define(version: 2019_04_25_221432) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "lists_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.text "content"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "lists_list_id"
+    t.index ["lists_list_id"], name: "index_lists_items_on_lists_list_id"
+    t.index ["user_id"], name: "index_lists_items_on_user_id"
+  end
+
   create_table "lists_lists", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -322,6 +332,8 @@ ActiveRecord::Schema.define(version: 2019_04_25_221432) do
     t.string "manage_privs"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "link_table"
+    t.string "link_field"
   end
 
   create_table "moderator_sites", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -599,6 +611,8 @@ ActiveRecord::Schema.define(version: 2019_04_25_221432) do
   add_foreign_key "flag_logs", "sites"
   add_foreign_key "flag_logs", "users"
   add_foreign_key "flags", "posts"
+  add_foreign_key "lists_items", "lists_lists"
+  add_foreign_key "lists_items", "users"
   add_foreign_key "post_comments", "posts"
   add_foreign_key "post_comments", "users"
   add_foreign_key "review_items", "review_queues"

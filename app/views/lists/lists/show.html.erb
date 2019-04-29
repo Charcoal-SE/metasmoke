@@ -1,0 +1,43 @@
+<h2><%= @list.name %></h2>
+<p class="text-muted"><%= @list.description %></p>
+<p>
+  <% if current_user&.has_role?(@list.write_privs) %>
+    <%= link_to '+ Add', new_list_item_path(list_id: @list.id) %> &middot;
+  <% end %>
+  <% if current_user&.has_role?(:admin) %>
+    <%= link_to 'Edit', edit_list_path(@list) %> &middot;
+    <%= link_to 'Delete', destroy_list_path(@list), class: 'text-danger', method: :delete,
+                data: { confirm: 'This may have serious unintended consequences. If you\'re not sure of this, stop now.' } %>
+  <% end %>
+</p>
+
+<h4><%= pluralize(@list.items.count, 'item') %> in this list</h4>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="text-muted">ID</th>
+      <th>Content</th>
+      <th>Added</th>
+      <% if current_user&.has_role?(@list.write_privs) %>
+        <th></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @list.items.paginate(page: params[:page], per_page: 100).each do |li| %>
+      <tr>
+        <td class="text-muted"><%= li.id %></td>
+        <td><code><%= li.content %></code></td>
+        <td><%= time_ago_in_words(li.created_at) %> ago by <%= li.user.username %></td>
+        <% if current_user&.has_role?(@list.write_privs) %>
+          <td>
+            <%= link_to remove_list_item_path(list_id: @list.id, item_id: li.id), class: 'text-danger', method: :delete do %>
+              &times; Delete
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

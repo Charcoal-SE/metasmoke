@@ -323,13 +323,17 @@ Rails.application.routes.draw do
   end
 
   scope 'lists' do
-    root               to: 'lists/lists#index',   as: :lists
-    get    'new',      to: 'lists/lists#new',     as: :new_list
-    post   'new',      to: 'lists/lists#create',  as: :create_list
-    get    ':id',      to: 'lists/lists#show',    as: :list
-    get    ':id/edit', to: 'lists/lists#edit',    as: :edit_list
-    patch  ':id/edit', to: 'lists/lists#update',  as: :update_list
-    delete ':id',      to: 'lists/lists#destroy', as: :destroy_list
+    root                        to: 'lists/lists#index',   as: :lists
+    get    'new',               to: 'lists/lists#new',     as: :new_list
+    post   'new',               to: 'lists/lists#create',  as: :create_list
+    get    ':id',               to: 'lists/lists#show',    as: :list
+    get    ':id/edit',          to: 'lists/lists#edit',    as: :edit_list
+    patch  ':id/edit',          to: 'lists/lists#update',  as: :update_list
+    delete ':id',               to: 'lists/lists#destroy', as: :destroy_list
+
+    get    ':list_id/add',      to: 'lists/items#new',     as: :new_list_item
+    post   ':list_id/add',      to: 'lists/items#add',     as: :add_list_item
+    delete ':list_id/:item_id', to: 'lists/items#remove',  as: :remove_list_item
   end
 
   scope 'magic' do
