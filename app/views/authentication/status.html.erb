@@ -4,7 +4,8 @@
 <% if current_user.stack_exchange_account_id.nil? %>
   <%= link_to "Authenticate", identify_auth_url, class: "btn btn-success" %>
 <% else %>
-  <p class="text-muted">(you have already authenticated)</p>
+  <h4><strong>You have already authenticated. You do not need to do so again.</strong></h4>
+  <p>However, you can authenticate again (e.g. if you are experiencing problems).</p>
   <% if current_user.has_role? :flagger %>
     <div class="alert alert-danger">
       <p>
