@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_16_223243) do
+ActiveRecord::Schema.define(version: 2019_06_01_215310) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "user_id"
@@ -495,7 +495,7 @@ ActiveRecord::Schema.define(version: 2019_03_16_223243) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "spam_waves", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "spam_waves", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.string "name"
     t.text "conditions"
     t.bigint "user_id"
