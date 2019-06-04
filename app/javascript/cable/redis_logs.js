@@ -21,16 +21,18 @@ function getLogs(data) {
 
 let redis;
 route(/^\/dev\/request-log.*$/, () => {
-  let params = { channel:'RedisLogChannel' };
-  let status = location.pathname.match(/^\/dev\/request-log\/status\/([^\/]*).*$/);
-  let path = location.pathname.match(/^\/dev\/request-log\/by_path\/(\w*)\/(.*)\.[^\.]*$/);
-  let session = location.pathname.match(/^\/dev\/request-log\/session\/(.*)$/);
+  const params = { channel: 'RedisLogChannel' };
+  const status = location.pathname.match(/^\/dev\/request-log\/status\/([^/]*).*$/);
+  const path = location.pathname.match(/^\/dev\/request-log\/by_path\/(\w*)\/(.*)\.[^.]*$/);
+  const session = location.pathname.match(/^\/dev\/request-log\/session\/(.*)$/);
   if (status) {
-    params["status"] = status[1];
-  } else if (path) {
-    params["path"] = decodeURIComponent(path[2]);
-  } else if (session) {
-    params["session"] = session[1];
+    params.status = status[1];
+  }
+  else if (path) {
+    params.path = decodeURIComponent(path[2]);
+  }
+  else if (session) {
+    params.session = session[1];
   }
   redis = cable.subscriptions.create(params, {
     received(data) {

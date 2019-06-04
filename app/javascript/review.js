@@ -19,7 +19,7 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
     filters.forEach(e => {
       const el = $(e);
       const val = el.val();
-      if (!!val) {
+      if (val) {
         params[el.attr('name')] = val;
       }
     });
