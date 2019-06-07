@@ -152,7 +152,7 @@ GEM
       sshkit (>= 1.17.0)
     capistrano-upload-config (0.8.2)
       capistrano (>= 3.0)
-    chartkick (3.0.1)
+    chartkick (3.2.0)
     chronic (0.10.2)
     chunky_png (1.3.11)
     climate_control (0.2.0)
