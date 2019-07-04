@@ -86,7 +86,7 @@ class AuthenticationController < ApplicationController
   end
 
   def invalidate_tokens
-    @users = User.all.where.not(encrypted_api_token: nil)
+    @users = User.all.where(write_authenticated: true)
   end
 
   def send_invalidations
