@@ -92,7 +92,10 @@ class AuthenticationController < ApplicationController
   def send_invalidations
     Thread.new do
       User.where(id: params[:users]).each do |user|
-        HTTParty.post("https://#{AppConfig['token_store']['host']}/invalidate_tokens", params: { account_id: user.stack_exchange_account_id })
+        HTTParty.post("https://#{AppConfig['token_store']['host']}/invalidate_tokens",
+          params: { account_id: user.stack_exchange_account_id },
+          headers: { 'X-API-Key': AppConfig['token_store']['key'] }
+        )
         user.update(write_authenticated: false)
       end
     end
