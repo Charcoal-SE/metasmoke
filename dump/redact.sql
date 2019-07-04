@@ -9,7 +9,7 @@ UPDATE `users` SET
     `encrypted_password` = '',
     `reset_password_token` = '',
     `reset_password_sent_at` = NULL,
-    `encrypted_api_token` = '',
+    `encrypted_api_token_legacy` = '',
     `two_factor_token` = NULL,
     `enabled_2fa` = NULL,
     `salt` = NULL,

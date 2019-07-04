@@ -295,7 +295,7 @@ class APIController < ApplicationController
   def spam_flag
     @post = Post.find params[:id]
 
-    if @user.api_token.blank? && !@user.flags_enabled
+    unless @user.write_authenticated && @user.flags_enabled
       render status: 409, json: {
         error_name: 'not_write_authenticated',
         error_code: 409,

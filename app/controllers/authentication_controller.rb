@@ -18,11 +18,6 @@ class AuthenticationController < ApplicationController
     current_user.stack_exchange_account_id = access_token_info['account_id']
     current_user.update_chat_ids
 
-    begin
-      current_user.api_token = token if access_token_info['scope'].include? 'write_access'
-    rescue # rubocop:disable Lint/HandleExceptions
-    end
-
     # temporarily disable SQL logging. http://stackoverflow.com/a/7760140/1849664
     old_logger = ActiveRecord::Base.logger
     ActiveRecord::Base.logger = nil
@@ -31,7 +26,7 @@ class AuthenticationController < ApplicationController
 
     ActiveRecord::Base.logger = old_logger
 
-    if current_user.api_token.present?
+    if current_user.write_authenticated
       u = current_user
       Thread.new do
         # Do this in the background to keep the page load fast.
@@ -39,9 +34,9 @@ class AuthenticationController < ApplicationController
       end
     end
 
-    flash[:success] = "Successfully registered #{'write' if current_user.api_token.present?} token"
+    flash[:success] = 'Successfully registered token'
 
-    if current_user.api_token.present? && current_user.flags_enabled == false
+    if current_user.write_authenticated && !current_user.flags_enabled
       redirect_to ocs_path
     else
       redirect_to authentication_status_path
@@ -91,19 +86,15 @@ class AuthenticationController < ApplicationController
   end
 
   def invalidate_tokens
-    @users = User.all.where.not(encrypted_api_token: nil)
+    @users = User.all.where(write_authenticated: true)
   end
 
   def send_invalidations
-    users = User.where(id: params[:users])
     Thread.new do
-      token_groups = users.map(&:api_token).in_groups_of(20).map(&:compact)
-      token_groups.each do |group|
-        uri = "https://api.stackexchange.com/2.2/access-tokens/#{group.join(';')}/invalidate"
-        HTTParty.get(uri)
+      User.where(id: params[:users]).each do |user|
+        HTTParty.post("https://#{AppConfig['token_store']['host']}/invalidate_tokens", params: { account_id: user.stack_exchange_account_id })
+        user.update(write_authenticated: false)
       end
-
-      users.update_all(encrypted_api_token: nil)
     end
     flash[:info] = 'Token invalidations queued.'
     redirect_to url_for(controller: :authentication, action: :invalidate_tokens)

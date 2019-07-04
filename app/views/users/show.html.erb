@@ -10,7 +10,7 @@
       <div class="panel-body">
         <p>
           <strong>Read access (auth-only):</strong> <%= @user.stack_exchange_account_id.present? ? 'Yes' : 'No' %><br/>
-          <strong>Write access (auth+flags):</strong> <%= @user.encrypted_api_token.present? ? 'Yes' : 'No' %>
+          <strong>Write access (auth+flags):</strong> <%= @user.write_authenticated ? 'Yes' : 'No' %>
         </p>
         <p>
           <strong>Account ID:</strong> <%= link_to @user.stack_exchange_account_id, "https://stackexchange.com/users/#{@user.stack_exchange_account_id}" %><br/>

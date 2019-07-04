@@ -118,10 +118,10 @@ class RedisLogJob < ApplicationJob
     }
     ActionCable.server.broadcast 'redis_log_channel', **ws_msg
     {
-      status: info["status"],
-      user: info["user_id"],
-      session: info["session_id"],
-      path: Rails.sensible_routes.match_for(info["path"])&.path || info["path"].split('?').first
+      status: info['status'],
+      user: info['user_id'],
+      session: info['session_id'],
+      path: Rails.sensible_routes.match_for(info['path'])&.path || info['path'].split('?').first
     }.each do |filter, value|
       ActionCable.server.broadcast "redis_log_#{filter}_#{value}", **ws_msg
     end

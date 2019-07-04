@@ -84,15 +84,15 @@ class User < ApplicationRecord
   end
 
   def get_username(readonly_api_token = nil)
-    if api_token.nil? && readonly_api_token.nil?
-      Rails.logger.error 'User#get_username called without api_token or readonly_api_token'
+    if readonly_api_token.nil?
+      Rails.logger.error 'User#get_username called without readonly_api_token'
       Rails.logger.error caller.join("\n")
       return
     end
 
     begin
       config = AppConfig['stack_exchange']
-      auth_string = "key=#{config['key']}&access_token=#{readonly_api_token || api_token}"
+      auth_string = "key=#{config['key']}&access_token=#{readonly_api_token}"
 
       resp = Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/me/associated?pagesize=1&filter=!ms3d6aRI6N&#{auth_string}"))
       resp = JSON.parse(resp.body)
@@ -115,33 +115,6 @@ class User < ApplicationRecord
 
   def remember_me
     true
-  end
-
-  # Transparent interface to encrypted API token
-  def api_token
-    return self[:api_token] if encrypted_api_token.nil?
-
-    encryption_key = AppConfig['stack_exchange']['token_aes_key']
-    begin
-      return AESCrypt.decrypt(encrypted_api_token, encryption_key, salt, iv)
-    rescue OpenSSL::Cipher::CipherError, ArgumentError
-      # Since dev environments don't have the proper keys to perform
-      # decryption on a prod data dump, we allow this error in dev
-      return encrypted_api_token if Rails.env.development? || Rails.env.test?
-      raise
-    end
-  end
-
-  def api_token=(new_value)
-    if new_value.nil?
-      self.encrypted_api_token = nil
-      return new_value
-    end
-
-    encryption_key = AppConfig['stack_exchange']['token_aes_key']
-    salt, iv, encrypted = AESCrypt.encrypt(new_value, encryption_key)
-    update(encrypted_api_token: encrypted, salt: salt, iv: iv)
-    new_value
   end
 
   # Flagging
