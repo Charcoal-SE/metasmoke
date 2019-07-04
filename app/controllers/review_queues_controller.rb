@@ -14,15 +14,15 @@ class ReviewQueuesController < ApplicationController
 
   def next_item
     response.cache_control = 'max-age=0, private, must-revalidate, no-store'
-    if params[:site_id].present?
-      unreviewed = @queue.next_items(current_user) do |c|
-        reviewable_table = @queue.reviewable_type.pluralize.underscore
-        c.joins("INNER JOIN `#{reviewable_table}` AS reviewable ON reviewable.id = review_items.reviewable_id")
-         .where(reviewable: filter_params([:site_id]))
-      end
-    else
-      unreviewed = @queue.next_items(current_user)
-    end
+    unreviewed = if params[:site_id].present?
+                   @queue.next_items(current_user) do |c|
+                     reviewable_table = @queue.reviewable_type.pluralize.underscore
+                     c.joins("INNER JOIN `#{reviewable_table}` AS reviewable ON reviewable.id = review_items.reviewable_id")
+                      .where(reviewable: filter_params([:site_id]))
+                   end
+                 else
+                   @queue.next_items(current_user)
+                 end
 
     while !unreviewed.empty? && unreviewed.first.reviewable.nil?
       unreviewed.first.update(completed: true)

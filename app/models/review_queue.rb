@@ -19,9 +19,7 @@ class ReviewQueue < ApplicationRecord
 
   def next_items(user)
     unreviewed_by = ReviewItem.unreviewed_by(self, user)
-    if block_given?
-      unreviewed_by = yield unreviewed_by
-    end
+    unreviewed_by = yield unreviewed_by if block_given?
     unreviewed_by
   end
 end
