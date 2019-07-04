@@ -34,7 +34,7 @@ class AuthenticationController < ApplicationController
       end
     end
 
-    flash[:success] = "Successfully registered token"
+    flash[:success] = 'Successfully registered token'
 
     if current_user.write_authenticated && !current_user.flags_enabled
       redirect_to ocs_path
@@ -90,10 +90,9 @@ class AuthenticationController < ApplicationController
   end
 
   def send_invalidations
-    users = User.where(id: params[:users])
     Thread.new do
-      users.each do |user|
-        HTTParty.post("https://#{AppConfig["token_store"]["host"]}/invalidate_tokens", params: {account_id: user.stack_exchange_account_id})
+      User.where(id: params[:users]).each do |user|
+        HTTParty.post("https://#{AppConfig['token_store']['host']}/invalidate_tokens", params: { account_id: user.stack_exchange_account_id })
         user.update(write_authenticated: false)
       end
     end
