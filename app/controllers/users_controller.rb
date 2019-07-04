@@ -142,8 +142,13 @@ class UsersController < ApplicationController
                        headers: { 'X-API-Key': AppConfig['token_store']['key'] },
                        query: { account_id: current_user.stack_exchange_account_id, state: state })
     Rails.logger.info res
+<<<<<<< HEAD
     if params[:state] == state && JSON.parse(res.body)['token_exists'] && current_user.update(write_authenticated: true)
       flash[:success] = 'Your registration was completed sucessfully!'
+=======
+    if params[:state] == state && JSON.parse(res.body)['token_exists'] && current_user.update(flags_enabled: true)
+      flash[:success] = 'Your registration was completed successfully!'
+>>>>>>> master
     elsif params[:error].present?
       flash[:danger] = "Got an error: #{params[:error]}: #{params[:error_description]}"
     else

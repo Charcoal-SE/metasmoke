@@ -45,6 +45,7 @@ class ApplicationController < ActionController::Base
   end
 
   def redis_log(msg)
+    return
     redis = redis(logger: true)
     redis.multi do |m|
       m.rpush "#{redis_log_key}/logs", msg.to_s
@@ -73,51 +74,46 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def smokey_route?
+    {
+      posts: :create,
+      feedbacks: :create,
+      deletion_logs: :create,
+      statistics: :create,
+      status: :status_update
+    }.dig(controller_name.to_sym) == action_name.to_sym
+  end
+
   def redis_log_request
-    redis = redis(logger: true)
-    Rack::MiniProfiler.step('Logging to redis') do
-      redis = redis(logger: true)
-      @request_time ||= Time.now.to_f
-      request.set_header 'redis_logs.log_key', redis_log_key
-      request.set_header 'redis_logs.timestamp', @request_time
-      request.set_header 'redis_logs.request_id', request.uuid
-      redis.zadd 'requests', @request_time, request.uuid
-      {
-        request_headers: headers.to_h,
-        params: request.filtered_parameters.except(:controller, :action)
-      }.each do |key, val|
-        next if val.empty?
-        redis.multi do
-          redis.mapped_hmset "#{redis_log_key}/#{key}", val
-          redis.expire "#{redis_log_key}/#{key}", REDIS_LOG_EXPIRATION
-        end
-      end
-      unless session[:redis_log_id].present?
-        session[:redis_log_id] = SecureRandom.base64
-        session[:redis_log_id] = SecureRandom.base64 while redis.exists("session/#{session[:redis_log_id]}")
-      end
-      redis.multi do
-        redis.mapped_hmset redis_log_key, status: 'INC',
-                                          path: request.filtered_path,
-                                          impersonator_id: session[:impersonator_id],
-                                          user_id: user_signed_in? ? current_user.id : nil,
-                                          session_id: session[:redis_log_id],
-                                          sha: CurrentCommit
-        redis.expire redis_log_key, REDIS_LOG_EXPIRATION
-        # TODO: If we care more about memory than speed, switch session/*/requests and user_sessions/* to be sets and
-        # intersect them with requests to get a zset when you need one.
-        redis.zadd "session/#{session[:redis_log_id]}/requests", @request_time, request.uuid
-        redis.expire "session/#{session[:redis_log_id]}/requests", REDIS_LOG_EXPIRATION
-        redis.hsetnx("session/#{session[:redis_log_id]}", 'start', @request_time)
-        redis.hset("session/#{session[:redis_log_id]}", 'end', @request_time)
-        redis.expire "session/#{session[:redis_log_id]}", REDIS_LOG_EXPIRATION
-        if user_signed_in?
-          redis.zadd "user_sessions/#{current_user.id}", @request_time, session[:redis_log_id]
-          redis.expire "user_sessions/#{current_user.id}", REDIS_LOG_EXPIRATION * 3
-        end
-      end
-      RedisLogJob.perform_later(request.uuid, @request_time)
-    end
+    # Rack::MiniProfiler.step('Logging to redis') do
+    #   redis = redis(logger: true)
+    #   @request_time ||= Time.now.to_f
+    #   request.set_header 'redis_logs.log_key', redis_log_key
+    #   request.set_header 'redis_logs.timestamp', @request_time
+    #   request.set_header 'redis_logs.request_id', request.uuid
+    #   unless session[:redis_log_id].present? || smokey_route?
+    #     session[:redis_log_id] = SecureRandom.base64
+    #     session[:redis_log_id] = SecureRandom.base64 while redis.exists("session/#{session[:redis_log_id]}")
+    #   end
+    #   RedisLogJob.perform_later(
+    #     {
+    #       path: request.filtered_path,
+    #       impersonator_id: session[:impersonator_id],
+    #       user_id: user_signed_in? ? current_user.id : nil,
+    #       session_id: smokey_route? ? params[:key] : session[:redis_log_id],
+    #       sha: CurrentCommit,
+    #       smoke_detector_id: smokey_route? ? SmokeDetector.find_by(access_token: params[:key])&.id : nil
+    #     },
+    #     subspaces: {
+    #       request_headers: headers.to_h,
+    #       params: request.filtered_parameters.except(:controller, :action)
+    #     },
+    #     time: @request_time,
+    #     uuid: request.uuid,
+    #     session_id: session[:redis_log_id],
+    #     user_id: user_signed_in? ? current_user.id : nil
+    #   )
+    # end
   end
 
   def redis_log_key
@@ -128,6 +124,9 @@ class ApplicationController < ActionController::Base
   def check_auth_required
     return unless SiteSetting['require_auth_all_pages']
     return if user_signed_in? || devise_controller? || (controller_name == 'users' && action_name == 'missing_privileges')
+
+    return if smokey_route?
+
     redis_log 'Redirected to login page because require_auth_all_pages is set'
     flash[:warning] = 'You need to have an account to view metasmoke pages.'
     authenticate_user!

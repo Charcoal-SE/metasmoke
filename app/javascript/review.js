@@ -14,7 +14,20 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
   const hasItemID = location.pathname.match(/\/review\/[\w-]+\/?\d+$/i);
 
   const loadNextPost = async () => {
-    const response = await fetch(queuePath + '/next', {
+    const filters = $('.review-filter').toArray();
+    const params = {};
+    filters.forEach(e => {
+      const el = $(e);
+      const val = el.val();
+      if (val) {
+        params[el.attr('name')] = val;
+      }
+    });
+    const url = new URL(queuePath + '/next', `${location.protocol}//${location.host}`);
+    const search = new URLSearchParams(params);
+    url.search = search;
+
+    const response = await fetch(url, {
       credentials: 'include'
     });
     const html = await response.text();
@@ -33,6 +46,11 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
   });
 
   $(document).on('click', '.review-next-link', () => {
+    $('.review-item-container').text('Loading...');
+    loadNextPost();
+  });
+
+  $('#filter-button').click(() => {
     $('.review-item-container').text('Loading...');
     loadNextPost();
   });

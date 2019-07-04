@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_17_202853) do
+ActiveRecord::Schema.define(version: 2019_06_01_215310) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "user_id"
@@ -495,7 +495,7 @@ ActiveRecord::Schema.define(version: 2019_03_17_202853) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "spam_waves", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
+  create_table "spam_waves", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.string "name"
     t.text "conditions"
     t.bigint "user_id"
@@ -551,7 +551,7 @@ ActiveRecord::Schema.define(version: 2019_03_17_202853) do
     t.integer "stackoverflow_chat_id"
     t.integer "stack_exchange_account_id"
     t.boolean "flags_enabled", default: false
-    t.string "encrypted_api_token_legacy"
+    t.string "encrypted_api_token"
     t.string "two_factor_token"
     t.boolean "enabled_2fa"
     t.binary "salt"
@@ -560,8 +560,7 @@ ActiveRecord::Schema.define(version: 2019_03_17_202853) do
     t.boolean "oauth_created"
     t.boolean "eu_resident"
     t.boolean "privacy_accepted"
-    t.boolean "token_migrated_legacy"
-    t.boolean "write_authenticated", default: false, null: false
+    t.boolean "token_migrated_legacy", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

@@ -8,7 +8,7 @@ class Redis::Post
     @fields = redis.hgetall("posts/#{id}").merge(overrides)
   end
 
-  def all(type:)
+  def self.all(type:)
     case type
     when :set
       Redis::Base::Collection.new('all_posts', type: type)

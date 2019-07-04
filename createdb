@@ -10,6 +10,7 @@ mysql -u root -ppassword <<\____
 
     CREATE DATABASE metasmoke;
     CREATE DATABASE metasmoke_test;
+    CREATE DATABASE metasmoke_production;
 
     # Create the metasmoke user and password.
     # This user will only be able to access MySQL locally.
@@ -19,6 +20,7 @@ mysql -u root -ppassword <<\____
     CREATE USER 'metasmoke'@'localhost' IDENTIFIED BY 'password';
     GRANT ALL PRIVILEGES ON `metasmoke`.* TO `metasmoke`@`localhost`;
     GRANT ALL PRIVILEGES ON `metasmoke_test`.* TO `metasmoke`@`localhost`;
+    GRANT ALL PRIVILEGES ON `metasmoke_production`.* TO `metasmoke`@`localhost`;
     FLUSH PRIVILEGES; 
 
 ____
@@ -34,9 +36,11 @@ sed '/^development:/!b;x;N;N;x;a\
 q' config/database.sample.yml >config/database.yml
 
 cp config/config.sample.yml config/config.yml
+cp config/cable.sample.yml config/cable.yml
 
 rails db:create
 rails db:schema:load
+rails db:migrate
 rails db:seed
 
 ######## FIXME: yet another hard-coded, easily guessable password
@@ -46,4 +50,13 @@ u = User.create(
 u.add_role(:admin)
 u.add_role(:developer)
 SiteSetting.create(name: 'registration_enabled', value: 1)
+
+# Workaround for https://github.com/Charcoal-SE/metasmoke/issues/618
+SmokeDetector.create(
+  last_ping: 1.hour.ago,
+  name: 'Seed',
+  location: 'Nowhere',
+  access_token: '9b104345-ef52-41ce-86cc-003831e3a241',
+  email_date: 1.hour.ago
+)
 ____

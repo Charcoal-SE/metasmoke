@@ -110,6 +110,21 @@ class RedisLogController < ApplicationController
     end.reject(&:empty?)
   end
 
+  def by_path
+    redis = redis(logger: true)
+    @method = params[:method]
+    @path = params[:path]
+    @format = params[:format]
+    si, ei = page
+    @rlog = "requests/by_path/#{@method}/#{@path}.#{@format}"
+    request.format = :html
+    @requests = redis.zrevrange("requests/by_path/#{@method}/#{@path}.#{@format}", si, ei, with_scores: true).to_a.map do |request_id, timestamp|
+      r = get_request(timestamp, request_id)
+      redis.zrem "requests/by_path/#{@method}/#{@path}.#{@format}", request_id if r.empty?
+      r
+    end.reject(&:empty?)
+  end
+
   private
 
   def get_request(timestamp, request_id)

@@ -16,4 +16,12 @@ class ReviewQueue < ApplicationRecord
     item.reviewable.should_dq?(self) if item.reviewable.respond_to? :should_dq?
     false
   end
+
+  def next_items(user)
+    unreviewed_by = ReviewItem.unreviewed_by(self, user)
+    if block_given?
+      unreviewed_by = yield unreviewed_by
+    end
+    unreviewed_by
+  end
 end

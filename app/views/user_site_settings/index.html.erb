@@ -1,21 +1,29 @@
 <h3><%= title "Autoflagging Preferences" %></h3>
-<p>These are the preferences you've set for autoflagging. You can choose only certain sites to flag on by associating
-  your preferences with only those sites.</p>
-
+<h4>Getting started</h4>
+<p>
+    If you're trying to get started with autoflags for the first time, you'll need to:
+</p>
+<ul>
+  <li>authorize metasmoke for write access to your Stack Exchange account (see "Clifford the Big Red Button" below)</li>
+  <li>set up your preferences (below), which govern how many of your flags metasmoke can use per-site. You must set at least one preference.</li>
+  <li><%= link_to "set up your autoflagging conditions", url_for(controller: :flag_conditions, action: :index) %>, which govern how certain you want metasmoke to be a post is spam before using your account to flag it. You must set at least one flagging condition.</li>
+</ul>
+<h4>Authenticating metasmoke with your Stack Exchange account</h4>
 <div class="panel panel-danger">
   <div class="panel-heading">
     <h3 class="panel-title">Clifford the Big Red Button</h3>
   </div>
   <div class="panel-body">
     <p>
-      <strong class="text-danger">Warning:</strong> for all the joking about, this is serious. By ticking this box, you are explicitly consenting to
-      your Stack Exchange account being used to cast flags automatically based on data collected by SmokeDetector. While we believe this has a high
-      rate of accuracy and have designed the system to reflect this, flags cast using your account are your responsibility, and many invalid flags
-      can in some cases result in your SE account being suspended. Only tick the box if you are happy with this responsibility.
+      <strong class="text-danger">Warning:</strong> for all the joking about, this is serious. By authenticating metasmoke for write access to your Stack Exchange account, you
+      are explicitly consenting to your Stack Exchange account being used to cast flags automatically based on data collected by SmokeDetector. While we believe this has a high
+      rate of accuracy and have designed the system to reflect this, <i>flags cast using your account are your responsibility</i>, and having many invalid flags can, in some cases,
+      result in your SE account being suspended, or being temporarily banned from flagging. Only authenticate metasmoke for write access if you accept this responsibility.
     </p>
     <hr/>
     <% if !current_user.write_authenticated %>
-      <p class="text-info">You need to authenticate for write access first; <%= link_to "you can do that here", url_for(controller: :authentication, action: :status) %>.</p>
+      <p class="text-info">If you have not already done so, you need to first authenticate metasmoke for write access with Stack Exchange; <strong><%= link_to "you can do that here", url_for(controller: :authentication, action: :status) %></strong>.</p>
+      <p class="text-info">The above link will also show you if metasmoke thinks it's already write-authorized and allow you to re-authorize, if you've removed the authorization in your Stack Exchange preferences (metasmoke won't know you've removed authorization until it tries to flag).</p>
     <% else %>
       <input id="red-button" name="red-button" type="checkbox" <%= "checked" if current_user.flags_enabled %> <%= "disabled" if (FlagSetting["registration_enabled"] == "0" || !current_user.has_role?(:flagger)) && !current_user.flags_enabled %> />
       <label for="red-button">Use my account to cast flags automatically</label>
@@ -23,13 +31,11 @@
         <p class="text-muted">Registration is currently disabled.</p>
       <% end %>
     <% end %>
-    <hr/>
-    If you're trying to get started with autoflags for the first time, you'll also need to set up your preferences (which govern how many of your
-    flags we can use per-site) and conditions (which govern how certain you want us to be of a post before using your account to flag it). Links to
-    these are at the bottom of this page.
   </div>
 </div>
 
+<h4>Preferences: maximum number of flags metasmoke will use</h4>
+<p>Each preference below sets the maximum number of your flags metasmoke will use on a site or group of sites. In order for metasmoke to use your account for autoflagging, you need to have at least one such preference set.</p>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -56,9 +62,8 @@
 </table>
 
 <% if FlagSetting['registration_enabled'] == '1' %>
+  <%= link_to "Add new maximum flags per site preference", url_for(controller: :user_site_settings, action: :new) %><br/>
   <p><em>Don't want to set this up yourself? <%= link_to "There's a wizard for that.", url_for(controller: :flag_conditions, action: :one_click_setup) %></em></p>
-  <%= link_to "Set up preferences", url_for(controller: :user_site_settings, action: :new) %><br/>
-  <%= link_to "Set up conditions", url_for(controller: :flag_conditions, action: :index) %>
 <% else %>
   <p class="text-muted"><em>Registration for autoflagging is currently closed.</em></p>
 <% end %>

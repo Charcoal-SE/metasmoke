@@ -198,6 +198,7 @@ Rails.application.routes.draw do
     get  'prod_log',         to: 'developer#production_log',       as: :dev_prod_log
     get  'query_time_log',   to: 'developer#query_times_log',      as: :dev_query_times_log
     get  'blank',            to: 'developer#blank_page',           as: :dev_blank
+    get  'layout',           to: 'developer#empty_layout',         as: :dev_layout
     get  'websockets',       to: 'developer#websocket_test'
     post 'websockets',       to: 'developer#send_websocket_test'
     post 'deploy',           to: 'developer#deploy',               as: :developer_deploy
@@ -211,6 +212,7 @@ Rails.application.routes.draw do
       root                  to: 'redis_log#index'
       get 'user/:id',       to: 'redis_log#by_user',    as: :redis_log_by_user
       get 'status/:status', to: 'redis_log#by_status',  as: :redis_log_by_status
+      get 'by_path/:method/:path.:format', to: 'redis_log#by_path',  as: :redis_log_by_path, constraints: { path: /.+/ }
       get 'session/:id',    to: 'redis_log#by_session', as: :redis_log_by_session
       scope 'request/:timestamp/:request_id', constraints: {:timestamp => /[^\/]+/ } do
         root to: 'redis_log#show', as: :redis_log_request

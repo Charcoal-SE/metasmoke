@@ -141,7 +141,7 @@ class User < ApplicationRecord
                                                                user_id: id)
       end
 
-      sleep response['backoff'].to_i if has_more && response.include?('backoff')
+      sleep response['backoff'].to_i if response.include?('backoff')
     end
 
     self.moderator_sites = new_moderator_sites
@@ -154,7 +154,7 @@ class User < ApplicationRecord
       return false, 'User is a moderator on this site'
     end
 
-    raise 'Not enabled' unless flags_enabled
+    return false, 'Flags not enabled for this account' unless flags_enabled
 
     path = post.answer? ? 'answers' : 'questions'
     site = post.site

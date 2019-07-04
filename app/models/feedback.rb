@@ -37,6 +37,13 @@ class Feedback < ApplicationRecord
     }
   end
 
+  after_destroy :destroy_redis
+
+  def destroy_redis
+    redis.srem "post/#{post.id}/feedbacks", id.to_s
+    redis.del "feedbacks/#{id}"
+  end
+
   def self.populate_redis_meta
     keys = []
     prefix = 'feedbacks_populate'

@@ -8,27 +8,27 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-<% Rack::MiniProfiler.step('Rendering: layouts/application/head') do %>
-  <% cache "application/head_tags" do %>
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-    <%= favicon_link_tag       '/favicon.ico' %>
-    <link rel="search" type="application/opensearchdescription+xml" title="metasmoke"
-          href="https://metasmoke.erwaysoftware.com/opensearch.xml">
+  <% Rack::MiniProfiler.step('Rendering: layouts/application/head') do %>
+    <% cache "application/head_tags" do %>
+      <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+      <%= favicon_link_tag       '/favicon.ico' %>
+      <link rel="search" type="application/opensearchdescription+xml" title="metasmoke"
+            href="https://metasmoke.erwaysoftware.com/opensearch.xml">
 
-    <%= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" %>
-    <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css" %>
-    <%= stylesheet_link_tag "https://charcoal-se.org/assets/css/branding.css" %>
-    <%= stylesheet_link_tag "https://use.fontawesome.com/releases/v5.2.0/css/all.css", integrity: "sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ", crossorigin: "anonymous" %>
+      <%= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" %>
+      <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css" %>
+      <%= stylesheet_link_tag "https://charcoal-se.org/assets/css/branding.css" %>
+      <%= stylesheet_link_tag "https://use.fontawesome.com/releases/v5.2.0/css/all.css", integrity: "sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ", crossorigin: "anonymous" %>
 
-    <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" %>
-    <%= javascript_include_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" %>
-    <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js" %>
-    <%= javascript_include_tag "//code.highcharts.com/highcharts.js", "chartkick" %>
-  <% end %>
-  <%= javascript_pack_tag 'vendor', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-  <%= csrf_meta_tags %>
-  <%= action_cable_meta_tag %>
+      <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" %>
+      <%= javascript_include_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" %>
+      <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js" %>
+      <%= javascript_include_tag "//code.highcharts.com/highcharts.js", "chartkick" %>
+    <% end %>
+    <%= javascript_pack_tag 'vendor', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= csrf_meta_tags %>
+    <%= action_cable_meta_tag %>
   <% end %>
 </head>
   <body class="<%= controller.class.name.sub(/Controller$/, '').underscore.dasherize %>">
@@ -73,16 +73,24 @@
               <% end %>
             <% end %>
             <% end %>
-            <%= nav_link FlagSettingsController, action: :dashboard, label: 'flagging', active: [FlagConditionsController, FlagLogController] %>
-            <% if user_signed_in? %>
-              <%= nav_dropdown AdminController, label: 'tools' do %>
-                <%= nav_link AdminController, label: 'User Data & Roles', action: :users %>
+            <%= nav_link FlagSettingsController, action: :dashboard, label: 'flagging',
+                         active: [FlagConditionsController, FlagLogController] %>
+
+            <%= nav_dropdown AdminController, label: 'tools' do %>
+              <%= nav_link SpamDomainsController, label: 'Domains' %>
+              <%= nav_link DomainTagsController, label: 'Domain Tags' %>
+              <li role="separator" class="divider"></li>
+              <%= nav_link StackExchangeUsersController, label: 'Spammers', action: :sites %>
+            <% end %>
+
+            <% if current_user&.has_role?(:core) %>
+              <%= nav_dropdown DashboardController, action: 'new_dash', label: 'core' do %>
+                <% unless current_user&.has_role?(:admin) %>
+                  <%= nav_link AdminController, label: 'User Data & Roles', action: :users %>
+                  <li role="separator" class="divider"></li>
+                <% end %>
                 <%= nav_link AdminController, label: 'Invalidated Feedback', action: :recently_invalidated %>
                 <%= nav_link AdminController, label: 'Feedback via API', action: :api_feedback %>
-                <%= nav_link DumpsController, label: 'Database Dumps', action: :index %>
-                <% if current_user.moderator? %>
-                  <%= nav_link StackExchangeUsersController, label: 'Spammers', action: :sites %>
-                <% end %>
                 <li role="separator" class="divider"></li>
                 <% if Announcement.current.count > 0 %>
                   <%= nav_link AnnouncementsController, label: 'Announcements' do %>
@@ -91,29 +99,35 @@
                 <% else %>
                   <%= nav_link AnnouncementsController, label: 'Announcements' %>
                 <% end %>
-                <% if current_user.try(:has_role?, :core) %>
-                  <%= nav_link DataController, label: 'JS Data Explorer' %>
-                  <%= nav_link nil, path: '/data/sql', label: 'SQL Data Explorer' %>
-                  <%= nav_link AbuseReportsController, label: 'Abuse Reports', action: :index %>
-                  <%= nav_link false, path: '/api/graphiql', label: 'GraphiQL' %>
-                <% end %>
-                <%= nav_link SpamDomainsController, label: 'Spam Domains' %>
-                <%= nav_link DomainTagsController, label: 'Domain Tags' %>
-                <% if current_user.has_role? :admin %>
+                <li role="separator" class="divider"></li>
+                <%= nav_link DataController, label: 'JS Data Exploder' %>
+                <%= nav_link nil, path: '/data/sql', label: 'SQL Data Exploder' %>
+                <%= nav_link false, path: '/api/graphiql', label: 'GraphQL Data Exploder' %>
+                <li role="separator" class="divider"></li>
+                <%= nav_link AbuseReportsController, label: 'Abuse Reports', action: :index %>
+                <% unless current_user&.has_role?(:developer) %>
                   <li role="separator" class="divider"></li>
-                  <%= nav_link APIKeysController, label: 'API Keys' %>
-                  <%= nav_link SiteSettingsController, label: 'Website Configuration' %>
-                <% end %>
-                <% if current_user.has_role? :developer %>
-                  <%#
-                    TODO:  Make the `class="text-danger"` part actually adjust the color of the item
-                    (currently, it’s overridden with `.dropdown-menu > li > a` in Bootstrap)
-                  %>
-                  <%= nav_link DeveloperController, label: 'Production log', action: :production_log %>
-                  <%= nav_link RedisLogController, label: 'Request log', action: :index %>
+                  <%= nav_link DumpsController, label: 'Database Dumps', action: :index %>
                 <% end %>
               <% end %>
             <% end %>
+
+            <% if current_user&.has_role?(:admin) %>
+              <%= nav_dropdown AdminController, label: 'admin' do %>
+                <%= nav_link AdminController, label: 'User Data & Roles', action: :users %>
+                <%= nav_link APIKeysController, label: 'API Keys' %>
+                <%= nav_link SiteSettingsController, label: 'Website Configuration' %>
+              <% end %>
+            <% end %>
+
+            <% if current_user&.has_role?(:developer) %>
+              <%= nav_dropdown DashboardController, action: 'new_dash', label: 'dev' do %>
+                <%= nav_link DumpsController, label: 'Database Dumps', action: :index %>
+                <%= nav_link DeveloperController, label: 'Production log', action: :production_log %>
+                <%= nav_link RedisLogController, label: 'Request log', action: :index %>
+              <% end %>
+            <% end %>
+
             <%= nav_link StatusController, attrs: {
               class: ['status', "status-#{SmokeDetector.status_color}"],
               data: {
