@@ -254,6 +254,7 @@ class Post < ApplicationRecord
 
   def parse_domains
     hosts = part_to_extract_from_domains.map do |x|
+      x = CGI::unescape x
       begin
         URI.parse(x).hostname.gsub(/www\./, '').downcase
       rescue
