@@ -44,6 +44,8 @@ class DeletionLog < ApplicationRecord
     return if post.nil? || !post.site&.auto_disputed_flags_enabled
     deleted = dl.present? ? dl.is_deleted : !post.deleted_at.nil?
     return unless deleted && (post.is_fp || post.is_naa) && post.flag_logs.manual.successful.count > 0
+    previous_flags = FlagLog.unscoped.where(post: post).other.auto
+    return unless previous_flags.count == 0 || (DateTime.now.to_i - previous_flags.map(&:created_at).max.to_i) >= 24.hours
 
     comment_template = "Charcoal project members cast {flagtype} flags on this post, but at least one subsequent reviewer isn't confident "\
                        "that's the right decision. Please review and undelete the post if necessary; see "\
