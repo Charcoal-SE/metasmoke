@@ -51,7 +51,6 @@
       <tr>
         <td class="text-muted"><%= pref.id %></td>
         <td><%= pref.sites.count %></td>
-        <td><%= pref.max_flags %></td>
         <td><%= current_user.flag_logs.where(is_auto: true, success: true).where('created_at > ?', 1.day.ago).count %></td>
         <td><%= link_to "Edit", url_for(controller: :user_site_settings, action: :edit, id: pref.id) %></td>
         <td><%= link_to "Delete", url_for(controller: :user_site_settings, action: :destroy, id: pref.id),

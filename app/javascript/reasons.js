@@ -20,6 +20,7 @@ $(() => {
       });
     }
   });
+
   $(document).on('keyup', '#search', function () {
     const val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
     debug('searching for', `"${val}"`);

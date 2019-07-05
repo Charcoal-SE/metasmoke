@@ -315,6 +315,43 @@ ActiveRecord::Schema.define(version: 2019_06_01_215310) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "lists_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.text "content"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "lists_list_id"
+    t.index ["lists_list_id"], name: "index_lists_items_on_lists_list_id"
+    t.index ["user_id"], name: "index_lists_items_on_user_id"
+  end
+
+  create_table "lists_links", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "lists_item_id"
+    t.string "linked_type"
+    t.bigint "linked_id"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "auto", default: false
+    t.bigint "user_id"
+    t.index ["linked_type", "linked_id"], name: "index_lists_links_on_linked_type_and_linked_id"
+    t.index ["lists_item_id"], name: "index_lists_links_on_lists_item_id"
+    t.index ["user_id"], name: "index_lists_links_on_user_id"
+  end
+
+  create_table "lists_lists", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "write_privs"
+    t.string "manage_privs"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "link_table"
+    t.string "link_field"
+    t.string "modifier"
+    t.boolean "deregexify"
+  end
+
   create_table "moderator_sites", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.integer "user_id"
     t.integer "site_id"
@@ -497,7 +534,7 @@ ActiveRecord::Schema.define(version: 2019_06_01_215310) do
 
   create_table "spam_waves", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin", force: :cascade do |t|
     t.string "name"
-    t.text "conditions"
+    t.text "conditions", limit: 16777215
     t.bigint "user_id"
     t.datetime "expiry"
     t.integer "max_flags"
@@ -551,7 +588,7 @@ ActiveRecord::Schema.define(version: 2019_06_01_215310) do
     t.integer "stackoverflow_chat_id"
     t.integer "stack_exchange_account_id"
     t.boolean "flags_enabled", default: false
-    t.string "encrypted_api_token"
+    t.string "encrypted_api_token_legacy"
     t.string "two_factor_token"
     t.boolean "enabled_2fa"
     t.binary "salt"
@@ -561,6 +598,7 @@ ActiveRecord::Schema.define(version: 2019_06_01_215310) do
     t.boolean "eu_resident"
     t.boolean "privacy_accepted"
     t.boolean "token_migrated_legacy", default: false, null: false
+    t.boolean "write_authenticated", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
@@ -590,6 +628,10 @@ ActiveRecord::Schema.define(version: 2019_06_01_215310) do
   add_foreign_key "flag_logs", "sites"
   add_foreign_key "flag_logs", "users"
   add_foreign_key "flags", "posts"
+  add_foreign_key "lists_items", "lists_lists"
+  add_foreign_key "lists_items", "users"
+  add_foreign_key "lists_links", "lists_items"
+  add_foreign_key "lists_links", "users"
   add_foreign_key "post_comments", "posts"
   add_foreign_key "post_comments", "users"
   add_foreign_key "review_items", "review_queues"
