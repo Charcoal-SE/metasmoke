@@ -33,6 +33,14 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
     const html = await response.text();
     $('.review-item-container').html(html);
 
+    const postTitle = $('h4')[0].firstChild.textContent.trim();
+    const postID = $('h4 a').attr('href').replace(/^\D*(\d+)/, '$1');
+    const relativeUrl = $('.review-submit-link').first().attr('href').replace(/\?.*/, '');
+    const reviewID = relativeUrl.match(/\d+/)[0];
+    const title = `Review ${reviewID}: post ID ${postID}: ${postTitle} - metasmoke`;
+    document.title = title;
+    history.pushState({}, title, relativeUrl);
+
     installSelectpickers();
   };
 
