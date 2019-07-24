@@ -101,6 +101,7 @@
   <h3>Admin</h3>
   <ul>
     <li><%= link_to "All conditions", url_for(controller: :flag_conditions, action: :full_list) %></li>
+    <li><%= link_to "Per-site flag limits", url_for(controller: :flag_settings, action: :site_settings), %></li>
     <li><%= link_to "Invalidate API tokens", url_for(controller: :authentication, action: :invalidate_tokens), class: "text-danger" %></li>
   </ul>
 
