@@ -12,14 +12,9 @@ jobs:
     - checkout
     - run: if [ -z "${NODE_ENV:-}" ]; then export NODE_ENV=test; fi
     - run: export PATH="~/Charcoal-SE/metasmoke/node_modules/.bin:$PATH"
-    - restore_cache:
-        keys:
-        - v1-dep-node-{{ .Branch }}-
-        - v1-dep-node-master-
-        - v1-dep-node-
     - run: npm install
     - save_cache:
-        key: v1-dep-node-{{ .Branch }}-{{ epoch }}
+        key: v1-dep-node-master-{{ epoch }}
         paths:
         - ./node_modules
     - run: echo -e "export RAILS_ENV=test\nexport RACK_ENV=test" >> $BASH_ENV
@@ -49,15 +44,10 @@ jobs:
     - checkout
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
     - run: cp config/config.sample.yml config/config.yml
-    - restore_cache:
-        keys:
-        - v1-dep-bundle-{{ .Branch }}-
-        - v1-dep-bundle-master-
-        - v1-dep-bundle-
     - run: 'bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
         --jobs=4 --retry=3 '
     - save_cache:
-        key: v1-dep-bundle-{{ .Branch }}-{{ epoch }}
+        key: v1-dep-bundle-master-{{ epoch }}
         paths:
         - vendor/bundle
         - ~/.bundle
@@ -104,28 +94,18 @@ jobs:
         ' > config/cable.yml
 
     # Bundler
-    - restore_cache:
-        keys:
-        - v1-dep-bundle-{{ .Branch }}-
-        - v1-dep-bundle-master
-        - v1-dep-bundle
     - run: 'bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
         --jobs=4 --retry=3 '
     - save_cache:
-        key: v1-dep-bundle-{{ .Branch }}-{{ epoch }}
+        key: v1-dep-bundle-master-{{ epoch }}
         paths:
         - vendor/bundle
         - ~/.bundle
 
     # Node deps
-    - restore_cache:
-        keys:
-        - v1-dep-node-{{ .Branch }}-
-        - v1-dep-node-master
-        - v1-dep-node-
     - run: npm install
     - save_cache:
-        key: v1-dep-node-{{ .Branch }}-{{ epoch }}
+        key: v1-dep-node-master-{{ epoch }}
         paths:
         - ./node_modules
 
