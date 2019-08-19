@@ -93,9 +93,8 @@ class AuthenticationController < ApplicationController
     Thread.new do
       User.where(id: params[:users]).each do |user|
         HTTParty.post("#{AppConfig['token_store']['host']}/invalidate_tokens",
-          body: { account_id: user.stack_exchange_account_id }.to_json,
-          headers: { 'X-API-Key': AppConfig['token_store']['key'], 'Content-Type' => 'application/json' }
-        )
+                      body: { account_id: user.stack_exchange_account_id }.to_json,
+                      headers: { 'X-API-Key': AppConfig['token_store']['key'], 'Content-Type' => 'application/json' })
         user.update(write_authenticated: false)
       end
     end
