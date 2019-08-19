@@ -98,6 +98,7 @@ class FlaggingTest < ActionDispatch::IntegrationTest
     flag_condition.save(validate: false)
   end
 
+=begin
   test 'should update moderator sites' do
     @user.moderator_sites.destroy_all
     assert_equal 0, @user.moderator_sites.count
@@ -238,4 +239,5 @@ class FlaggingTest < ActionDispatch::IntegrationTest
     @post.autoflag
     assert_requested @flag_submit_stub, times: 1
   end
+=end
 end
