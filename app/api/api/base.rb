@@ -107,7 +107,8 @@ module API
 
     before do
       key = APIKey.find_by(key: params[:key])
-      smokey_token = key.nil? ? SmokeDetector.find_by(access_token: params[:key]) : nil
+      key.nil? ? SmokeDetector.find_by(access_token: params[:key]) : nil
+      # smokey_token = key.nil? ? SmokeDetector.find_by(access_token: params[:key]) : nil
       # request_time ||= Time.now.to_f
       # uuid = request.env['action_dispatch.request_id']
       # redis_log_key = "request/#{request_time}/#{uuid}"
