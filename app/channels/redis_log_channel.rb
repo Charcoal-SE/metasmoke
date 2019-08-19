@@ -6,7 +6,7 @@ class RedisLogChannel < ApplicationCable::Channel
       %i[status path session].each do |filter|
         if params[filter].present?
           stream_from "redis_log_#{filter}_#{params[filter]}"
-          return
+          return # rubocop:disable Lint/NonLocalExitFromIterator
         end
       end
       stream_from 'redis_log_channel'
