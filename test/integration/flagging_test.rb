@@ -98,6 +98,7 @@ class FlaggingTest < ActionDispatch::IntegrationTest
     flag_condition.save(validate: false)
   end
 
+# rubocop:disable Style/BlockComments
 =begin
   test 'should update moderator sites' do
     @user.moderator_sites.destroy_all
@@ -240,4 +241,5 @@ class FlaggingTest < ActionDispatch::IntegrationTest
     assert_requested @flag_submit_stub, times: 1
   end
 =end
+  # rubocop:enable Style/BlockComments
 end
