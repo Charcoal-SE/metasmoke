@@ -49,3 +49,6 @@ redis-git
 
 *.swp
 *.swo
+
+#Editor backup files
+*.bak
