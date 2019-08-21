@@ -34,20 +34,21 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
     $('.review-item-container').html(html);
 
     try {
-      if (window.location.pathname.indexOf('/review/posts') === 0) {
+      const pathname = window.location.pathname;
+      const isHistory = pathname.endsWith('/history');
+      const historyText = isHistory ? '' : 'history for ';
+      const reviewTypeText = pathname.split('/')[2].split('-').map(word => word[0].toUpperCase() + word.slice(1)).join(' ');
+      if (!isHistory && pathname.indexOf('/review/posts') === 0) {
         const postTitle = $('h4')[0].firstChild.textContent.trim();
         const postID = $('h4 a').attr('href').replace(/^\D*(\d+)/, '$1');
         const relativeUrl = $('.review-submit-link').first().attr('href').replace(/\?.*/, '');
         const reviewID = relativeUrl.match(/\d+/)[0];
-        const title = `Posts Review ${reviewID}: post ID ${postID}: ${postTitle} - metasmoke`;
+        const title = `Review Posts ${reviewID}: post ID ${postID}: ${postTitle} - metasmoke`;
         document.title = title;
         history.pushState({}, title, relativeUrl);
       }
-      else if (window.location.pathname.indexOf('/review/untagged-domains') === 0) {
-        document.title = 'Review Untagged Domains - metasmoke';
-      }
-      else if (window.location.pathname.indexOf('/review/admin-flags') === 0) {
-        document.title = 'Review Admin Flags - metasmoke';
+      else {
+        document.title = `Review ${reviewTypeText} ${historyText}- metasmoke`;
       }
     }
     catch (err) {
