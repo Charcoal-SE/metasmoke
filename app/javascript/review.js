@@ -36,19 +36,35 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
     try {
       const pathname = window.location.pathname;
       const isHistory = pathname.endsWith('/history');
-      const historyText = isHistory ? '' : 'history for ';
+      const historyText = isHistory ? 'history for ' : '';
       const reviewTypeText = pathname.split('/')[2].split('-').map(word => word[0].toUpperCase() + word.slice(1)).join(' ');
-      if (!isHistory && pathname.indexOf('/review/posts') === 0) {
-        const postTitle = $('h4')[0].firstChild.textContent.trim();
-        const postID = $('h4 a').attr('href').replace(/^\D*(\d+)/, '$1');
-        const relativeUrl = $('.review-submit-link').first().attr('href').replace(/\?.*/, '');
-        const reviewID = relativeUrl.match(/\d+/)[0];
-        const title = `Review Posts ${reviewID}: post ID ${postID}: ${postTitle} - metasmoke`;
-        document.title = title;
-        history.pushState({}, title, relativeUrl);
+      const submitLink = $('.review-submit-link');
+      const relativeUrl = (submitLink.length ? submitLink.first().attr('href') : pathname).replace(/\?.*/, '');
+      const reviewID = (relativeUrl.match(/\d+/) || [''])[0];
+      const reviewIDText = reviewID ? `: Review #${reviewID}` : '';
+      let title = document.title;
+      let extraText = '';
+      if (!isHistory) {
+        if (pathname.indexOf('/review/posts') === 0) {
+          const titleEl = $('h4:not(.modal-title)');
+          // If the titleEl doesn't exist, then all reviews are done.
+          if (titleEl.length > 0) {
+            const postTitle = $('h4')[0].firstChild.textContent.trim();
+            const postID = $('h4 a').attr('href').replace(/^\D*(\d+)/, '$1');
+            extraText = `: post ID ${postID}: ${postTitle}`;
+          }
+        }
+        else if (pathname.indexOf('/review/untagged-domains') === 0) {
+          extraText = `: ${$('h3').first().text()}`;
+        }
+      }
+      title = `Review ${historyText}${reviewTypeText}${reviewIDText}${extraText} - metasmoke`;
+      document.title = title;
+      if (relativeUrl === pathname) {
+        history.replaceState({}, title, relativeUrl);
       }
       else {
-        document.title = `Review ${reviewTypeText} ${historyText}- metasmoke`;
+        history.pushState({}, title, relativeUrl);
       }
     }
     catch (err) {
