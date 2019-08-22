@@ -2,7 +2,7 @@
 
 class ReasonsController < ApplicationController
   before_action :verify_core, only: [:update_description]
-  
+
   def show
     @reason = Reason.find(params[:id])
 
