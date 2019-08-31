@@ -44,7 +44,7 @@
           </div>
         <% end %>
 
-        <% if current_user.encrypted_password.blank? %>
+        <% if /\d+@se-oauth\.metasmoke/.match?(current_user.email) %>
           <h3>No password? No problem!</h3>
           <%= form_tag url_for(controller: '/users', action: :update_email) do %>
             <div class="field">

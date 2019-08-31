@@ -89,8 +89,8 @@ class UsersController < ApplicationController
   end
 
   def update_email
-    unless current_user.encrypted_password.blank?
-      flash[:danger] = "You've got a password you can use to change your email address."
+    unless /\d+@se-oauth\.metasmoke/.match?(current_user.email)
+      flash[:danger] = 'Your email is not the default for an SE OAuth created account.'
       redirect_to edit_user_registration_path
       return
     end
