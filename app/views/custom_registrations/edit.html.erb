@@ -44,7 +44,7 @@
           </div>
         <% end %>
 
-        <% if current_user.oauth_created %>
+        <% if current_user.encrypted_password.blank? %>
           <h3>No password? No problem!</h3>
           <%= form_tag url_for(controller: '/users', action: :update_email) do %>
             <div class="field">

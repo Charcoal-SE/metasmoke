@@ -89,14 +89,14 @@ class UsersController < ApplicationController
   end
 
   def update_email
-    unless current_user.oauth_created
-      flash[:danger] = "Nice try, but you've got a password that you can use."
+    unless current_user.encrypted_password.blank?
+      flash[:danger] = "You've got a password you can use to change your email address."
       redirect_to edit_user_registration_path
       return
     end
 
     if current_user.update(email: params[:email])
-      flash[:success] = 'Updated your email address.'
+      flash[:success] = 'Email address updated. You will need to sign out and click "Forgot your password?" on the sign-in page to set your password.'
     else
       flash[:danger] = 'Failed to update your email address.'
     end
