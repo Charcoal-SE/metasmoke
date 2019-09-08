@@ -127,5 +127,5 @@ Types::QueryType = GraphQL::ObjectType.define do
   end
 
   gen_fields %w[feedback smoke_detector site stack_exchange_user announcement
-                reason user flag_log flag_condition]
+                reason user flag_log flag_condition spam_domain domain_tag]
 end
