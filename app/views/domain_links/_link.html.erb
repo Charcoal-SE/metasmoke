@@ -1,6 +1,6 @@
 <div class="domain-link">
   <% linked_domain = link.left == domain ? link.right : link.left %>
-  <strong><%= link_to linked_domain.domain, spam_domain_path(linked_domain) %></strong>
+  <strong><%= linked_domain.blank? ? 'null domain' : link_to linked_domain.domain, spam_domain_path(linked_domain) %></strong>
   <span class="text-muted"><%= link.link_type %></span>
   <% if link.comments.present? %>
     <a href="#" data-toggle="modal" data-target="#link-modal-<%= link.id %>" class="text-warning">
@@ -15,7 +15,7 @@
             <h4 class="modal-title">Domain Link Details</h4>
           </div>
           <div class="modal-body">
-            <p>This domain (<%= domain.domain %>) is linked to <strong><%= link_to linked_domain.domain, spam_domain_path(linked_domain) %></strong>
+            <p>This domain (<%= domain.domain %>) is linked to <strong><%= linked_domain.blank? ? 'null domain' : link_to linked_domain.domain, spam_domain_path(linked_domain) %></strong>
               <span class="text-muted">(<%= link.link_type %>)</span>.</p>
             <p>Linked by <strong><%= link.creator.username %></strong> <%= time_ago_in_words(link.created_at) %> ago, with these comments:</p>
             <blockquote><%= link.comments %></blockquote>
