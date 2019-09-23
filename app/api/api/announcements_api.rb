@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module API
-  class AnnouncementsAPI < API::BaseWithAuth
+  class AnnouncementsAPI < API::Base
     get '/' do
       std_result Announcement.all.order(id: :desc), filter: FILTERS[:announcements]
     end

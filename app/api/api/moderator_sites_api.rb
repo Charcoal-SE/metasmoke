@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module API
-  class ModeratorSitesAPI < API::BaseWithoutAuth
+  class ModeratorSitesAPI < API::Base
     get '/' do
       std_result ModeratorSite.all, filter: FILTERS[:mods]
     end
