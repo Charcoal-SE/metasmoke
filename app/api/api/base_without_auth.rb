@@ -2,10 +2,8 @@
 
 module API
   module Authentication
-    included do
-      before do
-        authenticate_app!
-      end
+    before do
+      authenticate_app!
     end
   end
 
