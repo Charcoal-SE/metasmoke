@@ -2,8 +2,6 @@
 
 module API
   class DebugAPI < API::BaseWithoutAuth
-    # Deliberately not authenticated
-
     get '/' do
       { params: params, ts: DateTime.now, filters: FILTERS }
     end

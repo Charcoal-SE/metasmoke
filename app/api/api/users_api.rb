@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 module API
-  class UsersAPI < API::BaseWithoutAuth
-    # Deliberately not authenticated
-    
+  class UsersAPI < API::BaseWithAuth
     get '/' do
       std_result User.all.order(id: :desc), filter: FILTERS[:users]
     end

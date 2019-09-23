@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 module API
-  class ReasonsAPI < API::BaseWithoutAuth
-    include API::Authentication
-    
+  class ReasonsAPI < API::BaseWithAuth
     get '/' do
       std_result Reason.all.order(id: :desc), filter: FILTERS[:reasons]
     end

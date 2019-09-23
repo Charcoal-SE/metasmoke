@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 module API
-  class SmokeDetectorsAPI < API::BaseWithoutAuth
-    include API::Authentication
-    
+  class SmokeDetectorsAPI < API::BaseWithAuth
     get '/' do
       std_result SmokeDetector.all.order(id: :desc), filter: FILTERS[:smokeys]
     end
