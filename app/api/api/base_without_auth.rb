@@ -1,12 +1,6 @@
 # frozen_string_literal: true
 
 module API
-  module Authentication
-    before do
-      authenticate_app!
-    end
-  end
-
   class BaseWithoutAuth < Grape::API
     def self.filter(fields)
       Filterator::V2.filter_from_fields(fields)
