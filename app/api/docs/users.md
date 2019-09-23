@@ -1,7 +1,7 @@
 # Users
 
 ---
-/api/v2.0/users | List all users.
+/api/v2.0/users | List all users. No key required.
 
 Available tables: `users`.
 Output format:
@@ -18,7 +18,7 @@ Output format:
 
 
 ---
-/api/v2.0/users/with_role/:role | List all users with the specified role
+/api/v2.0/users/with_role/:role | List all users with the specified role. No key required.
 
 Available tables: `users`.
 Output format:

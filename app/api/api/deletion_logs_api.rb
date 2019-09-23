@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 module API
-  class DeletionLogsAPI < API::BaseWithAuth
+  class DeletionLogsAPI < API::BaseWithoutAuth
+    include API::Authentication
+    
     get '/' do
       std_result DeletionLog.all.order(id: :desc), filter: FILTERS[:deletions]
     end

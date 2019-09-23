@@ -1,7 +1,7 @@
 # Sites
 
 ---
-/api/v2.0/sites | List all sites
+/api/v2.0/sites | List all sites. No key required.
 
 Available tables: `sites`.
 Output format:

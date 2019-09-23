@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 module API
-  class PostsAPI < API::BaseWithAuth
+  class PostsAPI < API::BaseWithoutAuth
+    include API::Authentication
+    
     get '/' do
       std_result Post.all.order(id: :desc), filter: FILTERS[:posts]
     end

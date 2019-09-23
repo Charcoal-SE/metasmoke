@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 module API
-  class SpamDomainsAPI < API::BaseWithAuth
+  class SpamDomainsAPI < API::BaseWithoutAuth
+    include API::Authentication
+    
     get '/' do
       std_result SpamDomain.all.order(id: :desc), filter: FILTERS[:domains]
     end

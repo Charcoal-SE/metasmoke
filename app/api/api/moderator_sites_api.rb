@@ -2,6 +2,8 @@
 
 module API
   class ModeratorSitesAPI < API::BaseWithoutAuth
+    # Deliberately not authenticated
+
     get '/' do
       std_result ModeratorSite.all, filter: FILTERS[:mods]
     end
