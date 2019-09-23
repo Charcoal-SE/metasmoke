@@ -421,7 +421,7 @@ Rails.application.routes.draw do
   end
 
   scope 'status' do
-    root                     to: 'status#index',      as: :status
+    root              to: 'status#index',      as: :status
     get  'code.json', to: 'code_status#api'
     get  'code',      to: 'code_status#index', as: :code_status
     post 'kill',      to: 'status#kill',       as: :kill_smokey
@@ -457,6 +457,6 @@ Rails.application.routes.draw do
   end
 
   # This should always be right at the end of this file, so that it doesn't override other routes.
-  mount API::Base => '/api'
+  mount API::BaseWithoutAuth => '/api'
   mount ActionCable.server => '/cable'
 end

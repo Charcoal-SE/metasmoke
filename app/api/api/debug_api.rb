@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module API
-  class DebugAPI < API::Base
+  class DebugAPI < API::BaseWithoutAuth
     get '/' do
       { params: params, ts: DateTime.now, filters: FILTERS }
     end

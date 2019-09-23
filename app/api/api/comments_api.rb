@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module API
-  class CommentsAPI < API::Base
+  class CommentsAPI < API::BaseWithAuth
     get '/' do
       std_result PostComment.all.order(id: :desc), filter: FILTERS[:comments]
     end

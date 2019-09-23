@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module API
-  class Base < Grape::API
+  class BaseWithoutAuth < Grape::API
     def self.filter(fields)
       Filterator::V2.filter_from_fields(fields)
     end
@@ -103,34 +103,6 @@ module API
         template = File.read file
         ERB.new(template).result(OpenStruct.new(locals).instance_eval { binding })
       end
-    end
-
-    before do
-      key = APIKey.find_by(key: params[:key])
-      key.nil? ? SmokeDetector.find_by(access_token: params[:key]) : nil
-      # smokey_token = key.nil? ? SmokeDetector.find_by(access_token: params[:key]) : nil
-      # request_time ||= Time.now.to_f
-      # uuid = request.env['action_dispatch.request_id']
-      # redis_log_key = "request/#{request_time}/#{uuid}"
-      # request.set_header 'redis_logs.log_key', redis_log_key
-      # request.set_header 'redis_logs.timestamp', request_time
-      # request.set_header 'redis_logs.request_id', uuid
-      # request.set_header 'redis_logs.start_time', Time.now.to_f.to_s
-      # RedisLogJob.perform_later(
-      #   {
-      #     path: request.path,
-      #     api_key_id: key&.id,
-      #     smoke_detector_id: smokey_token&.id,
-      #     sha: CurrentCommit
-      #   },
-      #   subspaces: {
-      #     request_headers: headers.except('Cookie'),
-      #     params: params.except(:key)
-      #   },
-      #   time: request_time,
-      #   uuid: uuid
-      # )
-      authenticate_app!
     end
 
     content_type :atom, 'application/atom+xml'

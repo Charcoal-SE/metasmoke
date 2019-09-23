@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module API
-  class FeedbacksAPI < API::Base
+  class FeedbacksAPI < API::BaseWithAuth
     get '/' do
       std_result Feedback.all.order(id: :desc), filter: FILTERS[:feedbacks]
     end

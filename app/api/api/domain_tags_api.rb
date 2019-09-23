@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module API
-  class DomainTagsAPI < API::Base
+  class DomainTagsAPI < API::BaseWithAuth
     get '/' do
       std_result DomainTag.all.order(id: :desc), filter: FILTERS[:tags]
     end
