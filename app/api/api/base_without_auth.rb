@@ -2,6 +2,8 @@
 
 module API
   module Authentication
+    extend ActiveSupport::Concern
+
     included do
       before do
         authenticate_app!
