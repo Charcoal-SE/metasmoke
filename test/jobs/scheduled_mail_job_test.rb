@@ -1,0 +1,7 @@
+require 'test_helper'
+
+class ScheduledMailJobTest < ActiveJob::TestCase
+  # test "the truth" do
+  #   assert true
+  # end
+end

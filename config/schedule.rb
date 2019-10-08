@@ -5,7 +5,7 @@ every 1.day, at: '1:00 am' do
   runner 'ReasonsHelper.calculate_weights_for_flagging'
 end
 
-every 1.day at: '6:00 pm' do
+every 1.day, at: '6:00 pm' do
   runner 'SitesHelper.update_sites'
 end
 
@@ -22,4 +22,8 @@ end
 
 every 1.day, at: '2:10am' do
   runner 'ApplicationRecord.full_dump'
+end
+
+every 1.day, at: '3:00am' do
+  runner 'ScheduledMailJob.perform_later'
 end

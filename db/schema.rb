@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_08_173017) do
+ActiveRecord::Schema.define(version: 2019_10_08_224021) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "user_id"
@@ -199,6 +199,8 @@ ActiveRecord::Schema.define(version: 2019_10_08_173017) do
   create_table "domain_groups_spam_domains", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "domain_group_id"
     t.bigint "spam_domain_id"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
   end
 
   create_table "domain_links", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -239,6 +241,42 @@ ActiveRecord::Schema.define(version: 2019_10_08_173017) do
     t.datetime "file_updated_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "emails_addressees", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.string "email_address"
+    t.string "manage_key"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "emails_preferences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "emails_type_id"
+    t.bigint "emails_addressee_id"
+    t.datetime "next"
+    t.integer "frequency"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "consent_via", null: false
+    t.text "consent_comment"
+    t.string "referenced_object_type"
+    t.bigint "referenced_object_id"
+    t.string "reference_type"
+    t.bigint "reference_id"
+    t.index ["emails_addressee_id"], name: "index_emails_preferences_on_emails_addressee_id"
+    t.index ["emails_type_id"], name: "index_emails_preferences_on_emails_type_id"
+    t.index ["reference_type", "reference_id"], name: "index_emails_preferences_on_reference_type_and_reference_id"
+  end
+
+  create_table "emails_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "method_name"
+    t.string "mailer"
+    t.string "short_name"
   end
 
   create_table "feedbacks", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -633,6 +671,8 @@ ActiveRecord::Schema.define(version: 2019_10_08_173017) do
   add_foreign_key "domain_links", "spam_domains", column: "left_id"
   add_foreign_key "domain_links", "spam_domains", column: "right_id"
   add_foreign_key "domain_links", "users", column: "creator_id"
+  add_foreign_key "emails_preferences", "emails_addressees"
+  add_foreign_key "emails_preferences", "emails_types"
   add_foreign_key "flag_conditions", "users"
   add_foreign_key "flag_logs", "api_keys"
   add_foreign_key "flag_logs", "flag_conditions"

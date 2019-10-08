@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  email_address: MyString
+  consent_via: MyString
+  consent_comment: MyText
+  manage_key: MyString
+
+two:
+  name: MyString
+  email_address: MyString
+  consent_via: MyString
+  consent_comment: MyText
+  manage_key: MyString

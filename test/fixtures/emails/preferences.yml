@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  emails_type: one
+  emails_addressee: one
+  next: 2019-10-08 21:43:18
+  frequency: 1
+
+two:
+  emails_type: two
+  emails_addressee: two
+  next: 2019-10-08 21:43:18
+  frequency: 1
