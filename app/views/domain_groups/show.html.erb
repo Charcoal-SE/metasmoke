@@ -1,0 +1,17 @@
+<%= link_to domain_groups_path do %>
+  &laquo; Back to domain groups
+<% end %>
+
+<h1>Domain Group: <%= @group.name %></h1>
+<p>Defined by <code><%= @group.regex %></code></p>
+<p>
+  <%= link_to 'Edit', edit_domain_group_path(@group) %> &middot;
+  <%= link_to 'Delete', destroy_domain_group_path(@group), class: 'text-danger', method: :delete, data: { confirm: 'Are you sure?' } %>
+</p>
+
+<h2>Matched Domains</h2>
+<% @domains.each do |sd| %>
+  <div><%= render 'spam_domains/domain', domain: sd %></tr></div>
+<% end %>
+
+<%= will_paginate @domains, renderer: BootstrapPagination::Rails %>

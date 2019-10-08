@@ -5,6 +5,7 @@ class SpamDomain < ApplicationRecord
 
   has_and_belongs_to_many :posts, after_add: :setup_review
   has_and_belongs_to_many :domain_tags, after_add: :check_dq
+  has_and_belongs_to_many :domain_groups
   has_one :review_item, as: :reviewable
   has_many :abuse_reports, as: :reportable
   has_many :left_links, class_name: 'DomainLink', foreign_key: :left_id
@@ -21,6 +22,17 @@ class SpamDomain < ApplicationRecord
         tag = DomainTag.find_or_create_by(name: "AS-#{as}", special: true)
         tag.update(description: "Domains under the Autonomous System Number #{as} - #{desc}.") unless tag.description.present?
         domain_tags << tag
+      end
+    end
+  end
+
+  after_create do
+    groups = Rails.cache.fetch 'domain_groups' do
+      DomainGroup.all.map { |dg| [Regexp.new(dg.regex), dg.id] }.to_h
+    end
+    groups.keys.each do |r|
+      if r.match domain
+        DomainGroup.find(groups[r]).spam_domains << self
       end
     end
   end

@@ -1,0 +1,33 @@
+<h1>Domain Groups</h1>
+<p>
+  These are groups of related domains, as defined by a regex for each group. Use them to group things like domains on the same host
+  (think things like <code>*.000webhost.com</code>).
+</p>
+
+<%= link_to 'Create new group', new_domain_group_path %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th class="text-muted">ID</th>
+      <th>Group Name</th>
+      <th>Regex</th>
+      <th>Domain count</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @groups.each do |dg| %>
+      <tr>
+        <td class="text-muted"><%= dg.id %></td>
+        <td><%= link_to dg.name, domain_group_path(dg) %></td>
+        <td><code><%= dg.regex %></code></td>
+        <td><%= dg.domain_count %></td>
+        <td><%= link_to 'Edit', edit_domain_group_path(dg) %></td>
+        <td><%= link_to 'Delete', destroy_domain_group_path(dg), class: 'text-danger', method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= will_paginate @groups, renderer: BootstrapPagination::Rails %>

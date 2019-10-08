@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_01_215310) do
+ActiveRecord::Schema.define(version: 2019_10_08_173017) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "user_id"
@@ -189,6 +189,18 @@ ActiveRecord::Schema.define(version: 2019_06_01_215310) do
     t.index ["post_id"], name: "post_id_ix"
   end
 
+  create_table "domain_groups", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.string "regex"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "domain_groups_spam_domains", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "domain_group_id"
+    t.bigint "spam_domain_id"
+  end
+
   create_table "domain_links", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "left_id"
     t.bigint "right_id"
@@ -313,6 +325,43 @@ ActiveRecord::Schema.define(version: 2019_06_01_215310) do
     t.datetime "expires"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "lists_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.text "content"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "lists_list_id"
+    t.index ["lists_list_id"], name: "index_lists_items_on_lists_list_id"
+    t.index ["user_id"], name: "index_lists_items_on_user_id"
+  end
+
+  create_table "lists_links", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "lists_item_id"
+    t.string "linked_type"
+    t.bigint "linked_id"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "auto", default: false
+    t.bigint "user_id"
+    t.index ["linked_type", "linked_id"], name: "index_lists_links_on_linked_type_and_linked_id"
+    t.index ["lists_item_id"], name: "index_lists_links_on_lists_item_id"
+    t.index ["user_id"], name: "index_lists_links_on_user_id"
+  end
+
+  create_table "lists_lists", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "write_privs"
+    t.string "manage_privs"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "link_table"
+    t.string "link_field"
+    t.string "modifier"
+    t.boolean "deregexify"
   end
 
   create_table "moderator_sites", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -591,6 +640,10 @@ ActiveRecord::Schema.define(version: 2019_06_01_215310) do
   add_foreign_key "flag_logs", "sites"
   add_foreign_key "flag_logs", "users"
   add_foreign_key "flags", "posts"
+  add_foreign_key "lists_items", "lists_lists"
+  add_foreign_key "lists_items", "users"
+  add_foreign_key "lists_links", "lists_items"
+  add_foreign_key "lists_links", "users"
   add_foreign_key "post_comments", "posts"
   add_foreign_key "post_comments", "users"
   add_foreign_key "review_items", "review_queues"

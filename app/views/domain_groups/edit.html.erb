@@ -1,0 +1,7 @@
+<h1>Edit Domain Group</h1>
+<p>
+  You can change the details of a domain group here. Keep in mind that domains that are already associated with this group will remain so -
+  changing the regex will not remove previously matched domains.
+</p>
+
+<%= render 'form', url: update_domain_group_path(@group) %>

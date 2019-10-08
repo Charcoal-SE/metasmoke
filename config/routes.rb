@@ -223,6 +223,16 @@ Rails.application.routes.draw do
   end
 
   scope 'domains' do
+    scope 'groups' do
+      root               to: 'domain_groups#index',   as: :domain_groups
+      get    'new',      to: 'domain_groups#new',     as: :new_domain_group
+      post   'new',      to: 'domain_groups#create',  as: :create_domain_group
+      get    ':id',      to: 'domain_groups#show',    as: :domain_group
+      get    ':id/edit', to: 'domain_groups#edit',    as: :edit_domain_group
+      patch  ':id/edit', to: 'domain_groups#update',  as: :update_domain_group
+      delete ':id',      to: 'domain_groups#destroy', as: :destroy_domain_group
+    end
+
     scope 'tags' do
       root                            to: 'domain_tags#index',           as: :domain_tags
       post   'add',                   to: 'domain_tags#add',             as: :add_domain_tag
