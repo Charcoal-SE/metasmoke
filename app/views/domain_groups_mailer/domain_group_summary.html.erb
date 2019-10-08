@@ -1,0 +1,26 @@
+<h2 style="font-size:24pt;color:#333;">Your Charcoal SpamWatch summary</h2>
+<h3 style="font-size:18pt;color:#777;">Domains for <%= @group.name %>caught since <%= @last_email_date %></h3>
+
+<p style="font-size:14pt;color:#333;">Greetings,</p>
+
+<% if @domains.size == 0 %>
+  <p style="font-size:14pt;color:#333;">No domain names have been added to the domain group "<%= @group.name %>" since you were last emailed.</p>
+<% else %>
+  <p style="font-size:14pt;color:#333;">The following domain names have been added to the domain group "<%= @group.name %>" since you were last emailed.</p>
+
+  <ul style="font-size:14pt;color:#333;">
+    <% @domains.each do |sd| %>
+      <li><%= link_to sd.domain, sd.domain %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<p style="font-size:14pt;color:#333;">
+  Regards,<br/>
+  Charcoal SpamWatch team
+</p>
+
+<p style="font-size:11pt;color: #777;">
+  Charcoal is not affiliated with and does not endorse the content of any websites linked or referred to in this email unless expressly stated otherwise.
+  We recommend caution when accessing any of the linked websites in this email, as they may contain spam, malware, and/or work-inappropriate content.
+</p>
