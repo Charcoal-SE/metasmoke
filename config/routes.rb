@@ -228,6 +228,7 @@ Rails.application.routes.draw do
       get    'new',      to: 'domain_groups#new',     as: :new_domain_group
       post   'new',      to: 'domain_groups#create',  as: :create_domain_group
       get    ':id',      to: 'domain_groups#show',    as: :domain_group
+      post   ':id/mail', to: 'domain_groups#emails',  as: :domain_group_emails
       get    ':id/edit', to: 'domain_groups#edit',    as: :edit_domain_group
       patch  ':id/edit', to: 'domain_groups#update',  as: :update_domain_group
       delete ':id',      to: 'domain_groups#destroy', as: :destroy_domain_group

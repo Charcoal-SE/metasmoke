@@ -9,9 +9,49 @@
   <%= link_to 'Delete', destroy_domain_group_path(@group), class: 'text-danger', method: :delete, data: { confirm: 'Are you sure?' } %>
 </p>
 
+<% if current_user&.has_role?(:admin) %>
+  <a href="#" data-toggle="modal" data-target="#email-modal"><i class="fas fa-envelope"></i> Create email subscription</a>
+<% end %>
+
 <h2>Matched Domains</h2>
 <% @domains.each do |sd| %>
   <div><%= render 'spam_domains/domain', domain: sd %></tr></div>
 <% end %>
 
 <%= will_paginate @domains, renderer: BootstrapPagination::Rails %>
+
+<% if current_user&.has_role?(:admin) %>
+  <div class="modal fade" tabindex="-1" role="dialog" id="email-modal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Manage emails</h4>
+        </div>
+        <div class="modal-body">
+          <%= form_tag domain_group_emails_path(@group) do %>
+            <div class="form-group">
+              <%= label_tag :addressee_name %>
+              <%= text_field_tag :addressee_name, params[:addressee_name], class: 'form-control' %>
+            </div>
+            <div class="form-group">
+              <%= label_tag :addressee_email %>
+              <%= email_field_tag :addressee_email, params[:addressee_email], class: 'form-control' %>
+            </div>
+            <div class="form-group">
+              <%= label_tag :frequency %>
+              <%= number_field_tag :frequency, params[:frequency], class: 'form-control' %>
+              <span class="small text-muted">How often should we send emails, in days?</span>
+            </div>
+            <div class="form-group">
+              <%= label_tag :consent_comment %>
+              <%= text_area_tag :consent_comment, params[:consent_comment], rows: 2, class: 'form-control' %>
+              <span class="small text-muted">How did you obtain this person's consent to be sent emails?</span>
+            </div>
+            <%= submit_tag 'Submit', class: 'btn btn-primary' %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

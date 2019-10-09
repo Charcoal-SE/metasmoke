@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_08_224021) do
+ActiveRecord::Schema.define(version: 2019_10_09_200817) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "user_id"
@@ -260,10 +260,9 @@ ActiveRecord::Schema.define(version: 2019_10_08_224021) do
     t.datetime "updated_at", null: false
     t.string "consent_via", null: false
     t.text "consent_comment"
-    t.string "referenced_object_type"
-    t.bigint "referenced_object_id"
     t.string "reference_type"
     t.bigint "reference_id"
+    t.boolean "enabled", default: false, null: false
     t.index ["emails_addressee_id"], name: "index_emails_preferences_on_emails_addressee_id"
     t.index ["emails_type_id"], name: "index_emails_preferences_on_emails_type_id"
     t.index ["reference_type", "reference_id"], name: "index_emails_preferences_on_reference_type_and_reference_id"

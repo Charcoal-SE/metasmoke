@@ -1,5 +1,5 @@
 class DomainGroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :emails]
   before_action :verify_core, only: [:new, :create, :edit, :update]
 
   def index
@@ -45,6 +45,24 @@ class DomainGroupsController < ApplicationController
       flash[:danger] = 'Failed to remove the domain group. Tell Undo.'
       render :show
     end
+  end
+
+  def emails
+    success = Emails::Preference.sign_up_for_emails(
+      email_address: params[:addressee_email],
+      name: params[:addressee_name],
+      type_short: 'domain-group-summary',
+      frequency_days: params[:frequency],
+      reference: @group,
+      consent_via: 'admin',
+      consent_comment: "admin user.id = #{current_user.id}\ncomment: #{params[:consent_comment]}"
+    )
+    if success
+      flash[:success] = 'Created subscription.'
+    else
+      flash[:danger] = 'Failed to create subscription. Poke somebody.'
+    end
+    redirect_back fallback_location: domain_group_path(@group)
   end
 
   private
