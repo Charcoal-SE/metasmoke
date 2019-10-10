@@ -31,7 +31,7 @@ gem 'sensible_routes', '~> 0.1.2'
 gem 'travis'
 gem 'webpacker', '~> 2.0'
 gem 'whenever', require: false
-gem 'will_paginate', github: 'Undo1/will_paginate'
+gem 'will_paginate'
 gem 'will_paginate-bootstrap', github: 'Charcoal-SE/will_paginate-bootstrap'
 
 gem 'flamegraph'

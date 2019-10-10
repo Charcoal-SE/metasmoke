@@ -35,12 +35,6 @@ GIT
     db_fixtures_dump (0.1.1)
 
 GIT
-  remote: https://github.com/Undo1/will_paginate.git
-  revision: 6a9e3eadbe7d1a5264429bd7d0dc54d35f5a9d51
-  specs:
-    will_paginate (3.1.5)
-
-GIT
   remote: https://github.com/plataformatec/devise
   revision: ffeb942699494170e943a9a61667948e8f6f5d01
   specs:
@@ -425,6 +419,7 @@ GEM
     websocket-extensions (0.1.4)
     whenever (1.0.0)
       chronic (>= 0.6.3)
+    will_paginate (3.1.7)
 
 PLATFORMS
   ruby
@@ -490,7 +485,7 @@ DEPENDENCIES
   webmock
   webpacker (~> 2.0)
   whenever
-  will_paginate!
+  will_paginate
   will_paginate-bootstrap!
 
 BUNDLED WITH
