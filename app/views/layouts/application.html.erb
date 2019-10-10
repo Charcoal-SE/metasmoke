@@ -10,8 +10,8 @@
 
   <% Rack::MiniProfiler.step('Rendering: layouts/application/head') do %>
     <% cache "application/head_tags" do %>
-      <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-      <%= favicon_link_tag       '/favicon.ico' %>
+      <%= stylesheet_link_tag 'application', media: 'all' %>
+      <%= favicon_link_tag '/favicon.ico' %>
       <link rel="search" type="application/opensearchdescription+xml" title="metasmoke"
             href="https://metasmoke.erwaysoftware.com/opensearch.xml">
 
@@ -31,186 +31,185 @@
     <%= action_cable_meta_tag %>
   <% end %>
 </head>
-  <body class="<%= controller.class.name.sub(/Controller$/, '').underscore.dasherize %>">
+<body class="<%= controller.class.name.sub(/Controller$/, '').underscore.dasherize %>">
+  <nav class="navbar navbar-default navbar-static-top <%= "navbar-inverse" unless Rails.env.production? %>">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle status-<%= SmokeDetector.status_color %> collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="inline home" href="//charcoal-se.org/"><img src="//charcoal-se.org/assets/images/charcoal.png" height="32"><span>by Charcoal</span></a>
+        <a class="navbar-brand" href="/">metasmoke</a>
+      </div>
 
-    <nav class="navbar navbar-default navbar-static-top <%= "navbar-inverse" unless Rails.env.production? %>">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle status-<%= SmokeDetector.status_color %> collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="inline home" href="//charcoal-se.org/"><img src="//charcoal-se.org/assets/images/charcoal.png" height="32"><span>by Charcoal</span></a>
-          <a class="navbar-brand" href="/">metasmoke</a>
-        </div>
-
-        <% Rack::MiniProfiler.step('Rendering: layouts/application/nav') do %>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav">
-            <%= nav_link PostsController %>
-            <li class='<%= (controller.class == DashboardController && controller.action_name == :index) ? "active" : "" %>'><%= link_to "reasons", reasons_path %></li>
-            <%= nav_link GraphsController %>
-            <%= nav_link SearchController %>
-            <% Rack::MiniProfiler.step('Rendering: layouts/application/nav/review') do %>
-            <% if user_signed_in? && current_user.has_role?("reviewer") %>
-              <% q_counts = redis.smembers("review_queues").map { |i| [i.to_i, redis.scard("review_queue/#{i}/unreviewed")] }.to_h %>
-              <% total_count = q_counts.sum { |_k, v| v } %>
-              <% label = raw("review <span class='reviews-count badge'>#{total_count != 0 && current_user&.has_role?(:reviewer) ? total_count : nil}</span>") %>
-              <% Rack::MiniProfiler.step('Rendering: layouts/application/nav/review/dropdown') do %>
-              <%= nav_dropdown ReviewQueuesController, label: label do %>
-                <% ReviewQueue.where(privileges: current_user.roles.map(&:name)).each do |rq| %>
-                  <li>
-                    <%= link_to review_queue_path(rq.name) do %>
-                      <%= rq.name.titleize %> <span class="badge"><%= q_counts[rq.id] unless q_counts[rq.id] == 0 %></span>
-                    <% end %>
-                  </li>
-                <% end %>
-              <% end %>
-              <% end %>
-            <% end %>
-            <% end %>
-            <%= nav_link FlagSettingsController, action: :dashboard, label: 'flagging',
-                         active: [FlagConditionsController, FlagLogController] %>
-
-            <%= nav_dropdown AdminController, label: 'tools' do %>
-              <%= nav_link SpamDomainsController, label: 'Domains' %>
-              <%= nav_link DomainTagsController, label: 'Domain Tags' %>
-              <li role="separator" class="divider"></li>
-              <%= nav_link StackExchangeUsersController, label: 'Spammers', action: :sites %>
-            <% end %>
-
-            <% if current_user&.has_role?(:core) %>
-              <%= nav_dropdown DashboardController, action: 'new_dash', label: 'core' do %>
-                <% unless current_user&.has_role?(:admin) %>
-                  <%= nav_link AdminController, label: 'User Data & Roles', action: :users %>
-                  <li role="separator" class="divider"></li>
-                <% end %>
-                <%= nav_link AdminController, label: 'Invalidated Feedback', action: :recently_invalidated %>
-                <%= nav_link AdminController, label: 'Feedback via API', action: :api_feedback %>
-                <li role="separator" class="divider"></li>
-                <% if Announcement.current.count > 0 %>
-                  <%= nav_link AnnouncementsController, label: 'Announcements' do %>
-                    <span class="badge"><%= Announcement.current.count %></span>
+      <% Rack::MiniProfiler.step('Rendering: layouts/application/nav') do %>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <%= nav_link PostsController %>
+          <li class='<%= (controller.class == DashboardController && controller.action_name == :index) ? "active" : "" %>'><%= link_to "reasons", reasons_path %></li>
+          <%= nav_link GraphsController %>
+          <%= nav_link SearchController %>
+          <% Rack::MiniProfiler.step('Rendering: layouts/application/nav/review') do %>
+          <% if user_signed_in? && current_user.has_role?("reviewer") %>
+            <% q_counts = redis.smembers("review_queues").map { |i| [i.to_i, redis.scard("review_queue/#{i}/unreviewed")] }.to_h %>
+            <% total_count = q_counts.sum { |_k, v| v } %>
+            <% label = raw("review <span class='reviews-count badge'>#{total_count != 0 && current_user&.has_role?(:reviewer) ? total_count : nil}</span>") %>
+            <% Rack::MiniProfiler.step('Rendering: layouts/application/nav/review/dropdown') do %>
+            <%= nav_dropdown ReviewQueuesController, label: label do %>
+              <% ReviewQueue.where(privileges: current_user.roles.map(&:name)).each do |rq| %>
+                <li>
+                  <%= link_to review_queue_path(rq.name) do %>
+                    <%= rq.name.titleize %> <span class="badge"><%= q_counts[rq.id] unless q_counts[rq.id] == 0 %></span>
                   <% end %>
-                <% else %>
-                  <%= nav_link AnnouncementsController, label: 'Announcements' %>
-                <% end %>
-                <li role="separator" class="divider"></li>
-                <%= nav_link DataController, label: 'JS Data Exploder' %>
-                <%= nav_link nil, path: '/data/sql', label: 'SQL Data Exploder' %>
-                <%= nav_link false, path: '/api/graphiql', label: 'GraphQL Data Exploder' %>
-                <li role="separator" class="divider"></li>
-                <%= nav_link AbuseReportsController, label: 'Abuse Reports', action: :index %>
-                <% unless current_user&.has_role?(:developer) %>
-                  <li role="separator" class="divider"></li>
-                  <%= nav_link DumpsController, label: 'Database Dumps', action: :index %>
-                <% end %>
+                </li>
               <% end %>
             <% end %>
+            <% end %>
+          <% end %>
+          <% end %>
+          <%= nav_link FlagSettingsController, action: :dashboard, label: 'flagging',
+                       active: [FlagConditionsController, FlagLogController] %>
 
-            <% if current_user&.has_role?(:admin) %>
-              <%= nav_dropdown AdminController, label: 'admin' do %>
+          <%= nav_dropdown AdminController, label: 'tools' do %>
+            <%= nav_link SpamDomainsController, label: 'Domains' %>
+            <%= nav_link DomainTagsController, label: 'Domain Tags' %>
+            <li role="separator" class="divider"></li>
+            <%= nav_link StackExchangeUsersController, label: 'Spammers', action: :sites %>
+          <% end %>
+
+          <% if current_user&.has_role?(:core) %>
+            <%= nav_dropdown DashboardController, action: 'new_dash', label: 'core' do %>
+              <% unless current_user&.has_role?(:admin) %>
                 <%= nav_link AdminController, label: 'User Data & Roles', action: :users %>
-                <%= nav_link APIKeysController, label: 'API Keys' %>
-                <%= nav_link SiteSettingsController, label: 'Website Configuration' %>
-                <%= nav_link SpamWavesController, label: 'Spam Waves' %>
+                <li role="separator" class="divider"></li>
               <% end %>
-            <% end %>
-
-            <% if current_user&.has_role?(:developer) %>
-              <%= nav_dropdown DashboardController, action: 'new_dash', label: 'dev' do %>
+              <%= nav_link AdminController, label: 'Invalidated Feedback', action: :recently_invalidated %>
+              <%= nav_link AdminController, label: 'Feedback via API', action: :api_feedback %>
+              <li role="separator" class="divider"></li>
+              <% if Announcement.current.count > 0 %>
+                <%= nav_link AnnouncementsController, label: 'Announcements' do %>
+                  <span class="badge"><%= Announcement.current.count %></span>
+                <% end %>
+              <% else %>
+                <%= nav_link AnnouncementsController, label: 'Announcements' %>
+              <% end %>
+              <li role="separator" class="divider"></li>
+              <%= nav_link DataController, label: 'JS Data Exploder' %>
+              <%= nav_link nil, path: '/data/sql', label: 'SQL Data Exploder' %>
+              <%= nav_link false, path: '/api/graphiql', label: 'GraphQL Data Exploder' %>
+              <li role="separator" class="divider"></li>
+              <%= nav_link AbuseReportsController, label: 'Abuse Reports', action: :index %>
+              <% unless current_user&.has_role?(:developer) %>
+                <li role="separator" class="divider"></li>
                 <%= nav_link DumpsController, label: 'Database Dumps', action: :index %>
-                <%= nav_link DeveloperController, label: 'Production log', action: :production_log %>
-                <%= nav_link RedisLogController, label: 'Request log', action: :index %>
               <% end %>
             <% end %>
-
-            <%= nav_link StatusController, attrs: {
-              class: ['status', "status-#{SmokeDetector.status_color}"],
-              data: {
-                last_ping: SmokeDetector.select(:last_ping).order(last_ping: :desc).first.last_ping.to_f,
-                toggle: 'tooltip',
-                placement: 'bottom'
-              }
-            } %>
-          </ul>
-          <% if controller.class == DashboardController && controller.action_name == 'index' %>
-            <form class="navbar-form navbar-right" role="search">
-              <div class="form-group">
-                <input type="text" id="search" class="form-control" placeholder="Search reasons">
-              </div>
-            </form>
           <% end %>
-          <ul class="nav navbar-nav navbar-right">
-            <% if user_signed_in? %>
-              <%= nav_dropdown label: current_user.username || current_user.email do %>
-                <%= nav_link CustomSessionsController, label: 'Sign Out', action: :destroy, link_attrs: { method: 'delete' } %>
-                <%= nav_link CustomRegistrationsController, label: 'Account Settings', action: :edit %>
-                <%= nav_link UsersController, action: :apps, label: 'Apps' %>
-                <% if current_user.has_role? :smoke_detector_runner %>
-                  <%= nav_link SmokeDetectorsController, label: 'My SmokeDetectors', action: :mine %>
-                <% end %>
-                <%= nav_link AdminController, label: 'My Feedback', params: { user_id: current_user.id }, action: :user_feedback %>
-                <% if session[:impersonator_id].present? %>
-                  <%= nav_link DeveloperController, action: :change_back, label: 'Stop impersonating' %>
-                <% end %>
-              <% end %>
-            <% else %>
-              <%= nav_link CustomSessionsController, label: 'sign in', action: :new %>
-              <%= nav_link CustomRegistrationsController, label: 'sign up', action: :new %>
-            <% end %>
-            <% if CurrentCommit.present? %>
-              <%= nav_link CodeStatusController, label: '', attrs: {
-                title: "Controller: #{controller.class}##{controller.action_name}",
-                class: 'commit-sha',
-                data: {
-                  sha: CurrentCommit
-                }
-              } do %>
-                <code><%= CurrentCommit.first(7) %></code>
-              <% end %>
-            <% end %>
-            <% if controller.class == DashboardController && controller.action_name == 'index' %>
-              <li class="search-icon hidden-xs"><a class="glyphicon glyphicon-search" href=#><span class="sr-only">Search</span></a></li>
-            <% end %>
-          </ul>
-        </div><!-- /.navbar-collapse -->
-      <% end %>
-      </div><!-- /.container-fluid -->
-    </nav>
-    <div class="col-md-offset-1 col-md-10">
-      <% Rack::MiniProfiler.step('Rendering: layouts/application/announcements') do %>
-      <div class="alert alert-warning" id="metasmoke-deployed-banner" style="display: none" role="alert">
-        This page has been updated. <a href="" data-turbolinks="false">Refresh</a> to get the latest version.
-      </div>
 
-      <% flash.each do |key, value| %>
-        <% if %w[primary secondary success danger warning info light dark message alert muted].include? key.to_s %>
-          <div class="alert alert-<%= key %>"><%= value %></div>
+          <% if current_user&.has_role?(:admin) %>
+            <%= nav_dropdown AdminController, label: 'admin' do %>
+              <%= nav_link AdminController, label: 'User Data & Roles', action: :users %>
+              <%= nav_link APIKeysController, label: 'API Keys' %>
+              <%= nav_link SiteSettingsController, label: 'Website Configuration' %>
+              <%= nav_link SpamWavesController, label: 'Spam Waves' %>
+            <% end %>
+          <% end %>
+
+          <% if current_user&.has_role?(:developer) %>
+            <%= nav_dropdown DashboardController, action: 'new_dash', label: 'dev' do %>
+              <%= nav_link DumpsController, label: 'Database Dumps', action: :index %>
+              <%= nav_link DeveloperController, label: 'Production log', action: :production_log %>
+              <%= nav_link RedisLogController, label: 'Request log', action: :index %>
+            <% end %>
+          <% end %>
+
+          <%= nav_link StatusController, attrs: {
+            class: ['status', "status-#{SmokeDetector.status_color}"],
+            data: {
+              last_ping: SmokeDetector.select(:last_ping).order(last_ping: :desc).first.last_ping.to_f,
+              toggle: 'tooltip',
+              placement: 'bottom'
+            }
+          } %>
+        </ul>
+        <% if controller.class == DashboardController && controller.action_name == 'index' %>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+              <input type="text" id="search" class="form-control" placeholder="Search reasons">
+            </div>
+          </form>
         <% end %>
-      <% end %>
-
-      <% if Announcement.current.count > 0 %>
-        <p><em><a href="#" class="announcement-collapse">Hide announcements</a></em></p>
-        <div class="announcements">
-          <% Announcement.current.each do |a| %>
-            <%= render "announcements/announcement", announcement: a %>
+        <ul class="nav navbar-nav navbar-right">
+          <% if user_signed_in? %>
+            <%= nav_dropdown label: current_user.username || current_user.email do %>
+              <%= nav_link CustomSessionsController, label: 'Sign Out', action: :destroy, link_attrs: { method: 'delete' } %>
+              <%= nav_link CustomRegistrationsController, label: 'Account Settings', action: :edit %>
+              <%= nav_link UsersController, action: :apps, label: 'Apps' %>
+              <% if current_user.has_role? :smoke_detector_runner %>
+                <%= nav_link SmokeDetectorsController, label: 'My SmokeDetectors', action: :mine %>
+              <% end %>
+              <%= nav_link AdminController, label: 'My Feedback', params: { user_id: current_user.id }, action: :user_feedback %>
+              <% if session[:impersonator_id].present? %>
+                <%= nav_link DeveloperController, action: :change_back, label: 'Stop impersonating' %>
+              <% end %>
+            <% end %>
+          <% else %>
+            <%= nav_link CustomSessionsController, label: 'sign in', action: :new %>
+            <%= nav_link CustomRegistrationsController, label: 'sign up', action: :new %>
           <% end %>
-        </div><br/>
-      <% end %>
-      <% end %>
-      <%= yield %>
-      <div class="footer">
-        <p class="text-muted">
-          We are <a href="//charcoal-se.org/">Charcoal</a> (not <a href="//stackexchange.com/">Stack Exchange</a>). We make <a href="//github.com/Charcoal-SE">nice things</a>.<br/>
-          <a href="//chat.stackexchange.com/rooms/11540/charcoal-hq">chat</a> • <a href="//charcoal-se.org/security">security</a> • <a href="mailto:smokey@charcoal-se.org">contact</a><br/>
-          <span class="small">Post content sourced from the <a href="http://stackexchange.com">Stack Exchange Network</a>.</span>
-        </p>
-      </div>
+          <% if CurrentCommit.present? %>
+            <%= nav_link CodeStatusController, label: '', attrs: {
+              title: "Controller: #{controller.class}##{controller.action_name}",
+              class: 'commit-sha',
+              data: {
+                sha: CurrentCommit
+              }
+            } do %>
+              <code><%= CurrentCommit.first(7) %></code>
+            <% end %>
+          <% end %>
+          <% if controller.class == DashboardController && controller.action_name == 'index' %>
+            <li class="search-icon hidden-xs"><a class="glyphicon glyphicon-search" href=#><span class="sr-only">Search</span></a></li>
+          <% end %>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    <% end %>
+    </div><!-- /.container-fluid -->
+  </nav>
+  <div class="col-md-offset-1 col-md-10">
+    <% Rack::MiniProfiler.step('Rendering: layouts/application/announcements') do %>
+    <div class="alert alert-warning" id="metasmoke-deployed-banner" style="display: none" role="alert">
+      This page has been updated. <a href="" data-turbolinks="false">Refresh</a> to get the latest version.
     </div>
-  </body>
+
+    <% flash.each do |key, value| %>
+      <% if %w[primary secondary success danger warning info light dark message alert muted].include? key.to_s %>
+        <div class="alert alert-<%= key %>"><%= value %></div>
+      <% end %>
+    <% end %>
+
+    <% if Announcement.current.count > 0 %>
+      <p><em><a href="#" class="announcement-collapse">Hide announcements</a></em></p>
+      <div class="announcements">
+        <% Announcement.current.each do |a| %>
+          <%= render "announcements/announcement", announcement: a %>
+        <% end %>
+      </div><br/>
+    <% end %>
+    <% end %>
+    <%= yield %>
+    <div class="footer">
+      <p class="text-muted">
+        We are <a href="//charcoal-se.org/">Charcoal</a> (not <a href="//stackexchange.com/">Stack Exchange</a>). We make <a href="//github.com/Charcoal-SE">nice things</a>.<br/>
+        <a href="//chat.stackexchange.com/rooms/11540/charcoal-hq">chat</a> • <a href="//charcoal-se.org/security">security</a> • <a href="mailto:smokey@charcoal-se.org">contact</a><br/>
+        <span class="small">Post content sourced from the <a href="http://stackexchange.com">Stack Exchange Network</a>.</span>
+      </p>
+    </div>
+  </div>
+</body>
 </html>
