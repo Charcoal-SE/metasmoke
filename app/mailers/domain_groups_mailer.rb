@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DomainGroupsMailer < ApplicationMailer
   default from: 'Charcoal SpamWatch Alerts <alerts@charcoal-se.org>'
 

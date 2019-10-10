@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class DomainGroupsController < ApplicationController
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :emails]
-  before_action :verify_core, only: [:new, :create, :edit, :update]
+  before_action :set_group, only: %i[show edit update destroy emails]
+  before_action :verify_core, only: %i[new create edit update]
 
   def index
     @groups = DomainGroup.joins('INNER JOIN domain_groups_spam_domains j ON domain_groups.id = j.domain_group_id')
@@ -16,7 +18,7 @@ class DomainGroupsController < ApplicationController
     @group = DomainGroup.new group_params
     if @group.save
       regex = Regexp.new @group.regex
-      domains = SpamDomain.all.select { |d| regex.match(d.domain) != nil }
+      domains = SpamDomain.all.reject { |d| regex.match(d.domain).nil? }
       @group.spam_domains += domains
       redirect_to domain_group_path(@group)
     else

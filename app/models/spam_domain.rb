@@ -31,9 +31,7 @@ class SpamDomain < ApplicationRecord
       DomainGroup.all.map { |dg| [Regexp.new(dg.regex), dg.id] }.to_h
     end
     groups.keys.each do |r|
-      if r.match domain
-        DomainGroup.find(groups[r]).spam_domains << self
-      end
+      DomainGroup.find(groups[r]).spam_domains << self if r.match? domain
     end
   end
 

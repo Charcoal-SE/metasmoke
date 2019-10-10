@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class Emails::PreferencesController < ApplicationController
-  before_action :set_preference, except: [:list, :search]
-  before_action :verify_permissions, except: [:list, :search]
+  before_action :set_preference, except: %i[list search]
+  before_action :verify_permissions, except: %i[list search]
   before_action :verify_admin, only: [:search]
-  skip_before_action :verify_authenticity_token, only: [:toggle, :frequency]
+  skip_before_action :verify_authenticity_token, only: %i[toggle frequency]
 
   def search
     @addressees = Emails::Addressee.all.order(:name)
@@ -12,12 +14,12 @@ class Emails::PreferencesController < ApplicationController
     @types = Emails::Type.all.order(:name)
     @preferences = if params[:token].present?
                      Emails::Preference.joins(:addressee).where(emails_addressees: { manage_key: params[:token] })
-                   elsif params[:addressee].present? && current_user&.has_role?(:admin)  # only admins are allowed to view prefs for arbitrary users
+                   elsif params[:addressee].present? && current_user&.has_role?(:admin) # only admins are allowed to view prefs for arbitrary users
                      Emails::Preference.where(emails_addressee_id: params[:addressee])
-                   elsif params[:email].present? && current_user&.has_role?(:admin)  # likewise
+                   elsif params[:email].present? && current_user&.has_role?(:admin) # likewise
                      Emails::Preference.joins(:addressee).where(emails_addressees: { email_address: params[:email] })
                    end.order(Arel.sql('emails_type_id ASC, reference_type ASC, reference_id ASC, created_at ASC'))
-                      .group_by { |ep| ep.emails_type_id }
+                   .group_by(&:emails_type_id)
   end
 
   def toggle
