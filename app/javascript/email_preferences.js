@@ -9,7 +9,7 @@ $(() => {
       headers: { 'Content-Type': 'application/json' }
     });
     const data = await resp.json();
-    console.log(resp, data);
+    console.log(resp, data); // eslint-disable-line no-console
   });
 
   $('.js-preference-frequency').on('click', async evt => {
@@ -23,7 +23,7 @@ $(() => {
       headers: { 'Content-Type': 'application/json' }
     });
     const data = await resp.json();
-    console.log(resp, data);
+    console.log(resp, data); // eslint-disable-line no-console
     $(evt.target).attr('disabled', false);
   });
 });
