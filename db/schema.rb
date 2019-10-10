@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_09_200817) do
+ActiveRecord::Schema.define(version: 2019_10_10_124952) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "user_id"
@@ -128,6 +128,7 @@ ActiveRecord::Schema.define(version: 2019_10_09_200817) do
     t.timestamp "last_run_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "slack_channels"
     t.index ["creator_id"], name: "index_blazer_checks_on_creator_id"
     t.index ["query_id"], name: "index_blazer_checks_on_query_id"
   end
