@@ -14,7 +14,7 @@ class Emails::Preference < ApplicationRecord
       addressee = Emails::Addressee.create(name: name, email_address: email_address)
     end
 
-    Emails::Preference.create(type: type, addressee: addressee, consent_via: consent_via, consent_comment: consent_comment,
+    Emails::Preference.create(type: type, addressee: addressee, consent_via: consent_via, consent_comment: consent_comment, enabled: true,
                               frequency: frequency_days, next: (Date.today + frequency_days.to_i.days).to_time.iso8601, reference: reference)
   end
 end

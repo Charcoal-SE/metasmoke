@@ -1,0 +1,2 @@
+module Emails::PreferencesHelper
+end

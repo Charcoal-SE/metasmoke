@@ -1,0 +1,15 @@
+<h1>Email Preferences</h1>
+<p>
+  You can control the emails you receive on this page, including turning on and off any type of email, and changing the frequency at which
+  we send you emails.
+</p>
+
+<% @preferences.each do |type_id, preferences| %>
+  <% type = @types.select { |et| et.id == type_id }[0] %>
+  <h2><%= type.name %></h2>
+  <p class="text-muted"><%= type.description %></p>
+
+  <% preferences.each do |ep| %>
+    <%= render 'preference', preference: ep %>
+  <% end %>
+<% end %>

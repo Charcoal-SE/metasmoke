@@ -115,6 +115,16 @@
 
 .se-auth-or-label {
   text-align: center;
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: 1.35em;
+
+  &:before, &:after {
+    content: '-';
+    display: inline-block;
+    margin: 0.5em;
+    font-weight: normal;
+  }
 }
 
 .dropdown-indent a {
@@ -252,84 +262,6 @@ body .profiler-results {
 .form-submit {
   cursor: pointer;
   font-weight: bold;
-}
-
-@mixin btn-sm {
-  padding: 0.45em 1em !important;
-  margin: 0 0.2em !important;
-}
-
-@mixin btn {
-  display: inline-block;
-  padding: 0.75em 1.25em !important;
-  border-radius: 3px !important;
-  text-decoration: none;
-  box-shadow: inset 0 1px white;
-  transition: all 0.2s ease;
-  margin: 0 0.3em !important;
-
-  &:hover {
-    transition: all 0.2s ease;
-  }
-
-  &.btn-info {
-    background: #5bc0de;
-    border: 1px solid darken(#5bc0de, 25%);
-    box-shadow: inset 0 1px lighten(#5bc0de, 50%);
-  }
-
-  &.btn-primary {
-    background: #337ab7;
-    border: 1px solid darken(#337ab7, 25%);
-    box-shadow: inset 0 1px lighten(#337ab7, 50%);
-  }
-
-  &.btn-warning {
-    background: #f0ad4e;
-    border: 1px solid darken(#f0ad4e, 25%);
-    box-shadow: inset 0 1px lighten(#f0ad4e, 50%);
-  }
-
-  &.btn-success {
-    background: #5cb85c;
-    border: 1px solid darken(#5cb85c, 25%);
-    box-shadow: inset 0 1px lighten(#5cb85c, 50%);
-  }
-
-  &.btn-danger {
-    background: #d9534f;
-    border: 1px solid darken(#d9534f, 25%);
-    box-shadow: inset 0 1px lighten(#d9534f, 50%);
-  }
-
-  &.btn-sm {
-    @include btn-sm;
-  }
-}
-
-.btn:not(.bootstrap-select button) {
-  @include btn;
-}
-
-div.btn-sm {
-  padding: 0 !important;
-  margin: 0 0.4em;
-
-  .bs-placeholder {
-    @include btn-sm;
-  }
-
-  & + .btn-sm {
-    padding: calc(0.45em + 2px) 1em !important;
-  }
-}
-
-.bootstrap-select.input-sm {
-  max-width: 200px;
-
-  & > button {
-    padding: 0.45em 1em !important;
-  }
 }
 
 .panel-body h3 {

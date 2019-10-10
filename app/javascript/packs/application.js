@@ -26,6 +26,7 @@ import '../code_status';
 import '../data';
 import '../developer';
 import '../domain_links';
+import '../email_preferences';
 import '../flag_conditions';
 import '../flag_settings';
 import '../reasons';

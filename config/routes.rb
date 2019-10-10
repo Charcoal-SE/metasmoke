@@ -267,6 +267,15 @@ Rails.application.routes.draw do
     delete ':id',            to: 'spam_domains#destroy',           as: :destroy_spam_domain
   end
 
+  scope 'email' do
+    scope 'preferences' do
+      root                  to: 'emails/preferences#search',    as: :email_preferences_search
+      get  'show',          to: 'emails/preferences#list',      as: :email_preferences_list
+      post ':id/toggle',    to: 'emails/preferences#toggle',    as: :toggle_email_preference
+      post ':id/frequency', to: 'emails/preferences#frequency', as: :change_email_frequency
+    end
+  end
+
   scope 'flagging' do
     scope 'audits' do
       get 'settings', to: 'flag_settings#audits', as: 'flag_settings_audits'

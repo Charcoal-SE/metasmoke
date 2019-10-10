@@ -1,0 +1,31 @@
+<h1>Email Preference Search</h1>
+<p>
+  As an admin, you are able to control email preferences for other people.
+  <strong class="text-danger">This is a significant responsibility, do not abuse it.</strong>
+  You are able to select a user by their addressee name, or you are able to search for users by their email address.
+  You are deliberately not able to view email addresses for all addressees.
+</p>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h4>Select by name</h4>
+    <%= form_tag email_preferences_list_path, method: :get do %>
+      <%= select_tag :addressee, options_from_collection_for_select(@addressees, :id, :name), class: 'form-control selectpicker', include_blank: true %>
+      <br/><br/>
+      <%= submit_tag 'Show', class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+</div>
+
+<p class="text-muted se-auth-or-label">or</p>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h4>Search by email address</h4>
+    <%= form_tag email_preferences_list_path, method: :get do %>
+      <%= text_field_tag :email, nil, class: 'form-control', placeholder: 'someone@example.com' %>
+      <br/>
+      <%= submit_tag 'Show', class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+</div>

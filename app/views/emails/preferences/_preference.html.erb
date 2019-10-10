@@ -1,0 +1,19 @@
+<h4 class="preference-title">
+  <%= preference.reference_type.underscore.humanize %>: <%= preference.reference.preference_ref_name %>
+  <span class="switch-container">
+    <span class="switch-label text-muted">OFF</span>
+    <label class="switch">
+      <input type="checkbox" class="js-preference-toggle" <%= preference.enabled? ? 'checked' : '' %> data-pref-id="<%= preference.id %>" />
+      <span class="slider"></span>
+    </label>
+    <span class="switch-label text-muted">ON</span>
+  </span>
+</h4>
+<form class="form-inline">
+  Sent every
+  <input type="number" value="<%= preference.frequency %>" class="form-control input-sm js-frequency" data-pref-id="<%= preference.id %>" />
+  days.
+
+  <button type="button" class="btn btn-sm btn-primary js-preference-frequency" data-pref-id="<%= preference.id %>">Save</button>
+</form>
+<br/>
