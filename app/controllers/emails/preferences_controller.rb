@@ -4,7 +4,7 @@ class Emails::PreferencesController < ApplicationController
   before_action :set_preference, except: %i[list search]
   before_action :verify_permissions, except: %i[list search]
   before_action :verify_admin, only: [:search]
-  skip_before_action :verify_authenticity_token, only: %i[toggle frequency]
+  skip_before_action :verify_authenticity_token, only: %i[toggle frequency destroy]
 
   def search
     @addressees = Emails::Addressee.all.order(:name)
@@ -29,6 +29,11 @@ class Emails::PreferencesController < ApplicationController
 
   def frequency
     @preference.update(frequency: params[:frequency])
+    render json: { status: 'Accepted' }, status: 202
+  end
+
+  def destroy
+    @preference.destroy
     render json: { status: 'Accepted' }, status: 202
   end
 

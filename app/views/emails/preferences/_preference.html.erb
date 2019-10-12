@@ -1,3 +1,4 @@
+<div class="preference-container">
 <h4 class="preference-title">
   <%= preference.reference_type.underscore.humanize %>: <%= preference.reference.preference_ref_name %>
   <span class="switch-container">
@@ -8,6 +9,7 @@
     </label>
     <span class="switch-label text-muted">ON</span>
   </span>
+  <a href="#" class="js-preference-delete" data-pref-id="<%= preference.id %>" title="Delete"><i class="fas fa-trash"></i></a>
 </h4>
 <form class="form-inline">
   Sent every
@@ -17,3 +19,4 @@
   <button type="button" class="btn btn-sm btn-primary js-preference-frequency" data-pref-id="<%= preference.id %>">Save</button>
 </form>
 <br/>
+</div>

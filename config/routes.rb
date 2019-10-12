@@ -273,6 +273,7 @@ Rails.application.routes.draw do
       get  'show',          to: 'emails/preferences#list',      as: :email_preferences_list
       post ':id/toggle',    to: 'emails/preferences#toggle',    as: :toggle_email_preference
       post ':id/frequency', to: 'emails/preferences#frequency', as: :change_email_frequency
+      post ':id/delete',    to: 'emails/preferences#destroy',   as: :destroy_email_preference
     end
   end
 

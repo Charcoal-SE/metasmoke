@@ -9,7 +9,7 @@ $(() => {
       headers: { 'Content-Type': 'application/json' }
     });
     const data = await resp.json();
-    console.log(resp, data); // eslint-disable-line no-console
+    console.log('pref-toggle', resp, data); // eslint-disable-line no-console
   });
 
   $('.js-preference-frequency').on('click', async evt => {
@@ -23,7 +23,20 @@ $(() => {
       headers: { 'Content-Type': 'application/json' }
     });
     const data = await resp.json();
-    console.log(resp, data); // eslint-disable-line no-console
+    console.log('pref-freq', resp, data); // eslint-disable-line no-console
     $(evt.target).attr('disabled', false);
+  });
+
+  $('.js-preference-delete').on('click', async evt => {
+    evt.preventDefault();
+
+    const prefId = $(evt.target).data('pref-id');
+    const resp = await fetch(`/email/preferences/${prefId}/delete`, {
+      method: 'POST',
+      credentials: 'include'
+    });
+    const data = await resp.json();
+    console.log('pref-delete', resp, data);
+    $(evt.target).parents('.preference-container').fadeOut(200, function () { $(this).remove(); });
   });
 });
