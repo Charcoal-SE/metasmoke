@@ -30,7 +30,8 @@ $(() => {
   $('.js-preference-delete').on('click', async evt => {
     evt.preventDefault();
 
-    const prefId = $(evt.target).data('pref-id');
+    const $tgt = $(evt.target).hasClass('js-preference-delete') ? $(evt.target) : $(evt.target).parents('a.js-preference-delete');
+    const prefId = $tgt.data('pref-id');
     const resp = await fetch(`/email/preferences/${prefId}/delete`, {
       method: 'POST',
       credentials: 'include'
