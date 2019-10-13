@@ -37,7 +37,9 @@ $(() => {
       credentials: 'include'
     });
     const data = await resp.json();
-    console.log('pref-delete', resp, data);
-    $(evt.target).parents('.preference-container').fadeOut(200, function () { $(this).remove(); });
+    console.log('pref-delete', resp, data); // eslint-disable-line no-console
+    $(evt.target).parents('.preference-container').fadeOut(200, function () {
+      $(this).remove();
+    });
   });
 });
