@@ -13,16 +13,16 @@
       <th>Group Name</th>
       <th>Regex</th>
       <th>Domain count</th>
-      <th colspan="2"></th>
+      <th colspan="2" class="no-sort"></th>
     </tr>
   </thead>
   <tbody>
     <% @groups.each do |dg| %>
       <tr>
-        <td class="text-muted"><%= dg.id %></td>
+        <td class="text-muted" data-sort-value="<%= dg.id %>"><%= dg.id %></td>
         <td><%= link_to dg.name, domain_group_path(dg) %></td>
         <td><code><%= dg.regex %></code></td>
-        <td><%= dg.domain_count %></td>
+        <td data-sort-value="<%= dg.domain_count %>"><%= dg.domain_count %></td>
         <td><%= link_to 'Edit', edit_domain_group_path(dg) %></td>
         <td><%= link_to 'Delete', destroy_domain_group_path(dg), class: 'text-danger', method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
