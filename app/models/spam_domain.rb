@@ -28,7 +28,7 @@ class SpamDomain < ApplicationRecord
 
   after_create do
     groups = Rails.cache.fetch 'domain_groups' do
-      DomainGroup.all.map { |dg| dg&.regex&.nil? ? nil : [Regexp.new(dg.regex), dg.id] }.compact.to_h
+      DomainGroup.all.map { |dg| !dg.regex ? nil : [Regexp.new(dg.regex), dg.id] }.compact.to_h
     end
     groups.keys.each do |r|
       DomainGroup.find(groups[r]).spam_domains << self if r.match? domain
