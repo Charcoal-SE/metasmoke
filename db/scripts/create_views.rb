@@ -13,15 +13,16 @@ tables = ActiveRecord::Base.connection.tables
 database = ActiveRecord::Base.connection.current_database
 queries = []
 
-queries << "CREATE USER IF NOT EXISTS metasmoke_blazer@localhost IDENTIFIED BY 'zFpc8tw7CdAuXizX';"
+queries << ["CREATE USER", "CREATE USER IF NOT EXISTS metasmoke_blazer@localhost IDENTIFIED BY 'zFpc8tw7CdAuXizX';"]
 
 tables.each do |t|
   next if EXCLUDE_TABLES.include? t
   columns = ActiveRecord::Base.connection.columns(t).map(&:name) - (EXCLUDE_COLUMNS[t] || [])
-  queries << "CREATE OR REPLACE VIEW p_#{t} AS SELECT #{columns.join(', ')} FROM #{t};"
-  queries << "GRANT SELECT ON #{database}.p_#{t} TO metasmoke_blazer@localhost;"
+  queries << ["CREATE VIEW p_#{t}", "CREATE OR REPLACE VIEW p_#{t} AS SELECT #{columns.join(', ')} FROM #{t};"]
+  queries << ["GRANT SELECT ON #{database}.p_#{t}", "GRANT SELECT ON #{database}.p_#{t} TO metasmoke_blazer@localhost;"]
 end
 
 queries.each do |q|
-  ActiveRecord::Base.connection.execute q
+  puts q[0]
+  ActiveRecord::Base.connection.execute q[1]
 end
