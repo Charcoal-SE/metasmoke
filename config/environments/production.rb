@@ -83,6 +83,7 @@ Rails.application.configure do
   }
   config.action_mailer.default_url_options = { host: 'metasmoke.erwaysoftware.com', port: 80 }
 
+  config.web_console.development_only = false
   config.web_console.permissions = '82.69.87.121'
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
