@@ -26,7 +26,7 @@ system_user:
     zone: !ruby/object:ActiveSupport::TimeZone
       name: Etc/UTC
     time: *5
-  roles: reviewer, code_admin
+  roles: reviewer, blacklist_manager
   id: -1
 
 
@@ -117,7 +117,7 @@ code_admin_user:
     zone: !ruby/object:ActiveSupport::TimeZone
       name: Etc/UTC
     time: *5
-  roles: reviewer, code_admin
+  roles: reviewer, blacklist_manager
 
 two_factor_confirming:
   email: two_factor@user.com
