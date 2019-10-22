@@ -24,7 +24,7 @@ class StatusController < ApplicationController
 
     Thread.new do
       ActionCable.server.broadcast 'status', status_channel_data
-      ActionCable.server.broadcast 'status_code_admin', status_channel_data.merge(failover_link: failover_link)
+      ActionCable.server.broadcast 'status_blacklist_manager', status_channel_data.merge(failover_link: failover_link)
       ActionCable.server.broadcast 'topbar', last_ping: @smoke_detector.last_ping.to_f
       ActionCable.server.broadcast 'smokey_pings', smokey: @smoke_detector.as_json
     end

@@ -109,8 +109,8 @@ class User < ApplicationRecord
     end
   end
 
-  def self.code_admins
-    Role.where(name: :code_admin).first.users
+  def self.blacklist_managers
+    Role.where(name: :blacklist_manager).first.users
   end
 
   def remember_me

@@ -163,7 +163,7 @@ class APIController < ApplicationController
   # Read routes: Users
 
   def users_with_code_privs
-    chat_ids = User.code_admins.pluck(:stackexchange_chat_id, :stackoverflow_chat_id, :meta_stackexchange_chat_id)
+    chat_ids = User.blacklist_managers.pluck(:stackexchange_chat_id, :stackoverflow_chat_id, :meta_stackexchange_chat_id)
 
     items = {}
     %w[stackexchange_chat_ids stackoverflow_chat_ids meta_stackexchange_chat_ids].each_with_index do |name, index|
