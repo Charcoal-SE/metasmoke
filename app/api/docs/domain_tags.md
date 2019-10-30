@@ -24,7 +24,7 @@ Output format: identical to `/tags`.
 ---
 /api/v2.0/tags/:id/domains | List the domains that a specific tag is used on.
 
-Available tables: `spam_domains`.
+Available tables: `spam_domains`. Also available is `/api/v2.0/tags/name/:name/domains`, which returns domains on a tag specified by its name.
 Output format:
 
     {
