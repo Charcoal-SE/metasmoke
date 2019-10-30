@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_10_124952) do
+ActiveRecord::Schema.define(version: 2019_10_14_163200) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.bigint "user_id"
@@ -250,6 +250,7 @@ ActiveRecord::Schema.define(version: 2019_10_10_124952) do
     t.string "manage_key"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email_address"], name: "index_emails_addressees_on_email_address", unique: true
   end
 
   create_table "emails_preferences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

@@ -24,8 +24,8 @@ admin:
       name: Etc/UTC
     time: *2
 
-code_admin:
-  name: code_admin
+blacklist_manager:
+  name: blacklist_manager
   created_at: !ruby/object:ActiveSupport::TimeWithZone
     utc: &1 2016-10-12 17:06:30.000000000 Z
     zone: !ruby/object:ActiveSupport::TimeZone

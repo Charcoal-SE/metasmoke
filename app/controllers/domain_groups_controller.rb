@@ -5,7 +5,7 @@ class DomainGroupsController < ApplicationController
   before_action :verify_core, only: %i[new create edit update]
 
   def index
-    @groups = DomainGroup.joins('INNER JOIN domain_groups_spam_domains j ON domain_groups.id = j.domain_group_id')
+    @groups = DomainGroup.joins('LEFT JOIN domain_groups_spam_domains j ON domain_groups.id = j.domain_group_id')
                          .select(Arel.sql('domain_groups.*, COUNT(j.spam_domain_id) as domain_count'))
                          .group(Arel.sql('domain_groups.id')).order(:name).paginate(page: params[:page], per_page: 50)
   end

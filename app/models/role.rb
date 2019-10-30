@@ -16,6 +16,6 @@ class Role < ApplicationRecord
   scopify
 
   def self.names
-    %i[reviewer flagger core smoke_detector_runner code_admin admin developer]
+    %i[reviewer flagger core smoke_detector_runner blacklist_manager admin developer]
   end
 end
