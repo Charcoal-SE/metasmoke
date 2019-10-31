@@ -11,9 +11,7 @@ class DomainTag < ApplicationRecord
   scope(:special, -> { where(special: true) })
 
   def send_whitelist
-    if self.name == 'whitelisted'
-      ActionCable.server.broadcast 'smokedetector_messages', domain_whitelist: 'refresh'
-    end
+    ActionCable.server.broadcast('smokedetector_messages', domain_whitelist: 'refresh') if name == 'whitelisted'
   end
 
   def merge_into(master)
