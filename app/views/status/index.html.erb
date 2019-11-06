@@ -5,6 +5,7 @@
 <table class='table'>
   <tr>
     <th>Name</th>
+    <th>Scans Today</th>
     <th style='width:14em;'>Last Ping</th>
     <th colspan="2">
   </tr>
@@ -20,6 +21,9 @@
           <span class="location"><%= sd.location %></span>
           <span class="label label-<%= sd.last_ping > 3.minutes.ago ? "primary" : "default" %> " style="display: <%= sd.is_standby ? 'inline' : 'none'%>">Standby</span>
         <% end %>
+      </td>
+      <td class="activity-cell">
+        <%= sd.statistics.where('created_at >= ?', 24.hours.ago).sum(:posts_scanned) %>
       </td>
       <td class="status-<%= sd.status_color %> ping-cell" data-livestamp="<%= sd.last_ping.to_i %>" title="<%= sd.last_ping.to_s %>">
         <%= time_ago_in_words(sd.last_ping, include_seconds: true)%> ago
