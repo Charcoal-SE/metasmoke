@@ -2,11 +2,11 @@
 
 <br />
 
-<table class='table'>
+<table class="table">
   <tr>
     <th>Name</th>
     <th>Scans Today</th>
-    <th style='width:14em;'>Last Ping</th>
+    <th style="width:14em;">Last Ping</th>
     <th colspan="2">
   </tr>
 
@@ -23,7 +23,7 @@
         <% end %>
       </td>
       <td class="activity-cell">
-        <%= sd.statistics.where('created_at >= ?', 24.hours.ago).sum(:posts_scanned) %>
+        <%= @scans.select { |id, scans| id == sd.id }.try(:[], 0) || '(unavailable)' %>
       </td>
       <td class="status-<%= sd.status_color %> ping-cell" data-livestamp="<%= sd.last_ping.to_i %>" title="<%= sd.last_ping.to_s %>">
         <%= time_ago_in_words(sd.last_ping, include_seconds: true)%> ago

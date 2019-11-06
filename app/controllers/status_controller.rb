@@ -8,7 +8,9 @@ class StatusController < ApplicationController
   before_action :verify_admin, only: [:kill]
 
   def index
-    @statuses = SmokeDetector.includes(:statistics).order(Arel.sql('last_ping DESC')).all
+    @statuses = SmokeDetector.order(Arel.sql('last_ping DESC')).all
+    @scans = Statistic.where('created_at >= ?', 24.hours.ago).select(Arel.sql('smoke_detector_id, SUM(posts_scanned) as scans'))
+                      .group(:smoke_detector_id)
   end
 
   def status_update
