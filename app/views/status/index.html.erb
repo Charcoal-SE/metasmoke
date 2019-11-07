@@ -23,7 +23,7 @@
         <% end %>
       </td>
       <td class="activity-cell">
-        <%= @scans.select { |id, scans| id == sd.id }.try(:[], 0) || '(unavailable)' %>
+        <%= @scans[sd.id] || '(unavailable)' %>
       </td>
       <td class="status-<%= sd.status_color %> ping-cell" data-livestamp="<%= sd.last_ping.to_i %>" title="<%= sd.last_ping.to_s %>">
         <%= time_ago_in_words(sd.last_ping, include_seconds: true)%> ago

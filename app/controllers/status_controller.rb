@@ -9,8 +9,9 @@ class StatusController < ApplicationController
 
   def index
     @statuses = SmokeDetector.order(Arel.sql('last_ping DESC')).all
-    @scans = Statistic.where('created_at >= ?', 24.hours.ago).select(Arel.sql('smoke_detector_id, SUM(posts_scanned) as scans'))
-                      .group(:smoke_detector_id)
+    @scans = Statistic.where('created_at >= ?', 24.hours.ago).where.not(posts_scanned: nil)
+                      .select(Arel.sql('smoke_detector_id, SUM(posts_scanned) as scans'))
+                      .group(:smoke_detector_id).map { |s| [s.smoke_detector_id, s.scans] }.to_h
   end
 
   def status_update
