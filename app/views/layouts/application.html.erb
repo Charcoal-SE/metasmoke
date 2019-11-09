@@ -102,7 +102,7 @@
               <li role="separator" class="divider"></li>
               <%= nav_link DataController, label: 'JS Data Exploder' %>
               <%= nav_link nil, path: '/data/sql', label: 'SQL Data Exploder' %>
-              <%= nav_link false, path: '/api/graphiql', label: 'GraphQL Data Exploder' %>
+              <%= nav_link false, path: '/api/graphql', label: 'GraphQL Data Exploder' %>
               <li role="separator" class="divider"></li>
               <%= nav_link AbuseReportsController, label: 'Abuse Reports', action: :index %>
               <% unless current_user&.has_role?(:developer) %>
