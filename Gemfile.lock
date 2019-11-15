@@ -278,7 +278,8 @@ GEM
       rack (>= 0.4)
     rack-contrib (2.1.0)
       rack (~> 2.0)
-    rack-cors (0.4.1)
+    rack-cors (1.0.5)
+      rack (>= 1.6.0)
     rack-mini-profiler (1.1.0)
       rack (>= 1.2.0)
     rack-test (1.1.0)
@@ -462,7 +463,7 @@ DEPENDENCIES
   paperclip (~> 6.0.0)
   puma
   rack (>= 2.0.6)
-  rack-cors (~> 0.4)
+  rack-cors (~> 1.0)
   rack-mini-profiler
   rails (~> 5.2.0)
   rails-controller-testing
