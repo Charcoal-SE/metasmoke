@@ -15,8 +15,14 @@
         <p>
           <strong>Account ID:</strong> <%= link_to @user.stack_exchange_account_id, "https://stackexchange.com/users/#{@user.stack_exchange_account_id}" %><br/>
           <strong>SE chat ID:</strong> <%= link_to @user.stackexchange_chat_id, "https://chat.stackexchange.com/users/#{@user.stackexchange_chat_id}" %><br/>
+          <strong>MSE chat ID:</strong> <%= link_to @user.meta_stackexchange_chat_id, "https://chat.meta.stackexchange.com/users/#{@user.meta_stackexchange_chat_id}" %><br/>
           <strong>SO chat ID:</strong> <%= link_to @user.stackoverflow_chat_id, "https://chat.stackoverflow.com/users/#{@user.stackoverflow_chat_id}" %><br/>
-          <strong>MSE chat ID:</strong> <%= link_to @user.meta_stackexchange_chat_id, "https://chat.meta.stackexchange.com/users/#{@user.meta_stackexchange_chat_id}" %>
+          <strong>users.yml:</strong><%= @user.stack_exchange_account_id.present? ? @user.stack_exchange_account_id : 'null' %>:
+          [<%= @user.stack_exchange_account_id.present? ? @user.stack_exchange_account_id : 'null' %>,
+          <%= @user.stackexchange_chat_id.present? ? @user.stackexchange_chat_id : 'null' %>,
+          <%= @user.meta_stackexchange_chat_id.present? ? @user.meta_stackexchange_chat_id : 'null' %>,
+          <%= @user.stackoverflow_chat_id.present? ? @user.stackoverflow_chat_id : 'null' %>]<span style="white-space:pre;">  </span># <%= @user.username %><br/>
+          <strong>rooms.yml:</strong><span style="white-space:pre;">      </span><%= @user.stack_exchange_account_id.present? ? @user.stack_exchange_account_id : 'null' %> # <%= @user.username %><br/>
         </p>
         <p>
           <%= link_to 'Refresh chat IDs', update_user_chat_ids_path(@user), method: :post, class: 'btn btn-info' %>
