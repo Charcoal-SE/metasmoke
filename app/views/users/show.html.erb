@@ -22,7 +22,7 @@
           <%= @user.stackexchange_chat_id.present? ? @user.stackexchange_chat_id : 'null' %>,
           <%= @user.meta_stackexchange_chat_id.present? ? @user.meta_stackexchange_chat_id : 'null' %>,
           <%= @user.stackoverflow_chat_id.present? ? @user.stackoverflow_chat_id : 'null' %>]<span style="white-space:pre;">  </span># <%= @user.username %><br/>
-          <strong>rooms.yml:</strong><span style="white-space:pre;">      </span><%= @user.stack_exchange_account_id.present? ? @user.stack_exchange_account_id : 'null' %> # <%= @user.username %><br/>
+          <strong>rooms.yml:</strong><span style="white-space:pre;">      - </span><%= @user.stack_exchange_account_id.present? ? @user.stack_exchange_account_id : 'null' %> # <%= @user.username %><br/>
         </p>
         <p>
           <%= link_to 'Refresh chat IDs', update_user_chat_ids_path(@user), method: :post, class: 'btn btn-info' %>
