@@ -257,7 +257,7 @@ class Post < ApplicationRecord
       begin
         # Escape (URI-encode) hostname first, otherwise we get "URI must be ascii-only" on cases like
         # hxxps://supplémentsavis.fr/spammy-products-here
-        regexed_hostname = uri.match(/(?<=\/\/)[^\/]+(?=\/)/)[0]
+        regexed_hostname = uri.match(/(?<=\/\/)[^\/]+/)&.try(:[], 0)
         uri = uri.gsub(regexed_hostname, CGI.escape(regexed_hostname))
 
         # DON'T unescape anything before parsing it, or we get "bad URI(is not URI?)"
