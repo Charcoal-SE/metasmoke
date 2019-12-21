@@ -179,13 +179,13 @@
 
 <p>Contains domains:</p>
 <% if @post.spam_domains.any? %>
-  <ul>
+  <ul class="post-domain-list">
     <% @post.spam_domains.each do |d| %>
       <li><%= render 'spam_domains/domain', domain: d %></li>
     <% end %>
   </ul><br/>
 <% else %>
-  <p><em>No domains</em></p>
+  <p class="post-no-domain-list"><em>No domains</em></p>
 <% end %>
 
 <% @post.comments.each do |c| %>
