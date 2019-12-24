@@ -8,7 +8,7 @@ route(/^\/post\/(\d*)(\/)?$/, () => {
     post_id: location.pathname.match(/^\/post\/(\d*)(\/)?$/)[1]
   }, {
     received(data) {
-      $('strong.post-feedbacks').prepend(data.feedback).find('[data-toggle="tooltip"]').tooltip();
+      $('strong.post-feedbacks').append(data.feedback).find('[data-toggle="tooltip"]').tooltip();
     }
   });
 }, () => {
