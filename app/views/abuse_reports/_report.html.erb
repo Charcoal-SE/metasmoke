@@ -9,7 +9,7 @@
       </h3>
       <p>
         Reported to
-        <strong><%= report.contact.present? ? link_to report.contact.name, abuse_contact_path(report.contact) : 'No contact stored' %></strong>
+        <strong><%= report.contact.present? ? link_to(report.contact.name, abuse_contact_path(report.contact)) : 'No contact stored' %></strong>
         by
         <strong><%= report.user.present? ? report.user.username : 'User not stored' %></strong>
         <%= time_ago_in_words report.created_at %> ago
