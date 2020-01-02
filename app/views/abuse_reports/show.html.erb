@@ -41,7 +41,7 @@
 
 <div class="panel panel-info">
   <div class="panel-heading">
-    Reported to <strong><%= link_to @report.contact.name, abuse_contact_path(@report.contact) %></strong>
+    Reported to <strong><%= @report.contact.present? ? link_to(@report.contact.name, abuse_contact_path(@report.contact)) : 'No contact stored' %></strong>
   </div>
 </div>
 
