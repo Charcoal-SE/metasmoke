@@ -217,15 +217,11 @@ module PostConcerns::Autoflagging
           waves.each do |w|
             next unless w.post_matches?(self)
             Rails.logger.warn '[autoflagging-sw] found matching wave'
-            if autoflagged?
-              Rails.logger.warn '[autoflagging-sw] already autoflagged, ignore'
-            else
-              flag_count = w.max_flags
-              users = User.where(flags_enabled: true).shuffle
-              users.each do |user|
-                break if flag_count <= 0
-                flag_count -= send_autoflag(user, nil, nil)
-              end
+            flag_count = autoflagged? ? w.max_flags - flag_logs.successful.auto.count : w.max_flags
+            users = User.where(flags_enabled: true).shuffle
+            users.each do |user|
+              break if flag_count <= 0
+              flag_count -= send_autoflag(user, nil, nil)
             end
           end
         else
