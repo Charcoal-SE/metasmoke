@@ -157,6 +157,7 @@ class PostsController < ApplicationController
           # can cause race conditions and segfaults. This is bad,
           # so we completely suppress the issue and just don't do that.
           @post.autoflag unless Rails.env.test?
+          @post.spam_wave_autoflag unless Rails.env.test?
           redis.hset("posts/#{@post.id}", 'flagged', @post.flagged?)
         end
 

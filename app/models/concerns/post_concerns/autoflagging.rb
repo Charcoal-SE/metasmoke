@@ -106,8 +106,6 @@ module PostConcerns::Autoflagging
       else
         post.update_columns(autoflagged: true)
       end
-
-      spam_wave_autoflag
     end
 
     def send_autoflag(user, dry_run, condition)
