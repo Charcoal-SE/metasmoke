@@ -4,7 +4,7 @@ set :nvm_type, :user # or :system, depends on your nvm setup
 set :nvm_node, 'v8.1.0'
 set :nvm_map_bins, %w[node npm yarn]
 
-set :rvm_ruby_version, '2.5.0@metasmoke'
+set :rvm_ruby_version, '2.5.7@metasmoke'
 
 set :puma_bind, %w[tcp://127.0.0.1:9292]
 set :passenger_restart_with_touch, true
@@ -16,7 +16,7 @@ set :passenger_restart_with_touch, true
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-server 'erwaysoftware.com', roles: %w[app db web]
+server 'metasmoke.erwaysoftware.com', roles: %w[app db web]
 # server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
 # server 'db.example.com', user: 'deploy', roles: %w{db}
 
@@ -58,12 +58,12 @@ set :rails_env, 'production'
 #
 # The server-based syntax can be used to override options:
 # ------------------------------------
-server 'erwaysoftware.com',
-       user: 'ubuntu',
+server 'metasmoke.erwaysoftware.com',
+       user: 'undo',
        roles: %w[web app db],
        ssh_options: {
-         user: 'ubuntu', # overrides user setting above
-         port: 22,
+         user: 'undo', # overrides user setting above
+         port: 9923,
          keys: %w[sshkey.pem],
          forward_agent: false,
          auth_methods: %w[publickey]
