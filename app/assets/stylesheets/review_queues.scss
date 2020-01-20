@@ -5,3 +5,8 @@
 .top-filters {
   margin: 1.5em 0;
 }
+
+/* Keep the "Skip" button on review pages in the same location with or with or without an NAA button. */
+body.review-queues .review-item .panel-default .panel-body a.btn[href*="response=fp"] + a.btn[href*="response=skip"] {
+  margin-left: 57px;
+}
