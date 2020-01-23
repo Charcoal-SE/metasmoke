@@ -330,3 +330,70 @@ body .profiler-results {
     max-height: 90vh !important; /*This property is assigned by JavaScript on the element.*/
   }
 }
+
+/*tag formatting in domain tag dropdown*/
+.domain-tag-list {
+  button:not(.bs-placeholder) .filter-option-inner-inner,
+  .dropdown-menu.inner li:not(:first-of-type) a .text {
+    background-color: #5bc0de;
+    color: white;
+    padding-left: 5px;
+    padding-bottom: 3px;
+    padding-top: 1px;
+    vertical-align: text-bottom;
+  }
+
+  .filter-option-inner-inner {
+    display: inline-block;
+  }
+
+  button:not(.bs-placeholder) .filter-option-inner-inner:before,
+  .dropdown-menu.inner li:not(:first-of-type) a .text::before {
+    content: "#";
+    margin-right: 1px;
+  }
+
+  .dropdown-menu.inner {
+    a .text small {
+      font-weight: normal;
+      margin-left: 5px;
+      background-color: white;
+      border: 5px solid white;
+    }
+
+    a:hover .text small {
+      background-color: #f5f5f5;
+      border-color: #f5f5f5;
+    }
+
+    li.active a .text small {
+      background-color: #337ab7;
+      border-color: #337ab7;
+    }
+  }
+
+  .dropdown-menu > .active > a, .dropdown-menu > .active > a:focus, .dropdown-menu > .active > a:hover {
+    padding-bottom: 4px;
+  }
+
+  .filter-option-inner-inner small {
+    background-color: white;
+    border: 5px solid white;
+    margin-left: 5px;
+  }
+
+  .dropdown.bootstrap-select.open button:hover .filter-option-inner-inner small,
+  .dropdown.bootstrap-select.open button:focus .filter-option-inner-inner small,
+  button:active:hover .filter-option-inner-inner small {
+    background-color: #d4d4d4;
+    border-color: #d4d4d4;
+  }
+
+  .dropdown.bootstrap-select.open .filter-option-inner-inner small,
+  button:active .filter-option-inner-inner small,
+  button:focus .filter-option-inner-inner small,
+  button:hover .filter-option-inner-inner small {
+    background-color: #e6e6e6;
+    border-color: #e6e6e6;
+  }
+}
