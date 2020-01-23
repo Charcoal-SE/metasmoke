@@ -32,3 +32,25 @@
   display: inline-block;
   padding: 0.5em 0;
 }
+
+/* Spam domains pages: more responsive */
+body.spam-domains {
+  h1 {
+    word-break: break-all;
+  }
+
+  .domain-tag-list {
+    display: block;
+
+    > * {
+      display: inline-block;
+    }
+  }
+
+  table.table-striped {
+    td:first-of-type {
+      overflow-wrap: anywhere;
+      word-break: break-all;
+    }
+  }
+}
