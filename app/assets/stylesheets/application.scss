@@ -267,3 +267,66 @@ body .profiler-results {
 .panel-body h3 {
   margin-top: 0;
 }
+
+/*Temporary fix for dropdown menus:*/
+.dropdown-menu.inner {
+  position: unset;
+}
+
+.dropdown-menu.open > .inner.open {
+  overflow-x: hidden !important;
+}
+
+.filter-option {
+  display: inline-block;
+  width: 100%;
+  overflow-x: hidden;
+  margin-right: 10px;
+  vertical-align: bottom;
+}
+
+.dropdown.bootstrap-select.bs3 {
+  display: inline-block;
+}
+
+.dropdown-menu.inner {
+  small.text-muted {
+    padding-left: 5px;
+  }
+
+  a {
+    min-height: 26px;
+  }
+
+  .no-results {
+    padding: 3px;
+    background: #f5f5f5;
+    margin: 0 5px;
+    white-space: nowrap;
+  }
+}
+
+.dropdown.bootstrap-select.bs3 .bs-caret {
+  vertical-align: top;
+}
+
+.dropdown-menu > .active > a .text-muted, .dropdown-menu > .active > a:focus .text-muted, .dropdown-menu > .active > a:hover .text-muted {
+  color: #ddd;
+}
+
+.domain-tag-list {
+  position: relative;
+
+  form.review-add-domain-tag .dropdown,
+  form.add-domain-tag .dropdown {
+    position: unset;
+  }
+
+  /*Keep the dropdown a semi-reasonable size*/
+  form.review-add-domain-tag .dropdown-menu.open,
+  form.add-domain-tag .dropdown-menu.open {
+    max-width: 90%;
+    left: 5%;
+    max-height: 90vh !important; /*This property is assigned by JavaScript on the element.*/
+  }
+}
