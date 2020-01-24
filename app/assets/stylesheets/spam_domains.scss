@@ -52,5 +52,9 @@ body.spam-domains {
       overflow-wrap: anywhere;
       word-break: break-all;
     }
+    td > .tag-label {
+      display: inline-block;
+    }
   }
+
 }
