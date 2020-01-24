@@ -102,7 +102,7 @@ export function installSelectpickers() {
       noneResultsText: 'No results matched your search or you need to enter more characters to search with.'
     });
 
-    $(e).parent().find('.bs-searchbox input[type="text"]').on('keydown', ev => {
+    $(e).parent().find('.bs-searchbox input[type="search"]').on('keydown', ev => {
       if ($(ev.target).val().length < 2) {
         return;
       }
