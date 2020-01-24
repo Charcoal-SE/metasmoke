@@ -287,6 +287,10 @@ body .profiler-results {
 
 .dropdown.bootstrap-select.bs3 {
   display: inline-block;
+
+  .bs-caret {
+    vertical-align: super;
+  }
 }
 
 .dropdown-menu.inner {
@@ -304,10 +308,6 @@ body .profiler-results {
     margin: 0 5px;
     white-space: nowrap;
   }
-}
-
-.dropdown.bootstrap-select.bs3 .bs-caret {
-  vertical-align: top;
 }
 
 .dropdown-menu > .active > a .text-muted, .dropdown-menu > .active > a:focus .text-muted, .dropdown-menu > .active > a:hover .text-muted {
