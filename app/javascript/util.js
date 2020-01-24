@@ -55,7 +55,7 @@ export function installSelectpickers() {
 
   // Selectpicker "extension": custom input. If there are no options matching the live search,
   // create a new one, add it to the list, and select it.
-  $('.bs-searchbox input[type="text"]').on('keydown', ev => {
+  $('.bs-searchbox input[type="search"]').on('keydown', ev => {
     const tgt = $(ev.target);
     const list = tgt.parents('.dropdown-menu');
 
