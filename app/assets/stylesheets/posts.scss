@@ -22,3 +22,8 @@ pre.post-body-pre-block {
 .post-row-right {
   float: right;
 }
+
+body.posts .bootstrap-select .btn.dropdown-toggle {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
