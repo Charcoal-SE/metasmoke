@@ -116,6 +116,36 @@ export function installSelectpickers() {
       }, 200);
     });
   });
+
+  // For domain tag selection, copy the class and style from the selected option to the .filter-option-inner-inner.
+  function useOptionClassAndStyleForSelectedDropdownOption(event, clickedIndex, isSelected) {
+    const $target = $(event.target);
+    const dropdown = $target.closest('.dropdown');
+    const innerInner = dropdown.find('.filter-option-inner-inner').first();
+    innerInner[0].className = 'filter-option-inner-inner';
+    innerInner.removeAttr('style');
+    if (isSelected) {
+      const option = event.target.options[clickedIndex];
+      innerInner
+        .addClass(option.className)
+        .attr('style', $(option).attr('style'));
+    }
+  }
+  $('.domain-tag-list #tag_name').off('changed.bs.select');
+  $('.domain-tag-list #tag_name').on('changed.bs.select', useOptionClassAndStyleForSelectedDropdownOption);
+  // For all AS-XXXX tags indicate that they are "special". The class really should be based on the database, not a text match.
+  $('.domain-tag-list option[value^="AS-"]').addClass('special-tag');
+  $('.domain-tag-list div.bootstrap-select select').selectpicker('refresh');
+  $('.domain-tag-list .dropdown-toggle:not(.bs-placeholder) .filter-option-inner-inner').each(function () {
+    const valueText = this.firstChild.textContent;
+    const $this = $(this);
+    const selectedOption = $this.closest('.bootstrap-select').find(`select option[value="${valueText}"]`);
+    if (selectedOption.length > 0) {
+      $this
+        .addClass(selectedOption[0].className)
+        .attr('style', selectedOption.attr('style'));
+    }
+  });
 }
 
 // Cred. broofa et. al. https://stackoverflow.com/a/2117523

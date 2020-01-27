@@ -323,7 +323,7 @@ body .profiler-results {
   form.add-domain-tag .dropdown-menu.open {
     max-width: 90%;
     left: 5%;
-    max-height: 90vh !important; /*This property is assigned by JavaScript on the element.*/
+    max-height: 90vh !important; /* This property is assigned by JavaScript on the element. */
   }
 }
 
@@ -337,6 +337,11 @@ body .profiler-results {
     padding-bottom: 3px;
     padding-top: 1px;
     vertical-align: text-bottom;
+  }
+
+  .domain-tag-list button:not(.bs-placeholder) .filter-option-inner-inner.special-tag,
+  .domain-tag-list .dropdown-menu.inner li a.special-tag:not([id$="-0"]) .text {
+    background-color: #f0ad4e;
   }
 
   .filter-option-inner-inner {
