@@ -327,10 +327,10 @@ body .profiler-results {
   }
 }
 
-/*tag formatting in domain tag dropdown*/
+/* Tag formatting in domain tag dropdown */
 .domain-tag-list {
   button:not(.bs-placeholder) .filter-option-inner-inner,
-  .dropdown-menu.inner li:not(:first-of-type) a .text {
+  .dropdown-menu.inner li a:not([id$="-0"]) .text {
     background-color: #5bc0de;
     color: white;
     padding-left: 5px;
@@ -344,7 +344,7 @@ body .profiler-results {
   }
 
   button:not(.bs-placeholder) .filter-option-inner-inner:before,
-  .dropdown-menu.inner li:not(:first-of-type) a .text::before {
+  .dropdown-menu.inner li a:not([id$="-0"]) .text::before {
     content: "#";
     margin-right: 1px;
   }
