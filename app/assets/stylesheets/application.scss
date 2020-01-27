@@ -347,8 +347,8 @@ body .profiler-results {
     vertical-align: text-bottom;
   }
 
-  .domain-tag-list button:not(.bs-placeholder) .filter-option-inner-inner.special-tag,
-  .domain-tag-list .dropdown-menu.inner li a.special-tag:not([id$="-0"]) .text {
+  button:not(.bs-placeholder) .filter-option-inner-inner.special-tag,
+  .dropdown-menu.inner li a.special-tag:not([id$="-0"]) .text {
     background-color: #f0ad4e;
   }
 
