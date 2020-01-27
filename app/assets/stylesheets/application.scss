@@ -329,19 +329,31 @@ body .profiler-results {
 
 /* Tag formatting in domain tag dropdown */
 .domain-tag-list {
+  button:not(.bs-placeholder) .filter-option-inner-inner {
+    padding-top: 0px;
+    padding-bottom: 3px;
+  }
+
+  .dropdown-menu.inner li a:not([id$="-0"]) .text {
+    padding-top: 1px;
+    padding-bottom: 3px;
+  }
+
   button:not(.bs-placeholder) .filter-option-inner-inner,
   .dropdown-menu.inner li a:not([id$="-0"]) .text {
     background-color: #5bc0de;
     color: white;
     padding-left: 5px;
-    padding-bottom: 3px;
-    padding-top: 1px;
     vertical-align: text-bottom;
   }
 
   .domain-tag-list button:not(.bs-placeholder) .filter-option-inner-inner.special-tag,
   .domain-tag-list .dropdown-menu.inner li a.special-tag:not([id$="-0"]) .text {
     background-color: #f0ad4e;
+  }
+
+  .filter-option {
+    height:20px;
   }
 
   .filter-option-inner-inner {
