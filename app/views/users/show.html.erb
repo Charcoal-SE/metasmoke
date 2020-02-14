@@ -38,7 +38,7 @@
       <div class="panel-body">
         <p>
           <strong>Enabled:</strong> <%= @user.flags_enabled? ? 'Yes' : 'No' %><br/>
-          <%= link_to 'User Overview', user_overview_path(user: @user.id) %>
+          <%= link_to 'User\'s Flagging', user_overview_path(user: @user.id) %>
         </p>
       </div>
     </div>
@@ -77,9 +77,12 @@
         <% else %>
           <p><em>User is not a moderator.</em></p>
         <% end %>
-        <p>
-          <%= link_to 'Refresh mod sites', update_mod_sites_path(@user), method: :post, class: 'btn btn-info' %>
-        </p>
+        <% if current_user&.has_role?(:developer) %>
+          <p>
+            <!-- This route updates mod sites for all users, so is developer only. -->
+            <%= link_to 'Refresh mod sites', update_mod_sites_path(@user), method: :post, class: 'btn btn-info' %>
+          </p>
+        <% end %>
       </div>
     </div>
   </div>
