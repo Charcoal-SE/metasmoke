@@ -38,7 +38,7 @@
       <div class="panel-body">
         <p>
           <strong>Enabled:</strong> <%= @user.flags_enabled? ? 'Yes' : 'No' %><br/>
-          <%= link_to 'User\'s Flagging', user_overview_path(user: @user.id) %>
+          <%= link_to 'Flagger Overview', user_overview_path(user: @user.id) %>
         </p>
       </div>
     </div>
