@@ -18,7 +18,7 @@ module API
       requires :token, type: String
     end
     get '/current' do
-      std_result User.joins(:roles).where(id: current_user.id), filter: FILTERS[:users]
+      std_result User.where(id: current_user.id).map { |u| u.attributes.merge(roles: u.roles) }, filter: FILTERS[:users]
     end
   end
 end
