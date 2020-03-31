@@ -52,3 +52,5 @@ redis-git
 
 #Editor backup files
 *.bak
+
+sshkey.pem
