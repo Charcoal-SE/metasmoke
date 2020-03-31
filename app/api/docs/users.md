@@ -33,7 +33,17 @@ Output format:
         "has_more": true
     }
 ---
-/api/v2.0/users/current | Get details of the current user
+/api/v2.0/users/current-roles | Get roles for the current user
 
-Available tables: `users`, `roles`.
-Output format: Identical to /users.
+Available tables: `roles`.
+Output format:
+
+    {
+        "items": [
+            {
+                "id": 1,
+                "name": "admin"
+            }
+        ],
+        "has_more": false
+    }

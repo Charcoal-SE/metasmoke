@@ -15,6 +15,7 @@ module API
       feedbacks: filter(Feedback.fields(:id, :feedback_type, :post_id, :user_id)),
       posts: filter(Post.fields(:id, :title, :link, :site_id, :user_link, :username, :user_reputation)),
       reasons: filter(Reason.fields(:id, :reason_name, :weight)),
+      roles: filter(Role.fields(:id, :name)),
       smokeys: filter(SmokeDetector.fields(:id, :last_ping, :location, :user_id)),
       domains: filter(SpamDomain.fields(:id, :domain, :whois)),
       users: filter(User.fields(:id, :username)),

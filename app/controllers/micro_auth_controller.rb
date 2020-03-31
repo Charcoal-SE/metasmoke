@@ -37,8 +37,9 @@ class MicroAuthController < ApplicationController
   def token
     code = params[:code]
     token = APIToken.where(code: code, api_key: @api_key)
+    user = token.first&.user
     if token.any? && !token.first.expiry.past?
-      render json: { token: token.first.token }
+      render json: { token: token.first.token, user: { id: user.id, username: user.username, se_account_id: user.stack_exchange_account_id } }
     else
       render json: {
         error_name: 'token not found',
