@@ -5,8 +5,20 @@ module API
     get '/' do
       std_result User.all.order(id: :desc), filter: FILTERS[:users]
     end
+
     get '/with_role/:role' do
       std_result User.with_role(params[:role]).order(id: :desc), filter: FILTERS[:users]
+    end
+
+    before do
+      authenticate_user!
+    end
+    params do
+      requires :key, type: String
+      requires :token, type: String
+    end
+    get '/current' do
+      std_result User.joins(:roles).where(id: current_user.id), filter: FILTERS[:users]
     end
   end
 end
