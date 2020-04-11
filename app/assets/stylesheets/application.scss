@@ -410,3 +410,14 @@ body .profiler-results {
     border-color: #e6e6e6;
   }
 }
+
+/* Multi-select dropdown (e.g. Sites) with checkmark indicating selection */
+.dropdown-menu.inner {
+  li:not(.selected) .glyphicon.glyphicon-ok.check-mark {
+    display: none;
+  }
+  li .glyphicon.glyphicon-ok.check-mark {
+    margin-right: 4px;
+    margin-left: -18px;
+  }
+}
