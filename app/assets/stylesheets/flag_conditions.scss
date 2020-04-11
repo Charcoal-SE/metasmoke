@@ -1,3 +1,13 @@
 // Place all the styles related to the FlagConditions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+body.flag-conditions .dropdown-menu.inner {
+  li:not(.selected) .glyphicon.glyphicon-ok.check-mark {
+    display: none;
+  }
+  li .glyphicon.glyphicon-ok.check-mark {
+    margin-right: 4px;
+    margin-left: -18px;
+  }
+}
