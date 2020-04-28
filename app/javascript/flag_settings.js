@@ -26,7 +26,7 @@ route('/flagging/settings/sites', () => {
     window.flagging_settings[sid].changed = true;
   });
 
-  $('input[type=number]').on('keyup', ev => {
+  $('input[type=number]').on('keyup change', ev => {
     $('.unsaved-changes').show();
 
     const sid = $(ev.target).parents('tr').data('sid').toString();
