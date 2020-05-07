@@ -14,6 +14,16 @@
  *= require_self
  */
 
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.initial-content {
+  flex: 1 0 auto;
+}
+
 .footer {
   width: 100%;
   background-color: #fafafa;
