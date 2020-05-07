@@ -183,7 +183,7 @@
     <% end %>
     </div><!-- /.container-fluid -->
   </nav>
-  <div class="col-md-offset-1 col-md-10">
+  <div class="initial-content col-md-offset-1 col-md-10">
     <% Rack::MiniProfiler.step('Rendering: layouts/application/announcements') do %>
     <div class="alert alert-warning" id="metasmoke-deployed-banner" style="display: none" role="alert">
       This page has been updated. <a href="" data-turbolinks="false">Refresh</a> to get the latest version.
@@ -205,13 +205,15 @@
     <% end %>
     <% end %>
     <%= yield %>
-    <div class="footer">
+  </div>
+  <footer class="footer">
+    <div class="col-md-offset-1 col-md-10">
       <p class="text-muted">
         We are <a href="//charcoal-se.org/">Charcoal</a> (not <a href="//stackexchange.com/">Stack Exchange</a>). We make <a href="//github.com/Charcoal-SE">nice things</a>.<br/>
         <a href="//chat.stackexchange.com/rooms/11540/charcoal-hq">chat</a> • <a href="//charcoal-se.org/security">security</a> • <a href="mailto:smokey@charcoal-se.org">contact</a><br/>
         <span class="small">Post content sourced from the <a href="http://stackexchange.com">Stack Exchange Network</a>.</span>
       </p>
     </div>
-  </div>
+  </footer>
 </body>
 </html>
