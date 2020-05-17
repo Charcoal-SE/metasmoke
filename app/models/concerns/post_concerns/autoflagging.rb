@@ -196,7 +196,7 @@ module PostConcerns::Autoflagging
       params = "key=#{AppConfig['stack_exchange']['key']}&site=#{post.site.site_domain}&filter=!mggkQI*4m9"
 
       url = "https://api.stackexchange.com/2.2/posts/#{post.stack_id}/revisions?#{params}"
-      revision_list = JSON.parse(Net::HTTP.get_response(URI.parse(url)).body)['items']
+      revision_list = JSON.parse(APIHelper.get_response(URI.parse(url)).body)['items']
       # Filter out items which are not actual post revisions
       revision_list = revision_list.select { |revision| revision['revision_number'].present? }
       Rails.logger.warn "[autoflagging] #{id}: queried SE: #{revision_list&.count}"

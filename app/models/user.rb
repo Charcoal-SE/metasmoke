@@ -94,12 +94,12 @@ class User < ApplicationRecord
       config = AppConfig['stack_exchange']
       auth_string = "key=#{config['key']}&access_token=#{readonly_api_token}"
 
-      resp = Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/me/associated?pagesize=1&filter=!ms3d6aRI6N&#{auth_string}"))
+      resp = APIHelper.get_response(URI.parse("https://api.stackexchange.com/2.2/me/associated?pagesize=1&filter=!ms3d6aRI6N&#{auth_string}"))
       resp = JSON.parse(resp.body)
 
       first_site = URI.parse(resp['items'][0]['site_url']).host
 
-      resp = Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/me?site=#{first_site}&filter=!-.wwQ56Mfo3J&#{auth_string}"))
+      resp = APIHelper.get_response(URI.parse("https://api.stackexchange.com/2.2/me?site=#{first_site}&filter=!-.wwQ56Mfo3J&#{auth_string}"))
       resp = JSON.parse(resp.body)
 
       return resp['items'][0]['display_name']
@@ -130,7 +130,7 @@ class User < ApplicationRecord
       params = "?page=#{page}&pagesize=100&filter=!6OrReH6NRZrmc&#{auth_string}"
       url = "https://api.stackexchange.com/2.2/users/#{stack_exchange_account_id}/associated" + params
 
-      response = JSON.parse(Net::HTTP.get_response(URI.parse(url)).body)
+      response = JSON.parse(APIHelper.get_response(URI.parse(url)).body)
       has_more = response['has_more']
       page += 1
 

@@ -44,12 +44,7 @@ module AuthenticationHelper
 
   def info_for_access_token(access_token)
     config = AppConfig['stack_exchange']
-    response = open("https://api.stackexchange.com/2.2/access-tokens/#{access_token}?key=#{config['key']}").read
-    begin
-      JSON.parse(response)['items'][0]
-    rescue OpenURI::HTTPError
-      ap response
-      raise
-    end
+    uri = "https://api.stackexchange.com/2.2/access-tokens/#{access_token}?key=#{config['key']}"
+    JSON.parse(APIHelper.get_response(URI.parse(uri)).body)['items'][0]
   end
 end
