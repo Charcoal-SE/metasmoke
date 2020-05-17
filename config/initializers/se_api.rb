@@ -49,4 +49,4 @@ module SE
   end
 end
 
-APIHelper = SE::API.instance
+StackAPIHelper = SE::API.instance
