@@ -7,8 +7,8 @@ module SE
     def get_response(*args, **opts, &block)
       setup_logger
 
-      if args.size > 0 && !args[0].is_a?(URI)
-        args[0] = URI(args[0])
+      if args.size > 0 && !args[0].is_a?(String)
+        args[0] = args[0].to_s
       end
 
       resp = Net::HTTP.get_response(*args, **opts, &block)
