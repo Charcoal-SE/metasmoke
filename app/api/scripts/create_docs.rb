@@ -6,7 +6,7 @@ renderer = Redcarpet::Render::HTML.new hard_wrap: true
 parser = Redcarpet::Markdown.new renderer
 
 output = %w[<table> <thead> <tr><td><strong>Path</strong></td><td><strong>Description</strong></td></tr> </thead> <tbody>]
-Dir.glob(Rails.root.join('app/api/docs/**/*.md')).sort_by { |x| File.basename x }.each do |f|
+Dir.glob('../docs/**/*.md').sort_by { |x| File.basename x }.each do |f|
   text = File.read f
   title = Regexp.new(/^# ?([\w ]+)$/).match(text)[1]
 
