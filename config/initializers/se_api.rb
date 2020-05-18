@@ -8,9 +8,7 @@ module SE
       setup_logger
 
       resp = Net::HTTP.get_response(*args, **opts, &block)
-      if resp.code.start_with? '2'
-        logger.info "#{resp.code} GET #{args[0]}"
-      else
+      unless resp.code.start_with? '2'
         logger.error "#{resp.code} on GET to #{args[0]}"
         logger.error 'Following: args, opts, response body'
         logger.error args.to_s
