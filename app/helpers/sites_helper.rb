@@ -4,7 +4,7 @@ module SitesHelper
   def self.update_sites
     require 'net/http'
     url = URI.parse('https://api.stackexchange.com/2.2/sites?pagesize=1000&filter=!SmNndiHFp*Yrs)zUme')
-    res = StackAPIHelper.get_response(url)
+    res = APIHelper.get_response(url)
     sites = JSON.parse(res.body)['items']
     return unless sites.count > 100 # all is not well; bail
     ids = sites.map do |site|

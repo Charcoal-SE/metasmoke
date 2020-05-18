@@ -54,7 +54,7 @@ class StackExchangeUsersController < ApplicationController
         filter = '!40D.p)TeT8rA79vLR'
         uri = "https://api.stackexchange.com/2.2/users/#{ids}?site=#{api_site_param}&key=#{AppConfig['stack_exchange']['key']}&filter=#{filter}"
 
-        response = StackAPIHelper.get_response(URI.parse(uri))
+        response = APIHelper.get_response(URI.parse(uri))
         jsn = JSON.parse(response.body)
         live_ids += jsn['items'].map { |u| u['user_id'] }
         sleep(jsn['backoff']) if jsn['backoff']
