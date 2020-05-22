@@ -53,7 +53,7 @@
             <%= label_tag :description do %>
               <i class="fas fa-question"></i> Description
             <% end %><br/>
-            <%= text_area_tag :description, nil, class: 'form-control', rows: 3, cols: 100 %>
+            <%= text_area_tag :description, @reason.description, class: 'form-control', rows: 3, cols: 100 %>
           </div><br/>
 
           <div class="actions">
