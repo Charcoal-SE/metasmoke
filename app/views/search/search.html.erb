@@ -11,6 +11,10 @@
   </div>
   <div class="form-group">
     <%= label_tag :body %>
+    <%= check_box_tag :body_is_like, 1, params[:body_is_like] %>
+    <span class="text-muted">
+      LIKE (<a href="https://github.com/Charcoal-SE/metasmoke/wiki/FAQ:-search">?</a>)
+    </span>
     <% if current_user&.can_use_regex_search? %>
       <%= check_box_tag :body_is_regex, 1, params[:body_is_regex] %> <span class="text-muted">regex</span>
       <%= check_box_tag :body_is_inverse_regex, 1, params[:body_is_inverse_regex] %> <span class="text-muted">invert</span>
