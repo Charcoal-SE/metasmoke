@@ -28,9 +28,9 @@ class ApplicationRecord < ActiveRecord::Base
   def self.sanitize_for_search(term, **cols)
     cols = cols.map do |k, v|
       if v.is_a?(Array)
-        v.map { |vv| "`#{sanitize_name k}`.`#{sanitize_name vv}`" }.join(', ')
+        v.map { |vv| "#{sanitize_name k}.#{sanitize_name vv}" }.join(', ')
       else
-        "`#{sanitize_name k}`.`#{sanitize_name v}`"
+        "#{sanitize_name k}.#{sanitize_name v}"
       end
     end.join(', ')
 
