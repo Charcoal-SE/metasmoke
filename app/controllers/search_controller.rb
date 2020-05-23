@@ -40,10 +40,20 @@ class SearchController < ApplicationController
     search_string = []
     search_params = {}
     [[:username, username, username_operation], [:title, title, title_operation],
-     [:body, body, body_operation], [:why, why, why_operation]].each do |si|
+     [:why, why, why_operation]].each do |si|
       search_string << "IFNULL(`posts`.`#{si[0]}`, '') #{si[2]} :#{si[0]}"
       search_params[si[0]] = si[1]
     end
+
+    if body_operation == 'LIKE' || body_operation == 'NOT LIKE'
+      # If the operation would be LIKE, hijack it and use our fulltext index for a search instead.
+      @results = @results.match_search(body, with_search_score: false, posts: :body)
+    else
+      # Otherwise, it's REGEX or NOT REGEX, which fulltext won't do - fall back on search_string and params
+      search_string << "IFNULL(`posts`.`body`, '') LIKE :body"
+      search_params[:body] = body
+    end
+
     @results = @results.where(search_string.join(' AND '), **search_params)
                        .paginate(page: params[:page], per_page: per_page)
                        .order(Arel.sql('`posts`.`created_at` DESC'))
