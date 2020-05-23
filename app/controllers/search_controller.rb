@@ -41,8 +41,10 @@ class SearchController < ApplicationController
     search_params = {}
     [[:username, username, username_operation], [:title, title, title_operation],
      [:why, why, why_operation]].each do |si|
-      search_string << "IFNULL(`posts`.`#{si[0]}`, '') #{si[2]} :#{si[0]}"
-      search_params[si[0]] = si[1]
+      if si[1].present?
+        search_string << "IFNULL(`posts`.`#{si[0]}`, '') #{si[2]} :#{si[0]}"
+        search_params[si[0]] = si[1]
+      end
     end
 
     if body_operation == 'LIKE' || body_operation == 'NOT LIKE'
