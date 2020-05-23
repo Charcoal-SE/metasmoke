@@ -41,7 +41,7 @@ class SearchController < ApplicationController
     search_params = {}
     [[:username, username, username_operation], [:title, title, title_operation],
      [:why, why, why_operation]].each do |si|
-      if si[1].present?
+      if si[1].present? && si[1] != '%%'
         search_string << "IFNULL(`posts`.`#{si[0]}`, '') #{si[2]} :#{si[0]}"
         search_params[si[0]] = si[1]
       end
