@@ -4,7 +4,7 @@ class FlagLog < ApplicationRecord
   include Websocket
 
   belongs_to :flag_condition
-  belongs_to :user
+  belongs_to :user, optional: true
   belongs_to :post
   belongs_to :site
   belongs_to :api_key, optional: true
