@@ -52,7 +52,7 @@ class SearchController < ApplicationController
       # UNLESS... params[:body_is_like] is set, in which case the user has explicitly specified a LIKE query.
       @results = @results.match_search(body, with_search_score: false, posts: :body)
     else
-      if params[:body_is_like] == '1'
+      if params[:body_is_like] == '1' && !user_signed_in?
         flash[:warning] = 'Unregistered users cannot use LIKE searches on the body field. Please sign in.'
       end
       # Otherwise, it's REGEX or NOT REGEX, which fulltext won't do - fall back on search_string and params
