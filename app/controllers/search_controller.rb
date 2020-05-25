@@ -57,7 +57,7 @@ class SearchController < ApplicationController
       end
       # Otherwise, it's REGEX or NOT REGEX, which fulltext won't do - fall back on search_string and params
       search_string << "IFNULL(`posts`.`body`, '') #{body_operation} :body"
-      search_params[:body] = body
+      search_params[:body] = body.present? ? body : '%%'
     end
 
     @results = @results.where(search_string.join(' AND '), **search_params)
