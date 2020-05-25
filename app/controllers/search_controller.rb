@@ -47,7 +47,7 @@ class SearchController < ApplicationController
       end
     end
 
-    if (body_operation == 'LIKE' || body_operation == 'NOT LIKE') && user_signed_in? && params[:body_is_like] != '1'
+    if ['LIKE', 'NOT LIKE'].include?(body_operation) && user_signed_in? && params[:body_is_like] != '1' && body.present?
       # If the operation would be LIKE, hijack it and use our fulltext index for a search instead.
       # UNLESS... params[:body_is_like] is set, in which case the user has explicitly specified a LIKE query.
       @results = @results.match_search(body, with_search_score: false, posts: :body)
