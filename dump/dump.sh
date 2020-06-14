@@ -1,4 +1,6 @@
-#!/bin/bash -e
+#!/bin/bash
+
+set -e
 
 METASMOKE_ROOT=/var/railsapps/metasmoke
 timestamp=$(date +%s)
