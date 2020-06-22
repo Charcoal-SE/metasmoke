@@ -8,9 +8,9 @@ module ApplicationHelper
     text
   end
 
-  @markdown_renderer = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new)
+  RENDERER = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new)
   def render_markdown(text)
-    @markdown_renderer.render text
+    RENDERER.render text
   end
 
   @current_dropdown_is_active = nil
