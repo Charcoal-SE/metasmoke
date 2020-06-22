@@ -1,7 +1,7 @@
 <% if comment.user.id == -1 %>
   <div class="panel panel-info">
     <div class="panel-heading">
-      <%= raw(sanitize(PostCommentsController.renderer.render(comment.text), scrubber: PostComment.scrubber)) %>
+      <%= raw(sanitize(render_markdown(comment.text), scrubber: PostComment.scrubber)) %>
       <span class="small text-muted"><%= time_ago_in_words comment.created_at %> ago</span>
     </div>
   </div>
@@ -22,7 +22,7 @@
       <% end %>
     </div>
     <div class="panel-body">
-      <%= raw(sanitize(PostCommentsController.renderer.render(comment.text), scrubber: PostComment.scrubber)) %>
+      <%= raw(sanitize(render_markdown(comment.text), scrubber: PostComment.scrubber)) %>
     </div>
   </div>
 <% end %>

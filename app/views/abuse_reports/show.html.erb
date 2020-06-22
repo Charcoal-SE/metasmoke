@@ -50,7 +50,7 @@
     Opened by <strong><%= @report.user.username %></strong> <%= time_ago_in_words @report.created_at %> ago
   </div>
   <div class="panel-body">
-    <%= raw(sanitize(AbuseContactsController.renderer.render(@report.details.present? ? @report.details : 'No report details stored'), scrubber: Announcement.scrubber)) %>
+    <%= raw(sanitize(render_markdown(@report.details.present? ? @report.details : 'No report details stored'), scrubber: Announcement.scrubber)) %>
   </div>
 </div>
 

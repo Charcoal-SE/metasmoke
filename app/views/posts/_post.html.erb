@@ -93,7 +93,7 @@
           <div role="tabpanel" class="tab-pane" id="preview-tab-<%= post.id %>">
             <div class="panel panel-default">
               <div class="panel-body">
-                <%= raw(sanitize(AnnouncementsController.renderer.render(post.body), scrubber: PostScrubber.new)) %>
+                <%= raw(sanitize(render_markdown(post.body), scrubber: PostScrubber.new)) %>
               </div>
             </div>
           </div>

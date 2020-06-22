@@ -18,6 +18,6 @@
     <% end %>
   </div>
   <div class="panel-body">
-    <%= raw(sanitize(PostCommentsController.renderer.render(comment.text), scrubber: PostComment.scrubber)) %>
+    <%= raw(sanitize(render_markdown(comment.text), scrubber: PostComment.scrubber)) %>
   </div>
 </div>
