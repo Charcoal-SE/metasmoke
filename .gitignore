@@ -40,6 +40,7 @@ coverage
 config/deploy/*
 /public/packs
 /node_modules
+/vendor/bundle
 REVISION
 package-lock.json
 
