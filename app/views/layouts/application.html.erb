@@ -66,9 +66,7 @@
                   <%= link_to review_queue_path(rq.name) do %>
                     <% count = q_counts[rq.id] %>
                     <%= rq.name.titleize %>
-                    <% unless count.nil? %>
-                      <span class="badge"><%= count.zero? ? '' : (count > 50 ? '50+' : count) %></span>
-                    <% end %>
+                    <span class="badge"><%= (count.nil? || count.zero?) ? '' : (count > 50 ? '50+' : count) %></span>
                   <% end %>
                 </li>
               <% end %>
