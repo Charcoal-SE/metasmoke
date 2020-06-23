@@ -279,6 +279,10 @@ class Post < ApplicationRecord
     end
   end
 
+  def self.scrubber
+    PostScrubber.new
+  end
+
   private
 
   def part_to_extract_from_domains

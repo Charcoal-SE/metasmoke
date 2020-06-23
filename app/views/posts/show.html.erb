@@ -87,7 +87,7 @@
     <div role="tabpanel" class="tab-pane" id="preview-tab">
       <div class="panel panel-default">
         <div class="panel-body">
-          <%= raw(sanitize(render_markdown(@post.body), scrubber: PostScrubber.new)) %>
+          <%= safe_render_markdown(@post.body, scrubber: Post.scrubber) %>
         </div>
       </div>
     </div>

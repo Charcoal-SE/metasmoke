@@ -13,6 +13,11 @@ module ApplicationHelper
     RENDERER.render text
   end
 
+  def safe_render_markdown(text, options = {})
+    scrubber = options[:scrubber] || PostScrubber.new
+    raw(sanitize(render_markdown(text), scrubber: scrubber))
+  end
+
   @current_dropdown_is_active = nil
   def nav_link(cls, options = {}, &block)
     Rack::MiniProfiler.step("Generating nav_link: #{cls}") do

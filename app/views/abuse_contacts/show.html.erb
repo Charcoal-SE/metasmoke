@@ -12,7 +12,7 @@
   </p>
 <% end %>
 
-<%= raw(sanitize(render_markdown(@contact.details.present? ? @contact.details : 'No contact details stored'), scrubber: Announcement.scrubber)) %>
+<%= safe_render_markdown(@contact.details.present? ? @contact.details : 'No contact details stored', scrubber: Announcement.scrubber) %>
 
 <h3>Reports to this contact</h3>
 <% @reports.in_groups_of(3).map(&:compact).each do |g| %>
