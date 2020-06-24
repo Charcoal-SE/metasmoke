@@ -6,12 +6,6 @@ class PostCommentsController < ApplicationController
   before_action :verify_access, except: [:create]
   skip_before_action :verify_authenticity_token, only: [:update]
 
-  @markdown_renderer = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new)
-
-  def self.renderer
-    @markdown_renderer
-  end
-
   def create
     @comment = PostComment.new comment_params.merge(user: current_user)
     flash[:danger] = 'Failed to post your comment.' unless @comment.save
