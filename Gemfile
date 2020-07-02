@@ -45,7 +45,7 @@ gem 'rubocop', '~> 0.48.1', require: false, group: :test
 gem 'simplecov', require: false, group: :test
 
 gem 'blazer', '2.2.1.charcoal', github: 'Charcoal-SE/blazer'
-gem 'grape', '1.0.0'
+gem 'grape', '1.3.0'
 
 # gem 'puma_worker_killer'
 
