@@ -5,12 +5,6 @@ class AbuseContactsController < ApplicationController
   before_action :set_contact, except: %i[index create]
   before_action :verify_admin, only: [:destroy]
 
-  @markdown_renderer = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new)
-
-  def self.renderer
-    @markdown_renderer
-  end
-
   def index
     @contacts = AbuseContact.all.order(:name).paginate(page: params[:page], per_page: 100)
   end

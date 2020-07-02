@@ -249,9 +249,8 @@ class PostsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def post_params
-    permitted = %w[title body link post_creation_date reasons username user_link why user_reputation score upvote_count downvote_count]
-    params.require(:post)
-          .permit(*permitted)
+    permitted = %w[title body markdown link post_creation_date reasons username user_link why user_reputation score upvote_count downvote_count]
+    params.require(:post).permit(permitted)
   end
 
   def less_important_things(post)

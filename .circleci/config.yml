@@ -82,7 +82,7 @@ jobs:
         MYSQL_DATABASE: 'metasmoke_test'
 
     steps:
-    - run: sudo apt-get install apt-utils redis-server
+    - run: sudo apt-get install dnsutils apt-utils redis-server
     - run: sudo service redis-server start
     - checkout
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
