@@ -3,7 +3,9 @@
 require 'commonmarker'
 
 def render_markdown(text)
-  CommonMarker.render_html(text, %i[UNSAFE HARDBREAKS], %i[autolink tagfilter])
+CommonMarker.render_doc(text,
+                        [:LIBERAL_HTML_TAG, :STRIKETHROUGH_DOUBLE_TILDE],
+                        [:strikethrough, :autolink]).to_html(:UNSAFE)
 end
 
 output = %w[<table> <thead> <tr><td><strong>Path</strong></td><td><strong>Description</strong></td></tr> </thead> <tbody>]
