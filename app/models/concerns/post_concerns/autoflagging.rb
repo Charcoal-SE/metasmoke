@@ -55,7 +55,7 @@ module PostConcerns::Autoflagging
           fake_flag_condition = FlagCondition.new(
             sites: Site.mains,
             max_poster_rep: post.user_reputation,
-            min_reason_count: post.reasons.length,
+            min_reason_count: post.reasons.count,
             min_weight: post.reasons.sum(&:weight)
           )
 
