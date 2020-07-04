@@ -52,10 +52,13 @@ module PostConcerns::Autoflagging
         Rails.logger.warn "[autoflagging] #{id}: scaled maxes: #{scaled_maxes}"
         if !scaled_maxes.nil? && scaled_maxes.count == 6
           # Check historical accuracy
+          post_reasons_count = 0
+          post.reasons.each do |r|
+            post_reasons_count += 1
           fake_flag_condition = FlagCondition.new(
             sites: Site.mains,
             max_poster_rep: post.user_reputation,
-            min_reason_count: post.reasons.count,
+            min_reason_count: post_reasons_count,
             min_weight: post.reasons.sum(&:weight)
           )
 
