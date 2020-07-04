@@ -64,7 +64,7 @@ module PostConcerns::Autoflagging
           accuracy = fake_flag_condition.accuracy # Decimal number, like 99.8
           post = DateTime.now
           Rails.logger.warn "[autoflagging] #{id}: historical accuracy #{accuracy}, " \
-                            "time taken #{((post-pre)*86400).to_f} seconds"
+                            "time taken #{((post - pre) * 86_400).to_f} seconds"
 
           # If the accuracy is higher than all 6 thresholds (indicating 6 flags), index will be null
           scaled_max = scaled_maxes.index { |n| n.to_f > accuracy } || FlagSetting['max_flags'].to_i
