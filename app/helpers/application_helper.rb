@@ -22,7 +22,7 @@ module ApplicationHelper
       # Like Stack Exchange does
       a['rel'] = 'nofollow noreferrer'
     end
-    doc.to_html
+    raw doc.to_html
   end
 
   @current_dropdown_is_active = nil
