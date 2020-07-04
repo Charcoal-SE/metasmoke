@@ -16,13 +16,7 @@ module ApplicationHelper
   def safe_render_markdown(text, options = {})
     # Markdown pipeline :)
     scrubber = options[:scrubber] || PostScrubber.new
-    s = sanitize(render_markdown(text), scrubber: scrubber)
-    doc = Nokogiri::HTML::DocumentFragment.parse s
-    doc.css('a[href]').each do |a|
-      # Like Stack Exchange does
-      a['rel'] = 'nofollow noreferrer'
-    end
-    raw doc.to_html
+    raw(sanitize(render_markdown(text), scrubber: scrubber))
   end
 
   @current_dropdown_is_active = nil
