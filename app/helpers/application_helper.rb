@@ -8,14 +8,21 @@ module ApplicationHelper
     text
   end
 
-  RENDERER = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new)
   def render_markdown(text)
-    RENDERER.render text
+    # Using UNSAGE flag here because we have further processing below
+    CommonMarker.render_html text, %i[UNSAFE], %i[autolink tagfilter]
   end
 
   def safe_render_markdown(text, options = {})
+    # Markdown pipeline :)
     scrubber = options[:scrubber] || PostScrubber.new
-    raw(sanitize(render_markdown(text), scrubber: scrubber))
+    s = sanitize(render_markdown(text), scrubber: scrubber)
+    doc = Nokogiri::HTML::DocumentFragment.parse s
+    doc.css('a[href]').each do |a|
+      # Like Stack Exchange does
+      a['rel'] = 'nofollow noreferrer'
+    end
+    doc.to_html
   end
 
   @current_dropdown_is_active = nil

@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-require 'redcarpet'
+require 'commonmarker'
 
-renderer = Redcarpet::Render::HTML.new hard_wrap: true
-parser = Redcarpet::Markdown.new renderer
+def render_markdown(text)
+  CommonMarker.render_html(text, %i[UNSAFE HARDBREAKS], %i[autolink tagfilter])
+end
 
 output = %w[<table> <thead> <tr><td><strong>Path</strong></td><td><strong>Description</strong></td></tr> </thead> <tbody>]
 Dir.glob('../docs/**/*.md').sort_by { |x| File.basename x }.each do |f|
@@ -20,7 +21,7 @@ Dir.glob('../docs/**/*.md').sort_by { |x| File.basename x }.each do |f|
     meta = splat.shift.split '|'
     url = meta[0]
     desc = meta[1]
-    details = parser.render(splat.join("\n"))
+    details = render_markdown(splat.join("\n"))
     output << "<tr><td><code>#{url}</code></td><td><details><summary>#{desc}</summary>#{details}</details></td></tr>"
   end
 end
