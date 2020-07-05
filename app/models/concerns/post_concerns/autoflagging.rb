@@ -24,12 +24,12 @@ module PostConcerns::Autoflagging
             available_user_ids[condition.user.id] = condition
           end
         end
-        Rails.logger.warn "[autoflagging] #{id}: fetched conditions"
+        Rails.logger.warn "[autoflagging] #{id}: fetched conditions (#{conditions.to_a.size}), #{available_user_ids.size} valid (available users)"
 
         uids = post.site.user_site_settings.where(user_id: available_user_ids.keys).map(&:user_id)
         users = User.where(id: uids, flags_enabled: true, write_authenticated: true)
         if users.blank?
-          Rails.logger.warn "[autoflagging] #{id}: no users available"
+          Rails.logger.warn "[autoflagging] #{id}: no users available (#{uids.size} uids, #{users.to_a.size} users)"
           post.send_not_autoflagged
           return 'No users eligible to flag'
         end
@@ -62,9 +62,9 @@ module PostConcerns::Autoflagging
           pre = DateTime.now
           Rails.logger.warn "[autoflagging] #{id}: check historical accuracy"
           accuracy = fake_flag_condition.accuracy # Decimal number, like 99.8
-          post = DateTime.now
+          post_ts = DateTime.now
           Rails.logger.warn "[autoflagging] #{id}: historical accuracy #{accuracy}, " \
-                            "time taken #{((post - pre) * 86_400).to_f} seconds"
+                            "time taken #{((post_ts - pre) * 86_400).to_f} seconds"
 
           # If the accuracy is higher than all 6 thresholds (indicating 6 flags), index will be null
           scaled_max = scaled_maxes.index { |n| n.to_f > accuracy } || FlagSetting['max_flags'].to_i
