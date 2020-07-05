@@ -238,7 +238,7 @@ class Post < ApplicationRecord
   end
 
   def reason_weight
-    @weight ||= reasons.pluck(:weight).reduce(:+)
+    @weight ||= reasons.sum(:weight)
   end
 
   def user_reputation
