@@ -241,10 +241,6 @@ class Post < ApplicationRecord
     @weight ||= reasons.sum(:weight)
   end
 
-  def user_reputation
-    @poster_rep ||= stack_exchange_user.reputation
-  end
-
   def reason_count
     @reason_count ||= reasons.count
   end
