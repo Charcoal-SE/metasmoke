@@ -8,9 +8,10 @@ module ApplicationHelper
     text
   end
 
-  RENDERER = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new)
   def render_markdown(text)
-    RENDERER.render text
+    CommonMarker.render_doc(text,
+                            %i[LIBERAL_HTML_TAG],
+                            %i[autolink tagfilter]).to_html(:UNSAFE)
   end
 
   def safe_render_markdown(text, options = {})
