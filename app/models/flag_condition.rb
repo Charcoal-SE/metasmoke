@@ -66,7 +66,7 @@ class FlagCondition < ApplicationRecord
   end
 
   def validate!(post)
-    post.reason_weight >= min_weight &&
+    post.total_weight >= min_weight &&
       post.user_reputation <= max_poster_rep &&
       post.reason_count >= min_reason_count
   end

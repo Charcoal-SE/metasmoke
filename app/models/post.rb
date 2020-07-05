@@ -237,7 +237,7 @@ class Post < ApplicationRecord
     native_id
   end
 
-  def reason_weight
+  def total_weight
     @weight ||= reasons.sum(:weight)
   end
 
