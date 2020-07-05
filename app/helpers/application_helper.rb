@@ -9,12 +9,12 @@ module ApplicationHelper
   end
 
   def render_markdown(text)
-    # Using UNSAGE flag here because we have further processing below
-    CommonMarker.render_html text, %i[UNSAFE], %i[autolink tagfilter]
+    CommonMarker.render_doc(text,
+                            %i[LIBERAL_HTML_TAG],
+                            %i[autolink tagfilter]).to_html(:UNSAFE)
   end
 
   def safe_render_markdown(text, options = {})
-    # Markdown pipeline :)
     scrubber = options[:scrubber] || PostScrubber.new
     raw(sanitize(render_markdown(text), scrubber: scrubber))
   end
