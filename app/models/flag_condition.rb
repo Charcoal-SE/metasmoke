@@ -69,7 +69,7 @@ class FlagCondition < ApplicationRecord
     weight >= min_weight && poster_rep <= max_poster_rep && reason_count >= min_reason_count
   end
 
-  def validate_post!(post)
+  def validate!(post)
     validate_weight_rep_reason_count!(post.reasons.pluck(:weight).reduce(:+),
                                       post.stack_exchange_user.reputation,
                                       post.reasons.count)
