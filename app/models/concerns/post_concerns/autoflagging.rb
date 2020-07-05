@@ -19,8 +19,11 @@ module PostConcerns::Autoflagging
       begin
         conditions = post.site.flag_conditions.where(flags_enabled: true)
         available_user_ids = {}
+        weight = post.reasons.pluck(:weight).reduce(:+)
+        poster_rep = post.stack_exchange_user.reputation
+        reasons_count = post.reasons.count
         conditions.each do |condition|
-          if condition.validate!(post)
+          if condition.validate_weight_rep_reason_count!(weight, poster_rep, reasons_count)
             available_user_ids[condition.user.id] = condition
           end
         end
@@ -167,8 +170,11 @@ module PostConcerns::Autoflagging
     def eligible_flaggers
       conditions = site.flag_conditions.where(flags_enabled: true)
       available_user_ids = {}
+      weight = reasons.pluck(:weight).reduce(:+)
+      poster_rep = stack_exchange_user.reputation
+      reasons_count = reasons.count
       conditions.each do |condition|
-        if condition.validate!(self)
+        if condition.validate_weight_rep_reason_count!(weight, poster_rep, reasons_count)
           available_user_ids[condition.user_id] = condition
         end
       end
