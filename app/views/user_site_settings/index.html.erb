@@ -5,6 +5,7 @@
 </p>
 <ul>
   <li>authorize metasmoke for write access to your Stack Exchange account (see "Clifford the Big Red Button" below)</li>
+  <li>verify that the "Allow metasmoke to raise flags for my account" checkbox is checked (see below)</li>
   <li>set up your preferences (below), which govern how many of your flags metasmoke can use per-site. You must set at least one preference.</li>
   <li><%= link_to "set up your autoflagging conditions", url_for(controller: :flag_conditions, action: :index) %>, which govern how certain you want metasmoke to be a post is spam before using your account to flag it. You must set at least one flagging condition.</li>
 </ul>
@@ -23,13 +24,25 @@
     <hr/>
     <% if !current_user.write_authenticated %>
       <p class="text-info">If you have not already done so, you need to first authenticate metasmoke for write access with Stack Exchange; <strong><%= link_to "you can do that here", url_for(controller: :authentication, action: :status) %></strong>.</p>
-      <p class="text-info">The above link will also show you if metasmoke thinks it's already write-authorized and allow you to re-authorize, if you've removed the authorization in your Stack Exchange preferences (metasmoke won't know you've removed authorization until it tries to flag).</p>
     <% else %>
       <input id="red-button" name="red-button" type="checkbox" <%= "checked" if current_user.flags_enabled %> <%= "disabled" if (FlagSetting["registration_enabled"] == "0" || !current_user.has_role?(:flagger)) && !current_user.flags_enabled %> />
-      <label for="red-button">Use my account to cast flags automatically</label>
+      <label for="red-button">Allow metasmoke to raise flags for my account</label>
+      <p>The above checkbox must be checked in order for either autoflagging or manual flagging through userscripts
+      (e.g. <a href="https://github.com/Charcoal-SE/userscripts/blob/master/fire/fire.user.js">FIRE</a>) to work.
+      For autoflagging to be active for your account, all of the following must happen:
+      A) this checkbox must be checked;
+      B) you must have at least one valid autoflagging preference (see "Preferences" below); <em>and</em>
+      C) you must have at least one valid <%= link_to "autoflagging condition", url_for(controller: :flag_conditions, action: :index) %>.
+      If the above checkbox is checked and you have either or both no valid autoflagging preferences or no valid and enabled  autoflagging conditions,
+      then autoflagging for your account will be disabled and only manual flagging will be functional.</p>
       <% if FlagSetting["registration_enabled"] == "0" && !current_user.flags_enabled %>
         <p class="text-muted">Registration is currently disabled.</p>
       <% end %>
+      <p>Write token status: metasmoke believes it has a valid SE API write token for your account. If you've 
+      <span title="You can remove metasmoke's token from your Stack Exchange account by going to your &quot;Edit profile and settings&quot; page on any Stack Exchange site.
+      Then select &quot;Site Settings/Applications&quot; and click &quot;remove&quot; for metasmoke.">removed that token from your application preferences on Stack Exchange</span>, you will need to
+      <%= link_to "re-authenticate", url_for(controller: :authentication, action: :status) %>
+      in order for metasmoke to raise flags for your account, even though metasmoke doesn't think you need to do so.</p>
     <% end %>
   </div>
 </div>
