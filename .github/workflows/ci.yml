@@ -44,8 +44,8 @@ jobs:
       run: |
         mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
         cp config/config.sample.yml config/config.yml
-    - run: bundle exec rubocop -aD
-  test:
+    - run: bundle exec rubocop
+  rails:
 
     runs-on: ubuntu-latest
 
