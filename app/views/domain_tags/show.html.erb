@@ -1,4 +1,10 @@
 <h3>Tag: <%= render 'tag', tag: @tag %></h3>
+<% if @counts_summary %>
+  <%= @counts_summary[:all] %>
+  (<span class="text-success" title="TP" data-toggle="tooltip"><%= @counts_summary[:tp] %></span>,
+  <span class="text-danger" title="FP" data-toggle="tooltip"><%= @counts_summary[:fp] %></span>,
+  <span class="text-warning" title="NAA" data-toggle="tooltip"><%= @counts_summary[:naa] %></span>)
+<% end %>
 <% if @tag.description.present? %>
   <p><%= @tag.description %></p>
 <% else %>
@@ -41,7 +47,12 @@
               <%= render 'tag', tag: t %>
             <% end %>
           </td>
-          <td><%= @counts[d.id] || 0 %></td>
+          <td>
+            <%= @counts[d.id] || 0 %>
+            (<span class="text-success" title="TP" data-toggle="tooltip"><%= @counts_per_domain[:tp][d.id] || 0 %></span>,
+            <span class="text-danger" title="FP" data-toggle="tooltip"><%= @counts_per_domain[:fp][d.id] || 0 %></span>,
+            <span class="text-warning" title="NAA" data-toggle="tooltip"><%= @counts_per_domain[:naa][d.id] || 0 %></span>)
+          </td>
           <td><%= link_to 'Details', spam_domain_path(d) %></td>
           <% if user_signed_in? && current_user.has_role?(:core) %>
             <td><%= link_to 'Edit', edit_spam_domain_path(d) %></td>
