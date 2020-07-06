@@ -1,11 +1,11 @@
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
-# documentation.
+# documentation.g
 # This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
 # For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
 
-name: Ruby
+name: Test
 
 on:
   push:
@@ -88,6 +88,7 @@ jobs:
           ${{ runner.os }}-node-modules-yarn-
     - name: Install dependencies
       run: |
+        sudo apt-get install libsqlite3-dev
         bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
         yarn install
     - name: Configure
