@@ -1,0 +1,162 @@
+version: 2
+jobs:
+  js:
+    working_directory: ~/Charcoal-SE/metasmoke
+    parallelism: 1
+    shell: /bin/bash --login
+
+    docker:
+    - image: circleci/ruby:2.5-node
+
+    steps:
+    - checkout
+    - run: if [ -z "${NODE_ENV:-}" ]; then export NODE_ENV=test; fi
+    - run: export PATH="~/Charcoal-SE/metasmoke/node_modules/.bin:$PATH"
+    - restore_cache:
+        keys:
+        - v1-dep-node-{{ .Branch }}-
+        - v1-dep-node-master-
+        - v1-dep-node-
+    - run: npm install
+    - save_cache:
+        key: v1-dep-node-{{ .Branch }}-{{ epoch }}
+        paths:
+        - ./node_modules
+    - run: echo -e "export RAILS_ENV=test\nexport RACK_ENV=test" >> $BASH_ENV
+    - run: npm test
+
+  rubocop:
+    working_directory: ~/Charcoal-SE/metasmoke
+    parallelism: 1
+    shell: /bin/bash --login
+
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+
+    docker:
+    - image: circleci/ruby:2.5-node
+    - image: circleci/mysql:5.7.22
+      environment:
+        MYSQL_ROOT_HOST: '%'
+        MYSQL_USER: 'ubuntu'
+        MYSQL_ROOT_PASSWORD: 'ubuntu'
+        MYSQL_DATABASE: 'metasmoke_test'
+
+    steps:
+    - run: sudo apt-get install apt-utils redis-server
+    - run: sudo service redis-server start
+    - checkout
+    - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+    - run: cp config/config.sample.yml config/config.yml
+    - restore_cache:
+        keys:
+        - v1-dep-bundle-{{ .Branch }}-
+        - v1-dep-bundle-master-
+        - v1-dep-bundle-
+    - run: 'bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+        --jobs=4 --retry=3 '
+    - save_cache:
+        key: v1-dep-bundle-{{ .Branch }}-{{ epoch }}
+        paths:
+        - vendor/bundle
+        - ~/.bundle
+    - run: bundle exec rubocop -D
+
+  rails-tests:
+    working_directory: ~/Charcoal-SE/metasmoke
+    parallelism: 1
+    shell: /bin/bash --login
+
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+
+    docker:
+    - image: circleci/ruby:2.5-node
+    - image: circleci/mysql:5.7.22
+      environment:
+        MYSQL_ROOT_HOST: '%'
+        MYSQL_USER: 'ubuntu'
+        MYSQL_ROOT_PASSWORD: 'ubuntu'
+        MYSQL_DATABASE: 'metasmoke_test'
+
+    steps:
+    - run: sudo apt-get install dnsutils apt-utils redis-server
+    - run: sudo service redis-server start
+    - checkout
+    - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+    - run: cp config/config.sample.yml config/config.yml
+    - run: echo -e "export RAILS_ENV=test\nexport RACK_ENV=test" >> $BASH_ENV
+    - run: |-
+        mkdir -p config && echo 'test:
+          adapter: mysql2
+          database: metasmoke_test
+          username: root
+          password: ubuntu
+          host: 127.0.0.1
+        ' > config/database.yml
+    - run: |-
+        mkdir -p config && echo 'test:
+          adapter: redis
+          timeout: 120
+          url: redis://localhost:6379
+        ' > config/cable.yml
+
+    # Bundler
+    - restore_cache:
+        keys:
+        - v1-dep-bundle-{{ .Branch }}-
+        - v1-dep-bundle-master
+        - v1-dep-bundle
+    - run: 'bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+        --jobs=4 --retry=3 '
+    - save_cache:
+        key: v1-dep-bundle-{{ .Branch }}-{{ epoch }}
+        paths:
+        - vendor/bundle
+        - ~/.bundle
+
+    # Node deps
+    - restore_cache:
+        keys:
+        - v1-dep-node-{{ .Branch }}-
+        - v1-dep-node-master
+        - v1-dep-node-
+    - run: npm install
+    - save_cache:
+        key: v1-dep-node-{{ .Branch }}-{{ epoch }}
+        paths:
+        - ./node_modules
+
+    # Run tests
+    - run:
+        command: bundle exec rake db:create db:schema:load db:test:prepare db:migrate --trace
+        environment:
+          RAILS_ENV: test
+          RACK_ENV: test
+    - run:
+        command: bundle exec rails test --verbose
+        environment:
+          RAILS_ENV: test
+          RACK_ENV: test
+          DISABLE_QUERY_LOGGER: true
+
+    - store_artifacts:
+        path: log
+    - store_test_results:
+        path: /tmp/circleci-test-results
+    - store_artifacts:
+        path: /tmp/circleci-artifacts
+    - store_artifacts:
+        path: coverage
+    - store_artifacts:
+        path: /tmp/circleci-test-results
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - js
+      - rails-tests
+      - rubocop
