@@ -1,0 +1,139 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
+# For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
+
+name: Ruby
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+  CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+
+jobs:
+  rubocop:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+    # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
+    # change this to (see https://github.com/ruby/setup-ruby#versioning):
+    # uses: ruby/setup-ruby@v1
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.5
+    - uses: actions/cache@v2
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-gems-
+    - name: Install dependencies
+      run: |
+        sudo apt-get install libsqlite3-dev
+        bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
+    - name: Configure
+      run: |
+        mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+        cp config/config.sample.yml config/config.yml
+    - run: bundle exec rubocop -aD
+  test:
+
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_USER: root
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306
+      redis:
+        image: redis
+        # Map TCP port 6379 on Docker host to a random free port on the Redis container
+        ports:
+          - 6379/tcp
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+    # To automatically get bug fixes and new Ruby versions for ruby/setup-ruby,
+    # change this to (see https://github.com/ruby/setup-ruby#versioning):
+    # uses: ruby/setup-ruby@v1
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.5
+    - name: Cache bundle
+      uses: actions/cache@v2
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-gems-
+    - name: Cache yarn packages
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-modules-yarn-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-node-modules-yarn-
+    - name: Install dependencies
+      run: |
+        bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
+        yarn install
+    - name: Configure
+      env:
+        RAILS_ENV: test
+        RACK_ENV: test
+      run: |
+        mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+        cp config/config.sample.yml config/config.yml
+        mkdir -p config && echo 'test:
+          adapter: mysql2
+          database: metasmoke_test
+          username: root
+          password: root
+          host: 127.0.0.1
+          port: ${{ job.services.mysql.ports['3306'] }}
+        ' > config/database.yml
+        mkdir -p config && echo 'test:
+          adapter: redis
+          timeout: 120
+          url: redis://localhost:${{ job.services.redis.ports['6379'] }}
+        ' > config/cable.yml
+    - name: Prepare
+      env:
+        RAILS_ENV: test
+        RACK_ENV: test
+      run: bundle exec rake db:create db:schema:load db:test:prepare db:migrate --trace
+    - name: Run tests
+      run: bundle exec rails test --verbose
+  js:
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: test
+      RAILS_ENV: test
+      RACK_ENV: test
+    steps:
+      - uses: actions/checkout@v2
+      - run: export PATH="~/Charcoal-SE/metasmoke/node_modules/.bin:$PATH"
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-npm-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-npm-
+      - run: ls
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm test
