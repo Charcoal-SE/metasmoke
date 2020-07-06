@@ -237,6 +237,14 @@ class Post < ApplicationRecord
     native_id
   end
 
+  def total_weight
+    @weight ||= reasons.sum(:weight)
+  end
+
+  def reason_count
+    @reason_count ||= reasons.count
+  end
+
   # Called get_revision_count with the predicate because the model already has an attribute in the DB called revision_count.
   def get_revision_count # rubocop:disable Style/AccessorMethodName
     post = if respond_to? :revision_count
