@@ -30,7 +30,7 @@ Types::PostType = GraphQL::ObjectType.define do
   field :spam_domains, types[Types::SpamDomainType]
   field :flag_logs, types[Types::FlagLogType]
   field :comments, types[Types::PostCommentType]
-  field :domain_tags, types[Types::DomainTagType]
+  field :post_tags, types[Types::DomainTagType]
 
   field :created_at, Types::DateTimeType
   field :updated_at, Types::DateTimeType
