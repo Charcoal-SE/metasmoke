@@ -161,8 +161,8 @@ Rails.application.routes.draw do
 
     post 'graphql',                 to: 'graphql#execute',           as: :graphql
     get 'graphql',                  to: 'graphql#query',             as: :query_graphql
-    mount GraphiQL::Rails::Engine,  at: '/graphiql',                 graphql_path: '/api/graphql', query_params: true
   end
+  mount GraphiQL::Rails::Engine,  at: '/api/graphiql',                 graphql_path: '/api/graphql', query_params: true
 
   scope 'authentication' do
     get 'status',                to: 'authentication#status', as: :authentication_status
