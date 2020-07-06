@@ -15,9 +15,9 @@ class PostsController < ApplicationController
                   .includes(:feedbacks)
                   .select(Arel.sql('posts.*, sites.site_logo, SUM(reasons.weight) AS reason_weight'))
                   .find(params[:id])
-    rescue
-      @post = Post.find params[:id]
+    rescue # rubocop:disable Lint/HandleExceptions
     end
+    @post = Post.find params[:id] if @post&.id.nil?
 
     @is_review_item = false
 
