@@ -118,6 +118,21 @@ jobs:
       run: bundle exec rake db:create db:schema:load db:test:prepare db:migrate --trace
     - name: Run tests
       run: bundle exec rails test --verbose
+    - name: Upload Gemfile.lock
+      uses: actions/upload-artifact@v2
+      if: ${{ failure() }}
+      with:
+        name: Gemfile.lock
+        path: Gemfile.lock
+    - name: Gem version diff
+      if: ${{ failure() }}
+      run: git diff Gemfile.lock
+    - name: Upload coverage data
+      uses: actions/upload-artifact@v2
+      if: ${{ success() }}
+      with:
+        name: coverage
+        path: coverage
   js:
     runs-on: ubuntu-latest
     env:
