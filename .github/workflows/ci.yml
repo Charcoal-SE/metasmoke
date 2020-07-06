@@ -62,7 +62,9 @@ jobs:
         # Map TCP port 6379 on Docker host to a random free port on the Redis container
         ports:
           - 6379/tcp
-
+    env:
+      RAILS_ENV: test
+      RACK_ENV: test
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby
@@ -92,9 +94,6 @@ jobs:
         bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
         yarn install
     - name: Configure
-      env:
-        RAILS_ENV: test
-        RACK_ENV: test
       run: |
         mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
         cp config/config.sample.yml config/config.yml
@@ -112,9 +111,6 @@ jobs:
           url: redis://localhost:${{ job.services.redis.ports['6379'] }}
         ' > config/cable.yml
     - name: Prepare
-      env:
-        RAILS_ENV: test
-        RACK_ENV: test
       run: bundle exec rake db:create db:schema:load db:test:prepare db:migrate --trace
     - name: Run tests
       run: bundle exec rails test --verbose
