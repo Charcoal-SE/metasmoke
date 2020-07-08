@@ -187,7 +187,7 @@
 <% if @post.spam_domains.any? %>
   <ul class="post-domain-list">
     <% @post.spam_domains.each do |d| %>
-      <li><%= render 'spam_domains/domain', domain: d %></li>
+      <li><%= render 'spam_domains/domain', domain: d, occurances: true %></li>
     <% end %>
   </ul><br/>
 <% else %>
