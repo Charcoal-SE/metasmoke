@@ -7,30 +7,30 @@
 <div class="collapse" style="margin-bottom:-1px" id="<%= req[:key] %>">
   <li class="list-group-item square-borders">
     <p>
-      <%= req['session_id'].nil? ? "No Session" : link_to("session", redis_log_by_session_path(id: req['session_id'])) %>
+      <%= req['session_id'].nil? ? 'No Session' : link_to('session', redis_log_by_session_path(id: req['session_id'])) %>
       &middot;
-      <%= req['user_id'].nil? ? "No User" : link_to("user", redis_log_by_user_path(id: req['user_id'])) %>
+      <%= req['user_id'].nil? ? 'No User' : link_to('user', redis_log_by_user_path(id: req['user_id'])) %>
       &middot;
-      <%= link_to("request", redis_log_request_path(req.slice(:request_id, :timestamp))) %>
+      <%= link_to('request', redis_log_request_path(req.slice(:request_id, :timestamp))) %>
       &middot;
-      <%= %w[method path format].all? { |i| !(req[i].nil? || req[i].empty?) } ? link_to("path", redis_log_by_path_path(method: req['method'], format: req['format'], path: (Rails.sensible_routes.match_for(req['path'])&.path || req['path'].split('?').first))) : 'No Path' %>
+      <%= %w[method path format].all? { |i| !(req[i].nil? || req[i].empty?) } ? link_to('path', redis_log_by_path_path(method: req['method'], format: req['format'], path: (Rails.sensible_routes.match_for(req['path'])&.path || req['path'].split('?').first))) : 'No Path' %>
     </p>
     <h4><code><%= req['controller'] %>#<%= req['action'] %> (<%= req['path'] %>.<%= req['format'] %>)</code></h4>
-    <% if !req[:logs].nil? %>
+    <% unless req[:logs].nil? %>
     <h3>Logs:</h3>
-    <%= raw(req[:logs].map { |l| sanitize(l) }.join("<br>")) %>
+    <%= raw(req[:logs].map { |l| sanitize(l) }.join('<br>')) %>
     <% end %>
-    <% if !req[:exception].empty? %>
+    <% unless req[:exception].empty? %>
     <h3><%= req['status'] %> Exception:</h3>
     <pre><%= req['exception'] %></pre>
     <%= render 'redis_log/param_table', params: req[:exception] %>
     <% end %>
-    <% ["Params", "Request Headers", "Response Headers"].each do |key| %>
+    <% ['Params', 'Request Headers', 'Response Headers'].each do |key| %>
       <h4><%= key %></h4>
-      <% if req[key.downcase.gsub(' ', '_').to_sym].nil? || req[key.downcase.gsub(' ', '_').to_sym].empty? %>
+      <% if req[key.downcase.tr(' ', '_').to_sym].nil? || req[key.downcase.tr(' ', '_').to_sym].empty? %>
         (empty)
       <% else %>
-        <%= render 'redis_log/param_table', heading: key, params: req[key.downcase.gsub(' ', '_').to_sym] %>
+        <%= render 'redis_log/param_table', heading: key, params: req[key.downcase.tr(' ', '_').to_sym] %>
       <% end %>
     <% end %>
     <table class="request-details-table">

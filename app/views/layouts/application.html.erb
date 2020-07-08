@@ -2,28 +2,28 @@
 <html>
 <head>
   <title>
-    <%= if content_for?(:title) then yield(:title) + ' - ' end %>
+    <%= yield(:title) + ' - ' if content_for?(:title) %>
     metasmoke
   </title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   <% Rack::MiniProfiler.step('Rendering: layouts/application/head') do %>
-    <% cache "application/head_tags" do %>
+    <% cache 'application/head_tags' do %>
       <%= stylesheet_link_tag 'application', media: 'all' %>
       <%= favicon_link_tag '/favicon.ico' %>
       <link rel="search" type="application/opensearchdescription+xml" title="metasmoke"
             href="https://metasmoke.erwaysoftware.com/opensearch.xml">
 
-      <%= stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" %>
-      <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css" %>
-      <%= stylesheet_link_tag "https://charcoal-se.org/assets/css/branding.css" %>
-      <%= stylesheet_link_tag "https://use.fontawesome.com/releases/v5.2.0/css/all.css", integrity: "sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ", crossorigin: "anonymous" %>
+      <%= stylesheet_link_tag 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' %>
+      <%= stylesheet_link_tag 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css' %>
+      <%= stylesheet_link_tag 'https://charcoal-se.org/assets/css/branding.css' %>
+      <%= stylesheet_link_tag 'https://use.fontawesome.com/releases/v5.2.0/css/all.css', integrity: 'sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ', crossorigin: 'anonymous' %>
 
-      <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" %>
-      <%= javascript_include_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" %>
-      <%= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js" %>
-      <%= javascript_include_tag "//code.highcharts.com/highcharts.js", "chartkick" %>
+      <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js' %>
+      <%= javascript_include_tag 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js' %>
+      <%= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js' %>
+      <%= javascript_include_tag '//code.highcharts.com/highcharts.js', 'chartkick' %>
     <% end %>
     <%= javascript_pack_tag 'vendor', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -32,7 +32,7 @@
   <% end %>
 </head>
 <body class="<%= controller.class.name.sub(/Controller$/, '').underscore.dasherize %>">
-  <nav class="navbar navbar-default navbar-static-top <%= "navbar-inverse" unless Rails.env.production? %>">
+  <nav class="navbar navbar-default navbar-static-top <%= 'navbar-inverse' unless Rails.env.production? %>">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -51,12 +51,12 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <%= nav_link PostsController %>
-          <li class='<%= (controller.class == DashboardController && controller.action_name == :index) ? "active" : "" %>'><%= link_to "reasons", reasons_path %></li>
+          <li class='<%= controller.class == DashboardController && controller.action_name == :index ? 'active' : '' %>'><%= link_to 'reasons', reasons_path %></li>
           <%= nav_link GraphsController %>
           <%= nav_link SearchController %>
           <% Rack::MiniProfiler.step('Rendering: layouts/application/nav/review') do %>
-          <% if user_signed_in? && current_user.has_role?("reviewer") %>
-            <% q_counts = redis.smembers("review_queues").map { |i| [i.to_i, redis.scard("review_queue/#{i}/unreviewed")] }.to_h %>
+          <% if user_signed_in? && current_user.has_role?('reviewer') %>
+            <% q_counts = redis.smembers('review_queues').map { |i| [i.to_i, redis.scard("review_queue/#{i}/unreviewed")] }.to_h %>
             <% total_count = q_counts.sum { |_k, v| v } %>
             <% label = raw("review <span class='reviews-count badge'>#{total_count != 0 && current_user&.has_role?(:reviewer) ? total_count : nil}</span>") %>
             <% Rack::MiniProfiler.step('Rendering: layouts/application/nav/review/dropdown') do %>
@@ -66,7 +66,7 @@
                   <%= link_to review_queue_path(rq.name) do %>
                     <% count = q_counts[rq.id] %>
                     <%= rq.name.titleize %>
-                    <span class="badge"><%= (count.nil? || count.zero?) ? '' : (count > 50 ? '50+' : count) %></span>
+                    <span class="badge"><%= count.nil? || count.zero? ? '' : (count > 50 ? '50+' : count) %></span>
                   <% end %>
                 </li>
               <% end %>
@@ -75,7 +75,7 @@
           <% end %>
           <% end %>
           <%= nav_link FlagSettingsController, action: :dashboard, label: 'flagging',
-                       active: [FlagConditionsController, FlagLogController] %>
+                                  active: [FlagConditionsController, FlagLogController] %>
 
           <%= nav_dropdown AdminController, label: 'tools' do %>
             <%= nav_link SpamDomainsController, label: 'Domains' %>
@@ -133,13 +133,13 @@
           <% end %>
 
           <%= nav_link StatusController, attrs: {
-            class: ['status', "status-#{SmokeDetector.status_color}"],
-            data: {
-              last_ping: SmokeDetector.select(:last_ping).order(last_ping: :desc).first.last_ping.to_f,
-              toggle: 'tooltip',
-              placement: 'bottom'
-            }
-          } %>
+   class: ['status', "status-#{SmokeDetector.status_color}"],
+   data: {
+     last_ping: SmokeDetector.select(:last_ping).order(last_ping: :desc).first.last_ping.to_f,
+     toggle: 'tooltip',
+     placement: 'bottom'
+   }
+ } %>
         </ul>
         <% if controller.class == DashboardController && controller.action_name == 'index' %>
           <form class="navbar-form navbar-right" role="search">
@@ -168,12 +168,12 @@
           <% end %>
           <% if CurrentCommit.present? %>
             <%= nav_link CodeStatusController, label: '', attrs: {
-              title: "Controller: #{controller.class}##{controller.action_name}",
-              class: 'commit-sha',
-              data: {
-                sha: CurrentCommit
-              }
-            } do %>
+   title: "Controller: #{controller.class}##{controller.action_name}",
+   class: 'commit-sha',
+   data: {
+     sha: CurrentCommit
+   }
+ } do %>
               <code><%= CurrentCommit.first(7) %></code>
             <% end %>
           <% end %>
@@ -201,7 +201,7 @@
       <p><em><a href="#" class="announcement-collapse">Hide announcements</a></em></p>
       <div class="announcements">
         <% Announcement.current.each do |a| %>
-          <%= render "announcements/announcement", announcement: a %>
+          <%= render 'announcements/announcement', announcement: a %>
         <% end %>
       </div><br/>
     <% end %>

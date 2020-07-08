@@ -17,7 +17,7 @@
     <% end %>
     <% if current_user.has_role?(:admin) %>
       &middot; <%= link_to 'Delete', destroy_domain_tag_path(@tag), method: :delete,
-                    data: { confirm: 'Are you sure?' }, class: 'text-danger' %>
+                                                  data: { confirm: 'Are you sure?' }, class: 'text-danger' %>
     <% end %>
   </p>
   <%= render 'abuse_reports/list', item: @tag %>
@@ -59,7 +59,7 @@
           <% end %>
           <% if user_signed_in? && current_user.has_role?(:admin) %>
             <td><%= link_to 'Delete', destroy_spam_domain_path(d), method: :delete, class: 'text-danger',
-                            data: { confirm: 'Are you sure?' } %></td>
+                                                data: { confirm: 'Are you sure?' } %></td>
           <% end %>
         </tr>
       <% end %>
@@ -89,7 +89,7 @@
         <%= hidden_field_tag :source_id, @tag.id %>
         <%= label_tag :target_id, 'Merge this tag with:' %>
         <%= select_tag :target_id, options_for_select(DomainTag.all.map { |t| [t.name, t.id, { 'data-subtext' => t.id }] }),
-                       class: 'form-control input-sm selectpicker', include_blank: true %>
+            class: 'form-control input-sm selectpicker', include_blank: true %>
         <%= submit_tag 'Merge', class: 'btn btn-sm btn-danger' %>
       <% end %>
     </div>

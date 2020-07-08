@@ -1,4 +1,4 @@
-<h3><%= title "Tools" %></h3>
+<h3><%= title 'Tools' %></h3>
 <p>Someone thought these were useful, at some point. We take no responsibility for whether they actually are or not.</p>
 <p>
   <ul>
@@ -8,10 +8,10 @@
     <% if current_user.try(:has_role?, :admin) %>
       <li><a href="/admin/flagged">Posts with Admin Reports</a></li>
       <li><a href="/admin/keys">API Keys</a></li>
-      <li><%= link_to "User Permissions", admin_permissions_path %></li>
+      <li><%= link_to 'User Permissions', admin_permissions_path %></li>
     <% end %>
     <% if current_user&.has_role?(:developer) %>
-      <li><%= link_to "Production log", url_for(controller: :developer, action: :production_log), class: "text-danger" %></li>
+      <li><%= link_to 'Production log', url_for(controller: :developer, action: :production_log), class: 'text-danger' %></li>
     <% end %>
   </ul>
 </p>

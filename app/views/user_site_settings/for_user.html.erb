@@ -15,9 +15,9 @@
         <td class="text-muted"><%= pref.id %></td>
         <td><%= pref.sites.count %></td>
         <td><%= pref.flags_used %></td>
-        <td><%= link_to "Edit", url_for(controller: :user_site_settings, action: :edit, id: pref.id) %></td>
-        <td><%= link_to "Delete", url_for(controller: :user_site_settings, action: :destroy, id: pref.id),
-                        method: :delete, data: { confirm: "Are you sure?" }, class: "text-danger" %></td>
+        <td><%= link_to 'Edit', url_for(controller: :user_site_settings, action: :edit, id: pref.id) %></td>
+        <td><%= link_to 'Delete', url_for(controller: :user_site_settings, action: :destroy, id: pref.id),
+         method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-danger' %></td>
       </tr>
     <% end %>
   </tbody>

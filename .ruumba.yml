@@ -1,0 +1,28 @@
+AllCops:
+  Include:
+    - '**/*.erb'
+  TargetRubyVersion: 2.4
+
+
+Style/TrailingWhitespace:
+  Enabled: false
+Metrics/LineLength:
+  Max: 200
+Style/IndentationConsistency:
+  Enabled: false
+Style/IndentationWidth:
+  Enabled: false
+Style/InitialIndentation:
+  Enabled: false
+Style/SpaceBeforeSemicolon:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/TrailingBlankLines:
+  Enabled: false
+Lint/Void:
+  Enabled: false
+Style/Semicolon:
+  Enabled: false
+Style/ExtraSpacing:
+  Enabled: false

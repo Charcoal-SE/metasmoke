@@ -1,13 +1,13 @@
-<h3><%= title "Flag Settings" %></h3>
+<h3><%= title 'Flag Settings' %></h3>
 
-<%= link_to "Change Log", flag_settings_audits_path %>
+<%= link_to 'Change Log', flag_settings_audits_path %>
 
 <table class="table">
   <thead>
     <tr>
       <th>Name</th>
       <th>Value</th>
-      <% if user_signed_in? and current_user.has_role? :admin %>
+      <% if user_signed_in? && current_user.has_role?(:admin) %>
         <th></th>
       <% end %>
     </tr>
@@ -18,7 +18,7 @@
       <tr>
         <td><%= flag_setting.name.humanize %> (<code><%= flag_setting.name %></code>)</td>
         <td><%= flag_setting.value %></td>
-        <% if user_signed_in? and current_user.has_role? :admin %>
+        <% if user_signed_in? && current_user.has_role?(:admin) %>
           <td><%= link_to 'Edit', edit_flag_setting_path(flag_setting) %></td>
         <% end %>
       </tr>
@@ -28,6 +28,6 @@
 
 <br>
 
-<% if user_signed_in? and current_user.has_role? :admin %>
+<% if user_signed_in? && current_user.has_role?(:admin) %>
   <%= link_to 'New Flag Setting', new_flag_setting_path %>
 <% end %>

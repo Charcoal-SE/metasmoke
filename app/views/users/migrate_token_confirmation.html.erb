@@ -1,4 +1,4 @@
 <%= form_tag migrate_token_path do %>
-  <%= hidden_field_tag "state", params[:state] %>
+  <%= hidden_field_tag 'state', params[:state] %>
   <%= submit_tag "Confirm that you've granted access", class: 'btn btn-primary' %>
 <% end %>

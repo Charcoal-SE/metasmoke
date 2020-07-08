@@ -1,4 +1,4 @@
-<% if params[:action] == "full_list" %>
+<% if params[:action] == 'full_list' %>
   <h3>All Flagging Conditions</h3>
 <% else %>
   <h3>Your Flagging Conditions</h3>
@@ -11,7 +11,7 @@
     <thead>
       <tr>
         <th class="text-muted">ID</th>
-        <% if params[:action] == "full_list" %>
+        <% if params[:action] == 'full_list' %>
           <th>User</th>
         <% end %>
         <th>Enabled</th>
@@ -26,7 +26,7 @@
       <% @conditions.each do |condition| %>
         <tr>
           <td class="text-muted"><%= condition.id %></td>
-          <% if params[:action] == "full_list" %>
+          <% if params[:action] == 'full_list' %>
             <td><%= condition.user&.username %></td>
           <% end %>
           <td class="text-<%= condition.flags_enabled ? 'success' : 'danger' %>">
@@ -39,9 +39,9 @@
           <td><%= condition.max_poster_rep %></td>
           <td><%= condition.min_reason_count %></td>
           <td><%= condition.sites.count %></td>
-          <td><%= link_to "Edit", url_for(controller: :flag_conditions, action: :edit, id: condition.id) %></td>
-          <td><%= link_to "Delete", url_for(controller: :flag_conditions, action: :destroy, id: condition.id),
-                          method: :delete, data: { confirm: "Are you sure?" }, class: "text-danger" %></td>
+          <td><%= link_to 'Edit', url_for(controller: :flag_conditions, action: :edit, id: condition.id) %></td>
+          <td><%= link_to 'Delete', url_for(controller: :flag_conditions, action: :destroy, id: condition.id),
+         method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-danger' %></td>
         </tr>
       <% end %>
     </tbody>
@@ -51,9 +51,9 @@
     using the link below.</p>
 <% end %>
 
-<% unless params[:action] == "full_list" %>
+<% unless params[:action] == 'full_list' %>
   <% if FlagSetting['registration_enabled'] == '1' %>
-    <%= link_to "New condition", url_for(controller: :flag_conditions, action: :new) %>
+    <%= link_to 'New condition', url_for(controller: :flag_conditions, action: :new) %>
   <% else %>
     <p class="text-muted"><em>Registration for autoflagging is currently closed.</em></p>
   <% end %>

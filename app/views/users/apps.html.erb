@@ -16,8 +16,8 @@
         <td><%= key.app_name %></td>
         <td><%= APIToken.where(user: current_user, api_key: key).last.created_at %></td>
         <td><%= APIToken.where(user: current_user, api_key: key).count %></td>
-        <td><%= link_to "Revoke Access", url_for(controller: :users, action: :revoke_app, key_id: key.id), method: :delete,
-                data: { confirm: "Are you sure? If you want to use this app again, you will have to re-authenticate." }, class: "text text-danger" %></td>
+        <td><%= link_to 'Revoke Access', url_for(controller: :users, action: :revoke_app, key_id: key.id), method: :delete,
+                                                                                            data: { confirm: 'Are you sure? If you want to use this app again, you will have to re-authenticate.' }, class: 'text text-danger' %></td>
       </tr>
     <% end %>
   </tbody>
@@ -47,7 +47,7 @@
         </td>
         <td>
           <% if key.github_link.try(:strip).try(:length) || 0 > 0 %>
-            <%= link_to "Repo", key.github_link %>
+            <%= link_to 'Repo', key.github_link %>
           <% end %>
         </td>
       </tr>
@@ -55,4 +55,4 @@
   </tbody>
 </table>
 
-<%= link_to "Apps you own/develop", url_for(controller: :api_keys, action: :mine) %>
+<%= link_to 'Apps you own/develop', url_for(controller: :api_keys, action: :mine) %>

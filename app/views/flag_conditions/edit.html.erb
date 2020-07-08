@@ -2,7 +2,7 @@
 
 <% if @condition.errors.any? %>
     <div class="text-danger">
-      <p>The following <%= pluralize(@condition.errors.count, "error") %> prevented this condition from being saved:</p>
+      <p>The following <%= pluralize(@condition.errors.count, 'error') %> prevented this condition from being saved:</p>
       <ul>
         <% @condition.errors.full_messages.each do |message| %>
             <li><%= message %></li>
@@ -22,4 +22,4 @@
     </div>
 <% end %>
 
-<%= render partial: "form" %>
+<%= render partial: 'form' %>

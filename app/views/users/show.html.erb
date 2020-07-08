@@ -52,7 +52,7 @@
       </div>
       <div class="panel-body">
         <p>
-          <strong>Email:</strong> <%= @user.email =~ /(metasmoke\.fake|se-oauth\.metasmoke)/ ? 'No' : 'Yes' %><br/>
+          <strong>Email:</strong> <%= @user.email.match?(/(metasmoke\.fake|se-oauth\.metasmoke)/) ? 'No' : 'Yes' %><br/>
           <strong>SE:</strong> <%= @user.stack_exchange_account_id.present? ? 'Yes' : 'No' %><br/>
           <strong>2FA:</strong> <%= @user.enabled_2fa? ? 'Yes' : 'No' %>
         </p>

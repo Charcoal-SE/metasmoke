@@ -1,4 +1,4 @@
-<h3><%= title "Status" %></h3>
+<h3><%= title 'Status' %></h3>
 
 <br />
 
@@ -11,7 +11,7 @@
   </tr>
 
   <% @statuses.each_with_index do |sd, index| %>
-    <% if index == 0 or sd.last_ping > 1.hour.ago %>
+    <% if index == 0 || sd.last_ping > 1.hour.ago %>
       <tr class="status-row" data-id="<%= sd.id %>">
     <% else %>
       <tr class="status-row hidden-row" style="<%= 'display:none' %>" data-id="<%= sd.id %>">
@@ -19,7 +19,7 @@
       <td class="location-cell">
         <%= link_to smoke_detector_statistics_path(sd.id) do %>
           <span class="location"><%= sd.location %></span>
-          <span class="label label-<%= sd.last_ping > 3.minutes.ago ? "primary" : "default" %> " style="display: <%= sd.is_standby ? 'inline' : 'none'%>">Standby</span>
+          <span class="label label-<%= sd.last_ping > 3.minutes.ago ? 'primary' : 'default' %> " style="display: <%= sd.is_standby ? 'inline' : 'none'%>">Standby</span>
         <% end %>
       </td>
       <td class="activity-cell">
@@ -30,19 +30,19 @@
       </td>
       <td>
         <% if current_user&.has_role?(:admin) %>
-          <%= link_to "De-authorize", url_for(controller: :smoke_detectors, action: :destroy, id: sd.id), class: "text-danger",
-                data: {confirm: "This will be logged, and cannot be undone. Sure?"}, method: :delete %>
+          <%= link_to 'De-authorize', url_for(controller: :smoke_detectors, action: :destroy, id: sd.id), class: 'text-danger',
+                                                                                             data: { confirm: 'This will be logged, and cannot be undone. Sure?' }, method: :delete %>
         <% end %>
       </td>
       <% if current_user&.has_role?(:blacklist_manager) %>
         <% if sd.last_ping > 3.minutes.ago %>
           <td class="status-failover-cell">
             <% if sd.is_standby %>
-              <%= link_to "Failover", smoke_detector_force_failover_path(sd.id), class: "text-danger", data: {confirm: "This will take effect at the next ping, within a minute. Sure?"}, method: :post %>
+              <%= link_to 'Failover', smoke_detector_force_failover_path(sd.id), class: 'text-danger', data: { confirm: 'This will take effect at the next ping, within a minute. Sure?' }, method: :post %>
             <% end %>
           </td>
           <td>
-            <%= link_to "Pull", smoke_detector_force_pull_path(sd.id), class: "text-danger", data: {confirm: "This will take effect at the next ping, within a minute. Sure?"}, method: :post %>
+            <%= link_to 'Pull', smoke_detector_force_pull_path(sd.id), class: 'text-danger', data: { confirm: 'This will take effect at the next ping, within a minute. Sure?' }, method: :post %>
           </td>
         <% else %>
           <td colspan="2"></td>
@@ -59,12 +59,12 @@
 <hr/>
 
 <% if current_user.try(:has_role?, :smoke_detector_runner) %>
-  <strong><%= link_to "Manage my keys", smoke_detector_mine_path %></strong>
+  <strong><%= link_to 'Manage my keys', smoke_detector_mine_path %></strong>
 <% end %>
 
 <br />
 
-<%= link_to "Audits", url_for(controller: :smoke_detectors, action: :audits) %><br/><br/>
+<%= link_to 'Audits', url_for(controller: :smoke_detectors, action: :audits) %><br/><br/>
 <% if current_user&.has_role?(:admin) %>
   <div class="panel panel-danger">
     <div class="panel-body">

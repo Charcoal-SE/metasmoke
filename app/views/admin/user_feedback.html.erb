@@ -23,11 +23,11 @@
   </thead>
   <tbody>
     <% @feedback.each do |f| %>
-      <tr class="<%= "danger" if f.invalidated_at %>">
+      <tr class="<%= 'danger' if f.invalidated_at %>">
         <td><a href="/post/<%= f.post_id %>"><%= f.title %></a></td>
         <td class="<%= element_class_for_feedback f %>"><%= f.feedback_type %></td>
-        <td><%= f.invalidated_at ? "Yes" : "No" %></td>
-        <td><%= time_ago_in_words(f.created_at) + " ago" if f.created_at.present? %></td>
+        <td><%= f.invalidated_at ? 'Yes' : 'No' %></td>
+        <td><%= time_ago_in_words(f.created_at) + ' ago' if f.created_at.present? %></td>
       </tr>
     <% end %>
   </tbody>

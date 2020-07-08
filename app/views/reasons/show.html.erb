@@ -10,11 +10,11 @@
   <%= pie_chart reason_site_chart_path(@reason.id) %>
 </div>
 <div class="col-md-6">
-  <%= line_chart reason_accuracy_chart_path(@reason.id), colors: ["green", "red"], library: {"tooltip" => {'shared' => 'true'} } %>
+  <%= line_chart reason_accuracy_chart_path(@reason.id), colors: %w[green red], library: { 'tooltip' => { 'shared' => 'true' } } %>
 </div>
 
 <ul class="nav nav-tabs">
-  <li class="<%= 'active' if params[:filter].nil? or params[:filter] == 'all' %>">
+  <li class="<%= 'active' if params[:filter].nil? || params[:filter] == 'all' %>">
     <%= link_to "All (#{@total})", reason_path(@reason, filter: nil) %>
   </li>
   <li class="<%= 'active' if params[:filter] == 'tp' %>">

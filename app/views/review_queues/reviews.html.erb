@@ -16,13 +16,13 @@
     <%= hidden_field_tag :all, '1' %>
     <%= label_tag :user %>
     <%= select_tag :user, options_from_collection_for_select(User.all, 'id', 'username', selected: params[:user]),
-                   include_blank: true, class: 'form-control input-sm' %>
+            include_blank: true, class: 'form-control input-sm' %>
     <%= label_tag :response %>
-    <%= select_tag :response, options_for_select(@queue.responses + [['Skip', 'skip']], selected: params[:response]),
-                   include_blank: true, class: 'form-control input-sm' %>
+    <%= select_tag :response, options_for_select(@queue.responses + [%w[Skip skip]], selected: params[:response]),
+            include_blank: true, class: 'form-control input-sm' %>
     <%= label_tag :role %>
     <%= select_tag :role, options_for_select(Role.names.map { |r| [r.to_s.humanize, r] }, selected: params[:role]),
-                   include_blank: true, class: 'form-control input-sm' %>
+            include_blank: true, class: 'form-control input-sm' %>
     <%= submit_tag 'Filter', class: 'btn btn-primary btn-sm' %>
   <% end %>
 <% end %>

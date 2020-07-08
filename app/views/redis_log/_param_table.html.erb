@@ -4,7 +4,7 @@
      <td><%= k %></td>
      <td>
        <% if v.include?("\n") %>
-         <pre style="overflow:scroll;max-height:20em;"><%= raw(sanitize(v).gsub("\n", "<br>")) %></pre>
+         <pre style="overflow:scroll;max-height:20em;"><%= raw(sanitize(v).gsub("\n", '<br>')) %></pre>
         <% elsif v.nil? %>
           <code>nil</code>
         <% else %>

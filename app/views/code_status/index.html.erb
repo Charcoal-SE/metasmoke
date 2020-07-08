@@ -1,11 +1,11 @@
 <%= stylesheet_link_tag \
-  "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css",
-  "https://cdn.jsdelivr.net/gh/rtfpessoa/diff2html@01c0f152/dist/diff2html.min.css"
+   'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/github.min.css',
+   'https://cdn.jsdelivr.net/gh/rtfpessoa/diff2html@01c0f152/dist/diff2html.min.css'
 %>
 <%= javascript_include_tag \
-  "https://cdn.jsdelivr.net/gh/rtfpessoa/diff2html@01c0f152/dist/diff2html.min.js",
-  "https://cdn.jsdelivr.net/gh/rtfpessoa/diff2html@01c0f152/dist/diff2html-ui.min.js",
-  "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"
+   'https://cdn.jsdelivr.net/gh/rtfpessoa/diff2html@01c0f152/dist/diff2html.min.js',
+   'https://cdn.jsdelivr.net/gh/rtfpessoa/diff2html@01c0f152/dist/diff2html-ui.min.js',
+   'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js'
 %>
 
 <details open><summary class="h3">Revision <code><%= CurrentCommit&.first(7) %></code></summary>
@@ -15,14 +15,14 @@
       is
       <span class="fill-status">… commits ahead, … commits behind</span>
       the
-      <code><%= link_to "...", "", class: "fill-branch" %></code>
+      <code><%= link_to '...', '', class: 'fill-branch' %></code>
       branch.
-      <%= link_to " diff", "#", id: "toggle-compare-diff", class: "diff-toggle" %>
+      <%= link_to ' diff', '#', id: 'toggle-compare-diff', class: 'diff-toggle' %>
       |
-      <%= link_to " commit diff", "#", id: "toggle-commit-diff", class: "diff-toggle" %>
+      <%= link_to ' commit diff', '#', id: 'toggle-commit-diff', class: 'diff-toggle' %>
       <% if current_user&.has_role?(:developer) %>
         |
-        <%= link_to "Trigger deploy", developer_deploy_path, method: :post, data: { confirm: "Sure you want to deploy master?" }, class: "text-danger" %>
+        <%= link_to 'Trigger deploy', developer_deploy_path, method: :post, data: { confirm: 'Sure you want to deploy master?' }, class: 'text-danger' %>
       <% end %>
   </p>
     <blockquote class="commit">
@@ -35,7 +35,7 @@
   </div>
 </details>
 
-<details open><summary class="h3">Versions <%= link_to "Show ", "#", id: "show-all-gem-versions" %></summary>
+<details open><summary class="h3">Versions <%= link_to 'Show ', '#', id: 'show-all-gem-versions' %></summary>
 
 <table class="table" id="gems-versions-table">
   <thead>
@@ -46,11 +46,11 @@
   </thead>
   <tbody>
     <tr>
-      <td><%= link_to "Ruby", "https://www.ruby-lang.org/en/" %></td>
-      <td><%= link_to RUBY_VERSION, "http://ruby-doc.org/core-#{RUBY_VERSION}/", title: "Ruby docs" %></td>
+      <td><%= link_to 'Ruby', 'https://www.ruby-lang.org/en/' %></td>
+      <td><%= link_to RUBY_VERSION, "http://ruby-doc.org/core-#{RUBY_VERSION}/", title: 'Ruby docs' %></td>
     </tr>
     <% @gem_versions.each do |g| %>
-      <tr class="<% if !@important_gems.include? g.name %>minor hide<% end %>">
+      <tr class="<% unless @important_gems.include? g.name %>minor hide<% end %>">
         <td><%= link_to g.name.titleize, "https://rubygems.org/gems/#{g.name}" %></td>
         <td><%= link_to g.version, "https://rubygems.org/gems/#{g.name}/versions/#{g.version}" %></td>
       </tr>

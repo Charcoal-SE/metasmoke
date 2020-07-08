@@ -30,7 +30,7 @@
           <% end %>
           <% if user_signed_in? && current_user.has_role?(:admin) %>
               <td><%= link_to 'Delete', destroy_spam_domain_path(d), method: :delete, class: 'text-danger',
-                              data: { confirm: 'Are you sure?' } %></td>
+                                                data: { confirm: 'Are you sure?' } %></td>
           <% end %>
         </tr>
     <% end %>

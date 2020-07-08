@@ -4,9 +4,9 @@
 <% empty = 100 - (tp + fp + naa) %>
 <td width="30%" data-sort-value="<%= tp.round %>">
   <div class="progress" style="height:15px; margin-bottom:0px" title="TP: <%= tp.round(2) %>&#013;NAA/Both: <%= naa.round(2) %>&#013;FP: <%= fp.round(2) %>&#013;None: <%= empty.round(2) %>">
-    <div class="progress-bar progress-bar-success" style="width:<%= tp %>%; <%= "background-color:#b7b7b7" if reason.inactive %>"></div>
+    <div class="progress-bar progress-bar-success" style="width:<%= tp %>%; <%= 'background-color:#b7b7b7' if reason.inactive %>"></div>
     <div class="progress-bar progress-bar-info" style="width:<%= empty %>%; background-color: rgba(0,0,0,0)"></div>
-    <div class="progress-bar progress-bar-warning" style="width:<%= naa %>%; <%= "background-color:#efefef" if reason.inactive %>"></div>
-    <div class="progress-bar progress-bar-danger" style="width:<%= fp %>%; <%= "background-color:#d8d8d8" if reason.inactive %>"></div>
+    <div class="progress-bar progress-bar-warning" style="width:<%= naa %>%; <%= 'background-color:#efefef' if reason.inactive %>"></div>
+    <div class="progress-bar progress-bar-danger" style="width:<%= fp %>%; <%= 'background-color:#d8d8d8' if reason.inactive %>"></div>
   </div>
 </td>

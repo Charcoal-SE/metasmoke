@@ -8,7 +8,7 @@
     <% end %>
     <% if current_user.has_role?(:admin) %>
       &middot; <%= link_to 'Delete', destroy_spam_domain_path(domain), method: :delete,
-                              data: { confirm: 'Are you sure?' }, class: 'text-danger' %>
+                                                     data: { confirm: 'Are you sure?' }, class: 'text-danger' %>
     <% end %>
   </p>
 <% end %>
@@ -25,10 +25,10 @@
   </p>
 
   <%= form_tag review_add_tag_path, method: :post, class: 'form-inline pull-left review-add-domain-tag', remote: true,
-               data: { deduplicate: true } do %>
+                               data: { deduplicate: true } do %>
     <%= hidden_field_tag :domain_id, domain.id %>
     <%= select_tag :tag_name, options_for_select(DomainTag.all.map { |dt| [dt.name, dt.name, { 'data-subtext' => dt.description&.truncate(100) }] }),
-                   class: 'selectpicker', include_blank: true %>
+            class: 'selectpicker', include_blank: true %>
     <%= submit_tag 'Add', class: 'btn btn-primary' %>
   <% end %>
 </div>
@@ -42,7 +42,7 @@
 
 <table class="table">
   <tbody>
-    <% @sites = Site.where(id: domain.posts.order(id: :desc).limit(100).map { |p| p.site_id }) %>
+    <% @sites = Site.where(id: domain.posts.order(id: :desc).limit(100).map(&:site_id)) %>
     <% domain.posts.limit(100).order(id: :desc).includes_for_post_row.each do |post| %>
       <%= render 'posts/post', post: post %>
     <% end %>

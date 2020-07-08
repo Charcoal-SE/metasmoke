@@ -11,20 +11,20 @@
 <tr class="post-cell post-cell-<%= post.id %>">
 <% end %>
   <td>
-    <% if post.try(:body).present? or post.try(:body_exists) == 1 %>
-      <span class="text-muted show-post-body" data-postloaded="<%= preload_post_body.to_s %>" data-postid="<%= post.id %>"><%= (expand_post.present? and expand_post) ? "▼" : "►" %></span>
+    <% if post.try(:body).present? || post.try(:body_exists) == 1 %>
+      <span class="text-muted show-post-body" data-postloaded="<%= preload_post_body.to_s %>" data-postid="<%= post.id %>"><%= expand_post.present? && expand_post ? '▼' : '►' %></span>
     <% end %>
 
-    <%= link_to post.title, "/post/" + post.id.to_s %>&#x202D;
+    <%= link_to post.title, '/post/' + post.id.to_s %>&#x202D;
 
     <% if show_autoflagged && post.flagged? %>
       <span class="glyphicon glyphicon-flag text-danger" title="This post was autoflagged"></span>
     <% end %>
 
-    <% unless post.feedbacks.empty? or hide_feedbacks %>
+    <% unless post.feedbacks.empty? || hide_feedbacks %>
       <strong>
          <% post.feedbacks.each do |feedback| %>
-           <span style="<%= "font-weight:normal" if feedback.is_naa? %>" data-toggle="tooltip" data-placement="top" title="<%= (feedback.user.present? or feedback.api_key_id.present?) ? "#{feedback.user.try(:username)} (From #{feedback.api_key.try(:app_name) || "Review"})" : feedback.user_name %>: <%= feedback.feedback_type %>" class="<%= element_class_for_feedback feedback %>"><%= element_symbol_for_feedback(feedback).html_safe %></span>
+           <span style="<%= 'font-weight:normal' if feedback.is_naa? %>" data-toggle="tooltip" data-placement="top" title="<%= feedback.user.present? || feedback.api_key_id.present? ? "#{feedback.user.try(:username)} (From #{feedback.api_key.try(:app_name) || 'Review'})" : feedback.user_name %>: <%= feedback.feedback_type %>" class="<%= element_class_for_feedback feedback %>"><%= element_symbol_for_feedback(feedback).html_safe %></span>
          <% end %>
       </strong>
     <% end %>
@@ -53,11 +53,11 @@
       <% end %>
 
       <% if post.site.present? %>
-        <%= link_to (image_tag post.site.site_logo, size: "20"), post.link %>
+        <%= link_to (image_tag post.site.site_logo, size: '20'), post.link %>
       <% end %>
     </span>
 
-    <div class="post-body" data-postid="<%= post.id %>" style="<%= "display: none;" unless expand_post.present? and expand_post %>">
+    <div class="post-body" data-postid="<%= post.id %>" style="<%= 'display: none;' unless expand_post.present? && expand_post %>">
       <% if preload_post_body %>
         <ul class="nav nav-tabs" role="tablist">
           <li role="presentation" class="active">
@@ -72,12 +72,12 @@
 
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane active" id="post-body-tab-<%= post.id %>">
-            <% if post.try(:body).present? or post.try(:body_exists) == 1 %>
+            <% if post.try(:body).present? || post.try(:body_exists) == 1 %>
               <div>
                 <pre class="post-body-pre-block"><%= post.body %></pre>
                 <p>
                   <span class="report-reasons">
-                    <%= post.reasons.map(&:reason_name).join(", ") %>
+                    <%= post.reasons.map(&:reason_name).join(', ') %>
                   </span>
                 </p>
                 <% if show_autoflaggers && post.flagged? %>
