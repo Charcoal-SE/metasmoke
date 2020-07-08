@@ -78,6 +78,11 @@
     </div>
   </div>
 
+  <div class="form-group">
+    <%= label_tag :edited, "Edited" %>
+    <%= check_box_tag :edited, 1, params[:edited] %>
+  </div>
+
   <%= hidden_field_tag :option, params[:option] if params[:option] == 'graphs' %>
 
   <%= submit_tag "Search", class: "btn btn-primary" %>

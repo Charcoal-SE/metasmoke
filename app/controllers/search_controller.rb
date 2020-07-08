@@ -87,6 +87,8 @@ class SearchController < ApplicationController
 
     @results = @results.where(site_id: params[:site]) if params[:site].present?
 
+    @results = @results.where("revision_count > 1") if params[:edited].present?
+
     @results = @results.includes(feedbacks: [:user])
 
     case params[:autoflagged].try(:downcase)
