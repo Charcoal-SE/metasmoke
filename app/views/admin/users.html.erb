@@ -14,7 +14,7 @@
       <th>ID</th>
       <th>Username</th>
       <% if current_user&.has_role?(:admin) %>
-        <% @roles.map {|r| r.to_s.humanize.titlecase }.each do |role_name| %>
+        <% @roles.map { |r| r.to_s.humanize.titlecase }.each do |role_name| %>
           <th><%= role_name %></th>
         <% end %>
       <% else %>
@@ -32,9 +32,9 @@
         <td><%= user.id %></td>
         <td><%= link_to_if user.stack_exchange_account_id.present?, sanitize(user.username), "//stackexchange.com/users/#{user.stack_exchange_account_id}" %></td>
         <% if current_user&.has_role?(:admin) %>
-          <%= render partial: 'roles_admin', locals: {roles: @roles, user: user} %>
+          <%= render partial: 'roles_admin', locals: { roles: @roles, user: user } %>
         <% else %>
-          <td><%= user.roles.map(&:name).map{|n| n.humanize.downcase}.to_sentence.capitalize %></td>
+          <td><%= user.roles.map(&:name).map { |n| n.humanize.downcase }.to_sentence.capitalize %></td>
         <% end %>
         <td><%= link_to 'Feedback', admin_user_feedback_path(user_id: user.id) %></td>
         <% if current_user&.has_role?(:admin) %>

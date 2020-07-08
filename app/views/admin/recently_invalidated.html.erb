@@ -33,7 +33,7 @@
             <%= f.user_name %>
           <% end %>
         </td>
-        <td><%= time_ago_in_words(f.invalidated_at) + " ago" if f.invalidated_at %></td>
+        <td><%= time_ago_in_words(f.invalidated_at) + ' ago' if f.invalidated_at %></td>
         <td><%= f.invalidated_by&.username %></td>
       </tr>
     <% end %>

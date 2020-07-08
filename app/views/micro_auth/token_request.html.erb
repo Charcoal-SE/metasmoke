@@ -3,7 +3,7 @@
 <p>Granting this permission will enable the app to perform actions such as creating feedback in your name. It will not have to ask for your
   confirmation to do this.</p>
 <p><strong>Do you trust this app?</strong></p>
-<%= link_to "Yes, grant permission", oauth_authorize_path(key: @api_key.key, redirect: params[:redirect]),
-            method: :post, class: "btn btn-success" %>
-<%= link_to "No, deny permission", oauth_reject_path(key: @api_key.key),
-            class: "btn btn-danger" %>
+<%= link_to 'Yes, grant permission', oauth_authorize_path(key: @api_key.key, redirect: params[:redirect]),
+         method: :post, class: 'btn btn-success' %>
+<%= link_to 'No, deny permission', oauth_reject_path(key: @api_key.key),
+         class: 'btn btn-danger' %>

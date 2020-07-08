@@ -1,4 +1,4 @@
-<% title "Flagging" %>
+<% title 'Flagging' %>
 <div class="row clearfix">
   <div class="col-md-3">
     <% if FlagSetting['flagging_enabled'] == '0' %>
@@ -91,35 +91,39 @@
 
 <h3>Links</h3>
 <ul>
-  <li><%= link_to "Unflagged logs", unflagged_logs_path %></li>
-  <li><%= link_to "System settings", url_for(controller: :flag_settings, action: :index) %></li>
-  <li><%= link_to "Your preferences", url_for(controller: :user_site_settings, action: :index) %></li>
-  <li><%= link_to "Your conditions", url_for(controller: :flag_conditions, action: :index) %></li>
+  <li><%= link_to 'Unflagged logs', unflagged_logs_path %></li>
+  <li><%= link_to 'System settings', url_for(controller: :flag_settings, action: :index) %></li>
+  <li><%= link_to 'Your preferences', url_for(controller: :user_site_settings, action: :index) %></li>
+  <li><%= link_to 'Your conditions', url_for(controller: :flag_conditions, action: :index) %></li>
 </ul>
 
 <% if user_signed_in? && current_user.has_role?(:admin) %>
   <h3>Admin</h3>
   <ul>
-    <li><%= link_to "All conditions", url_for(controller: :flag_conditions, action: :full_list) %></li>
-    <li><%= link_to "Per-site flag limits", url_for(controller: :flag_settings, action: :site_settings) %></li>
-    <li><%= link_to "Invalidate API tokens", url_for(controller: :authentication, action: :invalidate_tokens), class: "text-danger" %></li>
+    <li><%= link_to 'All conditions', url_for(controller: :flag_conditions, action: :full_list) %></li>
+    <li><%= link_to 'Per-site flag limits', url_for(controller: :flag_settings, action: :site_settings) %></li>
+    <li><%= link_to 'Invalidate API tokens', url_for(controller: :authentication, action: :invalidate_tokens), class: 'text-danger' %></li>
   </ul>
 
   <h5><strong>User views</strong></h5>
   <%= form_tag url_for(controller: :flag_conditions, action: :user_overview), method: 'GET', class: 'form-inline' do %>
     <div class="field">
-      <%= select_tag 'user', options_for_select(User.all.map{|u| [u.try(:username), u.id]}),
-                     { class: 'form-control selectpicker', 'data-live-search' => true, 'data-actions-box' => true, 'data-dropup-auto' => false} %>
+      <%= select_tag 'user', options_for_select(User.all.map { |u| [u.try(:username), u.id] }),
+            class: 'form-control selectpicker', 'data-live-search' => true, 'data-actions-box' => true, 'data-dropup-auto' => false %>
     </div><br/>
     <%= submit_tag 'View', class: 'btn btn-primary' %>
   <% end %>
 <% end %>
 
 <h3>Stats</h3>
-<%= pluralize(User.where(flags_enabled: true).count, "active participant") %><br/>
-<%= pluralize(FlagLog.auto.where(success: true, is_dry_run: false).count, "spam flag") %> total cast over
-<%= time_ago_in_words(FlagLog.auto.where(success: true, is_dry_run: false).first.try(:created_at)) rescue nil %><br/>
+<%= pluralize(User.where(flags_enabled: true).count, 'active participant') %><br/>
+<%= pluralize(FlagLog.auto.where(success: true, is_dry_run: false).count, 'spam flag') %> total cast over
+<%= begin
+   time_ago_in_words(FlagLog.auto.where(success: true, is_dry_run: false).first.try(:created_at))
+ rescue
+   nil
+ end %><br/>
 
-<%= pie_chart url_for(controller: :graphs, action: :flagging_results), colors: ['red', 'orange', 'green'] %>
-<%= line_chart url_for(controller: :graphs, action: :flagging_timeline), colors: ['red', 'orange', 'green'],
-library: { "xAxis": { "plotLines" => flag_settings_plot_lines(1.month.ago)}} %>
+<%= pie_chart url_for(controller: :graphs, action: :flagging_results), colors: %w[red orange green] %>
+<%= line_chart url_for(controller: :graphs, action: :flagging_timeline), colors: %w[red orange green],
+                                                                      library: { "xAxis": { 'plotLines' => flag_settings_plot_lines(1.month.ago) } } %>

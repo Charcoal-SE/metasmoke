@@ -1,4 +1,4 @@
-<h3><%= link_to (image_tag @site.site_logo, size: "20"), @site.site_url %> <%= @site.site_name %>: Dashboard</h3>
+<h3><%= link_to (image_tag @site.site_logo, size: '20'), @site.site_url %> <%= @site.site_name %>: Dashboard</h3>
 
 <div class="filters">
   <%= form_tag :site_dash, method: :get, class: 'form-inline' do %>
@@ -25,21 +25,21 @@
 <div class="row">
   <% height = '150px' %>
   <div class='col-md-3'>
-    <h4><%= link_to (image_tag @site.site_logo, size: "20"), @site.site_url %> Reports <small>last <%= @months_string %></small></h4>
+    <h4><%= link_to (image_tag @site.site_logo, size: '20'), @site.site_url %> Reports <small>last <%= @months_string %></small></h4>
     <%= pie_chart report_counts_graph_path(months: @months, site_id: @site.id), colors: ['#444', '#0a0', '#a00'], height: height %>
   </div>
   <div class='col-md-9'>
-    <h4><%= link_to (image_tag @site.site_logo, size: "20"), @site.site_url %> Reports <small>daily, last <%= @months_string %></small></h4>
-    <%= line_chart reports_graph_path(months: @months, site_id: @site.id), colors: ['#444', '#0a0', '#a00'], height: height, library: {'tooltip' => {'shared' => 'true'} }, legend: false %>
+    <h4><%= link_to (image_tag @site.site_logo, size: '20'), @site.site_url %> Reports <small>daily, last <%= @months_string %></small></h4>
+    <%= line_chart reports_graph_path(months: @months, site_id: @site.id), colors: ['#444', '#0a0', '#a00'], height: height, library: { 'tooltip' => { 'shared' => 'true' } }, legend: false %>
   </div>
 </div>
 <div class="row">
   <div class='col-md-5'>
-    <h4><%= link_to (image_tag @site.site_logo, size: "20"), @site.site_url %> Reasons <small>post count, last <%= @months_string %></small></h4>
+    <h4><%= link_to (image_tag @site.site_logo, size: '20'), @site.site_url %> Reasons <small>post count, last <%= @months_string %></small></h4>
     <%= pie_chart reason_counts_graph_path(months: @months, site_id: @site.id), height: height %>
   </div>
   <div class='col-md-7'>
-    <h4><%= link_to (image_tag @site.site_logo, size: "20"), @site.site_url %> Time to deletion <small>daily, last <%= @months_string %></small></h4>
+    <h4><%= link_to (image_tag @site.site_logo, size: '20'), @site.site_url %> Time to deletion <small>daily, last <%= @months_string %></small></h4>
     <%= line_chart monthly_ttd_graph_path(months: @months, site_id: @site.id, round: 0), colors: ['#444'], height: height %>
   </div>
 </div>
@@ -56,11 +56,11 @@
   </tr>
   <tr>
     <td class="text-info"><%= number_with_delimiter @all_posts.count, delimiter: @delimiter %></td>
-    <td class="text-success"><%= number_with_delimiter @all_posts.where(is_tp:true).count, delimiter: @delimiter %></td>
-    <td class="text-danger"><%= number_with_delimiter @all_posts.where(is_fp:true).count, delimiter: @delimiter %></td>
-    <td class="text-warning"><%= number_with_delimiter @all_posts.where(is_naa:true).count, delimiter: @delimiter %></td>
-    <td class="text-success"><%= number_with_delimiter @all_posts.where(autoflagged:true).count, delimiter: @delimiter %></td>
-    <td class="text-danger"><%= number_with_delimiter @all_posts.where(autoflagged:true, is_fp: true).count, delimiter: @delimiter %></td>
+    <td class="text-success"><%= number_with_delimiter @all_posts.where(is_tp: true).count, delimiter: @delimiter %></td>
+    <td class="text-danger"><%= number_with_delimiter @all_posts.where(is_fp: true).count, delimiter: @delimiter %></td>
+    <td class="text-warning"><%= number_with_delimiter @all_posts.where(is_naa: true).count, delimiter: @delimiter %></td>
+    <td class="text-success"><%= number_with_delimiter @all_posts.where(autoflagged: true).count, delimiter: @delimiter %></td>
+    <td class="text-danger"><%= number_with_delimiter @all_posts.where(autoflagged: true, is_fp: true).count, delimiter: @delimiter %></td>
   </tr>
 </table>
 
@@ -76,15 +76,15 @@
 
 <ul class="nav nav-tabs">
   <% @tabs.each do |tab, posts| %>
-  <li class="<%= "active" if tab.downcase == @active_tab %>">
+  <li class="<%= 'active' if tab.downcase == @active_tab %>">
     <%= link_to "#{tab} (#{number_with_delimiter(posts.count, delimiter: @delimiter)})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: tab.downcase)) %>
   </li>
   <% end %>
-  <li class="<%= "active" if @active_tab.downcase == "spammers" %>">
+  <li class="<%= 'active' if @active_tab.casecmp('spammers').zero? %>">
     <%= link_to "Spammers (#{number_with_delimiter(@spammers.length, delimiter: @delimiter)})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: 'spammers')) %>
   </li>
   <% if user_signed_in? && (current_user.moderator_sites.exists? || current_user.has_role?(:admin)) %>
-    <li class="<%= "active" if @active_tab.downcase == "autoflaggers" %>">
+    <li class="<%= 'active' if @active_tab.casecmp('autoflaggers').zero? %>">
       <%= link_to "Autoflaggers (#{number_with_delimiter(@autoflaggers.length, delimiter: @delimiter)})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: 'autoflaggers')) %>
     </li>
   <% end %>

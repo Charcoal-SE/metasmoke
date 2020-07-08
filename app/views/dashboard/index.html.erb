@@ -1,8 +1,8 @@
 <p>
   <strong><%= @reasons.count %></strong>
-  <%= "filter".pluralize(@reasons.count) %> have caught
+  <%= 'filter'.pluralize(@reasons.count) %> have caught
   <strong><%= number_with_delimiter(@posts.count) %></strong>
-  <%= "post".pluralize(@posts.count) %>
+  <%= 'post'.pluralize(@posts.count) %>
 </p>
 
 <table class="table sortable-table" style="margin-top:50px">
@@ -25,7 +25,7 @@
         <td data-sort-value="<%= reason.weight %>"><%= reason.weight %></td>
         <% counts = @active_reasons[:counts][reason.id] %>
         <%= render 'reason_accuracy', reason: reason, tp: 100 * counts[:tp].to_f / counts[:total], fp: 100 * counts[:fp].to_f / counts[:total],
-                                      naa: 100 * counts[:naa].to_f / counts[:total] %>
+                           naa: 100 * counts[:naa].to_f / counts[:total] %>
       </tr>
     <% end %>
  </tbody>
@@ -49,7 +49,7 @@
         <td><%= truncate((reason.last_post_title.nil? ? reason.posts.last.title : reason.last_post_title), length: 40, seperator: ' ') %></td>
         <% counts = @inactive_reasons[:counts][reason.id] %>
         <%= render 'reason_accuracy', reason: reason, tp: 100 * counts[:tp].to_f / counts[:total], fp: 100 * counts[:fp].to_f / counts[:total],
-                                      naa: 100 * counts[:naa].to_f / counts[:total] %>
+                           naa: 100 * counts[:naa].to_f / counts[:total] %>
       </tr>
     <% end %>
  </tbody>

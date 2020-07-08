@@ -5,8 +5,8 @@
         <span class="glyphicon glyphicon-question-sign"></span> What are you reporting? *
       <% end %><br/>
       <%= f.select :reportable_type,
-                   options_for_select([['SpamDomain', 'SpamDomain'], ['Post', 'Post'], ['DomainTag', 'DomainTag']], report.reportable_type),
-                   { include_blank: true }, { class: 'form-control' } %>
+          options_for_select([%w[SpamDomain SpamDomain], %w[Post Post], %w[DomainTag DomainTag]], report.reportable_type),
+          { include_blank: true }, class: 'form-control' %>
     </div>
     <div class="col-md-8">
       <%= f.label :reportable_id, raw('&nbsp;') %><br/>
@@ -23,8 +23,8 @@
     <span class="small text-muted">Not listed? <a href="#" data-toggle="modal" data-target="#create-contact-modal">Create it now.</a></span>
     <br/>
     <%= f.select :abuse_contact_id, options_for_select(AbuseContact.all.map { |ac| [ac.name, ac.id] }, report.abuse_contact_id || flash[:abuse_contact_id]),
-                 { include_blank: true }, { class: 'form-control selectpicker',
-                                            data: { live_search: true, actions_box: true, dropup_auto: false } } %>
+          { include_blank: true }, class: 'form-control selectpicker',
+                                   data: { live_search: true, actions_box: true, dropup_auto: false } %>
   </div><br/>
   <div class="field">
     <%= f.label :details do %>

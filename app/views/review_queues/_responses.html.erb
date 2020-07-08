@@ -2,8 +2,8 @@
 
 <div class="panel panel-default">
   <div class="panel-body">
-    <% if (item.completed and ReviewResult.where(item: item).where.not(result: "skip").exists?) or
-        ReviewResult.where(user: current_user, item: item).where.not(result: "skip").exists? %>
+    <% if (item.completed && ReviewResult.where(item: item).where.not(result: 'skip').exists?) ||
+    ReviewResult.where(user: current_user, item: item).where.not(result: 'skip').exists? %>
       <h5>
         <% if item.completed %>
           Review completed.
@@ -27,10 +27,10 @@
     <% else %>
       <% (queue.responses - exclude_responses).each do |r| %>
         <%= link_to r[0], submit_review_path(name: queue.name, item_id: item.id, response: r[1]), class: 'btn btn-primary review-submit-link',
-                    method: :post, remote: true %>
+                                                                                       method: :post, remote: true %>
       <% end %>
       <%= link_to 'Skip', submit_review_path(name: queue.name, item_id: item.id, response: 'skip'), class: 'btn btn-primary review-submit-link',
-                  method: :post, remote: true %>
+                                                                                           method: :post, remote: true %>
     <% end %>
   </div>
 </div>

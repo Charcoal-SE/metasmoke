@@ -28,7 +28,7 @@
   <%= form_tag update_abuse_report_status_path(@report), class: 'form-inline' do %>
     <%= label_tag :status_id, 'Update report status:' %>
     <%= select_tag :status_id, options_from_collection_for_select(AbuseReportStatus.all, 'id', 'name'), include_blank: true,
-                   class: 'form-control input-sm' %>
+                                                                                                 class: 'form-control input-sm' %>
     <%= submit_tag 'Update', class: 'btn btn-success btn-sm' %>
   <% end %><br/>
 <% end %>
@@ -67,7 +67,7 @@
     <%= f.hidden_field :abuse_report_id, value: @report.id %>
     <div class="field">
       <%= f.text_area :text, rows: 3, cols: 100, placeholder: 'Useful information about this report that others might need...',
-                      class: 'form-control' %>
+                    class: 'form-control' %>
     </div>
     <div class="actions">
       <%= f.submit 'Add Comment', class: 'btn btn-primary' %>

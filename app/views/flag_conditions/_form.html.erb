@@ -6,23 +6,23 @@
   </div><br/>
 
   <div class="field">
-    <%= f.label :min_weight, "Minimum Weight" %><br/>
-    <%= f.number_field :min_weight, class: "form-control" %>
+    <%= f.label :min_weight, 'Minimum Weight' %><br/>
+    <%= f.number_field :min_weight, class: 'form-control' %>
   </div><br/>
 
   <div class="field">
-    <%= f.label :max_poster_rep, "Maximum Poster Reputation" %><br/>
-    <%= f.number_field :max_poster_rep, class: "form-control" %>
+    <%= f.label :max_poster_rep, 'Maximum Poster Reputation' %><br/>
+    <%= f.number_field :max_poster_rep, class: 'form-control' %>
   </div><br/>
 
   <div class="field">
-    <%= f.label :min_reason_count, "Minimum Reason Count" %><br/>
-    <%= f.number_field :min_reason_count, class: "form-control" %>
+    <%= f.label :min_reason_count, 'Minimum Reason Count' %><br/>
+    <%= f.number_field :min_reason_count, class: 'form-control' %>
   </div><br/>
 
   <div class="field">
     <%= f.label :sites %><br/>
-    <%= f.select :sites, options_for_select(Site.mains.map{ |s| [s.site_name, s.id] }, @condition.site_ids), {}, { multiple: true, class: "form-control selectpicker", 'data-live-search' => true, 'data-actions-box' => true, 'data-dropup-auto' => false, title: "Choose the sites this condition should apply to" } %>
+    <%= f.select :sites, options_for_select(Site.mains.map { |s| [s.site_name, s.id] }, @condition.site_ids), {}, multiple: true, class: 'form-control selectpicker', 'data-live-search' => true, 'data-actions-box' => true, 'data-dropup-auto' => false, title: 'Choose the sites this condition should apply to' %>
   </div>
 
   <br/>
@@ -41,9 +41,9 @@
   <br/>
 
   <div class="actions">
-    <%= f.submit "Preview", type: 'button', class: "btn btn-primary preview-flag-conditions-button", name: "preview" %>
+    <%= f.submit 'Preview', type: 'button', class: 'btn btn-primary preview-flag-conditions-button', name: 'preview' %>
     <% unless exclude_save %>
-      <%= f.submit "Save", class: "btn btn-success" %>
+      <%= f.submit 'Save', class: 'btn btn-success' %>
     <% end %>
   </div>
 <% end %>
@@ -51,5 +51,5 @@
 <br />
 
 <div class="flag-condition-preview">
-  <%= render "preview" %>
+  <%= render 'preview' %>
 </div>

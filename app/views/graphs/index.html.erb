@@ -3,12 +3,12 @@
 <h3 id="reports-by-hour">Reports <small>last 3 months</small></h3>
 <br />
 
-<%= line_chart reports_graph_path, colors: ["#444", "#0a0", "#a00"], library: {"tooltip" => {'shared' => 'true'} } %>
+<%= line_chart reports_graph_path, colors: ['#444', '#0a0', '#a00'], library: { 'tooltip' => { 'shared' => 'true' } } %>
 
 <h3 id="reports-by-site">Reports by site</h3>
-        (<%= link_to "Last month", graphs_path, style: params[:timeframe].nil? ? "font-weight:bold" : "" %>
+        (<%= link_to 'Last month', graphs_path, style: params[:timeframe].nil? ? 'font-weight:bold' : '' %>
         |
-        <%= link_to "All time", graphs_path(timeframe: "all"), style: params[:timeframe].present? ? "font-weight:bold" : ""%>)
+        <%= link_to 'All time', graphs_path(timeframe: 'all'), style: params[:timeframe].present? ? 'font-weight:bold' : ''%>)
 <br />
 <br />
 
@@ -16,16 +16,16 @@
 <%= pie_chart url_for(controller: :graphs, action: :reports_by_site, timeframe: params[:timeframe]) %>
 
 <h3 id="by-hour-of-day">Reports by hour of day</h3>
-        (<%= link_to "Last month", graphs_path, style: params[:timeframe].nil? ? "font-weight:bold" : "" %>
+        (<%= link_to 'Last month', graphs_path, style: params[:timeframe].nil? ? 'font-weight:bold' : '' %>
         |
-        <%= link_to "All time", graphs_path(timeframe: "all"), style: params[:timeframe].present? ? "font-weight:bold" : ""%>)
+        <%= link_to 'All time', graphs_path(timeframe: 'all'), style: params[:timeframe].present? ? 'font-weight:bold' : ''%>)
 <br />
 <br />
 
 <% t = Time.now %>
 <%= line_chart url_for(controller: :graphs, action: :reports_by_hour_of_day, timeframe: params[:timeframe]), discrete: true,
-               library: {"tooltip" => {'shared' => 'true'}, "xAxis": { "plotLines" => [{"width" => '2', value: "#{t.hour + t.min.to_f / 60.to_f}", color: 'blue', dashStyle: "dot" }]}},
-               colors: ["#999", "green", "red"] %>
+                                                                                                          library: { 'tooltip' => { 'shared' => 'true' }, "xAxis": { 'plotLines' => [{ 'width' => '2', value: (t.hour + t.min.to_f / 60.to_f).to_s, color: 'blue', dashStyle: 'dot' }] } },
+                                                                                                          colors: ['#999', 'green', 'red'] %>
 
 <br />
 <br />
@@ -33,10 +33,10 @@
 <h3 id="time-to-deletion">Time to deletion</h3>
 <p class="text-muted">tp posts only, same scale as above</p>
 <%= line_chart url_for(controller: :graphs, action: :time_to_deletion),
-               library: { "xAxis": { "plotLines" => [{"width" => '2', value: "#{t.hour + t.min.to_f / 60.to_f}", color: 'blue', dashStyle: "dot" }]}} %>
+            library: { "xAxis": { 'plotLines' => [{ 'width' => '2', value: (t.hour + t.min.to_f / 60.to_f).to_s, color: 'blue', dashStyle: 'dot' }] } } %>
 
 <h3 id="autoflagging-time-to-deletion">Time to deletion</h3>
 <p class="text-muted">Last 3 months</p>
 
 <%= line_chart url_for(controller: :graphs, action: :monthly_ttd),
-               library: { "xAxis": { "plotLines" => flag_settings_plot_lines(3.months.ago)} }%>
+            library: { "xAxis": { 'plotLines' => flag_settings_plot_lines(3.months.ago) } }%>

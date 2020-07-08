@@ -3,9 +3,9 @@
 <%= form_tag users_username_path, method: :post do %>
   <div class="field">
     <%= label_tag :username %><br />
-    <%= text_field_tag :username, nil, placeholder: "Your SE username", class: "form-control", autofocus: true %>
+    <%= text_field_tag :username, nil, placeholder: 'Your SE username', class: 'form-control', autofocus: true %>
   </div>
   <br />
 
-  <%= submit_tag "Save", class: "btn btn-success" %>
+  <%= submit_tag 'Save', class: 'btn btn-success' %>
 <% end %>

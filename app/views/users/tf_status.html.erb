@@ -2,10 +2,10 @@
 <p>Two-factor authentication adds another layer of security to your account by requiring you to get a code from an app
   on your phone before you can log in. This prevents anyone who doesn't have your phone with them getting into your account.</p>
 
-<p>Two-factor authentication is currently <strong><%= current_user.enabled_2fa ? "on" : "off" %></strong> for your account.</p>
+<p>Two-factor authentication is currently <strong><%= current_user.enabled_2fa ? 'on' : 'off' %></strong> for your account.</p>
 
 <% if current_user.enabled_2fa %>
-  <p><%= link_to "Turn off", url_for(controller: :users, action: :disable_code) %></p>
+  <p><%= link_to 'Turn off', url_for(controller: :users, action: :disable_code) %></p>
 <% else %>
-  <p><%= link_to "Turn on", url_for(controller: :users, action: :enable_2fa), method: :post %></p>
+  <p><%= link_to 'Turn on', url_for(controller: :users, action: :enable_2fa), method: :post %></p>
 <% end %>

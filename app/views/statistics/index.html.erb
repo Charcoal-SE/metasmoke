@@ -3,24 +3,24 @@
 <h3>Statistics for <%= @smoke_detector.location %></h3>
 
 <ul class="nav nav-tabs">
-  <li class="<%= 'active' if params[:range].nil? or params[:range] == 'hour' %>">
-    <%= link_to "Hourly", smoke_detector_statistics_path(@smoke_detector, range: "hour") %>
+  <li class="<%= 'active' if params[:range].nil? || params[:range] == 'hour' %>">
+    <%= link_to 'Hourly', smoke_detector_statistics_path(@smoke_detector, range: 'hour') %>
   </li>
   <li class="<%= 'active' if params[:range] == 'day' %>">
-    <%= link_to "Daily", smoke_detector_statistics_path(@smoke_detector, range: "day") %>
+    <%= link_to 'Daily', smoke_detector_statistics_path(@smoke_detector, range: 'day') %>
   </li>
 </ul>
 <br />
 
 <% if params[:range] == 'day' %>
     <%= line_chart [
-          {name: 'Posts scanned', data: @smoke_detector.statistics.group_by_day(:created_at, range: 3.weeks.ago.to_date..Time.now).sum(:posts_scanned)},
-        ], colors: ['#76ADE1'] %>
+   { name: 'Posts scanned', data: @smoke_detector.statistics.group_by_day(:created_at, range: 3.weeks.ago.to_date..Time.now).sum(:posts_scanned) }
+ ], colors: ['#76ADE1'] %>
   <% else %>
     <%= line_chart [
-          {name: 'Posts scanned', data: @smoke_detector.statistics.group_by_hour(:created_at, range: 3.days.ago.to_date..Time.now).sum(:posts_scanned)},
-          {name: 'Quota remaining', data:  @smoke_detector.statistics.where(created_at: 3.days.ago.to_date..Time.now).where.not(api_quota: -1).select(:created_at, :api_quota).map {|s| [s.created_at, s.api_quota]}.to_h}
-        ], colors: ['#76ADE1', '#e0a976'] %>
+   { name: 'Posts scanned', data: @smoke_detector.statistics.group_by_hour(:created_at, range: 3.days.ago.to_date..Time.now).sum(:posts_scanned) },
+   { name: 'Quota remaining', data:  @smoke_detector.statistics.where(created_at: 3.days.ago.to_date..Time.now).where.not(api_quota: -1).select(:created_at, :api_quota).map { |s| [s.created_at, s.api_quota] }.to_h }
+ ], colors: ['#76ADE1', '#e0a976'] %>
 <% end %>
 
 <table class="table">

@@ -18,14 +18,14 @@
         <td><%= sd.last_ping %></td>
         <td><code><%= sd.access_token %></code></td>
         <td>
-          <%= link_to "New Token", smoke_detector_token_regen_path(sd.id, redirect: request.path), method: :post, data: { confirm: "Are you sure you want to create a new token for this item?" } %>
+          <%= link_to 'New Token', smoke_detector_token_regen_path(sd.id, redirect: request.path), method: :post, data: { confirm: 'Are you sure you want to create a new token for this item?' } %>
         </td>
         <td>
-          <%= link_to "Remove", smoke_detector_delete_path(sd.id, redirect: request.path), method: :delete, data: { confirm: "Are you sure you want to delete this key?" } %>
+          <%= link_to 'Remove', smoke_detector_delete_path(sd.id, redirect: request.path), method: :delete, data: { confirm: 'Are you sure you want to delete this key?' } %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<%= link_to "Create a new key", smoke_detector_new_path %>
+<%= link_to 'Create a new key', smoke_detector_new_path %>

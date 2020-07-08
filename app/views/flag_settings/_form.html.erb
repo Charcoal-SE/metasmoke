@@ -1,7 +1,7 @@
 <%= form_for(flag_setting) do |f| %>
   <% if flag_setting.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(flag_setting.errors.count, "error") %> prohibited this flag setting from being saved:</h2>
+      <h2><%= pluralize(flag_setting.errors.count, 'error') %> prohibited this flag setting from being saved:</h2>
 
       <ul>
       <% flag_setting.errors.full_messages.each do |message| %>
@@ -13,15 +13,15 @@
 
   <div class="field">
     <%= f.label :name %><br/>
-    <%= f.text_field :name, class: "form-control" %>
+    <%= f.text_field :name, class: 'form-control' %>
   </div><br/>
 
   <div class="field">
     <%= f.label :value %><br/>
-    <%= f.text_field :value, class: "form-control" %>
+    <%= f.text_field :value, class: 'form-control' %>
   </div><br/>
 
   <div class="actions">
-    <%= f.submit "Save", class: "btn btn-success" %>
+    <%= f.submit 'Save', class: 'btn btn-success' %>
   </div>
 <% end %>

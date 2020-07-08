@@ -23,7 +23,7 @@
           <div class="field form-group <%= 'has-error' if error?(:name) %>">
             <%= label_tag :name %><br/>
             <%= text_field_tag :name, default(:name, wave, nil), class: 'form-control', autocomplete: 'off' %>
-            <span class="help-block"><%= help_or_error(:name, "Something to describe very briefly what the spam wave is.") %></span>
+            <span class="help-block"><%= help_or_error(:name, 'Something to describe very briefly what the spam wave is.') %></span>
           </div>
           <div class="field form-group <%= 'has-error' if error?(:max_flags) %>">
             <%= label_tag :max_flags %><br/>
@@ -39,7 +39,7 @@
             <%= label_tag :expiry %><br/>
             <%= datetime_field_tag :expiry, default(:expiry, wave, 24.hours.from_now)&.to_datetime&.iso8601[0..-2], class: 'form-control' %>
             <span class="help-block">
-              <%= help_or_error(:expiry, "A point after which this wave will be deactivated. Maximum 24 hours from now.") %>
+              <%= help_or_error(:expiry, 'A point after which this wave will be deactivated. Maximum 24 hours from now.') %>
             </span>
           </div>
 
@@ -49,9 +49,9 @@
           <div class="field form-group">
             <% h = HTMLEntities.new %>
             <%= label_tag :sites %><br/>
-            <%= select_tag :sites, options_for_select(Site.mains.map{ |s| [h.decode(s.site_name), s.id] }, selected: wave&.sites&.map(&:id)),
-                           multiple: true, class: 'form-control selectpicker', 'data-live-search' => true, 'data-actions-box' => true,
-                           'data-dropup-auto' => false %>
+            <%= select_tag :sites, options_for_select(Site.mains.map { |s| [h.decode(s.site_name), s.id] }, selected: wave&.sites&.map(&:id)),
+            multiple: true, class: 'form-control selectpicker', 'data-live-search' => true, 'data-actions-box' => true,
+            'data-dropup-auto' => false %>
             <span class="help-block">Choose the sites this wave should apply to.</span>
           </div>
 

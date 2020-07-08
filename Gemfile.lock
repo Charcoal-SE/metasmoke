@@ -345,6 +345,8 @@ GEM
       i18n
     ruby-progressbar (1.10.1)
     ruby2_keywords (0.0.2)
+    ruumba (0.1.16)
+      rubocop
     safe_yaml (1.0.5)
     safely_block (0.2.2)
       errbase (>= 0.1.1)
@@ -479,6 +481,7 @@ DEPENDENCIES
   rotp (~> 4.0)
   rqrcode
   rubocop (~> 0.48.1)
+  ruumba
   sass-rails
   sensible_routes (~> 0.1.2)
   simplecov

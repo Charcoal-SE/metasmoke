@@ -42,6 +42,7 @@ gem 'chartkick'
 gem 'groupdate', '~> 3.0.0'
 
 gem 'rubocop', '~> 0.48.1', require: false, group: :test
+gem 'ruumba'
 gem 'simplecov', require: false, group: :test
 
 gem 'blazer', '2.2.1.charcoal', github: 'Charcoal-SE/blazer'

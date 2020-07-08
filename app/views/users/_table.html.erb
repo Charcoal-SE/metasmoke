@@ -11,7 +11,7 @@
       <tr>
         <td><%= link_to u.username, "https://stackexchange.com/users/#{u.stack_exchange_account_id}" %></td>
         <td><%= u.total_flags %></td>
-        <td><%= u.tp_flags %> / <%= u.total_flags %> (<%= ((u.tp_flags.to_f / u.total_flags)*100).round(2) %>%)</td>
+        <td><%= u.tp_flags %> / <%= u.total_flags %> (<%= ((u.tp_flags.to_f / u.total_flags) * 100).round(2) %>%)</td>
       </tr>
     <% end %>
   </tbody>

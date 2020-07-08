@@ -14,21 +14,21 @@
 
   <div class="field">
     <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "off", class: 'form-control' %>
+    <%= f.password_field :password, autocomplete: 'off', class: 'form-control' %>
   </div><br/>
 
   <div class="field">
     <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control' %>
+    <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control' %>
   </div><br/>
 
   <div class="field">
     <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "off", class: 'form-control' %>
+    <%= f.password_field :current_password, autocomplete: 'off', class: 'form-control' %>
   </div><br/>
 
   <div class="actions">
-    <%= f.submit "Update", class: 'btn btn-primary' %>
+    <%= f.submit 'Update', class: 'btn btn-primary' %>
   </div>
 <% end %>
 
@@ -51,16 +51,16 @@
 <h3>Announcement emails</h3>
 <%= form_tag url_for(controller: '/users', action: :set_announcement_emails) do %>
   <div class="field">
-    <%= check_box_tag :emails, nil, current_user.announcement_emails %> <%= label_tag :emails, "Send me emails about new announcements" %>
+    <%= check_box_tag :emails, nil, current_user.announcement_emails %> <%= label_tag :emails, 'Send me emails about new announcements' %>
   </div><br/>
 
   <div class="actions">
-    <%= submit_tag "Save", class: 'btn btn-success' %>
+    <%= submit_tag 'Save', class: 'btn btn-success' %>
   </div>
 <% end %>
 
 <h3>Cancel my account</h3>
 <p>Unhappy? You can delete your metasmoke account by clicking this button.
-  <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger' %></p>
+  <%= button_to 'Cancel my account', registration_path(resource_name), data: { confirm: 'Are you sure?' }, method: :delete, class: 'btn btn-danger' %></p>
 
-<%= link_to "Back", :back %>
+<%= link_to 'Back', :back %>

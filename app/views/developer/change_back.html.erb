@@ -2,9 +2,9 @@
 <p>You (<%= @impersonator.username %>) are currently impersonating <%= current_user.username %>. To stop impersonating them, verify your password
   below:</p>
 
-<%= link_to login_auth_url, class: "btn btn-default se-oauth-button" do %>
+<%= link_to login_auth_url, class: 'btn btn-default se-oauth-button' do %>
   Login with
-  <%= image_tag "se-icon.svg", class: "se-icon" %>Stack Exchange
+  <%= image_tag 'se-icon.svg', class: 'se-icon' %>Stack Exchange
 <% end %>
 
 <p class="text-muted se-auth-or-label">or</p>

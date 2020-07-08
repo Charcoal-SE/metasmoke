@@ -3,11 +3,11 @@
 <h3><%= title 'Recent posts' %></h3>
 
 <ul class="nav nav-tabs">
-  <li class="<%= "active" if params[:filter].nil? %>">
-    <%= link_to "All", posts_path %>
+  <li class="<%= 'active' if params[:filter].nil? %>">
+    <%= link_to 'All', posts_path %>
   </li>
   <li class="<%= 'active' if params[:filter] == 'undeleted' %>">
-    <%= link_to "Undeleted", posts_path(filter: :undeleted) %>
+    <%= link_to 'Undeleted', posts_path(filter: :undeleted) %>
   </li>
 </ul>
 

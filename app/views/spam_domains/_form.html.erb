@@ -1,7 +1,7 @@
 <%= form_for @domain, url: url do |f| %>
   <div class="field">
     <%= f.label :domain %><br/>
-    <%= f.text_field :domain, class: 'form-control', **(update ? {disabled: true} : {}) %>
+    <%= f.text_field :domain, class: 'form-control', **(update ? { disabled: true } : {}) %>
   </div><br/>
 
   <div class="field">

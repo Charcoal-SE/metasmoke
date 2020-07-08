@@ -15,7 +15,7 @@
     <% end %>
     <% if current_user.has_role?(:admin) %>
       &middot; <%= link_to 'Delete', destroy_spam_domain_path(@domain), method: :delete,
-                    data: { confirm: 'Are you sure?' }, class: 'text-danger' %>
+                                                      data: { confirm: 'Are you sure?' }, class: 'text-danger' %>
     <% end %>
   </p>
 <% end %>
@@ -34,7 +34,7 @@
   <%= form_tag add_domain_tag_path, method: :post, class: 'form-inline add-domain-tag' do %>
     <%= hidden_field_tag :domain_id, @domain.id %>
     <%= select_tag :tag_name, options_for_select(DomainTag.all.map { |dt| [dt.name, dt.name, { 'data-subtext' => dt.description&.truncate(100) }] }),
-                   class: 'selectpicker', include_blank: true %>
+            class: 'selectpicker', include_blank: true %>
     <%= submit_tag 'Add', class: 'btn btn-primary' %>
   <% end %>
 </div>
@@ -84,13 +84,13 @@
           <div class="field">
             <%= f.label :right_id, 'Linked domain' %><br/>
             <%= f.select :right_id, [], { include_blank: true }, class: 'form-control selectpicker',
-                         data: { remote_source: spam_domains_query_path, none_selected_text: 'Start typing to search for domains...' } %>
+                                                  data: { remote_source: spam_domains_query_path, none_selected_text: 'Start typing to search for domains...' } %>
           </div><br/>
 
           <div class="field">
             <%= f.label :link_type, 'Why are these linked?' %><br/>
             <%= f.select :link_type, options_for_select(DomainLink.link_types.map { |lt| [lt, lt] }), { include_blank: true },
-                         class: 'form-control selectpicker', data: { none_selected_text: 'Pick an existing reason or type your own' } %>
+          class: 'form-control selectpicker', data: { none_selected_text: 'Pick an existing reason or type your own' } %>
           </div><br/>
 
           <div class="field">

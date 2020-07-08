@@ -7,15 +7,15 @@
 
 <div class="sandbox-chart">
   <%= line_chart af_accuracy_path, library: { series: [{ name: 'All posts', linecap: 'butt' }, { name: 'TPs', linecap: 'butt' },
-                                                       { yAxis: 1, name: 'Accuracy', linecap: 'butt' }],
-                                              yAxis: [{ gridLineWidth: 1, minorGridLineWidth: 1, minRange: 100, title: { text: 'Post counts' } },
-                                                      { ceiling: 100, floor: 90, gridLineWidth: 1, minorGridLineWidth: 1, minRange: 1,
-                                                        plotLines: [{ color: '#888', width: 1, zIndex: 5,
-                                                                      label: { text: "Min. accuracy (#{FlagSetting['min_accuracy']})",
-                                                                               align: 'right', style: { color: '#888' } },
-                                                                      value: FlagSetting['min_accuracy'].to_f }], opposite: true,
-                                                        title: { text: 'Accuracy' }, min: 90, max: 100, index: 1 }],
-                                              xAxis: { gridLineWidth: 1, minorGridLineWidth: 1, minRange: 10 },
-                                              chart: { zoomType: 'xy', alignTicks: true }, tooltip: { shared: true }, curveType: 'none' },
-                 height: '500px', colors: ['#71C143', '#51A8FA', '#FBE130'] %>
+                                                  { yAxis: 1, name: 'Accuracy', linecap: 'butt' }],
+                                         yAxis: [{ gridLineWidth: 1, minorGridLineWidth: 1, minRange: 100, title: { text: 'Post counts' } },
+                                                 { ceiling: 100, floor: 90, gridLineWidth: 1, minorGridLineWidth: 1, minRange: 1,
+                                                   plotLines: [{ color: '#888', width: 1, zIndex: 5,
+                                                                 label: { text: "Min. accuracy (#{FlagSetting['min_accuracy']})",
+                                                                          align: 'right', style: { color: '#888' } },
+                                                                 value: FlagSetting['min_accuracy'].to_f }], opposite: true,
+                                                   title: { text: 'Accuracy' }, min: 90, max: 100, index: 1 }],
+                                         xAxis: { gridLineWidth: 1, minorGridLineWidth: 1, minRange: 10 },
+                                         chart: { zoomType: 'xy', alignTicks: true }, tooltip: { shared: true }, curveType: 'none' },
+                              height: '500px', colors: ['#71C143', '#51A8FA', '#FBE130'] %>
 </div>

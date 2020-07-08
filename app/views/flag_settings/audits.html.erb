@@ -1,4 +1,4 @@
-<h3><%= title "Flag Settings Audit" %></h3>
+<h3><%= title 'Flag Settings Audit' %></h3>
 
 <table class="table">
   <tr>
@@ -14,7 +14,7 @@
       <td><%= audit.user.try(:username) %></td>
       <td><%= audit.action %></td>
       <td><code><%= audit.auditable.name %></code></td>
-      <% value_change = audit.audited_changes["value"] %>
+      <% value_change = audit.audited_changes['value'] %>
       <td><code><%= value_change.try(:first) %></code><% if value_change.try(:second).present? %>
         → <code><%= value_change.try(:second) %></code>
       <% end %></td>

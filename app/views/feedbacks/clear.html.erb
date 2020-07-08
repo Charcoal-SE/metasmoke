@@ -8,7 +8,7 @@
   </thead>
 
   <tbody>
-      <%= render "posts/post", post: @post %>
+      <%= render 'posts/post', post: @post %>
   </tbody>
 </table>
 
@@ -26,11 +26,11 @@
 
   <tbody>
     <% @feedbacks.each do |feedback| %>
-      <tr class="<%= feedback.is_invalidated? ? "danger" : "" %>">
+      <tr class="<%= feedback.is_invalidated? ? 'danger' : '' %>">
         <td class="<%= element_class_for_feedback feedback %>"><%= feedback.feedback_type %></td>
-        <td><%= feedback.user_name || ("#{feedback.user.try(:username)} (From #{feedback.api_key.try(:app_name) || "Review"})" if feedback.user.present?) %></td>
-        <td><span title="<%= feedback.created_at %>"><%= feedback.created_at.present? ? time_ago_in_words(feedback.created_at) + " ago" : "no data" %></span></td>
-        <td><%= link_to("delete", delete_feedback_path(feedback), method: :delete) if (!feedback.is_invalidated? && (current_user.has_role?(:admin) || feedback.user_id == current_user.id)) %></td>
+        <td><%= feedback.user_name || ("#{feedback.user.try(:username)} (From #{feedback.api_key.try(:app_name) || 'Review'})" if feedback.user.present?) %></td>
+        <td><span title="<%= feedback.created_at %>"><%= feedback.created_at.present? ? time_ago_in_words(feedback.created_at) + ' ago' : 'no data' %></span></td>
+        <td><%= link_to('delete', delete_feedback_path(feedback), method: :delete) if !feedback.is_invalidated? && (current_user.has_role?(:admin) || feedback.user_id == current_user.id) %></td>
       </tr>
     <% end %>
   </tbody>
