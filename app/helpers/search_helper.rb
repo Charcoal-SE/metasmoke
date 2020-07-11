@@ -12,7 +12,9 @@ module SearchHelper
                   end
     else
       operation = 'LIKE'
-      input = if symbol == :body
+      input = if input.nil? || input.empty?
+                input
+              elsif symbol == :body
                 ActiveRecord::Base.sanitize_sql_like(input)
               else
                 '%' + ActiveRecord::Base.sanitize_sql_like(input) + '%'
