@@ -261,6 +261,7 @@ Rails.application.routes.draw do
     post   'create.json',    to: 'spam_domains#create_from_post',  as: :create_spam_domain
     post   'no_post_create', to: 'spam_domains#create',            as: :create_no_post_spam_domain
     get    'query.json',     to: 'spam_domains#query',             as: :spam_domains_query
+    post   ':id/fix_asn',    to: 'spam_domains#fix_asn_tags',       as: :fix_asn_tags
     get    ':id/edit',       to: 'spam_domains#edit',              as: :edit_spam_domain
     patch  ':id/edit',       to: 'spam_domains#update',            as: :update_spam_domain
     get    ':id',            to: 'spam_domains#show',              as: :spam_domain

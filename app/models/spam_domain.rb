@@ -13,16 +13,22 @@ class SpamDomain < ApplicationRecord
 
   validates :domain, uniqueness: true
 
-  after_create do
+  after_create :fix_asn_tags
+
+  def fix_asn_tags
     asn_query = `dig +short "$(dig +short '#{domain.tr("'", '')}' | awk -F. '/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/ {print $4"."$3"." $2"."$1;exit}').origin.asn.cymru.com" TXT` # rubocop:disable Metrics/LineLength
     asn = asn_query.strip.tr('"', '').split('|')[0]&.strip
-    if asn.present?
-      asn.split.each do |as|
-        desc = `dig +short AS#{as}.asn.cymru.com TXT`.strip.tr('"', '').split('|')[-1]&.strip
-        tag = DomainTag.find_or_create_by(name: "AS-#{as}", special: true)
-        tag.update(description: "Domains under the Autonomous System Number #{as} - #{desc}.") unless tag.description.present?
-        domain_tags << tag
-      end
+    return unless asn.present?
+    prev_domain_tags = domain_tags.where(special: true).select(:name).map(&:name).select { |dt| dt.start_with?('AS-') }.map(&:name)
+    asn.split.each do |as|
+      desc = `dig +short AS#{as}.asn.cymru.com TXT`.strip.tr('"', '').split('|')[-1]&.strip
+      tag = DomainTag.find_or_create_by(name: "AS-#{as}", special: true)
+      prev_domain_tags -= ["AS-#{as}"]
+      tag.update(description: "Domains under the Autonomous System Number #{as} - #{desc}.") unless tag.description.present?
+      domain_tags << tag
+    end
+    prev_domain_tags.each do |dtn|
+      domain_tags.delete(DomainTag.find_by(name: dtn))
     end
   end
 

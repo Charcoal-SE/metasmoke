@@ -13,6 +13,10 @@
     <% if current_user.has_role?(:core) %>
       <%= link_to 'Edit', edit_spam_domain_path(@domain) %>
     <% end %>
+    <% if current_user.has_role?(:core) %>
+    &middot; <%= link_to 'Fix ASN Tags', fix_asn_tags_path(@domain), method: :post,
+    data: { confirm: 'Are you sure?' }, class: 'text-warning' %>
+    <% end %>
     <% if current_user.has_role?(:admin) %>
       &middot; <%= link_to 'Delete', destroy_spam_domain_path(@domain), method: :delete,
                     data: { confirm: 'Are you sure?' }, class: 'text-danger' %>
