@@ -3,10 +3,11 @@
 class PostsController < ApplicationController
   protect_from_forgery except: [:create]
   before_action :check_if_smokedetector, only: :create
-  before_action :set_post, only: %i[needs_admin feedbacksapi reindex_feedback cast_spam_flag delete_post]
+  before_action :set_post, only: %i[add_domain needs_admin feedbacksapi reindex_feedback cast_spam_flag delete_post]
   before_action :authenticate_user!, only: %i[reindex_feedback cast_spam_flag]
   before_action :verify_developer, only: %i[reindex_feedback delete_post]
   before_action :verify_reviewer, only: [:feedback]
+  before_action :verify_core, only: [:add_domain]
 
   def show
     begin
@@ -22,6 +23,16 @@ class PostsController < ApplicationController
     @is_review_item = false
 
     not_found if @post&.id.nil?
+  end
+
+  def add_domain
+    domain = SpamDomain.find_by(domain: params[:domain_name])
+    if !domain.present?
+      flash[:warning] = "Domain #{params[:domain_name]} not found"
+    else
+      @post.spam_domains << domain
+    end
+    redirect_back(fallback_location: post_path(@post))
   end
 
   # Render bodies on-demand for fancy expanding rows

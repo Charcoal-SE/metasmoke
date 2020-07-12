@@ -189,11 +189,19 @@
     <% @post.spam_domains.each do |d| %>
       <li><%= render 'spam_domains/domain', domain: d, occurances: true %></li>
     <% end %>
-  </ul><br/>
+  </ul>
 <% else %>
   <p class="post-no-domain-list"><em>No domains</em></p>
 <% end %>
 
+<% if current_user&.has_role?(:core) %>
+  <%= form_tag add_post_domain_path, method: :post do %>
+    <%= hidden_field_tag :post_id, @post.id %>
+    <%= text_field_tag :domain_name %>
+    <%= submit_tag 'Add Domain', data: { confirm: "Are you sure you want to add this domain? Only a developer can undo this action." }, class: 'btn btn-primary btn-sm' %>
+  <% end %>
+<% end %>
+<br/>
 <% @post.comments.each do |c| %>
   <%= render 'post_comments/comment', comment: c, feedback: @post.feedbacks.to_a.select { |f| f.user_id == c.user_id }[0] %>
 <% end %>
