@@ -52,8 +52,6 @@
         <ul class="nav navbar-nav">
           <%= nav_link PostsController %>
           <li class='<%= (controller.class == DashboardController && controller.action_name == :index) ? "active" : "" %>'><%= link_to "reasons", reasons_path %></li>
-          <%= nav_link GraphsController %>
-          <%= nav_link SearchController %>
           <% Rack::MiniProfiler.step('Rendering: layouts/application/nav/review') do %>
           <% if user_signed_in? && current_user.has_role?("reviewer") %>
             <% q_counts = redis.smembers("review_queues").map { |i| [i.to_i, redis.scard("review_queue/#{i}/unreviewed")] }.to_h %>
@@ -74,14 +72,14 @@
             <% end %>
           <% end %>
           <% end %>
-          <%= nav_link FlagSettingsController, action: :dashboard, label: 'flagging',
-                       active: [FlagConditionsController, FlagLogController] %>
-
           <%= nav_dropdown AdminController, label: 'tools' do %>
             <%= nav_link SpamDomainsController, label: 'Domains' %>
             <%= nav_link DomainTagsController, label: 'Domain Tags' %>
             <%= nav_link DomainGroupsController, label: 'Domain Groups' %>
             <li role="separator" class="divider"></li>
+            <%= nav_link FlagSettingsController, action: :dashboard, label: 'Flagging',
+                         active: [FlagConditionsController, FlagLogController] %>
+            <%= nav_link GraphsController, label: 'Graphs' %>
             <%= nav_link StackExchangeUsersController, label: 'Spammers', action: :sites %>
           <% end %>
 
@@ -141,13 +139,6 @@
             }
           } %>
         </ul>
-        <% if controller.class == DashboardController && controller.action_name == 'index' %>
-          <form class="navbar-form navbar-right" role="search">
-            <div class="form-group">
-              <input type="text" id="search" class="form-control" placeholder="Search reasons">
-            </div>
-          </form>
-        <% end %>
         <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
             <%= nav_dropdown label: current_user.username || current_user.email do %>
@@ -177,9 +168,9 @@
               <code><%= CurrentCommit.first(7) %></code>
             <% end %>
           <% end %>
-          <% if controller.class == DashboardController && controller.action_name == 'index' %>
-            <li class="search-icon hidden-xs"><a class="glyphicon glyphicon-search" href=#><span class="sr-only">Search</span></a></li>
-          <% end %>
+          <li class="nav-link <%= (controller.class == SearchController && controller.action_name.to_sym == :index) ? "active" : "" %>">
+            <%= link_to '', search_path, class: 'glyphicon glyphicon-search' %>
+          </li>
         </ul>
       </div><!-- /.navbar-collapse -->
     <% end %>
