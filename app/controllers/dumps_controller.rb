@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class DumpsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :verify_core
   before_action :set_dump, only: %i[show edit update destroy]
 
   # GET /dumps
