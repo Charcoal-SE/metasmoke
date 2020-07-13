@@ -4,6 +4,7 @@ class SpamDomain < ApplicationRecord
   include Websocket
 
   has_and_belongs_to_many :posts, after_add: :setup_review
+  has_many :post_spam_domains
   has_and_belongs_to_many :domain_tags, after_add: :check_dq
   has_and_belongs_to_many :domain_groups
   has_one :review_item, as: :reviewable

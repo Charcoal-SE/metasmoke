@@ -27,6 +27,7 @@ class Post < ApplicationRecord
   belongs_to :smoke_detector
   has_and_belongs_to_many :reasons
   has_and_belongs_to_many :post_tags, class_name: 'DomainTag'
+  has_many :post_spam_domains
   has_and_belongs_to_many :spam_domains
   has_many :feedbacks, dependent: :destroy
   has_many :deletion_logs, dependent: :destroy
