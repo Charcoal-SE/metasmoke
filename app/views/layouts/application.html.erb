@@ -77,8 +77,6 @@
             <%= nav_link DomainTagsController, label: 'Domain Tags' %>
             <%= nav_link DomainGroupsController, label: 'Domain Groups' %>
             <li role="separator" class="divider"></li>
-            <%= nav_link FlagSettingsController, action: :dashboard, label: 'Flagging',
-                         active: [FlagConditionsController, FlagLogController] %>
             <%= nav_link GraphsController, label: 'Graphs' %>
             <%= nav_link StackExchangeUsersController, label: 'Spammers', action: :sites %>
           <% end %>
@@ -131,6 +129,7 @@
           <% end %>
 
           <%= nav_link StatusController, attrs: {
+            id: 'smokedetector-status',
             class: ['status', "status-#{SmokeDetector.status_color}"],
             data: {
               last_ping: SmokeDetector.select(:last_ping).order(last_ping: :desc).first.last_ping.to_f,
@@ -170,6 +169,10 @@
           <% end %>
           <li class="nav-link <%= (controller.class == SearchController && controller.action_name.to_sym == :index) ? "active" : "" %>">
             <%= link_to '', search_path, class: 'glyphicon glyphicon-search' %>
+          </li>
+          <% flagging_status = FlagSetting['flagging_enabled'] == '0' ? 'critical' : (FlagSetting['dry_run'] == '1' ? 'warning' : 'good') %>
+          <li class="nav-link status status-<%= flagging_status %> <%= (controller.class == FlagSettingsController && controller.action_name.to_sym == :dashboard) ? "active" : "" %>">
+            <%= link_to '', flagging_path, class: 'glyphicon glyphicon-flag' %>
           </li>
         </ul>
       </div><!-- /.navbar-collapse -->
