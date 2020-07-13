@@ -51,6 +51,9 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <%= nav_link PostsController %>
+          <% if !user_signed_in? %>
+            <%= nav_link GraphsController, label: 'Graphs' %>
+          <% end %>
           <li class='<%= (controller.class == DashboardController && controller.action_name == :index) ? "active" : "" %>'><%= link_to "reasons", reasons_path %></li>
           <% Rack::MiniProfiler.step('Rendering: layouts/application/nav/review') do %>
           <% if user_signed_in? && current_user.has_role?("reviewer") %>
