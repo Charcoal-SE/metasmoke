@@ -20,9 +20,9 @@ every 1.day, at: '2:00 am' do
   runner 'ConflictingFeedbackJob.perform_later'
 end
 
-every 1.day, at: '3:10am' do
-  runner 'ApplicationRecord.full_dump'
-end
+#every 1.day, at: '3:10am' do
+#  runner 'ApplicationRecord.full_dump'
+#end
 
 every 1.day, at: '3:00am' do
   runner 'ScheduledMailJob.perform_later'
