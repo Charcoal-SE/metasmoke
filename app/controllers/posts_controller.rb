@@ -3,11 +3,11 @@
 class PostsController < ApplicationController
   protect_from_forgery except: [:create]
   before_action :check_if_smokedetector, only: :create
-  before_action :set_post, only: %i[add_domain needs_admin feedbacksapi reindex_feedback cast_spam_flag delete_post]
+  before_action :set_post, only: %i[remove_domain add_domain needs_admin feedbacksapi reindex_feedback cast_spam_flag delete_post]
   before_action :authenticate_user!, only: %i[reindex_feedback cast_spam_flag]
   before_action :verify_developer, only: %i[reindex_feedback delete_post]
   before_action :verify_reviewer, only: [:feedback]
-  before_action :verify_core, only: [:add_domain]
+  before_action :verify_core, only: %i[remove_domain add_domain]
 
   def show
     begin
@@ -30,7 +30,17 @@ class PostsController < ApplicationController
     if !domain.present?
       flash[:warning] = "Domain #{params[:domain_name]} not found"
     else
-      @post.spam_domains << domain
+      PostSpamDomain.create(post: @post, spam_domain: domain, added_by: current_user)
+    end
+    redirect_back(fallback_location: post_path(@post))
+  end
+
+  def remove_domain
+    domain = PostSpamDomain.find_by(post: @post, spam_domain: params[:domain_id])
+    if domain.nil? || domain.added_by.nil?
+      flash[:warning] = 'You can only delete user added spam domains'
+    else
+      domain.custom_delete
     end
     redirect_back(fallback_location: post_path(@post))
   end

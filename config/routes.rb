@@ -369,7 +369,8 @@ Rails.application.routes.draw do
     post ':post_id/feedback',     to: 'posts#feedback',             as: :post_feedback
     get  ':id/feedback/clear',    to: 'feedbacks#clear',            as: :clear_post_feedback
     post ':id/admin_flag',        to: 'posts#needs_admin',          as: :admin_flag_post
-    post ':id/add_domain',        to: 'posts#add_domain',           as: :add_post_domain
+    post ':id/domains/add',       to: 'posts#add_domain',           as: :add_post_domain
+    post ':id/domains/remove',    to: 'posts#remove_domain',        as: :remove_post_domain
   end
 
   scope 'posts' do

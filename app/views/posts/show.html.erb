@@ -187,7 +187,15 @@
 <% if @post.spam_domains.any? %>
   <ul class="post-domain-list">
     <% @post.spam_domains.each do |d| %>
-      <li><%= render 'spam_domains/domain', domain: d, occurances: true %></li>
+      <li>
+        <%= render 'spam_domains/domain', domain: d, occurances: true %>
+        <% if current_user&.has_role?(:core) && !(psd = PostSpamDomain.find_by(post: @post, spam_domain: d)).added_by.nil? %>
+          <%= link_to "remove domain", remove_post_domain_path(id: @post.id, domain_id: d.id), class: 'btn-sm btn-danger', method: :post %>
+          <% if current_user&.has_role?(:admin) %>
+            <i class="text-muted">(added by <%= psd.added_by.username %>, user_id: <%= psd.added_by.id %>)</i>
+          <% end %>
+        <% end %>
+      </li>
     <% end %>
   </ul>
 <% else %>
@@ -198,7 +206,7 @@
   <%= form_tag add_post_domain_path, method: :post do %>
     <%= hidden_field_tag :post_id, @post.id %>
     <%= text_field_tag :domain_name %>
-    <%= submit_tag 'Add Domain', data: { confirm: "Are you sure you want to add this domain? Only a developer can undo this action." }, class: 'btn btn-primary btn-sm' %>
+    <%= submit_tag 'Add Domain', class: 'btn btn-primary btn-sm' %>
   <% end %>
 <% end %>
 <br/>
