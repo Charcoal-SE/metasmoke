@@ -58,7 +58,7 @@
           <% if user_signed_in? && current_user.has_role?("reviewer") %>
             <% q_counts = redis.smembers("review_queues").map { |i| [i.to_i, redis.scard("review_queue/#{i}/unreviewed")] }.to_h %>
             <% total_count = q_counts.sum { |_k, v| v } %>
-            <% label = raw("review <span class='reviews-count badge'>#{total_count != 0 && current_user&.has_role?(:reviewer) ? ((total_count && ! current_user.has_role?("admin")) > 50 ? '50+' : total_count) : nil}</span>") %>
+            <% label = raw("review <span class='reviews-count badge'>#{total_count != 0 && current_user&.has_role?(:reviewer) ? ((total_count && !current_user.has_role?("admin")) > 50 ? '50+' : total_count) : nil}</span>") %>
             <% Rack::MiniProfiler.step('Rendering: layouts/application/nav/review/dropdown') do %>
             <%= nav_dropdown ReviewQueuesController, label: label do %>
               <% ReviewQueue.where(privileges: current_user.roles.map(&:name)).each do |rq| %>
@@ -66,7 +66,7 @@
                   <%= link_to review_queue_path(rq.name) do %>
                     <% count = q_counts[rq.id] %>
                     <%= rq.name.titleize %>
-                    <span class="badge"><%= (count.nil? || count.zero?) ? '' : ((count > 50 && ! current_user.has_role?("admin")) ? '50+' : count) %></span>
+                    <span class="badge"><%= (count.nil? || count.zero?) ? '' : ((count > 50 && !current_user.has_role?("admin")) ? '50+' : count) %></span>
                   <% end %>
                 </li>
               <% end %>
