@@ -123,7 +123,7 @@ class Feedback < ApplicationRecord
   end
 
   def is_positive? # rubocop:disable Style/PredicateName
-    feedback_type.include? 't'
+    feedback_type.include? 't' || feedback_type.include? 'rude'
   end
 
   def is_negative? # rubocop:disable Style/PredicateName
