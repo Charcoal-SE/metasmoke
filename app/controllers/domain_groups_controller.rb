@@ -3,6 +3,7 @@
 class DomainGroupsController < ApplicationController
   before_action :set_group, only: %i[show edit update destroy emails]
   before_action :verify_core, only: %i[new create edit update]
+  before_action :verify_admin, only: :destroy
 
   def index
     @groups = DomainGroup.joins('LEFT JOIN domain_groups_spam_domains j ON domain_groups.id = j.domain_group_id')
