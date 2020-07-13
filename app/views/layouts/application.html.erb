@@ -77,6 +77,7 @@
             <%= nav_link DomainTagsController, label: 'Domain Tags' %>
             <%= nav_link DomainGroupsController, label: 'Domain Groups' %>
             <li role="separator" class="divider"></li>
+            <%= nav_link DashboardController, action: :site_dash, label: 'Site Dashboard' %>
             <%= nav_link GraphsController, label: 'Graphs' %>
             <%= nav_link StackExchangeUsersController, label: 'Spammers', action: :sites %>
           <% end %>
