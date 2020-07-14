@@ -13,9 +13,9 @@ class DeveloperController < ApplicationController
 
   def production_log
     @log = if params[:grep].present?
-           unless params[:grep].instance_of?(String) && params[:context].instance_of?(Integer)
-             raise ActionController::RoutingError, 'Not Found'
-           end
+             unless params[:grep].instance_of?(String) && params[:context].instance_of?(Integer)
+               raise ActionController::RoutingError, 'Not Found'
+             end
              `tail -n 10000 log/production.log | grep -E '#{params[:grep].tr("'", '')}' -C '#{params[:context]}' --color=never`
            else
              `tail -n 1000 log/production.log`
