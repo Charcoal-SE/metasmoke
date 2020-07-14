@@ -22,7 +22,8 @@ class DeveloperController < ApplicationController
                end
              rescue
                # Coercion failure -> deny access
-               raise ActionController::RoutingError, 'Not Found'
+               flash[:warning] = 'Coercion failure on params'
+               redirect_to(root_path) && return
              end
              `tail -n 10000 log/production.log | grep -E '#{grep_str.tr("'", '')}' -C '#{context_int}' --color=never`
            else
