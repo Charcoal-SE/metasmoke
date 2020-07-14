@@ -203,7 +203,7 @@
 <% end %>
 
 <% if current_user&.has_role?(:core) %>
-  <%= form_tag add_post_domain_path, method: :post do %>
+  <%= form_tag add_post_domain_path(@post), method: :post do %>
     <%= hidden_field_tag :post_id, @post.id %>
     <%= text_field_tag :domain_name %>
     <%= submit_tag 'Add Domain', class: 'btn btn-primary btn-sm' %>
