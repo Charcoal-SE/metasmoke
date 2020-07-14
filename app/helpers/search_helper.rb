@@ -12,11 +12,7 @@ module SearchHelper
                   end
     else
       operation = 'LIKE'
-      input = if symbol == :body
-                ActiveRecord::Base.sanitize_sql_like(input)
-              else
-                '%' + ActiveRecord::Base.sanitize_sql_like(input) + '%'
-              end
+      input = '%' + ActiveRecord::Base.sanitize_sql_like(input) + '%'
     end
 
     [input, operation]
