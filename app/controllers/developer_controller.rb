@@ -19,6 +19,7 @@ class DeveloperController < ApplicationController
                # Check if coercion is successful, in case someone overloaded .to_*() methods
                if !grep_str.instance_of?(String) || !context_int.instance_of?(Integer)
                  raise ArgumentError, "Coercion failure"
+               end
              rescue  # Coercion failure -> deny access
                raise ActionController::RoutingError, 'Not Found'
              end
