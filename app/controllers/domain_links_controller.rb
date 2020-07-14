@@ -3,6 +3,7 @@
 class DomainLinksController < ApplicationController
   before_action :verify_core
   before_action :set_link, except: :create
+  before_action :verify_admin, only: :destroy
 
   def create
     @link = DomainLink.new link_params.merge(creator: current_user)
