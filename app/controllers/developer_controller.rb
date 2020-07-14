@@ -16,6 +16,9 @@ class DeveloperController < ApplicationController
              begin
                grep_str = params[:grep].instance_of?(String) ? params[:grep] : params[:grep].to_s
                context_int = params[:context].instance_of?(Integer) ? params[:context] : params[:context].to_i
+               # Check if coercion is successful, in case someone overloaded .to_*() methods
+               if !grep_str.instance_of?(String) || !context_int.instance_of?(Integer)
+                 raise ArgumentError, "Coercion failure"
              rescue  # Coercion failure -> deny access
                raise ActionController::RoutingError, 'Not Found'
              end
