@@ -55,7 +55,7 @@ class DashboardController < ApplicationController
 
   def query_times
     @query_times = redis(logger: true).smembers('request_timings/path_strings')
-                                      .map     { |path_str| Redis::QueryAverage.new(*path_str.split('/', 2)) }
+                                      .map     { |path_str| Redis::QueryAverage.new(*path_str.split('/', 2), since: params[:since].to_i) }
                                       .sort_by { |h|        -h.average(:total) }
   end
 

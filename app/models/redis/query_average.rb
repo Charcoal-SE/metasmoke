@@ -1,17 +1,20 @@
 # frozen_string_literal: true
 
 class Redis::QueryAverage
-  def initialize(method, path)
+  def initialize(method, path, since: 0)
+    @since = since
     @method = method
     @path = path
   end
 
   def counter(t)
-    redis(logger: true).zcard(redis_key(t)).to_i
+    redis(logger: true).zcount(redis_key(t), @since, '+inf').to_i
   end
 
   def average(t)
-    redis(logger: true).zrange(redis_key(t), 0, -1).map(&:to_f).sum / counter(t)
+    count = counter(t)
+    return Float::INFINITY if count == 0
+    redis(logger: true).zrangebyscore(redis_key(t), @since, '+inf').map(&:to_f).sum / count
   end
 
   def path

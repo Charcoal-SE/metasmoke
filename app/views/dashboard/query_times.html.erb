@@ -15,16 +15,18 @@
   </thead>
   <tbody>
     <% @query_times.each do |qt| %>
-      <tr>
-        <td><%= qt.path %></td>
-        <td data-sort-value="<%= (qt.average(:total) * 100).to_i %>"><%= qt.average(:total).round(2) %></td>
-        <td data-sort-value="<%= qt.counter(:total) %>"><%= qt.counter(:total) %></td>
-        <td data-sort-value="<%= (qt.average(:db) * 100).to_i %>"><%= (qt.average(:db)).round(2) %></td>
-        <td data-sort-value="<%= (qt.average(:view) * 100).to_i %>"><%= (qt.average(:view)).round(2) %></td>
-        <% if current_user&.has_role?(:developer) %>
-          <td><%= link_to 'Reset', reset_query_time_path(path: qt.raw_path), method: :post, class: 'text-danger' %></td>
-        <% end %>
-      </tr>
+      <% if qt.counter(:total) > 0 %>
+        <tr>
+          <td><%= qt.path %></td>
+          <td data-sort-value="<%= (qt.average(:total) * 100).to_i %>"><%= qt.average(:total).round(2) %></td>
+          <td data-sort-value="<%= qt.counter(:total) %>"><%= qt.counter(:total) %></td>
+          <td data-sort-value="<%= (qt.average(:db) * 100).to_i %>"><%= (qt.average(:db)).round(2) %></td>
+          <td data-sort-value="<%= (qt.average(:view) * 100).to_i %>"><%= (qt.average(:view)).round(2) %></td>
+          <% if current_user&.has_role?(:developer) %>
+            <td><%= link_to 'Reset', reset_query_time_path(path: qt.raw_path), method: :post, class: 'text-danger' %></td>
+          <% end %>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>
