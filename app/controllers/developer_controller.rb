@@ -20,7 +20,8 @@ class DeveloperController < ApplicationController
                if !grep_str.instance_of?(String) || !context_int.instance_of?(Integer)
                  raise ArgumentError, "Coercion failure"
                end
-             rescue  # Coercion failure -> deny access
+             rescue
+               # Coercion failure -> deny access
                raise ActionController::RoutingError, 'Not Found'
              end
              `tail -n 10000 log/production.log | grep -E '#{grep_str.tr("'", '')}' -C '#{context_int}' --color=never`
