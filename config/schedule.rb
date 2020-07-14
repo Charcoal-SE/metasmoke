@@ -20,7 +20,7 @@ every 1.day, at: '2:00 am' do
   runner 'ConflictingFeedbackJob.perform_later'
 end
 
-# every 1.day, at: '2:10am' do
+# every 1.day, at: '3:10am' do
 #   runner 'ApplicationRecord.full_dump'
 # end
 

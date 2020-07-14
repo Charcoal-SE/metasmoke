@@ -38,7 +38,7 @@ class FlagLogController < ApplicationController
 
   def by_post
     @individual_post = Post.find(params[:id])
-    @flag_logs = @individual_post.flag_logs.where(is_auto: true)
+    @flag_logs = @individual_post.flag_logs
                                  .order(Arel.sql('created_at DESC, id DESC'))
                                  .includes(post: [feedbacks: %i[user api_key]])
                                  .includes(post: [:reasons])

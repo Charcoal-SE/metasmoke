@@ -47,20 +47,22 @@ class SearchController < ApplicationController
       end
     end
 
-    if ['LIKE', 'NOT LIKE'].include?(body_operation) && user_signed_in? && params[:body_is_like] != '1' && body.present?
-      # If the operation would be LIKE, hijack it and use our fulltext index for a search instead.
-      # UNLESS... params[:body_is_like] is set, in which case the user has explicitly specified a LIKE query.
-      @results = @results.match_search(body, with_search_score: false, posts: :body)
-    else
-      if params[:body_is_like] == '1' && !user_signed_in?
-        flash[:warning] = 'Unregistered users cannot use LIKE searches on the body field. Please sign in.'
+    if body.present?
+      if ['LIKE', 'NOT LIKE'].include?(body_operation) && params[:body_is_like] != '1'
+        # If the operation would be LIKE, hijack it and use our fulltext index for a search instead.
+        # UNLESS... params[:body_is_like] is set, in which case the user has explicitly specified a LIKE query.
+        @results = @results.match_search(body, with_search_score: false, posts: :body)
+      else
+        if params[:body_is_like] == '1' && !user_signed_in?
+          flash[:warning] = 'Unregistered users cannot use LIKE searches on the body field. Please sign in.'
+        end
+        # Otherwise, it's REGEX or NOT REGEX, which fulltext won't do - fall back on search_string and params
+        search_string << "IFNULL(`posts`.`body`, '') #{body_operation} :body"
+        search_params[:body] = body.present? ? body : '%%'
       end
-      # Otherwise, it's REGEX or NOT REGEX, which fulltext won't do - fall back on search_string and params
-      search_string << "IFNULL(`posts`.`body`, '') #{body_operation} :body"
-      search_params[:body] = body.present? ? body : '%%'
     end
 
-    @results = @results.where(search_string.join(' AND '), **search_params)
+    @results = @results.where(search_string.join(params[:or_search].present? ? ' OR ' : ' AND '), **search_params)
                        .paginate(page: params[:page], per_page: per_page)
                        .order(Arel.sql('`posts`.`created_at` DESC'))
 
@@ -86,6 +88,8 @@ class SearchController < ApplicationController
                end
 
     @results = @results.where(site_id: params[:site]) if params[:site].present?
+
+    @results = @results.where('revision_count > 1') if params[:edited].present?
 
     @results = @results.includes(feedbacks: [:user])
 

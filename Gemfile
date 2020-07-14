@@ -12,7 +12,8 @@ gem 'awesome_print'
 gem 'aescrypt', '~> 2.0', '>= 2.0.2', github: 'Charcoal-SE/aescrypt'
 gem 'audited', '~> 4.4'
 gem 'aws-sdk-s3'
-gem 'devise', git: 'https://github.com/plataformatec/devise'
+gem 'commonmarker'
+gem 'devise', '~> 4.7', '>= 4.7.2'
 gem 'htmlentities', '~> 4.3', '>= 4.3.4'
 gem 'httparty'
 gem 'jwt'
@@ -22,7 +23,6 @@ gem 'octokit', '~> 4.0'
 gem 'paperclip', '~> 6.0.0'
 gem 'puma'
 gem 'rack-cors', '~> 0.4', require: 'rack/cors'
-gem 'redcarpet'
 gem 'redis', '~> 3.0'
 gem 'rolify'
 gem 'rotp', '~> 4.0'
@@ -45,7 +45,7 @@ gem 'rubocop', '~> 0.48.1', require: false, group: :test
 gem 'simplecov', require: false, group: :test
 
 gem 'blazer', '2.2.1.charcoal', github: 'Charcoal-SE/blazer'
-gem 'grape', '1.0.0'
+gem 'grape', '1.3.0'
 
 # gem 'puma_worker_killer'
 

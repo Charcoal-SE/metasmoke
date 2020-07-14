@@ -3,9 +3,9 @@
 class SpamDomainsController < ApplicationController
   before_action :check_if_smokedetector, only: [:create_from_post]
   before_action :authenticate_user!, only: %i[edit update destroy create new]
-  before_action :verify_core, only: %i[edit update create new]
+  before_action :verify_core, only: %i[edit update create new fix_asn_tags]
   before_action :verify_admin, only: [:destroy]
-  before_action :set_spam_domain, only: %i[show edit update destroy]
+  before_action :set_spam_domain, only: %i[show edit update destroy fix_asn_tags]
 
   def index
     @total = SpamDomain.count
@@ -15,6 +15,11 @@ class SpamDomainsController < ApplicationController
                  SpamDomain.all
                end.includes(:domain_tags).order(domain: :asc).paginate(page: params[:page], per_page: 100)
     SpamDomain.preload_post_counts(@domains)
+  end
+
+  def fix_asn_tags
+    @domain.fix_asn_tags
+    redirect_to action: :show, id: @domain.id
   end
 
   def create_from_post

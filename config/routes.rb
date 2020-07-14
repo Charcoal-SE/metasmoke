@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   get    'flagging',              to: 'flag_settings#dashboard',    as: :flagging
 
   get    'query-times',           to: 'dashboard#query_times',      as: :query_times
-  post   'query-times/reset/:id', to: 'dashboard#reset_query_time', as: :reset_query_time
+  post   'query-times/reset',     to: 'dashboard#reset_query_time', as: :reset_query_time
 
   post   'statistics.json',       to: 'statistics#create'
   post   'feedbacks.json',        to: 'feedbacks#create'
@@ -161,8 +161,8 @@ Rails.application.routes.draw do
 
     post 'graphql',                 to: 'graphql#execute',           as: :graphql
     get 'graphql',                  to: 'graphql#query',             as: :query_graphql
-    mount GraphiQL::Rails::Engine,  at: '/graphiql',                 graphql_path: '/api/graphql', query_params: true
   end
+  mount GraphiQL::Rails::Engine,  at: '/api/graphiql',                 graphql_path: '/api/graphql', query_params: true
 
   scope 'authentication' do
     get 'status',                to: 'authentication#status', as: :authentication_status
@@ -261,6 +261,7 @@ Rails.application.routes.draw do
     post   'create.json',    to: 'spam_domains#create_from_post',  as: :create_spam_domain
     post   'no_post_create', to: 'spam_domains#create',            as: :create_no_post_spam_domain
     get    'query.json',     to: 'spam_domains#query',             as: :spam_domains_query
+    post   ':id/fix_asn',    to: 'spam_domains#fix_asn_tags',       as: :fix_asn_tags
     get    ':id/edit',       to: 'spam_domains#edit',              as: :edit_spam_domain
     patch  ':id/edit',       to: 'spam_domains#update',            as: :update_spam_domain
     get    ':id',            to: 'spam_domains#show',              as: :spam_domain
@@ -368,6 +369,8 @@ Rails.application.routes.draw do
     post ':post_id/feedback',     to: 'posts#feedback',             as: :post_feedback
     get  ':id/feedback/clear',    to: 'feedbacks#clear',            as: :clear_post_feedback
     post ':id/admin_flag',        to: 'posts#needs_admin',          as: :admin_flag_post
+    post ':id/domains/add',       to: 'posts#add_domain',           as: :add_post_domain
+    post ':id/domains/remove',    to: 'posts#remove_domain',        as: :remove_post_domain
   end
 
   scope 'posts' do

@@ -38,6 +38,10 @@
     <%= text_field_tag :why, params[:why], placeholder: "*", class: "form-control" %>
   </div>
   <div class="form-group">
+    <%= label_tag :or_search, "Use OR for text search (uses AND by default)" %>
+    <%= check_box_tag :or_search, 1, params[:or_search] %>
+  </div>
+  <div class="form-group">
     <% h = HTMLEntities.new %>
     <%= label_tag :site %>
     <%= select_tag :site, options_for_select(Site.select(:site_name, :id).all.order(:site_name).map {|s| [h.decode(s.site_name), s.id] }, params[:site]), class: "form-control", include_blank: "All" %>
@@ -76,6 +80,11 @@
         <%= number_field_tag :user_reputation, params[:user_reputation], class: "form-control" %>
       </div>
     </div>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :edited, "Edited" %>
+    <%= check_box_tag :edited, 1, params[:edited] %>
   </div>
 
   <%= hidden_field_tag :option, params[:option] if params[:option] == 'graphs' %>

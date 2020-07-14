@@ -1,5 +1,23 @@
+<%
+counts_summary = %i[all tp fp naa].map do |t|
+        [t, Post.joins(spam_domains: :domain_tags).where(spam_domains: {id: domain.id}).distinct.send(t).count]
+      end.to_h
+%>
 <span class="spam-domain">
+  <% if occurances && counts_summary[:all] > 0 %>
+    <% if counts_summary[:tp] == 0 %>
+      <span class="text-danger">✗</span>
+    <% end %>
+    <% if counts_summary[:fp] == 0 %>
+      <span class="text-success">✓</span>
+    <% end %>
+  <% end %>
   <%= link_to domain.domain, spam_domain_path(domain) %>
+  <% if occurances %>
+    (<span class="text-success" title="TP" data-toggle="tooltip"><%= counts_summary[:tp] %></span>,
+    <span class="text-danger" title="FP" data-toggle="tooltip"><%= counts_summary[:fp] %></span>,
+    <span class="text-warning" title="NAA" data-toggle="tooltip"><%= counts_summary[:naa] %></span>)
+  <% end %>
   <% domain.domain_tags.each do |t| %>
     <%= render 'domain_tags/tag', tag: t, domain: domain %>
   <% end %>

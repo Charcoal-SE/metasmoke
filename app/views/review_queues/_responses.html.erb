@@ -14,7 +14,7 @@
 
       <p>
         <% item.results.each do |result| %>
-          <b><%= result.user.username %></b>
+          <b><%= result.user.present? ? result.user.username : 'No user recorded' %></b>
           <span data-livestamp="<%= result.created_at.to_i %>" title="<%= result.created_at.to_s %>">
             <%= time_ago_in_words(result.created_at.to_s) %>
           </span>:

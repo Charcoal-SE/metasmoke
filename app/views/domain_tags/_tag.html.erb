@@ -3,7 +3,7 @@
   <%= link_to domain_tag_path(tag), class: 'domain-tag' do %>
     #<%= tag.name %>
   <% end %>
-  <% if domain.present? %>
+  <% if domain.present? && !tag.special %>
     <%= form_tag remove_domain_tag_path, method: :post do %>
       <%= hidden_field_tag :domain_id, domain.id %>
       <%= hidden_field_tag :tag_name, tag.name %>

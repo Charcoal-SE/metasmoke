@@ -1,8 +1,10 @@
 #!/bin/bash
 
+set -e
+
 METASMOKE_ROOT=/var/railsapps/metasmoke
 timestamp=$(date +%s)
-filename=dump_metasmoke-$timestamp.sql.gz
+filename=dump_metasmoke_clean-$timestamp.sql.gz
 username=$1
 password=$2
 host=$3

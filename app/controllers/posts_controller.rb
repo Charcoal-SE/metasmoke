@@ -3,10 +3,11 @@
 class PostsController < ApplicationController
   protect_from_forgery except: [:create]
   before_action :check_if_smokedetector, only: :create
-  before_action :set_post, only: %i[needs_admin feedbacksapi reindex_feedback cast_spam_flag delete_post]
+  before_action :set_post, only: %i[remove_domain add_domain needs_admin feedbacksapi reindex_feedback cast_spam_flag delete_post]
   before_action :authenticate_user!, only: %i[reindex_feedback cast_spam_flag]
   before_action :verify_developer, only: %i[reindex_feedback delete_post]
   before_action :verify_reviewer, only: [:feedback]
+  before_action :verify_core, only: %i[remove_domain add_domain]
 
   def show
     begin
@@ -15,13 +16,33 @@ class PostsController < ApplicationController
                   .includes(:feedbacks)
                   .select(Arel.sql('posts.*, sites.site_logo, SUM(reasons.weight) AS reason_weight'))
                   .find(params[:id])
-    rescue
-      @post = Post.find params[:id]
+    rescue # rubocop:disable Lint/HandleExceptions
     end
+    @post = Post.find params[:id] if @post&.id.nil?
 
     @is_review_item = false
 
     not_found if @post&.id.nil?
+  end
+
+  def add_domain
+    domain = SpamDomain.find_by(domain: params[:domain_name])
+    if !domain.present?
+      flash[:warning] = "Domain #{params[:domain_name]} not found"
+    else
+      PostSpamDomain.create(post: @post, spam_domain: domain, added_by: current_user)
+    end
+    redirect_back(fallback_location: post_path(@post))
+  end
+
+  def remove_domain
+    domain = PostSpamDomain.find_by(post: @post, spam_domain: params[:domain_id])
+    if domain.nil? || domain.added_by.nil?
+      flash[:warning] = 'You can only delete user added spam domains'
+    else
+      domain.custom_delete
+    end
+    redirect_back(fallback_location: post_path(@post))
   end
 
   # Render bodies on-demand for fancy expanding rows
@@ -151,15 +172,7 @@ class PostsController < ApplicationController
         # Start autoflagging
         Rails.logger.warn "[autoflagging] #{@post.id}: post.save succeeded"
 
-        Thread.new do
-          Rails.logger.warn "[autoflagging] #{@post.id}: thread begin"
-          # Trying to autoflag in a different thread while in test
-          # can cause race conditions and segfaults. This is bad,
-          # so we completely suppress the issue and just don't do that.
-          @post.autoflag unless Rails.env.test?
-          @post.spam_wave_autoflag unless Rails.env.test?
-          redis.hset("posts/#{@post.id}", 'flagged', @post.flagged?)
-        end
+        AutoflagJob.perform_later @post.id
 
         format.json { render status: :created, plain: 'OK' }
       else
@@ -249,9 +262,8 @@ class PostsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def post_params
-    permitted = %w[title body link post_creation_date reasons username user_link why user_reputation score upvote_count downvote_count]
-    params.require(:post)
-          .permit(*permitted)
+    permitted = %w[title body markdown link post_creation_date reasons username user_link why user_reputation score upvote_count downvote_count]
+    params.require(:post).permit(permitted)
   end
 
   def less_important_things(post)

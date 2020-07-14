@@ -27,7 +27,8 @@ class Post < ApplicationRecord
   belongs_to :smoke_detector
   has_and_belongs_to_many :reasons
   has_and_belongs_to_many :post_tags, class_name: 'DomainTag'
-  has_and_belongs_to_many :spam_domains
+  has_many :post_spam_domains
+  has_many :spam_domains, through: :post_spam_domains
   has_many :feedbacks, dependent: :destroy
   has_many :deletion_logs, dependent: :destroy
   has_many :flag_logs, dependent: :destroy
@@ -237,6 +238,14 @@ class Post < ApplicationRecord
     native_id
   end
 
+  def total_weight
+    @weight ||= reasons.sum(:weight)
+  end
+
+  def reason_count
+    @reason_count ||= reasons.count
+  end
+
   # Called get_revision_count with the predicate because the model already has an attribute in the DB called revision_count.
   def get_revision_count # rubocop:disable Style/AccessorMethodName
     post = if respond_to? :revision_count
@@ -277,6 +286,10 @@ class Post < ApplicationRecord
       domain.posts << self unless domain.posts.include? self
       Rails.cache.delete "spam_domain_post_counts_##{domain.id}"
     end
+  end
+
+  def self.scrubber
+    PostScrubber.new
   end
 
   private

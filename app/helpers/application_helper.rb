@@ -8,6 +8,17 @@ module ApplicationHelper
     text
   end
 
+  def render_markdown(text)
+    CommonMarker.render_doc(text,
+                            %i[LIBERAL_HTML_TAG],
+                            %i[autolink tagfilter]).to_html(:UNSAFE)
+  end
+
+  def safe_render_markdown(text, options = {})
+    scrubber = options[:scrubber] || PostScrubber.new
+    raw(sanitize(render_markdown(text), scrubber: scrubber))
+  end
+
   @current_dropdown_is_active = nil
   def nav_link(cls, options = {}, &block)
     Rack::MiniProfiler.step("Generating nav_link: #{cls}") do

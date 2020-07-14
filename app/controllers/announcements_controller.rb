@@ -4,12 +4,6 @@ class AnnouncementsController < ApplicationController
   before_action :verify_core, except: [:index]
   before_action :verify_admin, only: [:expire]
 
-  @markdown_renderer = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new)
-
-  def self.renderer
-    @markdown_renderer
-  end
-
   def index
     @announcements = Announcement.all.order(created_at: :desc)
   end
@@ -31,7 +25,7 @@ class AnnouncementsController < ApplicationController
   end
 
   def create
-    html = self.class.renderer.render(params[:text])
+    html = helpers.render_markdown(params[:text])
     date = Date.parse(params[:expiry_date])
     time = Time.parse(params[:expiry_time])
     expiry = DateTime.new(date.year, date.month, date.day, time.hour, time.min, time.sec, time.zone)

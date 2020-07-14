@@ -45,7 +45,7 @@
 
     <span class="text-muted post-row-right">
       <% unless post.created_at.nil? %>
-        <span data-livestamp="<%= post.created_at.to_i %>" title="<%= post.created_at %>"></span>
+        <%= link_to "", post_path(id: post.id), title: post.created_at, "data-livestamp": post.created_at.to_i, class: "text-muted" %>
       <% end %>
 
       <% unless post.username.nil? || post.stack_exchange_user.nil? %>
@@ -93,7 +93,7 @@
           <div role="tabpanel" class="tab-pane" id="preview-tab-<%= post.id %>">
             <div class="panel panel-default">
               <div class="panel-body">
-                <%= raw(sanitize(AnnouncementsController.renderer.render(post.body), scrubber: PostScrubber.new)) %>
+                <%= safe_render_markdown(post.body, scrubber: Post.scrubber) %>
               </div>
             </div>
           </div>

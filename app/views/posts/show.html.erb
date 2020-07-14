@@ -73,8 +73,13 @@
 <% unless @post.body.nil? %>
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active">
-      <a href="#post-body-tab" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="markdown">Markdown</a>
+      <a href="#post-body-tab" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="markdown">Text</a>
     </li>
+    <% unless @post.markdown.nil? %>
+      <li role="presentation">
+        <a href="#post-source-tab" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="markdown">Markdown</a>
+      </li>
+    <% end %>
     <li role="presentation">
       <a href="#preview-tab" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="rendered">Preview</a>
     </li>
@@ -84,10 +89,15 @@
     <div role="tabpanel" class="tab-pane active" id="post-body-tab">
       <pre class="post-body-pre-block"><%= @post.body %></pre>
     </div>
+    <% unless @post.markdown.nil? %>
+      <div role="tabpanel" class="tab-pane" id="post-source-tab">
+        <pre class="post-body-pre-block"><%= @post.markdown %></pre>
+      </div>
+    <% end %>
     <div role="tabpanel" class="tab-pane" id="preview-tab">
       <div class="panel panel-default">
         <div class="panel-body">
-          <%= raw(sanitize(AnnouncementsController.renderer.render(@post.body), scrubber: PostScrubber.new)) %>
+          <%= safe_render_markdown(@post.markdown || @post.body, scrubber: Post.scrubber) %>
         </div>
       </div>
     </div>
@@ -177,13 +187,29 @@
 <% if @post.spam_domains.any? %>
   <ul class="post-domain-list">
     <% @post.spam_domains.each do |d| %>
-      <li><%= render 'spam_domains/domain', domain: d %></li>
+      <li>
+        <%= render 'spam_domains/domain', domain: d, occurances: true %>
+        <% if current_user&.has_role?(:core) && !(psd = PostSpamDomain.find_by(post: @post, spam_domain: d)).added_by.nil? %>
+          <%= link_to "remove domain", remove_post_domain_path(id: @post.id, domain_id: d.id), class: 'btn-sm btn-danger', method: :post %>
+          <% if current_user&.has_role?(:admin) %>
+            <i class="text-muted">(added by <%= psd.added_by.username %>, user_id: <%= psd.added_by.id %>)</i>
+          <% end %>
+        <% end %>
+      </li>
     <% end %>
-  </ul><br/>
+  </ul>
 <% else %>
   <p class="post-no-domain-list"><em>No domains</em></p>
 <% end %>
 
+<% if current_user&.has_role?(:core) %>
+  <%= form_tag add_post_domain_path(@post), method: :post do %>
+    <%= hidden_field_tag :post_id, @post.id %>
+    <%= text_field_tag :domain_name %>
+    <%= submit_tag 'Add Domain', class: 'btn btn-primary btn-sm' %>
+  <% end %>
+<% end %>
+<br/>
 <% @post.comments.each do |c| %>
   <%= render 'post_comments/comment', comment: c, feedback: @post.feedbacks.to_a.select { |f| f.user_id == c.user_id }[0] %>
 <% end %>

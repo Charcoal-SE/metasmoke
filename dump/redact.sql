@@ -1,3 +1,6 @@
+# Necessary for TRUNCATE calls to work properly.
+SET FOREIGN_KEY_CHECKS=0;
+
 DROP TABLE `ar_internal_metadata`;
 TRUNCATE TABLE `api_tokens`;
 UPDATE `api_keys` SET `key` = '';

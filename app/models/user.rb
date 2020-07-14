@@ -183,31 +183,28 @@ class User < ApplicationRecord
     flag_options = response['items']
 
     if flag_options.blank?
-      begin
-        # rubocop:disable Style/GuardClause
+      return false,
         if response['error_message'] == 'The account associated with the access_token does not have a user on the site'
-          return false, 'No account on this site.'
+          'No account on this site.'
         else
-          return false, 'Flag options not present'
+          'Flag options not present'
         end
-        # rubocop:enable Style/GuardClause
-      rescue
-        return false, 'Flag options not present'
-      end
     end
 
-    flag_option = flag_options.select do |fo|
-      if flag_type.to_sym == :spam
-        ['spam', 'contenido no deseado', 'スパム', 'спам'].include? fo['title']
-      elsif flag_type.to_sym == :abusive
-        ['rude or abusive', 'rude ou abusivo', 'irrespetuoso o abusivo', '失礼又は暴言', 'невежливый или оскорбительный'].include? fo['title']
-      elsif flag_type.to_sym == :other
-        ['in need of moderator intervention', 'precisa de atenção dos moderadores', 'se necesita la intervención de un moderador',
-         'モデレーターによる対応が必要です', 'требуется вмешательство модератора'].include? fo['title']
-      else
-        return false, "Unrecognized flag type #{flag_type} specified in call to User#flag"
-      end
-    end.first
+    flag_strings = {
+      spam: ['spam', 'contenido no deseado', 'スパム', 'спам'],
+      abusive: ['rude or abusive', 'rude ou abusivo', 'irrespetuoso o abusivo', '失礼又は暴言', 'невежливый или оскорбительный'],
+      other: ['in need of moderator intervention', 'precisa de atenção dos moderadores', 'se necesita la intervención de un moderador',
+              'モデレーターによる対応が必要です', 'требуется вмешательство модератора']
+    }
+
+    unless flag_strings.keys.include? flag_type.to_sym
+      return false, "Unrecognized flag type #{flag_type} specified in call to User#flag"
+    end
+
+    flag_option = flag_options.find do |fo|
+      flag_strings[flag_type.to_sym].include? fo['title']
+    end
 
     return false, 'Flag option not present' if flag_option.blank?
 

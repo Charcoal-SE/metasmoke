@@ -15,6 +15,14 @@ pre.post-body-pre-block {
   word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
 
+blockquote {
+  font-size: inherit;
+}
+
+img {
+  max-width: 100%;
+}
+
 .post-body {
   clear: both;
 }
