@@ -8,7 +8,7 @@ REDIS_LOG_EXPIRATION = 1.day.seconds.to_i
 def log_timestamps(ts, status:, action:, controller:, format:, method:, # rubocop:disable Lint/UnusedMethodArgument
                    view_runtime:, db_runtime:, path:, uuid:) # rubocop:disable Lint/UnusedMethodArgument
   # rubocop:enable Metrics/ParameterLists
-  redis = redis(logger: true)
+  redis_logger = redis(logger: true)
   view_runtime = view_runtime.to_f
   db_runtime = db_runtime.to_f
 
@@ -16,28 +16,28 @@ def log_timestamps(ts, status:, action:, controller:, format:, method:, # ruboco
   path = Rails.sensible_routes.match_for(path)&.path || path.split('?').first
   path_string = "#{method.upcase}/#{path}.#{format}"
   # controller_action_string = "#{controller}##{action}"
-  redis.sadd 'request_timings/path_strings', path_string
-  # redis.sadd "request_timings/controller_action_strings", controller_action_string
-  redis.zadd "request_timings/view/by_path/#{path_string}", ts, view_runtime
-  redis.zadd "request_timings/db/by_path/#{path_string}", ts, db_runtime
-  redis.zadd "request_timings/total/by_path/#{path_string}", ts, (db_runtime + view_runtime)
+  redis_logger.sadd 'request_timings/path_strings', path_string
+  # redis_logger.sadd "request_timings/controller_action_strings", controller_action_string
+  redis_logger.zadd "request_timings/view/by_path/#{path_string}", ts, view_runtime
+  redis_logger.zadd "request_timings/db/by_path/#{path_string}", ts, db_runtime
+  redis_logger.zadd "request_timings/total/by_path/#{path_string}", ts, (db_runtime + view_runtime)
 
-  # redis.zadd "request_timings/view/by_action/#{controller_action_string}", ts, view_runtime
-  # redis.zadd "request_timings/db/by_action/#{controller_action_string}", ts, db_runtime
-  # redis.zadd "request_timings/total/by_action/#{controller_action_string}", ts, (db_runtime + view_runtime)
+  # redis_logger.zadd "request_timings/view/by_action/#{controller_action_string}", ts, view_runtime
+  # redis_logger.zadd "request_timings/db/by_action/#{controller_action_string}", ts, db_runtime
+  # redis_logger.zadd "request_timings/total/by_action/#{controller_action_string}", ts, (db_runtime + view_runtime)
 
-  # redis.zadd "request_timings/status_counts/by_path/#{path_string}", ts, status
-  # redis.zadd "request_timings/status_counts/by_action/#{controller_action_string}", ts, status
-  # redis.zadd 'request_timings/status_counts', ts, status
+  # redis_logger.zadd "request_timings/status_counts/by_path/#{path_string}", ts, status
+  # redis_logger.zadd "request_timings/status_counts/by_action/#{controller_action_string}", ts, status
+  # redis_logger.zadd 'request_timings/status_counts', ts, status
 
-  # redis.zadd "requests/by_path/#{path_string}", ts, uuid
-  # redis.zadd "requests/by_action/#{controller_action_string}", ts, uuid
+  # redis_logger.zadd "requests/by_path/#{path_string}", ts, uuid
+  # redis_logger.zadd "requests/by_action/#{controller_action_string}", ts, uuid
 
-  # redis.zadd 'request_timings/sha', ts, CurrentCommit, nx: true
+  # redis_logger.zadd 'request_timings/sha', ts, CurrentCommit, nx: true
 end
 
 ActiveSupport::Notifications.subscribe 'process_action.action_controller' do |_name, _started, _finished, _unique_id, data|
-  redis = redis(logger: true)
+  redis_logger = redis(logger: true)
   request_id = data[:headers]['action_dispatch.request_id']
   # redis_log_id = data[:headers]['rack.session']['redis_log_id']
   redis_log_key = data[:headers]['redis_logs.log_key']
@@ -59,7 +59,7 @@ ActiveSupport::Notifications.subscribe 'process_action.action_controller' do |_n
         :action, :controller,
         :view_runtime, :db_runtime,
         :method, :format, :status
-      ), path: redis.hget(redis_log_key, 'path') || data[:path], uuid: request_id)
+      ), path: data[:path] || redis_logger.hget(redis_log_key, 'path'), uuid: request_id)
     end
   end
 end

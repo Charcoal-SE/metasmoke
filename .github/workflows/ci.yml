@@ -57,11 +57,15 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306
-      redis:
+      redis_main:
         image: redis
         # Map TCP port 6379 on Docker host to a random free port on the Redis container
         ports:
           - 6379/tcp
+      redis_logging:
+        image: redis
+        ports:
+          - "6379:6379"
     env:
       RAILS_ENV: test
       RACK_ENV: test
@@ -108,7 +112,7 @@ jobs:
         mkdir -p config && echo 'test:
           adapter: redis
           timeout: 120
-          url: redis://localhost:${{ job.services.redis.ports['6379'] }}
+          url: redis://localhost:${{ job.services.redis_main.ports['6379'] }}
         ' > config/cable.yml
     - name: Prepare
       run: bundle exec rake db:create db:schema:load db:test:prepare db:migrate --trace
