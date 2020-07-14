@@ -54,13 +54,17 @@ class DashboardController < ApplicationController
   end
 
   def query_times
-    @query_times = redis(logger: true).scan_each(match: 'request_timings/db/by_path/*').map do |k|
-      Redis::QueryAverage.new(*k.split('/', 5)[3..-1])
-    end.sort_by(&:average).reverse
+    @query_times = redis(logger: true).smembers('request_timings/path_strings')
+                                      .map     { |path_str| Redis::QueryAverage.new(*path_str.split('/', 2)) }
+                                      .sort_by { |h|        -h.average(:total) }
   end
 
   def reset_query_time
-    QueryAverage.find(params[:id]).update(counter: 0, average: 0)
+    if !redis(logger: true).sismember('request_timings/path_strings', params[:path])
+      flash[:warning] = 'Invalid path to reset'
+    else
+      Redis::QueryAverage.new(*params[:path].split('/', 2)).reset
+    end
     redirect_back fallback_location: root_path
   end
 

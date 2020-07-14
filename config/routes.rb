@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   get    'flagging',              to: 'flag_settings#dashboard',    as: :flagging
 
   get    'query-times',           to: 'dashboard#query_times',      as: :query_times
-  post   'query-times/reset/:id', to: 'dashboard#reset_query_time', as: :reset_query_time
+  post   'query-times/reset',     to: 'dashboard#reset_query_time', as: :reset_query_time
 
   post   'statistics.json',       to: 'statistics#create'
   post   'feedbacks.json',        to: 'feedbacks#create'

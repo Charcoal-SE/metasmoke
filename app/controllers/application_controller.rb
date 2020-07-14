@@ -84,35 +84,35 @@ class ApplicationController < ActionController::Base
   end
 
   def redis_log_request
-    # Rack::MiniProfiler.step('Logging to redis') do
-    #   redis = redis(logger: true)
-    #   @request_time ||= Time.now.to_f
-    #   request.set_header 'redis_logs.log_key', redis_log_key
-    #   request.set_header 'redis_logs.timestamp', @request_time
-    #   request.set_header 'redis_logs.request_id', request.uuid
-    #   unless session[:redis_log_id].present? || smokey_route?
-    #     session[:redis_log_id] = SecureRandom.base64
-    #     session[:redis_log_id] = SecureRandom.base64 while redis.exists("session/#{session[:redis_log_id]}")
-    #   end
-    #   RedisLogJob.perform_later(
-    #     {
-    #       path: request.filtered_path,
-    #       impersonator_id: session[:impersonator_id],
-    #       user_id: user_signed_in? ? current_user.id : nil,
-    #       session_id: smokey_route? ? params[:key] : session[:redis_log_id],
-    #       sha: CurrentCommit,
-    #       smoke_detector_id: smokey_route? ? SmokeDetector.find_by(access_token: params[:key])&.id : nil
-    #     },
-    #     subspaces: {
-    #       request_headers: headers.to_h,
-    #       params: request.filtered_parameters.except(:controller, :action)
-    #     },
-    #     time: @request_time,
-    #     uuid: request.uuid,
-    #     session_id: session[:redis_log_id],
-    #     user_id: user_signed_in? ? current_user.id : nil
-    #   )
-    # end
+    Rack::MiniProfiler.step('Logging to redis') do
+      # redis = redis(logger: true)
+      @request_time ||= Time.now.to_f
+      request.set_header 'redis_logs.log_key', redis_log_key
+      request.set_header 'redis_logs.timestamp', @request_time
+      request.set_header 'redis_logs.request_id', request.uuid
+      # unless session[:redis_log_id].present? || smokey_route?
+      #   session[:redis_log_id] = SecureRandom.base64
+      #   session[:redis_log_id] = SecureRandom.base64 while redis.exists("session/#{session[:redis_log_id]}")
+      # end
+      # RedisLogJob.perform_later(
+      #   {
+      #     path: request.filtered_path,
+      #     impersonator_id: session[:impersonator_id],
+      #     user_id: user_signed_in? ? current_user.id : nil,
+      #     session_id: smokey_route? ? params[:key] : session[:redis_log_id],
+      #     sha: CurrentCommit,
+      #     smoke_detector_id: smokey_route? ? SmokeDetector.find_by(access_token: params[:key])&.id : nil
+      #   },
+      #   subspaces: {
+      #     request_headers: headers.to_h,
+      #     params: request.filtered_parameters.except(:controller, :action)
+      #   },
+      #   time: @request_time,
+      #   uuid: request.uuid,
+      #   session_id: session[:redis_log_id],
+      #   user_id: user_signed_in? ? current_user.id : nil
+      # )
+    end
   end
 
   def redis_log_key
