@@ -20,7 +20,7 @@ class Feedback < ApplicationRecord
   after_create :send_to_chat
   after_create :send_blacklist_request
 
-  VALID_TYPES = %w[tp tpu fp fpu naa rude ignore]
+  VALID_TYPES = %w[tp tpu fp fpu naa ignore]
                 .map { |f| [f, "#{f}-"] }.flatten
 
   validates :feedback_type, inclusion: { in: VALID_TYPES }
