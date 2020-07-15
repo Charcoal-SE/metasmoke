@@ -13,15 +13,24 @@ class DeveloperController < ApplicationController
 
   def production_log
     @log = if params[:grep].present?
-             begin
-               grep_str = params[:grep].instance_of?(String) ? params[:grep] : params[:grep].to_s
-               context_int = params[:context].instance_of?(Integer) ? params[:context] : params[:context].to_i
-               # Check if coercion is successful, in case someone overloaded .to_*() methods
-               if !grep_str.instance_of?(String) || !context_int.instance_of?(Integer)
-                 raise ArgumentError, 'Coercion failure'
-               end
-             rescue
-               # Coercion failure -> deny access
+             grep_str = if params[:grep].instance_of?(String)
+                          params[:grep]
+                        elsif params[:grep].respond_to?(to_s)
+                          params[:grep].to_s
+                        else
+                          flash[:warning] = 'Coercion failure on params[:grep]'
+                          redirect_to(root_path) && return
+                        end
+             context_int = if params[:context].instance_of?(Integer)
+                             params[:context]
+                           elsif params[:context].respond_to?(to_i)
+                             params[:context].to_i
+                           else
+                             flash[:warning] = 'Coercion failure on params[:context]'
+                             redirect_to(root_path) && return
+                           end
+             # Ensure are of correct types in case .to_*() get overrided.
+             unless grep_str.instance_of?(String) && context_int.instance_of?(Integer)
                flash[:warning] = 'Coercion failure on params'
                redirect_to(root_path) && return
              end
