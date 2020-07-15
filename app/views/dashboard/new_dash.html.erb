@@ -99,9 +99,3 @@
     <li><strong><%= Post.autoflagged.fp.count %></strong> (<%= ((Post.autoflagged.fp.count.to_f / Post.autoflagged.count) * 100).round(2) %>%) FP</li>
   </ul>
 </p>
-
-<h3>Links</h3>
-<ul>
-  <li><a href="https://charcoal-se.org/">What are Charcoal and SmokeDetector?</a></li>
-  <li><%= link_to 'Spam/Autoflagging by site (including undeleted)', site_dash_path %></li>
-</ul>

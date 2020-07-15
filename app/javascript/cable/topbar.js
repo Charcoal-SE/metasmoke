@@ -28,7 +28,7 @@ $(() => {
   });
 
   setInterval(() => {
-    const $status = $('.navbar .status');
+    const $status = $('.navbar #smokedetector-status');
     const lastPing = parseFloat($status.data('last-ping')) * 1e3;
     const ago = Date.now() - lastPing;
     const title = `Last ping was ${moment(lastPing).fromNow()}.`;
