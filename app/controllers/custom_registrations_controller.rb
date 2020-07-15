@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class CustomRegistrationsController < Devise::RegistrationsController
+  protect_from_forgery with: :exception
+
   def create
     if SiteSetting['registration_enabled']
       super
