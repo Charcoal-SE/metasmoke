@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CustomSessionsController < Devise::SessionsController
-  protect_from_forgery except: [:create]
+  protect_from_forgery except: :create, with: :exception
 
   @@first_factor = [] # rubocop:disable Style/ClassVars
 
