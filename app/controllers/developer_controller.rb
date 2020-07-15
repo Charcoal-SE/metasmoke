@@ -13,14 +13,11 @@ class DeveloperController < ApplicationController
 
   def production_log
     @log = if params[:grep].present?
-             grep_str = params[:grep].to_s
-             context_int = if params[:context].respond_to?(:to_i)
-                             params[:context].to_i
-                           else
-                             flash[:warning] = 'Coercion failure on params[:context]'
-                             redirect_to(root_path) && return
-                           end
-             `tail -n 10000 log/production.log | grep -E '#{grep_str.tr("'", '')}' -C '#{context_int}' --color=never`
+             unless params[:context].respond_to?(:to_i)
+               flash[:warning] = 'Coercion failure on params[:context]: Can\'t convert to an interger'
+               redirect_to(root_path) && return
+             end
+             `tail -n 10000 log/production.log | grep -E '#{params[:grep].to_s.tr("'", '')}' -C '#{params[:context].to_i}' --color=never`
            else
              `tail -n 1000 log/production.log`
            end
