@@ -55,6 +55,7 @@ class SearchController < ApplicationController
       else
         if params[:body_is_like] == '1' && !user_signed_in?
           flash[:warning] = 'Unregistered users cannot use LIKE searches on the body field. Please sign in.'
+          redirect_to(search_path) && return
         end
         # Otherwise, it's REGEX or NOT REGEX, which fulltext won't do - fall back on search_string and params
         search_string << "IFNULL(`posts`.`body`, '') #{body_operation} :body"
