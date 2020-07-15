@@ -15,25 +15,15 @@ class DeveloperController < ApplicationController
     @log = if params[:grep].present?
              grep_str = if params[:grep].instance_of?(String)
                           params[:grep]
-                        elsif params[:grep].respond_to?(to_s)
-                          params[:grep].to_s
                         else
-                          flash[:warning] = 'Coercion failure on params[:grep]'
-                          redirect_to(root_path) && return
+                          params[:grep].to_s
                         end
-             context_int = if params[:context].instance_of?(Integer)
-                             params[:context]
-                           elsif params[:context].respond_to?(to_i)
+             context_int = if params[:context].respond_to?(:to_i)
                              params[:context].to_i
                            else
                              flash[:warning] = 'Coercion failure on params[:context]'
                              redirect_to(root_path) && return
                            end
-             # Ensure are of correct types in case .to_*() get overrided.
-             unless grep_str.instance_of?(String) && context_int.instance_of?(Integer)
-               flash[:warning] = 'Coercion failure on params'
-               redirect_to(root_path) && return
-             end
              `tail -n 10000 log/production.log | grep -E '#{grep_str.tr("'", '')}' -C '#{context_int}' --color=never`
            else
              `tail -n 1000 log/production.log`
