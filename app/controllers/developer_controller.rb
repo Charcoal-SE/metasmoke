@@ -13,11 +13,7 @@ class DeveloperController < ApplicationController
 
   def production_log
     @log = if params[:grep].present?
-             grep_str = if params[:grep].instance_of?(String)
-                          params[:grep]
-                        else
-                          params[:grep].to_s
-                        end
+             grep_str = params[:grep].to_s
              context_int = if params[:context].respond_to?(:to_i)
                              params[:context].to_i
                            else
