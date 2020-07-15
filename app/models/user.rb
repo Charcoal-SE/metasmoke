@@ -49,10 +49,6 @@ class User < ApplicationRecord
     end
   end
 
-  before_destroy do
-    flag_logs.unscoped.update_all(user_id: nil)
-  end
-
   def self.smokey
     # Return the account matching SmokeDetector
     User.where(stack_exchange_account_id: 4606062).first # rubocop:disable Style/NumericLiterals
