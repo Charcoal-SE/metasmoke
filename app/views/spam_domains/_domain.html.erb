@@ -2,6 +2,7 @@
 counts_summary = %i[all tp fp naa].map do |t|
         [t, Post.joins(spam_domains: :domain_tags).where(spam_domains: {id: domain.id}).distinct.send(t).count]
       end.to_h
+occurances ||= false
 %>
 <span class="spam-domain">
   <% if occurances && counts_summary[:all] > 0 %>
