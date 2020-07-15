@@ -2,6 +2,7 @@
 
 class DomainGroupsController < ApplicationController
   before_action :set_group, only: %i[show edit update destroy emails]
+  before_action :authenticate_user!, only: %i[new create edit update destroy emails]
   before_action :verify_core, only: %i[new create edit update]
   before_action :verify_admin, only: :destroy
 
