@@ -34,7 +34,12 @@ class FeedbacksController < ApplicationController
 
     f.post.update_feedback_cache
 
-    redirect_to clear_post_feedback_path(f.post_id)
+    feedbacks_after_delete = Feedback.unscoped.where(post_id: f.post_id)
+    if verify_access(feedback_after_delete)
+      redirect_to clear_post_feedback_path(f.post_id)
+    else
+      redirect_to post_path(id: f.post_id)
+    end
   end
 
   # POST /feedbacks
