@@ -8,6 +8,6 @@ class UnifyFeedbackOnPosts < ActiveRecord::Migration[5.2]
     Feedback.where(feedback_type: 'true').update(feedback_type: 'tp')
     Feedback.where(feedback_type: 'Mith_now_youve_made_everyone_do_it').update(feedback_type: 'invalid')
     Feedback.where(feedback_type: 'This feature is brought to you').update(feedback_type: 'invalid')
-    Feedback.where(feedback_type: 'This is Smokey. I've come to say goodbye, as I've been permanently broken').update(feedback_type: 'invalid')
+    Feedback.where(feedback_type: 'This is Smokey. I\'ve come to say goodbye, as I\'ve been permanently broken').update(feedback_type: 'invalid')
   end
 end
