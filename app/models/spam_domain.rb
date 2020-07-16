@@ -20,7 +20,7 @@ class SpamDomain < ApplicationRecord
     asn_query = `dig +short "$(dig +short '#{domain.tr("'", '')}' | awk -F. '/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/ {print $4"."$3"." $2"."$1;exit}').origin.asn.cymru.com" TXT` # rubocop:disable Metrics/LineLength
     asn = asn_query.strip.tr('"', '').split('|')[0]&.strip
     return unless asn.present?
-    prev_domain_tags = domain_tags.where(special: true).select(:name).map(&:name).select { |dt| dt.start_with?('AS-') }.map(&:name)
+    prev_domain_tags = domain_tags.where(special: true).select(:name).map(&:name).select { |dt| dt.start_with?('AS-') }
     asn.split.each do |as|
       desc = `dig +short AS#{as}.asn.cymru.com TXT`.strip.tr('"', '').split('|')[-1]&.strip
       tag = DomainTag.find_or_create_by(name: "AS-#{as}", special: true)
