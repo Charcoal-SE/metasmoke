@@ -37,3 +37,9 @@ and the `--rm -it` options are just one common way of keeping things sane.
 Metasmoke is a pretty niche project, and we don't expect many people to make use of the entire thing as a whole.
 However, if you want to use the code, go right ahead - metasmoke is licensed under [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/). A small attribution is
 appreciated, but entirely non-compulsory.
+
+## Reporting a potential security flaw
+If you wish to report a potential security flaw, no matter how minor it may be, and are not certain it's a security flaw, **only** 
+send the report to security@charcoal-se.org with your details about the issue you found, how you replicated it, and why you believe 
+it is a security flaw.  **DO NOT** disclose specific security flaws, even potential ones, via public insecure mediums such as the 
+public issues system or public chat systems.
