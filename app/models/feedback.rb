@@ -191,7 +191,7 @@ class Feedback < ApplicationRecord
     feedback_classes = all_feedback.uniq
     # If there is only one feedback class, there is no conflict at all
     return false if feedback_classes.length == 1
-    feedback_counts = feedback_classes.map do |fc| [fc, all_feedback.count(fc)] }.to_h
+    feedback_counts = feedback_classes.map { |fc| [fc, all_feedback.count(fc)] }.to_h
     counts = feedback_counts.values
     not(counts.max >= (counts.max(2)[1] || counts.max) + 2)
   end
