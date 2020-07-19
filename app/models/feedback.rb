@@ -187,17 +187,13 @@ class Feedback < ApplicationRecord
   end
 
   def check_if_conflict_unresolvable(post_to_check)
-    all_feedback = post_to_check.feedbacks.map { |fb|
-      fb.feedback_type[0]
-    }
+    all_feedback = post_to_check.feedbacks.map { |fb| fb.feedback_type[0] }
     feedback_classes = all_feedback.uniq
     # If there is only one feedback class, there is no conflict at all
     return false if feedback_classes.length == 1
-    feedback_counts = feedback_classes.map { |fc|
-      [fc, all_feedback.count(fc)]
-    }.to_h
+    feedback_counts = feedback_classes.map do |fc| [fc, all_feedback.count(fc)] }.to_h
     counts = feedback_counts.values
-    return ! counts.max >= (counts.max(2)[1] || counts.max) + 2
+    not(counts.max >= (counts.max(2)[1] || counts.max) + 2)
   end
     
   def check_for_user_assoc
