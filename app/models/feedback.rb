@@ -195,7 +195,7 @@ class Feedback < ApplicationRecord
     counts = feedback_counts.values
     counts.max < (counts.max(2)[1] || counts.max) + 2
   end
-    
+
   def check_for_user_assoc
     return if chat_host.nil? || chat_user_id.nil?
 
