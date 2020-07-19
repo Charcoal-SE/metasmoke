@@ -193,7 +193,7 @@ class Feedback < ApplicationRecord
     return false if feedback_classes.length == 1
     feedback_counts = feedback_classes.map { |fc| [fc, all_feedback.count(fc)] }.to_h
     counts = feedback_counts.values
-    not(counts.max >= (counts.max(2)[1] || counts.max) + 2)
+    counts.max < (counts.max(2)[1] || counts.max) + 2
   end
     
   def check_for_user_assoc
