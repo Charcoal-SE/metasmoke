@@ -6,7 +6,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[remove_domain add_domain needs_admin feedbacksapi reindex_feedback cast_spam_flag delete_post]
   before_action :authenticate_user!, only: %i[reindex_feedback cast_spam_flag]
   before_action :verify_developer, only: %i[reindex_feedback delete_post]
-  before_action :verify_reviewer, only: [:feedback]
+  before_action :verify_reviewer, only: %i[feedback cast_spam_flag]
   before_action :verify_core, only: %i[remove_domain add_domain]
 
   def show
@@ -226,9 +226,6 @@ class PostsController < ApplicationController
     if !(current_user.write_authenticated && current_user.flags_enabled)
       flash[:warning] = 'You must be write-authenticated to cast a spam flag.'
       redirect_to(authentication_status_path) && return
-    elsif !current_user.has_role?(:reviewer)
-      flash[:danger] = 'You do not have the required privileges to cast a spam flag through metasmoke.'
-      redirect_to url_for(controller: :posts, action: :show, id: params[:id]) && return
     end
 
     result, message = current_user.spam_flag(@post, false)
