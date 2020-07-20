@@ -117,12 +117,10 @@ class Feedback < ApplicationRecord
 
   # Keep this block last to make sure any corrections or deletions have been made before we check count
   after_create do
-    if post.feedbacks.count >= 2 && post.review_item&.completed == false
-      if check_if_conflict_unresolvable(post)
-        post.review_item.update(completed: false)
-      else
-        post.review_item.update(completed: true)
-      end
+    if check_if_conflict_unresolvable(post)
+      post.review_item.update(completed: false)
+    else
+      post.review_item.update(completed: true)
     end
   end
 
@@ -190,7 +188,7 @@ class Feedback < ApplicationRecord
     all_feedback = post_to_check.feedbacks.map { |fb| fb.feedback_type[0] }
     feedback_classes = all_feedback.uniq
     # If there is only one feedback class, there is no conflict at all
-    return false if feedback_classes.length == 1
+    return false if feedback_classes.length == 1 && all_feedback.length > 1
     feedback_counts = feedback_classes.map { |fc| [fc, all_feedback.count(fc)] }.to_h
     counts = feedback_counts.values
     counts.max < (counts.max(2)[1] || counts.max) + 2
