@@ -45,6 +45,7 @@ module Metasmoke
     config.after_initialize do
       # Only authorize MiniProfiler if none of the blacklisted pp modes are specified.
       Rack::MiniProfiler.config.authorization_mode = :whitelist
+      Rack::MiniProfiler.config.position = 'top-right'
     end
   end
 end

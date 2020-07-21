@@ -431,3 +431,16 @@ body .profiler-results {
     margin-left: -18px;
   }
 }
+
+.icon-nav-bar {
+  padding: 0;
+  position: absolute;
+  border: solid lightgray 1px;
+  border-top: none;
+  border-left: none;
+  border-bottom-right-radius: 4px;
+  margin-top: 1px;
+}
+.icon-nav-bar li a {
+  padding: 0.7em;
+}

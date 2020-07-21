@@ -171,17 +171,19 @@
               <code><%= CurrentCommit.first(7) %></code>
             <% end %>
           <% end %>
-          <li class="nav-link <%= (controller.class == SearchController && controller.action_name.to_sym == :index) ? "active" : "" %>">
-            <%= link_to '', search_path, class: 'glyphicon glyphicon-search' %>
-          </li>
-          <% flagging_status = FlagSetting['flagging_enabled'] == '0' ? 'critical' : (FlagSetting['dry_run'] == '1' ? 'warning' : 'good') %>
-          <li class="nav-link status status-<%= flagging_status %> <%= (controller.class == FlagSettingsController && controller.action_name.to_sym == :dashboard) ? "active" : "" %>">
-            <%= link_to '', flagging_path, class: 'glyphicon glyphicon-flag' %>
-          </li>
         </ul>
       </div><!-- /.navbar-collapse -->
     <% end %>
     </div><!-- /.container-fluid -->
+    <ul class="icon-nav-bar">
+      <% flagging_status = FlagSetting['flagging_enabled'] == '0' ? 'critical' : (FlagSetting['dry_run'] == '1' ? 'warning' : 'good') %>
+      <li class="status status-<%= flagging_status %> <%= (controller.class == FlagSettingsController && controller.action_name.to_sym == :dashboard) ? "active" : "" %>">
+        <%= link_to '', flagging_path, class: 'glyphicon glyphicon-flag' %>
+      </li>
+      <li class="<%= (controller.class == SearchController && controller.action_name.to_sym == :index) ? "active" : "" %>">
+        <%= link_to '', search_path, class: 'glyphicon glyphicon-search' %>
+      </li>
+    </ul>
   </nav>
   <div class="initial-content col-md-offset-1 col-md-10">
     <% Rack::MiniProfiler.step('Rendering: layouts/application/announcements') do %>
