@@ -27,3 +27,7 @@ end
 every 1.day, at: '3:00am' do
   runner 'ScheduledMailJob.perform_later'
 end
+
+every 1.month, at: '1:00am' do
+  runner 'AutoReviewJob.perform_later'
+end
