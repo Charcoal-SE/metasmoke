@@ -2,7 +2,7 @@
 
 class AutoReviewJob < ApplicationJob
   queue_as :default
-  
+
   def perform
     Rails.logger.info "Job started (#{DateTime.now})"
 
