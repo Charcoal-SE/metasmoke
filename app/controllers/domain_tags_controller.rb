@@ -137,6 +137,6 @@ class DomainTagsController < ApplicationController
   end
 
   def mass_tag_filter(filter_param)
-    SpamDomain.where("domain LIKE '#{ApplicationRecord.sanitize_like(filter_param).tr('*', '%')}'")
+    SpamDomain.where('domain LIKE ?', ApplicationRecord.sanitize_like(filter_param).tr('*', '%'))
   end
 end
