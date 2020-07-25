@@ -250,7 +250,7 @@ class APIController < ApplicationController
   def regex_search
     filter = 'AAAAAAAAAAPHx4AAAAAAAUA='
     query = params[:query]
-    results = Post.where("body REGEXP '#{query}' OR title REGEXP '#{query}'").select(select_fields(filter)).order(id: :desc)
+    results = Post.where("body REGEXP ? OR title REGEXP ?", query, query).select(select_fields(filter)).order(id: :desc)
     results = results.paginate(page: params[:page], per_page: @pagesize)
     render json: { items: results, has_more: has_more?(params[:page], results.count) }
   end
