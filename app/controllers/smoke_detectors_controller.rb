@@ -18,7 +18,7 @@ class SmokeDetectorsController < ApplicationController
       flash[:danger] = "Can't remove key. If Undo's gone rogue, start running."
     end
 
-    redirect_to params[:redirect] || status_path
+    redirect_to status_path
   end
 
   def force_failover
@@ -80,7 +80,7 @@ class SmokeDetectorsController < ApplicationController
       flash[:danger] = 'Something went wrong'
     end
 
-    redirect_to params[:redirect] || smoke_detector_mine_path
+    redirect_to smoke_detector_mine_path
   end
 
   # Used by Helios to verify new tokens
