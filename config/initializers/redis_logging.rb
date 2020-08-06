@@ -2,7 +2,7 @@
 
 require 'sensible_routes'
 
-REDIS_LOG_EXPIRATION = 1.day.seconds.to_i
+REDIS_LOG_EXPIRATION = 1.week.seconds.to_i
 
 # rubocop:disable Metrics/ParameterLists
 def log_timestamps(ts, status:, action:, controller:, format:, method:, # rubocop:disable Lint/UnusedMethodArgument
@@ -21,6 +21,12 @@ def log_timestamps(ts, status:, action:, controller:, format:, method:, # ruboco
   redis_logger.zadd "request_timings/view/by_path/#{path_string}", ts, view_runtime
   redis_logger.zadd "request_timings/db/by_path/#{path_string}", ts, db_runtime
   redis_logger.zadd "request_timings/total/by_path/#{path_string}", ts, (db_runtime + view_runtime)
+  redis_logger.zremrangebyscore "request_timings/view/by_path/#{path_string}", '-inf', ts - REDIS_LOG_EXPIRATION
+  redis_logger.zremrangebyscore "request_timings/db/by_path/#{path_string}", '-inf', ts - REDIS_LOG_EXPIRATION
+  redis_logger.zremrangebyscore "request_timings/total/by_path/#{path_string}", '-inf', ts - REDIS_LOG_EXPIRATION
+  redis_logger.expire "request_timings/view/by_path/#{path_string}", REDIS_LOG_EXPIRATION
+  redis_logger.expire "request_timings/db/by_path/#{path_string}", REDIS_LOG_EXPIRATION
+  redis_logger.expire "request_timings/total/by_path/#{path_string}", REDIS_LOG_EXPIRATION
 
   # redis_logger.zadd "request_timings/view/by_action/#{controller_action_string}", ts, view_runtime
   # redis_logger.zadd "request_timings/db/by_action/#{controller_action_string}", ts, db_runtime
