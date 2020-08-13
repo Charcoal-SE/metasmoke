@@ -60,7 +60,7 @@ class PostsController < ApplicationController
   end
 
   def by_url
-    post_ids = PostMap.instance.search(params[:url])
+    post_ids = ApplicationHelper::PostMap.instance.search(params[:url])
     if post_ids.nil?
       Rails.logger.debug "Cache miss on #{params[:url]}"
       @posts = Post.where(link: params[:url])
@@ -275,7 +275,7 @@ class PostsController < ApplicationController
   end
 
   def less_important_things(post)
-    PostMap.instance.add_post(post)
+    ApplicationHelper::PostMap.instance.add_post(post)
     ri = ReviewItem.new(reviewable: post, queue: ReviewQueue['posts'], completed: false)
     ri_success = ri.save
     return if ri_success
