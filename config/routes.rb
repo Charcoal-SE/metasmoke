@@ -380,6 +380,7 @@ Rails.application.routes.draw do
     get  'by-site',                   to: 'dashboard#spam_by_site', as: :spam_by_site
     get  'recent.json',               to: 'posts#recentpostsapi'
     post 'add_feedback',              to: 'review#add_feedback'
+    delete 'drop_map',                to: 'posts#drop_post_map'
   end
 
   scope 'privacy' do
