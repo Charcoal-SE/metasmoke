@@ -1,8 +1,34 @@
 # frozen_string_literal: true
 
+require 'singleton'
 include ERB::Util
 
 module ApplicationHelper
+  class PostMap
+    include Singleton
+
+    def initialize
+      @url_post_map = {}
+    end
+
+    def drop_map!
+      @url_post_map = {}
+    end
+
+    def add_post(post)
+      unless post.link.blank?
+        unless @url_post_map.has_key?(post.link)
+          @url_post_map[post.link] = []
+        end
+        @url_post_map[post.link].push(post.id).uniq()
+      end
+    end
+
+    def search(url)
+      @url_post_map[url]
+    end
+  end
+
   def title(text)
     content_for :title, text
     text

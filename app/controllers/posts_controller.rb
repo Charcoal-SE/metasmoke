@@ -5,7 +5,7 @@ class PostsController < ApplicationController
   before_action :check_if_smokedetector, only: :create
   before_action :set_post, only: %i[remove_domain add_domain needs_admin feedbacksapi reindex_feedback cast_spam_flag delete_post]
   before_action :authenticate_user!, only: %i[reindex_feedback cast_spam_flag]
-  before_action :verify_developer, only: %i[reindex_feedback delete_post]
+  before_action :verify_developer, only: %i[reindex_feedback delete_post drop_post_map]
   before_action :verify_reviewer, only: %i[feedback cast_spam_flag]
   before_action :verify_core, only: %i[remove_domain add_domain]
 
@@ -55,10 +55,21 @@ class PostsController < ApplicationController
     redirect_to url_for(controller: :posts, action: :show, id: Post.select(Arel.sql('id')).last.id.to_s)
   end
 
-  def by_url
-    @posts = Post.where(link: params[:url])
-    count = @posts.count
+  def drop_post_map
+    PostMap.instance.drop_map!
+  end
 
+  def by_url
+    post_ids = PostMap.instance.search(params[:url])
+    if post_ids.nil?
+      Rails.logger.debug "Cache miss on #{params[:url]}"
+      @posts = Post.where(link: params[:url])
+    else
+      Rails.logger.debug "Cache hit on #{params[:url]}"
+      @posts = Post.find_all post_ids
+    end
+
+    count = @posts.count
     if count < 1
       flash[:danger] = "Post not found for #{params[:url]}. It may have been reported during a period of metasmoke downtime."
       redirect_to posts_path
@@ -264,6 +275,7 @@ class PostsController < ApplicationController
   end
 
   def less_important_things(post)
+    PostMap.instance.add_post(post)
     ri = ReviewItem.new(reviewable: post, queue: ReviewQueue['posts'], completed: false)
     ri_success = ri.save
     return if ri_success
