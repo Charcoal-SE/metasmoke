@@ -18,7 +18,7 @@ module ApplicationHelper
     def add_post(post)
       return if post.link.blank?
       @url_post_map.key?(post.link) || @url_post_map[post.link] = []
-      @url_post_map[post.link].push(post.id).uniq
+      @url_post_map[post.link].push(post.id).uniq!
     end
 
     def search(url)
