@@ -9,14 +9,23 @@ module PostConcerns::Autoflagging
 
     def autoflag
       Rails.logger.warn "[autoflagging] #{id}: Post#autoflag begin"
-      return 'Duplicate post' unless Post.where(link: link).count == 1
-      return 'Flagging disabled' unless FlagSetting['flagging_enabled'] == '1'
-      Rails.logger.warn "[autoflagging] #{id}: not a dupe"
 
-      dry_run = FlagSetting['dry_run'] == '1'
       post = self
-
       begin
+        Rails.logger.warn "[autoflagging] #{id}: before revision count"
+        post.fetch_revision_count
+        unless post.revision_count == 1
+          Rails.logger.warn "[autoflagging] #{id}: vandalized"
+          post.send_not_autoflagged
+          return 'More than one revision'
+        end
+
+        return 'Duplicate post' unless Post.where(link: link).count == 1
+        return 'Flagging disabled' unless FlagSetting['flagging_enabled'] == '1'
+        Rails.logger.warn "[autoflagging] #{id}: not a dupe"
+
+        dry_run = FlagSetting['dry_run'] == '1'
+
         conditions = post.site.flag_conditions.where(flags_enabled: true)
         available_user_ids = {}
         conditions.each do |condition|
@@ -32,14 +41,6 @@ module PostConcerns::Autoflagging
           Rails.logger.warn "[autoflagging] #{id}: no users available (#{uids.size} uids, #{users.to_a.size} users)"
           post.send_not_autoflagged
           return 'No users eligible to flag'
-        end
-
-        Rails.logger.warn "[autoflagging] #{id}: before revision count"
-        post.fetch_revision_count
-        unless post.revision_count == 1
-          Rails.logger.warn "[autoflagging] #{id}: vandalized"
-          post.send_not_autoflagged
-          return 'More than one revision'
         end
 
         Rails.logger.warn "[autoflagging] #{id}: lottery begin"
