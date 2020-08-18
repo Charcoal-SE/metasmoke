@@ -54,7 +54,7 @@ module SuffixTreeHelper
 
   def self.insert_post(post_id)
     post = Post.find post_id
-    post.nil? && raise ArgumentError
+    post.nil? && (raise ArgumentError)
     available_fields.each do |f|
       SuffixTreeSingleton.instance.insert(post.send(f), FIELD_BITMASK[f], post.id)
     end
