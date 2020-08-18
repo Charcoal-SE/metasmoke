@@ -174,7 +174,7 @@ class PostsController < ApplicationController
 
         AutoflagJob.perform_later @post.id
 
-        if SuffixTreeHelper::functional?
+        if SuffixTreeHelper.functional?
           InsertPostToSuffixTreeJob.perform_later @post.id
         else
           Rails.logger.warn "Suffix tree not functional. Not inserting #{@post.id}"

@@ -7,7 +7,7 @@ class DeveloperController < ApplicationController
   before_action :check_impersonating, only: %i[change_back verify_elevation]
 
   def st_mark_functional
-    SuffixTreeHelper::mark_functional
+    SuffixTreeHelper.mark_functional
   end
 
   def st_mark_broken
@@ -16,7 +16,7 @@ class DeveloperController < ApplicationController
              else
                'stupidity of its developers'
              end
-    SuffixTreeHelper::mark_broken reason
+    SuffixTreeHelper.mark_broken reason
   end
 
   def st_insert_post
@@ -24,23 +24,23 @@ class DeveloperController < ApplicationController
   end
 
   def st_insert_post_synchronous
-    SuffixTreeHelper::insert_post params[:post_id]
+    SuffixTreeHelper.insert_post params[:post_id]
   end
 
   def st_insert_post_range
-    BatchInsertPostToSuffixTreeJob.perform_later (params[:start_id].to_i .. params[:end_id].to_i).to_a
+    BatchInsertPostToSuffixTreeJob.perform_later((params[:start_id].to_i .. params[:end_id].to_i).to_a)
   end
 
   def st_basic_search_raw
-    @post_ids = SuffixTreeHelper::basic_search(params[:pattern], params[:mask])
+    @post_ids = SuffixTreeHelper.basic_search(params[:pattern], params[:mask])
   end
 
   def st_sync
-    SuffixTreeHelper::sync!
+    SuffixTreeHelper.sync!
   end
 
   def st_sync_async
-    SuffixTreeHelper::sync_async
+    SuffixTreeHelper.sync_async
   end
 
   def update_sites
@@ -169,8 +169,8 @@ class DeveloperController < ApplicationController
   private
 
   def check_st_functional_or_forced
-    return if SuffixTreeHelper::funtional? || params.key?(:force)
-    render "Suffix tree extension is broken due to #{SuffixTreeHelper::broken_reason}.", status: 500
+    return if SuffixTreeHelper.funtional? || params.key?(:force)
+    render "Suffix tree extension is broken due to #{SuffixTreeHelper.broken_reason}.", status: 500
   end
 
   def check_impersonating

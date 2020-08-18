@@ -325,14 +325,14 @@ class SearchController < ApplicationController
   end
 
   def index_st
-   case params[:feedback]
-     when /true/
-       feedback = :is_tp
-     when /false/
-       feedback = :is_fp
-     when /NAA/
-       feedback = :is_naa
-   end
+    case params[:feedback]
+    when /true/
+      feedback = :is_tp
+    when /false/
+      feedback = :is_fp
+    when /NAA/
+      feedback = :is_naa
+    end
 
     @results = if params[:reason].present?
                  Reason.find(params[:reason]).posts.includes_for_post_row
@@ -343,16 +343,16 @@ class SearchController < ApplicationController
     per_page = user_signed_in? && params[:per_page].present? ? [params[:per_page].to_i, 10_000].min : 100
 
     if params.key?(:pattern) && !params[:pattern].blank?
-      filters = SuffixTreeHelper::available_fields.filter do |f|
+      filters = SuffixTreeHelper.available_fields.filter do |f|
         params.key?(f)
       end
-      filters.empty? && filters = SuffixTreeHelper::available_fields
-      mask = SuffixTreeHelper::calc_mask(filters)
+      filters.empty? && filters = SuffixTreeHelper.available_fields
+      mask = SuffixTreeHelper.calc_mask(filters)
 
       begin
-        post_ids = SuffixTreeHelper::basic_search(params[:pattern], mask)
+        post_ids = SuffixTreeHelper.basic_search(params[:pattern], mask)
       rescue
-        SuffixTreeHelper::mark_broken 'stupidity of its developers'
+        SuffixTreeHelper.mark_broken 'stupidity of its developers'
         render 'Something is terribly wrong. Tell a developer immediately.', status: 500
       end
 
@@ -445,8 +445,8 @@ class SearchController < ApplicationController
   private
 
   def check_st_functional
-    unless SuffixTreeHelper::functional?
-      render "Suffix tree extension is broken due to #{SuffixTreeHelper::broken_reason}.", status: 500
+    unless SuffixTreeHelper.functional?
+      render "Suffix tree extension is broken due to #{SuffixTreeHelper.broken_reason}.", status: 500
     end
   end
 end

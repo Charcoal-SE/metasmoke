@@ -29,61 +29,61 @@ module SuffixTreeHelper
     end
   end
 
-  Field_bitmask = {
-    :title => 1,
-    :body => 2,
-    :why => 4,
-    :username => 8
+  FIELD_BITMASK = {
+    title: 1,
+    body: 2,
+    why: 4,
+    username: 8
   }
 
-  def available_fields
-    Field_bitmask.keys
+  def self.available_fields
+    FIELD_BITMASK.keys
   end
 
-  def calc_mask(fields)
+  def self.calc_mask(fields)
     mask = 0
     fields.each do |f|
-      mask |= Field_bitmask[f]
+      mask |= FIELD_BITMASK[f]
     end
     mask
   end
 
-  def basic_search(pattern, mask)
+  def self.basic_search(pattern, mask)
     SuffixTreeSingleton.instance.basic_search(pattern, mask)
   end
 
-  def insert_post(post_id)
+  def self.insert_post(post_id)
     post = Post.find post_id
     if post.nil?
       raise ArgumentError
     end
     available_fields.each do |f|
-      SuffixTreeSingleton.instance.insert(post.send(f), Field_bitmask[f], post.id)
+      SuffixTreeSingleton.instance.insert(post.send(f), FIELD_BITMASK[f], post.id)
     end
     post.update(st_indexed: true)
   end
 
-  def sync!
+  def self.sync!
     SuffixTreeSingleton.instance.sync!
   end
 
-  def sync_async
+  def self.sync_async
     SuffixTreeSingleton.instance.sync_async
   end
 
-  def mark_functional
+  def self.mark_functional
     SuffixTreeSingleton.instance.mark_functional
   end
 
-  def mark_broken(reason)
+  def self.mark_broken(reason)
     SuffixTreeSingleton.instance.mark_broken reason
   end
 
-  def functional?
+  def self.functional?
     SuffixTreeSingleton.instance.functional?
   end
 
-  def broken_reason
+  def self.broken_reason
     SuffixTreeSingleton.instance.broken_reason
   end
 end
