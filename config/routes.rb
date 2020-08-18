@@ -22,6 +22,7 @@ Rails.application.routes.draw do
 
   get    'search',                to: 'search#index'
   get    'search_fast',           to: 'search#index_fast'
+  get    'search_st',             to: 'search#index_st'
   get    'reasons',               to: 'dashboard#index',            as: :reasons
   get    'flagging',              to: 'flag_settings#dashboard',    as: :flagging
 
@@ -193,6 +194,14 @@ Rails.application.routes.draw do
   end
 
   scope 'dev' do
+    post 'st_functional',    to: 'developer#st_mark_functional'
+    post 'st_broken',        to: 'developer#st_mark_broken'
+    post 'st_add_post',      to: 'developer#st_insert_post'
+    post 'st_add_post_sync', to: 'developer#st_insert_post_synchronous'
+    post 'st_add_range',     to: 'developer#st_insert_post_range'
+    get  'st_basic_search',  to: 'developer#st_basic_search_raw'
+    post 'st_sync',          to: 'developer#st_sync'
+    post 'st_sync_async',    to: 'developer#st_sync_async'
     post 'update_sites',     to: 'developer#update_sites',         as: :dev_update_sites
     get  'prod_log',         to: 'developer#production_log',       as: :dev_prod_log
     get  'query_time_log',   to: 'developer#query_times_log',      as: :dev_query_times_log
