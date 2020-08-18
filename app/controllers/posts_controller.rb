@@ -174,6 +174,12 @@ class PostsController < ApplicationController
 
         AutoflagJob.perform_later @post.id
 
+        if SuffixTreeHelper::functional?
+          InsertPostToSuffixTreeJob.perform_later @post.id
+        else
+          Rails.logger.warn "Suffix tree not functional. Not inserting #{@post.id}"
+        end
+
         format.json { render status: :created, plain: 'OK' }
       else
         format.json { render json: @post.errors, status: :unprocessable_entity }
