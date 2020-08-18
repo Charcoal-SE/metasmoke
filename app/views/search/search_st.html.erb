@@ -1,6 +1,6 @@
 <% title "Search" %>
 
-<%= form_tag (params[:option] == 'graphs' ? search_fast_path(anchor: "graphs") : search_fast_path), method: "get" do |f| %>
+<%= form_tag (params[:option] == 'graphs' ? search_st_path(anchor: "graphs") : search_st_path), method: "get" do |f| %>
   <div class="form-group">
     <%= label_tag :pattern %>
     <%= check_box_tag :title, 1, params[:title] %> <span class="text-muted">title</span>
