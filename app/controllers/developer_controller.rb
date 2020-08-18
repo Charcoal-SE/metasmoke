@@ -3,7 +3,8 @@
 class DeveloperController < ApplicationController
   before_action :authenticate_user!, except: [:blank_page]
   before_action :verify_developer, except: %i[blank_page change_back verify_elevation]
-  before_action :check_st_functional_or_forced, only: %i[st_insert_post st_insert_post_synchronous st_insert_post_range st_basic_search_raw st_sync st_sync_async]
+  before_action :check_st_functional_or_forced, only: %i[st_insert_post st_insert_post_synchronous st_insert_post_range
+                                                         st_basic_search_raw st_sync st_sync_async]
   before_action :check_impersonating, only: %i[change_back verify_elevation]
 
   def st_mark_functional
@@ -28,7 +29,7 @@ class DeveloperController < ApplicationController
   end
 
   def st_insert_post_range
-    BatchInsertPostToSuffixTreeJob.perform_later((params[:start_id].to_i .. params[:end_id].to_i).to_a)
+    BatchInsertPostToSuffixTreeJob.perform_later((params[:start_id].to_i..params[:end_id].to_i).to_a)
   end
 
   def st_basic_search_raw
