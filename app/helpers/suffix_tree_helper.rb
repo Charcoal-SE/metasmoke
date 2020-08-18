@@ -34,7 +34,7 @@ module SuffixTreeHelper
     body: 2,
     why: 4,
     username: 8
-  }
+  }.freeze
 
   def self.available_fields
     FIELD_BITMASK.keys

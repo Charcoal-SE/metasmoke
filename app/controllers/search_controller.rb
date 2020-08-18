@@ -445,8 +445,7 @@ class SearchController < ApplicationController
   private
 
   def check_st_functional
-    unless SuffixTreeHelper.functional?
-      render "Suffix tree extension is broken due to #{SuffixTreeHelper.broken_reason}.", status: 500
-    end
+    SuffixTreeHelper.functional? && return
+    render "Suffix tree extension is broken due to #{SuffixTreeHelper.broken_reason}.", status: 500
   end
 end
