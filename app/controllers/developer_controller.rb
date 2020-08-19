@@ -170,7 +170,7 @@ class DeveloperController < ApplicationController
   private
 
   def check_st_functional_or_forced
-    return if SuffixTreeHelper.funtional? || params.key?(:force)
+    return if SuffixTreeHelper.functional? || params.key?(:force)
     render "Suffix tree extension is broken due to #{SuffixTreeHelper.broken_reason}.", status: 500
   end
 
