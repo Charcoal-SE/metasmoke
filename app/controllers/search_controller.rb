@@ -351,8 +351,9 @@ class SearchController < ApplicationController
 
       begin
         post_ids = SuffixTreeHelper.basic_search(params[:pattern], mask)
-      rescue
+      rescue => e
         SuffixTreeHelper.mark_broken 'stupidity of its developers'
+        Rails.logger.error "Suffix tree extension is broken. Exception: #{e}"
         render 'Something is terribly wrong. Tell a developer immediately.', status: 500
       end
 
