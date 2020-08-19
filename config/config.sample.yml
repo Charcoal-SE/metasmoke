@@ -243,6 +243,7 @@ common: &common
 
 development:
   <<: *common
+  suffix_tree: "./dev_map"
 
 test:
   <<: *common
@@ -250,6 +251,7 @@ test:
     adapter: redis
     timeout: 200
     url: redis://localhost:6379
+  suffix_tree: "./test_map"
 
 production:
   <<: *common
