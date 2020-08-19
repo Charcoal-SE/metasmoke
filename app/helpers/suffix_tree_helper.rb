@@ -49,14 +49,14 @@ module SuffixTreeHelper
   end
 
   def self.basic_search(pattern, mask)
-    SuffixTreeSingleton.instance.basic_search(pattern, mask)
+    SuffixTreeSingleton.instance.basic_search(pattern.unicode_normalize.encode('utf-8'), mask)
   end
 
   def self.insert_post(post_id)
     post = Post.find post_id
     post.nil? && (raise ArgumentError)
     available_fields.each do |f|
-      SuffixTreeSingleton.instance.insert(post.send(f), FIELD_BITMASK[f], post.id)
+      SuffixTreeSingleton.instance.insert(post.send(f).unicode_normalize.encode('utf-8'), FIELD_BITMASK[f], post.id)
     end
     post.update(st_indexed: true)
   end
