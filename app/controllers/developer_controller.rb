@@ -8,6 +8,7 @@ class DeveloperController < ApplicationController
   before_action :check_impersonating, only: %i[change_back verify_elevation]
 
   def st_mark_functional
+    Rails.logger.warn "Suffix tree extension marked functional by #{current_user.username}"
     SuffixTreeHelper.mark_functional
   end
 
@@ -17,6 +18,7 @@ class DeveloperController < ApplicationController
              else
                'stupidity of its developers'
              end
+    Rails.logger.warn "Suffix tree extension marked broken by #{current_user.username}. Reason: #{reason}"
     SuffixTreeHelper.mark_broken reason
   end
 
