@@ -244,6 +244,7 @@ common: &common
 development:
   <<: *common
   suffix_tree:
+    inplace_create: false
     path: './dev_map'
 
 test:
@@ -253,6 +254,7 @@ test:
     timeout: 200
     url: redis://localhost:6379
   suffix_tree:
+    inplace_create: false
     path: './test_map'
 
 production:
