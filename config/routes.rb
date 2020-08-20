@@ -196,6 +196,7 @@ Rails.application.routes.draw do
   scope 'dev' do
     post 'st_functional',    to: 'developer#st_mark_functional'
     post 'st_broken',        to: 'developer#st_mark_broken'
+    get  'st_dump',          to: 'developer#st_dump'
     post 'st_add_post',      to: 'developer#st_insert_post'
     post 'st_add_post_sync', to: 'developer#st_insert_post_synchronous'
     post 'st_add_range',     to: 'developer#st_insert_post_range'

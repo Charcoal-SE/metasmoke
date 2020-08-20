@@ -20,6 +20,17 @@ class DeveloperController < ApplicationController
     SuffixTreeHelper.mark_broken reason
   end
 
+  def st_dump
+    if AppConfig['suffix_tree']['inplace_create']
+      render 'Impossible', status: 503
+    elsif SuffixTreeHelper::functional? && !params.key?(:force)
+      render 'In almost all cases, you should mark suffix tree extension broken before' \
+             ' downloading a dump, and mark it functional afterwards.', status: 403
+    else
+      send_file AppConfig['suffix_tree']['path']
+    end
+  end
+
   def st_insert_post
     InsertPostToSuffixTreeJob.perform_later params[:post_id]
   end
