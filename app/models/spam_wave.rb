@@ -7,7 +7,7 @@ class SpamWave < ApplicationRecord
   serialize :conditions, JSON
 
   validates :name, presence: true
-  validates :max_flags, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 6 }
+  validates :max_flags, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }
   validate :check_min_accuracy
   validate :max_expiry
 
