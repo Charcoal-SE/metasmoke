@@ -6,23 +6,8 @@ class DumpsController < ApplicationController
   # GET /dumps
   # GET /dumps.json
   def index
-    @dumps = Dump.all
-
-    presigner = Aws::S3::Presigner.new
-    @redis_dumps = Aws::S3::Resource.new.bucket('erwaysoftware.redisdumps').objects.map do |o|
-      { name: o.key, url: presigner.presigned_url(:get_object, bucket: 'erwaysoftware.redisdumps', key: o.key) }
-    end
-  end
-
-  # GET /dumps/1
-  # GET /dumps/1.json
-  def show
-    redirect_to @dump.file.expiring_url(10)
-  end
-
-  private
-
-  def set_dump
-    @dump = Dump.find(params[:id])
+    dump_list = YAML.load_file('/var/rails/metasmoke/shared/dumps/files.yml')
+    @dumps = dump_list['database'].map { |k, v| { name: "#{k}.sql", url: v } }
+    @redis_dumps = dump_list['redis'].map { |k, v| { name: "#{k}.rdb", url: v } }
   end
 end

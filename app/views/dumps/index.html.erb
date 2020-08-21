@@ -10,7 +10,7 @@
   <tbody>
     <% @dumps.each do |dump| %>
       <tr>
-        <td><%= link_to dump.file_file_name, dump %></td>
+        <td><%= link_to dump[:name], dump[:url] %></td>
       </tr>
     <% end %>
   </tbody>
