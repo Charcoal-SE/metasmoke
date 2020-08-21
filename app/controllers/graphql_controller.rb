@@ -2,6 +2,7 @@
 
 class GraphqlController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:execute]
+  before_action :verify_authorization
 
   def execute
     variables = ensure_hash(params[:variables])
@@ -25,6 +26,10 @@ class GraphqlController < ApplicationController
   def query; end
 
   private
+
+  def verify_authorization
+    return head 403 unless !APIKey.find_by(key: params[:key]).nil? || (user_signed_in? && current_user.has_role?(:core))
+  end
 
   # Handle form data, JSON body, or a blank value
   def ensure_hash(ambiguous_param)
