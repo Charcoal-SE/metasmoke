@@ -42,7 +42,7 @@ class DeveloperController < ApplicationController
   end
 
   def st_insert_post_range
-    BatchInsertPostToSuffixTreeJob.perform_later((params[:start_id].to_i..params[:end_id].to_i).to_a)
+    BatchInsertPostToSuffixTreeJob.perform_later((params[:start_id].to_i..params[:end_id].to_i))
   end
 
   def st_basic_search_raw
