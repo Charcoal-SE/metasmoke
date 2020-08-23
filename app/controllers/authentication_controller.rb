@@ -27,11 +27,8 @@ class AuthenticationController < ApplicationController
     ActiveRecord::Base.logger = old_logger
 
     if current_user.write_authenticated
-      u = current_user
-      Thread.new do
-        # Do this in the background to keep the page load fast.
-        u.update_moderator_sites
-      end
+      # Do this in the background to keep the page load fast.
+      UpdateModeratorSitesJob.perform_later(current_user.id)
     end
 
     flash[:success] = 'Successfully registered token'
@@ -74,11 +71,8 @@ class AuthenticationController < ApplicationController
 
       user.save!
 
-      Thread.new do
-        # Do this in the background to keep the page load fast.
-        user.update_chat_ids
-        user.save!
-      end
+      # Do this in the background to keep the page load fast.
+      UpdateChatIdsJob.perform_later(user.id)
 
       flash[:success] = "New account created for #{user.username}. Have fun!"
     end

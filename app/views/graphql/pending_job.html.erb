@@ -1,0 +1,7 @@
+<% if @time_elapsed.nil? %>
+<p>Your job is in the queue. Keep refreshing this page to see once it starts running.
+<% else %>
+<p>Your job is still pending, it has been running for <%= @time_elapsed %> seconds and will terminate after 600 seconds</p>
+<p>Reload the page to see if your job has completed. If you get a 404, it has expired.</p>
+<% end %>
+<p>After your job has completed, it will be available for 5 minutes</p>

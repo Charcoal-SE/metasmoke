@@ -4,5 +4,7 @@
 # for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
 
 require File.expand_path('../config/application', __FILE__)
+require 'backburner/tasks'
+require_relative 'config/initializers/backburner.rb'
 
 Rails.application.load_tasks

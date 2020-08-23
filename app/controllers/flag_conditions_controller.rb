@@ -131,9 +131,7 @@ class FlagConditionsController < ApplicationController
 
   def validate_user
     @user = User.find params[:user]
-    Thread.new do
-      FlagCondition.validate_for_user @user, current_user
-    end
+    ValidateFlagConditionForUserJob.perform_later(@user.id, current_user.id)
     flash[:info] = 'Validation launched in background.'
     redirect_back fallback_location: root_path
   end

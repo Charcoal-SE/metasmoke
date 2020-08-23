@@ -55,9 +55,7 @@ class FlagSettingsController < ApplicationController
           # we want to re-validate all existing FlagConditions
           # and disable them if they aren't in compliance with the
           # new settings
-          Thread.new do
-            FlagCondition.revalidate_all
-          end
+          RevalidateFlagConditionsJob.perform_later
         end
 
         format.html { redirect_to flag_settings_path, notice: 'Flag setting was successfully updated.' }

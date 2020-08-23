@@ -25,6 +25,8 @@ module Metasmoke
     # Prevent SE write codes (used to get a token) from showing up in the logs
     config.filter_parameters += [:code]
 
+    config.active_job.queue_adapter = :backburner
+
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'

@@ -83,11 +83,7 @@ class ReviewQueuesController < ApplicationController
   end
 
   def recheck_items
-    Thread.new do
-      @queue.items.includes(:reviewable).each do |i|
-        i.update(completed: true) if i.reviewable.should_dq?(@queue)
-      end
-    end
+    ReviewQueueRecheckItemsJob.perform_later(@queue.id)
     flash[:info] = 'Checking started in background.'
     redirect_back fallback_location: review_queues_path
   end
