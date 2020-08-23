@@ -8,6 +8,7 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+
 module Metasmoke
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
@@ -21,9 +22,6 @@ module Metasmoke
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
-
-    # Prevent SE write codes (used to get a token) from showing up in the logs
-    config.filter_parameters += [:code]
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
@@ -49,3 +47,5 @@ module Metasmoke
     end
   end
 end
+
+AppConfig = YAML.load_file("#{Rails.root}/config/config.yml")[Rails.env]
