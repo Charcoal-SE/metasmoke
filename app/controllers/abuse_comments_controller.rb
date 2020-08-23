@@ -3,6 +3,7 @@
 class AbuseCommentsController < ApplicationController
   before_action :verify_core
   before_action :set_comment, except: [:create]
+  before_action :verify_permission, only: %w[update destroy]
   skip_before_action :verify_authenticity_token, only: [:update]
 
   def create
@@ -41,5 +42,10 @@ class AbuseCommentsController < ApplicationController
 
   def set_comment
     @comment = AbuseComment.find params[:id]
+  end
+
+  def verify_permission
+    return if @comment.user_id == current_user.id || current_user.has_role?(:admin)
+    not_found
   end
 end
