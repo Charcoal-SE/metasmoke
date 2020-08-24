@@ -24,6 +24,11 @@ Rails.application.routes.draw do
 
   get    'sites/dash',            to: 'dashboard#site_dash',        as: :site_dash
 
+
+  get    'search_job',            to: 'search#new_search', as: :new_search_job
+  get    'search_job/create',            to: 'search#create_search', as: :create_search
+  get    'search_job/pending/:job_id',            to: 'search#search_pending', as: :search_pending
+  get    'search_job/:sid',            to: 'search#search_results', as: :search_results
   get    'search',                to: 'search#index'
   get    'search_fast',           to: 'search#index_fast'
   get    'reasons',               to: 'dashboard#index',            as: :reasons

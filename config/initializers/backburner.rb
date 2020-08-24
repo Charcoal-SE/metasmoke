@@ -10,8 +10,8 @@ Backburner.configure do |config|
   config.respond_timeout     = 600
   config.default_worker      = Backburner::Workers::Simple
   config.logger              = Logger.new(STDOUT)
-  config.primary_queue       = "default"
   # config.priority_labels     = { :custom => 50, :useless => 1000 }
+  # config.default_worker = Backburner::Workers::ThreadsOnFork
   config.reserve_timeout     = nil
   config.job_serializer_proc = lambda { |body| JSON.dump(body) }
   config.job_parser_proc     = lambda { |body| JSON.parse(body) }
