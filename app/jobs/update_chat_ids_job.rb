@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UpdateChatIdsJob < ApplicationJob
   queue_as :default
 

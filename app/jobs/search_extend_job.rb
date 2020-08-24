@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "#{Rails.root}/app/jobs/search_helpers.rb"
 
 class SearchExtendJob < ApplicationJob
@@ -22,7 +24,8 @@ class SearchExtendJob < ApplicationJob
     created_at = redis.get "searches/#{sid}/created_at"
     query = build_query(ops, wrapped_params)
     query = query.where('posts.created_at < ?', Time.at(created_at.to_i))
-    redis.set "searches/#{sid}/results/#{be_page}", query.offset(SEARCH_PAGE_LENGTH * be_page).limit(SEARCH_PAGE_LENGTH).select(:id).map(&:id).pack("I!*")
+    search_results = query.offset(SEARCH_PAGE_LENGTH * be_page).limit(SEARCH_PAGE_LENGTH).select(:id).map(&:id).pack('I!*')
+    redis.set "searches/#{sid}/results/#{be_page}", search_results
     redis.expire "searches/#{sid}/results/0", SEACH_PAGE_EXPIRATION
   end
 

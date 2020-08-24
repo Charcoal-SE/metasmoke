@@ -26,7 +26,7 @@ class GraphqlController < ApplicationController
     elsif user_signed_in? || !api_key.nil?
       @job_id = QueueGraphqlQueryJob.perform_later(query, **query_params).job_id
       respond_to do |format|
-        format.json { render json: {job_id: @job_id} }
+        format.json { render json: { job_id: @job_id } }
         format.html { redirect_to view_graphql_job_path(job_id: @job_id) }
       end
     else
@@ -36,25 +36,28 @@ class GraphqlController < ApplicationController
 
   def view_job
     k = "graphql_queries/#{params[:job_id]}"
-    if redis.sismember "pending_graphql_queries", params[:job_id]
+    if redis.sismember 'pending_graphql_queries', params[:job_id]
       respond_to do |format|
-        format.json { render json: {complete: false, pending: true} }
+        format.json { render json: { complete: false, pending: true } }
         format.html { render action: :pending_job }
       end
     elsif redis.exists k
       v = redis.get k
       time_remaining = redis.ttl(k).to_i
       @time_elapsed = 600 - time_remaining
-      if v == ""
+      if v == ''
         respond_to do |format|
-          format.json { render json: {complete: false, time_elapsed: @time_elapsed} }
+          format.json { render json: { complete: false, time_elapsed: @time_elapsed } }
           format.html { render action: :pending_job }
         end
       else
         @results = JSON.parse(v)
         respond_to do |format|
           format.json { render json: @results }
-          format.html { @results = JSON.pretty_generate(@results.to_hash); render action: :execute }
+          format.html do
+            @results = JSON.pretty_generate(@results.to_hash)
+            render action: :execute
+          end
         end
       end
     else

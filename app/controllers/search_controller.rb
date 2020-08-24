@@ -16,17 +16,14 @@ class SearchController < ApplicationController
     @sid = redis.get "search_jobs/#{params[:job_id]}/sid"
     @sid_ttl = redis.ttl("search_jobs/#{params[:job_id]}/sid").to_i
     @be_page = redis.get("search_jobs/#{params[:job_id]}/be_page").to_i
-    if redis.exists "searches/#{@sid}/results/#{@be_page}"
-      per_page = 100
-      redirect_to search_results_path(sid: @sid, page_num: (@be_page * SearchJob.search_page_length) / per_page, per_page: per_page)
-    end
+    return unless redis.exists "searches/#{@sid}/results/#{@be_page}"
+    per_page = 100
+    redirect_to search_results_path(sid: @sid, page_num: (@be_page * SearchJob.search_page_length) / per_page, per_page: per_page)
   end
 
   def search_results
     @results = search_get_page(params[:page_num].to_i, params[:per_page].to_i, sid: params[:sid].to_i)
-    if @results.is_a? String
-      redirect_to search_pending_path(job_id: @results)
-    end
+    redirect_to search_pending_path(job_id: @results) if @results.is_a? String
   end
 
   def index
@@ -358,15 +355,18 @@ class SearchController < ApplicationController
     if redis.exists "searches/#{hsh[:sid]}/results/#{be_page}"
       @counts_by_accuracy_group = JSON.parse(redis.get("searches/#{hsh[:sid]}/counts_by_accuracy_group")).symbolize_keys
       @counts_by_feedback = JSON.parse(redis.get("searches/#{hsh[:sid]}/counts_by_feedback")).symbolize_keys
-      return Post.where(id: redis.get("searches/#{hsh[:sid]}/results/#{be_page}").unpack("I!*")).order(created_at: :desc).offset(be_page_offset).limit(per_page_real).includes_for_post_row
-    elsif hsh.has_key?(:sid)
-      if redis.set("searches/#{hsh[:sid]}/results/#{be_page}/job_id", "", nx: true)
-        job_id = SearchExtendJob.perform_later(hsh[:sid], be_page).job_id
-        redis.set "searches/#{hsh[:sid]}/results/#{be_page}/job_id", job_id
-        return job_id
-      else
+      return Post.where(id: redis.get("searches/#{hsh[:sid]}/results/#{be_page}").unpack('I!*'))
+                 .order(created_at: :desc)
+                 .offset(be_page_offset)
+                 .limit(per_page_real)
+                 .includes_for_post_row
+    elsif hsh.key?(:sid)
+      unless redis.set("searches/#{hsh[:sid]}/results/#{be_page}/job_id", '', nx: true)
         return redis.get("searches/#{hsh[:sid]}/results/#{be_page}/job_id")
       end
+      job_id = SearchExtendJob.perform_later(hsh[:sid], be_page).job_id
+      redis.set "searches/#{hsh[:sid]}/results/#{be_page}/job_id", job_id
+      return job_id
     end
   end
 end

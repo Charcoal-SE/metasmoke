@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RevalidateFlagConditionsJob < ApplicationJob
   queue_as :default
 
