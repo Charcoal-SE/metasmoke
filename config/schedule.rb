@@ -26,4 +26,5 @@ end
 
 every 1.day, at: '3:00am' do
   runner 'ScheduledMailJob.perform_later'
+  runner 'SyncSuffixTreeJob.perform_later'
 end

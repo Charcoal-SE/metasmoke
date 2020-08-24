@@ -203,6 +203,7 @@ Rails.application.routes.draw do
     get  'st_basic_search',  to: 'developer#st_basic_search_raw'
     post 'st_sync',          to: 'developer#st_sync'
     post 'st_sync_async',    to: 'developer#st_sync_async'
+    post 'st_async_sync',    to: 'developer#st_async_sync'
     post 'update_sites',     to: 'developer#update_sites',         as: :dev_update_sites
     get  'prod_log',         to: 'developer#production_log',       as: :dev_prod_log
     get  'query_time_log',   to: 'developer#query_times_log',      as: :dev_query_times_log

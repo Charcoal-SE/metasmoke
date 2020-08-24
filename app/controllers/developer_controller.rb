@@ -4,7 +4,7 @@ class DeveloperController < ApplicationController
   before_action :authenticate_user!, except: [:blank_page]
   before_action :verify_developer, except: %i[blank_page change_back verify_elevation]
   before_action :check_st_functional_or_forced, only: %i[st_insert_post st_insert_post_synchronous st_insert_post_range
-                                                         st_basic_search_raw st_sync st_sync_async]
+                                                         st_basic_search_raw st_sync st_sync_async st_async_sync]
   before_action :check_impersonating, only: %i[change_back verify_elevation]
 
   def st_mark_functional
@@ -63,6 +63,11 @@ class DeveloperController < ApplicationController
   def st_sync_async
     SuffixTreeHelper.sync_async
     render "Executed asynchronous msync", status: 200
+  end
+
+  def st_async_sync
+    SyncSuffixTreeJob.perform_later
+    render 'Job started asynchronously', status: 200
   end
 
   def update_sites
