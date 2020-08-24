@@ -71,8 +71,6 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
-  AppConfig = YAML.load_file("#{Rails.root}/config/config.yml")[Rails.env]
-
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: 'email-smtp.us-east-1.amazonaws.com',
