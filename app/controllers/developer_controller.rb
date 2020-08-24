@@ -10,7 +10,7 @@ class DeveloperController < ApplicationController
   def st_mark_functional
     Rails.logger.warn "Suffix tree extension marked functional by #{current_user.username}"
     SuffixTreeHelper.mark_functional
-    render "Success", status: 200
+    render 'Success', status: 200
   end
 
   def st_mark_broken
@@ -21,7 +21,7 @@ class DeveloperController < ApplicationController
              end
     Rails.logger.warn "Suffix tree extension marked broken by #{current_user.username}. Reason: #{reason}"
     SuffixTreeHelper.mark_broken reason
-    render "Success", status: 200
+    render 'Success', status: 200
   end
 
   def st_dump
@@ -37,17 +37,17 @@ class DeveloperController < ApplicationController
 
   def st_insert_post
     InsertPostToSuffixTreeJob.perform_later params[:post_id]
-    render "Job started asynchronously", status: 200
+    render 'Job started asynchronously', status: 200
   end
 
   def st_insert_post_synchronous
     SuffixTreeHelper.insert_post params[:post_id]
-    render "Success", status: 200
+    render 'Success', status: 200
   end
 
   def st_insert_post_range
     BatchInsertPostToSuffixTreeJob.perform_later((params[:start_id].to_i..params[:end_id].to_i))
-    render "Job started asynchronously", status: 200
+    render 'Job started asynchronously', status: 200
   end
 
   def st_basic_search_raw
@@ -57,12 +57,12 @@ class DeveloperController < ApplicationController
 
   def st_sync
     SuffixTreeHelper.sync!
-    render "Success", status: 200
+    render 'Success', status: 200
   end
 
   def st_sync_async
     SuffixTreeHelper.sync_async
-    render "Executed asynchronous msync", status: 200
+    render 'Executed asynchronous msync', status: 200
   end
 
   def st_async_sync
