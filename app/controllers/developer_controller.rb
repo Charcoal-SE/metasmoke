@@ -197,7 +197,8 @@ class DeveloperController < ApplicationController
 
   def check_st_functional_or_forced
     return if SuffixTreeHelper.functional? || params.key?(:force)
-    render "Suffix tree extension is broken due to #{SuffixTreeHelper.broken_reason}. If you know what you are doing, pass a 'force' param.", status: 500
+    render "Suffix tree extension is broken due to #{SuffixTreeHelper.broken_reason}." \
+           " If you know what you are doing, pass a 'force' param.", status: 500
   end
 
   def check_impersonating
