@@ -5,10 +5,12 @@ require 'sensible_routes'
 REDIS_LOG_EXPIRATION = 1.week.seconds.to_i
 
 def sensible_routes_wrap(method, path)
+  r = nil
   Rails.application.routes.instance_variable_get(:@router)
-       .recognize(ActionDispatch::Request.new(Rack::MockRequest.env_for(path, {:method => method}))) do |rt|
-         return SensibleRoute.new(rt)
+       .recognize(ActionDispatch::Request.new(Rack::MockRequest.env_for(path, method: method))) do |rt|
+         r = SensibleRoute.new(rt)
        end
+  return r
 end
 
 # rubocop:disable Metrics/ParameterLists
