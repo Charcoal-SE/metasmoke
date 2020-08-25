@@ -10,7 +10,7 @@ def sensible_routes_wrap(method, path)
        .recognize(ActionDispatch::Request.new(Rack::MockRequest.env_for(path, method: method))) do |rt|
          r = SensibleRoute.new(rt)
        end
-  return r
+  r
 end
 
 # rubocop:disable Metrics/ParameterLists
