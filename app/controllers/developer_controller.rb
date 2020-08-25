@@ -26,7 +26,7 @@ class DeveloperController < ApplicationController
 
   def st_dump
     if AppConfig['suffix_tree']['inplace_create']
-      render 'Impossible', status: 503
+      render plain: 'Impossible', status: 503
     elsif SuffixTreeHelper.functional? && !params.key?(:force)
       render plain: 'In almost all cases, you should mark suffix tree extension broken before' \
                     ' downloading a dump, and mark it functional afterwards.', status: 422

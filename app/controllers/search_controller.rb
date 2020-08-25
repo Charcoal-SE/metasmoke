@@ -354,7 +354,7 @@ class SearchController < ApplicationController
       rescue => e
         SuffixTreeHelper.mark_broken 'stupidity of its developers'
         Rails.logger.error "Suffix tree extension is broken. Exception: #{e}"
-        render 'Something is terribly wrong. Tell a developer immediately.', status: 500
+        render plain: 'Something is terribly wrong. Tell a developer immediately.', status: 500
       end
 
       @results = @results.find_all(post_ids)
