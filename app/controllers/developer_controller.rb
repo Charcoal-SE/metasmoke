@@ -10,7 +10,7 @@ class DeveloperController < ApplicationController
   def st_mark_functional
     Rails.logger.warn "Suffix tree extension marked functional by #{current_user.username}"
     SuffixTreeHelper.mark_functional
-    render 'Success', status: 200
+    render plain: 'Success', status: 200
   end
 
   def st_mark_broken
@@ -21,15 +21,15 @@ class DeveloperController < ApplicationController
              end
     Rails.logger.warn "Suffix tree extension marked broken by #{current_user.username}. Reason: #{reason}"
     SuffixTreeHelper.mark_broken reason
-    render 'Success', status: 200
+    render plain: 'Success', status: 200
   end
 
   def st_dump
     if AppConfig['suffix_tree']['inplace_create']
       render 'Impossible', status: 503
     elsif SuffixTreeHelper.functional? && !params.key?(:force)
-      render 'In almost all cases, you should mark suffix tree extension broken before' \
-             ' downloading a dump, and mark it functional afterwards.', status: 422
+      render plain: 'In almost all cases, you should mark suffix tree extension broken before' \
+                    ' downloading a dump, and mark it functional afterwards.', status: 422
     else
       send_file AppConfig['suffix_tree']['path']
     end
@@ -37,17 +37,17 @@ class DeveloperController < ApplicationController
 
   def st_insert_post
     InsertPostToSuffixTreeJob.perform_later params[:post_id]
-    render 'Job started asynchronously', status: 200
+    render plain: 'Job started asynchronously', status: 200
   end
 
   def st_insert_post_synchronous
     SuffixTreeHelper.insert_post params[:post_id]
-    render 'Success', status: 200
+    render plain: 'Success', status: 200
   end
 
   def st_insert_post_range
     BatchInsertPostToSuffixTreeJob.perform_later((params[:start_id].to_i..params[:end_id].to_i))
-    render 'Job started asynchronously', status: 200
+    render plain: 'Job started asynchronously', status: 200
   end
 
   def st_basic_search_raw
@@ -57,17 +57,17 @@ class DeveloperController < ApplicationController
 
   def st_sync
     SuffixTreeHelper.sync!
-    render 'Success', status: 200
+    render plain: 'Success', status: 200
   end
 
   def st_sync_async
     SuffixTreeHelper.sync_async
-    render 'Executed asynchronous msync', status: 200
+    render plain: 'Executed asynchronous msync', status: 200
   end
 
   def st_async_sync
     SyncSuffixTreeJob.perform_later
-    render 'Job started asynchronously', status: 200
+    render plain: 'Job started asynchronously', status: 200
   end
 
   def update_sites
@@ -197,8 +197,8 @@ class DeveloperController < ApplicationController
 
   def check_st_functional_or_forced
     return if SuffixTreeHelper.functional? || params.key?(:force)
-    render "Suffix tree extension is broken due to #{SuffixTreeHelper.broken_reason}." \
-           " If you know what you are doing, pass a 'force' param.", status: 500
+    render plain: "Suffix tree extension is broken due to #{SuffixTreeHelper.broken_reason}." \
+                  " If you know what you are doing, pass a 'force' param.", status: 500
   end
 
   def check_impersonating
