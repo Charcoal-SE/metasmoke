@@ -4,6 +4,13 @@ require 'sensible_routes'
 
 REDIS_LOG_EXPIRATION = 1.week.seconds.to_i
 
+def sensible_routes_wrap(method, path)
+  Rails.application.routes.instance_variable_get(:@router)
+       .recognize(ActionDispatch::Request.new(Rack::MockRequest.env_for(path, {:method => method}))) do |rt|
+         return SensibleRoute.new(rt)
+       end
+end
+
 # rubocop:disable Metrics/ParameterLists
 def log_timestamps(ts, status:, action:, controller:, format:, method:, # rubocop:disable Lint/UnusedMethodArgument
                    view_runtime:, db_runtime:, path:, uuid:) # rubocop:disable Lint/UnusedMethodArgument
@@ -13,7 +20,7 @@ def log_timestamps(ts, status:, action:, controller:, format:, method:, # ruboco
   db_runtime = db_runtime.to_f
 
   return if path.nil?
-  path = Rails.sensible_routes.match_for(path)&.path || path.split('?').first
+  path = sensible_routes_wrap(method, path)&.path || path.split('?').first
   path_string = "#{method.upcase}/#{path}.#{format}"
   # controller_action_string = "#{controller}##{action}"
   redis_logger.sadd 'request_timings/path_strings', path_string
