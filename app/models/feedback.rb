@@ -157,7 +157,7 @@ class Feedback < ApplicationRecord
     unless post.id == Post.last.id
       host = 'metasmoke.erwaysoftware.com'
       link = url_helpers.url_for controller: :posts, action: :show, id: post.id, host: host
-      message += " on [#{SmokeDetectorsHelper.escape_markdown post.title}](#{post.link}) \\[[MS](#{link})]"
+      message += " on \\[[MS](#{link})] [#{SmokeDetectorsHelper.escape_markdown post.title}](#{post.link})"
     end
     ActionCable.server.broadcast 'smokedetector_messages', message: message
   end
