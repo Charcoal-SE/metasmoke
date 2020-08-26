@@ -74,7 +74,8 @@ class DashboardController < ApplicationController
     @site = Site.find(params[:site_id])
 
     @months = params[:months].to_s.empty? ? 3 : params[:months].to_i
-    @months_string = @months <= 1 ? 'month' : "#{@months} months"
+    @months < 1 && @months = 1
+    @months_string = @months = 1 ? 'month' : "#{@months} months"
 
     @all_posts = @posts.where(site_id: @site.id)
 
