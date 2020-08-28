@@ -6,7 +6,8 @@ module SuffixTreeHelper
   class SuffixTreeSingleton < SuffixTree
     include Singleton
     def initialize
-      super AppConfig['suffix_tree']['path']
+      super(AppConfig['suffix_tree']['str_path'], AppConfig['suffix_tree']['tag_path'],
+            AppConfig['suffix_tree']['child_path'], AppConfig['suffix_tree']['node_path'])
       @functional = true
       @reason = ''
     end
@@ -63,10 +64,6 @@ module SuffixTreeHelper
 
   def self.sync!
     SuffixTreeSingleton.instance.sync!
-  end
-
-  def self.sync_async
-    SuffixTreeSingleton.instance.sync_async
   end
 
   def self.mark_functional

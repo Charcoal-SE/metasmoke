@@ -4,7 +4,7 @@ class DeveloperController < ApplicationController
   before_action :authenticate_user!, except: [:blank_page]
   before_action :verify_developer, except: %i[blank_page change_back verify_elevation]
   before_action :check_st_functional_or_forced, only: %i[st_insert_post st_insert_post_synchronous st_insert_post_range
-                                                         st_basic_search_raw st_sync st_sync_async st_async_sync]
+                                                         st_basic_search_raw st_sync st_async_sync]
   before_action :check_impersonating, only: %i[change_back verify_elevation]
 
   def st_mark_functional
@@ -22,17 +22,6 @@ class DeveloperController < ApplicationController
     Rails.logger.warn "Suffix tree extension marked broken by #{current_user.username}. Reason: #{reason}"
     SuffixTreeHelper.mark_broken reason
     render plain: 'Success', status: 200
-  end
-
-  def st_dump
-    if AppConfig['suffix_tree']['inplace_create']
-      render plain: 'Impossible', status: 503
-    elsif SuffixTreeHelper.functional? && !params.key?(:force)
-      render plain: 'In almost all cases, you should mark suffix tree extension broken before' \
-                    ' downloading a dump, and mark it functional afterwards.', status: 422
-    else
-      send_file AppConfig['suffix_tree']['path']
-    end
   end
 
   def st_insert_post
@@ -58,11 +47,6 @@ class DeveloperController < ApplicationController
   def st_sync
     SuffixTreeHelper.sync!
     render plain: 'Success', status: 200
-  end
-
-  def st_sync_async
-    SuffixTreeHelper.sync_async
-    render plain: 'Executed asynchronous msync', status: 200
   end
 
   def st_async_sync

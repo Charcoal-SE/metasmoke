@@ -196,13 +196,11 @@ Rails.application.routes.draw do
   scope 'dev' do
     post 'st_functional',    to: 'developer#st_mark_functional'
     post 'st_broken',        to: 'developer#st_mark_broken'
-    get  'st_dump',          to: 'developer#st_dump'
     post 'st_add_post',      to: 'developer#st_insert_post'
     post 'st_add_post_sync', to: 'developer#st_insert_post_synchronous'
     post 'st_add_range',     to: 'developer#st_insert_post_range'
     get  'st_basic_search',  to: 'developer#st_basic_search_raw'
     post 'st_sync',          to: 'developer#st_sync'
-    post 'st_sync_async',    to: 'developer#st_sync_async'
     post 'st_async_sync',    to: 'developer#st_async_sync'
     post 'update_sites',     to: 'developer#update_sites',         as: :dev_update_sites
     get  'prod_log',         to: 'developer#production_log',       as: :dev_prod_log

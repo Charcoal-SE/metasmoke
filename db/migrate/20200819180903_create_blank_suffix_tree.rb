@@ -2,10 +2,7 @@
 
 class CreateBlankSuffixTree < ActiveRecord::Migration[5.2]
   def change
-    if AppConfig['suffix_tree']['inplace_create']
-      SuffixTree::placement_create! AppConfig['suffix_tree']['path']
-    else
-      SuffixTree::create! AppConfig['suffix_tree']['path']
-    end
+    SuffixTree::create!(AppConfig['suffix_tree']['str_path'], AppConfig['suffix_tree']['tag_path'],
+                        AppConfig['suffix_tree']['child_path'], AppConfig['suffix_tree']['node_path'])
   end
 end

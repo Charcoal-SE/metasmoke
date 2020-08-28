@@ -244,8 +244,10 @@ common: &common
 development:
   <<: *common
   suffix_tree:
-    inplace_create: false
-    path: './dev_map'
+    str_path: './dev_str_pool'
+    tag_path: './dev_tag_pool'
+    child_path: './dev_child_pool'
+    node_path: './dev_node_pool'
 
 test:
   <<: *common
@@ -254,8 +256,10 @@ test:
     timeout: 200
     url: redis://localhost:6379
   suffix_tree:
-    inplace_create: false
-    path: './test_map'
+    str_path: './test_str_pool'
+    tag_path: './test_tag_pool'
+    child_path: './test_child_pool'
+    node_path: './test_node_pool'
 
 production:
   <<: *common
