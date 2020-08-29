@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
-class BatchInsertPostToSuffixTreeJob < ApplicationJob
+class InsertPostsToSuffixTreeJob < ApplicationJob
   queue_as :default
 
-  def perform(post_ids)
+  def perform(*post_ids)
     Rails.logger.info "Job started (#{DateTime.now}, +0s)"
-    post_ids.each do |id|
+    post_ids.flatten.each do |id|
       SuffixTreeHelper.insert_post id
     end
-    SuffixTreeHelper.sync_async
     Rails.logger.info "Job finished (#{DateTime.now})"
   end
 end

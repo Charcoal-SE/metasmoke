@@ -435,9 +435,7 @@ class SearchController < ApplicationController
         @sites = Site.where(id: @results.map(&:site_id)).to_a unless params[:option] == 'graphs'
         render :search
       end
-      format.json do
-        render json: @results
-      end
+      format.json { render json: @results }
       format.rss { render :search, layout: false }
       format.xml { render 'search.rss', layout: false }
     end
@@ -446,7 +444,7 @@ class SearchController < ApplicationController
   private
 
   def check_st_functional
-    SuffixTreeHelper.functional? && return
+    return if SuffixTreeHelper.functional?
     render plain: "Suffix tree extension is broken due to #{SuffixTreeHelper.broken_reason}.", status: 500
   end
 end

@@ -25,7 +25,7 @@ class DeveloperController < ApplicationController
   end
 
   def st_insert_post
-    InsertPostToSuffixTreeJob.perform_later params[:post_id]
+    InsertPostsToSuffixTreeJob.perform_later params[:post_id]
     render plain: 'Job started asynchronously', status: 200
   end
 
@@ -35,13 +35,13 @@ class DeveloperController < ApplicationController
   end
 
   def st_insert_post_range
-    BatchInsertPostToSuffixTreeJob.perform_later((params[:start_id].to_i..params[:end_id].to_i))
+    InsertPostsToSuffixTreeJob.perform_later((params[:start_id].to_i..params[:end_id].to_i))
     render plain: 'Job started asynchronously', status: 200
   end
 
   def st_basic_search_raw
-    @post_ids = SuffixTreeHelper.basic_search(params[:pattern], params[:mask])
-    render json: @post_ids, status: 200
+    post_ids = SuffixTreeHelper.basic_search(params[:pattern], params[:mask])
+    render json: post_ids, status: 200
   end
 
   def st_sync
