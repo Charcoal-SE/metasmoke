@@ -35,7 +35,7 @@ class DeveloperController < ApplicationController
   end
 
   def st_insert_post_range
-    InsertPostsToSuffixTreeJob.perform_later((params[:start_id].to_i..params[:end_id].to_i))
+    InsertPostsToSuffixTreeJob.perform_later((params[:start_id].to_i..params[:end_id].to_i).to_a)
     render plain: 'Job started asynchronously', status: 200
   end
 
