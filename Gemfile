@@ -120,4 +120,4 @@ gem 'graphiql-rails'
 gem 'graphql'
 
 # Always specify ref instead of version to avoid RCE risks
-gem 'suffix_tree', github: 'user12986714/SuffixTree', ref: 'fa98885a2c7f6c6c2e55e3896e0bee98b70f7390'
+gem 'suffix_tree', github: 'user12986714/SuffixTree', ref: '23ca0704a84e7e61c1aeb281d81e1a8137ea66c1'
