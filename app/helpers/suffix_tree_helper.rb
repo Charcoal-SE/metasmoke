@@ -42,11 +42,9 @@ module SuffixTreeHelper
   end
 
   def self.calc_mask(fields)
-    mask = 0
-    fields.each do |f|
-      mask |= FIELD_BITMASK[f]
+    fields.reduce(0) do |mask, field|
+      mask | field
     end
-    mask
   end
 
   def self.basic_search(pattern, mask)
@@ -55,30 +53,14 @@ module SuffixTreeHelper
 
   def self.insert_post(post_id)
     post = Post.find post_id
-    post.nil? && (raise ArgumentError)
+    raise ArgumentError if post.nil?
     available_fields.each do |f|
-      SuffixTreeSingleton.instance.insert(post.send(f).unicode_normalize.encode('utf-8'), FIELD_BITMASK[f], post.id)
+      SuffixTreeSingleton.instance.insert(post[f].unicode_normalize.encode('utf-8'), FIELD_BITMASK[f], post.id)
     end
     post.update(st_indexed: true)
   end
 
-  def self.sync!
-    SuffixTreeSingleton.instance.sync!
-  end
-
-  def self.mark_functional
-    SuffixTreeSingleton.instance.mark_functional
-  end
-
-  def self.mark_broken(reason)
-    SuffixTreeSingleton.instance.mark_broken reason
-  end
-
-  def self.functional?
-    SuffixTreeSingleton.instance.functional?
-  end
-
-  def self.broken_reason
-    SuffixTreeSingleton.instance.broken_reason
+  %i[sync! mark_functional mark_broken functional? broken_reason].each do |m|
+    define_singleton_method(m) { SuffixTreeSingleton.instance.send(m) }
   end
 end
