@@ -60,7 +60,11 @@ module SuffixTreeHelper
     post.update(st_indexed: true)
   end
 
-  %i[sync! mark_functional mark_broken functional? broken_reason].each do |m|
+  %i[sync! mark_functional functional? broken_reason].each do |m|
     define_singleton_method(m) { SuffixTreeSingleton.instance.send(m) }
+  end
+
+  def self.mark_broken(reason)
+    SuffixTreeSingleton.mark_broken reason
   end
 end
