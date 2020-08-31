@@ -3,7 +3,11 @@
 SEARCH_PAGE_LENGTH = 10_000
 VALID_SEARCH_PARAMS = %i[
   post_type_include_unmatched autoflagged post_type user_rep_direction
-  site edited or_search option body_is_like user_reputation reason feedback
+  site edited or_search option user_reputation reason feedback
+  title title_is_regex title_is_inverse_regex
+  body body_is_like body_is_regex body_is_inverse_regex
+  why why_is_regex why_is_inverse_regex
+  username username_is_regex username_is_inverse_regex
 ].freeze
 SEARCH_JOB_TIMEOUT = (60 * 60 * 3)
 SEACH_PAGE_EXPIRATION = 1.hour

@@ -46,9 +46,10 @@ class SearchJob < ApplicationJob
     counts_by_feedback = %i[is_tp is_fp is_naa].each_with_index.map do |symbol, i|
       [symbol, counts_by_accuracy_group.select { |k, _v| k[i] }.values.sum]
     end.to_h
-    redis.set "searches/#{sid}/results/0", results.limit(SEARCH_PAGE_LENGTH).map(&:id).pack('I!*')
-    redis.expire "searches/#{sid}/results/0", SEACH_PAGE_EXPIRATION
+    redis.set "searches/#{sid}/result_count", results.count
     redis.set "searches/#{sid}/counts_by_accuracy_group", JSON.generate(counts_by_accuracy_group)
     redis.set "searches/#{sid}/counts_by_feedback", JSON.generate(counts_by_feedback)
+    redis.set "searches/#{sid}/results/0", results.limit(SEARCH_PAGE_LENGTH).map(&:id).pack('I!*')
+    redis.expire "searches/#{sid}/results/0", SEACH_PAGE_EXPIRATION
   end
 end

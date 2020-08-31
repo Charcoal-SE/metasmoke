@@ -18,12 +18,18 @@ class SearchController < ApplicationController
     @be_page = redis.get("search_jobs/#{params[:job_id]}/be_page").to_i
     return unless redis.exists "searches/#{@sid}/results/#{@be_page}"
     per_page = 100
-    redirect_to search_results_path(sid: @sid, page_num: (@be_page * SearchJob.search_page_length) / per_page, per_page: per_page)
+    redirect_to search_results_path(sid: @sid, page: (@be_page * SearchJob.search_page_length) / per_page, per_page: per_page)
   end
 
   def search_results
-    @results = search_get_page(params[:page_num].to_i, params[:per_page].to_i, sid: params[:sid].to_i)
+    @search_params = JSON.parse(redis.get("searches/#{params[:sid]}/params")).symbolize_keys
+    @result_count = redis.get("searches/#{params[:sid].to_i}/result_count").to_i
+    @results = search_get_page(params[:page].to_i, params[:per_page].to_i, sid: params[:sid].to_i)
     redirect_to search_pending_path(job_id: @results) if @results.is_a? String
+    total_pages = (@result_count / params[:per_page].to_i)
+    current_page = params[:page].to_i
+    @results.define_singleton_method(:total_pages) { total_pages }
+    @results.define_singleton_method(:current_page) { current_page }
   end
 
   def index
