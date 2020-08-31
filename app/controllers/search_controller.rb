@@ -346,7 +346,7 @@ class SearchController < ApplicationController
       filters = SuffixTreeHelper.available_fields.filter do |f|
         params.key?(f)
       end
-      filters.empty? && filters = SuffixTreeHelper.available_fields
+      filters = SuffixTreeHelper.available_fields if filters.empty?
       mask = SuffixTreeHelper.calc_mask(filters)
 
       begin

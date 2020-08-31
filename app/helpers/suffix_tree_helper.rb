@@ -42,7 +42,7 @@ module SuffixTreeHelper
   end
 
   def self.calc_mask(fields)
-    fields.reduce(0) do |mask, field|
+    (fields & available_fields).reduce(0) do |mask, field|
       mask | field
     end
   end
