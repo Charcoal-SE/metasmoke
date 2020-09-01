@@ -342,7 +342,7 @@ class SearchController < ApplicationController
 
     per_page = user_signed_in? && params[:per_page].present? ? [params[:per_page].to_i, 10_000].min : 100
 
-    if params.key?(:pattern) && !params[:pattern].blank?
+    if params[:pattern].present?
       filters = SuffixTreeHelper.available_fields.filter do |f|
         params.key?(f)
       end
@@ -357,7 +357,7 @@ class SearchController < ApplicationController
         render plain: 'Something is terribly wrong. Tell a developer immediately.', status: 500
       end
 
-      @results = @results.find_all(post_ids)
+      @results = @results.where(id: post_ids)
                          .paginate(page: params[:page], per_page: per_page)
                          .order(Arel.sql('`posts`.`created_at` DESC'))
     else
