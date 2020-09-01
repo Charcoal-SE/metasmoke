@@ -14,7 +14,7 @@ class DeveloperController < ApplicationController
   end
 
   def st_mark_broken
-    reason = if params[:reason].present? && !params[:reason].empty?
+    reason = if params[:reason].present?
                params[:reason]
              else
                'stupidity of its developers'
