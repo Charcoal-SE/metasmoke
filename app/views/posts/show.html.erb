@@ -188,7 +188,7 @@
   <ul class="post-domain-list">
     <% @post.spam_domains.each do |d| %>
       <li>
-        <%= render 'spam_domains/domain', domain: d, occurances: true %>
+        <%= render 'spam_domains/domain', domain: d, occurances: true, post_id: @post.id %>
         <% if current_user&.has_role?(:core) && !(psd = PostSpamDomain.find_by(post: @post, spam_domain: d)).added_by.nil? %>
           <%= link_to "remove domain", remove_post_domain_path(id: @post.id, domain_id: d.id), class: 'btn-sm btn-danger', method: :post %>
           <% if current_user&.has_role?(:admin) %>
