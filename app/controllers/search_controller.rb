@@ -1,6 +1,37 @@
 # frozen_string_literal: true
 
 class SearchController < ApplicationController
+  def new_search; end
+
+  def create_search
+    ops = %i[title body why username].map do |s|
+      SearchHelper.parse_search_params(params, s, current_user)
+    end.flatten
+    job_id = SearchJob.perform_later(ops, params.permit(VALID_SEARCH_PARAMS)).job_id
+    redirect_to search_pending_path(job_id: job_id)
+  end
+
+  def search_pending
+    return head :not_found unless redis.exists "search_jobs/#{params[:job_id]}/sid"
+    @sid = redis.get "search_jobs/#{params[:job_id]}/sid"
+    @sid_ttl = redis.ttl("search_jobs/#{params[:job_id]}/sid").to_i
+    @be_page = redis.get("search_jobs/#{params[:job_id]}/be_page").to_i
+    return unless redis.exists "searches/#{@sid}/results/#{@be_page}"
+    per_page = 100
+    redirect_to search_results_path(sid: @sid, page: (@be_page * SearchJob.search_page_length) / per_page, per_page: per_page)
+  end
+
+  def search_results
+    @search_params = JSON.parse(redis.get("searches/#{params[:sid]}/params")).symbolize_keys
+    @result_count = redis.get("searches/#{params[:sid].to_i}/result_count").to_i
+    @results = search_get_page(params[:page].to_i, params[:per_page].to_i, sid: params[:sid].to_i)
+    redirect_to search_pending_path(job_id: @results) if @results.is_a? String
+    total_pages = (@result_count / params[:per_page].to_i)
+    current_page = params[:page].to_i
+    @results.define_singleton_method(:total_pages) { total_pages }
+    @results.define_singleton_method(:current_page) { current_page }
+  end
+
   def index
     # This might be ugly, but it's better than the alternative.
     #
@@ -318,5 +349,30 @@ class SearchController < ApplicationController
       format.xml  { render 'search.rss', layout: false }
     end
     redis.del final_key
+  end
+
+  private
+
+  def search_get_page(page_num, per_page = 100, **hsh)
+    total_offset = per_page * page_num
+    per_page_real = [per_page, SearchJob.search_page_length].min
+    be_page_offset = total_offset % SearchJob.search_page_length
+    be_page = (total_offset / SearchJob.search_page_length).floor
+    if redis.exists "searches/#{hsh[:sid]}/results/#{be_page}"
+      @counts_by_accuracy_group = JSON.parse(redis.get("searches/#{hsh[:sid]}/counts_by_accuracy_group")).symbolize_keys
+      @counts_by_feedback = JSON.parse(redis.get("searches/#{hsh[:sid]}/counts_by_feedback")).symbolize_keys
+      return Post.where(id: redis.get("searches/#{hsh[:sid]}/results/#{be_page}").unpack('I!*'))
+                 .order(created_at: :desc)
+                 .offset(be_page_offset)
+                 .limit(per_page_real)
+                 .includes_for_post_row
+    elsif hsh.key?(:sid)
+      unless redis.set("searches/#{hsh[:sid]}/results/#{be_page}/job_id", '', nx: true)
+        return redis.get("searches/#{hsh[:sid]}/results/#{be_page}/job_id")
+      end
+      job_id = SearchExtendJob.perform_later(hsh[:sid], be_page).job_id
+      redis.set "searches/#{hsh[:sid]}/results/#{be_page}/job_id", job_id
+      return job_id
+    end
   end
 end

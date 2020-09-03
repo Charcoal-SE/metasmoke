@@ -18,8 +18,17 @@ Rails.application.routes.draw do
 
   resources :dumps
 
+  authenticate(:user, ->(user) { user.has_role?(:developer) }) do
+    mount BeanstalkdView::Server, :at => "/beanstalkd" if Rails.env.development?
+  end
+
   get    'sites/dash',            to: 'dashboard#site_dash',        as: :site_dash
 
+
+  get    'search_job',            to: 'search#new_search', as: :new_search_job
+  get    'search_job/create',            to: 'search#create_search', as: :create_search
+  get    'search_job/pending/:job_id',            to: 'search#search_pending', as: :search_pending
+  get    'search_job/:sid',            to: 'search#search_results', as: :search_results
   get    'search',                to: 'search#index'
   get    'search_fast',           to: 'search#index_fast'
   get    'reasons',               to: 'dashboard#index',            as: :reasons
@@ -160,6 +169,7 @@ Rails.application.routes.draw do
 
     post 'graphql',                 to: 'graphql#execute',           as: :graphql
     get 'graphql',                  to: 'graphql#query',             as: :query_graphql
+    get 'graphql/view_job/:job_id', to: 'graphql#view_job',          as: :view_graphql_job
   end
   mount GraphiQL::Rails::Engine,  at: '/api/graphiql',                 graphql_path: '/api/graphql', query_params: true
 

@@ -15,9 +15,9 @@ end
 
 every 1.day, at: '2:00 am' do
   runner 'User.where.not(stack_exchange_account_id: nil).each { |u| u.update_moderator_sites; sleep(5) }'
-  runner 'FlagCondition.revalidate_all'
+  runner 'RevalidateFlagConditionsJob.perform_now'
   runner 'AbuseReport.update_stale_reports'
-  runner 'ConflictingFeedbackJob.perform_later'
+  runner 'ConflictingFeedbackJob.perform_now'
 end
 
 # every 1.day, at: '3:10am' do
@@ -25,5 +25,5 @@ end
 # end
 
 every 1.day, at: '3:00am' do
-  runner 'ScheduledMailJob.perform_later'
+  runner 'ScheduledMailJob.perform_now'
 end

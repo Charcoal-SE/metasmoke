@@ -1,0 +1,5 @@
+<% if @sid_ttl == -1 %>
+<p>Your search is pending. Please keep reloading and eventually it'll work :)<p>
+<% else %>
+<p>Your search has been running for <%= SearchJob.search_job_timeout - @sid_ttl %> seconds...</p>
+<% end %>

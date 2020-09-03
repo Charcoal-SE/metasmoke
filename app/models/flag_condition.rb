@@ -30,19 +30,6 @@ class FlagCondition < ApplicationRecord
     true_positive_count.to_f * 100 / post_feedback_results.count.to_f
   end
 
-  def self.revalidate_all
-    FlagCondition.where(flags_enabled: true).find_each do |fc|
-      unless fc.validate
-        failures = fc.errors.full_messages
-        fc.flags_enabled = false
-        fc.save(validate: false)
-        ActionCable.server.broadcast 'smokedetector_messages',
-                                     message: "@#{fc.user&.username&.tr(' ', '')} " \
-                                                "Your flag condition was disabled: #{failures.join(',')}"
-      end
-    end
-  end
-
   def self.overall_accuracy(user)
     query = File.read(Rails.root.join('lib/queries/overall_accuracy.sql'))
     sanitized = ActiveRecord::Base.sanitize_sql([query, user_id: user.id])

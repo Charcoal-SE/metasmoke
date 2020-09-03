@@ -1,0 +1,93 @@
+<% title "Search" %>
+
+<%= form_tag (params[:option] == 'graphs' ? create_search_path(anchor: "graphs") : create_search_path), method: "get" do |f| %>
+  <div class="form-group">
+    <%= label_tag :title %>
+    <% if current_user&.can_use_regex_search? %>
+      <%= check_box_tag :title_is_regex, 1, params[:title_is_regex] %> <span class="text-muted">regex</span>
+      <%= check_box_tag :title_is_inverse_regex, 1, params[:title_is_inverse_regex] %> <span class="text-muted">invert</span>
+    <% end %>
+    <%= text_field_tag :title, params[:title], placeholder: "*", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= label_tag :body %>
+    <%= check_box_tag :body_is_like, 1, params[:body_is_like] %>
+    <span class="text-muted">
+      LIKE (<a href="https://github.com/Charcoal-SE/metasmoke/wiki/FAQ:-search">?</a>)
+    </span>
+    <% if current_user&.can_use_regex_search? %>
+      <%= check_box_tag :body_is_regex, 1, params[:body_is_regex] %> <span class="text-muted">regex</span>
+      <%= check_box_tag :body_is_inverse_regex, 1, params[:body_is_inverse_regex] %> <span class="text-muted">invert</span>
+    <% end %>
+    <%= text_field_tag :body, params[:body], placeholder: "*", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= label_tag :username %>
+    <% if current_user&.can_use_regex_search? %>
+      <%= check_box_tag :username_is_regex, 1, params[:username_is_regex] %> <span class="text-muted">regex</span>
+      <%= check_box_tag :username_is_inverse_regex, 1, params[:username_is_inverse_regex] %> <span class="text-muted">invert</span>
+    <% end %>
+    <%= text_field_tag :username, params[:username], placeholder: "*", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= label_tag :why %>
+    <% if current_user&.can_use_regex_search? %>
+      <%= check_box_tag :why_is_regex, 1, params[:why_is_regex] %> <span class="text-muted">regex</span>
+      <%= check_box_tag :why_is_inverse_regex, 1, params[:why_is_inverse_regex] %> <span class="text-muted">invert</span>
+    <% end %>
+    <%= text_field_tag :why, params[:why], placeholder: "*", class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= label_tag :or_search, "Use OR for text search (uses AND by default)" %>
+    <%= check_box_tag :or_search, 1, params[:or_search] %>
+  </div>
+  <div class="form-group">
+    <% h = HTMLEntities.new %>
+    <%= label_tag :site %>
+    <%= select_tag :site, options_for_select(Site.select(:site_name, :id).all.order(:site_name).map {|s| [h.decode(s.site_name), s.id] }, params[:site]), class: "form-control", include_blank: "All" %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :post_type %>
+    <%= check_box_tag :post_type_include_unmatched, 1, params[:post_type_include_unmatched] %> <span class="text-muted">include unmatched</span>
+    <%= select_tag :post_type, options_for_select(%i[question answer], params[:post_type]), class: "form-control", include_blank: "All" %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :feedback %>
+    <%= select_tag :feedback, options_for_select(["true positive", "false positive", "NAA", "conflicted"], params[:feedback]), class: "form-control", include_blank: "All" %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :autoflagged %>
+    <%= select_tag :autoflagged, options_for_select(["Yes", "No"], params[:autoflagged]), class: "form-control", include_blank: "All" %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :reason %>
+    <%= select_tag :reason, options_from_collection_for_select(Reason.all.order(:reason_name), "id", "reason_name", params[:reason]), class: "form-control", include_blank: "All" %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :user_reputation %>
+    <div class="form-group row">
+      <div class="col-md-1">
+        <%= select_tag :user_rep_direction, options_for_select(%w[== <= >=], params[:user_rep_direction]), include_blank: true,
+                       class: "form-control" %>
+      </div>
+
+      <div class="col-md-1">
+        <%= number_field_tag :user_reputation, params[:user_reputation], class: "form-control" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :edited, "Edited" %>
+    <%= check_box_tag :edited, 1, params[:edited] %>
+  </div>
+
+  <%= hidden_field_tag :option, params[:option] if params[:option] == 'graphs' %>
+
+  <%= submit_tag "Search", class: "btn btn-primary" %>
+<% end %>
