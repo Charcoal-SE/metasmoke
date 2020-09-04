@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+  before_filter :log_ram_usage
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :redis_log_request
   before_action :check_auth_required
@@ -138,5 +139,9 @@ class ApplicationController < ActionController::Base
     return if new_request
     redis_log 'Rejected by ajax deduplication'
     render status: :conflict, plain: "409 Conflict\nRequest conflicts with a previous AJAX request"
+  end
+
+  def log_ram_usage
+    rails.logger.warn '[ram-usage] ' + `pmap #{Process.pid} | tail -n 1`[10,40].strip
   end
 end
