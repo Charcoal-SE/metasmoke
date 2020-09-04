@@ -142,6 +142,6 @@ class ApplicationController < ActionController::Base
   end
 
   def log_ram_usage
-    rails.logger.warn '[ram-usage] ' + `pmap #{Process.pid} | tail -n 1`[10,40].strip
+    rails.logger.warn '[ram-usage] ' + `pmap #{Process.pid} | tail -n 1`[10, 40].strip
   end
 end
