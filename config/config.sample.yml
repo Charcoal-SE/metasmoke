@@ -236,7 +236,6 @@ common: &common
     - users.encrypted_password
     - users.reset_password_token
     - users.reset_password_sent_at
-    - users.encrypted_api_token
     - users.two_factor_token
     - users.salt
     - users.iv
