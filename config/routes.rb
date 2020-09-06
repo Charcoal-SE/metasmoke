@@ -419,7 +419,6 @@ Rails.application.routes.draw do
     post   ':id/force_failover', to: 'smoke_detectors#force_failover', as: :smoke_detector_force_failover
     post   ':id/force_pull',     to: 'smoke_detectors#force_pull',     as: :smoke_detector_force_pull
     get    'audits',             to: 'smoke_detectors#audits'
-    get    'check_token/:token', to: 'smoke_detectors#check_token'
   end
 
   scope 'spammers' do
