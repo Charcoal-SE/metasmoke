@@ -238,10 +238,6 @@ class User < ApplicationRecord
     flag :spam, post, dry_run
   end
 
-  def abusive_flag(post, dry_run = false)
-    flag :abusive, post, dry_run
-  end
-
   def other_flag(post, comment)
     flag :other, post, false, comment: comment
   end
@@ -257,11 +253,6 @@ class User < ApplicationRecord
     else
       UsersRole.create(user: self, role: role, pinned: true)
     end
-  end
-
-  # rubocop:disable Style/PredicateName
-  def has_pinned_role?(role)
-    UsersRole.where(user: self, role: Role.find_by(name: role), pinned: true).exists?
   end
 
   def can_use_regex_search?
