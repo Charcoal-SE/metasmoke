@@ -246,15 +246,6 @@ class User < ApplicationRecord
     moderator_sites.any?
   end
 
-  def add_pinned_role(name)
-    role = Role.find_by name: name
-    if UsersRole.where(user: self, role: role).exists?
-      UsersRole.where(user: self, role: role).order(:user_id).last.update(pinned: true)
-    else
-      UsersRole.create(user: self, role: role, pinned: true)
-    end
-  end
-
   def can_use_regex_search?
     (has_role? :reviewer) || moderator_sites.any?
   end
