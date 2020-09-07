@@ -238,6 +238,10 @@ class User < ApplicationRecord
     flag :spam, post, dry_run
   end
 
+  def abusive_flag(post, dry_run = false)
+    flag :abusive, post, dry_run
+  end
+
   def other_flag(post, comment)
     flag :other, post, false, comment: comment
   end
