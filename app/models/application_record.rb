@@ -32,6 +32,15 @@ class ApplicationRecord < ActiveRecord::Base
     ActiveRecord::Base.send(:sanitize_sql_array, ["MATCH (#{cols}) AGAINST (? IN BOOLEAN MODE)", term])
   end
 
+  # From http://stackoverflow.com/questions/6591722/how-to-generate-fixtures-based-on-my-development-database
+  def dump_fixture
+    fixture_file = "#{Rails.root}/test/fixtures/#{self.class.table_name}.yml"
+    File.open(fixture_file, 'a') do |f|
+      f.puts({ "#{self.class.table_name.singularize}_#{id}" => attributes }
+        .to_yaml.sub!(/---\s?/, "\n"))
+    end
+  end
+
   def self.sanitize_like(unsafe, *args)
     sanitize_sql_like unsafe, *args
   end
