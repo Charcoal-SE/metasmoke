@@ -1,6 +1,10 @@
+<% per_user_unreviewed_count ||= nil %>
 <div class="review-item">
   <%= render 'review_queues/responses', queue: queue, item: item, exclude_responses: item.reviewable.question? ? [['NAA', 'naa']] : [] %>
   <% @post = item.reviewable %>
   <% @is_review_item = true %>
+  <% unless per_user_unreviewed_count.nil? %>
+    <p><%= per_user_unreviewed_count %> posts that you haven't reviewed</p>
+  <% end %>
   <%= render file: 'posts/show.html.erb' %>
 </div>

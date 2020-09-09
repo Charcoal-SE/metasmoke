@@ -14,15 +14,23 @@ class ReviewQueuesController < ApplicationController
 
   def next_item
     response.cache_control = 'max-age=0, private, must-revalidate, no-store'
+    reviewable_table = @queue.reviewable_type.pluralize.underscore
     unreviewed = if params[:site_id].present?
                    @queue.next_items(current_user) do |c|
-                     reviewable_table = @queue.reviewable_type.pluralize.underscore
                      c.joins("INNER JOIN `#{reviewable_table}` AS reviewable ON reviewable.id = review_items.reviewable_id")
                       .where(reviewable: filter_params([:site_id]))
                    end
+                 elsif reviewable_table == "posts"
+                   @queue.next_items(current_user) do |c|
+                     c.joins("INNER JOIN `#{reviewable_table}` AS reviewable ON reviewable.id = review_items.reviewable_id")
+                      .joins("INNER JOIN feedbacks ON feedbacks.post_id = reviewable.id")
+                      .where.not(feedbacks: {user_id: current_user.id})
+                    end
                  else
                    @queue.next_items(current_user)
                  end
+
+    unreviewed_count = unreviewed.count
 
     while !unreviewed.empty? && unreviewed.first.reviewable.nil?
       unreviewed.first.update(completed: true)
@@ -34,7 +42,7 @@ class ReviewQueuesController < ApplicationController
     else
       item = unreviewed.first
       render "#{item.reviewable_type.underscore.pluralize}/_review_item.html.erb",
-             locals: { queue: @queue, item: item }, layout: nil
+             locals: { queue: @queue, item: item, per_user_unreviewed_count: unreviewed_count }, layout: nil
     end
   end
 
