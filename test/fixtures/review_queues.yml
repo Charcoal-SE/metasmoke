@@ -3,4 +3,5 @@
 posts:
   name: posts
   privileges: reviewer
+  reviewable_type: Post
   responses: '[["True Positive", "tp"]]'
