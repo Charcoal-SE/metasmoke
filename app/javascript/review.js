@@ -13,26 +13,7 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
   const queuePath = (/(\/review\/[\w-]+)\/?\d*$/i).exec(location.pathname)[1];
   const hasItemID = location.pathname.match(/\/review\/[\w-]+\/?\d+$/i);
 
-  const loadNextPost = async () => {
-    const filters = $('.review-filter').toArray();
-    const params = {};
-    filters.forEach(e => {
-      const el = $(e);
-      const val = el.val();
-      if (val) {
-        params[el.attr('name')] = val;
-      }
-    });
-    const url = new URL(queuePath + '/next', `${location.protocol}//${location.host}`);
-    const search = new URLSearchParams(params);
-    url.search = search;
-
-    const response = await fetch(url, {
-      credentials: 'include'
-    });
-    const html = await response.text();
-    $('.review-item-container').html(html);
-
+  const adjustReviewPageTitle = () => {
     try {
       const pathname = window.location.pathname;
       const isHistory = pathname.endsWith('/history');
@@ -70,7 +51,29 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
     catch (err) {
       console.error(err); // eslint-disable-line no-console
     }
+  };
 
+  const loadNextPost = async () => {
+    const filters = $('.review-filter').toArray();
+    const params = {};
+    filters.forEach(e => {
+      const el = $(e);
+      const val = el.val();
+      if (val) {
+        params[el.attr('name')] = val;
+      }
+    });
+    const url = new URL(queuePath + '/next', `${location.protocol}//${location.host}`);
+    const search = new URLSearchParams(params);
+    url.search = search;
+
+    const response = await fetch(url, {
+      credentials: 'include'
+    });
+    const html = await response.text();
+    $('.review-item-container').html(html);
+
+    adjustReviewPageTitle();
     installSelectpickers();
   };
 
@@ -92,6 +95,8 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
     $('.review-item-container').text('Loading...');
     loadNextPost();
   });
+
+  adjustReviewPageTitle();
 });
 
 route(/\/review\/untagged-domains(\/\d*)?/, () => {
