@@ -34,7 +34,7 @@ body.review-queues .review-item .panel-default .panel-body {
     margin-left: 5px;
   }
   .btn.btn-primary.review-submit-link[href*="response=naa"]::after {
-    content: "(\\1f4a9\\200A)";
+    content: "(\1f4a9\200A)";
     margin-left: 5px;
   }
 }
