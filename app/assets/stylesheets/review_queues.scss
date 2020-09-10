@@ -6,7 +6,35 @@
   margin: 1.5em 0;
 }
 
-/* Keep the "Skip" button on review pages in the same location with or with or without an NAA button. */
-body.review-queues .review-item .panel-default .panel-body a.btn[href*="response=fp"] + a.btn[href*="response=skip"] {
-  margin-left: 57px;
+/* Keep the "Skip" button on review pages in the same location with or without an NAA button. */
+body.review-queues .review-item .panel-default .panel-body {
+  a.btn[href*="response=fp"] + a.btn[href*="response=skip"] {
+    margin-left: 92px;
+  }
+
+  /*Colors and icons for review buttons*/
+  .btn.btn-primary.review-submit-link[href*="response=tp"] {
+    background-color: #006800;
+    border-color: #005800;
+  }
+  .btn.btn-primary.review-submit-link[href*="response=fp"] {
+    background-color: #b00000;
+    border-color: #a00000;
+  }
+  .btn.btn-primary.review-submit-link[href*="response=naa"] {
+    background-color: #724E40;
+    border-color: #623E30;
+  }
+  .btn.btn-primary.review-submit-link[href*="response=tp"]::after {
+    content: "(\2713\2009)";
+    margin-left: 5px;
+  }
+  .btn.btn-primary.review-submit-link[href*="response=fp"]::after {
+    content: "(\2717\200A)";
+    margin-left: 5px;
+  }
+  .btn.btn-primary.review-submit-link[href*="response=naa"]::after {
+    content: "(\\1f4a9\\200A)";
+    margin-left: 5px;
+  }
 }
