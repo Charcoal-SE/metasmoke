@@ -96,6 +96,21 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
     loadNextPost();
   });
 
+  // Sort the site filter list
+  const siteSelect = $('#site_id');
+  const siteSelectOptions = siteSelect.find('option').toArray();
+  siteSelect.append(siteSelectOptions.sort((a, b) => {
+    if (a.value < 5 || b.value < 5) {
+      return a.value - b.value;
+    }
+    return a.textContent.trim().localeCompare(b.textContent.trim());
+  }));
+  // Keep site filter selection through page reload
+  siteSelect.val(localStorage['review-site-filter'] || 0);
+  siteSelect.on('change', () => {
+    localStorage['review-site-filter'] = siteSelect.val();
+  });
+
   adjustReviewPageTitle();
 });
 
