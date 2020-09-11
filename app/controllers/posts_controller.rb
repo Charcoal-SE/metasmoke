@@ -128,7 +128,7 @@ class PostsController < ApplicationController
     end
     endt = Time.now
     Rails.logger.info "Took #{endt - start} to build posts"
-    @posts.define_singleton_method(:total_pages) { redis.zcard('posts') / 100 }
+    @posts.define_singleton_method(:total_pages) { Redis::Post.all(type: :zset).cardinality / 100 }
     @posts.define_singleton_method(:current_page) { page_num + 1 }
     @sites = Site.where(id: @posts.map(&:site_id)).to_a
   end

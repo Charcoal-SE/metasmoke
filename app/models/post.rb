@@ -83,22 +83,7 @@ class Post < ApplicationRecord
   end
 
   def populate_redis
-    post = {
-      body: body,
-      title: title,
-      reason_weight: reasons.map(&:weight).reduce(:+),
-      created_at: created_at,
-      username: username,
-      link: link,
-      site_site_logo: site.try(:site_logo),
-      stack_exchange_user_username: stack_exchange_user.try(:username),
-      stack_exchange_user_id: stack_exchange_user.try(:id),
-      flagged: flagged?,
-      site_id: site_id,
-      post_comments_count: comments.count,
-      why: why
-    }
-    redis.hmset("posts/#{id}", *post.to_a)
+    Redis::Post.to_redis(self)
 
     reason_names = reasons.map(&:reason_name)
     reason_weights = reasons.map(&:weight)

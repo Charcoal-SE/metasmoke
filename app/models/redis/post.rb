@@ -3,9 +3,44 @@
 class Redis::Post
   attr_reader :fields, :id
 
+  FIELD_LIST = %i[body title link username why stack_exchange_user_id site_id created_at].freeze
+  attr_reader(*FIELD_LIST)
+
   def initialize(id, **overrides)
     @id = id
-    @fields = redis.hgetall("posts/#{id}").merge(overrides)
+    @fields = fetch_redis_fields.merge(overrides)
+    FIELD_LIST.each do |field|
+      instance_variable_set("@#{field}", @fields[field.to_s] || @fields[field])
+    end
+    @created_at = @created_at&.to_time
+  end
+
+  def fetch_redis_fields
+    fields = redis.hgetall("posts/#{@id}")
+    return fields unless fields.empty?
+    self.class.to_redis(Post.find(@id))
+  end
+
+  private :fetch_redis_fields
+  def self.to_redis(post)
+    post_hsh = {
+      'body' => post.body,
+      'title' => post.title,
+      'reason_weight' => post.reasons.map(&:weight).reduce(:+),
+      'created_at' => post.created_at,
+      'username' => post.username,
+      'link' => post.link,
+      'site_site_logo' => post.site.try(:site_logo),
+      'stack_exchange_user_username' => post.stack_exchange_user.try(:username),
+      'stack_exchange_user_id' => post.stack_exchange_user.try(:id),
+      'flagged' => post.flagged?,
+      'site_id' => post.site_id,
+      'post_comments_count' => post.comments.count,
+      'why' => post.why
+    }
+    redis.hmset("posts/#{post.id}", *post_hsh.to_a)
+    redis.expire("posts/#{post.id}", 1.hour)
+    post_hsh
   end
 
   def self.all(type:)
@@ -17,18 +52,11 @@ class Redis::Post
     end
   end
 
-  %w[body title link username why stack_exchange_user_id site_id].each do |field|
-    define_method(field) { @fields[field] }
-  end
-
-  def created_at
-    @created_at ||= @fields['created_at'].to_s.to_time
-  end
-
   def stack_exchange_user
     @stack_exchange_user ||= Redis::StackExchangeUser.new(
-      @fields['stack_exchange_user_id'],
-      username: @fields['stack_exchange_user_username']
+      @stack_exchange_user_id,
+      username: @fields['stack_exchange_user_username'],
+      still_alive: @fields['stack_exchange_user_still_alive']
     )
   end
 
