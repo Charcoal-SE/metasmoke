@@ -55,6 +55,7 @@
 
   <div class="form-group">
     <%= label_tag :feedback %>
+    <%= check_box_tag :has_no_feedback, 1, params[:has_no_feedback] %> <span class="text-muted">has no feedback?</span>
     <%= select_tag :feedback, options_for_select(["true positive", "false positive", "NAA", "conflicted"], params[:feedback]), class: "form-control", include_blank: "All" %>
   </div>
 
@@ -85,11 +86,6 @@
   <div class="form-group">
     <%= label_tag :edited, "Edited" %>
     <%= check_box_tag :edited, 1, params[:edited] %>
-  </div>
-
-  <div class="form-group">
-    <%= label_tag :has_no_feedback, "Has No Feedback?" %>
-    <%= check_box_tag :has_no_feedback, 1, params[:has_no_feedback] %>
   </div>
 
   <%= hidden_field_tag :option, params[:option] if params[:option] == 'graphs' %>
