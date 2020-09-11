@@ -69,6 +69,10 @@ class SearchController < ApplicationController
 
     @results = @results.includes(:reasons).includes(:feedbacks) if params[:option].nil?
 
+    if params[:has_no_feedback] == '1'
+      @results = @results.joins('LEFT JOIN feedbacks fbcounter ON fbcounter.post_id = posts.id').where('fbcounter.id is null')
+    end
+
     if feedback.present?
       @results = @results.where(feedback => true)
     elsif params[:feedback] == 'conflicted'
