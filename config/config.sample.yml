@@ -226,6 +226,11 @@ common: &common
     - api_tokens.token
     - audits.remote_address
     - audits.request_uuid
+    - emails_addressees.name
+    - emails_addressees.email_address
+    - emails_addressees.manage_key
+    - emails_preferences.consent_via
+    - emails_preferences.consent_comment
     - flags.reason
     - flags.user_id
     - github_tokens.token

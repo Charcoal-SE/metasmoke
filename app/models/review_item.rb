@@ -43,8 +43,7 @@ class ReviewItem < ApplicationRecord
   end
 
   def self.unreviewed_by(queue, user)
-    joins("LEFT JOIN review_results rr ON rr.review_item_id = review_items.id AND rr.user_id = #{user.id}").where(review_items: { queue: queue,
-                                                                                                                                  completed: false },
-                                                                                                                  rr: { id: nil })
+    joins("LEFT JOIN review_results rr ON rr.review_item_id = review_items.id AND rr.user_id = #{user.id}")
+      .where(review_items: { queue: queue, completed: false }, rr: { id: nil })
   end
 end

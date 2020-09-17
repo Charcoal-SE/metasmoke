@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_23_204732) do
+ActiveRecord::Schema.define(version: 2020_09_17_100116) do
 
   create_table "abuse_comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.bigint "user_id"
@@ -446,6 +446,7 @@ ActiveRecord::Schema.define(version: 2020_05_23_204732) do
     t.string "tags"
     t.integer "feedbacks_count"
     t.bigint "native_id"
+    t.text "markdown", limit: 16777215
     t.index ["autoflagged"], name: "index_posts_on_autoflagged"
     t.index ["body"], name: "index_posts_on_body", type: :fulltext
     t.index ["created_at"], name: "index_posts_on_created_at"
@@ -467,6 +468,8 @@ ActiveRecord::Schema.define(version: 2020_05_23_204732) do
   create_table "posts_spam_domains", primary_key: ["post_id", "spam_domain_id"], options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "post_id", default: 0, null: false
     t.integer "spam_domain_id", default: 0, null: false
+    t.bigint "added_by_id"
+    t.index ["added_by_id"], name: "index_posts_spam_domains_on_added_by_id"
     t.index ["post_id"], name: "index_posts_spam_domains_on_post_id"
     t.index ["spam_domain_id"], name: "index_posts_spam_domains_on_spam_domain_id"
   end
@@ -677,10 +680,8 @@ ActiveRecord::Schema.define(version: 2020_05_23_204732) do
   add_foreign_key "emails_preferences", "emails_types"
   add_foreign_key "flag_conditions", "users"
   add_foreign_key "flag_logs", "api_keys"
-  add_foreign_key "flag_logs", "flag_conditions"
   add_foreign_key "flag_logs", "posts"
   add_foreign_key "flag_logs", "sites"
-  add_foreign_key "flag_logs", "users"
   add_foreign_key "flags", "posts"
   add_foreign_key "lists_items", "lists_lists"
   add_foreign_key "lists_items", "users"
@@ -688,6 +689,7 @@ ActiveRecord::Schema.define(version: 2020_05_23_204732) do
   add_foreign_key "lists_links", "users"
   add_foreign_key "post_comments", "posts"
   add_foreign_key "post_comments", "users"
+  add_foreign_key "posts_spam_domains", "users", column: "added_by_id"
   add_foreign_key "review_items", "review_queues"
   add_foreign_key "review_results", "users"
   add_foreign_key "smoke_detectors", "users"

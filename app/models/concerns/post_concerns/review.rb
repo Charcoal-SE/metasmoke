@@ -19,7 +19,16 @@ module PostConcerns::Review
     def should_dq?(queue)
       case queue.name
       when 'posts'
-        feedbacks.count >= 2
+        age_threshold = SiteSetting['review_old_posts_days_threshold']
+        weight_threshold = SiteSetting['review_old_posts_weight_threshold']
+        post_age = DateTime.now - created_at.to_datetime
+        feedback_count = feedbacks.count
+        feedback_types = feedbacks.map(&:feedback_type).uniq
+
+        # Post has two feedbacks, OR has one or non-conflicting feedback and is old and low-weight
+        feedback_count >= 2 ||
+          ((feedback_count == 1 || feedback_types.size == 1) &&
+            post_age >= age_threshold.days && total_weight <= weight_threshold)
       else
         false
       end
