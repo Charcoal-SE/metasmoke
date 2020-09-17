@@ -14,8 +14,8 @@ class ReviewQueuesController < ApplicationController
 
   def next_item
     response.cache_control = 'max-age=0, private, must-revalidate, no-store'
-    reviewable_table = @queue.reviewable_type.pluralize.underscore
-    unreviewed = if params[:site_id].present?
+    reviewable_table = @queue.reviewable_type&.pluralize&.underscore
+    unreviewed = if params[:site_id].present? && !reviewable_table.nil?
                    @queue.next_items(current_user) do |c|
                      c.joins("INNER JOIN `#{reviewable_table}` AS reviewable ON reviewable.id = review_items.reviewable_id")
                       .where(reviewable: filter_params([:site_id]))
@@ -110,6 +110,7 @@ class ReviewQueuesController < ApplicationController
 
   def set_queue
     @queue = ReviewQueue[params[:name]]
+    not_found if @queue.nil?
   end
 
   def verify_permissions
