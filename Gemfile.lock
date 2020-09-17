@@ -288,7 +288,7 @@ GEM
     rack-contrib (2.2.0)
       rack (~> 2.0)
     rack-cors (0.4.1)
-    rack-mini-profiler (2.1.0)
+    rack-mini-profiler (1.1.6)
       rack (>= 1.2.0)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -469,7 +469,7 @@ DEPENDENCIES
   puma
   rack (>= 2.0.6)
   rack-cors (~> 0.4)
-  rack-mini-profiler
+  rack-mini-profiler (~> 1.1)
   rails (~> 5.2.0)
   rails-controller-testing
   redis (~> 3.0)

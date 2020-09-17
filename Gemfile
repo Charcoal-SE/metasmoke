@@ -35,7 +35,7 @@ gem 'will_paginate'
 gem 'will_paginate-bootstrap', github: 'Charcoal-SE/will_paginate-bootstrap'
 
 gem 'flamegraph'
-gem 'rack-mini-profiler'
+gem 'rack-mini-profiler', '~> 1.1'
 gem 'stackprof'
 
 gem 'chartkick'
