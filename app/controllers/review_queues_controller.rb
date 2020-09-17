@@ -20,12 +20,6 @@ class ReviewQueuesController < ApplicationController
                      c.joins("INNER JOIN `#{reviewable_table}` AS reviewable ON reviewable.id = review_items.reviewable_id")
                       .where(reviewable: filter_params([:site_id]))
                    end
-                 elsif reviewable_table == 'posts'
-                   @queue.next_items(current_user) do |c|
-                     c.joins("INNER JOIN `#{reviewable_table}` AS reviewable ON reviewable.id = review_items.reviewable_id")
-                      .joins('LEFT JOIN feedbacks ON feedbacks.post_id = reviewable.id')
-                      .where.not(feedbacks: { user_id: current_user.id })
-                   end
                  else
                    @queue.next_items(current_user)
                  end
