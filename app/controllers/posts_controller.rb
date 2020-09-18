@@ -138,7 +138,7 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
 
-    return render status: 200, plain: 'OK' if Post.exists?(post_params.slice(:title, :body, :username, :why, :link))
+    return render status: 200, plain: 'OK' if Post.where(post_params.slice(:title, :body, :username, :why, :link)).count != 0
 
     @post.smoke_detector = @smoke_detector
     @post.site = Site.find_by(site_domain: URI.parse(@post.link).host)
