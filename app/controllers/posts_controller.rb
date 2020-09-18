@@ -8,6 +8,7 @@ class PostsController < ApplicationController
   before_action :verify_developer, only: %i[reindex_feedback delete_post]
   before_action :verify_reviewer, only: %i[feedback cast_spam_flag]
   before_action :verify_core, only: %i[remove_domain add_domain]
+  before_action :check_if_duplicate, only: :create
 
   def show
     begin
@@ -137,8 +138,6 @@ class PostsController < ApplicationController
   # POST /posts.json
   def create
     @post = Post.new(post_params)
-
-    return render status: 200, plain: 'Duplicate Report' if Post.where(post_params.slice(:title, :body, :username, :why, :link)).count != 0
 
     @post.smoke_detector = @smoke_detector
     @post.site = Site.find_by(site_domain: URI.parse(@post.link).host)
@@ -270,5 +269,12 @@ class PostsController < ApplicationController
     ri_success = ri.save
     return if ri_success
     Rails.logger.warn "[post-create] review item create failed: #{ri.errors.full_messages.join(', ')}"
+  end
+
+  DUPLICATE_CHECK_FIELDS = %i[title body username why].freeze
+
+  def check_if_duplicate
+    old_post = Post.where(link: post_params[:link]).select(*DUPLICATE_CHECK_FIELDS).order(id: :desc).limit(1).first
+    render status: 200, plain: 'Duplicate Report' if !old_post.nil? && DUPLICATE_CHECK_FIELDS.all? { |attr| old_post.send(attr) == post_params[attr] }
   end
 end
