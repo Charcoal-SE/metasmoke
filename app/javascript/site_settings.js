@@ -34,14 +34,14 @@ route('/admin/settings', () => {
     $(ev.target).html(`<input type="${type}" step="${step}" class="editing-value form-control input-sm" value="${value}" />`);
   });
 
-  $(document).on('click', () => {
+  $(document.body).on('click', () => {
     $('.editing-value').each((i, e) => {
       const value = $(e).val();
       $(e).parent().text(value);
     });
   });
 
-  $(document).on('keypress', '.editing-value', async ev => {
+  $(document.body).on('keypress', '.editing-value', async ev => {
     if (ev.charCode === 13) {
       const name = $(ev.target).parent().data('name');
       const value = $(ev.target).val();

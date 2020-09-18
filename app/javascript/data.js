@@ -206,7 +206,7 @@ route('/data', async () => {
     addDataListRow();
   });
 
-  $(document).on('change', '.data-type-limit, .data-type-select', ({ target }) => {
+  $(document.body).on('change', '.data-type-limit, .data-type-select', ({ target }) => {
     const $this = $(target);
     const isLimit = $this.hasClass('data-type-limit');
     const $limit = isLimit ? $this : $this.siblings(isLimit ? '.data-type-select' : '.data-type-limit').first();
@@ -219,7 +219,7 @@ route('/data', async () => {
     }
   });
 
-  $(document).on('change', '.data-type-select', ({ target }) => {
+  $(document.body).on('change', '.data-type-select', ({ target }) => {
     const $this = $(target);
     if ($this.val().length > 0) {
       displaySchema($this.val());
