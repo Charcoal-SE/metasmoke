@@ -49,14 +49,17 @@ class PostsControllerTest < ActionController::TestCase
           username: 'Undo',
           user_reputation: 101,
           user_link: '//stackoverflow.com/users/1849664/undo',
+          why: 'Some why data',
           reasons: ['Bad keyword in body']
         },
         key: SmokeDetector.first.access_token
       }
+
+      assert_response :success
     end
   end
 
-  test 'should reject recent duplicates from other instances' do
+  test 'should quietly reject recent duplicates from other instances as 200 Duplicate Report' do
     post :create, params: {
       post: {
         title: 'blah blah blah',
@@ -65,6 +68,7 @@ class PostsControllerTest < ActionController::TestCase
         username: 'Undo',
         user_reputation: 101,
         user_link: '//stackoverflow.com/users/123',
+        why: 'Some why data',
         reasons: ['Bad keyword in body']
       },
       key: SmokeDetector.first.access_token
@@ -79,16 +83,17 @@ class PostsControllerTest < ActionController::TestCase
           username: 'Undo',
           user_reputation: 101,
           user_link: '//stackoverflow.com/users/123',
+          why: 'Some why data',
           reasons: ['Bad keyword in body']
         },
         key: SmokeDetector.last.access_token
       }
 
-      assert_response :unprocessable_entity
+      assert_response(200, 'Duplicate Report')
     end
   end
 
-  test 'should not reject duplicate posts from same instance' do
+  test 'should quietly reject duplicate posts from same instance as 200 Duplicate Report' do
     post :create, params: {
       post: {
         title: 'blah blah blah',
@@ -97,6 +102,109 @@ class PostsControllerTest < ActionController::TestCase
         username: 'Undo',
         user_reputation: 101,
         user_link: '//stackoverflow.com/users/123',
+        why: 'Some why data',
+        reasons: ['Bad keyword in body']
+      },
+      key: SmokeDetector.first.access_token
+    }
+
+    assert_no_difference 'Post.count' do
+      post :create, params: {
+        post: {
+          title: 'blah blah blah',
+          body: 'blah blah',
+          link: '//stackoverflow.com/questions/1234',
+          username: 'Undo',
+          user_reputation: 101,
+          user_link: '//stackoverflow.com/users/123',
+          why: 'Some why data',
+          reasons: ['Bad keyword in body']
+        },
+        key: SmokeDetector.first.access_token
+      }
+
+      assert_response(200, 'Duplicate Report')
+    end
+  end
+
+  test 'should not reject near-duplicate posts with different title' do
+    post :create, params: {
+      post: {
+        title: 'blah blah blah',
+        body: 'blah blah',
+        link: '//stackoverflow.com/questions/1234',
+        username: 'Undo',
+        user_reputation: 101,
+        user_link: '//stackoverflow.com/users/123',
+        why: 'Some why data',
+        reasons: ['Bad keyword in body']
+      },
+      key: SmokeDetector.first.access_token
+    }
+
+    assert_difference 'Post.count' do
+      post :create, params: {
+        post: {
+          title: 'blah blah diff',
+          body: 'blah blah',
+          link: '//stackoverflow.com/questions/1234',
+          username: 'Undo',
+          user_reputation: 101,
+          user_link: '//stackoverflow.com/users/123',
+          why: 'Some why data',
+          reasons: ['Bad keyword in body']
+        },
+        key: SmokeDetector.first.access_token
+      }
+
+      assert_response(201, 'OK')
+    end
+  end
+
+  test 'should not reject near-duplicate posts with different body' do
+    post :create, params: {
+      post: {
+        title: 'blah blah blah',
+        body: 'blah blah',
+        link: '//stackoverflow.com/questions/1234',
+        username: 'Undo',
+        user_reputation: 101,
+        user_link: '//stackoverflow.com/users/123',
+        why: 'Some why data',
+        reasons: ['Bad keyword in body']
+      },
+      key: SmokeDetector.first.access_token
+    }
+
+    assert_difference 'Post.count' do
+      post :create, params: {
+        post: {
+          title: 'blah blah blah',
+          body: 'blah diff',
+          link: '//stackoverflow.com/questions/1234',
+          username: 'Undo',
+          user_reputation: 101,
+          user_link: '//stackoverflow.com/users/123',
+          why: 'Some why data',
+          reasons: ['Bad keyword in body']
+        },
+        key: SmokeDetector.first.access_token
+      }
+
+      assert_response(201, 'OK')
+    end
+  end
+
+  test 'should not reject near-duplicate posts with different username' do
+    post :create, params: {
+      post: {
+        title: 'blah blah blah',
+        body: 'blah blah',
+        link: '//stackoverflow.com/questions/1234',
+        username: 'Redo',
+        user_reputation: 101,
+        user_link: '//stackoverflow.com/users/123',
+        why: 'Some why data',
         reasons: ['Bad keyword in body']
       },
       key: SmokeDetector.first.access_token
@@ -111,10 +219,81 @@ class PostsControllerTest < ActionController::TestCase
           username: 'Undo',
           user_reputation: 101,
           user_link: '//stackoverflow.com/users/123',
+          why: 'Some why data',
           reasons: ['Bad keyword in body']
         },
         key: SmokeDetector.first.access_token
       }
+
+      assert_response(201, 'OK')
+    end
+  end
+
+  test 'should not reject near-duplicate posts with different why' do
+    post :create, params: {
+      post: {
+        title: 'blah blah blah',
+        body: 'blah blah',
+        link: '//stackoverflow.com/questions/1234',
+        username: 'Undo',
+        user_reputation: 101,
+        user_link: '//stackoverflow.com/users/123',
+        why: 'Some why data',
+        reasons: ['Bad keyword in body']
+      },
+      key: SmokeDetector.first.access_token
+    }
+
+    assert_difference 'Post.count' do
+      post :create, params: {
+        post: {
+          title: 'blah blah blah',
+          body: 'blah blah',
+          link: '//stackoverflow.com/questions/1234',
+          username: 'Undo',
+          user_reputation: 101,
+          user_link: '//stackoverflow.com/users/123',
+          why: 'Some why diff',
+          reasons: ['Bad keyword in body']
+        },
+        key: SmokeDetector.first.access_token
+      }
+
+      assert_response(201, 'OK')
+    end
+  end
+
+  test 'should not reject near-duplicate posts with different link' do
+    post :create, params: {
+      post: {
+        title: 'blah blah blah',
+        body: 'blah blah',
+        link: '//stackoverflow.com/questions/1234',
+        username: 'Undo',
+        user_reputation: 101,
+        user_link: '//stackoverflow.com/users/123',
+        why: 'Some why data',
+        reasons: ['Bad keyword in body']
+      },
+      key: SmokeDetector.first.access_token
+    }
+
+    assert_difference 'Post.count' do
+      post :create, params: {
+        post: {
+          title: 'blah blah blah',
+          body: 'blah blah',
+          link: '//stackoverflow.com/questions/1235',
+          username: 'Undo',
+          user_reputation: 101,
+          user_link: '//stackoverflow.com/users/123',
+          why: 'Some why data',
+          reasons: ['Bad keyword in body']
+        },
+        key: SmokeDetector.first.access_token
+      }
+
+      assert_response(201, 'OK')
     end
   end
 
@@ -132,6 +311,8 @@ class PostsControllerTest < ActionController::TestCase
         },
         key: SmokeDetector.first.access_token
       }
+
+      assert_response :success
     end
   end
 
