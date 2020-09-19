@@ -22,9 +22,13 @@ $(document).on('turbolinks:load', () => {
 
 $(window).on('beforeunload', () => {
   debug('onbeforeunload');
-  const route = routes.find(route => route.current) || { exit: () => {} };
-  route.current = false;
-  route.exit.call(null);
+  const currentRoutes = routes.filter(route => route.current);
+  currentRoutes.forEach(route => {
+    route.current = false;
+    if (typeof route.exit === 'function') {
+      route.exit.call(null);
+    }
+  });
 });
 
 export function route(path, enter, exit = () => {}) {
