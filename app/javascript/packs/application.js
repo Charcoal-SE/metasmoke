@@ -117,7 +117,7 @@ const metasmoke = window.metasmoke = {
     initFormParamCleanups: () => {
       const formParameterCleanups = [];
 
-      $(document).on('submit', 'form', ev => {
+      $(document.body).on('submit', 'form', ev => {
         const tgt = $(ev.target);
         if (formParameterCleanups.indexOf(tgt[0]) === -1) {
           ev.preventDefault();
@@ -129,7 +129,7 @@ const metasmoke = window.metasmoke = {
     },
 
     setupAjaxDeduplicator: () => {
-      $(document).on('ajax:beforeSend', 'form[data-deduplicate]', (ev, xhr) => {
+      $(document.body).on('ajax:beforeSend', 'form[data-deduplicate]', (ev, xhr) => {
         const $tgt = $(ev.target);
         if (!$tgt.data('dedup-uuid')) {
           $tgt.attr('data-dedup-uuid', uuid4());
@@ -157,7 +157,7 @@ const metasmoke = window.metasmoke = {
     },
 
     setPostRenderModes: () => {
-      $(document).on('click', '.post-render-mode', ev => {
+      $(document.body).on('click', '.post-render-mode', ev => {
         const mode = $(ev.target).data('render-mode');
         metasmoke.storage['post-render-mode'] = mode;
         metasmoke.debug(`default render mode updated to ${mode}`);
@@ -167,7 +167,7 @@ const metasmoke = window.metasmoke = {
         $(`.post-render-mode[data-render-mode="${metasmoke.storage['post-render-mode']}"]`).tab('show');
       }
 
-      $(document).on('DOMNodeInserted', '.post-body, .review-item-container', () => {
+      $(document.body).on('DOMNodeInserted', '.post-body, .review-item-container', () => {
         $(`.post-render-mode[data-render-mode="${metasmoke.storage['post-render-mode']}"]`).tab('show');
       });
     }
