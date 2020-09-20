@@ -26,6 +26,7 @@ class Feedback < ApplicationRecord
   validates :feedback_type, inclusion: { in: VALID_TYPES }
 
   after_save :populate_redis
+  after_commit :check_for_dupe_feedback_again
 
   def populate_redis
     redis.sadd "post/#{post.id}/feedbacks", id.to_s
@@ -180,6 +181,27 @@ class Feedback < ApplicationRecord
                 end
 
     throw :abort if duplicate.exists? && !is_invalidated
+  end
+
+  def check_for_dupe_feedback_again
+    duplicate = if user_id.present?
+                  Feedback.where(user_id: user_id, post_id: post_id)
+                else
+                  Feedback.where(user_name: user_name, post_id: post_id)
+                end.where.not(id: id).where(is_invalidated: false)
+    return unless duplicate.exists?
+    user = if user_id.present?
+      User.find user_id
+    else
+      User.where(user_name: user_name)
+    end
+    duplicate.each do |d|
+      if d.created_at > 1.day.ago
+        d.destroy
+      else
+        d.update(is_invalidated: true, invalidated_by: user, invalidated_at: DateTime.now)
+      end
+    end
   end
 
   def check_for_user_assoc
