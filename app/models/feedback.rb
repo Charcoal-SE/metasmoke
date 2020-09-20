@@ -188,13 +188,13 @@ class Feedback < ApplicationRecord
                   Feedback.where(user_id: user_id, post_id: post_id)
                 else
                   Feedback.where(user_name: user_name, post_id: post_id)
-                end.where.not(id: id).where(is_invalidated: false)
+                end.where(is_invalidated: false).where.not(id: id)
     return unless duplicate.exists?
     user = if user_id.present?
-      User.find user_id
-    else
-      User.where(user_name: user_name)
-    end
+             User.find user_id
+           else
+             User.where(user_name: user_name)
+           end
     duplicate.each do |d|
       if d.created_at > 1.day.ago
         d.destroy
