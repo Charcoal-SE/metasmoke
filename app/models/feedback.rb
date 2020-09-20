@@ -184,6 +184,7 @@ class Feedback < ApplicationRecord
   end
 
   def check_for_dupe_feedback_again
+    return if is_invalidated
     duplicate = if user_id.present?
                   Feedback.where(user_id: user_id, post_id: post_id)
                 else
