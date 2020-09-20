@@ -11,7 +11,7 @@ $(() => {
       const { review, commit, last_ping: lastPing } = arg;
       debug('received', arg);
       if (review != null) {
-        $('.navbar .reviews-count').text((review > 50 ? '50+' : review) || '');
+        $('.navbar .reviews-count').text(review || '');
       }
       if (commit != null) {
         if ($('.commit-sha').data('sha') === commit) {
