@@ -9,7 +9,7 @@ module ApplicationHelper
   end
 
   def render_markdown(text)
-    CommonMarker.render_doc(text,
+    CommonMarker.render_doc(text.present? ? text : "Markdown wasn't present",
                             %i[LIBERAL_HTML_TAG],
                             %i[autolink tagfilter]).to_html(:UNSAFE)
   end
