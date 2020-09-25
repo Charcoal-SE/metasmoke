@@ -26,7 +26,7 @@ class Feedback < ApplicationRecord
   validates :feedback_type, inclusion: { in: VALID_TYPES }
 
   after_save :populate_redis
-  after_commit :check_for_dupe_feedback_again
+  after_commit :check_for_dupe_feedback_again, on: %i[create update]
 
   def populate_redis
     redis.sadd "post/#{post.id}/feedbacks", id.to_s

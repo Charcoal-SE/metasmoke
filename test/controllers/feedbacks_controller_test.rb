@@ -94,10 +94,10 @@ class FeedbacksControllerTest < ActionController::TestCase
     end
   end
 
-  test 'should not ignore unidentical feedback from the same user' do
+  test 'should remove old feedback from the same user' do
     Post.last.feedbacks.destroy_all
 
-    assert_difference ['Post.last.feedbacks.count', 'Feedback.count'], 2 do
+    assert_difference ['Post.last.feedbacks.count', 'Feedback.count'] do
       ['tpu-', 'fpu-'].each do |feedback_type|
         post :create, params: {
           feedback: {
