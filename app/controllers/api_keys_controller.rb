@@ -79,7 +79,7 @@ class APIKeysController < ApplicationController
   private
 
   def key_params
-    params.require(:api_key).permit(:key, :app_name, :user_id, :github_link)
+    params.require(:api_key).permit(:key, :app_name, :user_id, :github_link, :key_type)
   end
 
   def set_key

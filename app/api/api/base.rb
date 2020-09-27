@@ -40,6 +40,10 @@ module API
       end
 
       def authenticate_user!
+        if @key.key_type == 'read_only'
+          error!({ name: 'read_only_key', detail: 'The key provided is not authorized for write operations.' }, 401)
+          return
+        end
         @token = @key.api_tokens.find_by token: params[:token]
         error!({ name: 'missing_token', detail: 'No token was provided or the provided token is invalid.' }, 401) if @token.blank?
       end
