@@ -40,26 +40,10 @@ class SearchController < ApplicationController
     search_string = []
     search_params = {}
     [[:username, username, username_operation], [:title, title, title_operation],
-     [:why, why, why_operation]].each do |si|
+     [:body, body, body_operation], [:why, why, why_operation]].each do |si|
       if si[1].present? && si[1] != '%%'
         search_string << "IFNULL(`posts`.`#{si[0]}`, '') #{si[2]} :#{si[0]}"
         search_params[si[0]] = si[1]
-      end
-    end
-
-    if body.present?
-      if ['LIKE', 'NOT LIKE'].include?(body_operation) && params[:body_is_like] != '1'
-        # If the operation would be LIKE, hijack it and use our fulltext index for a search instead.
-        # UNLESS... params[:body_is_like] is set, in which case the user has explicitly specified a LIKE query.
-        @results = @results.match_search(body, with_search_score: false, posts: :body)
-      else
-        if params[:body_is_like] == '1' && !user_signed_in?
-          flash[:warning] = 'Unregistered users cannot use LIKE searches on the body field. Please sign in.'
-          redirect_to(search_path) && return
-        end
-        # Otherwise, it's REGEX or NOT REGEX, which fulltext won't do - fall back on search_string and params
-        search_string << "IFNULL(`posts`.`body`, '') #{body_operation} :body"
-        search_params[:body] = body.present? ? body : '%%'
       end
     end
 
