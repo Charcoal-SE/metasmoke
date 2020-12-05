@@ -2,6 +2,7 @@
 
 class ChannelsController < ApplicationController
   before_action :authenticate_user!, except: [:receive_email]
+  before_action :verify_access, except: [:receive_email]
   skip_before_action :verify_authenticity_token, only: [:receive_email]
 
   # rubocop:disable Style/AccessorMethodName
@@ -43,5 +44,12 @@ class ChannelsController < ApplicationController
     ChannelsUser.find_by(secret: user).update(link: link)
 
     render plain: 'hi SNS!'
+  end
+
+  def verify_access
+    return if user_signed_in? && (current_user.has_role?(:reviewer) || current_user.has_role?(:core) ||
+      current_user.has_role?(:blacklist_manager) || current_user.has_role?(:smoke_detector_runner) ||
+      current_user.has_role?(:admin) || current_user.has_role?(:developer))
+    not_found
   end
 end
