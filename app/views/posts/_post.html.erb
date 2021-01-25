@@ -38,8 +38,8 @@
     <% end %>
 
     <% if post.comments.any? && !hide_feedbacks %>
-      <span class="comment-hint text-muted" title="<%= pluralize(post.comments.count, 'comment') %>">
-        <span class="glyphicon glyphicon-comment"></span> &times;<%= post.comments.count %>
+      <span class="comment-hint text-muted" title="<%= pluralize(post.comments.size, 'comment') %>">
+        <span class="glyphicon glyphicon-comment"></span> &times;<%= post.comments.size %>
       </span>
     <% end %>
 
