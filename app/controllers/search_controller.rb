@@ -64,8 +64,6 @@ class SearchController < ApplicationController
     end
 
     @results = @results.where(search_string.join(params[:or_search].present? ? ' OR ' : ' AND '), **search_params)
-                       .order(Arel.sql('`posts`.`created_at` DESC'))
-
     @results = @results.includes(:reasons).includes(:feedbacks) if params[:option].nil?
 
     if params[:has_no_feedback] == '1'
@@ -145,6 +143,7 @@ class SearchController < ApplicationController
           @results = @results.paginate(page: params[:page], per_page: per_page,
                                        total_entries: @total_count)
         end
+        @results = @results.order(Arel.sql('`posts`.`created_at` DESC'))
 
         @sites = Site.where(id: @results.map(&:site_id)).to_a unless params[:option] == 'graphs'
         render :search
