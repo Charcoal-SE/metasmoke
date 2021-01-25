@@ -118,6 +118,7 @@ class SearchController < ApplicationController
                   end
     end
 
+    # rubocop:disable Metrics/BlockLength
     respond_to do |format|
       format.html do
         @counts_by_accuracy_group = @results.group(:is_tp, :is_fp, :is_naa).count
@@ -126,7 +127,6 @@ class SearchController < ApplicationController
         end.to_h
         @total_count = @counts_by_accuracy_group.values.sum
 
-        # rubocop:disable Metrics/BlockLength
         @results = case params[:feedback_filter]
                    when 'tp'
                      @results.where(is_tp: true)
@@ -144,7 +144,7 @@ class SearchController < ApplicationController
                      @results.paginate(page: params[:page], per_page: per_page,
                                        total_entries: @total_count)
                    end.order(Arel.sql('`posts`.`created_at` DESC'))
-        # rubocop:enable Metrics/BlockLength
+
         render :search
       end
       format.json do
