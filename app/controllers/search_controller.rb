@@ -145,7 +145,6 @@ class SearchController < ApplicationController
                                        total_entries: @total_count)
                    end.order(Arel.sql('`posts`.`created_at` DESC'))
         # rubocop:enable Metrics/BlockLength
-        @sites = Site.where(id: @results.map(&:site_id)).to_a unless params[:option] == 'graphs'
         render :search
       end
       format.json do
