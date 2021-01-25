@@ -64,7 +64,6 @@ class SearchController < ApplicationController
     end
 
     @results = @results.where(search_string.join(params[:or_search].present? ? ' OR ' : ' AND '), **search_params)
-                       .paginate(page: params[:page], per_page: per_page)
                        .order(Arel.sql('`posts`.`created_at` DESC'))
 
     @results = @results.includes(:reasons).includes(:feedbacks) if params[:option].nil?
@@ -127,14 +126,24 @@ class SearchController < ApplicationController
         @counts_by_feedback = %i[is_tp is_fp is_naa].each_with_index.map do |symbol, i|
           [symbol, @counts_by_accuracy_group.select { |k, _v| k[i] }.values.sum]
         end.to_h
+        @total_count = @counts_by_accuracy_group.values.sum
 
         case params[:feedback_filter]
         when 'tp'
           @results = @results.where(is_tp: true)
+                             .paginate(page: params[:page], per_page: per_page,
+                                       total_entries: @counts_by_feedback[:is_tp])
         when 'fp'
           @results = @results.where(is_fp: true)
+                             .paginate(page: params[:page], per_page: per_page,
+                                       total_entries: @counts_by_feedback[:is_fp])
         when 'naa'
           @results = @results.where(is_naa: true)
+                             .paginate(page: params[:page], per_page: per_page,
+                                       total_entries: @counts_by_feedback[:is_naa])
+        else
+          @results = @results.paginate(page: params[:page], per_page: per_page,
+                                       total_entries: @total_count)
         end
 
         @sites = Site.where(id: @results.map(&:site_id)).to_a unless params[:option] == 'graphs'
