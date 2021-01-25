@@ -98,7 +98,7 @@
 <% if @results.present? %>
   <ul class="nav nav-tabs">
     <li role="presentation" class="<%= "active" if params[:option].nil? and (params[:feedback_filter].nil? or params[:feedback_filter] == 'all') %>">
-      <%= link_to "Results (#{@counts_by_accuracy_group.values.sum})", search_path(request.query_parameters.merge!({option: nil, feedback_filter: nil})) %>
+      <%= link_to "Results (#{@total_count})", search_path(request.query_parameters.merge!({option: nil, feedback_filter: nil})) %>
     </li>
     <li class="<%= 'active' if params[:feedback_filter] == 'tp' %>">
       <%= link_to "True positives (#{@counts_by_feedback[:is_tp]})", search_path(request.query_parameters.to_h.merge!({option: nil, feedback_filter: "tp"})) %>
