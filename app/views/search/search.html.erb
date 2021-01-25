@@ -116,9 +116,7 @@
 
   <% if params[:option].nil? %>
     <table class="table">
-      <% @results.each do |post| %>
-        <%= render "posts/post", post: post %>
-      <% end %>
+      <%= render @results, collection: :post %>
     </table>
     <div class="text-center">
       <%= will_paginate @results, renderer: BootstrapPagination::Rails %>
