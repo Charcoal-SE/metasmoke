@@ -118,7 +118,6 @@ class SearchController < ApplicationController
                   end
     end
 
-    # rubocop:disable Metrics/BlockLength
     respond_to do |format|
       format.html do
         @counts_by_accuracy_group = @results.group(:is_tp, :is_fp, :is_naa).count
