@@ -48,7 +48,7 @@ class PostsController < ApplicationController
 
   # Render bodies on-demand for fancy expanding rows
   def body
-    @post = Post.where(id: params[:id]).select(:body, :id).includes(:reasons).first
+    @post = Post.where(id: params[:id]).select(:body, :markdown, :id).includes(:reasons).first
     render layout: false
   end
 

@@ -1,7 +1,12 @@
 <ul class="nav nav-tabs" role="tablist">
   <li role="presentation" class="active">
-    <a href="#post-body-tab-<%= @post.id %>" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="markdown">Markdown</a>
+    <a href="#post-body-tab-<%= @post.id %>" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="text">Text</a>
   </li>
+  <% unless @post.markdown.nil? %>
+    <li role="presentation">
+      <a href="#post-source-tab-<%= @post.id %>" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="markdown">Markdown</a>
+    </li>
+  <% end %>
   <li role="presentation">
     <a href="#preview-tab-<%= @post.id %>" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="rendered">Preview</a>
   </li>
@@ -18,10 +23,15 @@
       </p>
     </div>
   </div>
+  <% unless @post.markdown.nil? %>
+    <div role="tabpanel" class="tab-pane" id="post-source-tab-<%= @post.id %>">
+      <pre class="post-body-pre-block"><%= @post.markdown %></pre>
+    </div>
+  <% end %>
   <div role="tabpanel" class="tab-pane" id="preview-tab-<%= @post.id %>">
     <div class="panel panel-default">
       <div class="panel-body">
-        <%= safe_render_markdown(@post.body, scrubber: Post.scrubber) %>
+        <%= safe_render_markdown(@post.markdown || @post.body, scrubber: Post.scrubber) %>
       </div>
     </div>
   </div>
