@@ -256,8 +256,12 @@ class GithubController < ApplicationController
   # It fires when an external CI service updates status (e.g. finishes).
   # It is not fired for GitHub Actions. GitHub does fire this WebHook for GitHub Pages builds.
   # It's used to pass repository status changes to SmokeDetector for display in SE chat.
-  # If the context starts with 'ci/circleci', then a message is only sent the third time
-  # this endpoint is called with any particular SHA.
+  # For the metasmoke repository:
+  #   In order for success to be reported for 'ci/circleci' contexts, then this endpoint needs to be
+  #   called three times within 20 minutes with the same SHA and 'success'. This is done because the
+  #   metasmoke repository has three jobs run on CircleCI for each CI run and we only want to report
+  #   success when all of them pass.
+  #   States other than success will be reported with only one call to this endpoint.
   def any_status_hook
     repo = params[:name]
     link = "https://github.com/#{repo}"
@@ -269,7 +273,7 @@ class GithubController < ApplicationController
 
     return if state == 'pending' || (state == 'success' && context == 'github/pages')
 
-    if context.start_with? 'ci/circleci'
+    if repo == 'Charcoal-SE/metasmoke' && context.start_with?('ci/circleci')
       ci_counter = Redis::CI.new(sha)
       if state == 'success'
         ci_counter.sucess_count_incr
