@@ -9,7 +9,53 @@ class GithubController < ApplicationController
   before_action :verify_github, except: %i[update_deploy_to_master add_pullapprove_comment]
   before_action :check_if_smokedetector, only: [:add_pullapprove_comment]
 
-  # Fires whenever a CI service finishes.
+  # The goal with most of these routes is to respond to things happening on the various GitHub repositories.
+  # Each repository is set up with one or more WebHooks to the functions defined here.
+  # Most of these recognize some specific thing happening in the repository and send a message to SmokeDetector,
+  # which is then forwarded to SE chat.
+  #
+  # From a conceptual standpoint, the things we're looking to detect are:
+  #  CI testing failures, and what failed
+  #  CI testing success, if everything passed, but not success of individual sub-portions.
+  #  Changes to either metasmoke's wiki or SmokeDetector's wiki, in order to start a new build of the Charcoal site.
+  #  Creation of PRs
+  #  Pushes to SmokeDetector's master branch, so we can update the deploy branch
+  #  Pushes to metasmoke's master branch to update the developer info cache
+  #
+  # CI testing
+  #   Unfortunately, keeping track of what's happening with CI testing is a bit complicated. To a significant
+  #   extent, this is because there are multiple WebHooks which are fired, depending on the type of CI testing.
+  #   "Statuses" WebHooks: CI testing performed by an external service (e.g. CircleCI and Travis CI).
+  #     What is reported is entirely dependent on what is provided to GitHub from the external service through
+  #     the GitHub API. Generally, this is status messages indicating starting and completing the testing.
+  #     At least CircleCI updates status for each separate run within the suite of tests defined to be run.
+  #     There are individual events which separately indicate failure, but overall success is indicated only by
+  #     all expected runs resulting in "success".
+  #   "Check suites" WebHooks: Fired upon completion of a suite of GitHub Actions. Indicates overall success/failure,
+  #     but doesn't appear to indicate what failed.
+  #   "Check runs" WebHooks: Fired for each sub-task within a set of GitHub Actions, with an event when each run is
+  #     "created" and/or "completed". The ones fired for "completed" indicate success or failure for each run.
+  #     If a matrix of testing is defined, then each value in the matrix is considered a separate "run".
+  #
+  #   GitHub Actions
+  #     Failure of each separate run can be recognized and reported based on "failures" seen in "Check runs" WebHooks.
+  #     Success of the overall suite can be recognized and reported based on "success" seen in "Check suites" WebHooks.
+  #     If a push is done at the same time as a PR is created (e.g. editing a file on GitHub from which a PR is
+  #       created), then two Check suites are created and run, or, at least, double the number of "Check runs" are
+  #       created and executed, but we're only going to want to report success or failure once within a short time
+  #       on a single commit.
+  #
+  #   CircleCI
+  #     Failure of each separate run can be recognized and reported based on "failures" seen in "Statuses" WebHooks.
+  #     Success of the overall suite can only be determined by seeing "success" in the status for all runs which
+  #       are expected for a particular commit. There is no information provided as to the total number of runs
+  #       which should be created per CI, so that's something we need to know a priori.
+
+  # This is invoked by the route: /github/status_hook
+  # GitHub fires the status WebHook when there's a status update reported to GitHub via the GitHub API.
+  # It fires when an external CI service updates status (e.g. starts/finishes).
+  # It is not fired for GitHub Actions. GitHub does fire this WebHook for GitHub Pages builds.
+  # It is set up for the SmokeDetector repository to receive status changes.
   def status_hook
     # We're not interested in PR statuses or branches other than deploy
     unless params[:branches].index { |b| b[:name] == 'deploy' }
@@ -46,13 +92,15 @@ class GithubController < ApplicationController
 
   # Fires when a wiki page is updated on Charcoal-SE/metasmoke or Charcoal-SE/SmokeDetector
   def gollum_hook
+    # This only fires when we want to update the charcoal-se.org website, so we just unconditionally
+    #   kick off a build of the charcoal-se.org website.
     APIHelper.authorized_post(
       'https://api.github.com/repos/Charcoal-SE/charcoal-se.github.io/actions/workflows/build.yml/dispatches',
       data: { 'ref' => 'site' }
     )
   end
 
-  # Fires whenever a PR is opened to check for auto-blacklist and post stats
+  # Fires whenever a PR is opened on the SmokeDetetor repository to check for auto-blacklist and post stats
   def pull_request_hook
     unless request.request_parameters[:action] == 'opened'
       render(text: 'Not a newly-opened PR. Uninterested.') && return
@@ -203,6 +251,13 @@ class GithubController < ApplicationController
     ApiChannel.broadcast_to 'ref_update', event_type: 'update', event_class: 'Ref', object: params
   end
 
+  # This is invoked by the route: /github/project_status
+  # GitHub fires the status WebHook when there's a status update reported to GitHub via the GitHub API.
+  # It fires when an external CI service updates status (e.g. finishes).
+  # It is not fired for GitHub Actions. GitHub does fire this WebHook for GitHub Pages builds.
+  # It's used to pass repository status changes to SmokeDetector for display in SE chat.
+  # If the context starts with 'ci/circleci', then a message is only sent the third time
+  # this endpoint is called with any particular SHA.
   def any_status_hook
     repo = params[:name]
     link = "https://github.com/#{repo}"
