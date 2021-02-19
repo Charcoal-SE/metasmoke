@@ -251,6 +251,114 @@ class GithubController < ApplicationController
     ApiChannel.broadcast_to 'ref_update', event_type: 'update', event_class: 'Ref', object: params
   end
 
+  # This is invoked by the route: /github/report_check_suite_success
+  # It's intended to be triggered by GitHub Check Suites WebHooks in order to have SD report success of the full
+  #   suite of GitHub Actions in chat. The hook is also fired by GitHub for failure, but we ignore those, as it's
+  #   assumed those are being reported by the check_runs WebHook, due to check_suite event not having information
+  #   as to which runs within a suite failed.
+  # "check_suite" events are not triggered by external CI providers (e.g. CircleCI and Travis CI).
+  # A check_suite event is fired for each set of CI testing which is run through GitHub Actions.
+  # One "completed" event is sent for each GitHub Action complete set which is executed.
+  # If this is called about a branch which isn't the master branch or associated with a PR, then it's ignored.
+  # Concerns:
+  #   When a PR is created directly from a branch at the same time as the branch, we can get called for two
+  #   concurrent runs, which both show as associated with the PR, but we only want to report one for the commit.
+  #   In that situation, we get two "completed" messages. This is resolved by using a Redis success counter to
+  #   track how many we get and only forwarding the first one within 20 minutes to SmokeDetector.
+  def report_check_suite_success
+    data = params
+    action = data[:action]
+    check_suite = data[:check_suite]
+    conclusion = check_suite[:conclusion]
+    branch = check_suite[:head_branch]
+    pull_requests = check_suite[:pull_requests]
+    pull_request = pull_requests[0]
+    sha = check_suite[:head_sha]
+    check_suite_status = check_suite[:status]
+    repository = data[:repository]
+    repo_name = repository[:name]
+    repo_link = repository[:url]
+    app_name = check_suite[:app][:name]
+
+    # We are only interested in the master branch or PRs, that are completed
+    return if action != 'completed' || check_suite_status != 'completed' ||
+              (branch != 'master' && pull_request.blank?) || conclusion != 'success'
+
+    message = "[ [#{repo_name}](#{repo_link}) ]"
+    message += " #{app_name}"
+    message += " resulted in #{conclusion}"
+    message += " on [#{sha.first(7)}](#{repo_link}/commit/#{sha.first(10)})"
+    message += if pull_request.present?
+                 " for [PR ##{pull_request[:number]}](#{repo_link}/pull/#{pull_request[:number]})"
+               else
+                 ''
+               end
+
+    # We don't want to send more than one message for this SHA with the same conclusion within 20 minutes.
+    # This counter expires from Redis in 20 minutes.
+    ci_counter = Redis::CI.new("check_suite_#{conclusion}_#{sha}")
+    ci_counter.sucess_count_incr
+    ActionCable.server.broadcast 'smokedetector_messages', message: message if ci_counter.sucess_count == 1
+  end
+
+  # This is invoked by the route: /github/report_check_run_failure
+  # It's triggered by GitHub Action check runs in order to provide status to SmokeDetector to forward to chat.
+  # Any conclusion other than "success" is forwarded to chat for the master branch or any PR.
+  # If this is called about a branch which isn't the master branch or associated with a PR, then it's ignored.
+  # It is not triggered by external CI providers (e.g. CircleCI and Travis CI).
+  # A check_run event happens for each check that's run as part of CI testing. This is two events,
+  #   one "created" and one "completed" for each GitHub Action workflow/matrix which is executed.
+  # The check_suite event hook might be better, for some use cases, as it will have only one event for all the
+  #   checks which are dispatched for a particular situation. Unfortunately, that event doesn't have some of the
+  #   data which it is desirable to show to the users in chat.
+  # Concerns:
+  #   When a PR is created directly from a branch at the same time as the branch, we can get called for two
+  #     concurrent runs, but we only want to report one. In the case that's of interest, we get two "created"
+  #     messages and then two "completed" messages. This is resolved by using a Redis success counter to track that
+  #     we don't send more than one message about the same commit SHA with the same result/conclusion within 20 minutes.
+  def report_check_run_failure
+    data = params
+    action = data[:action]
+    check_run = data[:check_run]
+    check_run_status = check_run[:status]
+    sha = check_run[:head_sha]
+    workflow_name = check_run[:name]
+    conclusion = check_run[:conclusion]
+    check_run_url = check_run[:html_url]
+    check_suite = check_run[:check_suite]
+    app_name = check_run[:app][:name]
+    pull_requests = check_suite[:pull_requests]
+    pull_request = pull_requests[0]
+    branch = check_suite[:head_branch]
+    repository = data[:repository]
+    repo_name = repository[:name]
+    repo_link = repository[:url]
+
+    # We are only interested in the master branch or PRs, that are completed
+    return if action != 'completed' || check_run_status != 'completed' ||
+              (branch != 'master' && pull_request.blank?) || conclusion == 'success'
+
+    message = "[ [#{repo_name}](#{repo_link}) ]"
+    message += if app_name == 'GitHub Actions'
+                 " GitHib Action workflow [#{workflow_name}](#{check_run_url})"
+               else
+                 " Check run [#{workflow_name}](#{check_run_url})"
+               end
+    message += " resulted in #{conclusion}"
+    message += " on [#{sha.first(7)}](#{repo_link}/commit/#{sha.first(10)})"
+    message += if pull_request.present?
+                 " for [PR ##{pull_request[:number]}](#{repo_link}/pull/#{pull_request[:number]})"
+               else
+                 ''
+               end
+
+    # We don't want to send more than one message for this workflow & sha with the same conclusion within 20 minutes.
+    # This counter expires from Redis in 20 minutes.
+    ci_counter = Redis::CI.new("check_run_#{workflow_name}_#{conclusion}_#{sha}")
+    ci_counter.sucess_count_incr
+    ActionCable.server.broadcast 'smokedetector_messages', message: message if ci_counter.sucess_count == 1
+  end
+
   # This is invoked by the route: /github/project_status
   # GitHub fires the status WebHook when there's a status update reported to GitHub via the GitHub API.
   # It fires when an external CI service updates status (e.g. finishes).
