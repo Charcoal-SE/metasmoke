@@ -310,15 +310,15 @@ Rails.application.routes.draw do
   end
 
   scope 'github' do
-    post 'status_hook',             to: 'github#status_hook',             as: :github_status_hook
-    post 'pull_request_hook',       to: 'github#pull_request_hook',       as: :github_pull_request_hook
-    post 'ci_hook',                 to: 'github#ci_hook',                 as: :github_ci_hook
-    post 'update_deploy_to_master', to: 'github#update_deploy_to_master', as: :github_update_deploy_to_master
-    post 'metasmoke_push_hook',     to: 'github#metasmoke_push_hook',     as: :github_metasmoke_push_hook
-    post 'gollum',                  to: 'github#gollum_hook',             as: :github_gollum_hook
-    post 'project_status',          to: 'github#any_status_hook',         as: :github_project_status_hook
-    post 'pr_merge',                to: 'github#pullapprove_merge_hook',  as: :github_pr_merge_hook
-    post 'pr_approve/:number',      to: 'github#add_pullapprove_comment', as: :github_pr_approve_comment
+    post 'status_hook',                 to: 'github#status_hook',                 as: :github_status_hook
+    post 'pull_request_hook',           to: 'github#pull_request_hook',           as: :github_pull_request_hook
+    post 'ci_hook',                     to: 'github#ci_hook',                     as: :github_ci_hook
+    post 'update_deploy_to_master',     to: 'github#update_deploy_to_master',     as: :github_update_deploy_to_master
+    post 'metasmoke_push_hook',         to: 'github#metasmoke_push_hook',         as: :github_metasmoke_push_hook
+    post 'gollum',                      to: 'github#gollum_hook',                 as: :github_gollum_hook
+    post 'project_status',              to: 'github#any_status_hook',             as: :github_project_status_hook
+    post 'pr_merge',                    to: 'github#pullapprove_merge_hook',      as: :github_pr_merge_hook
+    post 'pr_approve/:number',          to: 'github#add_pullapprove_comment',     as: :github_pr_approve_comment
   end
 
   scope 'graphs' do
