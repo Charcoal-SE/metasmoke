@@ -9,7 +9,53 @@ class GithubController < ApplicationController
   before_action :verify_github, except: %i[update_deploy_to_master add_pullapprove_comment]
   before_action :check_if_smokedetector, only: [:add_pullapprove_comment]
 
-  # Fires whenever a CI service finishes.
+  # The goal with most of these routes is to respond to things happening on the various GitHub repositories.
+  # Each repository is set up with one or more WebHooks to the functions defined here.
+  # Most of these recognize some specific thing happening in the repository and send a message to SmokeDetector,
+  # which is then forwarded to SE chat.
+  #
+  # From a conceptual standpoint, the things we're looking to detect are:
+  #  CI testing failures, and what failed
+  #  CI testing success, if everything passed, but not success of individual sub-portions.
+  #  Changes to either metasmoke's wiki or SmokeDetector's wiki, in order to start a new build of the Charcoal site.
+  #  Creation of PRs
+  #  Pushes to SmokeDetector's master branch, so we can update the deploy branch
+  #  Pushes to metasmoke's master branch to update the developer info cache
+  #
+  # CI testing
+  #   Unfortunately, keeping track of what's happening with CI testing is a bit complicated. To a significant
+  #   extent, this is because there are multiple WebHooks which are fired, depending on the type of CI testing.
+  #   "Statuses" WebHooks: CI testing performed by an external service (e.g. CircleCI and Travis CI).
+  #     What is reported is entirely dependent on what is provided to GitHub from the external service through
+  #     the GitHub API. Generally, this is status messages indicating starting and completing the testing.
+  #     At least CircleCI updates status for each separate run within the suite of tests defined to be run.
+  #     There are individual events which separately indicate failure, but overall success is indicated only by
+  #     all expected runs resulting in "success".
+  #   "Check suites" WebHooks: Fired upon completion of a suite of GitHub Actions. Indicates overall success/failure,
+  #     but doesn't appear to indicate what failed.
+  #   "Check runs" WebHooks: Fired for each sub-task within a set of GitHub Actions, with an event when each run is
+  #     "created" and/or "completed". The ones fired for "completed" indicate success or failure for each run.
+  #     If a matrix of testing is defined, then each value in the matrix is considered a separate "run".
+  #
+  #   GitHub Actions
+  #     Failure of each separate run can be recognized and reported based on "failures" seen in "Check runs" WebHooks.
+  #     Success of the overall suite can be recognized and reported based on "success" seen in "Check suites" WebHooks.
+  #     If a push is done at the same time as a PR is created (e.g. editing a file on GitHub from which a PR is
+  #       created), then two Check suites are created and run, or, at least, double the number of "Check runs" are
+  #       created and executed, but we're only going to want to report success or failure once within a short time
+  #       on a single commit.
+  #
+  #   CircleCI
+  #     Failure of each separate run can be recognized and reported based on "failures" seen in "Statuses" WebHooks.
+  #     Success of the overall suite can only be determined by seeing "success" in the status for all runs which
+  #       are expected for a particular commit. There is no information provided as to the total number of runs
+  #       which should be created per CI, so that's something we need to know a priori.
+
+  # This is invoked by the route: /github/status_hook
+  # GitHub fires the status WebHook when there's a status update reported to GitHub via the GitHub API.
+  # It fires when an external CI service updates status (e.g. starts/finishes).
+  # It is not fired for GitHub Actions. GitHub does fire this WebHook for GitHub Pages builds.
+  # It is set up for the SmokeDetector repository to receive status changes.
   def status_hook
     # We're not interested in PR statuses or branches other than deploy
     unless params[:branches].index { |b| b[:name] == 'deploy' }
@@ -46,13 +92,15 @@ class GithubController < ApplicationController
 
   # Fires when a wiki page is updated on Charcoal-SE/metasmoke or Charcoal-SE/SmokeDetector
   def gollum_hook
+    # This only fires when we want to update the charcoal-se.org website, so we just unconditionally
+    #   kick off a build of the charcoal-se.org website.
     APIHelper.authorized_post(
       'https://api.github.com/repos/Charcoal-SE/charcoal-se.github.io/actions/workflows/build.yml/dispatches',
       data: { 'ref' => 'site' }
     )
   end
 
-  # Fires whenever a PR is opened to check for auto-blacklist and post stats
+  # Fires whenever a PR is opened on the SmokeDetetor repository to check for auto-blacklist and post stats
   def pull_request_hook
     unless request.request_parameters[:action] == 'opened'
       render(text: 'Not a newly-opened PR. Uninterested.') && return
@@ -203,6 +251,125 @@ class GithubController < ApplicationController
     ApiChannel.broadcast_to 'ref_update', event_type: 'update', event_class: 'Ref', object: params
   end
 
+  # This is invoked by the route: /github/report_check_suite_success
+  # It's intended to be triggered by GitHub Check Suites WebHooks in order to have SD report success of the full
+  #   suite of GitHub Actions in chat. The hook is also fired by GitHub for failure, but we ignore those, as it's
+  #   assumed those are being reported by the check_runs WebHook, due to check_suite event not having information
+  #   as to which runs within a suite failed.
+  # "check_suite" events are not triggered by external CI providers (e.g. CircleCI and Travis CI).
+  # A check_suite event is fired for each set of CI testing which is run through GitHub Actions.
+  # One "completed" event is sent for each GitHub Action complete set which is executed.
+  # If this is called about a branch which isn't the master branch or associated with a PR, then it's ignored.
+  # Concerns:
+  #   When a PR is created directly from a branch at the same time as the branch, we can get called for two
+  #   concurrent runs, which both show as associated with the PR, but we only want to report one for the commit.
+  #   In that situation, we get two "completed" messages. This is resolved by using a Redis success counter to
+  #   track how many we get and only forwarding the first one within 20 minutes to SmokeDetector.
+  def report_check_suite_success
+    data = params
+    action = data[:action]
+    check_suite = data[:check_suite]
+    conclusion = check_suite[:conclusion]
+    branch = check_suite[:head_branch]
+    pull_requests = check_suite[:pull_requests]
+    pull_request = pull_requests[0]
+    sha = check_suite[:head_sha]
+    check_suite_status = check_suite[:status]
+    repository = data[:repository]
+    repo_name = repository[:name]
+    repo_link = repository[:url]
+    app_name = check_suite[:app][:name]
+
+    # We are only interested in the master branch or PRs, that are completed
+    return if action != 'completed' || check_suite_status != 'completed' ||
+              (branch != 'master' && pull_request.blank?) || conclusion != 'success'
+
+    message = "[ [#{repo_name}](#{repo_link}) ]"
+    message += " #{app_name}"
+    message += " resulted in #{conclusion}"
+    message += " on [#{sha.first(7)}](#{repo_link}/commit/#{sha.first(10)})"
+    message += if pull_request.present?
+                 " for [PR ##{pull_request[:number]}](#{repo_link}/pull/#{pull_request[:number]})"
+               else
+                 ''
+               end
+
+    # We don't want to send more than one message for this SHA with the same conclusion within 20 minutes.
+    # This counter expires from Redis in 20 minutes.
+    ci_counter = Redis::CI.new("check_suite_#{conclusion}_#{sha}")
+    ci_counter.sucess_count_incr
+    ActionCable.server.broadcast 'smokedetector_messages', message: message if ci_counter.sucess_count == 1
+  end
+
+  # This is invoked by the route: /github/report_check_run_failure
+  # It's triggered by GitHub Action check runs in order to provide status to SmokeDetector to forward to chat.
+  # Any conclusion other than "success" is forwarded to chat for the master branch or any PR.
+  # If this is called about a branch which isn't the master branch or associated with a PR, then it's ignored.
+  # It is not triggered by external CI providers (e.g. CircleCI and Travis CI).
+  # A check_run event happens for each check that's run as part of CI testing. This is two events,
+  #   one "created" and one "completed" for each GitHub Action workflow/matrix which is executed.
+  # The check_suite event hook might be better, for some use cases, as it will have only one event for all the
+  #   checks which are dispatched for a particular situation. Unfortunately, that event doesn't have some of the
+  #   data which it is desirable to show to the users in chat.
+  # Concerns:
+  #   When a PR is created directly from a branch at the same time as the branch, we can get called for two
+  #     concurrent runs, but we only want to report one. In the case that's of interest, we get two "created"
+  #     messages and then two "completed" messages. This is resolved by using a Redis success counter to track that
+  #     we don't send more than one message about the same commit SHA with the same result/conclusion within 20 minutes.
+  def report_check_run_failure
+    data = params
+    action = data[:action]
+    check_run = data[:check_run]
+    check_run_status = check_run[:status]
+    sha = check_run[:head_sha]
+    workflow_name = check_run[:name]
+    conclusion = check_run[:conclusion]
+    check_run_url = check_run[:html_url]
+    check_suite = check_run[:check_suite]
+    app_name = check_run[:app][:name]
+    pull_requests = check_suite[:pull_requests]
+    pull_request = pull_requests[0]
+    branch = check_suite[:head_branch]
+    repository = data[:repository]
+    repo_name = repository[:name]
+    repo_link = repository[:url]
+
+    # We are only interested in the master branch or PRs, that are completed
+    return if action != 'completed' || check_run_status != 'completed' ||
+              (branch != 'master' && pull_request.blank?) || conclusion == 'success'
+
+    message = "[ [#{repo_name}](#{repo_link}) ]"
+    message += if app_name == 'GitHub Actions'
+                 " GitHib Action workflow [#{workflow_name}](#{check_run_url})"
+               else
+                 " Check run [#{workflow_name}](#{check_run_url})"
+               end
+    message += " resulted in #{conclusion}"
+    message += " on [#{sha.first(7)}](#{repo_link}/commit/#{sha.first(10)})"
+    message += if pull_request.present?
+                 " for [PR ##{pull_request[:number]}](#{repo_link}/pull/#{pull_request[:number]})"
+               else
+                 ''
+               end
+
+    # We don't want to send more than one message for this workflow & sha with the same conclusion within 20 minutes.
+    # This counter expires from Redis in 20 minutes.
+    ci_counter = Redis::CI.new("check_run_#{workflow_name}_#{conclusion}_#{sha}")
+    ci_counter.sucess_count_incr
+    ActionCable.server.broadcast 'smokedetector_messages', message: message if ci_counter.sucess_count == 1
+  end
+
+  # This is invoked by the route: /github/project_status
+  # GitHub fires the status WebHook when there's a status update reported to GitHub via the GitHub API.
+  # It fires when an external CI service updates status (e.g. finishes).
+  # It is not fired for GitHub Actions. GitHub does fire this WebHook for GitHub Pages builds.
+  # It's used to pass repository status changes to SmokeDetector for display in SE chat.
+  # For the metasmoke repository:
+  #   In order for success to be reported for 'ci/circleci' contexts, then this endpoint needs to be
+  #   called three times within 20 minutes with the same SHA and 'success'. This is done because the
+  #   metasmoke repository has three jobs run on CircleCI for each CI run and we only want to report
+  #   success when all of them pass.
+  #   States other than success will be reported with only one call to this endpoint.
   def any_status_hook
     repo = params[:name]
     link = "https://github.com/#{repo}"
@@ -214,7 +381,7 @@ class GithubController < ApplicationController
 
     return if state == 'pending' || (state == 'success' && context == 'github/pages')
 
-    if context.start_with? 'ci/circleci'
+    if repo == 'Charcoal-SE/metasmoke' && context.start_with?('ci/circleci')
       ci_counter = Redis::CI.new(sha)
       if state == 'success'
         ci_counter.sucess_count_incr
