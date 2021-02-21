@@ -294,6 +294,7 @@ class GithubController < ApplicationController
     message += " on [#{sha.first(7)}](#{repo_url}/commit/#{sha.first(10)})"
     message += " in branch #{branch}" if branch.present?
     message += " for [PR ##{pull_request[:number]}](#{repo_url}/pull/#{pull_request[:number]})" if pull_request.present?
+    message += " by #{sender_login})" if sender_login.present?
 
     # We don't want to send more than one message for this SHA with the same conclusion within 20 minutes.
     # This counter expires from Redis in 20 minutes.
@@ -332,6 +333,7 @@ class GithubController < ApplicationController
     repository = data[:repository]
     repo_name = repository[:name]
     repo_url = repository[:url]
+    sender_login = data[:sender][:login]
 
     # We are only interested in completed non-success
     return if check_run_status != 'completed' || conclusion == 'success'
@@ -346,6 +348,7 @@ class GithubController < ApplicationController
     message += " on [#{sha.first(7)}](#{repo_url}/commit/#{sha.first(10)})"
     message += " in branch #{branch}" if branch.present?
     message += " for [PR ##{pull_request[:number]}](#{repo_url}/pull/#{pull_request[:number]})" if pull_request.present?
+    message += " by #{sender_login})" if sender_login.present?
 
     # We don't want to send more than one message for this workflow & sha with the same conclusion within 20 minutes.
     # This counter expires from Redis in 20 minutes.
