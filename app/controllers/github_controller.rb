@@ -51,6 +51,10 @@ class GithubController < ApplicationController
   #     Success of the overall suite can only be determined by seeing "success" in the status for all runs which
   #       are expected for a particular commit. There is no information provided as to the total number of runs
   #       which should be created per CI, so that's something we need to know a priori.
+  #
+  # Notes:
+  #   GitHub sends an "action" parameter in some WebHooks. Its value is unavailable, due to "action" being a reserved
+  #     parameter.
 
   # This is invoked by the route: /github/status_hook
   # GitHub fires the status WebHook when there's a status update reported to GitHub via the GitHub API.
@@ -268,7 +272,6 @@ class GithubController < ApplicationController
   #   track how many we get and only forwarding the first one within 20 minutes to SmokeDetector.
   def report_check_suite_success
     data = params
-    action = data[:action]
     check_suite = data[:check_suite]
     conclusion = check_suite[:conclusion]
     branch = check_suite[:head_branch]
@@ -283,8 +286,7 @@ class GithubController < ApplicationController
     sender_login = data[:sender][:login]
 
     # We are only interested in completed successes
-    return if action != 'completed' || check_suite_status != 'completed' ||
-              conclusion != 'success' || sender_login == 'SmokeDetector'
+    return if check_suite_status != 'completed' || conclusion != 'success' || sender_login == 'SmokeDetector'
 
     message = "[ [#{repo_name}](#{repo_url}) ]"
     message += " #{app_name}"
@@ -316,7 +318,6 @@ class GithubController < ApplicationController
   #     we don't send more than one message about the same commit SHA with the same result/conclusion within 20 minutes.
   def report_check_run_failure
     data = params
-    action = data[:action]
     check_run = data[:check_run]
     check_run_status = check_run[:status]
     sha = check_run[:head_sha]
@@ -333,7 +334,7 @@ class GithubController < ApplicationController
     repo_url = repository[:url]
 
     # We are only interested in completed non-success
-    return if action != 'completed' || check_run_status != 'completed' || conclusion == 'success'
+    return if check_run_status != 'completed' || conclusion == 'success'
 
     message = "[ [#{repo_name}](#{repo_url}) ]"
     message += if app_name == 'GitHub Actions'
