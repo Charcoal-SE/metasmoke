@@ -281,19 +281,24 @@ class GithubController < ApplicationController
     check_suite_status = check_suite[:status]
     repository = data[:repository]
     repo_name = repository[:name]
-    repo_url = repository[:url]
+    repo_url = repository[:html_url]
     app_name = check_suite[:app][:name]
     sender_login = data[:sender][:login]
+    pr_number = pull_request[:number] if pull_request.present?
 
     # We are only interested in completed successes
     return if check_suite_status != 'completed' || conclusion != 'success' || sender_login == 'SmokeDetector'
 
     message = "[ [#{repo_name}](#{repo_url}) ]"
-    message += " #{app_name}"
-    message += " resulted in #{conclusion}"
+    message += " #{app_name}:"
+    message += if pull_request.present?
+                 " [#{conclusion}](#{repo_url}/pull/#{pr_number}/checks?sha=#{sha})"
+               else
+                 " [#{conclusion}](#{repo_url}/commit/#{sha}/checks)"
+               end
     message += " on [#{sha.first(7)}](#{repo_url}/commit/#{sha.first(10)})"
     message += " in branch #{branch}" if branch.present?
-    message += " for [PR ##{pull_request[:number]}](#{repo_url}/pull/#{pull_request[:number]})" if pull_request.present?
+    message += " for [PR ##{pr_number}](#{repo_url}/pull/#{pr_number})" if pull_request.present?
     message += " by #{sender_login})" if sender_login.present?
 
     # We don't want to send more than one message for this SHA with the same conclusion within 20 minutes.
@@ -327,27 +332,33 @@ class GithubController < ApplicationController
     check_run_url = check_run[:html_url]
     check_suite = check_run[:check_suite]
     app_name = check_run[:app][:name]
+    details_url = check_run[:details_url]
     pull_requests = check_suite[:pull_requests]
     pull_request = pull_requests[0]
     branch = check_suite[:head_branch]
     repository = data[:repository]
     repo_name = repository[:name]
-    repo_url = repository[:url]
+    repo_url = repository[:html_url]
     sender_login = data[:sender][:login]
+    pr_number = pull_request[:number] if pull_request.present?
 
     # We are only interested in completed non-success
     return if check_run_status != 'completed' || conclusion == 'success'
 
     message = "[ [#{repo_name}](#{repo_url}) ]"
     message += if app_name == 'GitHub Actions'
-                 " GitHib Action workflow [#{workflow_name}](#{check_run_url})"
+                 " GitHib Action workflow [#{workflow_name}](#{check_run_url}):"
                else
-                 " Check run [#{workflow_name}](#{check_run_url})"
+                 " Check run [#{workflow_name}](#{check_run_url}):"
                end
-    message += " resulted in #{conclusion}"
+    message += if pull_request.present?
+                 " [#{conclusion}](#{repo_url}/pull/#{pr_number}/checks?sha=#{sha})"
+               else
+                 " [#{conclusion}](#{details_url})"
+               end
     message += " on [#{sha.first(7)}](#{repo_url}/commit/#{sha.first(10)})"
     message += " in branch #{branch}" if branch.present?
-    message += " for [PR ##{pull_request[:number]}](#{repo_url}/pull/#{pull_request[:number]})" if pull_request.present?
+    message += " for [PR ##{pr_number}](#{repo_url}/pull/#{pr_number})" if pull_request.present?
     message += " by #{sender_login})" if sender_login.present?
 
     # We don't want to send more than one message for this workflow & sha with the same conclusion within 20 minutes.
