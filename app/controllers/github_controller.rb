@@ -282,17 +282,6 @@ class GithubController < ApplicationController
     app_name = check_suite[:app][:name]
     sender_login = data[:sender][:login]
 
-    Rails.logger.warn "[check_suite] : action: #{action}"
-    Rails.logger.warn "[check_suite] : check_suite_status: #{check_suite_status}"
-    Rails.logger.warn "[check_suite] : conclusion: #{conclusion}"
-    Rails.logger.warn "[check_suite] : sender_login: #{sender_login}"
-    Rails.logger.warn "[check_suite] : repo_name: #{repo_name}"
-    Rails.logger.warn "[check_suite] : repo_url: #{repo_url}"
-    Rails.logger.warn "[check_suite] : app_name: #{app_name}"
-    Rails.logger.warn "[check_suite] : sha: #{sha}"
-    Rails.logger.warn "[check_suite] : branch: #{branch}" if branch.present?
-    Rails.logger.warn "[check_suite] : PR #: #{pull_request[:number]}" if pull_request.present?
-
     # We are only interested in completed successes
     return if action != 'completed' || check_suite_status != 'completed' ||
               conclusion != 'success' || sender_login == 'SmokeDetector'
@@ -303,13 +292,11 @@ class GithubController < ApplicationController
     message += " on [#{sha.first(7)}](#{repo_url}/commit/#{sha.first(10)})"
     message += " in branch #{branch}" if branch.present?
     message += " for [PR ##{pull_request[:number]}](#{repo_url}/pull/#{pull_request[:number]})" if pull_request.present?
-    Rails.logger.warn "[check_suite] : message: #{message}"
 
     # We don't want to send more than one message for this SHA with the same conclusion within 20 minutes.
     # This counter expires from Redis in 20 minutes.
     ci_counter = Redis::CI.new("check_suite_#{conclusion}_#{sha}")
     ci_counter.sucess_count_incr
-    Rails.logger.warn "[check_suite] : ci_counter.sucess_count: #{ci_counter.sucess_count}"
     ActionCable.server.broadcast 'smokedetector_messages', message: message if ci_counter.sucess_count == 1
   end
 
@@ -345,18 +332,6 @@ class GithubController < ApplicationController
     repo_name = repository[:name]
     repo_url = repository[:url]
 
-    Rails.logger.warn "[check_run] : action: #{action}"
-    Rails.logger.warn "[check_run] : check_run_status: #{check_run_status}"
-    Rails.logger.warn "[check_run] : conclusion: #{conclusion}"
-    Rails.logger.warn "[check_run] : repo_name: #{repo_name}"
-    Rails.logger.warn "[check_run] : repo_url: #{repo_url}"
-    Rails.logger.warn "[check_run] : app_name: #{app_name}"
-    Rails.logger.warn "[check_run] : workflow_name: #{workflow_name}"
-    Rails.logger.warn "[check_run] : check_run_url: #{check_run_url}"
-    Rails.logger.warn "[check_run] : sha: #{sha}"
-    Rails.logger.warn "[check_run] : branch: #{branch}" if branch.present?
-    Rails.logger.warn "[check_run] : PR #: #{pull_request[:number]}" if pull_request.present?
-
     # We are only interested in completed non-success
     return if action != 'completed' || check_run_status != 'completed' || conclusion == 'success'
 
@@ -370,13 +345,11 @@ class GithubController < ApplicationController
     message += " on [#{sha.first(7)}](#{repo_url}/commit/#{sha.first(10)})"
     message += " in branch #{branch}" if branch.present?
     message += " for [PR ##{pull_request[:number]}](#{repo_url}/pull/#{pull_request[:number]})" if pull_request.present?
-    Rails.logger.warn "[check_run] : message: #{message}"
 
     # We don't want to send more than one message for this workflow & sha with the same conclusion within 20 minutes.
     # This counter expires from Redis in 20 minutes.
     ci_counter = Redis::CI.new("check_run_#{workflow_name}_#{conclusion}_#{sha}")
     ci_counter.sucess_count_incr
-    Rails.logger.warn "[check_run] : ci_counter.sucess_count: #{ci_counter.sucess_count}"
     ActionCable.server.broadcast 'smokedetector_messages', message: message if ci_counter.sucess_count == 1
   end
 
