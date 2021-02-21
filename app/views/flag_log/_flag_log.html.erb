@@ -1,7 +1,12 @@
 <% with_app ||= false %>
 <% with_comment ||= false %>
+<% without_post ||= false %>
+<% with_timestamp ||= false %>
+<% with_auto_manual ||= false %>
+<% with_condition ||= false %>
+<% with_type ||= false %>
 <tr>
-  <td>
+  <td class="ms-user-flagging-cell">
     <%# As for why we need render_source, see metasmoke#510 - Devise doesn't like being rendered from a controller %>
     <% if (!defined?(render_source) || render_source != :controller) && current_user&.has_role?(:admin) && log.user.present? %>
       <%= link_to log.user.try(:username), user_overview_path(user: log.user.try(:id)) %>
@@ -9,12 +14,32 @@
       <%= log.user.try(:username) %>
     <% end %>
   </td>
-  <%= render "posts/post", post: log.post, wrap_in_tr: false %>
+  <% if with_auto_manual %>
+    <td class="flag-auto-manual-cell"><%= log.is_auto ? "auto" : "manual" %></td>
+  <% end %>
+  <% if with_timestamp %>
+    <td class="flag-timestamp-cell">
+      <%= log.created_at %>
+    </td>
+  <% end %>
+  <% unless without_post %>
+    <%= render "posts/post", post: log.post, wrap_in_tr: false %>
+  <% end %>
   <% if with_app %>
-    <td><%= log.api_key.present? ? log.api_key.app_name : 'MS Web UI' %></td>
+      <td class="flag-app-source-cell">
+        <% unless log.is_auto %>
+          <%= log.api_key.present? ? log.api_key.app_name : 'MS Web UI' %>
+        <% end %>
+      </td>
+  <% end %>
+  <% if with_condition %>
+    <td class="flag-flag-condition-cell"><%= log.flag_condition_id %></td>
+  <% end %>
+  <% if with_type %>
+    <td class="flag-flag-type-cell"><%= log.flag_type %></td>
   <% end %>
   <% if with_comment %>
-    <td><%= log.comment %></td>
+    <td class="flag-comment-cell"><%= log.comment %></td>
   <% end %>
   <td class='<%= "success" if log.success %>' title="<%= log.error_message %>"><%= log.success ? "Success" : "Fail" %><%= " (dry run)" if log.is_dry_run %></td>
 </tr>
