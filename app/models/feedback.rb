@@ -155,11 +155,9 @@ class Feedback < ApplicationRecord
     return if Feedback.where(post: post).where('feedback_type LIKE ?', "#{feedback_type[0]}%").where.not(id: id).exists?
 
     message = "#{feedback_type} feedback received"
-    unless post.id == Post.last.id
-      host = 'metasmoke.erwaysoftware.com'
-      link = url_helpers.url_for controller: :posts, action: :show, id: post.id, host: host
-      message += " on \\[[MS](#{link})] [#{SmokeDetectorsHelper.escape_markdown post.title}](#{post.link})"
-    end
+    host = 'metasmoke.erwaysoftware.com'
+    link = url_helpers.url_for controller: :posts, action: :show, id: post.id, host: host
+    message += " on \\[[MS](#{link})] [#{SmokeDetectorsHelper.escape_markdown post.title}](#{post.link})"
     ActionCable.server.broadcast 'smokedetector_messages', message: message
   end
 
