@@ -281,8 +281,9 @@ class GithubController < ApplicationController
     repo_url = repository[:url]
     app_name = check_suite[:app][:name]
     sender_login = data[:sender][:login]
+    
 
-    # We are only interested in the master branch or PRs, that are completed
+    # We are only interested in completed successes
     return if action != 'completed' || check_suite_status != 'completed' ||
               conclusion != 'success' || sender_login == 'SmokeDetector'
 
@@ -332,7 +333,7 @@ class GithubController < ApplicationController
     repo_name = repository[:name]
     repo_url = repository[:url]
 
-    # We are only interested in the master branch or PRs, that are completed
+    # We are only interested in completed non-success
     return if action != 'completed' || check_run_status != 'completed' || conclusion == 'success'
 
     message = "[ [#{repo_name}](#{repo_link}) ]"
