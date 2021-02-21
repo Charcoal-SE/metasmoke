@@ -299,7 +299,7 @@ class GithubController < ApplicationController
     message += " on [#{sha.first(7)}](#{repo_url}/commit/#{sha.first(10)})"
     message += " in branch #{branch}" if branch.present?
     message += " for [PR ##{pr_number}](#{repo_url}/pull/#{pr_number})" if pull_request.present?
-    message += " by #{sender_login})" if sender_login.present?
+    message += " by #{sender_login}" if sender_login.present?
 
     # We don't want to send more than one message for this SHA with the same conclusion within 20 minutes.
     # This counter expires from Redis in 20 minutes.
@@ -359,7 +359,7 @@ class GithubController < ApplicationController
     message += " on [#{sha.first(7)}](#{repo_url}/commit/#{sha.first(10)})"
     message += " in branch #{branch}" if branch.present?
     message += " for [PR ##{pr_number}](#{repo_url}/pull/#{pr_number})" if pull_request.present?
-    message += " by #{sender_login})" if sender_login.present?
+    message += " by #{sender_login}" if sender_login.present?
 
     # We don't want to send more than one message for this workflow & sha with the same conclusion within 20 minutes.
     # This counter expires from Redis in 20 minutes.
