@@ -260,6 +260,7 @@ class GithubController < ApplicationController
   # "check_suite" events are not triggered by external CI providers (e.g. CircleCI and Travis CI).
   # A check_suite event is fired for each set of CI testing which is run through GitHub Actions.
   # One "completed" event is sent for each GitHub Action complete set which is executed.
+  # This route only reports successes and ignores suites started for SmokeDetector.
   # Concerns:
   #   When a PR is created directly from a branch at the same time as the branch, we can get called for two
   #   concurrent runs, which both show as associated with the PR, but we only want to report one for the commit.
@@ -277,21 +278,20 @@ class GithubController < ApplicationController
     check_suite_status = check_suite[:status]
     repository = data[:repository]
     repo_name = repository[:name]
-    repo_link = repository[:url]
+    repo_url = repository[:url]
     app_name = check_suite[:app][:name]
+    sender_login = data[:sender][:login]
 
     # We are only interested in the master branch or PRs, that are completed
-    return if action != 'completed' || check_suite_status != 'completed' || conclusion != 'success'
+    return if action != 'completed' || check_suite_status != 'completed' ||
+              conclusion != 'success' || sender_login == 'SmokeDetector'
 
     message = "[ [#{repo_name}](#{repo_link}) ]"
     message += " #{app_name}"
     message += " resulted in #{conclusion}"
     message += " on [#{sha.first(7)}](#{repo_link}/commit/#{sha.first(10)})"
-    message += if pull_request.present?
-                 " for [PR ##{pull_request[:number]}](#{repo_link}/pull/#{pull_request[:number]})"
-               else
-                 ''
-               end
+    message += " in branch #{branch}" if branch.present?
+    message += " for [PR ##{pull_request[:number]}](#{repo_url}/pull/#{pull_request[:number]})" if pull_request.present?
 
     # We don't want to send more than one message for this SHA with the same conclusion within 20 minutes.
     # This counter expires from Redis in 20 minutes.
@@ -330,7 +330,7 @@ class GithubController < ApplicationController
     branch = check_suite[:head_branch]
     repository = data[:repository]
     repo_name = repository[:name]
-    repo_link = repository[:url]
+    repo_url = repository[:url]
 
     # We are only interested in the master branch or PRs, that are completed
     return if action != 'completed' || check_run_status != 'completed' || conclusion == 'success'
@@ -343,11 +343,8 @@ class GithubController < ApplicationController
                end
     message += " resulted in #{conclusion}"
     message += " on [#{sha.first(7)}](#{repo_link}/commit/#{sha.first(10)})"
-    message += if pull_request.present?
-                 " for [PR ##{pull_request[:number]}](#{repo_link}/pull/#{pull_request[:number]})"
-               else
-                 ''
-               end
+    message += " in branch #{branch}" if branch.present?
+    message += " for [PR ##{pull_request[:number]}](#{repo_url}/pull/#{pull_request[:number]})" if pull_request.present?
 
     # We don't want to send more than one message for this workflow & sha with the same conclusion within 20 minutes.
     # This counter expires from Redis in 20 minutes.
