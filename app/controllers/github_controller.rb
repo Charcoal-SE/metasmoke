@@ -285,6 +285,8 @@ class GithubController < ApplicationController
     app_name = check_suite[:app][:name]
     sender_login = data[:sender][:login]
     pr_number = pull_request[:number] if pull_request.present?
+    branch_path = ''
+    branch_path = "/tree/#{branch}" if branch != 'master'
 
     # We are only interested in completed successes
     return if check_suite_status != 'completed' || conclusion != 'success' || sender_login == 'SmokeDetector'
@@ -297,9 +299,9 @@ class GithubController < ApplicationController
                  " [#{conclusion}](#{repo_url}/commit/#{sha}/checks)"
                end
     message += " on [#{sha.first(7)}](#{repo_url}/commit/#{sha.first(10)})"
-    message += " in branch #{branch}" if branch.present?
-    message += " for [PR ##{pr_number}](#{repo_url}/pull/#{pr_number})" if pull_request.present?
     message += " by #{sender_login}" if sender_login.present?
+    message += " in the [#{branch}](#{repo_url}#{branch_path}) branch" if branch.present?
+    message += " for [PR ##{pr_number}](#{repo_url}/pull/#{pr_number})" if pull_request.present?
 
     # We don't want to send more than one message for this SHA with the same conclusion within 20 minutes.
     # This counter expires from Redis in 20 minutes.
@@ -341,6 +343,8 @@ class GithubController < ApplicationController
     repo_url = repository[:html_url]
     sender_login = data[:sender][:login]
     pr_number = pull_request[:number] if pull_request.present?
+    branch_path = ''
+    branch_path = "/tree/#{branch}" if branch != 'master'
 
     # We are only interested in completed non-success
     return if check_run_status != 'completed' || conclusion == 'success'
@@ -357,9 +361,9 @@ class GithubController < ApplicationController
                  " [#{conclusion}](#{details_url})"
                end
     message += " on [#{sha.first(7)}](#{repo_url}/commit/#{sha.first(10)})"
-    message += " in branch #{branch}" if branch.present?
-    message += " for [PR ##{pr_number}](#{repo_url}/pull/#{pr_number})" if pull_request.present?
     message += " by #{sender_login}" if sender_login.present?
+    message += " in the [#{branch}](#{repo_url}#{branch_path}) branch" if branch.present?
+    message += " for [PR ##{pr_number}](#{repo_url}/pull/#{pr_number})" if pull_request.present?
 
     # We don't want to send more than one message for this workflow & sha with the same conclusion within 20 minutes.
     # This counter expires from Redis in 20 minutes.
