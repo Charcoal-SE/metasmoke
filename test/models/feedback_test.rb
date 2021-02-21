@@ -5,6 +5,7 @@ require 'test_helper'
 class FeedbackTest < ActiveSupport::TestCase
   test 'should cache feedback' do
     p = Post.new link: '//stackoverflow.com/questions/1'
+    p.title = 'A super title with description'
     p.save!
 
     refute p.is_tp
@@ -29,6 +30,7 @@ class FeedbackTest < ActiveSupport::TestCase
 
   test 'should invalidate feedback cache' do
     p = Post.new link: '//stackoverflow.com/questions/1'
+    p.title = 'A super title with description'
     p.save!
 
     true_feedback = Feedback.new
