@@ -32,10 +32,11 @@ class GithubController < ApplicationController
   #     There are individual events which separately indicate failure, but overall success is indicated only by
   #     all expected runs resulting in "success".
   #   "Check suites" WebHooks: Fired upon completion of a suite of GitHub Actions. Indicates overall success/failure,
-  #     but doesn't appear to indicate what failed.
+  #     but doesn't appear to indicate what failed. A PR is only indicated in the WebHook when the PR is created.
   #   "Check runs" WebHooks: Fired for each sub-task within a set of GitHub Actions, with an event when each run is
   #     "created" and/or "completed". The ones fired for "completed" indicate success or failure for each run.
   #     If a matrix of testing is defined, then each value in the matrix is considered a separate "run".
+  #     A PR is only indicated in the WebHook when the PR is created.
   #
   #   GitHub Actions
   #     Failure of each separate run can be recognized and reported based on "failures" seen in "Check runs" WebHooks.
@@ -259,7 +260,6 @@ class GithubController < ApplicationController
   # "check_suite" events are not triggered by external CI providers (e.g. CircleCI and Travis CI).
   # A check_suite event is fired for each set of CI testing which is run through GitHub Actions.
   # One "completed" event is sent for each GitHub Action complete set which is executed.
-  # If this is called about a branch which isn't the master branch or associated with a PR, then it's ignored.
   # Concerns:
   #   When a PR is created directly from a branch at the same time as the branch, we can get called for two
   #   concurrent runs, which both show as associated with the PR, but we only want to report one for the commit.
@@ -281,8 +281,7 @@ class GithubController < ApplicationController
     app_name = check_suite[:app][:name]
 
     # We are only interested in the master branch or PRs, that are completed
-    return if action != 'completed' || check_suite_status != 'completed' ||
-              (branch != 'master' && pull_request.blank?) || conclusion != 'success'
+    return if action != 'completed' || check_suite_status != 'completed' || conclusion != 'success'
 
     message = "[ [#{repo_name}](#{repo_link}) ]"
     message += " #{app_name}"
@@ -304,7 +303,6 @@ class GithubController < ApplicationController
   # This is invoked by the route: /github/report_check_run_failure
   # It's triggered by GitHub Action check runs in order to provide status to SmokeDetector to forward to chat.
   # Any conclusion other than "success" is forwarded to chat for the master branch or any PR.
-  # If this is called about a branch which isn't the master branch or associated with a PR, then it's ignored.
   # It is not triggered by external CI providers (e.g. CircleCI and Travis CI).
   # A check_run event happens for each check that's run as part of CI testing. This is two events,
   #   one "created" and one "completed" for each GitHub Action workflow/matrix which is executed.
@@ -335,8 +333,7 @@ class GithubController < ApplicationController
     repo_link = repository[:url]
 
     # We are only interested in the master branch or PRs, that are completed
-    return if action != 'completed' || check_run_status != 'completed' ||
-              (branch != 'master' && pull_request.blank?) || conclusion == 'success'
+    return if action != 'completed' || check_run_status != 'completed' || conclusion == 'success'
 
     message = "[ [#{repo_name}](#{repo_link}) ]"
     message += if app_name == 'GitHub Actions'
