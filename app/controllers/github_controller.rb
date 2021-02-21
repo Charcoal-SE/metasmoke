@@ -281,16 +281,15 @@ class GithubController < ApplicationController
     repo_url = repository[:url]
     app_name = check_suite[:app][:name]
     sender_login = data[:sender][:login]
-    
 
     # We are only interested in completed successes
     return if action != 'completed' || check_suite_status != 'completed' ||
               conclusion != 'success' || sender_login == 'SmokeDetector'
 
-    message = "[ [#{repo_name}](#{repo_link}) ]"
+    message = "[ [#{repo_name}](#{repo_url}) ]"
     message += " #{app_name}"
     message += " resulted in #{conclusion}"
-    message += " on [#{sha.first(7)}](#{repo_link}/commit/#{sha.first(10)})"
+    message += " on [#{sha.first(7)}](#{repo_url}/commit/#{sha.first(10)})"
     message += " in branch #{branch}" if branch.present?
     message += " for [PR ##{pull_request[:number]}](#{repo_url}/pull/#{pull_request[:number]})" if pull_request.present?
 
@@ -336,14 +335,14 @@ class GithubController < ApplicationController
     # We are only interested in completed non-success
     return if action != 'completed' || check_run_status != 'completed' || conclusion == 'success'
 
-    message = "[ [#{repo_name}](#{repo_link}) ]"
+    message = "[ [#{repo_name}](#{repo_url}) ]"
     message += if app_name == 'GitHub Actions'
                  " GitHib Action workflow [#{workflow_name}](#{check_run_url})"
                else
                  " Check run [#{workflow_name}](#{check_run_url})"
                end
     message += " resulted in #{conclusion}"
-    message += " on [#{sha.first(7)}](#{repo_link}/commit/#{sha.first(10)})"
+    message += " on [#{sha.first(7)}](#{repo_url}/commit/#{sha.first(10)})"
     message += " in branch #{branch}" if branch.present?
     message += " for [PR ##{pull_request[:number]}](#{repo_url}/pull/#{pull_request[:number]})" if pull_request.present?
 
