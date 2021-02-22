@@ -26,17 +26,25 @@ class User < ApplicationRecord
 
   validate :gdpr_bollocks
 
-  # All accounts start with flagger role enabled
   after_create do
+    # All accounts start with flagger role enabled, if that site setting is active.
     add_role :flagger if SiteSetting['auto_flagger_role']
 
-    message = case stack_exchange_account_id.present?
-              when true
-                "New metasmoke user ['#{username}'](//stackexchange.com/users/#{stack_exchange_account_id}) created"
-              when false
-                "New metasmoke user '#{username}' created"
-              end
-
+    # Prepare a message for SmokeDetector to forward to chat.
+    # A link to a filtered list of users on MS, with the user ID in a tooltip.
+    # We don't need the filter to return only one result, just make it easier to find the user on MS.
+    username_filter = CGI.escape(username.first(10))
+    message = "New [metasmoke user](//metasmoke.erwaysoftware.com/users?filter=#{username_filter} \"user ID: #{id}\")"
+    # Redact long names. 40 characters is the limit for SE usernames.
+    name = username.length > 40 ? '\\[long username redacted\\]' : SmokeDetectorsHelper.escape_markdown(username)
+    # Add the username to the message. If we know it, link the username to the user's Stack Exchange account.
+    message += if stack_exchange_account_id.present?
+                 " '[#{name}](//stackexchange.com/users/#{stack_exchange_account_id})'"
+               else
+                 " '#{name}'"
+               end
+    message += ' created'
+    # Actually send the messsage to SmokeDetector, unless that's turned off.
     if SiteSetting['new_account_messages_enabled']
       SmokeDetector.send_message_to_charcoal message
     end

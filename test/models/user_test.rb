@@ -7,6 +7,7 @@ class UserTest < ActiveSupport::TestCase
     post = Post.last
 
     u = User.new
+    u.username = 'Awesome Name'
     u.save!(validate: false)
 
     u.flag_conditions.new.save!(validate: false)
