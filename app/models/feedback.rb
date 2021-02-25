@@ -156,7 +156,7 @@ class Feedback < ApplicationRecord
 
     message = "#{feedback_type} feedback received"
     host = 'metasmoke.erwaysoftware.com'
-    link = url_helpers.url_for controller: :posts, action: :show, id: post.id, host: host
+    link = url_helpers.url_for controller: :posts, action: :show, id: post.id, host: host, protocol: 'https'
     message += " on \\[[MS](#{link})] [#{SmokeDetectorsHelper.escape_markdown post.title}](#{post.link})"
     ActionCable.server.broadcast 'smokedetector_messages', message: message
   end
