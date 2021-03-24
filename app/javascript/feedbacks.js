@@ -1,4 +1,4 @@
-const clickHandler = () => {
+const feedbackButtonClickHandler = () => {
   // If one of the feedback buttons are clicked, disable **ALL**
   // those buttons (which are actually <a> elements).
   document.querySelectorAll('.feedback-button').forEach(e => {
@@ -9,13 +9,13 @@ const clickHandler = () => {
 
 const onLoadHandler = () => {
   document.querySelectorAll('.feedback-button').forEach(e => {
-    e.addEventListener('click', clickHandler);
+    e.addEventListener('click', feedbackButtonClickHandler);
   });
 };
 
 const onBeforeCacheHandler = () => {
   document.querySelectorAll('.feedback-button').forEach(e => {
-    e.removeEventListener('click', clickHandler);
+    e.removeEventListener('click', feedbackButtonClickHandler);
     e.tabIndex = 0;
     e.removeAttribute('data-disabled');
   });
