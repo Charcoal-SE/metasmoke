@@ -8,11 +8,13 @@ function enable(link) {
   link.removeAttribute('data-disabled');
 }
 
-
 const feedbackButtonClickHandler = () => {
   // If one of the feedback buttons are clicked, disable **ALL**
   // those buttons (which are actually <a> elements).
   document.querySelectorAll('.feedback-button').forEach(disable);
+  window.setTimeout(() => {
+    document.querySelectorAll('.feedback-button').forEach(enable);
+  }, 2000);
 };
 
 const onLoadHandler = () => {
