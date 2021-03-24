@@ -444,3 +444,8 @@ body .profiler-results {
 .icon-nav-bar li a {
   padding: 0.7em;
 }
+
+a[data-disabled=disabled] {
+    pointer-events: none;
+    opacity: 0.5;
+}

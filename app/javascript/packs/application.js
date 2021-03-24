@@ -37,6 +37,7 @@ import '../user_site_settings';
 import '../graphs';
 import '../site_settings';
 import '../comments';
+import '../feedbacks';
 
 import { onLoad, installSelectpickers, uuid4, hashCode } from '../util';
 
