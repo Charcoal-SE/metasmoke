@@ -1,3 +1,5 @@
+import { onLoad } from './util';
+
 function disable(link) {
   link.tabIndex = -1;
   link.setAttribute('data-disabled', 'disabled');
@@ -17,20 +19,15 @@ const feedbackButtonClickHandler = () => {
   }, 2000);
 };
 
-const onLoadHandler = () => {
+onLoad(() => {
   document.querySelectorAll('.feedback-button').forEach(e => {
     e.addEventListener('click', feedbackButtonClickHandler);
   });
-};
+});
 
-const onBeforeCacheHandler = () => {
+document.addEventListener('turbolinks:before-cache', () => {
   document.querySelectorAll('.feedback-button').forEach(e => {
     e.removeEventListener('click', feedbackButtonClickHandler);
     enable(e);
   });
-  document.removeEventListener('turbolinks:load', onLoadHandler);
-  document.removeEventListener('turbolinks:before-cache', onBeforeCacheHandler);
-};
-
-document.addEventListener('turbolinks:load', onLoadHandler);
-document.addEventListener('turbolinks:before-cache', onBeforeCacheHandler);
+});
