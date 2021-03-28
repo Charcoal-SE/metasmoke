@@ -418,6 +418,7 @@ class GithubController < ApplicationController
     ActionCable.server.broadcast 'smokedetector_messages', message: message
   end
 
+  # This is invoked from /github/pr_merge.
   def pullapprove_merge_hook
     context = params[:context]
     state = params[:state]
