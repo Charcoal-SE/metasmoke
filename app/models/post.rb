@@ -259,7 +259,9 @@ class Post < ApplicationRecord
 
         # Now unescape (URI-decode) the parsed hostname, otherwise we create domains that look like
         # hxxps://suppl%C3%A9mentsavis.fr/ (see #615)
-        CGI.unescape(hostname).gsub(/www\./, '').downcase
+        # We also don't want to create separate domain entries for www. subdomains,
+        # nor to be paying attention to mixed case differences.
+        CGI.unescape(hostname).gsub(/^www\./, '').downcase
       rescue
         nil
       end
