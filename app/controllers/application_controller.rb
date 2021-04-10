@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :redis_log_request
   before_action :check_auth_required
   before_action :deduplicate_ajax_requests
+  before_action :store_user_location!, if: :location_storable?
 
   before_action do
     Rack::MiniProfiler.authorize_request if current_user&.has_role?(:developer)
@@ -138,5 +139,9 @@ class ApplicationController < ActionController::Base
     return if new_request
     redis_log 'Rejected by ajax deduplication'
     render status: :conflict, plain: "409 Conflict\nRequest conflicts with a previous AJAX request"
+  end
+
+  def location_storable?
+    request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
   end
 end
