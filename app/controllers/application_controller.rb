@@ -144,4 +144,8 @@ class ApplicationController < ActionController::Base
   def location_storable?
     request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
   end
+
+  def after_sign_in_path_for(resource)
+    stored_location_for(resource) || super
+  end
 end
