@@ -6,7 +6,8 @@ module API
       std_result SpamDomain.all.order(id: :desc), filter: FILTERS[:domains]
     end
 
-    get 'name/:name' do
+    # We are not using name/:name, because otherwise it will not allow literal '.' in :name
+    get 'name/(*name)' do
       std_result SpamDomain.where(domain: params[:name]).order(id: :desc), filter: FILTERS[:domains]
     end
 
