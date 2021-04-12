@@ -115,7 +115,7 @@ jobs:
           database: metasmoke_test
           username: root
           password: root
-          host: 127.0.0.1
+          host: localhost
           port: ${{ job.services.mysql.ports['3306'] }}
         ' > config/database.yml
         mkdir -p config && echo 'test:
