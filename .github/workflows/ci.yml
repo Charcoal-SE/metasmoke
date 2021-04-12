@@ -103,6 +103,9 @@ jobs:
         sudo apt-get install libsqlite3-dev
         bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
         yarn install
+    - name: Start MySQL
+      run: |
+        sudo systemctl start mysql.service
     - name: Configure
       run: |
         mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
