@@ -29,6 +29,22 @@ class ApplicationController < ActionController::Base
     raise ActionController::RoutingError, 'Not Found'
   end
 
+  def after_sign_in_path_for(resource_or_scope)
+    if current_user.username.nil?
+      users_username_path
+    elsif current_user.stack_exchange_account_id.nil?
+      authentication_status_path
+    else
+      stored_location = nil
+      begin
+        stored_location = stored_location_for(resource_or_scope)
+      rescue # rubocop:disable Lint/HandleExceptions
+      end
+
+      request.env['omniauth.origin'] || stored_location || root_path
+    end
+  end
+
   def redis_log(_msg)
     # redis = redis(logger: true)
     # redis.multi do |m|
@@ -127,9 +143,5 @@ class ApplicationController < ActionController::Base
 
   def location_storable?
     request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
-  end
-
-  def after_sign_in_path_for(resource)
-    stored_location_for(resource) || super
   end
 end
