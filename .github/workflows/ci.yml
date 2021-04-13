@@ -22,6 +22,10 @@ on:
 env:
   CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
   CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+  # The actions/cache holds old cache entries for 7 days and has no method of invalidating entries.
+  # The only thing that can be done is to change the key value to force the cache to miss.
+  # The ACTION_CACHE_VERSION is just a value to change if we don't want to use previously cached data.
+  ACTION_CACHE_VERSION: cache_version_1
 
 jobs:
   rubocop:
@@ -39,9 +43,9 @@ jobs:
     - uses: actions/cache@v2
       with:
         path: vendor/bundle
-        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        key: ${{ runner.os }}-gems-${{ env.ACTION_CACHE_VERSION }}-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
-          ${{ runner.os }}-gems-
+          ${{ runner.os }}-gems-${{ env.ACTION_CACHE_VERSION }}-
     - name: Install dependencies
       run: |
         sudo apt-get install libsqlite3-dev
@@ -88,21 +92,24 @@ jobs:
       uses: actions/cache@v2
       with:
         path: vendor/bundle
-        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        key: ${{ runner.os }}-gems-${{ env.ACTION_CACHE_VERSION }}-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
-          ${{ runner.os }}-gems-
+          ${{ runner.os }}-gems-${{ env.ACTION_CACHE_VERSION }}-
     - name: Cache yarn packages
       uses: actions/cache@v2
       with:
         path: node_modules
-        key: ${{ runner.os }}-node-modules-yarn-${{ hashFiles('**/Gemfile.lock') }}
+        key: ${{ runner.os }}-node-modules-yarn-${{ env.ACTION_CACHE_VERSION }}-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
-          ${{ runner.os }}-node-modules-yarn-
+          ${{ runner.os }}-node-modules-yarn-${{ env.ACTION_CACHE_VERSION }}-
     - name: Install dependencies
       run: |
         sudo apt-get install libsqlite3-dev
         bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
         yarn install
+    - name: Start MySQL
+      run: |
+        sudo systemctl start mysql.service
     - name: Configure
       run: |
         mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
@@ -112,7 +119,7 @@ jobs:
           database: metasmoke_test
           username: root
           password: root
-          host: 127.0.0.1
+          host: localhost
           port: ${{ job.services.mysql.ports['3306'] }}
         ' > config/database.yml
         mkdir -p config && echo 'test:
@@ -151,9 +158,9 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: node_modules
-          key: ${{ runner.os }}-node-modules-npm-${{ hashFiles('**/Gemfile.lock') }}
+          key: ${{ runner.os }}-node-modules-npm-${{ env.ACTION_CACHE_VERSION }}-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-modules-npm-
+            ${{ runner.os }}-node-modules-npm-${{ env.ACTION_CACHE_VERSION }}-
       - run: ls
       - name: Install dependencies
         run: npm install

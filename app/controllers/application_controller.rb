@@ -145,7 +145,7 @@ class ApplicationController < ActionController::Base
     request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
   end
 
-  def after_sign_in_path_for(resource)
-    stored_location_for(resource) || super
+  def store_user_location!
+    store_location_for(:user, request.fullpath)
   end
 end
