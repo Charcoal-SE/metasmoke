@@ -218,6 +218,7 @@ class PostsController < ApplicationController
   end
 
   def cast_spam_flag
+    flag_type = params[:flag_type] || 'spam'
     feedback = Feedback.new(feedback_type: 'tpu-',
                             user_id: current_user.id,
                             post_id: @post.id)
@@ -229,7 +230,13 @@ class PostsController < ApplicationController
       redirect_to(authentication_status_path) && return
     end
 
-    result, message = current_user.spam_flag(@post, false)
+    if flag_type == 'spam'
+      result, message = current_user.spam_flag(@post, false)
+    elsif flag_type == 'abusive'
+      result, message = current_user.abusive_flag(@post, false)
+    else
+      not_found
+    end
 
     FlagLog.create(success: result, error_message: result.present? ? nil : message,
                    is_dry_run: false, flag_condition: nil,
@@ -237,10 +244,10 @@ class PostsController < ApplicationController
                    site_id: @post.site_id, is_auto: false)
 
     if result
-      flash[:success] = 'Spam flag cast successfully.'
+      flash[:success] = "#{flag_type.capitalize} flag cast successfully."
 
     else
-      flash[:danger] = "Spam flag not cast: #{message}"
+      flash[:danger] = "#{flag_type.capitalize} flag not cast: #{message}"
     end
     redirect_to url_for(controller: :posts, action: :show, id: params[:id])
   end
