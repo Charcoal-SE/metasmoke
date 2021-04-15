@@ -171,8 +171,10 @@
 
 <% if user_signed_in? && current_user.write_authenticated && current_user.flags_enabled && !@post.is_fp && !@post.deleted? && Time.now - (@post.created_at || 1.day.ago) <= 1.hour && current_user.has_role?(:reviewer) %>
   <p>
-    <%= link_to url_for(controller: :posts, action: :cast_spam_flag, id: @post.id), method: :post, class: "text-danger" do %>
-      <span class="glyphicon glyphicon-flag"></span> Spam flag
+    <% %w[spam abusive].each do |flag_type| %>
+      <%= link_to url_for(controller: :posts, action: :cast_spam_flag, id: @post.id, flag_type: flag_type), method: :post, class: "text-danger flag-link" do %>
+        <span class="glyphicon glyphicon-flag"></span> <%= flag_type.capitalize %> flag
+      <% end %>
     <% end %>
   </p>
 <% end %>
