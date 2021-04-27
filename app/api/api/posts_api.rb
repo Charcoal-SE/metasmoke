@@ -83,9 +83,7 @@ module API
       std_result Post.where(deleted_at: nil).order(id: :desc), filter: FILTERS[:posts]
     end
 
-    # We are not using "get 'uid/:api_param/:native_id' do", because that does not permit a literal '.' in the api param,
-    # which is required for meta and localized SO sites.
-    get 'uid/(*api_param)/(*native_id)' do
+    get 'uid/:api_param/:native_id' do
       std_result Post.joins(:site).where(sites: { api_parameter: params[:api_param] }, posts: { native_id: params[:native_id] }),
                  filter: FILTERS[:posts]
     end
