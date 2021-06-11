@@ -95,7 +95,7 @@
           </div>
           <% unless post.markdown.nil? %>
             <div role="tabpanel" class="tab-pane" id="post-source-tab-<%= post.id %>">
-              <pre class="post-body-pre-block"><%= @post.markdown %></pre>
+              <pre class="post-body-pre-block"><%= post.markdown %></pre>
             </div>
           <% end %>
           <div role="tabpanel" class="tab-pane" id="preview-tab-<%= post.id %>">
