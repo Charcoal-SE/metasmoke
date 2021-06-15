@@ -53,7 +53,8 @@
         "stroustrup"
       ],
       "no-mixed-operators": "off",
-      "no-multi-assign": "off"
+      "no-multi-assign": "off",
+      "import/extensions": "off"
     }
   },
   "dependencies": {
