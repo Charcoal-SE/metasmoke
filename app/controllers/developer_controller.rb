@@ -46,29 +46,12 @@ class DeveloperController < ApplicationController
   end
 
   def deploy
-    message = "[ [metasmoke-deploy](//travis-ci.org/Undo1/metasmoke-deploy) ] deploy started by #{current_user.username}"
+    message = "[ [metasmoke-deploy](//github.com/Undo1/metasmoke-deploy/actions) ] deploy started by #{current_user.username}"
     SmokeDetector.send_message_to_charcoal(message)
 
-    # old_message = Octokit.commit('Charcoal-SE/metasmoke', CurrentCommit)['commit']['message']
-    old_sha = CurrentCommit.first(7)
+    Octokit.workflow_dispatch("Undo1/metasmoke-deploy", "deploy.yml", "master")
 
-    commit = Octokit.commits('Charcoal-SE/metasmoke')[0]
-    message = commit['commit']['message']
-    sha = commit['sha'].first(7)
-
-    redis_log HTTParty.post('https://api.travis-ci.org/repo/19152912/requests', headers: {
-                              'Content-Type' => 'application/json',
-                              'Accept' => 'application/json',
-                              'Travis-API-Version' => '3',
-                              'Authorization' => "token #{AppConfig['travis']['token']}"
-                            }, body: {
-                              request: {
-                                branch: 'master',
-                                message: "#{old_sha} -> #{sha}: #{message}"
-                              }
-                            }.to_json)
-
-    redirect_to 'https://travis-ci.org/Undo1/metasmoke-deploy'
+    redirect_to 'https://github.com/Undo1/metasmoke-deploy/actions'
   end
 
   def query_times_log
