@@ -46,12 +46,12 @@ class DeveloperController < ApplicationController
   end
 
   def deploy
-    message = "[ [metasmoke-deploy](//github.com/Undo1/metasmoke-deploy/actions) ] deploy started by #{current_user.username}"
+    message = "[ [metasmoke-deploy](//github.com/Undo1/metasmoke-deploy/actions/workflows/deploy.yml) ] deploy started by #{current_user.username}"
     SmokeDetector.send_message_to_charcoal(message)
 
     Octokit.workflow_dispatch("Undo1/metasmoke-deploy", "deploy.yml", "master")
 
-    redirect_to 'https://github.com/Undo1/metasmoke-deploy/actions'
+    redirect_to 'https://github.com/Undo1/metasmoke-deploy/actions/workflows/deploy.yml'
   end
 
   def query_times_log
