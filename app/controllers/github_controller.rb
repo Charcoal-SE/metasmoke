@@ -351,7 +351,7 @@ class GithubController < ApplicationController
 
     message = "[ [#{repo_name}](#{repo_url}) ]"
     message += if app_name == 'GitHub Actions'
-                 " GitHib Action workflow [#{workflow_name}](#{check_run_url}):"
+                 " GitHub Action workflow [#{workflow_name}](#{check_run_url}):"
                else
                  " Check run [#{workflow_name}](#{check_run_url}):"
                end
