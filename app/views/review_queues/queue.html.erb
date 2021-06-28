@@ -12,7 +12,8 @@
     <form class="form-inline">
       <%= label_tag :site_id, 'Site' %>
       <% h = HTMLEntities.new %>
-      <%= select_tag :site_id, options_for_select(Site.all.map { |s| [h.decode(s.site_name), s.id] }), include_blank: true,
+      <% sites_with_counts = Site.left_joins(:posts => [:review_item]).where(posts: { review_items: { completed: [false, nil] } }).group('sites.id').select('sites.*, COUNT(review_items.id) as review_item_count') %>
+      <%= select_tag :site_id, options_for_select(sites_with_counts.map { |s| ["#{h.decode(s.site_name)} (#{s.review_item_count})", s.id] }), include_blank: true,
                      class: 'form-control review-filter selectpicker' %>
       <button type="button" class="btn btn-primary" id="filter-button">Filter</button>
     </form>
