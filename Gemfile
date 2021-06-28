@@ -118,4 +118,3 @@ end
 
 gem 'graphiql-rails'
 gem 'graphql'
-gem "select2-rails"
