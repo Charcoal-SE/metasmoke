@@ -367,6 +367,7 @@ GEM
     sawyer (0.8.2)
       addressable (>= 2.3.5)
       faraday (> 0.8, < 2.0)
+    select2-rails (4.0.13)
     sensible_routes (0.1.2)
       rails (~> 5)
     simplecov (0.19.0)
@@ -485,6 +486,7 @@ DEPENDENCIES
   rqrcode
   rubocop (~> 0.48.1)
   sass-rails
+  select2-rails
   sensible_routes (~> 0.1.2)
   simplecov
   spring
