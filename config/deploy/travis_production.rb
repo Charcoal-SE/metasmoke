@@ -4,7 +4,7 @@ set :nvm_type, :user # or :system, depends on your nvm setup
 set :nvm_node, 'v8.1.0'
 set :nvm_map_bins, %w[node npm yarn]
 
-set :rvm_ruby_version, '2.5.7@metasmoke'
+set :rvm_ruby_version, '2.7.4@metasmoke'
 
 set :puma_bind, %w[tcp://127.0.0.1:9292]
 set :passenger_restart_with_touch, true
