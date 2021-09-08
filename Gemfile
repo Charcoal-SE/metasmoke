@@ -39,7 +39,7 @@ gem 'rack-mini-profiler', '~> 1.1'
 gem 'stackprof'
 
 gem 'chartkick'
-gem 'groupdate', '~> 3.0.0'
+gem 'groupdate', '~> 5.0.0', require: true
 
 gem 'rubocop', '~> 0.48.1', require: false, group: :test
 gem 'simplecov', require: false, group: :test
