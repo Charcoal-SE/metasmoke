@@ -110,6 +110,7 @@ jobs:
     - name: Start MySQL
       run: |
         sudo systemctl start mysql.service
+        mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
     - name: Configure
       run: |
         mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
