@@ -75,15 +75,10 @@ class Feedback < ApplicationRecord
         message = "fp feedback on autoflagged post: [#{post.title}](#{post.link}) \\[[MS](//metasmoke.erwaysoftware.com/post/#{post_id})]"
         ActionCable.server.broadcast 'smokedetector_messages', autoflag_fp: { message: message, site: post.site.site_domain }
 
-        Thread.new do
-          names = post.flaggers.map { |u| '@' + u.username.tr(' ', '') }
-          user_msg = "Autoflagged FP: flagged by #{names.join(', ')}"
-          ActionCable.server.broadcast 'smokedetector_messages', autoflag_fp: { message: user_msg, site: post.site.site_domain }
-          sys = User.find(-1)
-          post.eligible_flaggers.each do |u|
-            FlagCondition.validate_for_user(u, sys)
-          end
-        end
+        names = post.flaggers.map { |u| '@' + u.username.tr(' ', '') }
+        user_msg = "Autoflagged FP: flagged by #{names.join(', ')}"
+        ActionCable.server.broadcast 'smokedetector_messages', autoflag_fp: { message: user_msg, site: post.site.site_domain }
+        ValidateEligableFlaggersJob.perform_later(post)
       end
 
       post.stack_exchange_user&.unblacklist_user if post.is_fp
