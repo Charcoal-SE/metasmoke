@@ -17,13 +17,13 @@ class DomainGroupsController < ApplicationController
   end
 
   def create
-    unless valid_regex? params[:regex]
-      flash[:danger] = "Invalid regex `#{params[:regex]}`."
+    @group = DomainGroup.new group_params
+    unless valid_regex? @group.regex
+      flash[:danger] = "Invalid regex `#{@group.regex}`."
       render :new
       return
     end
 
-    @group = DomainGroup.new group_params
     if @group.save
       regex = Regexp.new @group.regex
       domains = SpamDomain.all.reject { |d| regex.match(d.domain).nil? }
@@ -41,8 +41,8 @@ class DomainGroupsController < ApplicationController
   def edit; end
 
   def update
-    unless valid_regex? params[:regex]
-      flash[:danger] = "Invalid regex `#{params[:regex]}`."
+    unless group_params[:regex] && valid_regex?(group_params[:regex])
+      flash[:danger] = "Invalid regex `#{group_params[:regex]}`."
       render :edit
       return
     end
