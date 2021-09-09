@@ -1,6 +1,9 @@
 <div class="domain-link">
   <% linked_domain = link.left == domain ? link.right : link.left %>
   <strong><%= linked_domain.blank? ? "null domain" : link_to(linked_domain.domain, spam_domain_path(linked_domain)) %></strong>
+  <% linked_domain.domain_tags.standard.each do |t| %>
+    <%= render 'domain_tags/tag', tag: t, domain: linked_domain %>
+  <% end %>
   <span class="text-muted"><%= link.link_type %></span>
   <% if link.comments.present? %>
     <a href="#" data-toggle="modal" data-target="#link-modal-<%= link.id %>" class="text-warning">
