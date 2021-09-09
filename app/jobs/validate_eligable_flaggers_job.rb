@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ValidateEligableFlaggersJob < ApplicationJob
   queue_as :default
 

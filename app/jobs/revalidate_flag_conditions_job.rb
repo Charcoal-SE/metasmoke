@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class RevalidateFlagConditionsJob < ApplicationJob
   queue_as :default
 
-  def perform(*args)
+  def perform
     FlagCondition.where(flags_enabled: true).find_each do |fc|
       unless fc.validate
         failures = fc.errors.full_messages
