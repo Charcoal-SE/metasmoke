@@ -17,6 +17,12 @@ class DomainGroupsController < ApplicationController
   end
 
   def create
+    unless valid_regex? params[:regex]
+      flash[:danger] = "Invalid regex `#{params[:regex]}`."
+      render :new
+      return
+    end
+
     @group = DomainGroup.new group_params
     if @group.save
       regex = Regexp.new @group.regex
@@ -35,6 +41,12 @@ class DomainGroupsController < ApplicationController
   def edit; end
 
   def update
+    unless valid_regex? params[:regex]
+      flash[:danger] = "Invalid regex `#{params[:regex]}`."
+      render :edit
+      return
+    end
+
     if @group.update group_params
       redirect_to domain_group_path(@group)
     else
@@ -70,6 +82,14 @@ class DomainGroupsController < ApplicationController
   end
 
   private
+
+  def valid_regex?(regex)
+    Regexp.new(regex) if regex.present?
+
+    true
+  rescue RegexpError
+    false
+  end
 
   def group_params
     params.require(:domain_group).permit(:name, :regex)
