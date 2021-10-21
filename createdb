@@ -35,13 +35,13 @@ sed '/^development:/!b;x;N;N;x;a\
   port: 3306
 q' config/database.sample.yml >config/database.yml
 
-cp config/config.sample.yml config/config.yml
-cp config/cable.sample.yml config/cable.yml
+sed 's/localhost/127.0.0.1/' config/config.sample.yml >config/config.yml
+sed 's/localhost/127.0.0.1/' config/cable.sample.yml >config/cable.yml
 
 rails db:create
 rails db:schema:load
 rails db:migrate
-rails db:seed
+# rails db:seed
 
 ######## FIXME: yet another hard-coded, easily guessable password
 rails c <<\____
@@ -49,9 +49,11 @@ u = User.create(
   username: 'metasmoke', email: 'metasmoke@localhost', password: 'password')
 u.add_role(:admin)
 u.add_role(:developer)
+
 SiteSetting.create(name: 'registration_enabled', value: 1)
 
 # Workaround for https://github.com/Charcoal-SE/metasmoke/issues/618
+# https://github.com/Charcoal-SE/metasmoke/issues/887
 SmokeDetector.create(
   last_ping: 1.hour.ago,
   name: 'Seed',
