@@ -53,3 +53,9 @@ RUN sed -i~ '/^end/i\  config.web_console.whiny_requests = false' \
 
 EXPOSE 5000 8080
 CMD ["./rundb"]
+
+# Reminder to self:
+# docker build -t metasmoke .  # --progress plain
+# docker run --rm -it -p5000:5000 -p8080:8080 --name metasmoke metasmoke:latest
+# docker tag metasmoke:latest tripleee/metasmoke:latest
+# docker push tripleee/metasmoke:latest
