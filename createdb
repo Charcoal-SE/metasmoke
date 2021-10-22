@@ -50,13 +50,4 @@ u = User.create(
 u.add_role(:admin)
 u.add_role(:developer)
 SiteSetting.create(name: 'registration_enabled', value: 1)
-
-# Workaround for https://github.com/Charcoal-SE/metasmoke/issues/618
-SmokeDetector.create(
-  last_ping: 1.hour.ago,
-  name: 'Seed',
-  location: 'Nowhere',
-  access_token: '9b104345-ef52-41ce-86cc-003831e3a241',
-  email_date: 1.hour.ago
-)
 ____
