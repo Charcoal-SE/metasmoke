@@ -37,7 +37,7 @@ class SmokeDetector < ApplicationRecord
   end
 
   def self.status_color
-    SmokeDetector.select(Arel.sql('last_ping')).order(Arel.sql('last_ping DESC')).first.status_color
+    SmokeDetector.select(Arel.sql('last_ping')).order(Arel.sql('last_ping DESC')).first&.status_color
   end
 
   def status_color
