@@ -76,24 +76,63 @@ module PostConcerns::Autoflagging
         max_flags = [post.site.max_flags_per_post, (FlagSetting['max_flags'] || '3').to_i, scaled_max].min
 
         # Send the first flag with Smokey's account; shows up nicely in the flag queue / timeline
-        # At this stage, we know that at least one user has a matching flag_condition (thus 99.x% accuracy)
+        # At this point, we know that at least one user has a matching flag_condition (thus 99.x% accuracy).
+        # For all of the below, we're only considering users with matching flagging conditions and preferences.
 
         max_flags -= post.send_autoflag(User.smokey, dry_run, nil) unless User.smokey.nil?
 
+        # The logic to select users for autoflags gives some priority to users with the Core
+        # role.  The reason for this is that users with the Core role *tend* to be more
+        # available to handle issues like getting FP feedback on an autoflagged post.  Core
+        # users also look at it as a perk, even though it's really a responsibility.
+        # For 2 flags, this will be 1 for SmokeDetector, 1 for Core users, and 0 for "non-Core" users.
+        # For 3 flags, this will be 1 for SmokeDetector, 1 for Core users, and 1 for "non-Core" users.
+        # For 4 flags, this will be 1 for SmokeDetector, 2 for Core users, and 1 for "non-Core" users.
+        # For 5 flags, this will be 1 for SmokeDetector, 2 for Core users, and 2 for "non-Core" users.
+        # For 6 flags, this will be 1 for SmokeDetector, 3 for Core users, and 2 for "non-Core" users.
+        # In all of the above cases, "non-Core" means all users without the Core role and those users
+        # with the Core role who were not selected for the flags allocated to Core users. How those
+        # "non-Core" flags are allocated is determined below.
         core_count = (max_flags / 2.0).ceil
         other_count = max_flags - core_count
+        core_users = users.with_role(:core)
+        non_core_users = users.without_role(:core)
+        core_users_per_flag = core_count == 0 ? 0 : core_users.length / core_count
+        non_core_users_per_flag = other_count == 0 ? 0 : non_core_users.length / other_count
 
         core_users_used = []
         Rails.logger.warn "[autoflagging] #{id}: core..."
-        users.with_role(:core).shuffle.each do |user|
+        core_users.shuffle.each do |user|
           break if core_count <= 0
           core_count -= post.send_autoflag(user, dry_run, available_user_ids[user.id])
           core_users_used << user
         end
 
+        unused_core_users = core_users - core_users_used
+        # It's possible here that there weren't enough core users to consume all of the core flags.
+        # If so, that means that there are no unused_core_users, but that unused_core_users is empty
+        # isn't something which we need to specifically handle.
+        other_count += core_count
+
+        # We don't want it to be more likely that a non-Core user with aggressive flagging
+        # conditions will get flags than that the same user would get flags if they have the
+        # Core role.  So, if there's more core_users per flag allocated to Core users than
+        # there are non_core_users per flag allocated to non-Core users, then we share the
+        # remaining flags equally between all remaining users.  If that conditions isn't
+        # met, then we try the actual non-Core users first and then move on to any Core
+        # users which have not already been attemped, should it not be possible to raise all
+        # the desired flags with the actual non-Core users.
+        remaining_users = if core_users_per_flag >= non_core_users_per_flag
+                            # Equally share remaining flags between core and non-core users.
+                            (non_core_users + unused_core_users).shuffle
+                          else
+                            # Give non-core users priority for the non-core flags.
+                            # Go through all non-core users first; then add core users at the end. See #146
+                            (non_core_users.shuffle + unused_core_users.shuffle)
+                          end
+
         Rails.logger.warn "[autoflagging] #{id}: plebs..."
-        # Go through all non-core users first; then add core users at the end. See #146
-        ((users.without_role(:core).shuffle + users.with_role(:core).shuffle) - core_users_used).each do |user|
+        remaining_users.each do |user|
           break if other_count <= 0
           other_count -= post.send_autoflag(user, dry_run, available_user_ids[user.id])
         end
