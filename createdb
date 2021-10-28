@@ -2,6 +2,20 @@
 
 set -e -u
 
+if [ -d import ]; then
+    for redis in import/*.rdb.gz; do
+        if [ -e "$redis" ]; then
+            echo "$0: importing $redis" >&2
+            gzip -dc "$redis" >dump.rdb
+            chmod 644 dump.rdb
+            # chown redis:redis dump.rdb
+        else
+            echo "$0: No files matching $redis" >&2
+            exit 124
+        fi
+    done
+fi
+
 ./services
 
 mysql -u root -ppassword <<\____
@@ -21,8 +35,7 @@ mysql -u root -ppassword <<\____
     GRANT ALL PRIVILEGES ON `metasmoke`.* TO `metasmoke`@`localhost`;
     GRANT ALL PRIVILEGES ON `metasmoke_test`.* TO `metasmoke`@`localhost`;
     GRANT ALL PRIVILEGES ON `metasmoke_production`.* TO `metasmoke`@`localhost`;
-    FLUSH PRIVILEGES; 
-
+    FLUSH PRIVILEGES;
 ____
 
 sed '/^development:/!b;x;N;N;x;a\
@@ -43,8 +56,23 @@ rails db:schema:load
 rails db:migrate
 # rails db:seed
 
-######## FIXME: yet another hard-coded, easily guessable password
-rails c <<\____
+if [ -d import ]; then
+    for sql in import/*.sql.gz; do
+        if [ -e "$sql" ]; then
+            echo "$0: importing $sql (this takes a long time)" >&2
+            ######## FIXME: yet another hard-coded, easily guessable password
+            gzip -dc <"$sql" |
+            sed 's/dump_metasmoke/metasmoke/g' |
+            mysql -u root -ppassword metasmoke
+        else
+            echo "$0: No files matching $sql" >&2
+            exit 123
+        fi
+        break
+    done
+else
+    ######## FIXME: yet another hard-coded, easily guessable password
+    rails c <<\____
 u = User.create(
   username: 'metasmoke', email: 'metasmoke@localhost', password: 'password')
 u.add_role(:admin)
@@ -52,3 +80,4 @@ u.add_role(:developer)
 
 SiteSetting.create(name: 'registration_enabled', value: 1)
 ____
+fi

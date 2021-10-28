@@ -1,5 +1,9 @@
 FROM ruby:2.7
 
+# To import a recent dump from metasmoke, copy the downloaded files
+# to a directory named import in the current directory before building.
+# Caution: The import took me over ten minutes on a MacBook Pro 2018
+
 ######## FIXME: hardcoded password "password" everywhere
 
 # The base image ruby:2.7 is Debian Bullseye
