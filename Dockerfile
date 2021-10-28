@@ -11,8 +11,9 @@ FROM ruby:2.7
 RUN apt-get update
 # allow mariadb server to start, see comment in policy-rd.d
 RUN sed -i~ 's/^exit 101/exit 0/' /usr/sbin/policy-rc.d
-RUN apt-get install -y mariadb-server mariadb-client \
-       nodejs yarnpkg libpcre3-dev
+RUN DEBIAN_FRONTEND=noninteractive \
+    apt-get install -y mariadb-server mariadb-client \
+       nodejs yarnpkg libpcre3-dev tzdata
 
 # Debian stupidly reserves yarn for a different package
 # https://bugs.debian.org/940511

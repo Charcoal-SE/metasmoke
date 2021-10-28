@@ -38,6 +38,8 @@ mysql -u root -ppassword <<\____
     FLUSH PRIVILEGES;
 ____
 
+mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
+
 sed '/^development:/!b;x;N;N;x;a\
   adapter: mysql2\
   database: metasmoke\
