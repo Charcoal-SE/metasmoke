@@ -18,6 +18,11 @@ to this.
 ## Docker
 There is a simple `Dockerfile` here which is however not properly tested yet.
 
+If you want to include a database dump, create a directory `import`
+and place the dump files there (one `*.rdb.gz` and one `*.sql.gz`).
+This will noticeably slow down the build (plan 10-15 minutes,
+depending also on disk speed and hardware).
+
 To create a local build, simply
 
     docker build -t metasmoke .
