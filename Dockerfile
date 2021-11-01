@@ -1,5 +1,9 @@
 FROM ruby:2.7
 
+# To import a recent dump from metasmoke, copy the downloaded files
+# to a directory named import in the current directory before building.
+# Caution: The import took me over ten minutes on a MacBook Pro 2018
+
 ######## FIXME: hardcoded password "password" everywhere
 
 # The base image ruby:2.7 is Debian Bullseye
@@ -7,8 +11,9 @@ FROM ruby:2.7
 RUN apt-get update
 # allow mariadb server to start, see comment in policy-rd.d
 RUN sed -i~ 's/^exit 101/exit 0/' /usr/sbin/policy-rc.d
-RUN apt-get install -y mariadb-server mariadb-client \
-       nodejs yarnpkg libpcre3-dev
+RUN DEBIAN_FRONTEND=noninteractive \
+    apt-get install -y mariadb-server mariadb-client \
+       nodejs yarnpkg libpcre3-dev tzdata
 
 # Debian stupidly reserves yarn for a different package
 # https://bugs.debian.org/940511
