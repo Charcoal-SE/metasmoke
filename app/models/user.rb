@@ -21,6 +21,7 @@ class User < ApplicationRecord
   has_many :moderator_sites, dependent: :destroy
   has_many :reviews, class_name: 'ReviewResult', dependent: :nullify
   has_many :post_comments, dependent: :nullify
+  has_many :post_spam_domains, foreign_key: 'added_by_id', dependent: :nullify
 
   has_one :channels_user, required: false, dependent: :destroy
 
