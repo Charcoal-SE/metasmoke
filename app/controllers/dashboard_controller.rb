@@ -55,15 +55,18 @@ class DashboardController < ApplicationController
 
   def query_times
     @query_times = redis(logger: true).smembers('request_timings/path_strings')
-                                      .map     { |path_str| Redis::QueryAverage.new(*path_str.split('/', 2), since: params[:since].to_i) }
-                                      .sort_by { |h|        -h.average(:total) }
+                                      .map     do |path_str|
+                     Redis::QueryAverage.new(*path_str.split('/', 2),
+                                             since: params[:since].to_i)
+                   end
+                                      .sort_by { |h| -h.average(:total) }
   end
 
   def reset_query_time
-    if !redis(logger: true).sismember('request_timings/path_strings', params[:path])
-      flash[:warning] = 'Invalid path to reset'
-    else
+    if redis(logger: true).sismember('request_timings/path_strings', params[:path])
       Redis::QueryAverage.new(*params[:path].split('/', 2)).reset
+    else
+      flash[:warning] = 'Invalid path to reset'
     end
     redirect_back fallback_location: root_path
   end
@@ -88,7 +91,7 @@ class DashboardController < ApplicationController
     special_tabs = %w[Spammers Autoflaggers]
     @active_tab = (@tabs.keys + special_tabs).map(&:downcase).include?(params[:tab]&.downcase) ? params[:tab]&.downcase : 'all'
 
-    @posts = @tabs.map { |k, v| [k.downcase, v] }.to_h[params[:tab]&.downcase] || @tabs['All']
+    @posts = @tabs.transform_keys(&:downcase)[params[:tab]&.downcase] || @tabs['All']
 
     @flags = FlagLog.where(site: @site).where('`flag_logs`.`created_at` >= ?', @months.months.ago).auto
 

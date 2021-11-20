@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-include ActionView::Helpers::NumberHelper
-
 class FlagCondition < ApplicationRecord
   include Websocket
+  include ActionView::Helpers::NumberHelper
 
   belongs_to :user
   has_and_belongs_to_many :sites
@@ -13,6 +12,7 @@ class FlagCondition < ApplicationRecord
 
   def accuracy_and_post_count
     return unless flags_enabled
+
     post_feedback_results = posts.pluck(:is_tp)
 
     if accuracy < FlagSetting['min_accuracy'].to_f
@@ -20,6 +20,7 @@ class FlagCondition < ApplicationRecord
     end
 
     return unless post_feedback_results.count < FlagSetting['min_post_count'].to_i
+
     errors.add(:post_count, "must be over  #{FlagSetting['min_post_count']}")
   end
 
@@ -32,7 +33,7 @@ class FlagCondition < ApplicationRecord
 
   def self.overall_accuracy(user)
     query = File.read(Rails.root.join('lib/queries/overall_accuracy.sql'))
-    sanitized = ActiveRecord::Base.sanitize_sql([query, user_id: user.id])
+    sanitized = ActiveRecord::Base.sanitize_sql([query, { user_id: user.id }])
     result = ActiveRecord::Base.connection.execute sanitized
     result.to_a[0][0]
   end
@@ -40,9 +41,7 @@ class FlagCondition < ApplicationRecord
   def self.validate_for_user(user, disabler)
     accuracy = overall_accuracy user
 
-    unless accuracy.present? && accuracy < FlagSetting['min_accuracy'].to_f #
-      return accuracy
-    end
+    return accuracy unless accuracy.present? && accuracy < FlagSetting['min_accuracy'].to_f
 
     user.flag_conditions.update_all(flags_enabled: false)
     username = user&.username&.tr(' ', '')

@@ -23,7 +23,8 @@ class PostComment < ApplicationRecord
   end
 
   after_destroy do
-    redis.hincrby "posts/#{post.id}", 'post_comments_count', -1 unless redis.hget("posts/#{post.id}", 'post_comments_count').to_s == '0'
+    redis.hincrby "posts/#{post.id}", 'post_comments_count', -1 unless redis.hget("posts/#{post.id}",
+                                                                                  'post_comments_count').to_s == '0'
   end
 
   def self.scrubber

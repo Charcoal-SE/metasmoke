@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
+BASE = 8
+
 Types::QueryType = GraphQL::ObjectType.define do
   name 'Query'
   # Add root-level fields here.
   # They will be entry points for queries on your schema.
-
-  BASE = 8
 
   field :post do
     type Types::PostType
@@ -13,8 +13,9 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :uid, types.ID
     argument :site, types.String
     argument :link, types.String
-    resolve ->(_obj, args, _ctx) do
+    resolve lambda { |_obj, args, _ctx|
       return GraphQL::ExecutionError.new('Invalid argument grouping') if [%w[uid site], ['id'], ['link']].include? args
+
       if args['link']
         Post.find(link: args['link'])
       elsif args['uid'] && args['site']
@@ -26,23 +27,27 @@ Types::QueryType = GraphQL::ObjectType.define do
       else
         Post.last
       end
-    end
-    complexity ->(_ctx, _args, child_complexity) do
+    }
+    complexity lambda { |_ctx, _args, child_complexity|
       (BASE * 25) + (child_complexity > 1 ? child_complexity : 1)
-    end
+    }
   end
 
   field :posts do
     type types[Types::PostType]
     argument :ids, types[types.ID], 'A list of Metasmoke IDs'
-    argument :uids, types[types.String], "A list of on-site id and site name pairs, e.g. ['stackunderflow:12345', 'superloser:54321']"
-    argument :urls, types[types.String], 'A list of urls to posts, of the form //sitename.stackexchange.com/a/id or /questions/id'
-    argument :last, types.Int, "Last n items from selection. Can be used in conjunction with any other options except 'first'"
-    argument :first, types.Int, "First n items from selection. Can be used in conjunction with any other options except 'last'"
+    argument :uids, types[types.String],
+             "A list of on-site id and site name pairs, e.g. ['stackunderflow:12345', 'superloser:54321']"
+    argument :urls, types[types.String],
+             'A list of urls to posts, of the form //sitename.stackexchange.com/a/id or /questions/id'
+    argument :last, types.Int,
+             "Last n items from selection. Can be used in conjunction with any other options except 'first'"
+    argument :first, types.Int,
+             "First n items from selection. Can be used in conjunction with any other options except 'last'"
     argument :offset, types.Int, 'Number of items to offset by. Offset counted from start unless ' \
                                  "the 'last' option is used, in which case offset is counted from the end.", default_value: 0
     description 'Find Posts, with a maximum of 100 to be returned'
-    resolve ->(_obj, args, _ctx) do
+    resolve lambda { |_obj, args, _ctx|
       posts = Post.all
       posts = posts.where(link: args['urls']) if args['urls']
       if args['uids']
@@ -62,19 +67,20 @@ Types::QueryType = GraphQL::ObjectType.define do
       end
       posts = posts.find(args['ids']) if args['ids']
       return GraphQL::ExecutionError.new("You can't use 'last' and 'first' together") if args['first'] && args['last']
+
       posts = posts.offset(args['offset']).first(args['first']) if args['first']
       posts = posts.reverse_order.offset(args['offset']).first(args['last']) if args['last']
       posts = posts.limit(100) if posts.respond_to? :limit
       Array(posts)
-    end
-    complexity ->(_ctx, args, child_complexity) do
+    }
+    complexity lambda { |_ctx, args, child_complexity|
       children = 0
       children += (args['last'] || args['first'] || 0)
       children += args['uids'].length if args['uids']
       children += args['ids'].length if args['ids']
       children += args['urls'].length if args['urls']
       (BASE * 25) + children * (child_complexity > 1 ? child_complexity : 1)
-    end
+    }
   end
 
   # deletion_logs domain_tags flag_logs moderator_sites
@@ -87,38 +93,41 @@ Types::QueryType = GraphQL::ObjectType.define do
       type graphql_type
       argument :id, types.ID, "Get one #{ar_class} by id"
       description "Find one #{ar_class}"
-      resolve ->(_obj, args, _ctx) do
+      resolve lambda { |_obj, args, _ctx|
         ar_class.find(args['id']) if args['id']
-      end
-      complexity ->(_ctx, _args, child_complexity) do
+      }
+      complexity lambda { |_ctx, _args, child_complexity|
         (BASE * 25) + (child_complexity > 1 ? child_complexity : 1)
-      end
+      }
     end
 
     field name.pluralize.to_sym do
       type types[graphql_type]
       argument :ids, types[types.ID], 'A list of Metasmoke IDs'
-      argument :last, types.Int, "Last n items from selection. Can be used in conjunction with any other options except 'first'"
-      argument :first, types.Int, "First n items from selection. Can be used in conjunction with any other options except 'last'"
+      argument :last, types.Int,
+               "Last n items from selection. Can be used in conjunction with any other options except 'first'"
+      argument :first, types.Int,
+               "First n items from selection. Can be used in conjunction with any other options except 'last'"
       argument :offset, types.Int, 'Number of items to offset by. Offset counted from start unless ' \
                                    "the 'last' option is used, in which case offset is counted from the end.", default_value: 0
       description "Find multiple #{ar_class.to_s.pluralize}. Maximum of 200 returned."
-      resolve ->(_obj, args, _ctx) do
+      resolve lambda { |_obj, args, _ctx|
         things = ar_class.all
         things = things.where(id: args['ids']) if args['ids']
         return GraphQL::ExecutionError.new("You can't use 'last' and 'first' together") if args['first'] && args['last']
+
         things = things.offset(args['offset']).first(args['first']) if args['first']
         things = things.reverse_order.offset(args['offset']).first(args['last']) if args['last']
         things = things.limit(200) if things.respond_to? :limit
         Array(things)
-      end
-      complexity ->(_ctx, args, child_complexity) do
+      }
+      complexity lambda { |_ctx, args, child_complexity|
         children = 0
         children += args['ids'].length if args['ids']
         children += (args['last'] || args['first'] || 0)
-        children = 200 if children == 0
+        children = 200 if children.zero?
         (BASE * 25) + children * (child_complexity > 1 ? child_complexity : 1)
-      end
+      }
     end
   end
 

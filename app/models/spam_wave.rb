@@ -18,9 +18,7 @@ class SpamWave < ApplicationRecord
     site_ids = site_ids.nil? ? sites.map(&:id) : site_ids
     matches = []
     matches << site_ids.include?(post.site_id)
-    if conditions['max_user_rep'].present?
-      matches << (post.user_reputation <= conditions['max_user_rep'].to_i)
-    end
+    matches << (post.user_reputation <= conditions['max_user_rep'].to_i) if conditions['max_user_rep'].present?
 
     %w[title body username].each do |f|
       matches << !Regexp.new(conditions["#{f}_regex"]).match(post.send(f.to_sym)).nil?
@@ -32,9 +30,7 @@ class SpamWave < ApplicationRecord
   def unfiltered_posts
     site_ids = sites.map(&:id)
     posts = Post.where('created_at >= ?', created_at - 1.month).where(site_id: site_ids)
-    if conditions['max_user_rep'].present?
-      posts = posts.where('user_reputation <= ?', conditions['max_user_rep'])
-    end
+    posts = posts.where('user_reputation <= ?', conditions['max_user_rep']) if conditions['max_user_rep'].present?
     posts
   end
 
@@ -54,11 +50,13 @@ class SpamWave < ApplicationRecord
     post_count = SiteSetting['min_wave_post_count']
     min_accuracy = SiteSetting['min_wave_accuracy']
     return if accuracy >= min_accuracy && posts.count >= post_count
+
     errors.add(:conditions, "must result in post count >= #{post_count} and accuracy >= #{min_accuracy}")
   end
 
   def max_expiry
     return if expiry <= 1.day.from_now
+
     errors.add(:expiry, 'must be no more than 24 hours from now')
   end
 end

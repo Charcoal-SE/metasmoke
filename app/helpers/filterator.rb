@@ -17,10 +17,10 @@ module Filterator
           c.ord.to_s(2).rjust(8, '0')
         else
           rem = mappings.size % 8
-          rem = 8 if rem == 0
+          rem = 8 if rem.zero?
           c.ord.to_s(2).rjust(rem, '0')
         end
-      end.join('')
+      end.join
     end
 
     # This takes a Base64-encoded filter string and turns it into an array of database-level qualified database column
@@ -46,7 +46,7 @@ module Filterator
       bits = Array.new(mappings.size) do |i|
         fields.include?(mappings[i]) ? 1 : 0
       end
-      raw = bits.each_slice(8).map { |x| x.join('').to_i(2).chr }.join('')
+      raw = bits.each_slice(8).map { |x| x.join.to_i(2).chr }.join
       Base64.encode64(raw)
     end
   end

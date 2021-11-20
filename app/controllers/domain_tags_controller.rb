@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class DomainTagsController < ApplicationController
-  before_action :authenticate_user!, only: %i[add remove edit update destroy add_post remove_post submit_mass_tag add_review]
+  before_action :authenticate_user!,
+                only: %i[add remove edit update destroy add_post remove_post submit_mass_tag add_review]
   before_action :verify_core, only: %i[add remove edit update add_post remove_post submit_mass_tag add_review]
   before_action :verify_admin, only: [:destroy]
   before_action :set_domain_tag, only: %i[show edit update destroy]

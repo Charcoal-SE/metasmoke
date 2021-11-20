@@ -48,7 +48,7 @@ class RedisLogController < ApplicationController
     si, ei = page
     @sessions = redis.zrevrange("user_sessions/#{user_id}", si, ei).to_a.map do |session_id|
       requests = redis.zrange("session/#{session_id}/requests", 0, 20, with_scores: true)
-      if redis.zcard("session/#{session_id}/requests") == 0
+      if redis.zcard("session/#{session_id}/requests").zero?
         redis.multi do
           redis.del "session/#{session_id}/requests"
           redis.del "session/#{session_id}"
@@ -84,14 +84,15 @@ class RedisLogController < ApplicationController
     redis = redis(logger: true)
     @session_id = params[:id]
     si, ei = page
-    @requests = if redis.zcard("session/#{@session_id}/requests") == 0
+    @requests = if redis.zcard("session/#{@session_id}/requests").zero?
                   redis.multi do
                     redis.del "session/#{@session_id}/requests"
                     redis.del "session/#{@session_id}"
                   end
                   {}
                 else
-                  redis.zrange("session/#{@session_id}/requests", si, ei, with_scores: true).map do |request_id, timestamp|
+                  redis.zrange("session/#{@session_id}/requests", si, ei,
+                               with_scores: true).map do |request_id, timestamp|
                     r = get_request(timestamp, request_id)
                     redis.zrem "session/#{@session_id}/requests", request_id if r.empty?
                     r
@@ -103,7 +104,8 @@ class RedisLogController < ApplicationController
     redis = redis(logger: true)
     @status = params[:status]
     si, ei = page
-    @requests = redis.zrevrange("requests/status/#{@status}", si, ei, with_scores: true).to_a.map do |request_id, timestamp|
+    @requests = redis.zrevrange("requests/status/#{@status}", si, ei,
+                                with_scores: true).to_a.map do |request_id, timestamp|
       r = get_request(timestamp, request_id)
       redis.zrem "requests/status/#{@status}", request_id if r.empty?
       r
@@ -118,7 +120,8 @@ class RedisLogController < ApplicationController
     si, ei = page
     @rlog = "requests/by_path/#{@method}/#{@path}.#{@format}"
     request.format = :html
-    @requests = redis.zrevrange("requests/by_path/#{@method}/#{@path}.#{@format}", si, ei, with_scores: true).to_a.map do |request_id, timestamp|
+    @requests = redis.zrevrange("requests/by_path/#{@method}/#{@path}.#{@format}", si, ei,
+                                with_scores: true).to_a.map do |request_id, timestamp|
       r = get_request(timestamp, request_id)
       redis.zrem "requests/by_path/#{@method}/#{@path}.#{@format}", request_id if r.empty?
       r
@@ -131,6 +134,7 @@ class RedisLogController < ApplicationController
     redis = redis(logger: true)
     from_redis = redis.hgetall("request/#{timestamp}/#{request_id}")
     return {} if from_redis.empty?
+
     from_redis['status'] ||= 'UNK'
     from_redis.merge(
       request_headers: redis.hgetall("request/#{timestamp}/#{request_id}/request_headers"),
