@@ -13,9 +13,7 @@ class AbuseReportsController < ApplicationController
       @reports = AbuseReport.where(abuse_report_status_id: ids).paginate(page: params[:page], per_page: 90)
     when 'stale'
       @reports = AbuseReport.where(status: AbuseReportStatus['Stale']).paginate(page: params[:page], per_page: 90)
-    when 'open'
-      @reports = AbuseReport.where(status: AbuseReportStatus['Open']).paginate(page: params[:page], per_page: 90)
-    else
+    else # includes when 'open'
       @reports = AbuseReport.where(status: AbuseReportStatus['Open']).paginate(page: params[:page], per_page: 90)
     end
   end
@@ -96,6 +94,7 @@ class AbuseReportsController < ApplicationController
 
   def verify_access
     return if current_user == @report.user || current_user&.has_role?(:admin)
+
     not_found
   end
 end

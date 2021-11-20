@@ -10,14 +10,14 @@ Types::StackExchangeUserType = GraphQL::ObjectType.define do
   field :question_count, types.Int
   field :reputation, types.Int
   field :site, Types::SiteType do
-    complexity ->(_ctx, _args, child_complexity) do
+    complexity lambda { |_ctx, _args, child_complexity|
       (BASE * 25) + (child_complexity > 1 ? child_complexity : 1)
-    end
+    }
   end
   field :posts, types[Types::PostType] do
-    complexity ->(_ctx, _args, child_complexity) do
+    complexity lambda { |_ctx, _args, child_complexity|
       (BASE * 25) + (child_complexity > 1 ? child_complexity : 1)
-    end
+    }
   end
 
   field :created_at, Types::DateTimeType

@@ -15,7 +15,8 @@ class CustomRegistrationsController < Devise::RegistrationsController
 
   def destroy
     if @user.stack_exchange_account_id.present?
-      Rails.cache.write("deleted_user_#{@user.stack_exchange_account_id}", '1', expires_in: 1.hour)
+      Rails.cache.write("deleted_user_#{@user.stack_exchange_account_id}", '1',
+                        expires_in: 1.hour)
     end
 
     super

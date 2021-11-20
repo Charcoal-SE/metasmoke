@@ -51,6 +51,7 @@ class Feedback < ApplicationRecord
     eager_load(:user).eager_load(:api_key).find_each(batch_size: 10_000) do |fb|
       redis.pipelined do
         next if fb.post_id.nil?
+
         key = "post/#{fb.post_id}/feedbacks"
         keys.push(key)
         redis.sadd "#{prefix}/#{key}", fb.id
@@ -73,11 +74,13 @@ class Feedback < ApplicationRecord
     if update_post_feedback_cache # if post feedback cache was changed
       if post.flagged? && !is_positive?
         message = "fp feedback on autoflagged post: [#{post.title}](#{post.link}) \\[[MS](//metasmoke.erwaysoftware.com/post/#{post_id})]"
-        ActionCable.server.broadcast 'smokedetector_messages', autoflag_fp: { message: message, site: post.site.site_domain }
+        ActionCable.server.broadcast 'smokedetector_messages',
+                                     autoflag_fp: { message: message, site: post.site.site_domain }
 
-        names = post.flaggers.map { |u| '@' + u.username.tr(' ', '') }
+        names = post.flaggers.map { |u| "@#{u.username.tr(' ', '')}" }
         user_msg = "Autoflagged FP: flagged by #{names.join(', ')}"
-        ActionCable.server.broadcast 'smokedetector_messages', autoflag_fp: { message: user_msg, site: post.site.site_domain }
+        ActionCable.server.broadcast 'smokedetector_messages',
+                                     autoflag_fp: { message: user_msg, site: post.site.site_domain }
         ValidateEligableFlaggersJob.perform_later(post)
       end
 
@@ -86,7 +89,9 @@ class Feedback < ApplicationRecord
   end
 
   after_create do
-    ActionCable.server.broadcast "posts_#{post_id}", feedback: FeedbacksController.render(locals: { feedback: self }, partial: 'feedback').html_safe
+    ActionCable.server.broadcast "posts_#{post_id}",
+                                 feedback: FeedbacksController.render(locals: { feedback: self },
+                                                                      partial: 'feedback').html_safe
     feedback = FeedbacksController.render(locals: { feedback: self }, partial: 'feedback.json')
     ActionCable.server.broadcast 'api_feedback', feedback: JSON.parse(feedback)
 
@@ -113,20 +118,18 @@ class Feedback < ApplicationRecord
 
   # Keep this block last to make sure any corrections or deletions have been made before we check count
   after_create do
-    if post.feedbacks.count >= 2 && post.review_item&.completed == false
-      post.review_item.update(completed: true)
-    end
+    post.review_item.update(completed: true) if post.feedbacks.count >= 2 && post.review_item&.completed == false
   end
 
-  def is_positive? # rubocop:disable Style/PredicateName
+  def is_positive? # rubocop:disable Naming/PredicateName
     feedback_type.include? 't'
   end
 
-  def is_negative? # rubocop:disable Style/PredicateName
+  def is_negative? # rubocop:disable Naming/PredicateName
     feedback_type.include? 'f'
   end
 
-  def is_naa? # rubocop:disable Style/PredicateName
+  def is_naa? # rubocop:disable Naming/PredicateName
     feedback_type.include? 'naa'
   end
 
@@ -138,6 +141,7 @@ class Feedback < ApplicationRecord
     if saved_changes?
       return post.reload.update_feedback_cache # Returns whether the post feedback cache has been changed
     end
+
     false
   end
 
@@ -178,12 +182,14 @@ class Feedback < ApplicationRecord
 
   def check_for_dupe_feedback_again
     return if is_invalidated
+
     duplicate = if user_id.present?
                   Feedback.where(user_id: user_id, post_id: post_id)
                 else
                   Feedback.where(user_name: user_name, post_id: post_id)
                 end.where(is_invalidated: false).where.not(id: id)
     return unless duplicate.exists?
+
     user = if user_id.present?
              User.find user_id
            else

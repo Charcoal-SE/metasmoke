@@ -17,9 +17,10 @@ class SpamDomain < ApplicationRecord
   after_create :fix_asn_tags
 
   def fix_asn_tags
-    asn_query = `dig +short "$(dig +short '#{domain.tr("'", '')}' | awk -F. '/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/ {print $4"."$3"." $2"."$1;exit}').origin.asn.cymru.com" TXT` # rubocop:disable Metrics/LineLength
+    asn_query = `dig +short "$(dig +short '#{domain.tr("'", '')}' | awk -F. '/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/ {print $4"."$3"." $2"."$1;exit}').origin.asn.cymru.com" TXT` # rubocop:disable Layout/LineLength
     asn = asn_query.strip.tr('"', '').split('|')[0]&.strip
     return unless asn.present?
+
     prev_domain_tags = domain_tags.where(special: true).select(:name).map(&:name).select { |dt| dt.start_with?('AS-') }
     asn.split.each do |as|
       desc = `dig +short AS#{as}.asn.cymru.com TXT`.strip.tr('"', '').split('|')[-1]&.strip
@@ -38,9 +39,9 @@ class SpamDomain < ApplicationRecord
 
   after_create do
     groups = Rails.cache.fetch 'domain_groups' do
-      DomainGroup.all.map { |dg| !dg.regex ? nil : [Regexp.new(dg.regex), dg.id] }.compact.to_h
+      DomainGroup.all.map { |dg| dg.regex ? [Regexp.new(dg.regex), dg.id] : nil }.compact.to_h
     end
-    groups.keys.each do |r|
+    groups.each_key do |r|
       DomainGroup.find(groups[r]).spam_domains << self if r.match? domain
     end
   end
@@ -54,7 +55,7 @@ class SpamDomain < ApplicationRecord
   end
 
   def should_dq?(_item)
-    domain_tags.count > 0
+    domain_tags.count.positive?
   end
 
   def review_item_name
@@ -63,7 +64,8 @@ class SpamDomain < ApplicationRecord
 
   def post_counts
     Rails.cache.fetch "spam_domain_post_counts_##{id}" do
-      { all: posts.count, tp: posts.where(is_tp: true).count, naa: posts.where(is_naa: true).count, fp: posts.where(is_fp: true).count }
+      { all: posts.count, tp: posts.where(is_tp: true).count, naa: posts.where(is_naa: true).count,
+fp: posts.where(is_fp: true).count }
     end
   end
 
@@ -83,7 +85,8 @@ class SpamDomain < ApplicationRecord
   private
 
   def setup_review(*_args)
-    return unless posts.count >= 3 && domain_tags.count == 0 && !review_item.present?
+    return unless posts.count >= 3 && domain_tags.count.zero? && !review_item.present?
+
     if posts.map(&:is_fp).any?(&:!)
       ReviewItem.create(reviewable: self, queue: ReviewQueue['untagged-domains'], completed: false)
     else
@@ -93,6 +96,7 @@ class SpamDomain < ApplicationRecord
 
   def check_dq(*_args)
     return unless review_item.present? && should_dq?(review_item)
+
     review_item.update(completed: true)
   end
 end

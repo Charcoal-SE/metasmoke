@@ -7,7 +7,7 @@ class CleanRedisJob < ApplicationJob
 
   def perform
     @keys = []
-    thread = Thread.new {}
+    thread = nil
     Post.eager_load(:stack_exchange_user)
         .eager_load(:site)
         .eager_load(:comments)
@@ -15,7 +15,9 @@ class CleanRedisJob < ApplicationJob
         .eager_load(:flag_logs)
         .eager_load(:feedbacks)
         .find_in_batches(batch_size: 250) do |posts|
-      thread.join
+      if thread.present?
+        thread.join
+      end
       thread = Thread.new do
         redis.pipelined do
           posts.each do |post|
@@ -52,8 +54,6 @@ class CleanRedisJob < ApplicationJob
             reason_names = post.reasons.map(&:reason_name)
             reason_weights = post.reasons.map(&:weight)
             redis.zadd(ck("posts/#{post.id}/reasons"), reason_weights.zip(reason_names)) unless post.reasons.empty?
-
-            nil
           end
           nil
         end
@@ -65,6 +65,7 @@ class CleanRedisJob < ApplicationJob
     Feedback.eager_load(:post).eager_load(:user).eager_load(:api_key).find_each(batch_size: 10_000) do |fb|
       redis.pipelined do
         next if fb.post.nil?
+
         redis.sadd ck(key), fb.id
         redis.hmset "feedbacks/#{fb.id}", *{
           feedback_type: fb.feedback_type,

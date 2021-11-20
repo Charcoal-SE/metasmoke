@@ -34,9 +34,7 @@ class SiteSetting < ApplicationRecord
     db_val = case inst&.value_type
              when 'boolean'
                val == 'true' ? 1 : 0
-             when 'number'
-               val.to_s
-             when 'float'
+             when 'number', 'float'
                val.to_s
              else
                val

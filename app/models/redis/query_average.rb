@@ -13,7 +13,8 @@ class Redis::QueryAverage
 
   def average(t)
     count = counter(t)
-    return Float::INFINITY if count == 0
+    return Float::INFINITY if count.zero?
+
     redis(logger: true).zrangebyscore(redis_key(t), @since, '+inf').map(&:to_f).sum / count
   end
 

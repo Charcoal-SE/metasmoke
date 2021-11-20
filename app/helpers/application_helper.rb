@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-include ERB::Util
-
 module ApplicationHelper
+  include ERB::Util
+
   def title(text)
     content_for :title, text
     text
@@ -54,7 +54,7 @@ module ApplicationHelper
       options[:label] = options[:label].sub 'Smoke Detector', 'SmokeDetector' unless @current_dropdown_is_active.nil?
 
       link = if block_given?
-               link_to(url, options[:link_attrs]) { h(options[:label]) + ' ' + capture(&block) }
+               link_to(url, options[:link_attrs]) { "#{h(options[:label])} #{capture(&block)}" }
              else
                link_to options[:label], url, options[:link_attrs]
              end
@@ -73,7 +73,8 @@ module ApplicationHelper
 
       @current_dropdown_is_active ||= is_active unless @current_dropdown_is_active.nil?
 
-      tag.li link + options[:children], options[:attrs].merge(class: [is_active ? 'active' : '', *options[:attrs][:class]])
+      tag.li link + options[:children],
+             options[:attrs].merge(class: [is_active ? 'active' : '', *options[:attrs][:class]])
     end
   end
 
@@ -91,7 +92,7 @@ module ApplicationHelper
     nav_link(
       cls,
       options.merge(
-        active: !!is_active, # rubocop:disable Style/DoubleNegation
+        active: !!is_active,
         attrs: {
           class: 'dropdown'
         },
@@ -116,6 +117,7 @@ module ApplicationHelper
   def current_action?(cls, action = nil)
     return false unless controller.is_a? cls
     return controller.action_name == action.to_s if action
+
     true
   end
 end

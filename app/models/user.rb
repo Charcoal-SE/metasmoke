@@ -46,9 +46,7 @@ class User < ApplicationRecord
                end
     message += ' created'
     # Actually send the messsage to SmokeDetector, unless that's turned off.
-    if SiteSetting['new_account_messages_enabled']
-      SmokeDetector.send_message_to_charcoal message
-    end
+    SmokeDetector.send_message_to_charcoal message if SiteSetting['new_account_messages_enabled']
   end
 
   before_save do
@@ -68,10 +66,10 @@ class User < ApplicationRecord
   end
 
   def inactive_message
-    if !has_role?(:reviewer)
-      :not_approved
-    else
+    if has_role?(:reviewer)
       super # Use whatever other message
+    else
+      :not_approved
     end
   end
 
@@ -83,7 +81,7 @@ class User < ApplicationRecord
       res = Net::HTTP.get_response(URI.parse("https://chat.#{s[1]}/accounts/#{stack_exchange_account_id}"))
       begin
         chat_id = res['location'].scan(%r{/users/(\d+)/})[0][0]
-      rescue
+      rescue StandardError
         chat_id = nil
       end
       [s[0], chat_id]
@@ -111,10 +109,10 @@ class User < ApplicationRecord
       resp = Net::HTTP.get_response(URI.parse("https://api.stackexchange.com/2.2/me?site=#{first_site}&filter=!-.wwQ56Mfo3J&#{auth_string}"))
       resp = JSON.parse(resp.body)
 
-      return resp['items'][0]['display_name']
-    rescue => ex
-      Rails.logger.error "Error raised while fetching username: #{ex.message}"
-      Rails.logger.error ex.backtrace
+      resp['items'][0]['display_name']
+    rescue StandardError => e
+      Rails.logger.error "Error raised while fetching username: #{e.message}"
+      Rails.logger.error e.backtrace
     end
   end
 
@@ -145,6 +143,7 @@ class User < ApplicationRecord
 
       response['items'].each do |network_account|
         next unless network_account['user_type'] == 'moderator'
+
         domain = Addressable::URI.parse(network_account['site_url']).host
         new_moderator_sites << ModeratorSite.find_or_create_by(site_id: Site.find_by(site_domain: domain).id,
                                                                user_id: id)
@@ -159,9 +158,7 @@ class User < ApplicationRecord
   end
 
   def flag(flag_type, post, dry_run = false, **opts)
-    if moderator_sites.pluck(:site_id).include? post.site_id
-      return false, 'User is a moderator on this site'
-    end
+    return false, 'User is a moderator on this site' if moderator_sites.pluck(:site_id).include? post.site_id
 
     return false, 'Flags not enabled for this account' unless flags_enabled
 
@@ -183,6 +180,7 @@ class User < ApplicationRecord
                        post_type: post_type[0..-2]
                      })
     return false, "[beta] /autoflag/options #{r.code}\n#{r.headers}\n#{r.body}" if r.code != 200
+
     response = JSON.parse(r.body)
 
     flag_options = response['items']
@@ -198,14 +196,13 @@ class User < ApplicationRecord
 
     flag_strings = {
       spam: ['spam', 'contenido no deseado', 'スパム', 'спам'],
-      abusive: ['rude or abusive', 'rude ou abusivo', 'irrespetuoso o abusivo', '失礼又は暴言', 'невежливый или оскорбительный'],
+      abusive: ['rude or abusive', 'rude ou abusivo', 'irrespetuoso o abusivo', '失礼又は暴言',
+                'невежливый или оскорбительный'],
       other: ['in need of moderator intervention', 'precisa de atenção dos moderadores', 'se necesita la intervención de un moderador',
               'モデレーターによる対応が必要です', 'требуется вмешательство модератора']
     }
 
-    unless flag_strings.keys.include? flag_type.to_sym
-      return false, "Unrecognized flag type #{flag_type} specified in call to User#flag"
-    end
+    return false, "Unrecognized flag type #{flag_type} specified in call to User#flag" unless flag_strings.keys.include? flag_type.to_sym
 
     flag_option = flag_options.find do |fo|
       flag_strings[flag_type.to_sym].include? fo['title']
@@ -214,6 +211,7 @@ class User < ApplicationRecord
     return false, 'Flag option not present' if flag_option.blank?
 
     return true, 0 if dry_run
+
     tstore = AppConfig['token_store']
     acct_id = stack_exchange_account_id
     post_id = post.native_id
@@ -232,15 +230,14 @@ class User < ApplicationRecord
                           comment: comment
                         })
     return false, "[beta] /autoflag #{req.code}\n#{req.headers}\n#{req.body}" if req.code != 200
+
     flag_response = JSON.parse(req.body)
 
-    # rubocop:disable Style/GuardClause
     if flag_response.include?('error_id') || flag_response.include?('error_message')
-      return false, flag_response['error_message']
+      [false, flag_response['error_message']]
     else
-      return true, (flag_response.include?('backoff') ? flag_response['backoff'] : 0)
+      [true, (flag_response.include?('backoff') ? flag_response['backoff'] : 0)]
     end
-    # rubocop:enable Style/GuardClause
   end
 
   def spam_flag(post, dry_run = false)
@@ -268,8 +265,7 @@ class User < ApplicationRecord
     end
   end
 
-  # rubocop:disable Style/PredicateName
-  def has_pinned_role?(role)
+  def has_pinned_role?(role) # rubocop:disable Naming/PredicateName
     UsersRole.where(user: self, role: Role.find_by(name: role), pinned: true).exists?
   end
 

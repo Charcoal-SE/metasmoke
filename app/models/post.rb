@@ -18,7 +18,7 @@ class Post < ApplicationRecord
   include PostConcerns::Review
 
   validate :reject_recent_duplicates
-  validates :link, format: { with: %r{\A\/\/(.*?)\/(questions|a)\/(\d+)\Z} }, allow_blank: true, on: :create
+  validates :link, format: { with: %r{\A//(.*?)/(questions|a)/(\d+)\Z} }, allow_blank: true, on: :create
 
   serialize :tags, JSON
 
@@ -37,7 +37,7 @@ class Post < ApplicationRecord
   has_many :abuse_reports, as: :reportable
   has_one :review_item, as: :reviewable
 
-  scope(:includes_for_post_row, -> do
+  scope(:includes_for_post_row, lambda do
     includes(:stack_exchange_user).includes(:reasons).includes(:site)
            .includes(feedbacks: %i[user api_key]).includes(:comments)
   end)
@@ -55,12 +55,13 @@ class Post < ApplicationRecord
   after_commit :parse_domains, on: :create
 
   after_create do
-    match = %r{\/(?:q(?:uestions)?|a(?:nswers)?)\/(\d+)}.match(link)
+    match = %r{/(?:q(?:uestions)?|a(?:nswers)?)/(\d+)}.match(link)
     update(native_id: match[1]) if match
   end
 
   after_create do
-    ActionCable.server.broadcast 'posts_realtime', row: PostsController.render(locals: { post: Post.last }, partial: 'post').html_safe
+    ActionCable.server.broadcast 'posts_realtime',
+                                 row: PostsController.render(locals: { post: Post.last }, partial: 'post').html_safe
     ActionCable.server.broadcast 'topbar', review: ReviewItem.active.count
   end
 
@@ -178,7 +179,7 @@ class Post < ApplicationRecord
                                 .where.not(id: id)
                                 .where('is_tp != ? or is_fp != ?', is_tp, is_fp)
 
-    if conflicting_revisions.count > 0
+    if conflicting_revisions.count.positive?
       msg = "Conflicting feedback across revisions: [current](//metasmoke.erwaysoftware.com/post/#{id})"
 
       conflicting_revisions.each_with_index do |post, i|
@@ -196,9 +197,7 @@ class Post < ApplicationRecord
       SmokeDetector.send_message_to_charcoal "**fp on autoflagged post**: #{title}](//metasmoke.erwaysoftware.com/post/#{id})"
     end
 
-    if is_feedback_changed
-      ActionCable.server.broadcast 'topbar', review: ReviewItem.active.count
-    end
+    ActionCable.server.broadcast 'topbar', review: ReviewItem.active.count if is_feedback_changed
 
     is_feedback_changed
   end
@@ -232,7 +231,7 @@ class Post < ApplicationRecord
   end
 
   # Called get_revision_count with the predicate because the model already has an attribute in the DB called revision_count.
-  def get_revision_count # rubocop:disable Style/AccessorMethodName
+  def get_revision_count # rubocop:disable Naming/AccessorMethodName
     post = if respond_to? :revision_count
              self
            else
@@ -248,27 +247,26 @@ class Post < ApplicationRecord
 
   def parse_domains
     hosts = part_to_extract_from_domains.map do |uri|
-      begin
-        # Escape (URI-encode) hostname first, otherwise we get "URI must be ascii-only" on cases like
-        # hxxps://supplémentsavis.fr/spammy-products-here
-        regexed_hostname = uri.match(%r{(?<=\/\/)[^\/]+})&.try(:[], 0)
-        uri = uri.gsub(regexed_hostname, CGI.escape(regexed_hostname))
+      # Escape (URI-encode) hostname first, otherwise we get "URI must be ascii-only" on cases like
+      # hxxps://supplémentsavis.fr/spammy-products-here
+      regexed_hostname = uri.match(%r{(?<=//)[^/]+})&.try(:[], 0)
+      uri = uri.gsub(regexed_hostname, CGI.escape(regexed_hostname))
 
-        # DON'T unescape anything before parsing it, or we get "bad URI(is not URI?)"
-        hostname = URI.parse(uri).hostname
+      # DON'T unescape anything before parsing it, or we get "bad URI(is not URI?)"
+      hostname = URI.parse(uri).hostname
 
-        # Now unescape (URI-decode) the parsed hostname, otherwise we create domains that look like
-        # hxxps://suppl%C3%A9mentsavis.fr/ (see #615)
-        # We also don't want to create separate domain entries for www. subdomains,
-        # nor to be paying attention to mixed case differences.
-        CGI.unescape(hostname).gsub(/^www\./, '').downcase
-      rescue
-        nil
-      end
+      # Now unescape (URI-decode) the parsed hostname, otherwise we create domains that look like
+      # hxxps://suppl%C3%A9mentsavis.fr/ (see #615)
+      # We also don't want to create separate domain entries for www. subdomains,
+      # nor to be paying attention to mixed case differences.
+      CGI.unescape(hostname).gsub(/^www\./, '').downcase
+    rescue StandardError
+      nil
     end.compact.uniq
 
     hosts.each do |h|
       next if h.length >= 255
+
       domain = SpamDomain.find_or_create_by domain: h
       domain.posts << self unless domain.posts.include? self
       Rails.cache.delete "spam_domain_post_counts_##{domain.id}"

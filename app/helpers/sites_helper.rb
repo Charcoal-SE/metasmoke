@@ -7,6 +7,7 @@ module SitesHelper
     res = Net::HTTP.get_response(url)
     sites = JSON.parse(res.body)['items']
     return unless sites.count > 100 # all is not well; bail
+
     ids = sites.map do |site|
       uri = URI.parse(site['site_url'])
       aliased_hosts = (site['aliases'] || []).map { |a| URI.parse(a).host }

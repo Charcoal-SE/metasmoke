@@ -54,7 +54,8 @@ class FlagSettingsControllerTest < ActionDispatch::IntegrationTest
   test 'should update flag_setting' do
     sign_out :user
 
-    patch flag_setting_url(@flag_setting), params: { flag_setting: { name: @flag_setting.name, value: @flag_setting.value } }
+    patch flag_setting_url(@flag_setting),
+          params: { flag_setting: { name: @flag_setting.name, value: @flag_setting.value } }
     assert_redirected_to missing_privileges_path(required: :admin)
 
     sign_in users(:admin_user)

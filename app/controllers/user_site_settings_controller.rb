@@ -78,6 +78,7 @@ class UserSiteSettingsController < ApplicationController
 
   def verify_authorized
     return if current_user.has_role?(:admin) || @preference.user == current_user
+
     raise ActionController::RoutingError, 'Not Found'
   end
 end

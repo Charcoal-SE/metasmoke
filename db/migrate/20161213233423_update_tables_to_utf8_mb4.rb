@@ -14,8 +14,8 @@ class UpdateTablesToUtf8Mb4 < ActiveRecord::Migration[5.0]
     execute "ALTER TABLE `posts` MODIFY `username` #{posts_column_types['username'].sql_type} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
 
     # StackExchangeUser table columns
-    # rubocop:disable Metrics/LineLength
+    # rubocop:disable Layout/LineLength
     execute "ALTER TABLE `stack_exchange_users` MODIFY `username` #{posts_column_types['username'].sql_type} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
-    # rubocop:enable Metrics/LineLength
+    # rubocop:enable Layout/LineLength
   end
 end
