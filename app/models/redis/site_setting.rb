@@ -4,7 +4,7 @@ class Redis::SiteSetting
   PREFIX = 'site_setting'
 
   def self.bool(name)
-    !redis.get("#{PREFIX}/#{name}").nil?
+    redis.get("#{PREFIX}/#{name}").nil? ? false : true
   end
 
   def self.get(name)

@@ -13,7 +13,9 @@ class PostCommentsController < ApplicationController
   end
 
   def update
-    flash[:danger] = 'Failed to update your comment.' unless @comment.update(text: params[:text])
+    unless @comment.update(text: params[:text])
+      flash[:danger] = 'Failed to update your comment.'
+    end
     redirect_back fallback_location: post_path(@comment.post_id)
   end
 
@@ -43,7 +45,6 @@ class PostCommentsController < ApplicationController
 
   def verify_access
     return if current_user == @comment.user || current_user.has_role?(:admin)
-
     not_found
   end
 end

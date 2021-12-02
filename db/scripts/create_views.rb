@@ -17,7 +17,6 @@ queries << ['CREATE USER', "CREATE USER IF NOT EXISTS metasmoke_blazer@localhost
 
 tables.each do |t|
   next if EXCLUDE_TABLES.include? t
-
   columns = ActiveRecord::Base.connection.columns(t).map(&:name) - (EXCLUDE_COLUMNS[t] || [])
   queries << ["CREATE VIEW p_#{t}", "CREATE OR REPLACE VIEW p_#{t} AS SELECT #{columns.join(', ')} FROM #{t};"]
   queries << ["GRANT SELECT ON #{database}.p_#{t}", "GRANT SELECT ON #{database}.p_#{t} TO metasmoke_blazer@localhost;"]

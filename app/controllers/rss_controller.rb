@@ -39,14 +39,14 @@ class RSSController < ApplicationController
              end
 
     if params[:from_date].present?
-      @posts = @posts.where('`posts`.`created_at` > ?',
-                            DateTime.strptime(params[:from_date], '%s'))
+      @posts = @posts.where('`posts`.`created_at` > ?', DateTime.strptime(params[:from_date], '%s'))
     end
     if params[:to_date].present?
-      @posts = @posts.where('`posts`.`created_at` < ?',
-                            DateTime.strptime(params[:to_date], '%s'))
+      @posts = @posts.where('`posts`.`created_at` < ?', DateTime.strptime(params[:to_date], '%s'))
     end
-    @posts = @posts.includes(:feedbacks).where(feedbacks: { feedback_type: params[:feedback_type] }) if params[:feedback_type].present?
+    if params[:feedback_type].present?
+      @posts = @posts.includes(:feedbacks).where(feedbacks: { feedback_type: params[:feedback_type] })
+    end
     respond_to do |format|
       format.html
       format.rss { render layout: false }

@@ -12,17 +12,19 @@ module SearchHelper
                   end
     else
       operation = 'LIKE'
-      input = "%#{ActiveRecord::Base.sanitize_sql_like(input)}%" unless input.nil? || input.empty?
+      unless input.nil? || input.empty?
+        input = '%' + ActiveRecord::Base.sanitize_sql_like(input) + '%'
+      end
     end
 
     [input, operation]
   end
 
-  def self.is_regex?(symbol) # rubocop:disable Naming/PredicateName
-    "#{symbol}_is_regex".to_sym
+  def self.is_regex?(symbol) # rubocop:disable Style/PredicateName
+    (symbol.to_s + '_is_regex').to_sym
   end
 
-  def self.is_inverse_regex?(symbol) # rubocop:disable Naming/PredicateName
-    "#{symbol}_is_inverse_regex".to_sym
+  def self.is_inverse_regex?(symbol) # rubocop:disable Style/PredicateName
+    (symbol.to_s + '_is_inverse_regex').to_sym
   end
 end

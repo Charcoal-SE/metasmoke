@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class CodeStatusController < ApplicationController
-  include APIHelper
+include APIHelper
 
+class CodeStatusController < ApplicationController
   def index
     @gem_versions = Gem::Specification.sort_by { |g| [g.name.downcase, g.version] }.sort_by(&:name)
     @important_gems = %w[
@@ -20,8 +20,7 @@ class CodeStatusController < ApplicationController
       Octokit.compare 'Charcoal-SE/metasmoke', CurrentCommit, @repo[:default_branch]
     end
     @compare_diff = Rails.cache.fetch "code_status/compare_diff##{CurrentCommit}" do
-      Octokit.compare 'Charcoal-SE/metasmoke', CurrentCommit, @repo[:default_branch],
-                      accept: 'application/vnd.github.v3.diff'
+      Octokit.compare 'Charcoal-SE/metasmoke', CurrentCommit, @repo[:default_branch], accept: 'application/vnd.github.v3.diff'
     end
     @commit = Rails.cache.fetch "code_status/commit##{CurrentCommit}" do
       Octokit.commit 'Charcoal-SE/metasmoke', CurrentCommit

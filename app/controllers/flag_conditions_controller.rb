@@ -49,14 +49,12 @@ class FlagConditionsController < ApplicationController
     @condition.flags_enabled = !@condition.flags_enabled
 
     return unless @condition.save
-
     flash[:success] = "#{@condition.flags_enabled ? 'Enabled' : 'Disabled'} condition."
     redirect_to url_for(controller: :flag_conditions, action: :index)
   end
 
   def edit
     return if @condition.flags_enabled
-
     @condition.flags_enabled = true
     @condition.validate
 
@@ -91,10 +89,9 @@ class FlagConditionsController < ApplicationController
     set_preview_data
 
     if params[:filter].present? && !params[:filter].empty?
-      case params[:filter]
-      when 'fps'
+      if params[:filter] == 'fps'
         @posts = @posts.where('posts.is_fp = TRUE OR posts.is_naa = TRUE')
-      when 'tps'
+      elsif params[:filter] == 'tps'
         @posts = @posts.where(is_tp: true)
       end
       @sites = Site.where(id: @posts.map(&:site_id)).to_a
@@ -107,7 +104,6 @@ class FlagConditionsController < ApplicationController
 
   def one_click_setup
     return if current_user.write_authenticated
-
     flash[:warning] = 'You need to be write-authenticated before you can set up flagging.'
     redirect_to(url_for(controller: :authentication, action: :status))
   end
@@ -118,13 +114,11 @@ class FlagConditionsController < ApplicationController
       redirect_to(url_for(controller: :authentication, action: :status))
     end
 
-    FlagCondition.create(user: current_user, sites: Site.mains, flags_enabled: true, min_weight: 280,
-                         max_poster_rep: 1, min_reason_count: 1)
+    FlagCondition.create(user: current_user, sites: Site.mains, flags_enabled: true, min_weight: 280, max_poster_rep: 1, min_reason_count: 1)
     UserSiteSetting.create(user: current_user, sites: Site.mains, max_flags: 7)
     current_user.update(flags_enabled: true)
 
-    flash[:info] =
-      "The necessary settings for autoflagging have been created - please review them to make sure you're happy."
+    flash[:info] = "The necessary settings for autoflagging have been created - please review them to make sure you're happy."
     redirect_to url_for(controller: :flag_settings, action: :dashboard)
   end
 
@@ -156,19 +150,16 @@ class FlagConditionsController < ApplicationController
 
   def verify_authorized
     return if current_user.has_role?(:admin) || @condition.user == current_user
-
     raise ActionController::RoutingError, 'Not Found'
   end
 
   def check_registration_status
     return unless FlagSetting['registration_enabled'] == '0' && !current_user.flags_enabled
-
     raise ActionController::RoutingError, 'Not Found'
   end
 
   def set_preview_data
     return unless @condition
-
     site_ids = if params['flag_condition']
                  params['flag_condition']['sites'].map(&:to_i)
                else
@@ -190,8 +181,7 @@ class FlagConditionsController < ApplicationController
       rec[0]
     end
 
-    @posts = posts.includes(feedbacks: [:user]).order(Arel.sql('posts.id DESC')).paginate(page: params[:page],
-                                                                                          per_page: 100)
+    @posts = posts.includes(feedbacks: [:user]).order(Arel.sql('posts.id DESC')).paginate(page: params[:page], per_page: 100)
     @sites = Site.where(id: @posts.map(&:site_id)).to_a
   end
 end

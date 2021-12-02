@@ -3,8 +3,7 @@
 class PostsController < ApplicationController
   protect_from_forgery except: [:create]
   before_action :check_if_smokedetector, only: :create
-  before_action :set_post,
-                only: %i[remove_domain add_domain needs_admin feedbacksapi reindex_feedback cast_spam_flag delete_post]
+  before_action :set_post, only: %i[remove_domain add_domain needs_admin feedbacksapi reindex_feedback cast_spam_flag delete_post]
   before_action :authenticate_user!, only: %i[reindex_feedback cast_spam_flag]
   before_action :verify_developer, only: %i[reindex_feedback delete_post]
   before_action :verify_reviewer, only: %i[feedback cast_spam_flag]
@@ -18,8 +17,7 @@ class PostsController < ApplicationController
                   .includes(:feedbacks)
                   .select(Arel.sql('posts.*, sites.site_logo, SUM(reasons.weight) AS reason_weight'))
                   .find(params[:id])
-    rescue => e
-      Rails.logger.warn "Error while finding post: #{e.message}"
+    rescue # rubocop:disable Lint/HandleExceptions
     end
     @post = Post.find params[:id] if @post&.id.nil?
 
@@ -30,10 +28,10 @@ class PostsController < ApplicationController
 
   def add_domain
     domain = SpamDomain.find_by(domain: params[:domain_name])
-    if domain.present?
-      PostSpamDomain.create(post: @post, spam_domain: domain, added_by: current_user)
-    else
+    if !domain.present?
       flash[:warning] = "Domain #{params[:domain_name]} not found"
+    else
+      PostSpamDomain.create(post: @post, spam_domain: domain, added_by: current_user)
     end
     redirect_back(fallback_location: post_path(@post))
   end
@@ -63,8 +61,7 @@ class PostsController < ApplicationController
     count = @posts.count
 
     if count < 1
-      flash[:danger] =
-        "Post not found for #{params[:url]}. It may have been reported during a period of metasmoke downtime."
+      flash[:danger] = "Post not found for #{params[:url]}. It may have been reported during a period of metasmoke downtime."
       redirect_to posts_path
     elsif count == 1
       redirect_to url_for(controller: :posts, action: :show, id: @posts.first.id)
@@ -74,8 +71,7 @@ class PostsController < ApplicationController
   end
 
   def by_uid
-    @posts = Post.joins(:site).where(sites: { api_parameter: params[:api_param] },
-                                     posts: { native_id: params[:native_id] })
+    @posts = Post.joins(:site).where(sites: { api_parameter: params[:api_param] }, posts: { native_id: params[:native_id] })
     count = @posts.count
 
     if count < 1
@@ -167,8 +163,7 @@ class PostsController < ApplicationController
       se_user.save!
 
       @post.stack_exchange_user = se_user
-    rescue => e
-      Rails.logger.warn "Error finding StackExchangeUser to apply to post: #{e.message}"
+    rescue # rubocop:disable Lint/HandleExceptions
     end
 
     less_important_things(@post)
@@ -235,10 +230,9 @@ class PostsController < ApplicationController
       redirect_to(authentication_status_path) && return
     end
 
-    case flag_type
-    when 'spam'
+    if flag_type == 'spam'
       result, message = current_user.spam_flag(@post, false)
-    when 'abusive'
+    elsif flag_type == 'abusive'
       result, message = current_user.abusive_flag(@post, false)
     else
       not_found
@@ -273,8 +267,7 @@ class PostsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def post_params
-    permitted = %w[title body markdown link post_creation_date reasons username user_link why user_reputation score
-                   upvote_count downvote_count]
+    permitted = %w[title body markdown link post_creation_date reasons username user_link why user_reputation score upvote_count downvote_count]
     params.require(:post).permit(permitted)
   end
 
@@ -282,7 +275,6 @@ class PostsController < ApplicationController
     ri = ReviewItem.new(reviewable: post, queue: ReviewQueue['posts'], completed: false)
     ri_success = ri.save
     return if ri_success
-
     Rails.logger.warn "[post-create] review item create failed: #{ri.errors.full_messages.join(', ')}"
   end
 
@@ -290,8 +282,6 @@ class PostsController < ApplicationController
 
   def check_if_duplicate
     old_post = Post.where(link: post_params[:link]).select(*DUPLICATE_CHECK_FIELDS).order(id: :desc).limit(1).first
-    render status: 200, plain: 'Duplicate Report' if !old_post.nil? && DUPLICATE_CHECK_FIELDS.all? do |attr|
-                                                       old_post.send(attr) == post_params[attr]
-                                                     end
+    render status: 200, plain: 'Duplicate Report' if !old_post.nil? && DUPLICATE_CHECK_FIELDS.all? { |attr| old_post.send(attr) == post_params[attr] }
   end
 end

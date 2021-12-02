@@ -27,7 +27,9 @@ class AdminController < ApplicationController
 
     @sources << 'Stack Exchange chat' if @user.stackexchange_chat_id.present?
 
-    @sources << 'Meta Stack Exchange chat' if @user.meta_stackexchange_chat_id.present?
+    if @user.meta_stackexchange_chat_id.present?
+      @sources << 'Meta Stack Exchange chat'
+    end
 
     @feedback = @feedback.order(Arel.sql('feedbacks.id DESC')).paginate(page: params[:page], per_page: 1000)
     @feedback_count = @feedback.count
@@ -45,8 +47,7 @@ class AdminController < ApplicationController
   end
 
   def api_feedback
-    @feedback = Feedback.via_api.includes(:user, :post).order(created_at: :desc).paginate(page: params[:page],
-                                                                                          per_page: 100)
+    @feedback = Feedback.via_api.includes(:user, :post).order(created_at: :desc).paginate(page: params[:page], per_page: 100)
   end
 
   def permissions

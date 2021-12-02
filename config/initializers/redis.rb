@@ -49,12 +49,10 @@ def redis(logger: false, new: false)
   if logger
     config = AppConfig['redis_logging']
     return Redis.new(config) if new
-
     $redis_logging ||= Redis.new(config) # rubocop:disable Style/GlobalVars
   else
     config = YAML.load_file(File.join(Rails.root, 'config', 'cable.yml'))[Rails.env]
     return Redis.new(config) if new
-
     $redis ||= Redis.new(config) # rubocop:disable Style/GlobalVars
   end
 end

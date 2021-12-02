@@ -23,8 +23,7 @@ class SmokeDetectorsController < ApplicationController
 
   def force_failover
     @smoke_detector.update(force_failover: true)
-    flash[:success] =
-      "Failover for #{@smoke_detector.location} will be forced on the next ping; probably within 60 seconds."
+    flash[:success] = "Failover for #{@smoke_detector.location} will be forced on the next ping; probably within 60 seconds."
 
     redirect_to status_path
   end
@@ -72,8 +71,7 @@ class SmokeDetectorsController < ApplicationController
 
   def token_regen
     unless current_user.present? && current_user.id == @smoke_detector.user_id
-      raise ActionController::RoutingError,
-            'Not Found'
+      raise ActionController::RoutingError, 'Not Found'
     end
 
     if @smoke_detector.update(access_token: SecureRandom.uuid)

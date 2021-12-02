@@ -7,14 +7,14 @@ Types::FlagConditionType = GraphQL::ObjectType.define do
   field :max_poster_rep, types.Int
   field :min_reason_count, types.Int
   field :user, Types::UserType do
-    complexity lambda { |_ctx, _args, child_complexity|
+    complexity ->(_ctx, _args, child_complexity) do
       (BASE * 25) + (child_complexity > 1 ? child_complexity : 1)
-    }
+    end
   end
   field :sites, types[Types::SiteType] do
-    complexity lambda { |_ctx, _args, child_complexity|
+    complexity ->(_ctx, _args, child_complexity) do
       (BASE * 25) + (child_complexity > 1 ? child_complexity : 1)
-    }
+    end
   end
 
   field :created_at, Types::DateTimeType

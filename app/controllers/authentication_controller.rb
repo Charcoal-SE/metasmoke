@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 require 'open-uri'
+include AuthenticationHelper
 
 class AuthenticationController < ApplicationController
-  include AuthenticationHelper
-
   before_action :authenticate_user!, except: [:login_redirect_target]
   before_action :verify_admin, only: %i[invalidate_tokens send_invalidations]
 

@@ -14,7 +14,9 @@ class AbuseCommentsController < ApplicationController
   end
 
   def update
-    flash[:danger] = 'Failed to update your comment.' unless @comment.update(text: params[:text])
+    unless @comment.update(text: params[:text])
+      flash[:danger] = 'Failed to update your comment.'
+    end
     redirect_to abuse_report_path(@comment.abuse_report_id)
   end
 
@@ -44,7 +46,6 @@ class AbuseCommentsController < ApplicationController
 
   def verify_permission
     return if @comment.user_id == current_user.id || current_user.has_role?(:admin)
-
     not_found
   end
 end

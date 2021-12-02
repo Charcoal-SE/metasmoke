@@ -29,15 +29,15 @@ class Redis::Feedback
 
   # Stolen from feedbacks model
 
-  def is_positive? # rubocop:disable Naming/PredicateName
+  def is_positive? # rubocop:disable Style/PredicateName
     feedback_type.include? 't'
   end
 
-  def is_negative? # rubocop:disable Naming/PredicateName
+  def is_negative? # rubocop:disable Style/PredicateName
     feedback_type.include? 'f'
   end
 
-  def is_naa? # rubocop:disable Naming/PredicateName
+  def is_naa? # rubocop:disable Style/PredicateName
     feedback_type.include? 'naa'
   end
 end

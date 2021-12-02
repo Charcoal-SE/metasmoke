@@ -52,8 +52,7 @@ class FeedbacksController < ApplicationController
     render(plain: 'Error: No post found for link') && return if post.nil?
 
     # Ignore identical feedback from the same user
-    if Feedback.where(post: post, user_name: feedback_params[:user_name],
-                      feedback_type: feedback_params[:feedback_type]).present?
+    if Feedback.where(post: post, user_name: feedback_params[:user_name], feedback_type: feedback_params[:feedback_type]).present?
       render(plain: 'Identical feedback from user already exists on post') && return
     end
 
@@ -63,16 +62,15 @@ class FeedbacksController < ApplicationController
       expire_fragment(reason)
     end
 
-    expire_fragment("post#{post.id}")
+    expire_fragment('post' + post.id.to_s)
 
     @feedback.post = post
 
-    if Feedback.where(chat_user_id: @feedback.chat_user_id).count.zero?
+    if Feedback.where(chat_user_id: @feedback.chat_user_id).count == 0
       feedback_intro = 'It seems this is your first time sending feedback to SmokeDetector. ' \
       'Make sure you\'ve read the guidance on [your privileges](https://git.io/voC8N), ' \
       'the [available commands](https://git.io/voC4m), and [what feedback to use in different situations](https://git.io/voC4s).'
-      ActionCable.server.broadcast 'smokedetector_messages',
-                                   message: "@#{@feedback.user_name.delete(' ')}: #{feedback_intro}"
+      ActionCable.server.broadcast 'smokedetector_messages', message: "@#{@feedback.user_name.delete(' ')}: #{feedback_intro}"
     end
 
     respond_to do |format|
@@ -93,13 +91,11 @@ class FeedbacksController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def feedback_params
-    params.require(:feedback).permit(:message_link, :user_name, :user_link, :feedback_type, :post_link, :chat_user_id,
-                                     :chat_host)
+    params.require(:feedback).permit(:message_link, :user_name, :user_link, :feedback_type, :post_link, :chat_user_id, :chat_host)
   end
 
   def verify_access(feedbacks)
     return true if current_user.has_role? :admin
-
     if feedbacks.respond_to? :where
       return false unless feedbacks.where(user_id: current_user.id).exists?
     else

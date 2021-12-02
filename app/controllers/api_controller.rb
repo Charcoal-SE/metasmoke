@@ -74,8 +74,7 @@ class APIController < ApplicationController
 
   def posts_by_daterange
     filter = 'AAAAAAAAAAPHx4AAAAAAAUA='
-    @posts = Post.where(created_at: DateTime.strptime(params[:from_date],
-                                                      '%s')..DateTime.strptime(params[:to_date], '%s'))
+    @posts = Post.where(created_at: DateTime.strptime(params[:from_date], '%s')..DateTime.strptime(params[:to_date], '%s'))
                  .includes(:feedbacks)
                  .includes(flag_logs: [:user])
     results = @posts.select(select_fields(filter)).order(id: :desc).paginate(page: params[:page], per_page: @pagesize)
@@ -111,17 +110,21 @@ class APIController < ApplicationController
   def search_posts
     filter = 'AAAAAAAAAAPHx4AAAAAAAUA='
     @posts = Post.all
-    @posts = @posts.includes(:feedbacks).where(feedbacks: { feedback_type: params[:feedback_type] }) if params[:feedback_type].present?
-    @posts = @posts.joins(:site).where(sites: { site_domain: params[:site] }) if params[:site].present?
+    if params[:feedback_type].present?
+      @posts = @posts.includes(:feedbacks).where(feedbacks: { feedback_type: params[:feedback_type] })
+    end
+    if params[:site].present?
+      @posts = @posts.joins(:site).where(sites: { site_domain: params[:site] })
+    end
     if params[:from_date].present?
-      @posts = @posts.where('`posts`.`created_at` > ?',
-                            DateTime.strptime(params[:from_date], '%s'))
+      @posts = @posts.where('`posts`.`created_at` > ?', DateTime.strptime(params[:from_date], '%s'))
     end
     if params[:to_date].present?
-      @posts = @posts.where('`posts`.`created_at` < ?',
-                            DateTime.strptime(params[:to_date], '%s'))
+      @posts = @posts.where('`posts`.`created_at` < ?', DateTime.strptime(params[:to_date], '%s'))
     end
-    @posts = @posts.where(autoflagged: params[:autoflagged]) if params[:autoflagged].present?
+    if params[:autoflagged].present?
+      @posts = @posts.where(autoflagged: params[:autoflagged])
+    end
     results = @posts.select(select_fields(filter)).order(id: :desc).paginate(page: params[:page], per_page: @pagesize)
     render json: { items: results, has_more: has_more?(params[:page], results.count) }
   end
@@ -160,8 +163,7 @@ class APIController < ApplicationController
   # Read routes: Users
 
   def users_with_code_privs
-    chat_ids = User.blacklist_managers.pluck(:stackexchange_chat_id, :stackoverflow_chat_id,
-                                             :meta_stackexchange_chat_id)
+    chat_ids = User.blacklist_managers.pluck(:stackexchange_chat_id, :stackoverflow_chat_id, :meta_stackexchange_chat_id)
 
     items = {}
     %w[stackexchange_chat_ids stackoverflow_chat_ids meta_stackexchange_chat_ids].each_with_index do |name, index|
@@ -212,7 +214,7 @@ class APIController < ApplicationController
 
   def spam_last_week
     render json: Site.joins(:posts).where(posts: { is_tp: true, created_at: 1.week.ago.to_date..Date.today })
-                     .group(Arel.sql('sites.site_name')).count
+      .group(Arel.sql('sites.site_name')).count
   end
 
   def detailed_ttd
@@ -253,8 +255,7 @@ class APIController < ApplicationController
     @feedback.feedback_type = params[:type]
 
     if @post.question? && @feedback.is_naa?
-      render status: 500,
-             json: { error_name: 'failed', error_code: 500, error_message: "NAA feedback isn't allowed on questions" }
+      render status: 500, json: { error_name: 'failed', error_code: 500, error_message: "NAA feedback isn't allowed on questions" }
       return
     end
 
@@ -262,27 +263,23 @@ class APIController < ApplicationController
       if @feedback.is_naa?
         begin
           ActionCable.server.broadcast 'smokedetector_messages', naa: { post_link: @post.link }
-        rescue
-          nil
+        rescue # rubocop:disable Lint/HandleExceptions
         end
       elsif @feedback.is_negative?
         begin
           ActionCable.server.broadcast 'smokedetector_messages', fp: { post_link: @post.link }
-        rescue
-          nil
+        rescue # rubocop:disable Lint/HandleExceptions
         end
       end
       render json: @post.feedbacks, status: 201
     else
-      render status: 500,
-             json: { error_name: 'failed', error_code: 500, error_message: 'Feedback object failed to save.' }
+      render status: 500, json: { error_name: 'failed', error_code: 500, error_message: 'Feedback object failed to save.' }
     end
   end
 
   def report_post
     # We don't create any posts here, just send them on to Smokey to do all the processing
-    ActionCable.server.broadcast 'smokedetector_messages',
-                                 report: { user: @user.username, post_link: params[:post_link] }
+    ActionCable.server.broadcast 'smokedetector_messages', report: { user: @user.username, post_link: params[:post_link] }
 
     render plain: 'OK', status: 201
   end
@@ -321,9 +318,7 @@ class APIController < ApplicationController
 
   def post_deleted
     unless @key.is_trusted
-      render(status: 403,
-             json: { status: 'failed',
-message: 'The API key used to make the request is not trusted.' }) && return
+      render(status: 403, json: { status: 'failed', message: 'The API key used to make the request is not trusted.' }) && return
     end
 
     post = Post.find params[:id]
@@ -339,15 +334,13 @@ message: 'The API key used to make the request is not trusted.' }) && return
   def post_domains
     post = Post.find params[:id]
     results = post.spam_domains
-    render json: { items: results.paginate(page: params[:page], per_page: @pagesize),
-has_more: has_more?(params[:page], results.count) }
+    render json: { items: results.paginate(page: params[:page], per_page: @pagesize), has_more: has_more?(params[:page], results.count) }
   end
 
   def domain_tags
     domain = SpamDomain.find params[:id]
     results = domain.domain_tags
-    render json: { items: results.paginate(page: params[:page], per_page: @pagesize),
-has_more: has_more?(params[:page], results.count) }
+    render json: { items: results.paginate(page: params[:page], per_page: @pagesize), has_more: has_more?(params[:page], results.count) }
   end
 
   def add_domain_tag
@@ -368,10 +361,8 @@ has_more: has_more?(params[:page], results.count) }
   def verify_key
     @key = APIKey.find_by(key: params[:key])
     return if params[:key].present? && @key.present?
-
     smokey = SmokeDetector.find_by(access_token: params[:key])
     return if smokey.present?
-
     render status: 403, json: {
       error_name: 'unauthenticated',
       error_code: 403,
@@ -383,7 +374,7 @@ has_more: has_more?(params[:page], results.count) }
     @pagesize = [(params[:per_page] || 10).to_i, 100].min
   end
 
-  def has_more?(page, result_count) # rubocop:disable Naming/PredicateName
+  def has_more?(page, result_count) # rubocop:disable Style/PredicateName
     (page || 1).to_i * @pagesize < result_count
   end
 
@@ -410,7 +401,6 @@ has_more: has_more?(params[:page], results.count) }
 
   def verify_trusted_key
     return if @key.present? && @key.is_trusted
-
     render status: 403, json: {
       error_name: 'trusted_key_required',
       error_code: 403,

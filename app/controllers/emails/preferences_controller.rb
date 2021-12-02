@@ -45,7 +45,6 @@ class Emails::PreferencesController < ApplicationController
 
   def verify_permissions
     return if current_user&.has_role?(:admin) || params[:token] == @preference.addressee.manage_key
-
     redirect_to missing_privileges_path('admin')
   end
 end

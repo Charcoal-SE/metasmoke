@@ -1,14 +1,9 @@
-# This file is maintained in alphabetic order by class name (Layout, Metrics, Style) first, then by key name.
-
-require:
-  - ./lib/rubocop/path_in_helpers.rb
-
 AllCops:
-  TargetRubyVersion: 2.7
+  Include:
+    - '**/Rakefile'
+    - '**/config.ru'
   Exclude:
-    - 'config/**/*'
-    - 'db/**/*'
-    - 'scripts/**/*'
+    - 'lib/**/*'
     - 'bin/**/*'
     - 'script/**/*'
     - '**/*.json.jbuilder'
@@ -20,99 +15,60 @@ AllCops:
     - 'zhregex/**/**/**/*'
     - 'redis-git/**/**/**/*'
     - 'db/migrate/*.rb'
-    - 'test/**/*.rb'
-    - 'lib/**/*'
-  NewCops: enable
-  SuggestExtensions: false
+  TargetRubyVersion: 2.4
 
-Layout/EmptyLinesAroundAttributeAccessor:
-  Enabled: true
-Layout/HashAlignment:
+Style/Documentation:
   Enabled: false
-Layout/LineLength:
-  Max: 150
-Layout/SpaceAroundMethodCallOperator:
+Style/FileName:
+  Exclude:
+    - Gemfile
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: always
   Enabled: true
-Layout/SpaceInsideArrayLiteralBrackets:
+  Exclude:
+    - db/migrate/*
+Style/NumericPredicate:
+  AutoCorrect: true
+  EnforcedStyle: comparison
+  Enabled: true
+Style/AsciiComments:
+  Enabled: false
+Style/Lambda:
+  EnforcedStyle: literal
+Style/ClassAndModuleChildren:
   Enabled: false
 
-Lint/DeprecatedOpenSSLConstant:
-  Enabled: true
-Lint/PathInHelpers:
-  Enabled: true
-  Include:
-    - app/helpers/**/*.rb
-Lint/RaiseException:
-  Enabled: true
-Lint/StructNewOverride:
-  Enabled: true
-
+# Want to refactor some stuff? Remove these.
 Metrics/AbcSize:
   Enabled: false
-Metrics/BlockLength:
-  Max: 50
-  Exclude:
-    - 'app/api/**/*'
-    - 'app/**/concerns/**/*'
-    - 'app/graphql/types/**/*'
-Metrics/BlockNesting:
-  Max: 5
-Metrics/ClassLength:
-  Enabled: false
 Metrics/CyclomaticComplexity:
-  Max: 30
-  Exclude:
-    - 'app/controllers/search_controller.rb'
-Metrics/MethodLength:
-  Max: 150
-Metrics/ModuleLength:
   Enabled: false
 Metrics/PerceivedComplexity:
   Enabled: false
 
-Naming/MethodParameterName:
+Metrics/MethodLength:
+  Max: 150
+  Exclude:
+    - 'db/migrate/*'
+Metrics/LineLength:
+  Max: 150
+Metrics/ClassLength:
   Enabled: false
-Naming/MemoizedInstanceVariableName:
+Metrics/ModuleLength:
   Enabled: false
-
-Style/AsciiComments:
-  Enabled: false
-Style/ClassAndModuleChildren:
-  Enabled: false
-Style/ClassVars:
-  Enabled: false
-Style/Documentation:
-  Enabled: false  # No need for specific documentation comments, but please add inline comments where necessary.
-Style/DoubleNegation:
-  Enabled: false
-Style/ExponentialNotation:
-  Enabled: true
-  EnforcedStyle: scientific
-Style/GlobalVars:
-  Enabled: false
-Style/HashEachMethods:
-  Enabled: true
-Style/HashLikeCase:
-  Enabled: false
-Style/HashTransformKeys:
-  Enabled: true
-Style/HashTransformValues:
-  Enabled: true
-Style/IfInsideElse:
-  Enabled: false
-Style/IfUnlessModifier:
-  Enabled: false
-Style/MultilineBlockChain:
-  Enabled: false
-Style/OptionalBooleanParameter:
-  Enabled: false
-Style/RegexpLiteral:
-  Enabled: false
-Style/RescueStandardError:
-  Enabled: false
-Style/SlicingWithRange:
-  Enabled: false
-Style/SymbolArray:
-  Enabled: false
-Style/WordArray:
-  Enabled: false
+Metrics/BlockLength:
+  Max: 30
+  ExcludedMethods:
+    - scope
+    - configure
+    - draw
+    - define
+    - test
+    - helpers
+    - field
+    - included
+    - step
+  Exclude:
+    - db/migrate/*.rb
+    - 'app/views/**/*.builder'
+    - app/jobs/clean_redis_job.rb

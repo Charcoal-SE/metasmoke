@@ -41,7 +41,7 @@ gem 'stackprof'
 gem 'chartkick'
 gem 'groupdate', '~> 5.0.0', require: true
 
-gem 'rubocop', '~> 1', require: false, group: :test
+gem 'rubocop', '~> 0.48.1', require: false, group: :test
 gem 'simplecov', require: false, group: :test
 
 gem 'blazer', '2.2.1.charcoal', github: 'Charcoal-SE/blazer'

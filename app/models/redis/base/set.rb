@@ -21,7 +21,6 @@ class Redis::Base::Set
 
   def method_missing(m, *args, &block)
     return target_all(*args, &block) if m == target
-
     super
   end
 

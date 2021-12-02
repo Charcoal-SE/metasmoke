@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 require 'open-uri'
+include APIHelper
 
 class GithubController < ApplicationController
-  include APIHelper
-
   skip_before_action :redis_log_request
   skip_before_action :verify_authenticity_token
   before_action :verify_github, except: %i[update_deploy_to_master add_pullapprove_comment]
@@ -64,9 +63,9 @@ class GithubController < ApplicationController
   # It is set up for the SmokeDetector repository to receive status changes.
   def status_hook
     # We're not interested in PR statuses or branches other than deploy
-    render(text: 'Not a commit on deploy. Uninterested.') && return unless params[:branches].index do |b|
-                                                                             b[:name] == 'deploy'
-                                                                           end
+    unless params[:branches].index { |b| b[:name] == 'deploy' }
+      render(text: 'Not a commit on deploy. Uninterested.') && return
+    end
 
     # Create a new CommitStatus
 
@@ -108,7 +107,9 @@ class GithubController < ApplicationController
 
   # Fires whenever a PR is opened on the SmokeDetetor repository to check for auto-blacklist and post stats
   def pull_request_hook
-    render(text: 'Not a newly-opened PR. Uninterested.') && return unless request.request_parameters[:action] == 'opened'
+    unless request.request_parameters[:action] == 'opened'
+      render(text: 'Not a newly-opened PR. Uninterested.') && return
+    end
 
     pull_request = params[:pull_request]
 
@@ -116,7 +117,9 @@ class GithubController < ApplicationController
                                            "(https://github.com/Charcoal-SE/SmokeDetector/pull/#{pull_request[:number]})"\
                                            " (\"#{pull_request[:title]}\") opened by #{pull_request[:user][:login]}")
 
-    render(text: 'Not from SmokeDetector. Uninterested.') && return unless pull_request[:user][:login] == 'SmokeDetector'
+    unless pull_request[:user][:login] == 'SmokeDetector'
+      render(text: 'Not from SmokeDetector. Uninterested.') && return
+    end
 
     text = pull_request[:body]
 
@@ -181,7 +184,7 @@ class GithubController < ApplicationController
     response_text  = "`#{thing}` has been seen in #{num_tps} true #{'positive'.pluralize(num_tps)}"
     response_text += ", #{num_fps} false #{'positive'.pluralize(num_fps)}"
     response_text += ", and #{num_naa} #{'NAA'.pluralize(num_naa)}."
-    "#{response_text}\n\n"
+    response_text + "\n\n"
   end
 
   # Fires when a PR is posted for our fake CI service to require reviews on
@@ -209,23 +212,21 @@ class GithubController < ApplicationController
       data = JSON.parse(request.raw_post)
       pull_request = data['pull_request']
       review = data['review']
+      if data['action'] == 'submitted' && review['state'] == 'approved'
+        commits = JSON.parse(Net::HTTP.get_response(URI.parse(pull_request['commits_url'])).body)
+        commits.each do |commit|
+          APIHelper.authorized_post(
+            "https://api.github.com/repos/Charcoal-SE/SmokeDetector/statuses/#{commit['sha']}",
+            state: 'success',
+            description: 'PR approved :)',
+            context: 'metasmoke/ci'
+          )
+        end
 
-      unless data['action'] == 'submitted' && review['state'] == 'approved'
-        render plain: 'Not a submitted Approve review; not interested.'
-        return
+        render plain: "#{commits.length} commits approved."
+      else
+        render(plain: 'Not a submitted Approve review; not interested.') && return
       end
-
-      commits = JSON.parse(Net::HTTP.get_response(URI.parse(pull_request['commits_url'])).body)
-      commits.each do |commit|
-        APIHelper.authorized_post(
-          "https://api.github.com/repos/Charcoal-SE/SmokeDetector/statuses/#{commit['sha']}",
-          state: 'success',
-          description: 'PR approved :)',
-          context: 'metasmoke/ci'
-        )
-      end
-
-      render plain: "#{commits.length} commits approved."
     else
       render(plain: "Pretty sure we don't subscribe to that event.") && return
     end
@@ -240,7 +241,9 @@ class GithubController < ApplicationController
   # Fires whenever anything is pushed, so we can automatically update `deploy`
   # to point to master's HEAD
   def update_deploy_to_master
-    render(plain: 'Not on master; not interested') && return unless params[:ref] == 'refs/heads/master'
+    unless params[:ref] == 'refs/heads/master'
+      render(plain: 'Not on master; not interested') && return
+    end
 
     new_sha1 = params[:after]
 
@@ -396,7 +399,6 @@ class GithubController < ApplicationController
       if state == 'success'
         ci_counter.sucess_count_incr
         return unless ci_counter.sucess_count == 3
-
         context = 'ci/circleci'
       else
         ci_counter.sucess_count_reset
@@ -423,7 +425,7 @@ class GithubController < ApplicationController
     target = params[:target_url]
 
     if context == 'code-review/pullapprove' && state == 'success'
-      pr_num = %r{https?://pullapprove\.com/Charcoal-SE/SmokeDetector/pull-request/(\d+)/?}.match(target)[1].to_i
+      pr_num = %r{https?:\/\/pullapprove\.com\/Charcoal-SE\/SmokeDetector\/pull-request\/(\d+)\/?}.match(target)[1].to_i
       pr = Octokit.client.pull_request('Charcoal-SE/SmokeDetector', pr_num)
 
       if pr[:user][:login] != 'SmokeDetector'
@@ -440,9 +442,7 @@ class GithubController < ApplicationController
         end
       end
 
-      if Octokit.client.pull_merged?('Charcoal-SE/SmokeDetector', pr_num)
-        render plain: "##{pr_num} already merged"
-      else
+      if !Octokit.client.pull_merged?('Charcoal-SE/SmokeDetector', pr_num)
         File.open('SmokeDetector/.git/info/attributes', File::RDWR) do |f|
           f.flock(File::LOCK_EX)
 
@@ -451,8 +451,7 @@ class GithubController < ApplicationController
 
             system 'git fetch origin master; git checkout -B master origin/master'
             system 'git', 'fetch', 'origin', ref
-            system 'git', 'merge', "origin/#{ref}", '--no-ff', '-m',
-                   "Merge pull request ##{pr_num} from Charcoal-SE/#{ref} --autopull"
+            system 'git', 'merge', "origin/#{ref}", '--no-ff', '-m', "Merge pull request ##{pr_num} from Charcoal-SE/#{ref} --autopull"
             system 'git push origin master'
             system 'git', 'push', 'origin', '--delete', ref
             system 'git', 'branch', '-D', ref
@@ -462,6 +461,8 @@ class GithubController < ApplicationController
         message = "Merged SmokeDetector [##{pr_num}](https://github.com/Charcoal-SE/SmokeDetector/pull/#{pr_num})."
         ActionCable.server.broadcast('smokedetector_messages', message: message)
         render plain: "Merged ##{pr_num}"
+      else
+        render plain: "##{pr_num} already merged"
       end
     else
       render plain: 'Not PullApprove successful status, ignoring'
@@ -477,7 +478,7 @@ class GithubController < ApplicationController
   private
 
   def verify_github
-    signature = "sha1=#{OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)}"
-    render(plain: "You're not GitHub!", status: 403) unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
+    signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), AppConfig['github']['secret_token'], request.raw_post)
+    render(plain: "You're not GitHub!", status: 403) && return unless Rack::Utils.secure_compare(signature, request.env['HTTP_X_HUB_SIGNATURE'])
   end
 end

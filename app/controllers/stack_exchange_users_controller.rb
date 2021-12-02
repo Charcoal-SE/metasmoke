@@ -73,7 +73,7 @@ class StackExchangeUsersController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_stack_exchange_user
     @user = StackExchangeUser.joins(:site).select(Arel.sql('stack_exchange_users.*, sites.site_logo')).find(params[:id])
-  rescue StandardError
+  rescue
     @user = StackExchangeUser.find(params[:id])
   end
 end

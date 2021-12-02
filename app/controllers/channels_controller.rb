@@ -5,11 +5,11 @@ class ChannelsController < ApplicationController
   before_action :verify_access, except: [:receive_email]
   skip_before_action :verify_authenticity_token, only: [:receive_email]
 
-  # rubocop:disable Naming/AccessorMethodName
+  # rubocop:disable Style/AccessorMethodName
   def get_email_address
     if current_user.channels_user.present?
       @secret = current_user.channels_user.secret
-    elsif current_user.roles.count.zero?
+    elsif current_user.roles.count == 0
       flash[:danger] = 'You are not permitted to sign up to Channels.'
       redirect_to root_path
     else
@@ -23,7 +23,7 @@ class ChannelsController < ApplicationController
       ChannelsUser.create user: current_user, secret: @secret
     end
   end
-  # rubocop:enable Naming/AccessorMethodName
+  # rubocop:enable Style/AccessorMethodName
 
   def show_link
     if current_user.channels_user.present?
@@ -39,7 +39,7 @@ class ChannelsController < ApplicationController
 
     user = message['mail']['destination'][0].split('@')[0]
     text = Base64.decode64(message['content']).gsub("=\r\n", '').gsub('3D', '')
-    link = text.scan(%r{(https://stackoverflow.com/c/charcoal/join/confirmation\?token=[a-z0-9-]{36})})[0][0]
+    link = text.scan(%r{(https:\/\/stackoverflow.com\/c\/charcoal\/join\/confirmation\?token=[a-z0-9-]{36})})[0][0]
 
     ChannelsUser.find_by(secret: user).update(link: link)
 
@@ -50,7 +50,6 @@ class ChannelsController < ApplicationController
     return if user_signed_in? && (current_user.has_role?(:reviewer) || current_user.has_role?(:core) ||
       current_user.has_role?(:blacklist_manager) || current_user.has_role?(:smoke_detector_runner) ||
       current_user.has_role?(:admin) || current_user.has_role?(:developer))
-
     not_found
   end
 end

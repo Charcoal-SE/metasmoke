@@ -6,7 +6,7 @@ class ReasonsController < ApplicationController
   def show
     @reason = Reason.find(params[:id])
 
-    # NOTE: Body nil check as body_exists
+    # Note: Body nil check as body_exists
     @posts = Redis::Reason.find(params[:id]).intersect('posts', type: :zset)
     # @posts = @reason.posts
     #                 .select(:id, :created_at, :link, :title, :site_id, :username, :stack_exchange_user_id, 'IF(LENGTH(body)>1,1,0) as body_exists')

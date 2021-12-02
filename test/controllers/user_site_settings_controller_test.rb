@@ -71,8 +71,7 @@ class UserSiteSettingsControllerTest < ActionController::TestCase
 
   test 'should update preference' do
     sign_in users(:approved_user)
-    patch :update,
-          params: { user_site_setting: { max_flags: 11, sites: [sites(:Site_1).id] }, id: user_site_settings(:one).id }
+    patch :update, params: { user_site_setting: { max_flags: 11, sites: [sites(:Site_1).id] }, id: user_site_settings(:one).id }
 
     assert_not_nil assigns(:preference)
     assert_response 302

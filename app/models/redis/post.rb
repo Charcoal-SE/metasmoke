@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class Redis::Post
-  attr_reader :fields, :id, *FIELD_LIST
+  attr_reader :fields, :id
 
   FIELD_LIST = %i[body title link username why stack_exchange_user_id site_id created_at].freeze
+  attr_reader(*FIELD_LIST)
 
   def initialize(id, **overrides)
     @id = id
@@ -17,7 +18,6 @@ class Redis::Post
   def fetch_redis_fields
     fields = redis.hgetall("posts/#{@id}")
     return fields unless fields.empty?
-
     self.class.to_redis(Post.find(@id))
   end
 
@@ -76,8 +76,7 @@ class Redis::Post
 
   def site
     @site ||= if !@fields['site_site_logo'].nil? && !@fields['site_id'].nil?
-                Site.new(site_logo: @fields['site_site_logo'],
-                         id: @fields['site_id'])
+                Site.new(site_logo: @fields['site_site_logo'], id: @fields['site_id'])
               end
   end
 

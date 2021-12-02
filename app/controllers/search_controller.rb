@@ -78,7 +78,9 @@ class SearchController < ApplicationController
 
     @results = case params[:user_rep_direction]
                when '>='
-                 @results.where('IFNULL(user_reputation, 0) >= :rep', rep: user_reputation) if user_reputation.positive?
+                 if user_reputation > 0
+                   @results.where('IFNULL(user_reputation, 0) >= :rep', rep: user_reputation)
+                 end
                when '=='
                  @results.where('IFNULL(user_reputation, 0) = :rep', rep: user_reputation)
                when '<='

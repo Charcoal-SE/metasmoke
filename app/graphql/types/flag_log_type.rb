@@ -8,24 +8,24 @@ Types::FlagLogType = GraphQL::ObjectType.define do
   field :backoff, types.Int
   field :is_auto, types.Boolean
   field :user, Types::UserType do
-    complexity lambda { |_ctx, _args, child_complexity|
+    complexity ->(_ctx, _args, child_complexity) do
       (BASE * 25) + (child_complexity > 1 ? child_complexity : 1)
-    }
+    end
   end
   field :post, Types::PostType do
-    complexity lambda { |_ctx, _args, child_complexity|
+    complexity ->(_ctx, _args, child_complexity) do
       (BASE * 25) + (child_complexity > 1 ? child_complexity : 1)
-    }
+    end
   end
   field :site, Types::SiteType do
-    complexity lambda { |_ctx, _args, child_complexity|
+    complexity ->(_ctx, _args, child_complexity) do
       (BASE * 25) + (child_complexity > 1 ? child_complexity : 1)
-    }
+    end
   end
   field :flag_condition, Types::FlagConditionType do
-    complexity lambda { |_ctx, _args, child_complexity|
+    complexity ->(_ctx, _args, child_complexity) do
       (BASE * 25) + (child_complexity > 1 ? child_complexity : 1)
-    }
+    end
   end
 
   field :created_at, Types::DateTimeType

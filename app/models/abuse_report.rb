@@ -10,12 +10,12 @@ class AbuseReport < ApplicationRecord
   has_many :comments, class_name: 'AbuseComment', dependent: :destroy
 
   validates :reportable_type, presence: true, inclusion: { in: %w[SpamDomain Post DomainTag] }
-  validates_presence_of :reportable, message: proc { |s|
-                                                "cannot be invalid item #{s.reportable_type}##{s.reportable_id}"
-                                              }
+  validates_presence_of :reportable, message: proc { |s| "cannot be invalid item #{s.reportable_type}##{s.reportable_id}" }
 
   before_validation do
-    self.status = AbuseReportStatus[AbuseReportStatus::DEFAULT_STATUS] unless status.present?
+    unless status.present?
+      self.status = AbuseReportStatus[AbuseReportStatus::DEFAULT_STATUS]
+    end
 
     self.uuid = SecureRandom.uuid unless uuid.present?
   end

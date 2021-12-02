@@ -107,14 +107,10 @@ class FlagSettingsController < ApplicationController
     updata = params[:data]
     updata.each do |k, v|
       next unless v['changed'].present? && v['changed'] == true
-
       params = {}
       params[:flags_enabled] = v['flags_enabled'] unless v['flags_enabled'].nil?
       params[:max_flags_per_post] = v['max_flags'] unless v['max_flags'].nil?
-      unless v['auto_disputed_flags_enabled'].nil?
-        params[:auto_disputed_flags_enabled] =
-          v['auto_disputed_flags_enabled']
-      end
+      params[:auto_disputed_flags_enabled] = v['auto_disputed_flags_enabled'] unless v['auto_disputed_flags_enabled'].nil?
       site = Site.find(k)
       puts "Update: #{site} #{params}"
       site.update(params)

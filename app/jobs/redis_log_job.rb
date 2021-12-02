@@ -6,9 +6,11 @@ class RedisLogJob < ApplicationJob
   queue_as :default
   before_enqueue do |job|
     job.arguments.map! do |i|
-      i.to_yaml
-    rescue StandardError
-      ''
+      begin
+        i.to_yaml
+      rescue
+        ''
+      end
     end
   end
 
@@ -17,7 +19,7 @@ class RedisLogJob < ApplicationJob
   end
 
   # rubocop:disable Metrics/ParameterLists
-  def perform(root, time:, uuid:, subspaces: {}, status: nil, exception: {}, session_id: nil, user_id: nil, completed: false)
+  def perform(root, subspaces: {}, status: nil, exception: {}, session_id: nil, user_id: nil, time:, uuid:, completed: false)
     # rubocop:enable Metrics/ParameterLists
     keyspace_map = subspaces
     @time = time
@@ -65,7 +67,6 @@ class RedisLogJob < ApplicationJob
   def log_to_namespace(namespace, keyspaces)
     keyspaces.each do |subspace, hsh|
       next if hsh.empty?
-
       @redis.mapped_hmset "#{namespace}/#{subspace}", hsh
       @redis.expire "#{namespace}/#{subspace}", REDIS_LOG_EXPIRATION
     end
@@ -73,7 +74,6 @@ class RedisLogJob < ApplicationJob
 
   def log_session(session_id, user_id)
     return if session_id.nil?
-
     # TODO: If we care more about memory than speed, switch session/*/requests and user_sessions/* to be sets and
     # intersect them with requests to get a zset when you need one.
     @redis.zadd "session/#{session_id}/requests", @time, @uuid
@@ -82,7 +82,6 @@ class RedisLogJob < ApplicationJob
     @redis.hset("session/#{session_id}", 'end', @time)
     @redis.expire "session/#{session_id}", REDIS_LOG_EXPIRATION
     return unless user_id.nil?
-
     @redis.zadd "user_sessions/#{user_id}", @time, session_id
     @redis.expire "user_sessions/#{user_id}", REDIS_LOG_EXPIRATION * 3
   end

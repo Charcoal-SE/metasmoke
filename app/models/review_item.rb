@@ -9,13 +9,10 @@ class ReviewItem < ApplicationRecord
   has_many :results, class_name: 'ReviewResult'
 
   %i[post spam_domain flag].each do |t|
-    belongs_to(t, lambda {
-                    where(review_items: { reviewable_type: t.to_s.pluralize.classify })
-                  }, foreign_key: 'reviewable_id')
+    belongs_to(t, -> { where(review_items: { reviewable_type: t.to_s.pluralize.classify }) }, foreign_key: 'reviewable_id')
 
     define_method t do
       return unless reviewable_type == t.to_s.classify
-
       super
     end
   end

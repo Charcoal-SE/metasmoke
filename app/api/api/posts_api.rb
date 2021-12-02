@@ -13,7 +13,9 @@ module API
     get 'search.atom' do
       @posts = Post.all
 
-      @posts = @posts.joins(:site).where(sites: { site_domain: params[:site] }) if params[:site].present?
+      if params[:site].present?
+        @posts = @posts.joins(:site).where(sites: { site_domain: params[:site] })
+      end
 
       @posts = @posts.order(id: :desc)
       @posts = paginated(@posts)
@@ -30,7 +32,9 @@ module API
     get 'search.rss' do
       @posts = Post.all
 
-      @posts = @posts.joins(:site).where(sites: { site_domain: params[:site] }) if params[:site].present?
+      if params[:site].present?
+        @posts = @posts.joins(:site).where(sites: { site_domain: params[:site] })
+      end
 
       @posts = @posts.order(id: :desc)
       @posts = paginated(@posts)
@@ -55,8 +59,7 @@ module API
       requires :site, type: String
     end
     get 'site' do
-      std_result Post.joins(:site).where(sites: { site_domain: params[:site] }).order(id: :desc),
-                 filter: FILTERS[:posts]
+      std_result Post.joins(:site).where(sites: { site_domain: params[:site] }).order(id: :desc), filter: FILTERS[:posts]
     end
 
     params do
@@ -133,8 +136,7 @@ module API
       requires :url, type: String
     end
     post 'report' do
-      ActionCable.server.broadcast 'smokedetector_messages',
-                                   report: { user: current_user.username, post_link: params[:url] }
+      ActionCable.server.broadcast 'smokedetector_messages', report: { user: current_user.username, post_link: params[:url] }
       status 202
       { status: 'Accepted' }
     end

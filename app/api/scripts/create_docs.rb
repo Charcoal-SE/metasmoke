@@ -8,8 +8,7 @@ def render_markdown(text)
                           %i[strikethrough autolink]).to_html(:UNSAFE)
 end
 
-output = %w[<table> <thead> <tr><td><strong>Path</strong></td><td><strong>Description</strong></td></tr> </thead>
-            <tbody>]
+output = %w[<table> <thead> <tr><td><strong>Path</strong></td><td><strong>Description</strong></td></tr> </thead> <tbody>]
 Dir.glob('../docs/**/*.md').sort_by { |x| File.basename x }.each do |f|
   text = File.read f
   title = Regexp.new(/^# ?([\w ]+)$/).match(text)[1]

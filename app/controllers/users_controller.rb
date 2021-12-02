@@ -82,7 +82,7 @@ class UsersController < ApplicationController
   def set_announcement_emails
     emails = params[:emails].present?
     if current_user.update(announcement_emails: emails)
-      flash[:success] = "#{emails ? 'Subscribed to' : 'Unsubscribed from'} announcement emails."
+      flash[:success] = (emails ? 'Subscribed to' : 'Unsubscribed from') + ' announcement emails.'
     else
       flash[:danger] = 'Failed to save your preferences.'
     end
@@ -97,8 +97,7 @@ class UsersController < ApplicationController
     end
 
     if current_user.update(email: params[:email])
-      flash[:success] =
-        'Email address updated. You will need to sign out and click "Forgot your password?" on the sign-in page to set your password.'
+      flash[:success] = 'Email address updated. You will need to sign out and click "Forgot your password?" on the sign-in page to set your password.'
     else
       flash[:danger] = 'Failed to update your email address.'
     end
@@ -135,7 +134,6 @@ class UsersController < ApplicationController
 
   def migrate_token_confirmation
     return unless params[:state] != Rails.cache.fetch("token_migration_state/#{current_user.id}")
-
     flash[:danger] = "It looks like you didn't actually authenticate! It might still work, but I don't think it will."
   end
 
