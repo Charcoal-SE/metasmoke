@@ -164,6 +164,6 @@ jobs:
             ${{ runner.os }}-node-modules-npm-${{ env.ACTION_CACHE_VERSION }}-
       - run: ls
       - name: Install dependencies
-        run: npm install
+        run: yarn install
       - name: Run tests
         run: npm test
