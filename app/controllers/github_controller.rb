@@ -6,7 +6,7 @@ include APIHelper
 class GithubController < ApplicationController
   skip_before_action :redis_log_request
   skip_before_action :verify_authenticity_token
-  before_action :verify_github, except: %i[update_deploy_to_master add_pullapprove_comment]
+  before_action :verify_github, except: %i[add_pullapprove_comment]
   before_action :check_if_smokedetector, only: [:add_pullapprove_comment]
 
   # The goal with most of these routes is to respond to things happening on the various GitHub repositories.
