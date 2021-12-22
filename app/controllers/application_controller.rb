@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :redis_log_request
   before_action :check_auth_required
   before_action :deduplicate_ajax_requests
-  before_action :store_user_location!, if: :location_storable?
+  before_action :maybe_store_user_location
 
   before_action do
     Rack::MiniProfiler.authorize_request if current_user&.has_role?(:developer)
@@ -141,11 +141,16 @@ class ApplicationController < ActionController::Base
     render status: :conflict, plain: "409 Conflict\nRequest conflicts with a previous AJAX request"
   end
 
-  def location_storable?
-    request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
-  end
+  # Maximum length of path to be stored in cookie for redirecting back
+  MAX_STORE_PATH_LENGTH = 1000
 
-  def store_user_location!
-    store_location_for(:user, request.fullpath)
+  def maybe_store_user_location
+    return if request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
+
+    if request.fullpath.length < MAX_STORE_PATH_LENGTH
+      store_location_for(:user, request.fullpath)
+    elsif request.path.length < MAX_STORE_PATH_LENGTH
+      store_location_for(:user, request.path)
+    end
   end
 end
