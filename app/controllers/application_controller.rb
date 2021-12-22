@@ -145,7 +145,7 @@ class ApplicationController < ActionController::Base
   MAX_STORE_PATH_LENGTH = 1000
 
   def maybe_store_user_location
-    return if request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
+    return unless request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
 
     if request.fullpath.length < MAX_STORE_PATH_LENGTH
       store_location_for(:user, request.fullpath)
