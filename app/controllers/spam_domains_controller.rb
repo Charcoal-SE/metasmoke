@@ -48,9 +48,12 @@ class SpamDomainsController < ApplicationController
 
   def create
     @domain = SpamDomain.new domain_params
-    @domain.save
-
-    redirect_to action: :show, id: @domain.id
+    if @domain.save
+      redirect_to action: :show, id: @domain.id
+    else
+      flash[:danger] = @domain.errors.full_messages
+      redirect_back fallback_location: request.path
+    end
   end
 
   def update
