@@ -13,7 +13,7 @@ class DeveloperController < ApplicationController
 
   def production_log
     @log = `tail -n 1000 log/production.log`
-    clean_log_formatting(@log)
+    @log = clean_log_formatting(@log)
   end
 
   def production_log_search
@@ -27,7 +27,8 @@ class DeveloperController < ApplicationController
              `tail -n 1000 log/production.log`
            end
 
-    clean_log_formatting(@log)
+    @logs = clean_log_formatting(@log)
+    render action: :production_log
   end
 
   def make_space_in_logs
