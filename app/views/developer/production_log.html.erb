@@ -2,12 +2,12 @@
 <p>Take care with the contents of this file - it may contain system or user details.</p>
 <p><%= link_to 'Download query times log', dev_query_times_log_path %></p>
 
-<form class="form-inline" method="get" action="<%= dev_prod_log_path %>">
+<%= form_tag dev_prod_log_search_path, class: 'form-inline' do %>
   <label for="grep">Search: </label>
   <input type="text" name="grep" id="grep" class="form-control input-sm" />
   <label for="context">Context lines:</label>
   <input type="number" name="context" id="context" class="form-control input-sm" />
   <input type="submit" value="Search" class="btn btn-primary btn-sm" />
-</form>
+<% end %>
 
 <pre><code><%= @log %></code></pre>

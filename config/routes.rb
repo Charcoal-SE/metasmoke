@@ -189,19 +189,20 @@ Rails.application.routes.draw do
   end
 
   scope 'dev' do
-    post 'update_sites',     to: 'developer#update_sites',         as: :dev_update_sites
-    get  'prod_log',         to: 'developer#production_log',       as: :dev_prod_log
-    get  'query_time_log',   to: 'developer#query_times_log',      as: :dev_query_times_log
-    get  'blank',            to: 'developer#blank_page',           as: :dev_blank
-    get  'layout',           to: 'developer#empty_layout',         as: :dev_layout
+    post 'update_sites',     to: 'developer#update_sites',          as: :dev_update_sites
+    get  'prod_log',         to: 'developer#production_log',        as: :dev_prod_log
+    post 'prod_log_search',  to: 'developer#production_log_search', as: :dev_prod_log_search
+    get  'query_time_log',   to: 'developer#query_times_log',       as: :dev_query_times_log
+    get  'blank',            to: 'developer#blank_page',            as: :dev_blank
+    get  'layout',           to: 'developer#empty_layout',          as: :dev_layout
     get  'websockets',       to: 'developer#websocket_test'
     post 'websockets',       to: 'developer#send_websocket_test'
-    post 'deploy',           to: 'developer#deploy',               as: :developer_deploy
-    get  'impersonate/stop', to: 'developer#change_back',          as: :stop_impersonating
-    post 'impersonate/stop', to: 'developer#verify_elevation',     as: :verify_elevation
-    post 'impersonate/:id',  to: 'developer#change_users',         as: :impersonate
-    post 'fcrs',             to: 'developer#run_fcrs',             as: :developer_fcrs
-    post 'reindex',          to: 'developer#run_feedback_reindex', as: :developer_reindex
+    post 'deploy',           to: 'developer#deploy',                as: :developer_deploy
+    get  'impersonate/stop', to: 'developer#change_back',           as: :stop_impersonating
+    post 'impersonate/stop', to: 'developer#verify_elevation',      as: :verify_elevation
+    post 'impersonate/:id',  to: 'developer#change_users',          as: :impersonate
+    post 'fcrs',             to: 'developer#run_fcrs',              as: :developer_fcrs
+    post 'reindex',          to: 'developer#run_feedback_reindex',  as: :developer_reindex
 
     scope 'request-log' do
       root                  to: 'redis_log#index'
