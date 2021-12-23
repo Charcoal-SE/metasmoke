@@ -1,12 +1,13 @@
 <% post_id ||= nil %>
 <%
-counts_summary = %i[all tp fp naa].map do |t|
-        [t, Post.joins(spam_domains: :domain_tags).where(spam_domains: {id: domain.id}).where.not(id: post_id).distinct.send(t).count]
-      end.to_h
+counts_summary = PostSpamDomain.joins(:posts)
+                               .where(posts_spam_domains: {spam_domain_id: domain.id})
+                               .select('COUNT(*) as total, SUM(is_tp) as tp, SUM(is_fp) as fp, SUM(is_naa) as naa')
+                               .first
 occurances ||= false
 %>
 <span class="spam-domain">
-  <% if occurances && counts_summary[:all] > 0 %>
+  <% if occurances && counts_summary[:total] > 0 %>
     <% if counts_summary[:tp] == 0 %>
       <span class="text-danger">✗</span>
     <% end %>
