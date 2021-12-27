@@ -1,6 +1,6 @@
 <% post_id ||= nil %>
 <%
-counts_summary = PostSpamDomain.joins(:posts)
+counts_summary = PostSpamDomain.joins(:post)
                                .where(posts_spam_domains: {spam_domain_id: domain.id})
                                .select('COUNT(*) as total, SUM(is_tp) as tp, SUM(is_fp) as fp, SUM(is_naa) as naa')
                                .first
