@@ -33,10 +33,10 @@ module API
 
       def authenticate_app!
         @key = APIKey.find_by(key: params[:key])
-        if @key.nil? && SmokeDetector.find_by(access_token: params[:key])
-          @key = APIKey.first
-        end
-        error!({ name: 'missing_key', detail: 'No key was provided or the provided key is invalid.' }, 403) if @key.blank?
+        @key = APIKey.first if @key.nil? && SmokeDetector.find_by(access_token: params[:key])
+        return unless @key.blank?
+
+        error!({ name: 'missing_key', detail: 'No key was provided or the provided key is invalid.' }, 403)
       end
 
       def authenticate_user!
@@ -45,11 +45,14 @@ module API
           return
         end
         @token = @key.api_tokens.find_by token: params[:token]
-        error!({ name: 'missing_token', detail: 'No token was provided or the provided token is invalid.' }, 401) if @token.blank?
+        return unless @token.blank?
+
+        error!({ name: 'missing_token', detail: 'No token was provided or the provided token is invalid.' }, 401)
       end
 
       def authenticate_smokey!
         return if SmokeDetector.find_by(access_token: params[:key]).present?
+
         error!({ name: 'insufficient_authorization', detail: 'The requested action requires a higher level of authorization than '\
                  'the key provides.' }, 401)
       end
@@ -60,11 +63,16 @@ module API
 
       def role(*names)
         return if current_user.has_any_role?(*names)
-        error!({ name: 'unauthorized', detail: 'The authenticated user does not have the required permissions for this action.' }, 403)
+
+        error!(
+          { name: 'unauthorized',
+detail: 'The authenticated user does not have the required permissions for this action.' }, 403
+        )
       end
 
       def trusted_key
         return if @key.is_trusted
+
         error!({ name: 'untrusted_key', detail: 'The presented key is not trusted.' }, 403)
       end
 

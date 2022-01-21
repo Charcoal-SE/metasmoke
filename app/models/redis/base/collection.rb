@@ -18,14 +18,16 @@ class Redis::Base::Collection
     target_keys.map! { |tk| tk.respond_to?(:to_key) ? tk.to_key : tk }
     type = type.to_sym
     throw "Invalid type #{type}" unless %i[set zset].include? type
-    Redis::Base::Collection.new(@key, type: type, intersects: @intersects.dup.push(target_keys).flatten, differences: @differences)
+    Redis::Base::Collection.new(@key, type: type, intersects: @intersects.dup.push(target_keys).flatten,
+differences: @differences)
   end
 
   def difference(*target_keys, type: @type)
     target_keys.map! { |tk| tk.respond_to?(:to_key) ? tk.to_key : tk }
     type = type.to_sym
     throw "Invalid type #{type}" unless %i[set zset].include? type
-    Redis::Base::Collection.new(@key, type: type, intersects: @intersects, differences: @differences.dup.push(target_keys).flatten)
+    Redis::Base::Collection.new(@key, type: type, intersects: @intersects,
+differences: @differences.dup.push(target_keys).flatten)
   end
 
   def paginate(pagenum, pagesize, &mod)
@@ -77,7 +79,7 @@ class Redis::Base::Collection
         redis.zinterstore key, [@key, @intersects].flatten
         throw 'Cannot do diff with zsets yet!' unless @differences.empty?
         redis.zdiffstore key, key, @differences unless @differences.empty?
-        if order.to_s.casecmp('ASC') == 0
+        if order.to_s.casecmp('ASC').zero?
           redis.zrange key, *bounds
         else
           redis.zrevrange key, *bounds

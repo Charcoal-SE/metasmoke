@@ -7,8 +7,10 @@ class GraphsController < ApplicationController
     data = cached_query :reports_by_hour_graph do
       [
         { name: 'All', data: Post.group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count },
-        { name: 'True positives', data: Post.where(is_tp: true).group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count },
-        { name: 'False positives', data: Post.where(is_fp: true).group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count }
+        { name: 'True positives',
+data: Post.where(is_tp: true).group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count },
+        { name: 'False positives',
+data: Post.where(is_fp: true).group_by_hour(:created_at, range: 1.week.ago.to_date..Time.now).count }
       ]
     end
     render json: data
@@ -16,11 +18,11 @@ class GraphsController < ApplicationController
 
   def reason_counts
     render json: Reason.joins(:posts)
-      .where('posts.created_at >= ?', (params[:months] || 3).to_i.months.ago)
-      .where(params[:site_id].present? ? { posts: { site_id: params[:site_id] } } : {})
-      .group(:reason_name)
-      .count
-      .sort_by(&:last)
+                       .where('posts.created_at >= ?', (params[:months] || 3).to_i.months.ago)
+                       .where(params[:site_id].present? ? { posts: { site_id: params[:site_id] } } : {})
+                       .group(:reason_name)
+                       .count
+                       .sort_by(&:last)
   end
 
   def reports_by_site
@@ -47,11 +49,17 @@ class GraphsController < ApplicationController
              end
 
     number_of_days = (DateTime.now - @posts.minimum(:created_at).to_date).to_i
-    tp_posts = @posts.where(is_tp: true).group_by_hour_of_day(:created_at).count.map { |k, v| [k, (v.to_f / number_of_days).round(2)] }.to_h
-    fp_posts = @posts.where(is_fp: true).group_by_hour_of_day(:created_at).count.map { |k, v| [k, (v.to_f / number_of_days).round(2)] }.to_h
+    tp_posts = @posts.where(is_tp: true).group_by_hour_of_day(:created_at).count.transform_values do |v|
+      (v.to_f / number_of_days).round(2)
+    end
+    fp_posts = @posts.where(is_fp: true).group_by_hour_of_day(:created_at).count.transform_values do |v|
+      (v.to_f / number_of_days).round(2)
+    end
 
     render json: [
-      { name: 'All', data: @posts.group_by_hour_of_day(:created_at).count.map { |k, v| [k, (v.to_f / number_of_days).round(2)] }.to_h },
+      { name: 'All', data: @posts.group_by_hour_of_day(:created_at).count.transform_values do |v|
+                             (v.to_f / number_of_days).round(2)
+                           end },
       { name: 'True positives', data: tp_posts },
       { name: 'False positives', data: fp_posts }
     ]
@@ -70,7 +78,10 @@ class GraphsController < ApplicationController
   def flagging_results
     if params[:months].present? || params[:site_id].present?
       @flags = FlagLog.auto
-      @flags = @flags.where('flag_logs.created_at > ?', (params[:months] || 3).to_i.months.ago) if params[:months].present?
+      if params[:months].present?
+        @flags = @flags.where('flag_logs.created_at > ?',
+                              (params[:months] || 3).to_i.months.ago)
+      end
       @flags = @flags.where(site_id: params[:site_id]) if params[:site_id].present?
       data = [
         ['Fail', @flags.where(success: false).count],
@@ -100,11 +111,13 @@ class GraphsController < ApplicationController
         {
           name: 'Dry runs',
           visible: false,
-          data: FlagLog.auto.where(success: true, is_dry_run: true).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count
+          data: FlagLog.auto.where(success: true, is_dry_run: true).group_by_day(:created_at,
+                                                                                 range: 1.month.ago.to_date..Time.now).count
         },
         {
           name: 'Successes',
-          data: FlagLog.auto.where(success: true, is_dry_run: false).group_by_day(:created_at, range: 1.month.ago.to_date..Time.now).count
+          data: FlagLog.auto.where(success: true, is_dry_run: false).group_by_day(:created_at,
+                                                                                  range: 1.month.ago.to_date..Time.now).count
         }
       ]
     end
@@ -205,7 +218,8 @@ class GraphsController < ApplicationController
     # BEHOLD. MAGIC.
     # Okay fine. Calculates accuracy for each weight 10-group, providing a value (0) for fps if it's not there, and clamping to 0.9..1.0.
     acc_data = range.map do |i|
-      [data[:tps][i][0], ([data[:tps][i][1].to_f / (data[:tps][i][1] + (data[:fps][i] || [0, 0])[1]), 0.90].max * 100).round(2)]
+      [data[:tps][i][0],
+       ([data[:tps][i][1].to_f / (data[:tps][i][1] + (data[:fps][i] || [0, 0])[1]), 0.90].max * 100).round(2)]
     end
 
     render json: [
@@ -215,7 +229,8 @@ class GraphsController < ApplicationController
     ]
   end
 
-  def qtimes; end # stub, temp, delete me when redis log graphs are done
+  # stub, temp, delete me when redis log graphs are done
+  def qtimes; end
 
   def query_times_graphs
     controller = params[:controller_name]
@@ -234,15 +249,13 @@ class GraphsController < ApplicationController
 
   private
 
-  def cached_query(cache_key, **opts)
+  def cached_query(cache_key, **opts, &block)
     opts[:expires_in] ||= 1.hour
     opts[:param_name] ||= :cache
     opts[:always_cache] ||= false
 
     if opts[:always_cache] || params[opts[:param_name]].present?
-      Rails.cache.fetch cache_key, expires_in: opts[:expires_in] do
-        yield
-      end
+      Rails.cache.fetch cache_key, expires_in: opts[:expires_in], &block
     else
       yield
     end
@@ -250,7 +263,9 @@ class GraphsController < ApplicationController
 
   def moving_avg(pts)
     yv = pts.map(&:last)
-    ad = yv.map.with_index { |_v, i| yv[([0, i - 3].max)..([i + 3, yv.size].min)].sum / (([0, i - 3].max)..([i + 3, yv.size].min)).size.to_f }
+    ad = yv.map.with_index do |_v, i|
+      yv[([0, i - 3].max)..([i + 3, yv.size].min)].sum / (([0, i - 3].max)..([i + 3, yv.size].min)).size.to_f
+    end
     pts.map.with_index { |e, i| [e[0], ad[i]] }
   end
 end

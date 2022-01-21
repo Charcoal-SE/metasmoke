@@ -37,7 +37,9 @@ module AuthenticationHelper
       code: params[:code],
       redirect_uri: redirect_uri
     }.stringify_keys
-    response = Rack::Utils.parse_nested_query(Net::HTTP.post_form(URI.parse('https://stackexchange.com/oauth/access_token'), request_params).body)
+    response = Rack::Utils.parse_nested_query(Net::HTTP.post_form(
+      URI.parse('https://stackexchange.com/oauth/access_token'), request_params
+    ).body)
 
     response['access_token']
   end

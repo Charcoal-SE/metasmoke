@@ -32,19 +32,22 @@ module API
       feedback = Feedback.new user: current_user, post: post, api_key: @key, feedback_type: params[:type]
 
       if post.question? && feedback.is_naa?
-        error!({ name: 'illegal', detail: 'NAA feedback is not allowed on questions.' }, 400)
+        error!({ name: 'illegal', detail: 'NAA feedback is not allowed on questions.' },
+               400)
       end
 
       if feedback.save
         if feedback.is_naa?
           begin
             ActionCable.server.broadcast 'smokedetector_messages', naa: { post_link: @post.link }
-          rescue # rubocop:disable Lint/HandleExceptions
+          rescue
+            nil
           end
         elsif feedback.is_negative?
           begin
             ActionCable.server.broadcast 'smokedetector_messages', fp: { post_link: @post.link }
-          rescue # rubocop:disable Lint/HandleExceptions
+          rescue
+            nil
           end
         end
 

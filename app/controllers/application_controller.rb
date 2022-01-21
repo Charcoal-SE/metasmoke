@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
       @smoke_detector = SmokeDetector.find_by(access_token: provided_key)
 
       return if @smoke_detector.present? # Authorized
+
       render(plain: 'Go away', status: 403)
     end
   end
@@ -35,10 +36,10 @@ class ApplicationController < ActionController::Base
     elsif current_user.stack_exchange_account_id.nil?
       authentication_status_path
     else
-      stored_location = nil
-      begin
-        stored_location = stored_location_for(resource_or_scope)
-      rescue # rubocop:disable Lint/HandleExceptions
+      stored_location = begin
+        stored_location_for(resource_or_scope)
+      rescue
+        nil
       end
 
       request.env['omniauth.origin'] || stored_location || root_path
@@ -58,6 +59,7 @@ class ApplicationController < ActionController::Base
   Role.names.each do |rn|
     define_method "verify_#{rn}" do
       return if user_signed_in? && current_user.has_role?(rn)
+
       redirect_to missing_privileges_path(required: rn)
     end
   end
@@ -69,6 +71,7 @@ class ApplicationController < ActionController::Base
 
   def verify_at_least_one_diamond
     return if user_signed_in? && current_user.moderator_sites.exists?
+
     redirect_to missing_privileges_path(required: :at_least_one_diamond)
   end
 
@@ -81,7 +84,7 @@ class ApplicationController < ActionController::Base
       deletion_logs: :create,
       statistics: :create,
       status: :status_update
-    }.dig(controller_name.to_sym) == action_name.to_sym
+    }[controller_name.to_sym] == action_name.to_sym
   end
 
   def redis_log_request
@@ -134,9 +137,11 @@ class ApplicationController < ActionController::Base
 
   def deduplicate_ajax_requests
     return unless request.headers['X-AJAX-Deduplicate'].present?
+
     request_uniq = request.headers['X-AJAX-Deduplicate']
     new_request = redis.set "request-dedup/#{request_uniq}", 1, ex: 300, nx: true
     return if new_request
+
     redis_log 'Rejected by ajax deduplication'
     render status: :conflict, plain: "409 Conflict\nRequest conflicts with a previous AJAX request"
   end

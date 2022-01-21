@@ -13,7 +13,8 @@ class MicroAuthController < ApplicationController
       redirect_to(url_for(controller: :micro_auth, action: :token_request)) && return
     end
 
-    @token = APIToken.new(user: current_user, api_key: @api_key, code: generate_code(7), token: generate_code(64), expiry: 10.minutes.from_now)
+    @token = APIToken.new(user: current_user, api_key: @api_key, code: generate_code(7), token: generate_code(64),
+                          expiry: 10.minutes.from_now)
     if @token.save
       if params[:redirect].present? && !params[:redirect].empty?
         redirect_to "#{params[:redirect]}?token=#{@token.token}"
@@ -29,6 +30,7 @@ class MicroAuthController < ApplicationController
   def authorized
     @token = APIToken.find params[:token_id]
     return if current_user.has_role?(:developer) || current_user == @token.user
+
     redirect_to 'https://www.youtube.com/watch?v=oHg5SJYRHA0'
   end
 
@@ -39,7 +41,8 @@ class MicroAuthController < ApplicationController
     token = APIToken.where(code: code, api_key: @api_key)
     user = token.first&.user
     if token.any? && !token.first.expiry.past?
-      render json: { token: token.first.token, user: { id: user.id, username: user.username, se_account_id: user.stack_exchange_account_id } }
+      render json: { token: token.first.token,
+user: { id: user.id, username: user.username, se_account_id: user.stack_exchange_account_id } }
     else
       render json: {
         error_name: 'token not found',
@@ -60,6 +63,7 @@ class MicroAuthController < ApplicationController
   def verify_key
     @api_key = APIKey.find_by(key: params[:key])
     return if params[:key].present? && @api_key.present?
+
     render :invalid_key, status: 400
   end
 

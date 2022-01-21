@@ -22,6 +22,7 @@ module PostConcerns::Autoflagging
 
         return 'Duplicate post' unless Post.where(link: link).count == 1
         return 'Flagging disabled' unless FlagSetting['flagging_enabled'] == '1'
+
         Rails.logger.warn "[autoflagging] #{id}: not a dupe"
 
         dry_run = FlagSetting['dry_run'] == '1'
@@ -29,9 +30,7 @@ module PostConcerns::Autoflagging
         conditions = post.site.flag_conditions.where(flags_enabled: true)
         available_user_ids = {}
         conditions.each do |condition|
-          if condition.validate!(post)
-            available_user_ids[condition.user.id] = condition
-          end
+          available_user_ids[condition.user.id] = condition if condition.validate!(post)
         end
         Rails.logger.warn "[autoflagging] #{id}: fetched conditions (#{conditions.to_a.size}), #{available_user_ids.size} valid (available users)"
 
@@ -97,13 +96,14 @@ module PostConcerns::Autoflagging
         other_count = max_flags - core_count
         core_users = users.with_role(:core)
         non_core_users = users.without_role(:core)
-        core_users_per_flag = core_count == 0 ? 0 : core_users.length / core_count
-        non_core_users_per_flag = other_count == 0 ? 0 : non_core_users.length / other_count
+        core_users_per_flag = core_count.zero? ? 0 : core_users.length / core_count
+        non_core_users_per_flag = other_count.zero? ? 0 : non_core_users.length / other_count
 
         core_users_used = []
         Rails.logger.warn "[autoflagging] #{id}: core..."
         core_users.shuffle.each do |user|
           break if core_count <= 0
+
           core_count -= post.send_autoflag(user, dry_run, available_user_ids[user.id])
           core_users_used << user
         end
@@ -134,9 +134,10 @@ module PostConcerns::Autoflagging
         Rails.logger.warn "[autoflagging] #{id}: plebs..."
         remaining_users.each do |user|
           break if other_count <= 0
+
           other_count -= post.send_autoflag(user, dry_run, available_user_ids[user.id])
         end
-      rescue => e
+      rescue StandardError => e
         Rails.logger.warn "[autoflagging] #{id}: exception #{e} :("
         FlagLog.create(success: false, error_message: "#{e}: #{e.message} | #{e.backtrace.join("\n")}",
                        is_dry_run: dry_run, flag_condition: nil, post: post,
@@ -155,8 +156,10 @@ module PostConcerns::Autoflagging
 
     def send_autoflag(user, dry_run, condition)
       Rails.logger.warn "[autoflagging] #{id}: send_autoflag begin: #{user.username}"
-      user_site_flag_count = user.flag_logs.where(site: site, success: true, is_dry_run: false).where(created_at: Date.today..Time.now).count
+      user_site_flag_count = user.flag_logs.where(site: site, success: true,
+                                                  is_dry_run: false).where(created_at: Date.today..Time.now).count
       return 0 if user_site_flag_count >= (user.user_site_settings.includes(:sites).where(sites: { id: site.id }).minimum(:max_flags) || -1)
+
       Rails.logger.warn "[autoflagging] #{id}: has enough flags"
       last_log = FlagLog.auto.where(user: user).last
       if last_log.try(:backoff).present? && (last_log.created_at + last_log.backoff.seconds > Time.now)
@@ -208,9 +211,7 @@ module PostConcerns::Autoflagging
       conditions = site.flag_conditions.where(flags_enabled: true)
       available_user_ids = {}
       conditions.each do |condition|
-        if condition.validate!(self)
-          available_user_ids[condition.user_id] = condition
-        end
+        available_user_ids[condition.user_id] = condition if condition.validate!(self)
       end
 
       uids = site.user_site_settings.where(user_id: available_user_ids.keys).map(&:user_id)
@@ -237,6 +238,7 @@ module PostConcerns::Autoflagging
       Rails.logger.warn "[autoflagging] #{id}: fetch_revision_count begin"
       post ||= self
       return if post.site.blank?
+
       Rails.logger.warn "[autoflagging] #{id}: site was present"
       params = "key=#{AppConfig['stack_exchange']['key']}&site=#{post.site.site_domain}&filter=!mggkQI*4m9"
 
@@ -259,11 +261,13 @@ module PostConcerns::Autoflagging
           Rails.logger.warn '[autoflagging-sw] active waves exist'
           waves.each do |w|
             next unless w.post_matches?(self)
+
             Rails.logger.warn '[autoflagging-sw] found matching wave'
             flag_count = autoflagged? ? w.max_flags - flag_logs.successful.auto.count : w.max_flags
             users = User.where(flags_enabled: true).shuffle
             users.each do |user|
               break if flag_count <= 0
+
               flag_count -= send_autoflag(user, nil, nil)
             end
           end

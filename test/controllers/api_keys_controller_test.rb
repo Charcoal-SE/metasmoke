@@ -17,7 +17,9 @@ class APIKeysControllerTest < ActionController::TestCase
 
   test 'should create new key' do
     sign_in users(:admin_user)
-    post :create, params: { api_key: { key: '71ab6e12d4287e6d1cd6549f039e46646ae379a709bd359e9231a385e5ff970f', app_name: 'new_tests' } }
+    post :create,
+         params: { api_key: { key: '71ab6e12d4287e6d1cd6549f039e46646ae379a709bd359e9231a385e5ff970f',
+app_name: 'new_tests' } }
     assert_response(302)
   end
 

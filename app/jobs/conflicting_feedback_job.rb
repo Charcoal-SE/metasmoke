@@ -29,7 +29,8 @@ class ConflictingFeedbackJob < ApplicationJob
 
       resolvable.each do |post, feedback_counts|
         winner = feedback_counts.max_by { |_k, v| v }[0]
-        post.feedbacks.where('LEFT(feedback_type, 1) != ?', winner).update_all(is_invalidated: true, invalidated_by: -1, invalidated_at: DateTime.now)
+        post.feedbacks.where('LEFT(feedback_type, 1) != ?', winner).update_all(is_invalidated: true,
+                                                                               invalidated_by: -1, invalidated_at: DateTime.now)
       end
     end
 
@@ -37,13 +38,22 @@ class ConflictingFeedbackJob < ApplicationJob
       # User precedences. Higher numbers mean a user possessing this role will override a user possessing a lower role.
       # Everyone gets flagger, so that's worth a whole nothing; developer likewise because you can be a developer without knowing anything about
       # feedback (and all of our current developers have other high-precedence roles as well).
-      roles = { flagger: 0, reviewer: 1, core: 2, blacklist_manager: 3, smoke_detector_runner: 3, admin: 4, developer: 0 }
+      roles = { flagger: 0, reviewer: 1, core: 2, blacklist_manager: 3, smoke_detector_runner: 3, admin: 4,
+developer: 0 }
 
       # One-liner beauty (or hell, depending how you look at it). First get a list of all feedbacks and the maximum precedence of the user who
       # created it. Secondly, take that list and uniq-ify it by summing all precedences for the same feedback type.
       detailed_resolution_data = conflicts.map do |p|
-        feedback_data = p.feedbacks.map { |f| [f.feedback_type[0], (f.user&.roles&.map { |r| roles[r.name.to_sym] }&.max || 0)] }
-        sums = feedback_data.map { |f| f[0] }.uniq.map { |ft| [ft, feedback_data.select { |f| f[0] == ft }.map { |f| f[1] }.sum] }
+        feedback_data = p.feedbacks.map do |f|
+          [f.feedback_type[0], (f.user&.roles&.map do |r|
+                                  roles[r.name.to_sym]
+                                end&.max || 0)]
+        end
+        sums = feedback_data.map { |f| f[0] }.uniq.map do |ft|
+          [ft, feedback_data.select do |f|
+                 f[0] == ft
+               end.map { |f| f[1] }.sum]
+        end
         [p, sums]
       end
 
@@ -57,7 +67,8 @@ class ConflictingFeedbackJob < ApplicationJob
 
       resolvable.each do |post, feedback_data|
         winner = feedback_data.max_by { |f| f[1] }[0]
-        post.feedbacks.where('LEFT(feedback_type, 1) != ?', winner).update_all(is_invalidated: true, invalidated_by: -1, invalidated_at: DateTime.now)
+        post.feedbacks.where('LEFT(feedback_type, 1) != ?', winner).update_all(is_invalidated: true,
+                                                                               invalidated_by: -1, invalidated_at: DateTime.now)
       end
     end
 

@@ -3,11 +3,7 @@
 class CustomSessionsController < Devise::SessionsController
   protect_from_forgery except: [:create]
 
-  @@first_factor = [] # rubocop:disable Style/ClassVars
-
-  def new
-    super
-  end
+  @@first_factor = []
 
   def create
     super do |user|
@@ -18,10 +14,6 @@ class CustomSessionsController < Devise::SessionsController
         redirect_to(url_for(controller: :custom_sessions, action: :verify_2fa, uid: id)) && return
       end
     end
-  end
-
-  def destroy
-    super
   end
 
   def verify_2fa; end

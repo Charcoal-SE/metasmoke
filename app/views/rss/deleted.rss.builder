@@ -34,7 +34,8 @@ xml.rss version: '2.0' do
         params[:prefix_user] = 'true' if params[:fullbody] == 'false' && !params[:prefix_user].present?
         description = ''
         if params[:prefix_user] == 'true'
-          description = "#{link_to post.stack_exchange_user.username, post.stack_exchange_user.stack_link} #{description}"
+          description = "#{link_to post.stack_exchange_user.username,
+                                   post.stack_exchange_user.stack_link} #{description}"
         end
         description = "#{description} #{post.body}" unless params[:fullbody] == 'false'
         xml.description description
@@ -44,7 +45,7 @@ xml.rss version: '2.0' do
         when 'onsite'
           # We rely on Post.link being a protocol-relative link.
           # This is supported by current data; there are only four exceptions from back in early '17. Won't matter for RSS.
-          xml.link 'https:' + post.link
+          xml.link "https:#{post.link}"
         else
           xml.link url_for(controller: 'posts', action: 'show', id: post.id, only_path: false)
         end

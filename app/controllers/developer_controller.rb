@@ -22,7 +22,8 @@ class DeveloperController < ApplicationController
                flash[:warning] = "Coercion failure on params[:context]: Can't convert to an interger"
                redirect_to(root_path) && return
              end
-             `tail -n 10000 log/production.log | grep -E '#{params[:grep].to_s.tr("'", '')}' -C '#{params[:context].to_i}' --color=never`
+             `tail -n 10000 log/production.log | grep -E '#{params[:grep].to_s.tr("'",
+                                                                                  '')}' -C '#{params[:context].to_i}' --color=never`
            else
              `tail -n 1000 log/production.log`
            end

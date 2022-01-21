@@ -59,10 +59,11 @@ class ReviewQueuesController < ApplicationController
     ReviewResult.create user: current_user, result: params[:response], item: @item
 
     unless params[:response] == 'skip'
-      @item.reviewable.custom_review_action(@queue, @item, current_user, params[:response]) if @item.reviewable.respond_to? :custom_review_action
-      if @item.reviewable.respond_to?(:should_dq?) && @item.reviewable.should_dq?(@queue)
-        @item.update(completed: true)
+      if @item.reviewable.respond_to? :custom_review_action
+        @item.reviewable.custom_review_action(@queue, @item, current_user,
+                                              params[:response])
       end
+      @item.update(completed: true) if @item.reviewable.respond_to?(:should_dq?) && @item.reviewable.should_dq?(@queue)
     end
 
     render json: { status: 'ok' }
@@ -105,6 +106,7 @@ class ReviewQueuesController < ApplicationController
 
   def verify_permissions
     return if user_signed_in? && current_user.has_role?(@queue.privileges)
+
     not_found
   end
 

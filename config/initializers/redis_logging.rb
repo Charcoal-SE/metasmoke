@@ -22,6 +22,7 @@ def log_timestamps(ts, status:, action:, controller:, format:, method:, # ruboco
   db_runtime = db_runtime.to_f
 
   return if path.nil?
+
   path = sensible_routes_wrap(method, path)&.path || path.split('?').first
   path_string = "#{method.upcase}/#{path}.#{format}"
   # controller_action_string = "#{controller}##{action}"
