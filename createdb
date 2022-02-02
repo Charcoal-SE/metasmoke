@@ -9,6 +9,7 @@ if [ -d import ]; then
             gzip -dc "$redis" >dump.rdb
             chmod 644 dump.rdb
             # chown redis:redis dump.rdb
+            rm -f "$redis"
         else
             echo "$0: No files matching $redis" >&2
             exit 124
@@ -66,6 +67,7 @@ if [ -d import ]; then
             gzip -dc <"$sql" |
             sed 's/dump_metasmoke/metasmoke/g' |
             mysql -u root -ppassword metasmoke
+            rm -f "$sql"
         else
             echo "$0: No files matching $sql" >&2
             exit 123
