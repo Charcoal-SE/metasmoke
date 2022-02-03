@@ -2,6 +2,12 @@
 
 set -e -u
 
+case $(pwd) in
+ /usr/src/app) ;;
+ *) echo "$0: this should only be run from the Dockerfile inside the image" >&2
+    exit 33;;
+esac
+
 if [ -d import ]; then
     for redis in import/*.rdb.gz; do
         if [ -e "$redis" ]; then
@@ -9,6 +15,7 @@ if [ -d import ]; then
             gzip -dc "$redis" >dump.rdb
             chmod 644 dump.rdb
             # chown redis:redis dump.rdb
+            rm -f "$redis"
         else
             echo "$0: No files matching $redis" >&2
             exit 124
@@ -66,6 +73,7 @@ if [ -d import ]; then
             gzip -dc <"$sql" |
             sed 's/dump_metasmoke/metasmoke/g' |
             mysql -u root -ppassword metasmoke
+            rm -f "$sql"
         else
             echo "$0: No files matching $sql" >&2
             exit 123
