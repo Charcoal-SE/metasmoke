@@ -2,6 +2,12 @@
 
 set -e -u
 
+case $(pwd) in
+ /usr/src/app) ;;
+ *) echo "$0: this should only be run from the Dockerfile inside the image" >&2
+    exit 33;;
+esac
+
 if [ -d import ]; then
     for redis in import/*.rdb.gz; do
         if [ -e "$redis" ]; then
