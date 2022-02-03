@@ -87,6 +87,9 @@ u = User.create(
   username: 'metasmoke', email: 'metasmoke@localhost', password: 'password')
 u.add_role(:admin)
 u.add_role(:developer)
+u,add_role(:reviewer)
+u.add_role(:flagger)
+u.add_role(:core)
 
 SiteSetting.create(name: 'registration_enabled', value: 1)
 ____
