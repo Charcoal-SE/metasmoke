@@ -5,6 +5,6 @@ set -e -u
 while true; do
     ./services --no-redis
     foreman start
-    rails server -b 0.0.0.0
+    # rails server -b 0.0.0.0
     wait $(mysqld)
 done
