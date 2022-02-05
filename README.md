@@ -16,12 +16,16 @@ well for development purposes. The minimum Windows build version required is 161
 to this.
 
 ## Docker
-There is a simple `Dockerfile` here which is however not properly tested yet.
+There is a simple `Dockerfile` here which is however not well tested.
 
 If you want to include a database dump, create a directory `import`
 and place the dump files there (one `*.rdb.gz` and one `*.sql.gz`).
 This will noticeably slow down the build (plan 10-15 minutes,
 depending also on disk speed and hardware).
+
+If the `import` directory contains a file named `metasmoke@localhost`,
+or if there is no `import` directory, the Docker image will create
+a metasmoke user with that email address and a default password.
 
 To create a local build, simply
 

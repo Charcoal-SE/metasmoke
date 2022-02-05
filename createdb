@@ -65,7 +65,13 @@ rails db:schema:load
 rails db:migrate
 # rails db:seed
 
+enableregistration=false
+localmetasmoke=false
+
 if [ -d import ]; then
+    if [ -e import/metasmoke@localhost ]; then
+        localmetasmoke=true
+    fi
     for sql in import/*.sql.gz; do
         if [ -e "$sql" ]; then
             echo "$0: importing $sql (this takes a long time)" >&2
@@ -81,6 +87,12 @@ if [ -d import ]; then
         break
     done
 else
+    enableregistration=true
+    localmetasmoke=true
+fi
+
+if [ "$localmetasmoke" = true ]; then
+    echo "$0: creating metasmoke@localhost user" >&2
     ######## FIXME: yet another hard-coded, easily guessable password
     rails c <<\____
 u = User.create(
@@ -90,7 +102,12 @@ u.add_role(:developer)
 u,add_role(:reviewer)
 u.add_role(:flagger)
 u.add_role(:core)
+____
+fi
 
+if [ "$enableregistration" = true ]; then
+    echo "$0: setting registration_enabled" >&2
+    rails c <<\____
 SiteSetting.create(name: 'registration_enabled', value: 1)
 ____
 fi
