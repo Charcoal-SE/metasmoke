@@ -10,8 +10,7 @@ module API
       # Newer versions of Ruby drop everything after the first dot
       # Parse the raw request to get the actual query string
       # request.env['PATH_INFO'] is '/v2.0/domains/name/test.spam.com'
-      name = request.env['PATH_INFO'].split(
-        '/domains/name/', 2)[1].split(/[?&]/, 2)[0]
+      name = request.env['PATH_INFO'].split('/domains/name/', 2)[1].split(/[?&]/, 2)[0]
       std_result SpamDomain.where(domain: name).order(id: :desc), filter: FILTERS[:domains]
     end
 
