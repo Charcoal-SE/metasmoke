@@ -29,7 +29,7 @@ GIT
       will_paginate (>= 3.0.3)
 
 GIT
-  remote: https://github.com/Undo1/db_fixtures_dump.git
+  remote: https://github.com/thams/db_fixtures_dump.git
   revision: c2ac9a49ba60ad9d5a06b9efdf6146d902541f21
   specs:
     db_fixtures_dump (0.1.1)
