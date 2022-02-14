@@ -104,7 +104,7 @@ group :development do
   gem 'foreman'
 
   # Export fixtures from local database
-  gem 'db_fixtures_dump', github: 'Undo1/db_fixtures_dump'
+  gem 'db_fixtures_dump'
 
   # for the RailsPanel Chrome extension
   # https://chrome.google.com/webstore/detail/railspanel/gjpfobpafnhjhbajcjgccbbdofdckggg
