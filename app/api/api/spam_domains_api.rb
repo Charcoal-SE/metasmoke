@@ -6,9 +6,12 @@ module API
       std_result SpamDomain.all.order(id: :desc), filter: FILTERS[:domains]
     end
 
-    # We are not using name/:name, because otherwise it will not allow literal '.' in :name
-    get 'name/(*name)' do
-      std_result SpamDomain.where(domain: params[:name]).order(id: :desc), filter: FILTERS[:domains]
+    get 'name/:name' do
+      # Newer versions of Ruby drop everything after the first dot
+      # Parse the raw request to get the actual query string
+      # request.env['PATH_INFO'] is '/v2.0/domains/name/test.spam.com'
+      name = request.env['PATH_INFO'].split('/domains/name/', 2)[1].split(/[?&]/, 2)[0]
+      std_result SpamDomain.where(domain: name).order(id: :desc), filter: FILTERS[:domains]
     end
 
     get ':id/posts' do

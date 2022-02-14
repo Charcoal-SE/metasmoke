@@ -83,10 +83,13 @@ module API
       std_result Post.where(deleted_at: nil).order(id: :desc), filter: FILTERS[:posts]
     end
 
-    # We are not using "get 'uid/:api_param/:native_id' do", because that does not permit a literal '.' in the api param,
-    # which is required for meta and localized SO sites.
-    get 'uid/(*api_param)/(*native_id)' do
-      std_result Post.joins(:site).where(sites: { api_parameter: params[:api_param] }, posts: { native_id: params[:native_id] }),
+    get 'uid/:api_param/:native_id' do
+      # Newer versions of Ruby drop everything after the first dot
+      # Parse the raw request to get the actual query string
+      # request.env['PATH_INFO'] is '/v2.0/uid/foo.bar/1234'
+      tail = request.env['PATH_INFO'].split(/[?&]/, 2)[0].split('/uid/', 2)[1]
+      values = tail.split('/', 2)
+      std_result Post.joins(:site).where(sites: { api_parameter: values[0] }, posts: { native_id: values[1] }),
                  filter: FILTERS[:posts]
     end
 
