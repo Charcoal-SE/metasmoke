@@ -6,7 +6,7 @@ jobs:
     shell: /bin/bash --login
 
     docker:
-    - image: circleci/ruby:2.7.4-node
+    - image: cimg/ruby:2.7.4-node
 
     steps:
     - checkout
@@ -35,8 +35,8 @@ jobs:
       CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
 
     docker:
-    - image: circleci/ruby:2.7.4-node
-    - image: circleci/mysql:5.7.22
+    - image: cimg/ruby:2.7.4-node
+    - image: cimg/mysql:5.7.36
       environment:
         MYSQL_ROOT_HOST: '%'
         MYSQL_USER: 'ubuntu'
@@ -74,8 +74,8 @@ jobs:
       CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
 
     docker:
-    - image: circleci/ruby:2.7.4-node
-    - image: circleci/mysql:5.7.22
+    - image: cimg/ruby:2.7.4-node
+    - image: cimg/mysql:5.7.36
       environment:
         MYSQL_ROOT_HOST: '%'
         MYSQL_USER: 'ubuntu'
