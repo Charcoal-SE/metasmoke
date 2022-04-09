@@ -40,7 +40,7 @@ jobs:
       environment:
         MYSQL_ROOT_HOST: '%'
         MYSQL_USER: 'ubuntu'
-        MYSQL_ROOT_PASSWORD: 'ubuntu'
+        MYSQL_PASSWORD: 'ubuntu'
         MYSQL_DATABASE: 'metasmoke_test'
 
     steps:
@@ -79,7 +79,7 @@ jobs:
       environment:
         MYSQL_ROOT_HOST: '%'
         MYSQL_USER: 'ubuntu'
-        MYSQL_ROOT_PASSWORD: 'ubuntu'
+        MYSQL_PASSWORD: 'ubuntu'
         MYSQL_DATABASE: 'metasmoke_test'
 
     steps:
@@ -93,7 +93,7 @@ jobs:
         mkdir -p config && echo 'test:
           adapter: mysql2
           database: metasmoke_test
-          username: root
+          username: ubuntu
           password: ubuntu
           host: 127.0.0.1
         ' > config/database.yml
