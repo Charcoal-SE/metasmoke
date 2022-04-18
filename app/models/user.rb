@@ -42,7 +42,7 @@ class User < ApplicationRecord
     message += if stack_exchange_account_id.present?
                  " '[#{name}](//stackexchange.com/users/#{stack_exchange_account_id})'"
                else
-                 " '#{name}'"
+                 ' without an associated SE account'
                end
     message += ' created'
     # Actually send the messsage to SmokeDetector, unless that's turned off.
