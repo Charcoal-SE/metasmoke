@@ -158,6 +158,26 @@ class User < ApplicationRecord
     save!
   end
 
+  def flag_option(post, site)
+    post_type = post.answer? ? 'answers' : 'questions'
+    post_id = post.native_id
+
+    r = HTTParty.get("#{AppConfig['token_store']['host']}/autoflag/options",
+                     headers: {
+                       'X-API-Key': tstore['key']
+                     },
+                     query: {
+                       account_id: stack_exchange_account_id,
+                       site: site.api_parameter,
+                       post_id: post_id,
+                       post_type: post_type[0..-2]
+                     })
+
+    return false, "[beta] /autoflag/options #{r.code}\n#{r.headers}\n#{r.body}", nil if r.code != 200
+
+    return true, nil, JSON.parse(r.body)
+  end
+
   def flag(flag_type, post, dry_run = false, **opts)
     if moderator_sites.pluck(:site_id).include? post.site_id
       return false, 'User is a moderator on this site'
@@ -168,22 +188,9 @@ class User < ApplicationRecord
     path = post.answer? ? 'answers' : 'questions'
     site = post.site
 
-    tstore = AppConfig['token_store']
-    acct_id = stack_exchange_account_id
-    post_id = post.native_id
-    post_type = path
-    r = HTTParty.get("#{tstore['host']}/autoflag/options",
-                     headers: {
-                       'X-API-Key': tstore['key']
-                     },
-                     query: {
-                       account_id: acct_id,
-                       site: site.api_parameter,
-                       post_id: post_id,
-                       post_type: post_type[0..-2]
-                     })
-    return false, "[beta] /autoflag/options #{r.code}\n#{r.headers}\n#{r.body}" if r.code != 200
-    response = JSON.parse(r.body)
+    success, error, response = flag_option(post, site)
+
+    return false, error unless success
 
     flag_options = response['items']
 
