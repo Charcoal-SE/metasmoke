@@ -218,6 +218,7 @@ class User < ApplicationRecord
     acct_id = stack_exchange_account_id
     post_id = post.native_id
     flag_option_id = flag_option['option_id']
+    Rails.logger.info "[Autoflagging][Flag-Option][#{flag_option['title']}]: #{flag_option_id}"
     post_type = path
     comment = opts[:comment]
     req = HTTParty.post("#{tstore['host']}/autoflag",
