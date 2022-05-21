@@ -68,7 +68,7 @@ class Redis::Post
 
   def comments
     if @comments.nil?
-      @comments = Array.new(@fields['post_comments_count'].to_i) { Redis::PostComment.new(nil) }
+      @comments = Array.new([@fields['post_comments_count'].to_i, 0].max) { Redis::PostComment.new(nil) }
       @comments.define_singleton_method(:count) { length }
     end
     @comments
