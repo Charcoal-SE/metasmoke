@@ -68,6 +68,11 @@ class Redis::Post
 
   def comments
     if @comments.nil?
+      comments_count = @fields['post_comments_count']
+      if comments_count.to_i < 0
+        debug_prefix = "[Redis::Post comments] SE ID: #{@fields['site_id']}:"
+        Rails.logger.debug "#{debug_prefix} post_comments_count (#{comments_count.to_i}) < 0: #{comments_count}"
+      end
       @comments = Array.new([@fields['post_comments_count'].to_i, 0].max) { Redis::PostComment.new(nil) }
       @comments.define_singleton_method(:count) { length }
     end
