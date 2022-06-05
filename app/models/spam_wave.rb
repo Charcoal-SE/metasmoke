@@ -58,7 +58,7 @@ class SpamWave < ApplicationRecord
   end
 
   def max_expiry
-    return if expiry <= 1.day.from_now
-    errors.add(:expiry, 'must be no more than 24 hours from now')
+    return if expiry <= 2.day.from_now
+    errors.add(:expiry, 'must be no more than 48 hours from now')
   end
 end

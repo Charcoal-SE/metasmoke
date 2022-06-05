@@ -59,8 +59,8 @@ class SpamWavesController < ApplicationController
   end
 
   def renew
-    @wave.update(expiry: 24.hours.from_now)
-    flash[:success] = 'Renewed wave for 24 hours.'
+    @wave.update(expiry: 48.hours.from_now)
+    flash[:success] = 'Renewed wave for 48 hours.'
     redirect_back fallback_location: spam_wave_path(@wave)
   end
 
