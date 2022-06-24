@@ -49,7 +49,7 @@
           <div class="field form-group">
             <% h = HTMLEntities.new %>
             <%= label_tag :sites %><br/>
-            <%= select_tag :sites, options_for_select(Site.mains.map{ |s| [h.decode(s.site_name), s.id] }, selected: wave&.sites&.map(&:id)),
+            <%= select_tag :sites, options_for_select(Site.select(:site_name, :id).all.order(:site_name).map{ |s| [h.decode(s.site_name), s.id] }, selected: wave&.sites&.map(&:id)),
                            multiple: true, class: 'form-control selectpicker', 'data-live-search' => true, 'data-actions-box' => true,
                            'data-dropup-auto' => false %>
             <span class="help-block">Choose the sites this wave should apply to.</span>
