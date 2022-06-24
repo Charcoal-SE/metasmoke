@@ -9,7 +9,7 @@
   <span class="button-container">
     <%= link_to 'Edit', edit_spam_wave_path(wave), class: 'btn btn-primary' %>
     <%= link_to 'Renew Wave', renew_spam_wave_path(wave), class: 'btn btn-warning', method: :post %>
-    <% if wave.expiry.past? %>
+    <% unless wave.expiry.past? %>
       <%= link_to 'Cancel Wave', cancel_spam_wave_path(wave), class: 'btn btn-danger', method: :post %>
     <% end %>
   </span>
