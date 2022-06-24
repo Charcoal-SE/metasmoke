@@ -1,3 +1,41 @@
 // Place all the styles related to the SpamWaves controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+/*Spam waves page: more horizontal, and responsive*/
+body.spam-waves .spam-wave {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+body.spam-waves .spam-wave > h3 {
+  width: 100%;
+}
+body.spam-waves .spam-wave > p:not(.text-muted) {
+  white-space: nowrap;
+  flex-basis: calc(min(38vw, 170px)); /* SCSS is unable to compile this without calc() */
+}
+body.spam-waves .spam-wave > .text-muted {
+  width: calc(min(55vw, 400px));
+  min-width: 300px;
+}
+body.spam-waves .spam-wave .btn {
+  width: min-content;
+  height: min-content;
+  transform: translateY(-6px);
+}
+body.spam-waves .spam-wave .btn:not(:last-of-type) {
+  margin-right: calc(min(1vw, 10px));
+}
+body.spam-waves h2 .button-container {
+    margin-left: 2vw;
+}
+
+/*Spam Wave new and edit pages */
+body.spam-waves .initial-content > .row > .col-md-8.col-md-offset-2 {
+  margin-left: 0px;
+  width: 100%;
+}
+body.spam-waves .initial-content > .row > .col-md-8.col-md-offset-2 .panel-body {
+  max-width: unset;
+}
