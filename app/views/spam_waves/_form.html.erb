@@ -39,7 +39,7 @@
             <%= label_tag :expiry %><br/>
             <%= datetime_field_tag :expiry, default(:expiry, wave, 24.hours.from_now)&.to_datetime&.iso8601[0..-2], class: 'form-control' %>
             <span class="help-block">
-              <%= help_or_error(:expiry, "A point after which this wave will be deactivated. Maximum 24 hours from now.") %>
+              <%= help_or_error(:expiry, "A point after which this wave will be deactivated. Maximum 48 hours from now. Default 24 hours from now.") %>
             </span>
           </div>
 
