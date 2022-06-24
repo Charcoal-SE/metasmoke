@@ -1,6 +1,6 @@
 <h1><%= @wave.name %></h1>
 <h4 class="text-muted">Currently <strong><%= @wave.expiry.past? ? 'expired' : 'active' %>.</strong></h4>
-<p class="text-muted">Created by <%= @wave.user.username %> <span title="<%= wave.created_at %>"><%= time_ago_in_words(@wave.created_at) %> ago</span>.</p>
+<p class="text-muted">Created by <%= @wave.user.username %> <span title="<%= @wave.created_at %>"><%= time_ago_in_words(@wave.created_at) %> ago</span>.</p>
 
 <% if @wave.expiry.past? %>
   <p>Expired <span title="<%= @wave.expiry %>"><%= distance_of_time_in_words(DateTime.now, @wave.expiry) %> ago</span>.</p>

@@ -7,10 +7,10 @@
     <p>Expires in <span title="<%= wave.expiry %>"><%= distance_of_time_in_words(DateTime.now, wave.expiry) %></span>.</p>
   <% end %>
   <span class="button-container">
-    <%= link_to 'Edit', edit_spam_wave_path(@wave), class: 'btn btn-primary' %>
-    <%= link_to 'Renew Wave', renew_spam_wave_path(@wave), class: 'btn btn-warning', method: :post %>
+    <%= link_to 'Edit', edit_spam_wave_path(wave), class: 'btn btn-primary' %>
+    <%= link_to 'Renew Wave', renew_spam_wave_path(wave), class: 'btn btn-warning', method: :post %>
     <% if wave.expiry.past? %>
-      <%= link_to 'Cancel Wave', cancel_spam_wave_path(@wave), class: 'btn btn-danger', method: :post %>
+      <%= link_to 'Cancel Wave', cancel_spam_wave_path(wave), class: 'btn btn-danger', method: :post %>
     <% end %>
   </span>
 </div>
