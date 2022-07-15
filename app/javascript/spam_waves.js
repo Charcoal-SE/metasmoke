@@ -23,7 +23,14 @@ route(/^\/spam-waves/, () => {
       .find('a')
       .on('mousedown mouseover', function () {
         const criteriaInPage = valCriteriaList.map(key => [key, $(`#conditions_${key}${key.includes('rep') ? '' : '_regex'}`).val()]);
-        const encodedCriteria = criteriaInPage.reduce((sum, [key, value]) => key === 'max_user_rep' ? sum + `&user_rep_direction=%3C%3D&user_reputation=${value}` : sum + `&${key}_is_regex=1&${key}=${encodeURIComponent(value)}`, '');
+        const encodedCriteria = criteriaInPage.reduce((sum, [key, value]) => {
+          if (key === 'max_user_rep') {
+            return sum + `&user_rep_direction=%3C%3D&user_reputation=${value}`;
+          } // Else
+          // Convert the Unicode codepoint escapes from the format needed in spam waves to what's needed in search.
+          value = value.replace(/\\u([\da-fA-F]{4})/g, '\\x{$1}');
+          return sum + `&${key}_is_regex=1&${key}=${encodeURIComponent(value)}`;
+        }, '');
         const sitesSelect = $('#sites');
         const selectionInnerUlLi = sitesSelect.closest('.bootstrap-select').find('.inner.open ul.inner > li');
         const selectedSiteLi = selectionInnerUlLi.filter('.selected');
