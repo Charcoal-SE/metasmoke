@@ -1,3 +1,24 @@
 // Place all the styles related to the feedbacks controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.feedback-button {
+  margin-left: 5px;
+}
+
+@media (pointer: coarse) {
+  .feedback-button {
+	  margin-left: 25px;
+	  font-size: 20px;
+  }
+}
+
+/* The following duplicates the above pointer: coarse @media query, because our SCCS
+ * conversion doesn't understand "or" in @media queries.
+ */
+@media (max-width: 767px) {
+  .feedback-button {
+	  margin-left: 25px;
+	  font-size: 20px;
+  }
+}
