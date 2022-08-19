@@ -88,8 +88,8 @@
           <div class="field">
             <%= f.label :right_id, 'Linked domain' %><br/>
             <%= f.select :right_id, [], { include_blank: true }, class: 'form-control selectpicker',
-                         data: { remote_source: spam_domains_query_path, none_selected_text: 'Start typing to search for domains...',
-                         required: true } %>
+                         data: { remote_source: spam_domains_query_path, none_selected_text: 'Start typing to search for domains...'},
+                         required: true %>
           </div><br/>
 
           <div class="field">
