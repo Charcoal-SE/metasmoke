@@ -85,6 +85,7 @@ const metasmoke = window.metasmoke = {
     metasmoke.init.setupAjaxDeduplicator();
     metasmoke.init.checkReviewCountKicker();
     metasmoke.init.setPostRenderModes();
+    metasmoke.init.setDocumentTitle();
   }, {
     setupAnnouncementCollapse: () => {
       $('.announcement-collapse').click(ev => {
@@ -174,6 +175,50 @@ const metasmoke = window.metasmoke = {
       $(document.body).on('DOMNodeInserted', '.post-body, .review-item-container', () => {
         $(`.post-render-mode[data-render-mode="${metasmoke.storage['post-render-mode']}"]`).tab('show');
       });
+    },
+
+    setDocumentTitle: () => {
+      const pathname = window.location.pathname;
+      if (document.title === 'metasmoke') {
+        const headers = $('h1, h2, h3');
+        let headerText = headers.first().text().trim();
+        let postfix = '';
+        headerText = pathname === '/reasons' ? 'Reasons' : headerText;
+        headerText = pathname === '/spammers/sites' ? 'Spammers by Site' : headerText;
+        headerText = pathname === '/spammers' ? 'Spammers' : headerText;
+        headerText = pathname === '/status/code' ? 'Code Status' : headerText;
+        if (headerText === 'Disambiguation' && pathname.indexOf('/posts/') > -1) {
+          postfix = window.location.search.replace(/^\?[\w-]+=/, ': ');
+        }
+        if (headerText) {
+          document.title = `${headerText}${postfix} - metasmoke`;
+        }
+      }
+      if (pathname === '/search') {
+        const urlParams = new URLSearchParams(window.location.search);
+        let searchInfo = ['title', 'body', 'username', 'why', 'site', 'post_type', 'feedback', 'autoflagged', 'reason', 'page'].reduce((sum, type) => {
+          const value = urlParams.get(type);
+          if (value) {
+            sum += sum ? '; ' : '';
+            const invertText = urlParams.get(`${type}_is_inverse_regex`) ? ' (not)' : '';
+            sum += `${type}${invertText}: ${value}`;
+          }
+          return sum;
+        }, '');
+        const userRep = urlParams.get('user_reputation');
+        if (userRep !== null) {
+          const repDirection = decodeURIComponent(urlParams.get('user_rep_direction'));
+          searchInfo += searchInfo ? '; ' : '';
+          searchInfo += `rep: ${repDirection} ${userRep}`;
+        }
+        const filter = urlParams.get('feedback_filter');
+        if (filter) {
+          searchInfo = `${filter.toUpperCase()} only: ${searchInfo}`;
+        }
+        if (searchInfo) {
+          document.title = `Search - ${searchInfo} - metasmoke`;
+        }
+      }
     }
   })
 };
