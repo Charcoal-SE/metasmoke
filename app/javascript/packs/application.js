@@ -118,7 +118,9 @@ const metasmoke = window.metasmoke = {
     initFormParamCleanups: () => {
       const formParameterCleanups = [];
 
-      $(document.body).on('submit', 'form', ev => {
+      // This excludes data-remote, because other JavaScript creates the POST, so this code
+      // results in a duplicated POST being sent.
+      $(document.body).on('submit', 'form:not([data-remote="true"])', ev => {
         const tgt = $(ev.target);
         if (formParameterCleanups.indexOf(tgt[0]) === -1) {
           ev.preventDefault();
