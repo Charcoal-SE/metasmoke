@@ -38,6 +38,7 @@ import '../graphs';
 import '../site_settings';
 import '../comments';
 import '../spam_waves';
+import '../general_fixes';
 
 import { onLoad, installSelectpickers, uuid4, hashCode } from '../util';
 
