@@ -46,7 +46,7 @@
       <td class="text-muted"><%= review.item.id %></td>
       <td class="text-muted"><%= review.id %></td>
       <% if @all %> <td><%= review.user&.username || '(deleted user)' %></td> <% end %>
-      <td><%= link_to review.item.reviewable&.review_item_name || '(deleted record)', review_item_path(@queue.name, review.item) %></td>
+      <td><bdi><%= link_to review.item.reviewable&.review_item_name || '(deleted record)', review_item_path(@queue.name, review.item) %><bdi></td>
       <td><span title="<%= review.created_at %>"><%= time_ago_in_words(review.created_at) %> ago</span></td>
       <td><%= review.result %></td>
       <% if current_user&.has_role?(:admin) %>

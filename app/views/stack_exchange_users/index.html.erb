@@ -11,8 +11,8 @@
 
   <% @users.each do |user| %>
     <tr>
-      <td><%= link_to user.username, "//#{user.site.site_domain}/users/#{user.user_id}" %></td>
-      <td><%= link_to user.posts.first.title, "/post/#{user.posts.first.id}" %></td>
+      <td><bdi><%= link_to user.username, "//#{user.site.site_domain}/users/#{user.user_id}" %></bdi></td>
+      <td><bdi><%= link_to user.posts.first.title, "/post/#{user.posts.first.id}" %></bdi></td>
     </tr>
   <% end %>
 </table>

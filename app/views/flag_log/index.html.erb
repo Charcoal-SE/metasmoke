@@ -1,7 +1,7 @@
 <h3>
   <%= title "Flag logs" %>
   <% if @individual_post.present? %>
-    for <%= link_to @individual_post.title, "/post/#{@individual_post.id}" %>
+    for <bdi><%= link_to @individual_post.title, "/post/#{@individual_post.id}" %></bdi>
   <% end %>
   <% if @individual_user.present? %>
     for <%= @individual_user.username %>
