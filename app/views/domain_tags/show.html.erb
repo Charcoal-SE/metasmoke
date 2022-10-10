@@ -29,7 +29,7 @@
 </ul>
 
 <% if params[:what] == 'domains' || params[:what].nil? %>
-  <table class="table table-striped">
+  <table class="table table-striped domains-table">
     <thead>
     <tr>
       <th>Domain</th>
@@ -68,7 +68,7 @@
 
   <%= will_paginate @domains, renderer: BootstrapPagination::Rails %>
 <% elsif params[:what] == 'posts' %>
-  <table class="table">
+  <table class="table posts-table">
     <tbody>
       <% @posts.each do |p| %>
         <%= render 'posts/post', post: p, wrap_in_tr: true %>
@@ -80,7 +80,7 @@
 <% end %>
 
 <% if current_user&.has_role?(:developer) %>
-  <div class="panel panel-danger">
+  <div class="panel panel-danger developer-tools searc-developer-tools">
     <div class="panel-heading">
       <h3 class="panel-title">Developer tools</h3>
     </div>

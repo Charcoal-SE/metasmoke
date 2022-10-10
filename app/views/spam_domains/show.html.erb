@@ -64,7 +64,7 @@
 <h3>Posts</h3>
 <p>This domain has been seen in <%= pluralize @counts[:all], 'post' %>, <%= @counts[:tp] %> TP.</p>
 
-<table class="table">
+<table class="table posts-table">
   <tbody>
     <% @posts.includes_for_post_row.each do |post| %>
       <%= render 'posts/post', post: post %>

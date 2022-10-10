@@ -96,31 +96,31 @@
 <br />
 
 <% if @results.present? %>
-  <ul class="nav nav-tabs">
-    <li role="presentation" class="<%= "active" if params[:option].nil? and (params[:feedback_filter].nil? or params[:feedback_filter] == 'all') %>">
+  <ul class="nav nav-tabs post-table-nav-tabs search-results-nav-tabs post-table-nav-tabs-tp-fp-naa post-table-nav-tabs-has-graphs">
+    <li role="presentation" class="nav-tab nav-tab-all-results <%= "active" if params[:option].nil? and (params[:feedback_filter].nil? or params[:feedback_filter] == 'all') %>">
       <%= link_to "Results (#{@total_count})", search_path(request.query_parameters.merge!({option: nil, feedback_filter: nil})) %>
     </li>
-    <li class="<%= 'active' if params[:feedback_filter] == 'tp' %>">
+    <li class="nav-tab nav-tab-tp <%= 'active' if params[:feedback_filter] == 'tp' %>">
       <%= link_to "True positives (#{@counts_by_feedback[:is_tp]})", search_path(request.query_parameters.to_h.merge!({option: nil, feedback_filter: "tp"})) %>
     </li>
-    <li class="<%= 'active' if params[:feedback_filter] == 'fp' %>">
+    <li class="nav-tab nav-tab-fp <%= 'active' if params[:feedback_filter] == 'fp' %>">
       <%= link_to "False positives (#{@counts_by_feedback[:is_fp]})", search_path(request.query_parameters.to_h.merge!({option: nil, feedback_filter: "fp"})) %>
     </li>
-    <li class="<%= 'active' if params[:feedback_filter] == 'naa' %>">
+    <li class="nav-tab nav-tab-naa <%= 'active' if params[:feedback_filter] == 'naa' %>">
       <%= link_to "NAA (#{@counts_by_feedback[:is_naa]})", search_path(request.query_parameters.to_h.merge!({option: nil, feedback_filter: "naa"})) %>
     </li>
-    <li role="presentation" class="<%= "active" if params[:option] == "graphs" %>">
+    <li role="presentation" class="nav-tab nav-tab-graphs <%= "active" if params[:option] == "graphs" %>">
       <%= link_to "Graphs", search_path(request.query_parameters.to_h.merge({option: "graphs", anchor: "graphs"})) %>
     </li>
   </ul>
 
   <% if params[:option].nil? %>
-    <table class="table">
+    <table class="table search-results-table posts-table">
       <%= render @results, collection: :post %>
     </table>
-    <div class="text-center">
+    <div class="text-center pagination-container">
       <%= will_paginate @results, renderer: BootstrapPagination::Rails %>
-      <p class="text-muted">
+      <p class="text-muted link-to-json-format">
         <%= link_to "JSON (still subject to paging limits)", search_path(params: request.query_parameters, format: :json) %>
       </p>
     </div>
@@ -135,7 +135,7 @@
 <% end %>
 
 <% if user_signed_in? && current_user.has_role?(:developer) %>
-  <div class="panel panel-danger">
+  <div class="panel panel-danger developer-tools searc-developer-tools">
     <div class="panel-heading">
       <h4 class="panel-title">Developer</h4>
     </div>

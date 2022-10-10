@@ -2,6 +2,6 @@
 
 <%= render 'posts/table', posts: @posts %>
 
-<div class="text-center">
+<div class="text-center pagination-container">
   <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
 </div>

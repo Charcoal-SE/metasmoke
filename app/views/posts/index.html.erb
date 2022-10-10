@@ -2,7 +2,7 @@
 
 <h3><%= title 'Recent posts' %></h3>
 
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs post-table-nav-tabs">
   <li class="<%= "active" if params[:filter].nil? %>">
     <%= link_to "All", posts_path %>
   </li>
@@ -13,6 +13,6 @@
 
 <%= render 'table', posts: @posts %>
 
-<div class="text-center">
+<div class="text-center pagination-container">
   <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
 </div>

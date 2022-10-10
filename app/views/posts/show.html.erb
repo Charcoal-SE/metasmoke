@@ -1,14 +1,14 @@
-<h4>
+<h4 class="post-title-header">
   <% if @post.flag_logs.auto.successful.any? %>
     <%= link_to post_flag_logs_path(@post), style: "text-decoration:none"  do %>
-      <span class="text-danger" title="This post had flags cast on it" href="#"><%= @post.flag_logs.auto.successful.first.flag_icon %></span>
+      <span class="text-danger autoflagged-marker" title="This post had flags cast on it" href="#"><%= @post.flag_logs.auto.successful.first.flag_icon %></span>
     <% end %>
   <% end %>
-  <bdi><%= title @post.title %></bdi>
+  <bdi class="post-title-bdi"><%= title @post.title %></bdi>
   <% unless @is_review_item %>
-    <strong class="post-feedbacks">
+    <strong class="post-feedbacks feedbacks-container">
        <% @post.feedbacks.each do |feedback| %>
-         <span style="<%= "font-weight:normal" if feedback.is_naa? %>" data-feedbackid="<%= feedback.id %>" data-toggle="tooltip" data-placement="top" title="<%= (feedback.user.present? || feedback.api_key_id.present?) ? "#{feedback.user.try(:username)} (From #{feedback.api_key.try(:app_name) || "Review"})" : feedback.user_name %>: <%= feedback.feedback_type %>" class="<%= element_class_for_feedback feedback %>"><%= element_symbol_for_feedback(feedback).html_safe %></span>
+         <span style="<%= "font-weight:normal" if feedback.is_naa? %>" data-feedbackid="<%= feedback.id %>" data-toggle="tooltip" data-placement="top" title="<%= (feedback.user.present? || feedback.api_key_id.present?) ? "#{feedback.user.try(:username)} (From #{feedback.api_key.try(:app_name) || "Review"})" : feedback.user_name %>: <%= feedback.feedback_type %>" class="<%= element_class_for_feedback feedback %> feedback-span"><%= element_symbol_for_feedback(feedback).html_safe %></span>
        <% end %>
     </strong>
   <% end %>
@@ -20,20 +20,20 @@
   <% unless @post.feedbacks.empty? || @is_review_item %>
     <% if current_user.present? && (current_user.has_role?(:admin) || @post.feedbacks.where(user_id: current_user.id).exists?) %>
       <small>
-        &middot; <%= link_to "(clear)", clear_post_feedback_path(@post) %>
+        &middot; <%= link_to "(clear)", clear_post_feedback_path(@post), class: 'clear-link' %>
       </small>
     <% end %>
   <% end %>
 </h4>
 
 <% if user_signed_in? %>
-  <p><a href="#" data-toggle="modal" data-target="#admin-report-modal" class="text-warning">
+  <p class="admin-report-paragraph"><a href="#" data-toggle="modal" data-target="#admin-report-modal" class="text-warning admin-report-link">
     <span data-toggle="tooltip" title="Request admin attention on this post"><span class="glyphicon glyphicon-alert"></span> Something not right?</span>
   </a></p>
 <% end %>
 
 <% if user_signed_in? && current_user.has_role?(:reviewer) && !@is_review_item %>
-  <p>
+  <p class="add-feedback-paragraph">
     <strong>Add feedback:</strong>
     <%= link_to raw('&#x2713'), post_feedback_path(post_id: @post.id, feedback_type: 'tp'),
                 class: 'feedback-button on-post text-success', remote: true, method: :post, data: { post_id: @post.id } %>
@@ -68,10 +68,10 @@
   <% end %>
 </div>
 
-<hr/>
+<hr class="post-body-hr-separator"/>
 
 <% unless @post.body.nil? %>
-  <ul class="nav nav-tabs" role="tablist">
+  <ul class="nav nav-tabs body-view-nav-tabs" role="tablist">
     <li role="presentation" class="active">
       <a href="#post-body-tab" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="text">Text</a>
     </li>
@@ -86,15 +86,15 @@
   </ul><br/>
 
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="post-body-tab">
+    <div role="tabpanel" class="tab-pane active post-body-panel-text" id="post-body-tab">
       <pre class="post-body-pre-block"><%= @post.body %></pre>
     </div>
     <% unless @post.markdown.nil? %>
-      <div role="tabpanel" class="tab-pane" id="post-source-tab">
+      <div role="tabpanel" class="tab-pane post-body-panel-markdown" id="post-source-tab">
         <pre class="post-body-pre-block"><%= @post.markdown %></pre>
       </div>
     <% end %>
-    <div role="tabpanel" class="tab-pane" id="preview-tab">
+    <div role="tabpanel" class="tab-pane post-body-panel-preview" id="preview-tab">
       <div class="panel panel-default">
         <div class="panel-body">
           <%= safe_render_markdown(@post.markdown || @post.body, scrubber: Post.scrubber) %>
@@ -104,15 +104,15 @@
   </div>
 <% end %>
 
-<hr>
+<hr class="post-links-and-user-hr-separator"/>
 
 <% unless @post.link.nil? %>
   <% unless @post.site&.site_logo.nil? %>
     <%= image_tag @post.site.site_logo, size: "20" %>
   <% end %>
-  <%= link_to "View on site", @post.link %>
+  <%= link_to "View on site", @post.link, class: 'post-site-link' %>
   <% if @post.deleted_at %>
-    <span class="text-danger">
+    <span class="text-danger post-deleted-at-span">
       (deleted
         <span title="<%= (@post.deleted_at - @post.created_at).round(0) %> seconds">
           <%= distance_of_time_in_words(@post.created_at, @post.deleted_at, include_seconds: true) %>
@@ -123,58 +123,59 @@
 <% end %>
 
 <% unless @post.created_at.nil? %>
-  <span class="text-muted" style="float:right">
-    <span title="<%= @post.created_at %>">
+  <span class="text-muted report-created-at-span" style="float:right">
+    <span class="report-created-at-span" title="<%= @post.created_at %>">
       <%= "reported " + time_ago_in_words(@post.created_at).sub("about ", "") + " ago " %>
     </span>
     <% if @post.revision_count.to_i >= 2 %>
-      | edited <%= number_to_multiplicative_quantifier @post.revision_count - 1 %>
+      <span class="post-edited-span">| edited <span class="post-edit-count"><%= number_to_multiplicative_quantifier @post.revision_count - 1 %></span></span>
     <% end %>
     <% unless @post.user_link.nil? %>
-      | posted by
+      <span class="post-user-span">| posted by
       <% unless @post.site&.site_logo&.nil? %>
-        <%= link_to @post.user_link do %>
+        <%= link_to @post.user_link, class: 'user-se-site-link' do %>
           <% unless @post.site&.site_logo.nil? %>
             <%= image_tag @post.site.site_logo, size: "20" %>
           <% end %>
         <% end %>
       <% end %>
       <% if @post.stack_exchange_user_id.present? %>
-          <bdi><%= link_to @post.username, stack_exchange_user_path(@post.stack_exchange_user_id) %></bdi>
+          <bdi class="post-owner-username-bdi"><%= link_to @post.username, stack_exchange_user_path(@post.stack_exchange_user_id), class: 'post-username-link' %></bdi>
       <% end %>
       <% unless @post.user_reputation.nil? %>
-        (<%= @post.user_reputation %>)
+        <span class="user-reputation-span">(<span class="user-reputation"><%= @post.user_reputation %></span>)</span>
       <% end %>
+      </span>
     <% end %>
   </span>
 <% end %>
-<hr>
+<hr class="post-reasons-hr-separator"/>
 
-<p>Caught by:</p>
+<p class="caught-by">Caught by:</p>
 
-<ul>
+<ul class="reasons-list">
   <% @post.reasons.each do |reason| %>
-    <li>
+    <li class="reasons-list-item">
       <%= link_to reason.reason_name, reason_path(reason), title: reason.description, data: { toggle: 'tooltip' } %>
-      <span class="text-muted">(<%= reason.weight %>)</span>
+      <span class="text-muted reason-weight-span">(<span class="reason-weight"><%= reason.weight %></span>)</span>
     </li>
   <% end %>
 </ul>
 
 <% if @post.respond_to?(:reason_weight) && @post.reason_weight&.present? %>
-  <p class="text-muted">Reason weight: <%= @post.reason_weight %></p>
+  <p class="text-muted total-weight-paragraph">Reason weight: <span class="post-total-weight"><%= @post.reason_weight %></span></p>
 <% else %>
-  <p class="text-muted">Reason weight: <%= @post.reasons.map(&:weight).reduce(:+) %></p>
+  <p class="text-muted total-weight-paragraph">Reason weight: <span class="post-total-weight"><%= @post.reasons.map(&:weight).reduce(:+) %></span></p>
 <% end %>
 
 <% if @post.why.present? %>
-  <pre><%= render_links @post.why %></pre>
+  <pre class="post-why"><%= render_links @post.why %></pre>
 <% end %>
 
 <% if user_signed_in? && current_user.write_authenticated && current_user.flags_enabled && !@post.is_fp && !@post.deleted? && Time.now - (@post.created_at || 1.day.ago) <= 1.hour && current_user.has_role?(:reviewer) %>
-  <p>
+  <p class="spam-abusive-flagging-paragraph">
     <% %w[spam abusive].each do |flag_type| %>
-      <%= link_to url_for(controller: :posts, action: :cast_spam_flag, id: @post.id, flag_type: flag_type), method: :post, class: "text-danger flag-link" do %>
+      <%= link_to url_for(controller: :posts, action: :cast_spam_flag, id: @post.id, flag_type: flag_type), method: :post, class: ("text-danger flagging-link flagging-link-" + flag_type) do %>
         <span class="glyphicon glyphicon-flag"></span> <%= flag_type.capitalize %> flag
       <% end %>
     <% end %>
@@ -185,18 +186,18 @@
   <%= render 'abuse_reports/list', item: @post %>
 <% end %>
 
-<hr/>
+<hr class="post-contained-domains-hr-separator"/>
 
-<p>Contains domains:</p>
+<p class="post-contained-domains-paragraph">Contains domains:</p>
 <% if @post.spam_domains.any? %>
   <ul class="post-domain-list">
     <% @post.spam_domains.each do |d| %>
-      <li>
+      <li class="post-domain-line-item">
         <%= render 'spam_domains/domain', domain: d, occurances: true, post_id: @post.id %>
         <% if current_user&.has_role?(:core) && !(psd = PostSpamDomain.find_by(post: @post, spam_domain: d)).added_by.nil? %>
-          <%= link_to "remove domain", remove_post_domain_path(id: @post.id, domain_id: d.id), class: 'btn-sm btn-danger', method: :post %>
+          <%= link_to "remove domain", remove_post_domain_path(id: @post.id, domain_id: d.id), class: 'btn-sm btn-danger remove-domain-link', method: :post %>
           <% if current_user&.has_role?(:admin) %>
-            <i class="text-muted">(added by <%= psd.added_by.username %>, user_id: <%= psd.added_by.id %>)</i>
+            <i class="text-muted domain-added-by-italics">(added by <%= psd.added_by.username %>, user_id: <%= psd.added_by.id %>)</i>
           <% end %>
         <% end %>
       </li>
@@ -214,15 +215,17 @@
   <% end %>
 <% end %>
 <br/>
-<% @post.comments.each do |c| %>
-  <%= render 'post_comments/comment', comment: c, feedback: @post.feedbacks.to_a.select { |f| f.user_id == c.user_id }[0] %>
-<% end %>
+<div class="post-comments-container">
+  <% @post.comments.each do |c| %>
+    <%= render 'post_comments/comment', comment: c, feedback: @post.feedbacks.to_a.select { |f| f.user_id == c.user_id }[0] %>
+  <% end %>
+</div>
 
 <% if current_user&.has_role?(:reviewer) %>
-  <p><a href="javascript:void(0)" class="new-comment"><span class="glyphicon glyphicon-plus"></span> Add a comment</a></p>
+  <p class="add-new-comment-paragraph"><a href="javascript:void(0)" class="new-comment"><span class="glyphicon glyphicon-plus"></span> Add a comment</a></p>
 <% end %>
 
-<div class="add-comment">
+<div class="add-comment add-comment-form-container">
   <%= form_for PostComment.new, url: create_comment_path do |f| %>
     <%= f.hidden_field :post_id, value: @post.id %>
     <div class="field">
@@ -235,14 +238,14 @@
 </div>
 
 <% if user_signed_in? && current_user.has_role?(:developer) %>
-  <div class="panel panel-danger">
+  <div class="panel panel-danger post-developer-tools-container">
     <div class="panel-heading">
       <h3 class="panel-title">Developer tools</h3>
     </div>
     <div class="panel-body">
-      <ul>
-        <li><%= link_to "Update feedback cache", url_for(controller: :posts, action: :reindex_feedback, id: @post.id), method: :post %></li>
-        <li><%= link_to "Delete post", dev_delete_post_path(@post.id), method: :post, data: { confirm: "Are you sure you want to delete this post? This can't be undone." } %></li>
+      <ul class="post-developer-tools-list">
+        <li class="post-developer-tools-list-item"><%= link_to "Update feedback cache", url_for(controller: :posts, action: :reindex_feedback, id: @post.id), method: :post, class: 'post-developer-tools-update-feeback-cache-link' %></li>
+        <li class="post-developer-tools-list-item"><%= link_to "Delete post", dev_delete_post_path(@post.id), method: :post, data: { confirm: "Are you sure you want to delete this post? This can't be undone." }, class: 'post-developer-tools-delete-post-link' %></li>
       </ul>
     </div>
   </div>
