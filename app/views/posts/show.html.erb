@@ -12,14 +12,14 @@
        <% end %>
     </strong>
   <% end %>
-  <small>
+  <small class="post-link-container">
     <%= link_to post_path(@post) do %>
       <i class="fas fa-fw fa-link"></i>
     <% end %>
   </small>
   <% unless @post.feedbacks.empty? || @is_review_item %>
     <% if current_user.present? && (current_user.has_role?(:admin) || @post.feedbacks.where(user_id: current_user.id).exists?) %>
-      <small>
+      <small class="clear-feedback-link-container">
         &middot; <%= link_to "(clear)", clear_post_feedback_path(@post), class: 'clear-link' %>
       </small>
     <% end %>
@@ -83,9 +83,9 @@
     <li role="presentation">
       <a href="#preview-tab" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="rendered">Preview</a>
     </li>
-  </ul><br/>
+  </ul><br class="nav-tabs-to-body-br-spacer"/>
 
-  <div class="tab-content">
+  <div class="tab-content body-content-container">
     <div role="tabpanel" class="tab-pane active post-body-panel-text" id="post-body-tab">
       <pre class="post-body-pre-block"><%= @post.body %></pre>
     </div>
@@ -108,16 +108,16 @@
 
 <% unless @post.link.nil? %>
   <% unless @post.site&.site_logo.nil? %>
-    <%= image_tag @post.site.site_logo, size: "20" %>
+    <%= image_tag @post.site.site_logo, size: "20", class: "site-logo-image" %>
   <% end %>
   <%= link_to "View on site", @post.link, class: 'post-site-link' %>
   <% if @post.deleted_at %>
     <span class="text-danger post-deleted-at-span">
-      (deleted
+      <span class="post-deleted-text-pre">(deleted</span>
         <span title="<%= (@post.deleted_at - @post.created_at).round(0) %> seconds">
           <%= distance_of_time_in_words(@post.created_at, @post.deleted_at, include_seconds: true) %>
         </span>
-      after being reported)
+      <span class="post-deleted-text-post">after being reported)</span>
     </span>
   <% end %>
 <% end %>
@@ -131,7 +131,7 @@
       <span class="post-edited-span">| edited <span class="post-edit-count"><%= number_to_multiplicative_quantifier @post.revision_count - 1 %></span></span>
     <% end %>
     <% unless @post.user_link.nil? %>
-      <span class="post-user-span">| posted by
+      <span class="post-user-span"><span class="post-user-posted-by-text">| posted by</span>
       <% unless @post.site&.site_logo&.nil? %>
         <%= link_to @post.user_link, class: 'user-se-site-link' do %>
           <% unless @post.site&.site_logo.nil? %>
@@ -163,9 +163,9 @@
 </ul>
 
 <% if @post.respond_to?(:reason_weight) && @post.reason_weight&.present? %>
-  <p class="text-muted total-weight-paragraph">Reason weight: <span class="post-total-weight"><%= @post.reason_weight %></span></p>
+  <p class="text-muted total-weight-paragraph"><span class="reason-weight-text">Reason weight: </span><span class="post-total-weight"><%= @post.reason_weight %></span></p>
 <% else %>
-  <p class="text-muted total-weight-paragraph">Reason weight: <span class="post-total-weight"><%= @post.reasons.map(&:weight).reduce(:+) %></span></p>
+  <p class="text-muted total-weight-paragraph"><span class="reason-weight-text">Reason weight: </span><span class="post-total-weight"><%= @post.reasons.map(&:weight).reduce(:+) %></span></p>
 <% end %>
 
 <% if @post.why.present? %>
@@ -208,13 +208,13 @@
 <% end %>
 
 <% if current_user&.has_role?(:core) %>
-  <%= form_tag add_post_domain_path(@post), method: :post do %>
+  <%= form_tag add_post_domain_path(@post), method: :post, class: "add-domain-form" do %>
     <%= hidden_field_tag :post_id, @post.id %>
     <%= text_field_tag :domain_name %>
     <%= submit_tag 'Add Domain', class: 'btn btn-primary btn-sm' %>
   <% end %>
 <% end %>
-<br/>
+<br class="domain-to-comments-spacer"/>
 <div class="post-comments-container">
   <% @post.comments.each do |c| %>
     <%= render 'post_comments/comment', comment: c, feedback: @post.feedbacks.to_a.select { |f| f.user_id == c.user_id }[0] %>
@@ -222,7 +222,7 @@
 </div>
 
 <% if current_user&.has_role?(:reviewer) %>
-  <p class="add-new-comment-paragraph"><a href="javascript:void(0)" class="new-comment"><span class="glyphicon glyphicon-plus"></span> Add a comment</a></p>
+  <p class="add-new-comment-paragraph"><a href="javascript:void(0)" class="new-comment-link"><span class="glyphicon glyphicon-plus"></span> Add a comment</a></p>
 <% end %>
 
 <div class="add-comment add-comment-form-container">
@@ -238,7 +238,7 @@
 </div>
 
 <% if user_signed_in? && current_user.has_role?(:developer) %>
-  <div class="panel panel-danger post-developer-tools-container">
+  <div class="panel panel-danger post-developer-tools-container developer-tools-container">
     <div class="panel-heading">
       <h3 class="panel-title">Developer tools</h3>
     </div>
