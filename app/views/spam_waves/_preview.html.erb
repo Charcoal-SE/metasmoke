@@ -2,7 +2,7 @@
 <% if @posts.count == 0 %>
   <em>No posts caught.</em>
 <% else %>
-  <table class="table">
+  <table class="table posts-table">
     <% @posts.each do |p| %>
       <%= render 'posts/post', post: p, wrap_in_tr: true %>
     <% end %>

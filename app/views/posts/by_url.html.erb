@@ -1,6 +1,6 @@
 <h3>Disambiguation</h3>
 
-<table class="table">
+<table class="table posts-table">
   <tbody>
     <% @posts.each do |post| %>
       <%= render partial: 'posts/post', locals: { post: post, wrap_in_tr: true } %>

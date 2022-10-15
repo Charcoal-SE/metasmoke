@@ -13,28 +13,28 @@
   <%= line_chart reason_accuracy_chart_path(@reason.id), colors: ["green", "red"], library: {"tooltip" => {'shared' => 'true'} } %>
 </div>
 
-<ul class="nav nav-tabs">
-  <li class="<%= 'active' if params[:filter].nil? or params[:filter] == 'all' %>">
+<ul class="nav nav-tabs post-table-nav-tabs post-table-nav-tabs-tp-fp-naa">
+  <li class="nav-tab nav-tab-all-results <%= 'active' if params[:filter].nil? or params[:filter] == 'all' %>">
     <%= link_to "All (#{@total})", reason_path(@reason, filter: nil) %>
   </li>
-  <li class="<%= 'active' if params[:filter] == 'tp' %>">
+  <li class="nav-tab nav-tab-tp <%= 'active' if params[:filter] == 'tp' %>">
     <%= link_to "True positives (#{@counts_by_feedback[:is_tp]})", reason_path(@reason, filter: 'tp') %>
   </li>
-  <li class="<%= 'active' if params[:filter] == 'fp' %>">
+  <li class="nav-tab nav-tab-fp <%= 'active' if params[:filter] == 'fp' %>">
     <%= link_to "False positives (#{@counts_by_feedback[:is_fp]})", reason_path(@reason, filter: 'fp') %>
   </li>
-  <li class="<%= 'active' if params[:filter] == 'naa' %>">
+  <li class="nav-tab nav-tab-naa <%= 'active' if params[:filter] == 'naa' %>">
     <%= link_to "NAA (#{@counts_by_feedback[:is_naa]})", reason_path(@reason, filter: 'naa') %>
   </li>
 </ul>
 
-<table class="table table-striped">
+<table class="table table-striped posts-table">
   <tbody>
     <%= render partial: 'posts/post', collection: @posts, cached: proc { |i| i.cachebreak } %>
   </tbody>
 </table>
 
-<div class="text-center">
+<div class="text-center pagination-container">
   <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
 </div>
 

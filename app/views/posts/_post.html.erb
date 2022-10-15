@@ -8,33 +8,33 @@
 <% @sites = [post.site] if @sites.nil? %>
 
 <% if wrap_in_tr %>
-<tr class="post-cell post-cell-<%= post.id %>">
+<tr class="post-cell post-cell-<%= post.id %> post-row">
 <% end %>
   <td>
     <% if post.try(:body).present? or post.try(:body_exists) == 1 %>
       <span class="text-muted show-post-body" data-postloaded="<%= preload_post_body.to_s %>" data-postid="<%= post.id %>"><%= (expand_post.present? and expand_post) ? "▼" : "►" %></span>
     <% end %>
 
-    <bdi><%= link_to post.title, "/post/" + post.id.to_s %></bdi>
+    <bdi class="post-title-bdi"><%= link_to post.title, "/post/" + post.id.to_s, class: 'post-title-link'  %></bdi>
 
     <% if show_autoflagged && post.flagged? %>
-      <span class="glyphicon glyphicon-flag text-danger" title="This post was autoflagged"></span>
+      <span class="glyphicon glyphicon-flag text-danger autoflagged-marker" title="This post was autoflagged"></span>
     <% end %>
 
     <% unless post.feedbacks.empty? or hide_feedbacks %>
-      <strong>
+      <strong class="feedbacks-container">
          <% post.feedbacks.each do |feedback| %>
-           <span style="<%= "font-weight:normal" if feedback.is_naa? %>" data-toggle="tooltip" data-placement="top" title="<%= (feedback.user.present? or feedback.api_key_id.present?) ? "#{feedback.user.try(:username)} (From #{feedback.api_key.try(:app_name) || "Review"})" : feedback.user_name %>: <%= feedback.feedback_type %>" class="<%= element_class_for_feedback feedback %>"><%= element_symbol_for_feedback(feedback).html_safe %></span>
+           <span style="<%= "font-weight:normal" if feedback.is_naa? %>" data-feedbackid="<%= feedback.id %>" data-toggle="tooltip" data-placement="top" title="<%= (feedback.user.present? or feedback.api_key_id.present?) ? "#{feedback.user.try(:username)} (From #{feedback.api_key.try(:app_name) || "Review"})" : feedback.user_name %>: <%= feedback.feedback_type %>" class="<%= element_class_for_feedback feedback %> feedback-span"><%= element_symbol_for_feedback(feedback).html_safe %></span>
          <% end %>
       </strong>
     <% end %>
 
-    <span class="text-muted">
+    <span class="text-muted post-weight">
       (<%= post.reasons.map(&:weight).reduce(:+) %>)
     </span>
 
     <% if deletion_date && post.deleted_at %>
-      <span class='text-danger'>(deleted <%= distance_of_time_in_words(post.created_at, post.deleted_at, include_seconds: true) %> after creation)</span>
+      <span class='text-danger post-deletion-date'>(deleted <%= distance_of_time_in_words(post.created_at, post.deleted_at, include_seconds: true) %> after creation)</span>
     <% end %>
 
     <% if post.comments.any? && !hide_feedbacks %>
@@ -43,23 +43,23 @@
       </span>
     <% end %>
 
-    <span class="text-muted post-row-right">
+    <span class="text-muted post-row-right post-creation-and-user-container">
       <% unless post.created_at.nil? %>
-        <%= link_to "", post_path(id: post.id), title: post.created_at, "data-livestamp": post.created_at.to_i, class: "text-muted" %>
+        <%= link_to "", post_path(id: post.id), title: post.created_at, "data-livestamp": post.created_at.to_i, class: "text-muted post-creation-date" %>
       <% end %>
 
       <% unless post.username.nil? || post.stack_exchange_user.nil? %>
-        by <bdi><%= link_to post.username, url_for(controller: :stack_exchange_users, action: :show, id: post.stack_exchange_user.id) %></bdi>
+        <span class="post-username-by-text">by ><bdi class="post-owner-username-bdi"><%= link_to post.username, url_for(controller: :stack_exchange_users, action: :show, id: post.stack_exchange_user.id), class: 'post-username-link' %></bdi>
       <% end %>
 
       <% if post.site.present? %>
-        <%= link_to (image_tag post.site.site_logo, size: "20"), post.link %>
+        <%= link_to (image_tag post.site.site_logo, size: "20"), post.link, class: 'post-site-link' %>
       <% end %>
     </span>
 
     <div class="post-body" data-postid="<%= post.id %>" style="<%= "display: none;" unless expand_post.present? and expand_post %>">
       <% if preload_post_body %>
-        <ul class="nav nav-tabs" role="tablist">
+        <ul class="nav nav-tabs body-view-nav-tabs" role="tablist">
           <li role="presentation" class="active">
             <a href="#post-body-tab-<%= post.id %>" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="text">Text</a>
           </li>
@@ -73,8 +73,8 @@
           </li>
         </ul><br/>
 
-        <div class="tab-content">
-          <div role="tabpanel" class="tab-pane active" id="post-body-tab-<%= post.id %>">
+        <div class="tab-content body-content-container">
+          <div role="tabpanel" class="tab-pane active post-body-panel-text" id="post-body-tab-<%= post.id %>">
             <% if post.try(:body).present? or post.try(:body_exists) == 1 %>
               <div>
                 <pre class="post-body-pre-block"><%= post.body %></pre>
@@ -94,11 +94,11 @@
             <% end %>
           </div>
           <% unless post.markdown.nil? %>
-            <div role="tabpanel" class="tab-pane" id="post-source-tab-<%= post.id %>">
+            <div role="tabpanel" class="tab-pane post-body-panel-markdown" id="post-source-tab-<%= post.id %>">
               <pre class="post-body-pre-block"><%= post.markdown %></pre>
             </div>
           <% end %>
-          <div role="tabpanel" class="tab-pane" id="preview-tab-<%= post.id %>">
+          <div role="tabpanel" class="tab-pane post-body-panel-preview" id="preview-tab-<%= post.id %>">
             <div class="panel panel-default">
               <div class="panel-body">
                 <%= safe_render_markdown(post.markdown || post.body, scrubber: Post.scrubber) %>

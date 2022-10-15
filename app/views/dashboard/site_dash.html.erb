@@ -74,17 +74,17 @@
   </code>
 </div>
 
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs post-table-nav-tabs">
   <% @tabs.each do |tab, posts| %>
-  <li class="<%= "active" if tab.downcase == @active_tab %>">
+  <li class="nav-tab nav-tab-<%= tab.downcase %> <%= "active" if tab.downcase == @active_tab %>">
     <%= link_to "#{tab} (#{number_with_delimiter(posts.count, delimiter: @delimiter)})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: tab.downcase)) %>
   </li>
   <% end %>
-  <li class="<%= "active" if @active_tab.downcase == "spammers" %>">
+  <li class="nav-tab nav-tab-spammers <%= "active" if @active_tab.downcase == "spammers" %>">
     <%= link_to "Spammers (#{number_with_delimiter(@spammers.length, delimiter: @delimiter)})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: 'spammers')) %>
   </li>
   <% if user_signed_in? && (current_user.moderator_sites.exists? || current_user.has_role?(:admin)) %>
-    <li class="<%= "active" if @active_tab.downcase == "autoflaggers" %>">
+    <li class="nav-tab nav-tab-autoflaggers <%= "active" if @active_tab.downcase == "autoflaggers" %>">
       <%= link_to "Autoflaggers (#{number_with_delimiter(@autoflaggers.length, delimiter: @delimiter)})", site_dash_path(params.permit(:site_id, :months).to_h.merge(tab: 'autoflaggers')) %>
     </li>
   <% end %>
@@ -98,14 +98,14 @@
   <% if @posts.count == 0 %>
     <p>No spam here! Try another filter.</p>
   <% else %>
-    <table class="table">
+    <table class="table posts-table">
       <% @posts.each do |p| %>
         <%= render 'posts/post', post: p, deletion_date: true, show_autoflaggers: (user_signed_in? && current_user.moderator_sites.exists?), show_autoflagged: (user_signed_in? && current_user.moderator_sites.exists? && !%w[autoflagged].include?(@active_tab)) %>
       <% end %>
     </table>
   <% end %>
 
-  <div class="text-center">
+  <div class="text-center pagination-container">
     <%= will_paginate @posts, renderer: BootstrapPagination::Rails %>
   </div>
 <% end %>
