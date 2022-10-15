@@ -49,7 +49,7 @@
       <% end %>
 
       <% unless post.username.nil? || post.stack_exchange_user.nil? %>
-        <span class="post-username-by-text">by ><bdi class="post-owner-username-bdi"><%= link_to post.username, url_for(controller: :stack_exchange_users, action: :show, id: post.stack_exchange_user.id), class: 'post-username-link' %></bdi>
+        <span class="post-username-by-text">by </span><bdi class="post-owner-username-bdi"><%= link_to post.username, url_for(controller: :stack_exchange_users, action: :show, id: post.stack_exchange_user.id), class: 'post-username-link' %></bdi>
       <% end %>
 
       <% if post.site.present? %>
