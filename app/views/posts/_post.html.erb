@@ -10,7 +10,7 @@
 <% if wrap_in_tr %>
 <tr class="post-cell post-cell-<%= post.id %> post-row">
 <% end %>
-  <td>
+  <td class="post-td">
     <% if post.try(:body).present? or post.try(:body_exists) == 1 %>
       <span class="text-muted show-post-body" data-postloaded="<%= preload_post_body.to_s %>" data-postid="<%= post.id %>"><%= (expand_post.present? and expand_post) ? "▼" : "►" %></span>
     <% end %>
@@ -60,18 +60,18 @@
     <div class="post-body" data-postid="<%= post.id %>" style="<%= "display: none;" unless expand_post.present? and expand_post %>">
       <% if preload_post_body %>
         <ul class="nav nav-tabs body-view-nav-tabs" role="tablist">
-          <li role="presentation" class="active">
+          <li class="nav-tab nav-tab-post-body-text" role="presentation" class="active">
             <a href="#post-body-tab-<%= post.id %>" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="text">Text</a>
           </li>
           <% unless post.markdown.nil? %>
-            <li role="presentation">
+            <li class="nav-tab nav-tab-post-body-markdown" role="presentation">
               <a href="#post-source-tab-<%= post.id %>" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="markdown">Markdown</a>
             </li>
           <% end %>
-          <li role="presentation">
+          <li class="nav-tab nav-tab-post-body-rendered" role="presentation">
             <a href="#preview-tab-<%= post.id %>" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="rendered">Preview</a>
           </li>
-        </ul><br/>
+        </ul><br class="nav-tabs-to-body-br-spacer"/>
 
         <div class="tab-content body-content-container">
           <div role="tabpanel" class="tab-pane active post-body-panel-text" id="post-body-tab-<%= post.id %>">

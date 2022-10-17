@@ -72,15 +72,15 @@
 
 <% unless @post.body.nil? %>
   <ul class="nav nav-tabs body-view-nav-tabs" role="tablist">
-    <li role="presentation" class="active">
+    <li role="presentation" class="active nav-tab nav-tab-post-body-text">
       <a href="#post-body-tab" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="text">Text</a>
     </li>
     <% unless @post.markdown.nil? %>
-      <li role="presentation">
+      <li role="presentation" class="nav-tab nav-tab-post-body-markdown">
         <a href="#post-source-tab" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="markdown">Markdown</a>
       </li>
     <% end %>
-    <li role="presentation">
+    <li role="presentation" class="nav-tab nav-tab-post-body-rendered">
       <a href="#preview-tab" role="tab" data-toggle="tab" class="post-render-mode" data-render-mode="rendered">Preview</a>
     </li>
   </ul><br class="nav-tabs-to-body-br-spacer"/>
