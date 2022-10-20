@@ -1,15 +1,19 @@
 <h3>Spammers on site: <%= @site.site_name %></h3>
-<p>An overview of users who have been caught spamming by Smokey on this site.
-  <% if user_signed_in? && current_user.moderator_sites.exists? %>
-    Click <em>Not a spammer</em> or <em>Nuked</em> to tell the system that user has been reviewed and the appropriate action taken;
-      the user will then be removed from this list.</p>
-  <% else %>
-    Users are removed from this list when a Stack Exchange  moderator indicates from this page that the user has been reviewed
-      and the appropriate action taken.
-  <% end %>
+<p>An overview of users who have been caught spamming by Smokey on this site. This list exists effectively as a "to do" list for moderators.
+The intent is that a site moderator will go through this list and appropriately handle each user. What "appropraitely handle" means is
+up to the moderator, but could be anywhere from nothing, through a moderator message, to a 365 day suspension and destroying the user. From
+metasmoke's point of view, this is just a list of non-deleted users who have had a post marked TP and who a moderator hasn't told metasmoke
+to remove the user from the list (i.e. mark the user as "handled").</p>
+<% if user_signed_in? && current_user.moderator_sites.exists? %>
+  <p>Click <em>Remove from list</em> to tell the system that the user has been reviewed and the appropriate action taken.
+    The user will then be removed from this list.</p>
+<% else %>
+  <p>Users are removed from this list when a Stack Exchange moderator indicates from this page that the user has been reviewed
+    and the appropriate action taken.</p>
+<% end %>
 
 
 <p class="text-muted">Data last updated: <%= @site.last_users_update.present? ? time_ago_in_words(@site.last_users_update) + ' ago' : "Never" %>
-  &mdash; <%= link_to "Update now", url_for(controller: :stack_exchange_users, action: :update_data, site: @site.id), method: :post %></p>
+  &mdash; <%= link_to "Update now to automatically remove deleted users", url_for(controller: :stack_exchange_users, action: :update_data, site: @site.id), method: :post %></p>
 
 <%= render 'table', users: @users %>
