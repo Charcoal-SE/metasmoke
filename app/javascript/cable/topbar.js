@@ -51,7 +51,16 @@ $(() => {
     let status = 'critical';
     // The .fromNow() method only provides minute resolution. So time passing can cause the status text
     //   to change change at the earliest at the point when "ago" passes the next minute.
+    //   It actually changes at 45 s, then at 1:30, 2:30 ...
     let msToNextPossibleChange = 60e3 - (ago % 60e3); // Time to next minute ago;
+    // Time to next moment change
+    if (ago < 45e3) {
+      msToNextPossibleChange = Math.min(msToNextPossibleChange, 45e3 - ago); // Time to next moment ago change;
+    }
+    else {
+      msToNextPossibleChange = Math.min(msToNextPossibleChange, 60e3 - ((ago - 30e3) % 60e3)); // Time to next :30
+    }
+    // Time to next status change
     if (ago < 90e3) {
       status = 'good';
       msToNextPossibleChange = Math.min(msToNextPossibleChange, 90e3 - ago); // Time to 1.5 minutes ago, if less;
