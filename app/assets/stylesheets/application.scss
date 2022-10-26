@@ -512,7 +512,7 @@ body .profiler-results {
         justify-content: space-around;
       }
     }
-    .navbar-right > .nav-tab-ms-username > a {
+    .navbar-right > li > a[href="#"] {
       white-space: break-spaces;
       word-break: break-word;
       overflow-wrap: break-word;
@@ -548,7 +548,7 @@ body .profiler-results {
         .navbar-right {
           justify-content: flex-end;
           display: flex;
-          > .nav-tab-ms-username > a {
+          > li > a[href="#"] {
             .caret {
               display: none;
             }
@@ -575,7 +575,7 @@ body .profiler-results {
     }
   }
   @media (min-width: 1001px) and (max-width: 1100px) {
-    .navbar-right > .nav-tab-ms-username > a {
+    .navbar-right > li > a[href="#"] {
       margin-right: 15px;
     }
   }

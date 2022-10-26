@@ -54,15 +54,18 @@
           <% if !user_signed_in? %>
             <%= nav_link GraphsController, label: 'graphs', class: 'nav-tab-graphs' %>
           <% end %>
+
           <% flagging_status = FlagSetting['flagging_enabled'] == '0' ? 'critical' : (FlagSetting['dry_run'] == '1' ? 'warning' : 'good') %>
           <li class="nav-tab-search <%= (controller.class == SearchController && controller.action_name.to_sym == :index) ? "active" : "" %>">
             <%= link_to 'search', search_path, class: 'nav-search-link' %>
-            <%= link_to 'search', search_path, class: 'nav-search-link glyphicon glyphicon-search', title: 'search' %>
+            <%= link_to '', search_path, class: 'nav-search-link glyphicon glyphicon-search', title: 'search' %>
           </li>
+
           <li class="nav-tab-flagging status status-<%= flagging_status %> <%= (controller.class == FlagSettingsController && controller.action_name.to_sym == :dashboard) ? "active" : "" %>">
             <%= link_to 'flagging', flagging_path, class: 'nav-flagging-link' %>
-            <%= link_to 'flagging', flagging_path, class: 'nav-flagging-link glyphicon glyphicon-flag', title: 'flagging' %>
+            <%= link_to '', flagging_path, class: 'nav-flagging-link glyphicon glyphicon-flag', title: 'flagging' %>
           </li>
+
           <li class='nav-tab-reasons <%= (controller.class == DashboardController && controller.action_name == :index) ? "active" : "" %>'><%= link_to "reasons", reasons_path %></li>
           <% Rack::MiniProfiler.step('Rendering: layouts/application/nav/review') do %>
           <% if user_signed_in? && current_user.has_role?("reviewer") %>
@@ -70,9 +73,9 @@
             <% total_count = q_counts.sum { |_k, v| v } %>
             <% label = raw("review <span class='reviews-count badge'>#{total_count != 0 && current_user&.has_role?(:reviewer) ? total_count : nil}</span>") %>
             <% Rack::MiniProfiler.step('Rendering: layouts/application/nav/review/dropdown') do %>
-            <%= nav_dropdown ReviewQueuesController, label: label, class: 'nav-tab-review' do %>
+            <%= nav_dropdown ReviewQueuesController, label: label do %>
               <% ReviewQueue.where(privileges: current_user.roles.map(&:name)).each do |rq| %>
-                <li>
+                <li class="nav-tab-review">
                   <%= link_to review_queue_path(rq.name) do %>
                     <%= rq.name.titleize %> <span class="badge"><%= q_counts[rq.id] unless q_counts[rq.id] == 0 %></span>
                   <% end %>
@@ -82,7 +85,7 @@
             <% end %>
           <% end %>
           <% end %>
-          <%= nav_dropdown AdminController, label: 'tools', class: 'nav-tab-tools' do %>
+          <%= nav_dropdown AdminController, label: 'tools' do %>
             <%= nav_link SpamDomainsController, label: 'Domains' %>
             <%= nav_link DomainTagsController, label: 'Domain Tags' %>
             <%= nav_link DomainGroupsController, label: 'Domain Groups' %>
@@ -93,7 +96,7 @@
           <% end %>
 
           <% if current_user&.has_role?(:core) %>
-            <%= nav_dropdown DashboardController, action: 'new_dash', label: 'core', class: 'nav-tab-core' do %>
+            <%= nav_dropdown DashboardController, action: 'new_dash', label: 'core' do %>
               <% unless current_user&.has_role?(:admin) %>
                 <%= nav_link AdminController, label: 'User Data & Roles', action: :users %>
                 <li role="separator" class="divider"></li>
@@ -122,7 +125,7 @@
           <% end %>
 
           <% if current_user&.has_role?(:admin) %>
-            <%= nav_dropdown AdminController, label: 'admin', class: 'nav-tab-admin' do %>
+            <%= nav_dropdown AdminController, label: 'admin' do %>
               <%= nav_link AdminController, label: 'User Data & Roles', action: :users %>
               <%= nav_link APIKeysController, label: 'API Keys' %>
               <%= nav_link SiteSettingsController, label: 'Website Configuration' %>
@@ -131,7 +134,7 @@
           <% end %>
 
           <% if current_user&.has_role?(:developer) %>
-            <%= nav_dropdown DashboardController, action: 'new_dash', label: 'dev', class: 'nav-tab-dev' do %>
+            <%= nav_dropdown DashboardController, action: 'new_dash', label: 'dev' do %>
               <%= nav_link DumpsController, label: 'Database Dumps', action: :index %>
               <%= nav_link DeveloperController, label: 'Production log', action: :production_log %>
               <%= nav_link RedisLogController, label: 'Request log', action: :index %>
@@ -150,7 +153,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
-            <%= nav_dropdown label: current_user.username || current_user.email, class: 'nav-tab-ms-username' do %>
+            <%= nav_dropdown label: current_user.username || current_user.email do %>
               <%= nav_link CustomSessionsController, label: 'Sign Out', action: :destroy, link_attrs: { method: 'delete' } %>
               <%= nav_link CustomRegistrationsController, label: 'Account Settings', action: :edit %>
               <%= nav_link UsersController, action: :apps, label: 'Apps' %>
