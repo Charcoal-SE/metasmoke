@@ -465,7 +465,7 @@ body .profiler-results {
         > li:is(.nav-tab-flagging, .nav-tab-search) > a:not(.glyphicon) {
           display: none;
         }
-        > li.nav-tab-review > a {
+        > li > a[href="/review"] {
           position: relative;
           > .reviews-count {
               position: absolute;
