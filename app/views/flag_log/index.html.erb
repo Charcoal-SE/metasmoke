@@ -34,12 +34,20 @@
     <thead>
       <tr>
         <th>User</th>
-        <th>Post</th>
-        <% if params[:filter] == 'manual' %>
+        <% if @individual_post.present? %>
+          <th>Auto /<br>Manual</th>
+          <th>Timestamp</th>
           <th>App</th>
-        <% end %>
-        <% if params[:filter] == 'other' %>
-          <th>Comment</th>
+          <th>Condition<br>ID</th>
+          <th>Type</th>
+        <% else %>
+          <th>Post</th>
+          <% if params[:filter] == 'manual' %>
+            <th>App</th>
+          <% end %>
+          <% if params[:filter] == 'other' %>
+            <th>Comment</th>
+          <% end %>
         <% end %>
         <th>Result</th>
       </tr>
@@ -47,7 +55,11 @@
   <% end %>
   <tbody>
     <% @flag_logs.each do |log| %>
-      <%= render 'flag_log', log: log, with_app: params[:filter] == 'manual', with_comment: params[:filter] == 'other' %>
+      <% if @individual_post.present? %>
+        <%= render 'flag_log', log: log, without_post: true, with_app: true, with_timestamp: true, with_auto_manual: true, with_condition: true, with_type: true %>
+      <% else %>
+        <%= render 'flag_log', log: log, with_app: params[:filter] == 'manual', with_comment: params[:filter] == 'other' %>
+      <% end %>
     <% end %>
   </tbody>
 </table>
