@@ -3,25 +3,45 @@ import createDebug from 'debug';
 const debug = createDebug('ms:util');
 // Common utilities
 
-// call `enter`(pathname) when visiting `path` (string orregex)
+// call `enter`(pathname) when visiting `path` (string or regex)
 // call `exit`(pathname) when leaving `path`
 const routes = [];
 $(document).on('turbolinks:load', () => {
   const { pathname } = location;
+  // Call the exit function for all routes which were current.
   for (const route of routes) {
-    if (route.pathisRe ? pathname.match(route.path) : route.path === pathname) {
+    if (route.current) {
+      // We've loaded a new page.  We need to call the the exit function for any routes that
+      // matched the prior page (i.e.  are marked as current), even if we're transitioning
+      // to a page which will also match this route.  If we don't always do this, then code
+      // which is setting up a new page can end up either not being called too many times
+      // without tearing down what's been set up.
+      // Note that the exit function is being called when the new <body> DOM already exists,
+      // so the exit function doesn't need to undo changes which were made to the prior body.
+      if (typeof route.exit === 'function') {
+        route.exit.call(null, pathname);
+      }
+    }
+  }
+  // Call the enter function for all matching routes.
+  for (const route of routes) {
+    route.current = false;
+    if (route.pathisRe ? route.path.test(pathname) : route.path === pathname) {
+      // Note: for forward/back translations the state of the DOM may be notably different
+      // than for loading a new page.
       route.enter.call(null, pathname);
       route.current = true;
-    }
-    else if (route.current) {
-      route.current = false;
-      route.exit.call(null, pathname);
     }
   }
 });
 
 $(window).on('beforeunload', () => {
   debug('onbeforeunload');
+  // Call all existing exit functions for current routes.
+  //
+  // Note that the exit functions are being called when the DOM for the page which
+  // matched the route still exists at this time, which is different than for Turbolinks
+  // transitions where the exit function is called after the new <body> DOM exists.
   const currentRoutes = routes.filter(route => route.current);
   currentRoutes.forEach(route => {
     route.current = false;
@@ -31,6 +51,23 @@ $(window).on('beforeunload', () => {
   });
 });
 
+// Run a function upon loading a "new page" that matches `path` and/or having exited a
+// page where the `path` matched upon loading.  These are called upon either initial loading
+// of an MS page or for Turbolinks transitions to "new" pages.  Turbolinks replaces the
+// <body> element. Both the enter and exit functions are called after the new DOM exists.
+// In addition, the exit function is called on the window beforeunload event just prior to
+// an actual transition to a completely new page. At that point a new DOM does not exist.
+//
+// path can be either a String, which must be an exact match to the
+//   window.location.pathname, or a RegExp, which must return true for
+//   path.test(window.location.pathname).
+// The enter function is called with the window.location.pathname of the *new* page when
+//   transitioning to a new page, either a fresh page load or a Turbolinks load, when the
+//   window.location.pathname matches the supplied path.
+// The exit function is called with the window.location.pathname of the *new* page when
+//   a new page DOM *has already been loaded* using a Turbolinks transition when the
+//   window.location.pathname of the *prior* page matched the supplied path.
+// All applicable exit functions are called prior to any enter functions for the new page.
 export function route(path, enter, exit = () => {}) {
   if (!path || !enter) {
     throw new Error('Expecting at least two arguments to utils.route(), got: ' + JSON.stringify(arguments));
