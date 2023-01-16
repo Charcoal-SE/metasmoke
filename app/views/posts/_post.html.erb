@@ -24,7 +24,7 @@
     <% unless post.feedbacks.empty? or hide_feedbacks %>
       <strong class="feedbacks-container">
          <% post.feedbacks.each do |feedback| %>
-           <span style="<%= "font-weight:normal" if feedback.is_naa? %>" data-feedbackid="<%= feedback.id %>" data-toggle="tooltip" data-placement="top" title="<%= (feedback.user.present? or feedback.api_key_id.present?) ? "#{feedback.user.try(:username)} (From #{feedback.api_key.try(:app_name) || "Review"})" : feedback.user_name %>: <%= feedback.feedback_type %>" class="<%= element_class_for_feedback feedback %> feedback-span"><%= element_symbol_for_feedback(feedback).html_safe %></span>
+           <span style="<%= "font-weight:normal" if feedback.is_naa? %>" data-feedbackid="<%= feedback.id %>" data-toggle="tooltip" data-placement="top" title="<%= (feedback.user.present? or feedback.api_key_id.present?) ? "#{feedback.user.try(:username)} (From #{feedback.api_key.try(:app_name) || ("Chat" if feedback.chat_user_id.present?) || "Review"})" : feedback.user_name %>: <%= feedback.feedback_type %>" class="<%= element_class_for_feedback feedback %> feedback-span"><%= element_symbol_for_feedback(feedback).html_safe %></span>
          <% end %>
       </strong>
     <% end %>
