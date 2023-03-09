@@ -205,3 +205,27 @@ export function hashCode(str) {
   }
   return hash;
 }
+
+// Local Settings panel
+export function addLocalSettingsHeaderToAccount() {
+  if ($('.local-settings-panels-container').length === 0) {
+    $('div.row').append(`<br style="clear: both;">
+    <h2 class="text-center">Local Browser Settings</h2>
+    <p class="text-center">These settings apply only to the current browser.</p>
+    <div class="row local-settings-row">
+      <div class="col-md-8 col-md-offset-2 local-settings-panels-container">
+      </div>
+    </div>`);
+  }
+}
+
+export function addLocalSettingsPanel(content) {
+  addLocalSettingsHeaderToAccount();
+  const panelsContainer = $('.local-settings-panels-container');
+  const panel = $(`<div class="panel panel-default">
+    <div class="panel-body">
+    </div>
+  </div>`);
+  panel.find('.panel-body').append(content);
+  panelsContainer.append(panel);
+}

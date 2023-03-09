@@ -31,7 +31,6 @@
   <div role="tabpanel" class="tab-pane post-body-panel-preview" id="preview-tab-<%= @post.id %>">
     <div class="panel panel-default">
       <div class="panel-body">
-        <%= safe_render_markdown(@post.markdown || @post.body, scrubber: Post.scrubber) %>
       </div>
     </div>
   </div>

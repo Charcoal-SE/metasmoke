@@ -39,6 +39,7 @@ import '../site_settings';
 import '../comments';
 import '../spam_waves';
 import '../general_fixes';
+import '../post_preview';
 
 import { onLoad, installSelectpickers, uuid4, hashCode } from '../util';
 
