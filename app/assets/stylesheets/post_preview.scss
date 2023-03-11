@@ -2,14 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.posts-table {
-  table-layout: fixed;
-}
-.post-body-pre-block {
-	max-height: MIN(90vh, 800px);
-	display: block;
-}
-
 
 /* The CSS/SCSS code below is largely copied from FIRE, with a significant portion of that
  * being copied from Stack Exchange/Stacks.  FIRE
@@ -20,16 +12,21 @@
  */
 
 .post-body-panel-preview > .panel > .panel-body {
-	max-height: MIN(90vh, 800px);
-	display: block;
-	overflow: auto;
-
+  img {
+    max-width: 100%;
+  }
   img[src^='https://via.placeholder.com'] {
     cursor: pointer;
     box-shadow: 0 0 10px -2px #646464;
   }
-  a img[src^='https://via.placeholder.com'] {
-    box-shadow: unset;
+  a {
+    font-weight: bold;
+    text-decoration: underline;
+    padding: 1px 5px;
+    border-radius: 3px;
+    box-shadow: 0 0 10px -2px #646464;
+    display: inline-block;
+    word-wrap: anywhere;
   }
   a.onebox-link[data-onebox-id] {
     position: relative;
@@ -41,17 +38,8 @@
     top: -1.25em;
     font-size: 80%;
   }
-  img {
-    max-width: 100%;
-  }
-  a {
-    font-weight: bold;
-    text-decoration: underline;
-    padding: 1px 5px;
-    border-radius: 3px;
-    box-shadow: 0 0 10px -2px #646464;
-    display: inline-block;
-    word-wrap: anywhere;
+  a img[src^='https://via.placeholder.com'] {
+    box-shadow: unset;
   }
   li {
     margin-left: 10px;
@@ -165,21 +153,21 @@
   pre {
     margin-bottom: 1em;
     width: auto;
+    max-height: 100px;
     overflow: auto;
     font-family: Fira Code, Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, sans-serif;
     font-size: 13px;
     background-color: #eff0f1;
-    /*box-shadow: 0 0 10px -1px #646464;*/
-    /*border-radius: 3px;*/
+    box-shadow: 0 0 10px -1px #646464;
+    border-radius: 3px;
     padding: 6px 10px;
+    -webkit-transition: max-height 0.4s;
+    -moz-transition: max-height 0.4s;
+    transition: max-height 0.4s;
     overflow-wrap: normal;
-    background-color: #f7f7f7;
   }
   pre code {
     padding: 0;
-    background-color: transparent;
-    max-height: MIN(75vh, 600px);
-    display: block;
   }
   .snippet-code {
     border: 1px solid #e4e6e8;
@@ -190,13 +178,12 @@
     font-size: 13px;
     background-color: #eff0f1;
     padding: 1px 5px;
-    color: #111;
   }
   a.post-tag {
     display: inline-block;
     padding: .4em .5em;
     margin: 2px 2px 2px 0;
-    font-size: 12px;
+        font-size: 11px;
     line-height: 1;
     white-space: nowrap;
     text-decoration: none;
@@ -245,11 +232,8 @@
     padding: .8em .8em .8em 1em;
     color: #535a60;
     background-color: #fbf2d4;
-    background-color: #fbf2d4a8;
     color: #0d0e0f;
     border-left: 2px solid #ffeb8e;
-    font-size: unset;
-    border-left: unset;
   }
   blockquote::before {
     content: "";
@@ -298,11 +282,8 @@
   .spoiler.is-visible::after {
     opacity: 0;
   }
-  .fire-deleted .s-table th {
-    background-color: var(--red-075);
-  }
   .s-table-container {
-    margin-bottom: 1.1em;
+        margin-bottom: var(--s-prose-spacing);
     overflow-x: auto;
     scrollbar-color: var(--scrollbar) transparent;
   }
@@ -395,3 +376,72 @@ body,
   --scrollbar: hsla(0, 0%, 0%, 0.2);
 }
 
+/* END code copied from FIRE */
+
+/* The following applies CSS for MS and overrides some that's in the FIRE CSS.
+   It's done this way to make comparison with the CSS in FIRE easier.
+ */
+
+.posts-table {
+  table-layout: fixed;
+}
+.post-body-pre-block {
+  display: block;
+}
+
+.post-body-panel-preview > .panel > .panel-body {
+  display: block;
+  overflow: auto;
+
+  pre {
+    max-height: unset;
+    box-shadow: unset;
+    border-radius: unset;
+    -webkit-transition: unset;
+    -moz-transition: unset;
+    transition: unset;
+    background-color: #f7f7f7;
+  }
+  pre code {
+    background-color: transparent;
+    display: block;
+  }
+  code {
+    color: #111;
+  }
+  a {
+    font-weight: unset;
+    box-shadow: unset;
+    display: unset;
+  }
+  a.post-tag {
+    font-size: 12px;
+  }
+  blockquote {
+    background-color: #fbf2d4a8;
+    font-size: unset;
+    border-left: unset;
+  }
+  .s-table-container {
+    margin-bottom: 1.1em;
+  }
+  /* Use the same font sizes for headings as Stack Exchange does. */
+  h1 {
+    font-size: 27px;
+  }
+  h2 {
+    font-size: 21px;
+  }
+  h3 {
+    font-size: 19px;
+  }
+  h4 {
+    font-size: 17px;
+  }
+  h5 {
+    font-size: 15px;
+  }
+  h6 {
+    font-size: 13px;
+  }
+}
