@@ -75,44 +75,6 @@ import { onLoad, route, addLocalSettingsPanel } from './util';
   // The intent is for the code below and the code in FIRE to remain in sync.
 
   /**
-   * pointRelativeURLsToSourceSESite - In place, change relative link URLs to point to the source SE site.
-   *
-   * @private
-   * @memberof module:fire
-   *
-   * @param   {jQuery}    reportBody    jQuery Object containing the post body wrapped in a <div>.
-   * @param   {object}    postData      The data for the post.
-   */
-  function pointRelativeURLsToSourceSESite(reportBody, postData) {
-    // Convert relative URLs to point to the URL on the source site.
-    // SE uses these for tags and some site-specific functionality (e.g. circuit simulation on Electronics)
-    const [, siteHref] = (postData.link || '').match(/^((?:https?:)?\/\/(?:[a-z\d-]+\.)+[a-z\d-]+\/)/i) || ['', ''];
-    // A couple of reports which had this problem:
-    //   https://chat.stackexchange.com/transcript/11540?m=55601336#55601336  (links at bottom)
-    //   https://chat.stackexchange.com/transcript/11540?m=54674140#54674140  (tags)
-    reportBody.find('a').each(function () {
-      const $this = $(this);
-      let href = $this.attr('href');
-      if (!/^(?:[a-z]+:)?\/\//.test(href)) {
-        // It's not a fully qualified or protocol-relative link.
-        if (href.startsWith('/')) {
-          // The path is absolute
-          if (siteHref.endsWith('/')) {
-            href = href.replace('/', '');
-          }
-          this.href = siteHref + href;
-        } else {
-          // It's relative to the question (really shouldn't see any of these)
-          if (!siteHref.endsWith('/')) {
-            href = `/${href}`;
-          }
-          this.href = postData.link + href;
-        }
-      }
-    });
-  }
-
-  /**
    * toHTMLEntitiesBetweenTags - Convert HTML tags to  &lt;tag text&gt; that are within the start and end of a specified tag.
    *
    * @private
@@ -479,6 +441,44 @@ import { onLoad, route, addLocalSettingsPanel } from './util';
       image.src = 'https://via.placeholder.com/550x100//ffffff?text=Click+to+show+image.';
     });
     return $(containingDiv);
+  }
+
+  /**
+   * pointRelativeURLsToSourceSESite - In place, change relative link URLs to point to the source SE site.
+   *
+   * @private
+   * @memberof module:fire
+   *
+   * @param   {jQuery}    reportBody    jQuery Object containing the post body wrapped in a <div>.
+   * @param   {object}    postData      The data for the post.
+   */
+  function pointRelativeURLsToSourceSESite(reportBody, postData) {
+    // Convert relative URLs to point to the URL on the source site.
+    // SE uses these for tags and some site-specific functionality (e.g. circuit simulation on Electronics)
+    const [, siteHref] = (postData.link || '').match(/^((?:https?:)?\/\/(?:[a-z\d-]+\.)+[a-z\d-]+\/)/i) || ['', ''];
+    // A couple of reports which had this problem:
+    //   https://chat.stackexchange.com/transcript/11540?m=55601336#55601336  (links at bottom)
+    //   https://chat.stackexchange.com/transcript/11540?m=54674140#54674140  (tags)
+    reportBody.find('a').each(function () {
+      const $this = $(this);
+      let href = $this.attr('href');
+      if (!/^(?:[a-z]+:)?\/\//.test(href)) {
+        // It's not a fully qualified or protocol-relative link.
+        if (href.startsWith('/')) {
+          // The path is absolute
+          if (siteHref.endsWith('/')) {
+            href = href.replace('/', '');
+          }
+          this.href = siteHref + href;
+        } else {
+          // It's relative to the question (really shouldn't see any of these)
+          if (!siteHref.endsWith('/')) {
+            href = `/${href}`;
+          }
+          this.href = postData.link + href;
+        }
+      }
+    });
   }
   /* eslint-enable */
 })();
