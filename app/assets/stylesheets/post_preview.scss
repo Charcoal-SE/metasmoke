@@ -31,6 +31,16 @@
   a img[src^='https://via.placeholder.com'] {
     box-shadow: unset;
   }
+  a.onebox-link[data-onebox-id] {
+    position: relative;
+  }
+  a.onebox-link[data-onebox-id][href*="github.com/"]:after {
+    content: "GitHub onebox link";
+    position: absolute;
+    right: 0;
+    top: -1.25em;
+    font-size: 80%;
+  }
   img {
     max-width: 100%;
   }
