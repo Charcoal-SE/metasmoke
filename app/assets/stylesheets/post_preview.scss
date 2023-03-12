@@ -1,0 +1,447 @@
+// Place all the styles related to the posts preview here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+/* The CSS/SCSS code below is largely copied from FIRE, with a significant portion of that
+ * being copied from Stack Exchange/Stacks.  FIRE
+ * (https://github.com/Charcoal-SE/userscripts/blob/master/fire/fire.user.js) is under a
+ * dual Apache License 2.0 and MIT license.  The intent is for the code below and the code
+ * in FIRE to remain relatively in sync, but there are differences. Thus, this should
+ * primarily remain as mostly CSS, so comparisons with FIRE are easier.
+ */
+
+.post-body-panel-preview > .panel > .panel-body {
+  img {
+    max-width: 100%;
+  }
+  img[src^='https://via.placeholder.com'] {
+    cursor: pointer;
+    box-shadow: 0 0 10px -2px #646464;
+  }
+  a {
+    font-weight: bold;
+    text-decoration: underline;
+    padding: 1px 5px;
+    border-radius: 3px;
+    box-shadow: 0 0 10px -2px #646464;
+    display: inline-block;
+    word-wrap: anywhere;
+  }
+  a.onebox-link[data-onebox-id] {
+    position: relative;
+  }
+  a.onebox-link[data-onebox-id][href*="github.com/"]:after {
+    content: "GitHub onebox link";
+    position: absolute;
+    right: 0;
+    top: -1.25em;
+    font-size: 80%;
+  }
+  a img[src^='https://via.placeholder.com'] {
+    box-shadow: unset;
+  }
+  li {
+    margin-left: 10px;
+  }
+  h1 {
+    font-size: 23px;
+  }
+  h2 {
+    font-size: 21px;
+  }
+  h3 {
+    font-size: 19px;
+  }
+  h4 {
+    font-size: 17px;
+  }
+  h5 {
+    font-size: 15px;
+  }
+  h6 {
+    font-size: 13px;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.3;
+    margin: 0 0 .5em 0;
+    font-weight: bold;
+  }
+  img + h1,
+  img + h2,
+  img + h3,
+  img + h4,
+  img + h5,
+  img + h6,
+  dl + h1,
+  dl + h2,
+  dl + h3,
+  dl + h4,
+  dl + h5,
+  dl + h6,
+  p + h1,
+  p + h2,
+  p + h3,
+  p + h4,
+  p + h5,
+  p + h6,
+  pre + h1,
+  pre + h2,
+  pre + h3,
+  pre + h4,
+  pre + h5,
+  pre + h6,
+  blockquote + h1,
+  blockquote + h2,
+  blockquote + h3,
+  blockquote + h4,
+  blockquote + h5,
+  blockquote + h6,
+  table + h1,
+  table + h2,
+  table + h3,
+  table + h4,
+  table + h5,
+  table + h6,
+  .s-table-container + h1,
+  .s-table-container + h2,
+  .s-table-container + h3,
+  .s-table-container + h4,
+  .s-table-container + h5,
+  .s-table-container + h6,
+  .s-link-preview + h1,
+  .s-link-preview + h2,
+  .s-link-preview + h3,
+  .s-link-preview + h4,
+  .s-link-preview + h5,
+  .s-link-preview + h6,
+  dd + h1,
+  dd + h2,
+  dd + h3,
+  dd + h4,
+  dd + h5,
+  dd + h6,
+  ul + h1,
+  ul + h2,
+  ul + h3,
+  ul + h4,
+  ul + h5,
+  ul + h6,
+  ol + h1,
+  ol + h2,
+  ol + h3,
+  ol + h4,
+  ol + h5,
+  ol + h6 {
+    margin-top: 1em;
+  }
+  a .href {
+    display: none;
+    word-break: break-all;
+  }
+  a:hover .href {
+    display: inline;
+  }
+  a:hover .text {
+    display: none;
+  }
+  pre {
+    margin-bottom: 1em;
+    width: auto;
+    max-height: 100px;
+    overflow: auto;
+    font-family: Fira Code, Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, sans-serif;
+    font-size: 13px;
+    background-color: #eff0f1;
+    box-shadow: 0 0 10px -1px #646464;
+    border-radius: 3px;
+    padding: 6px 10px;
+    -webkit-transition: max-height 0.4s;
+    -moz-transition: max-height 0.4s;
+    transition: max-height 0.4s;
+    overflow-wrap: normal;
+  }
+  pre code {
+    padding: 0;
+  }
+  .snippet-code {
+    border: 1px solid #e4e6e8;
+    padding: 10px;
+  }
+  code {
+    font-family: Fira Code,Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
+    font-size: 13px;
+    background-color: #eff0f1;
+    padding: 1px 5px;
+  }
+  a.post-tag {
+    display: inline-block;
+    padding: .4em .5em;
+    margin: 2px 2px 2px 0;
+        font-size: 11px;
+    line-height: 1;
+    white-space: nowrap;
+    text-decoration: none;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 3px;
+    box-shadow: unset;
+    font-weight: unset;
+  }
+  a.post-tag {
+    color: rgb(44, 88, 119);
+    background-color: rgb(225, 236, 244);
+    border-color: rgb(225, 236, 244);
+  }
+  a.post-tag:hover {
+    color: rgb(57, 115, 157);
+    background-color: rgb(208, 227, 241);
+    border-color: rgb(208, 227, 241);
+  }
+  a.post-tag.required-tag {
+    color: rgb(59, 64, 69);
+    background-color: rgb(227, 230, 232);
+    border-color: rgb(186, 191, 196);
+  }
+  a.post-tag.required-tag:hover {
+    color: rgb(35, 38, 41);
+    background-color: rgb(214, 217, 220);
+    border-color: rgb(159, 166, 173);
+  }
+  a.post-tag.moderator-tag {
+    color: rgb(194, 46, 50);
+    background-color: rgb(253, 242, 242);
+    border-color: rgb(249, 210, 211);
+
+  }
+  a.post-tag.moderator-tag:hover {
+    color: rgb(171, 38, 42);
+    background-color: rgb(249, 210, 211);
+    border-color: rgb(244, 180, 182);
+  }
+  blockquote {
+    quotes: none;
+    position: relative;
+    margin: 0 1em 1.1em 1em;
+    padding: .8em .8em .8em 1em;
+    color: #535a60;
+    background-color: #fbf2d4;
+    color: #0d0e0f;
+    border-left: 2px solid #ffeb8e;
+  }
+  blockquote::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 4px;
+    border-radius: 8px;
+    background: #c8ccd0;
+  }
+  .spoiler {
+    background: #eff0f1;
+    border-radius: 5px;
+    color: #242729;
+    cursor: pointer;
+    min-height: 48px;
+  }
+  .spoiler::after {
+    content: attr(data-spoiler) " ";
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' aria-hidden='true' fill='rgb(132, 141, 149)' width='18' height='18' viewBox='0 0 18 18'%3E%3Cpath d='M9 17A8 8 0 119 1a8 8 0 010 16zM8 4v6h2V4H8zm0 8v2h2v-2H8z'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center right;
+    font-size: 13px;
+    color: #6a737c;
+    padding-right: 22px;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    transition: opacity .1s ease-in-out;
+    pointer-events: none;
+  }
+  .spoiler > * {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .1s ease-in-out;
+  }
+  .spoiler.is-visible {
+    cursor: auto;
+  }
+  .spoiler.is-visible > * {
+    visibility: visible;
+    opacity: 1;
+  }
+  .spoiler.is-visible::after {
+    opacity: 0;
+  }
+  .s-table-container {
+        margin-bottom: var(--s-prose-spacing);
+    overflow-x: auto;
+    scrollbar-color: var(--scrollbar) transparent;
+  }
+  .s-table-container:last-child,
+  .s-table-container:only-child {
+    margin-bottom: 0;
+  }
+  .s-table-container::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: transparent;
+  }
+  .s-table-container::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: transparent;
+  }
+  .s-table-container::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: var(--scrollbar);
+  }
+  .s-table-container::-webkit-scrollbar-corner {
+    background-color: transparent;
+    border-color: transparent;
+  }
+  .s-table {
+    display: table;
+    width: 100%;
+    max-width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 13px;
+  }
+  .s-table th,
+  .s-table td {
+    padding: 8px;
+    border-top: 1px solid var(--black-100);
+    border-left: 1px solid var(--black-100);
+    border-right: 1px solid var(--black-100);
+    vertical-align: middle;
+    color: var(--fc-medium);
+    text-align: left;
+  }
+  .s-table th {
+    font-weight: bold;
+    color: var(--fc-dark);
+  }
+  .s-table thead th {
+    vertical-align: bottom;
+    white-space: nowrap;
+    background-color: var(--black-025);
+    line-height: 1.15384615;
+  }
+  .s-table tbody th {
+    font-weight: normal;
+  }
+  .s-table tr:last-of-type td,
+  .s-table tr:last-of-type th {
+    border-bottom: 1px solid var(--black-100);
+  }
+  .s-table tbody + tbody {
+    border-top: 2px solid var(--black-100);
+  }
+  kbd {
+    border: 1px solid rgb(159, 166, 173);
+    border-top-color: rgb(159, 166, 173);
+    box-shadow: rgba(12, 13, 14, 0.15) 0px 1px 1px 0px, rgb(255, 255, 255) 0px 1px 0px 0px inset;
+    background-color: rgb(227, 230, 232);
+    border-radius: 3px;
+    color: rgb(35, 38, 41);
+    display: inline-block;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI Adjusted", "Segoe UI", "Liberation Sans", sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 0 .1em;
+    overflow-wrap: break-word;
+    padding: .1em .6em;
+    text-shadow: rgb(255, 255, 255) 0px 1px 0px;
+  }
+} /* .post-body-panel-preview > .panel > .panel-body */
+
+/* Used in table CSS; Largely copied from SE's Stacks CSS*/
+body,
+.theme-light__forced {
+  --black-025: #fafafb;
+  --black-100: #d6d9dc;
+  --red-075: #f9d3d780;
+  --fc-dark: hsl(210, 8%, 5%);
+  --fc-medium: hsl(210, 8%, 25%);
+  --fc-light: hsl(210, 8%, 45%);
+  --scrollbar: hsla(0, 0%, 0%, 0.2);
+}
+
+/* END code copied from FIRE */
+
+/* The following applies CSS for MS and overrides some that's in the FIRE CSS.
+   It's done this way to make comparison with the CSS in FIRE easier.
+ */
+
+.posts-table {
+  table-layout: fixed;
+}
+.post-body-pre-block {
+  display: block;
+}
+
+.post-body-panel-preview > .panel > .panel-body {
+  display: block;
+  overflow: auto;
+
+  pre {
+    max-height: unset;
+    box-shadow: unset;
+    border-radius: unset;
+    -webkit-transition: unset;
+    -moz-transition: unset;
+    transition: unset;
+    background-color: #f7f7f7;
+  }
+  pre code {
+    background-color: transparent;
+    display: block;
+  }
+  code {
+    color: #111;
+  }
+  a {
+    font-weight: unset;
+    box-shadow: unset;
+    display: unset;
+  }
+  a.post-tag {
+    font-size: 12px;
+  }
+  blockquote {
+    background-color: #fbf2d4a8;
+    font-size: unset;
+    border-left: unset;
+  }
+  .s-table-container {
+    margin-bottom: 1.1em;
+  }
+  /* Use the same font sizes for headings as Stack Exchange does. */
+  h1 {
+    font-size: 27px;
+  }
+  h2 {
+    font-size: 21px;
+  }
+  h3 {
+    font-size: 19px;
+  }
+  h4 {
+    font-size: 17px;
+  }
+  h5 {
+    font-size: 15px;
+  }
+  h6 {
+    font-size: 13px;
+  }
+}
