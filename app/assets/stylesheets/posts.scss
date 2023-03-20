@@ -44,3 +44,7 @@ body.posts .bootstrap-select .btn.dropdown-toggle {
 .posts-table {
   table-layout: fixed;
 }
+
+.post-td:first-child:last-child {
+	width: 100%;
+}
