@@ -208,7 +208,7 @@ class User < ApplicationRecord
     end
 
     flag_option = flag_options.find do |fo|
-      flag_strings[flag_type.to_sym].include? fo['title']
+      flag_strings[flag_type.to_sym].include? fo['title'].downcase
     end
 
     return false, 'Flag option not present' if flag_option.blank?
