@@ -68,8 +68,8 @@ class SpamWave < ApplicationRecord
       post_text = '' if post_text.nil?
       # UTF-8 -> UTF-16 -> UTF-8 idea and code from [answer to: "ruby 1.9: invalid byte sequence in UTF-8"](https://stackoverflow.com/a/8873922)
       # by [RubenLaguna](https://stackoverflow.com/users/90580/rubenlaguna), which is under a CC BY-SA 3.0 license.
-      post_text.encode!('UTF-16', 'UTF-8', invalid: :replace, replace: '')
-      post_text.encode!('UTF-8', 'UTF-16')
+      post_text = post_text.encode!('UTF-16', 'UTF-8', invalid: :replace, replace: '')
+      post_text = post_text.encode!('UTF-8', 'UTF-16')
       Rails.logger.debug "[spam-wave] id: #{id}: #{name}:: post #{f}: encoding: #{post_text.encoding}"
       return false unless regex.match?(post_text)
       Rails.logger.debug "[spam-wave] id: #{id}: #{name}:: post_matches?: #{f}: MATCHES: post id: #{post.id}: #{post.title}"
