@@ -25,7 +25,7 @@ class SpamWave < ApplicationRecord
   MAX_REGEX_CACHE_SIZE = 100
 
   def post_matches?(post, site_ids = nil)
-    Rails.logger.debug "[spam-wave] post_matches?: id: #{id}: #{name}: post id: #{post.id}: #{post.title}"
+    Rails.logger.debug "[spam-wave] id: #{id}: #{name}:: post_matches?: post id: #{post.id}: #{post.title}"
     site_ids = site_ids.nil? ? sites.map(&:id) : site_ids
     matches = []
     matches << site_ids.include?(post.site_id)
@@ -42,13 +42,13 @@ class SpamWave < ApplicationRecord
       regex = @@regex_cache[regex_text]
       if regex.nil?
         # There wasn't an entry in the regex_cache for this regex text, so check Rails.cache.
-        Rails.logger.debug "[spam-wave] regex_cache miss: checking Rails.cache #{f}_regex for spam wave id: #{id}: #{name}"
+        Rails.logger.debug "[spam-wave] id: #{id}: #{name}:: regex_cache miss: checking Rails.cache #{f}_regex"
         regex = Rails.cache.fetch("SPAM_WAVE_REGEXP_CACHE: #{regex_text}", expires_in: 6.hours) do
           # There's no entry for the regex in Rails.cache, so create it.
-          Rails.logger.debug "[spam-wave] Rails.cache: REGEXP_CACHE miss: compiling #{f}_regex for spam wave id: #{id}: #{name}"
+          Rails.logger.debug "[spam-wave] id: #{id}: #{name}:: Rails.cache: REGEXP_CACHE miss: compiling #{f}_regex"
           Regexp.new(regex_text)
         end
-        Rails.logger.debug "[spam-wave] #{f}_regex compiled or in Rails.cache for spam wave id: #{id}: #{name}"
+        Rails.logger.debug "[spam-wave] id: #{id}: #{name}:: #{f}_regex compiled or in Rails.cache"
         @@regex_cache[regex_text] = regex
         if @@regex_cache.length > MAX_REGEX_CACHE_SIZE
           # There are too many entries in the regex_cache, so delete the least recent two.
@@ -70,19 +70,30 @@ class SpamWave < ApplicationRecord
     true
   end
 
-  def unfiltered_posts
+  def posts_matching_sites_and_reputation
     site_ids = sites.map(&:id)
     posts = Post.where('created_at >= ?', created_at - 1.month).where(site_id: site_ids)
     if conditions['max_user_rep'].present?
       posts = posts.where('user_reputation <= ?', conditions['max_user_rep'])
     end
-    Rails.logger.debug "[spam-wave] id: #{id}: #{name}: unfiltered_posts.size: #{posts.size}"
+    Rails.logger.debug "[spam-wave] id: #{id}: #{name}:: posts_matching_site_and_reputation.size: #{posts.size}"
     posts
   end
 
   def posts
     site_ids = sites.map(&:id)
-    unfiltered_posts.select { |p| post_matches?(p, site_ids) }
+    filtered_count = 0
+    posts_to_be_filtered = posts_matching_sites_and_reputation
+    posts_to_be_filtered_size = posts_to_be_filtered.size
+    posts_to_be_filtered.select do |p|
+      filtered_state = "(#{filtered_count}/#{posts_to_be_filtered_size})"
+      Rails.logger.debug "[spam-wave] id: #{id}: #{name}:: filtering: #{filtered_state}: post id: #{p.id}: #{p.title}"
+      matches_result = post_matches?(p, site_ids)
+      filtered_count += 1
+      filtered_state = "(#{filtered_count}/#{posts_to_be_filtered_size})"
+      Rails.logger.debug "[spam-wave] id: #{id}: #{name}:: filtered: #{filtered_state}: result: #{matches_result}: post id: #{p.id}: #{p.title}"
+      matches_result
+    end
   end
 
   def accuracy
