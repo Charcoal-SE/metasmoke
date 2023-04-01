@@ -37,8 +37,10 @@ class SpamWave < ApplicationRecord
     return false unless matches.all?
 
     %w[username title body].each do |f|
+      Rails.logger.debug "[spam-wave] id: #{id}: #{name}:: post_matches?: #{f}: post id: #{post.id}: #{post.title}"
       # Try using an already existing regex from the regex_cache.
       regex_text = conditions["#{f}_regex"]
+      Rails.logger.debug "[spam-wave] id: #{id}: #{name}:: #{f}_regex.encoding: #{regex_text.encoding}"
       regex = @@regex_cache[regex_text]
       if regex.nil?
         # There wasn't an entry in the regex_cache for this regex text, so check Rails.cache.
@@ -62,6 +64,7 @@ class SpamWave < ApplicationRecord
       end
       # We only care about everything matching.
       # Returning here saves testing the longer strings if a shorter one doesn't match.
+      Rails.logger.debug "[spam-wave] id: #{id}: #{name}:: #{f}: encoding: #{post.send(f.to_sym).encoding}"
       return false unless regex.match?(post.send(f.to_sym))
     end
 
