@@ -14,6 +14,16 @@ class SpamWave < ApplicationRecord
   scope(:active, -> { where('expiry >= ?', DateTime.now) })
   scope(:expired, -> { where('expiry < ?', DateTime.now) })
 
+  # The regex_cache won't be consistent across threads, but we don't need it
+  # to be. We only need it to not be corrupted from uses across threads, which it
+  # shouldn't be, as threads don't share class variables.
+  #
+  # In addition, a Rails.cache entry is created for each Regexp. That entry should
+  # be available across threads, but will be a bit slower due to the
+  # serialization/deserialization steps.
+  @@regex_cache = {} # rubocop:disable Style/ClassVars
+  MAX_REGEX_CACHE_SIZE = 100
+
   def post_matches?(post, site_ids = nil)
     site_ids = site_ids.nil? ? sites.map(&:id) : site_ids
     matches = []
@@ -22,11 +32,40 @@ class SpamWave < ApplicationRecord
       matches << (post.user_reputation <= conditions['max_user_rep'].to_i)
     end
 
-    %w[title body username].each do |f|
-      matches << !Regexp.new(conditions["#{f}_regex"]).match(post.send(f.to_sym)).nil?
+    # If everything doesn't already match, there's no reason to run the regex tests.
+    return false unless matches.all?
+
+    %w[username title body].each do |f|
+      # Try using an already existing regex from the regex_cache.
+      regex_text = conditions["#{f}_regex"]
+      regex = @@regex_cache[regex_text]
+      if regex_entry.nil?
+        # There wasn't an entry in the regex_cache for this regex text, so check Rails.cache.
+        Rails.logger.warn "[spam-wave] regex_cache miss: checking Rails.cache #{f}_regex for spam wave id: #{@id}: #{@name}"
+        regex = Rails.cache.fetch("SPAM_WAVE_REGEXP_CACHE: #{regex_text}", expires_in: 6.hours) do
+          # There's no entry for the regex in Rails.cache, so create it.
+          Rails.logger.warn "[spam-wave] Rails.cache: REGEXP_CACHE miss: compiling #{f}_regex for spam wave id: #{@id}: #{@name}"
+          Regexp.new(regex_text)
+        end
+        @@regex_cache[regex_text] = regex
+        if @@regex_cache.length > MAX_REGEX_CACHE_SIZE
+          # There are too many entries in the regex_cache, so delete the least recent two.
+          # This is only sufficient because this is the only place where we're adding to the cache.
+          # If the regex_cache is to be interacted with in more than this method, then we should
+          # break the regex_cache out at least into its own methods, if not into its own class.
+          regex_cache_keys = @@regex_cache.keys
+          @@regex_cache.delete regex_cache_keys[0]
+          @@regex_cache.delete regex_cache_keys[1]
+        end
+      end
+      # We only care about everything matching.
+      # Returning here saves testing the longer strings if a shorter one doesn't match.
+      return false unless regex.match?(post.send(f.to_sym))
     end
 
-    matches.all?
+    # If we get here, then everything matches. We've already tested matches.all? for the
+    # non-regex conditions, and we return immediately if any of the regexes don't match.
+    true
   end
 
   def unfiltered_posts
