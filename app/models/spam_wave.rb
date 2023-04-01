@@ -64,8 +64,11 @@ class SpamWave < ApplicationRecord
       end
       # We only care about everything matching.
       # Returning here saves testing the longer strings if a shorter one doesn't match.
-      Rails.logger.debug "[spam-wave] id: #{id}: #{name}:: #{f}: encoding: #{post.send(f.to_sym).encoding}"
-      return false unless regex.match?(post.send(f.to_sym))
+      post_text = post.send(f.to_sym)
+      post_text = '' if post_text.nil?
+      Rails.logger.debug "[spam-wave] id: #{id}: #{name}:: #{f}: encoding: #{post_text.encoding}"
+      return false unless regex.match?(post_text)
+      Rails.logger.debug "[spam-wave] id: #{id}: #{name}:: post_matches?: #{f}: MATCHES: post id: #{post.id}: #{post.title}"
     end
 
     # If we get here, then everything matches. We've already tested matches.all? for the
