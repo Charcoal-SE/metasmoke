@@ -25,6 +25,7 @@ class SpamWave < ApplicationRecord
   MAX_REGEX_CACHE_SIZE = 100
 
   def post_matches?(post, site_ids = nil)
+    Rails.logger.debug "[spam-wave] post_matches?: id: #{id}: #{name}: post id: #{post.id}: #{post.title}"
     site_ids = site_ids.nil? ? sites.map(&:id) : site_ids
     matches = []
     matches << site_ids.include?(post.site_id)
@@ -41,12 +42,13 @@ class SpamWave < ApplicationRecord
       regex = @@regex_cache[regex_text]
       if regex.nil?
         # There wasn't an entry in the regex_cache for this regex text, so check Rails.cache.
-        Rails.logger.warn "[spam-wave] regex_cache miss: checking Rails.cache #{f}_regex for spam wave id: #{id}: #{name}"
+        Rails.logger.debug "[spam-wave] regex_cache miss: checking Rails.cache #{f}_regex for spam wave id: #{id}: #{name}"
         regex = Rails.cache.fetch("SPAM_WAVE_REGEXP_CACHE: #{regex_text}", expires_in: 6.hours) do
           # There's no entry for the regex in Rails.cache, so create it.
-          Rails.logger.warn "[spam-wave] Rails.cache: REGEXP_CACHE miss: compiling #{f}_regex for spam wave id: #{id}: #{name}"
+          Rails.logger.debug "[spam-wave] Rails.cache: REGEXP_CACHE miss: compiling #{f}_regex for spam wave id: #{id}: #{name}"
           Regexp.new(regex_text)
         end
+        Rails.logger.debug "[spam-wave] #{f}_regex compiled or in Rails.cache for spam wave id: #{id}: #{name}"
         @@regex_cache[regex_text] = regex
         if @@regex_cache.length > MAX_REGEX_CACHE_SIZE
           # There are too many entries in the regex_cache, so delete the least recent two.
@@ -74,6 +76,7 @@ class SpamWave < ApplicationRecord
     if conditions['max_user_rep'].present?
       posts = posts.where('user_reputation <= ?', conditions['max_user_rep'])
     end
+    Rails.logger.debug "[spam-wave] id: #{id}: #{name}: unfiltered_posts.size: #{posts.size}"
     posts
   end
 
