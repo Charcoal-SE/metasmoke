@@ -41,10 +41,10 @@ class SpamWave < ApplicationRecord
       regex = @@regex_cache[regex_text]
       if regex.nil?
         # There wasn't an entry in the regex_cache for this regex text, so check Rails.cache.
-        Rails.logger.warn "[spam-wave] regex_cache miss: checking Rails.cache #{f}_regex for spam wave id: #{@id}: #{@name}"
+        Rails.logger.warn "[spam-wave] regex_cache miss: checking Rails.cache #{f}_regex for spam wave id: #{:id}: #{:name}"
         regex = Rails.cache.fetch("SPAM_WAVE_REGEXP_CACHE: #{regex_text}", expires_in: 6.hours) do
           # There's no entry for the regex in Rails.cache, so create it.
-          Rails.logger.warn "[spam-wave] Rails.cache: REGEXP_CACHE miss: compiling #{f}_regex for spam wave id: #{@id}: #{@name}"
+          Rails.logger.warn "[spam-wave] Rails.cache: REGEXP_CACHE miss: compiling #{f}_regex for spam wave id: #{:id}: #{:name}"
           Regexp.new(regex_text)
         end
         @@regex_cache[regex_text] = regex
