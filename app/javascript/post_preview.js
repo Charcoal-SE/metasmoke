@@ -49,6 +49,7 @@ import { onLoad, route, addLocalSettingsPanel } from './util';
 
   onLoad(addPostPreviews);
   $(document).ajaxComplete(() => setTimeout(addPostPreviews, 10));
+  $(window).on('MS-review-loaded', addPostPreviews);
 
   function addHideImagesLocalSetting() {
     const content = $(`<h3>Hide Images in Post Previews</h3>

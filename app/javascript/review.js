@@ -75,6 +75,7 @@ route(/\/review\/[\w-]+\/?\d*$/i, async () => {
 
     adjustReviewPageTitle();
     installSelectpickers();
+    $(window).trigger('MS-review-loaded');
   };
 
   if (!hasItemID) {
