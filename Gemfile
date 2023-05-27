@@ -10,7 +10,7 @@ end
 gem 'awesome_print'
 
 gem 'aescrypt', '~> 2.0', '>= 2.0.2', github: 'Charcoal-SE/aescrypt'
-gem 'audited', '~> 4.4'
+gem 'audited', '~> 5.3'
 gem 'aws-sdk-s3'
 gem 'commonmarker'
 gem 'devise', '~> 4.7', '>= 4.7.2'

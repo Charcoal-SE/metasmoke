@@ -78,8 +78,9 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     arel (9.0.0)
     ast (2.4.2)
-    audited (4.10.0)
-      activerecord (>= 4.2, < 6.2)
+    audited (5.3.3)
+      activerecord (>= 5.0, < 7.1)
+      request_store (~> 1.2)
     awesome_print (1.9.2)
     aws-eventstream (1.2.0)
     aws-partitions (1.554.0)
@@ -135,7 +136,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     commonmarker (0.23.9)
-    concurrent-ruby (1.1.10)
+    concurrent-ruby (1.2.2)
     crack (0.4.5)
       rexml
     crass (1.0.6)
@@ -225,7 +226,7 @@ GEM
     httparty (0.21.0)
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
-    i18n (1.12.0)
+    i18n (1.13.0)
       concurrent-ruby (~> 1.0)
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
@@ -258,7 +259,7 @@ GEM
       rake
     mini_mime (1.1.2)
     mini_portile2 (2.8.1)
-    minitest (5.17.0)
+    minitest (5.18.0)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
@@ -338,6 +339,8 @@ GEM
       rake
     rake (13.0.6)
     redis (3.3.5)
+    request_store (1.5.1)
+      rack (>= 1.4)
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -409,7 +412,7 @@ GEM
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
-    tzinfo (1.2.10)
+    tzinfo (1.2.11)
       thread_safe (~> 0.1)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
@@ -442,7 +445,7 @@ PLATFORMS
 
 DEPENDENCIES
   aescrypt (~> 2.0, >= 2.0.2)!
-  audited (~> 4.4)
+  audited (~> 5.3)
   awesome_print
   aws-sdk-s3
   blazer (= 2.2.1.charcoal)!
