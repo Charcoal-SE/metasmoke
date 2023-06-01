@@ -33,7 +33,7 @@
       A) this checkbox must be checked;
       B) you must have at least one valid autoflagging preference (see "Preferences" below); <em>and</em>
       C) you must have at least one valid <%= link_to "autoflagging condition", url_for(controller: :flag_conditions, action: :index) %>.
-      Importantly, by checking the above box, autoflags may be automatically cast from your account for spam waves, regardless of your autoflagging settings (if any). Further note that there is not currently a way to opt-out of this. If the above checkbox is checked and you have either or both no valid autoflagging preferences or no valid and enabled  autoflagging conditions,
+      By checking the above box, autoflags may be automatically cast from your account for spam waves, regardless of your autoflagging settings (if any). Further, note that there is no way to opt out of this. If the above checkbox is checked and you have either or both no valid autoflagging preferences or no valid and enabled autoflagging conditions,
       then autoflagging for your account will be disabled and only manual flagging will be functional.</p>
       <% if FlagSetting["registration_enabled"] == "0" && !current_user.flags_enabled %>
         <p class="text-muted">Registration is currently disabled.</p>
