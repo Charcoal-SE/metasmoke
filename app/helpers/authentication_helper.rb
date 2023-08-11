@@ -39,17 +39,22 @@ module AuthenticationHelper
     }.stringify_keys
     response = Rack::Utils.parse_nested_query(Net::HTTP.post_form(URI.parse('https://stackexchange.com/oauth/access_token'), request_params).body)
 
+    Rails.logger.debug "[SE-OAuth-login] access_token_from_code: response: #{response}"
     # 2023-08-10 SE started sending
     #   <token>&scope=write_access%20no_expiry
     # for the access_token, at least for the implicit OAuth 2.0 flow instead of the expected
     #   <token>
     # The following should work for both.
+    Rails.logger.debug "[SE-OAuth-login] access_token_from_code: response['access_token']: #{response['access_token']}"
+    Rails.logger.debug "[SE-OAuth-login] access_token_from_code: response['access_token'].sub(/&.*/, ''): #{response['access_token'].sub(/&.*/, '')}"
     response['access_token'].sub(/&.*/, '')
   end
 
   def info_for_access_token(access_token)
+    Rails.logger.debug "[SE-OAuth-login] info_for_access_token: access_token: #{access_token}"
     config = AppConfig['stack_exchange']
     response = open("https://api.stackexchange.com/2.2/access-tokens/#{access_token}?key=#{config['key']}").read
+    Rails.logger.debug "[SE-OAuth-login] info_for_access_token: response: #{response}"
     begin
       JSON.parse(response)['items'][0]
     rescue OpenURI::HTTPError
