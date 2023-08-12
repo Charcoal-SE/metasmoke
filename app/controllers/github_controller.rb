@@ -64,18 +64,18 @@ class GithubController < ApplicationController
   def status_hook
     # We're not interested in PR statuses or branches other than deploy
     unless params[:branches].index { |b| b[:name] == 'deploy' }
-      render(text: 'Not a commit on deploy. Uninterested.') && return
+      render(plain: 'Not a commit on deploy. Uninterested.') && return
     end
 
     # Create a new CommitStatus
 
     if CommitStatus.find_by(commit_sha: params[:sha])
-      render text: 'Already recorded status for commit', status: 200
+      render plain: 'Already recorded status for commit', status: 200
       return
     end
 
     if params[:state] == 'pending'
-      render text: "We don't record pending statuses", status: 200
+      render plain: "We don't record pending statuses", status: 200
       return
     end
 
@@ -92,7 +92,7 @@ class GithubController < ApplicationController
     }
     CommitStatus.create(commit_sha: commit_sha, status: status)
 
-    render text: 'OK', status: 200
+    render plain: 'OK', status: 200
   end
 
   # Fires when a wiki page is updated on Charcoal-SE/metasmoke or Charcoal-SE/SmokeDetector
@@ -108,7 +108,7 @@ class GithubController < ApplicationController
   # Fires whenever a PR is opened on the SmokeDetetor repository to check for auto-blacklist and post stats
   def pull_request_hook
     unless request.request_parameters[:action] == 'opened'
-      render(text: 'Not a newly-opened PR. Uninterested.') && return
+      render(plain: 'Not a newly-opened PR. Uninterested.') && return
     end
 
     pull_request = params[:pull_request]
@@ -118,7 +118,7 @@ class GithubController < ApplicationController
                                            " (\"#{pull_request[:title]}\") opened by #{pull_request[:user][:login]}")
 
     unless pull_request[:user][:login] == 'SmokeDetector'
-      render(text: 'Not from SmokeDetector. Uninterested.') && return
+      render(plain: 'Not from SmokeDetector. Uninterested.') && return
     end
 
     text = pull_request[:body]
@@ -177,7 +177,7 @@ class GithubController < ApplicationController
 
     Octokit.add_comment 'Charcoal-SE/SmokeDetector', pull_request[:number], response_text
 
-    render text: response_text, status: 200
+    render plain: response_text, status: 200
   end
 
   def get_line(thing, num_tps, num_fps, num_naa)
