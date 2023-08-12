@@ -39,12 +39,7 @@ module AuthenticationHelper
     }.stringify_keys
     response = Rack::Utils.parse_nested_query(Net::HTTP.post_form(URI.parse('https://stackexchange.com/oauth/access_token'), request_params).body)
 
-    # 2023-08-10 SE started sending
-    #   <token>&scope=write_access%20no_expiry
-    # for the access_token, at least for the implicit OAuth 2.0 flow instead of the expected
-    #   <token>
-    # The following should work for both.
-    response['access_token'].sub(/&.*/, '')
+    response['access_token']
   end
 
   def info_for_access_token(access_token)
