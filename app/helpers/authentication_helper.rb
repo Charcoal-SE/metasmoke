@@ -53,7 +53,9 @@ module AuthenticationHelper
   def info_for_access_token(access_token)
     Rails.logger.debug "[SE-OAuth-login] info_for_access_token: access_token: #{access_token}"
     config = AppConfig['stack_exchange']
-    response = open("https://api.stackexchange.com/2.2/access-tokens/#{access_token}?key=#{config['key']}").read
+    token_info_url = "https://api.stackexchange.com/2.2/access-tokens/#{access_token}?key=#{config['key']}"
+    Rails.logger.debug "[SE-OAuth-login] info_for_access_token: token_info_url: #{token_info_url}"
+    response = open(token_info_url).read
     Rails.logger.debug "[SE-OAuth-login] info_for_access_token: response: #{response}"
     begin
       JSON.parse(response)['items'][0]
