@@ -242,7 +242,7 @@ module PostConcerns::Autoflagging
 
       url = "https://api.stackexchange.com/2.2/posts/#{post.stack_id}/revisions?#{params}"
       Rails.logger.warn "[autoflagging] #{id}: revisions URL: #{url}"
-      revisions_response = Net::HTTP.get_response(URI.parse(url)).body
+      revisions_response = Net::HTTP.get_response(URI.parse(url))
       Rails.logger.warn "[autoflagging] #{id}: revisions_response: #{revisions_response}"
       Rails.logger.warn "[autoflagging] #{id}: revisions_response: code: #{revisions_response.code}:: message: #{revisions_response.message}"
       revisions_response_body = revisions_response.body
