@@ -237,11 +237,18 @@ module PostConcerns::Autoflagging
       Rails.logger.warn "[autoflagging] #{id}: fetch_revision_count begin"
       post ||= self
       return if post.site.blank?
-      Rails.logger.warn "[autoflagging] #{id}: site was present"
+      Rails.logger.warn "[autoflagging] #{id}: site was present: #{post.site}"
       params = "key=#{AppConfig['stack_exchange']['key']}&site=#{post.site.site_domain}&filter=!mggkQI*4m9"
 
       url = "https://api.stackexchange.com/2.2/posts/#{post.stack_id}/revisions?#{params}"
-      revision_list = JSON.parse(Net::HTTP.get_response(URI.parse(url)).body)['items']
+      Rails.logger.warn "[autoflagging] #{id}: revisions URL: #{url}"
+      revisions_response = Net::HTTP.get_response(URI.parse(url)).body
+      Rails.logger.warn "[autoflagging] #{id}: revisions_response: #{revisions_response}"
+      Rails.logger.warn "[autoflagging] #{id}: revisions_response: code: #{revisions_response.code}:: message: #{revisions_response.message}"
+      revisions_response_body = revisions_response.body
+      Rails.logger.warn "[autoflagging] #{id}: revisions_response_body: #{revisions_response_body}"
+      revision_list = JSON.parse(revisions_response_body)['items']
+      Rails.logger.warn "[autoflagging] #{id}: pre-select revision_list: #{revision_list}"
       # Filter out items which are not actual post revisions
       revision_list = revision_list.select { |revision| revision['revision_number'].present? }
       Rails.logger.warn "[autoflagging] #{id}: queried SE: #{revision_list&.count}"
