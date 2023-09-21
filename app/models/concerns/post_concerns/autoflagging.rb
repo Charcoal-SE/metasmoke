@@ -237,7 +237,7 @@ module PostConcerns::Autoflagging
       Rails.logger.warn "[autoflagging] #{id}: fetch_revision_count begin"
       post ||= self
       return if post.site.blank?
-      Rails.logger.warn "[autoflagging] #{id}: site was present: #{post.site}"
+      Rails.logger.warn "[autoflagging] #{id}: site was present: #{post.site.site_domain}"
       params = "key=#{AppConfig['stack_exchange']['key']}&site=#{post.site.site_domain}&filter=!mggkQI*4m9"
 
       url = "https://api.stackexchange.com/2.2/posts/#{post.stack_id}/revisions?#{params}"
@@ -251,7 +251,7 @@ module PostConcerns::Autoflagging
       Rails.logger.warn "[autoflagging] #{id}: pre-select revision_list: #{revision_list}"
       # Filter out items which are not actual post revisions
       revision_list = revision_list.select { |revision| revision['revision_number'].present? }
-      Rails.logger.warn "[autoflagging] #{id}: queried SE: #{revision_list&.count}"
+      Rails.logger.warn "[autoflagging] #{id}: queried SE: revision_count: #{revision_list&.count}"
 
       update(revision_count: revision_list.count)
       revision_list.count
