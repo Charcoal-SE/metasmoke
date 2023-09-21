@@ -8,7 +8,7 @@ let postsSocket;
 route('/posts', () => {
   postsSocket = cable.subscriptions.create('PostsChannel', {
     received(data) {
-      $('table#posts-index-table tbody').prepend(data.row);
+      $('table#posts-index-table > tbody').prepend(data.row);
       if (!isPageVisible) {
         numUnseenPosts++;
         document.title = `(${numUnseenPosts}*) Recent posts - metasmoke`;
