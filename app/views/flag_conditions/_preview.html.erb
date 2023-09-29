@@ -1,5 +1,5 @@
 <% if @true_positive_count.present? and @false_positive_count.present? %>
-  <h3><%= number_to_percentage(@true_positive_count.to_f * 100.0 / (@true_positive_count + @false_positive_count).to_f, precision: 2) %></h3>
+  <h3><%= number_to_percentage(@true_positive_count.to_f * 100.0 / (@true_positive_count + @false_positive_count).to_f, precision: 3) %></h3>
   <table class="table">
     <tr>
       <th>True positives</th>
