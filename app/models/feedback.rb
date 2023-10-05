@@ -71,7 +71,7 @@ class Feedback < ApplicationRecord
 
   after_save do
     if update_post_feedback_cache # if post feedback cache was changed
-      if post.flagged? && !is_positive?
+      if post.flagged? && !is_positive? && !is_invalidated
         message = "fp feedback on autoflagged post: [#{post.title}](#{post.link}) \\[[MS](//metasmoke.erwaysoftware.com/post/#{post_id})]"
         ActionCable.server.broadcast 'smokedetector_messages', autoflag_fp: { message: message, site: post.site.site_domain }
 
