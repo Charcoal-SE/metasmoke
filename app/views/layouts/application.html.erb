@@ -112,9 +112,9 @@
                 <%= nav_link AnnouncementsController, label: 'Announcements' %>
               <% end %>
               <li role="separator" class="divider"></li>
-              <%= nav_link nil, path: '/data/sql', label: 'SQL Data Exploder' %>
-              <%= nav_link false, path: '/api/graphql', label: 'GraphQL Data Exploder' %>
-              <%= nav_link false, path: '/api/graphiql', label: 'GraphiQL Data Exploder' %>
+              <%= nav_link nil, path: '/data/sql', label: 'SQL Data Explorer' %>
+              <%= nav_link false, path: '/api/graphql', label: 'GraphQL Data Explorer' %>
+              <%= nav_link false, path: '/api/graphiql', label: 'GraphiQL Data Explorer' %>
               <li role="separator" class="divider"></li>
               <%= nav_link AbuseReportsController, label: 'Abuse Reports', action: :index %>
               <% unless current_user&.has_role?(:developer) %>
