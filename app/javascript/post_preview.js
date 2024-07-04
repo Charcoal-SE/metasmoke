@@ -462,7 +462,7 @@ import { onLoad, route, addLocalSettingsPanel } from './util';
     //   https://chat.stackexchange.com/transcript/11540?m=54674140#54674140  (tags)
     reportBody.find('a').each(function () {
       const $this = $(this);
-      let href = $this.attr('href');
+      let href = $this.attr('href') || '';
       if (!/^(?:[a-z]+:)?\/\//.test(href)) {
         // It's not a fully qualified or protocol-relative link.
         if (href.startsWith('/')) {
