@@ -47,6 +47,8 @@ import { onLoad, route, addLocalSettingsPanel } from './util';
     });
   }
 
+  // The following is similar to what's used to select the post tab in application.js. If a change is needed here,
+  // then one is very likely to be needed there too.
   onLoad(addPostPreviews);
   $(document).ajaxComplete(() => setTimeout(addPostPreviews, 10));
   $(window).on('MS-review-loaded', addPostPreviews);

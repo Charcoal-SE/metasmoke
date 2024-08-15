@@ -162,6 +162,13 @@ const metasmoke = window.metasmoke = {
       }
     },
 
+    showRenderedTab: () => {
+      const renderMode = metasmoke.storage['post-render-mode'];
+      if (renderMode) {
+        $(`.post-render-mode[data-render-mode="${renderMode}"]`).tab('show');
+      }
+    },
+
     setPostRenderModes: () => {
       $(document.body).on('click', '.post-render-mode', ev => {
         const mode = $(ev.target).data('render-mode');
@@ -169,13 +176,21 @@ const metasmoke = window.metasmoke = {
         metasmoke.debug(`default render mode updated to ${mode}`);
       });
 
-      if (metasmoke.storage['post-render-mode']) {
-        $(`.post-render-mode[data-render-mode="${metasmoke.storage['post-render-mode']}"]`).tab('show');
-      }
-
-      $(document.body).on('DOMNodeInserted', '.post-body, .review-item-container', () => {
-        $(`.post-render-mode[data-render-mode="${metasmoke.storage['post-render-mode']}"]`).tab('show');
-      });
+      metasmoke.init.showRenderedTab();
+      /* The following set of operations replaces a DOMNodeInserted listener.
+       * It won't catch every possible new code addition of a .post-render-mode node, but it will catch all currently
+       * existing cases where we add such a node into the DOM, and is much more computationally effecient than
+       * using a MutationObserver looking at all node insertions in the entire body.
+       * The drawback is that it may be necessary to add special cases, such as is used for displaying reviews and
+       * the custom MS-review-loaded event.
+       * Note that this code is similar to the triggers used for rendering the preview. Thus, if a change is needed
+       * here, it's likely needed there too.
+       */
+      onLoad(metasmoke.init.showRenderedTab);
+      // Delaying 11 ms is one ms after the 10 ms delay for rendering the preview.
+      $(document).ajaxComplete(() => setTimeout(metasmoke.init.showRenderedTab, 11));
+      // This is delayed in order to be done after the preview is rendered.
+      $(window).on('MS-review-loaded', () => setTimeout(metasmoke.init.showRenderedTab, 1));
     },
 
     setDocumentTitle: () => {
