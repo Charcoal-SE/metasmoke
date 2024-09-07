@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class SmokeDetectorsController < ApplicationController
-  before_action :authenticate_user!, except: %i[audits check_token]
-  before_action :verify_admin, except: %i[audits force_failover force_pull mine token_regen new create check_token]
+  before_action :authenticate_user!, except: :audits
+  before_action :verify_admin, except: %i[audits force_failover force_pull mine token_regen new create]
   before_action :verify_blacklist_manager, only: %i[force_failover force_pull]
   before_action :verify_smoke_detector_runner, only: %i[mine token_regen new create]
-  before_action :set_smoke_detector, except: %i[audits mine new create check_token]
+  before_action :set_smoke_detector, except: %i[audits mine new create]
 
   def destroy
     unless current_user.present? && (current_user.has_role?(:admin) || current_user.id == @smoke_detector.user_id)
@@ -81,20 +81,6 @@ class SmokeDetectorsController < ApplicationController
     end
 
     redirect_to params[:redirect] || smoke_detector_mine_path
-  end
-
-  # Used by Helios to verify new tokens
-  def check_token
-    token = SmokeDetector.where(access_token: params[:token]).first
-    payload = {
-      exists: token.present?,
-      owner_name: token&.user&.username,
-      location: token&.location,
-      created_at: token&.created_at,
-      updated_at: token&.updated_at
-    }
-
-    render json: payload
   end
 
   private

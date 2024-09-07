@@ -61,11 +61,7 @@ class AdminController < ApplicationController
         return
       end
 
-      if params[:pinned]
-        User.find(params[:user_id]).add_pinned_role params[:role]
-      else
-        User.find(params[:user_id]).add_role params[:role]
-      end
+      User.find(params[:user_id]).add_role params[:role]
     else
       User.find(params[:user_id]).remove_role params[:role]
     end
