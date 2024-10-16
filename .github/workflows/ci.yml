@@ -133,7 +133,7 @@ jobs:
     - name: Run tests
       run: bundle exec rails test --verbose
     - name: Upload Gemfile.lock
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       if: ${{ failure() }}
       with:
         name: Gemfile.lock
@@ -142,7 +142,7 @@ jobs:
       if: ${{ failure() }}
       run: git diff Gemfile.lock
     - name: Upload coverage data
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       if: ${{ success() }}
       with:
         name: coverage
