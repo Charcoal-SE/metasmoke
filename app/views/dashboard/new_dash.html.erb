@@ -74,7 +74,7 @@
 <%= line_chart reports_by_hour_graph_path(cache: true), colors: ['#444', '#0a0', '#a00'] %>
 
 <div class="col-md-6">
-  <h4>Time to deletion <small>daily, last month</small></h4>
+  <h4>Time to deletion <small>seconds, daily average, last month</small></h4>
   <%= line_chart monthly_ttd_graph_path(cache: true, months: 1), colors: ['#444'] %>
 </div>
 <div class="col-md-6">
