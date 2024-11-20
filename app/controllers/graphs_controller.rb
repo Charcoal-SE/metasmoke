@@ -158,7 +158,7 @@ class GraphsController < ApplicationController
                    .to_h
              end
            end
-    data = data.map { |k, v| [k, v.round(params[:round].to_i)] } if params[:round]
+    data = data.map { |k, v| [k, v&.round(params[:round].to_i)] } if params[:round]
     render json: data
   end
 
