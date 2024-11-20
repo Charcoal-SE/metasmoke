@@ -44,7 +44,7 @@ COPY . .
 
 ENV RUBYOPT="-KU -E utf-8:utf-8"
 ENV PATH="${PATH}:/redis-git/src/redis-cli:/redis-git/src/redis-server"
-RUN gem install bundler
+RUN gem install bundler -v 2.4.22
 RUN bundle update --bundler
 RUN bundle install
 RUN ./createdb
