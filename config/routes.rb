@@ -418,7 +418,6 @@ Rails.application.routes.draw do
     post   ':id/force_failover', to: 'smoke_detectors#force_failover', as: :smoke_detector_force_failover
     post   ':id/force_pull',     to: 'smoke_detectors#force_pull',     as: :smoke_detector_force_pull
     get    'audits',             to: 'smoke_detectors#audits'
-    get    'check_token/:token', to: 'smoke_detectors#check_token'
   end
 
   scope 'spammers' do
@@ -468,9 +467,6 @@ Rails.application.routes.draw do
     post   'update_email',         to: 'users#update_email'
 
     get    'denied',               to: 'users#missing_privileges',  as: :missing_privileges
-
-    get    'migrate_token',        to: 'users#migrate_token_confirmation', as: :migrate_token_confirmation
-    post   'migrate_token',        to: 'users#migrate_token',        as: :migrate_token
 
     get    ':id',                  to: 'users#show',                as: :dev_user, constraints: { id: /-?\d+/ }
     post   ':id/update_ids',       to: 'users#refresh_ids',         as: :update_user_chat_ids
