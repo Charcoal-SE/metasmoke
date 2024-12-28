@@ -40,7 +40,7 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: 2.7.4
-    - uses: actions/cache@v2
+    - uses: actions/cache@v4
       with:
         path: vendor/bundle
         key: ${{ runner.os }}-gems-${{ env.ACTION_CACHE_VERSION }}-${{ hashFiles('**/Gemfile.lock') }}
@@ -89,14 +89,14 @@ jobs:
       with:
         ruby-version: 2.7.4
     - name: Cache bundle
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: vendor/bundle
         key: ${{ runner.os }}-gems-${{ env.ACTION_CACHE_VERSION }}-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
           ${{ runner.os }}-gems-${{ env.ACTION_CACHE_VERSION }}-
     - name: Cache yarn packages
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: node_modules
         key: ${{ runner.os }}-node-modules-yarn-${{ env.ACTION_CACHE_VERSION }}-${{ hashFiles('**/Gemfile.lock') }}
@@ -156,7 +156,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: export PATH="~/Charcoal-SE/metasmoke/node_modules/.bin:$PATH"
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ runner.os }}-node-modules-npm-${{ env.ACTION_CACHE_VERSION }}-${{ hashFiles('**/Gemfile.lock') }}
