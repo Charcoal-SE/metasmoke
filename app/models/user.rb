@@ -197,9 +197,11 @@ class User < ApplicationRecord
     end
 
     flag_strings = {
-      spam: ['spam', 'contenido no deseado', 'スパム', 'спам'],
-      abusive: ['rude or abusive', 'rude ou abusivo', 'irrespetuoso o abusivo', '失礼又は暴言', 'невежливый или оскорбительный'],
-      other: ['in need of moderator intervention', 'precisa de atenção dos moderadores', 'se necesita la intervención de un moderador',
+      spam: ['deleted as spam', 'spam', 'contenido no deseado', 'スパム', 'спам'],
+      abusive: ['deleted as rude or abusive', 'rude or abusive', 'rude ou abusivo', 'irrespetuoso o abusivo',
+                '失礼又は暴言', 'невежливый или оскорбительный'],
+      other: ['looked at by a moderator', 'in need of moderator intervention', 'precisa de atenção dos moderadores',
+              'se necesita la intervención de un moderador',
               'モデレーターによる対応が必要です', 'требуется вмешательство модератора']
     }
 
