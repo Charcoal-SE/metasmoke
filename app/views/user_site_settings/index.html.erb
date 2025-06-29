@@ -33,8 +33,9 @@
       A) this checkbox must be checked;
       B) you must have at least one valid autoflagging preference (see "Preferences" below); <em>and</em>
       C) you must have at least one valid <%= link_to "autoflagging condition", url_for(controller: :flag_conditions, action: :index) %>.
-      If the above checkbox is checked and you have either or both no valid autoflagging preferences or no valid and enabled  autoflagging conditions,
-      then autoflagging for your account will be disabled and only manual flagging will be functional.</p>
+      If you check the above checkbox and you have no valid autoflagging preferences and/or no valid and enabled autoflagging conditions, then autoflagging for your account will be disabled, and only manual flagging will be functional.
+      <br>
+      There is one exception to this. <b>By checking the above box, autoflags may be automatically cast from your account for <a href="https://charcoal-se.org/flagging#spam-waves">spam waves</a>, regardless of your autoflagging settings</b>. Spam waves are a manual tool used sparingly by Metasmoke admins to fight waves of spam or abusive content, and can be configured to cast the necessary number of spam flags to instantly delete posts that meet specific criteria.</p>
       <% if FlagSetting["registration_enabled"] == "0" && !current_user.flags_enabled %>
         <p class="text-muted">Registration is currently disabled.</p>
       <% end %>
