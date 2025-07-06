@@ -125,7 +125,11 @@ class PostsController < ApplicationController
     start = Time.now
     # Use paginate
     @posts = redis.zrevrange(k, *page).map do |id|
-      Redis::Post.new(id)
+      begin
+        Redis::Post.new(id)
+      rescue # rubocop:disable Lint/HandleExceptions
+        # If a post for the ID no longer exists, we just skip it.
+      end
     end
     endt = Time.now
     Rails.logger.info "Took #{endt - start} to build posts"
