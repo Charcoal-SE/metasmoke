@@ -124,7 +124,7 @@ class PostsController < ApplicationController
     end
     start = Time.now
     # Use paginate
-    @posts = redis.zrevrange(k, *page).map do |id|
+    @posts = redis.zrevrange(k, *page).filter_map do |id|
       begin
         Redis::Post.new(id)
       rescue # rubocop:disable Lint/HandleExceptions
