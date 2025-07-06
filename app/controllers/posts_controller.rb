@@ -113,7 +113,7 @@ class PostsController < ApplicationController
   # GET /posts.json
   def index
     page_num = [params[:page].to_i - 1, 0].max
-    per_page = 100
+    per_page = user_signed_in? && params[:per_page].present? ? [params[:per_page].to_i, 10_000].min : 100
     page = [page_num * per_page, (page_num + 1) * per_page - 1]
     k = 'posts'
     if params[:filter] == 'undeleted'
@@ -133,7 +133,7 @@ class PostsController < ApplicationController
     end
     endt = Time.now
     Rails.logger.info "Took #{endt - start} to build posts"
-    @posts.define_singleton_method(:total_pages) { Redis::Post.all(type: :zset).cardinality / 100 }
+    @posts.define_singleton_method(:total_pages) { Redis::Post.all(type: :zset).cardinality / per_page }
     @posts.define_singleton_method(:current_page) { page_num + 1 }
     @sites = Site.where(id: @posts.map(&:site_id)).to_a
   end
